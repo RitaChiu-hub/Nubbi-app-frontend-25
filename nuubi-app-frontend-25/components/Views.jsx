@@ -20,12 +20,12 @@ import ForgotPasswordLoggedOut from "./UserSettings/ForgotPasswordLoggedOut";
 import CreateGroupScreen from "./Groups/CreateGroupScreen";
 import EditGroupScreen from "./Groups/EditGroupScreen";
 import GroupListScreen from "./Groups/GroupListScreen";
-// import ChatScreen from "./Chat/ChatScreen";
-// import PostScreen from "./Chat/PostScreen";
-// import CreatePostScreen from "./Chat/CreatePost";
-// import EditPostScreen from "./Chat/EditPost";
-// import ViewPostScreen from "./Chat/ViewPostScreen";
-// import GroupInfoScreen from "./Chat/GroupInfoScreen";
+import ChatScreen from "./Chat/ChatScreen";
+import PostScreen from "./Chat/PostScreen";
+import CreatePostScreen from "./Chat/CreatePost";
+import EditPostScreen from "./Chat/EditPost";
+import ViewPostScreen from "./Chat/ViewPostScreen";
+import GroupInfoScreen from "./Chat/GroupInfoScreen";
 import DeleteGroupScreen from "./Groups/DeleteGroupScreen";
 import DeleteMemberScreen from "./Groups/DeleteMemberScreen";
 import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
@@ -87,12 +87,12 @@ function HomeStack() {
       <StackHome.Screen name="CreateGroup" component={CreateGroupScreen} />
       <StackHome.Screen name="EditGroup" component={EditGroupScreen} />
       <StackHome.Screen name="ViewAllGroups" component={GroupListScreen} />
-      {/* <StackHome.Screen name="ChatScreen" component={ChatScreen} />
-			<StackHome.Screen name="PostScreen" component={PostScreen} />
-			<StackHome.Screen name="CreatePost" component={CreatePostScreen} />
-			<StackHome.Screen name="EditPost" component={EditPostScreen} />
-			<StackHome.Screen name="ViewPost" component={ViewPostScreen} />
-			<StackHome.Screen name="GroupInfo" component={GroupInfoScreen} /> */}
+      <StackHome.Screen name="ChatScreen" component={ChatScreen} />
+      <StackHome.Screen name="PostScreen" component={PostScreen} />
+      <StackHome.Screen name="CreatePost" component={CreatePostScreen} />
+      <StackHome.Screen name="EditPost" component={EditPostScreen} />
+      <StackHome.Screen name="ViewPost" component={ViewPostScreen} />
+      <StackHome.Screen name="GroupInfo" component={GroupInfoScreen} />
       <StackHome.Screen name="DeleteGroup" component={DeleteGroupScreen} />
       <StackHome.Screen name="DeleteMember" component={DeleteMemberScreen} />
       <StackHome.Screen name="JoinGroup" component={JoinGroupWithPasscode} />

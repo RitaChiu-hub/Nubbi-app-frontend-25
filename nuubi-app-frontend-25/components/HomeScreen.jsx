@@ -148,11 +148,6 @@ export default function HomeScreen({ navigation }) {
         margin: 10,
       }}
     >
-      <Text>Welcome</Text>
-      <TouchableOpacity style={globalStyles.secondaryButton} onPress={signOut}>
-        <Text style={globalStyles.secondaryButtonText}>Sign out</Text>
-      </TouchableOpacity>
-
       <View style={{ backgroundColor: "#f1f1f1", width: "100%" }}>
         <FlatList
           data={groups}
@@ -236,6 +231,9 @@ export default function HomeScreen({ navigation }) {
           </View>
         </Modal>
       </View>
+      <TouchableOpacity style={globalStyles.secondaryButton} onPress={signOut}>
+        <Text style={globalStyles.secondaryButtonText}>Sign out</Text>
+      </TouchableOpacity>
     </View>
   );
 }
