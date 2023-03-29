@@ -17,6 +17,19 @@ import ChangePasswordScreen from "./UserSettings/ChangePassword";
 import ForgotPasswordScreen from "./UserSettings/ForgotPassword";
 import ForgotPasswordLoggedOut from "./UserSettings/ForgotPasswordLoggedOut";
 
+import CreateGroupScreen from "./Groups/CreateGroupScreen";
+import EditGroupScreen from "./Groups/EditGroupScreen";
+import GroupListScreen from "./Groups/GroupListScreen";
+// import ChatScreen from "./Chat/ChatScreen";
+// import PostScreen from "./Chat/PostScreen";
+// import CreatePostScreen from "./Chat/CreatePost";
+// import EditPostScreen from "./Chat/EditPost";
+// import ViewPostScreen from "./Chat/ViewPostScreen";
+// import GroupInfoScreen from "./Chat/GroupInfoScreen";
+import DeleteGroupScreen from "./Groups/DeleteGroupScreen";
+import DeleteMemberScreen from "./Groups/DeleteMemberScreen";
+import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
+
 import LearnMore1Screen from "./Onboarding/LearnMore1";
 import LearnMore2Screen from "./Onboarding/LearnMore2";
 import LearnMore3Screen from "./Onboarding/LearnMore3";
@@ -70,6 +83,19 @@ function HomeStack() {
         name="ChangePassword"
         component={ChangePasswordScreen}
       />
+
+      <StackHome.Screen name="CreateGroup" component={CreateGroupScreen} />
+      <StackHome.Screen name="EditGroup" component={EditGroupScreen} />
+      <StackHome.Screen name="ViewAllGroups" component={GroupListScreen} />
+      {/* <StackHome.Screen name="ChatScreen" component={ChatScreen} />
+			<StackHome.Screen name="PostScreen" component={PostScreen} />
+			<StackHome.Screen name="CreatePost" component={CreatePostScreen} />
+			<StackHome.Screen name="EditPost" component={EditPostScreen} />
+			<StackHome.Screen name="ViewPost" component={ViewPostScreen} />
+			<StackHome.Screen name="GroupInfo" component={GroupInfoScreen} /> */}
+      <StackHome.Screen name="DeleteGroup" component={DeleteGroupScreen} />
+      <StackHome.Screen name="DeleteMember" component={DeleteMemberScreen} />
+      <StackHome.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
     </StackHome.Navigator>
   );
 }
@@ -89,6 +115,10 @@ function AuthStack() {
       />
       <StackAuth.Screen name="Login" component={LoginScreen} />
       <StackAuth.Screen name="SignUp" component={SignUpScreen} />
+      <StackAuth.Screen
+        name="ForgotPasswordLoggedOut"
+        component={ForgotPasswordLoggedOut}
+      />
 
       <StackAuth.Screen name="LearnMore1" component={LearnMore1Screen} />
       <StackAuth.Screen name="LearnMore2" component={LearnMore2Screen} />
