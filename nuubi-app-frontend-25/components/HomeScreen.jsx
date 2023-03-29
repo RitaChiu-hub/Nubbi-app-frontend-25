@@ -34,6 +34,92 @@ export default function HomeScreen({ navigation }) {
     socket.disconnect();
   };
 
+  const getGroups = async () => {
+    try {
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+
+      setGroups(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getGroups();
+    //}, [groups]);
+  }, [user]);
+
+  const Item = ({ title, description, id, invitePasscode }) => (
+    <View>
+      <TouchableOpacity
+        style={{
+          alignItems: "flex-start",
+          justifyContent: "center",
+          paddingVertical: 10,
+          paddingHorizontal: 10,
+          width: "100%",
+          minWidth: 300,
+          borderWidth: 1,
+          borderRadius: 6,
+          marginBottom: 10,
+          borderColor: "#ddd",
+          backgroundColor: "#fdfdfd",
+        }}
+        onPress={() => {
+          setUser({
+            ...user,
+            currentGroup: id,
+            groupName: title,
+            invitePasscode: invitePasscode,
+          }),
+            navigation.navigate("ChatScreen");
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "#333",
+          }}
+        >
+          {title}
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "normal",
+            color: "#333",
+          }}
+        >
+          {description}
+        </Text>
+        {/* <Text style={{ paddingTop: 10, color: "#333" }}>
+					10 new notifications
+				</Text> */}
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderItem = ({ item }) => (
+    <Item
+      title={item.name}
+      description={item.description}
+      id={item.group_id}
+      invitePasscode={item.invite_passcode}
+    />
+  );
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "My groups",
@@ -66,6 +152,90 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity style={globalStyles.secondaryButton} onPress={signOut}>
         <Text style={globalStyles.secondaryButtonText}>Sign out</Text>
       </TouchableOpacity>
+
+      <View style={{ backgroundColor: "#f1f1f1", width: "100%" }}>
+        <FlatList
+          data={groups}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.group_id}
+        />
+      </View>
+
+      <View style={globalStyles.bottomView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(false);
+          }}
+        >
+          <View style={globalStyles.centeredView}>
+            <View style={globalStyles.modalView}>
+              <TouchableOpacity
+                style={globalStyles.secondaryButton}
+                onPress={() => {
+                  setModalVisible(false);
+                  navigation.navigate("CreateGroup");
+                }}
+              >
+                <Text style={globalStyles.secondaryButtonText}>
+                  Create new group
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={globalStyles.secondaryButton}
+                onPress={() => {
+                  setModalVisible(false);
+                  navigation.navigate("ViewAllGroups");
+                }}
+              >
+                <Text style={globalStyles.secondaryButtonText}>
+                  Discover public groups
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={globalStyles.secondaryButton}
+                onPress={() => {
+                  setModalVisible(false);
+                  navigation.navigate("JoinGroup");
+                }}
+              >
+                <Text style={globalStyles.secondaryButtonText}>
+                  Join group with passcode
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={globalStyles.secondaryButton}
+                onPress={() => {
+                  Alert.alert("Coming soon!");
+                }}
+              >
+                <Text style={globalStyles.secondaryButtonText}>
+                  Take placement quiz
+                </Text>
+              </TouchableOpacity>
+
+              <View style={{ marginVertical: 10 }}></View>
+
+              <TouchableOpacity
+                style={globalStyles.secondaryButton}
+                onPress={() => {
+                  setModalVisible(false);
+                }}
+              >
+                <Text style={globalStyles.secondaryButtonText}>
+                  {"< "} Back
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </View>
     </View>
   );
 }

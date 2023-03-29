@@ -64,7 +64,7 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Text>hi</Text>
+      <Text>hey</Text>
       <Text>{myMessage}</Text>
       <Text>hi, auth message is {myMessage2}</Text>
 

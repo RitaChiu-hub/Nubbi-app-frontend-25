@@ -10,6 +10,13 @@ import SignUpScreen from "./Login/SignUpScreen";
 import HomeScreen from "./HomeScreen";
 import SplashScreen from "./SplashScreen";
 
+import SettingsScreen from "./UserSettings/SettingsScreen";
+import DeleteAccountScreen from "./UserSettings/DeleteAccount";
+import ChangeUsernameScreen from "./UserSettings/ChangeUsername";
+import ChangePasswordScreen from "./UserSettings/ChangePassword";
+import ForgotPasswordScreen from "./UserSettings/ForgotPassword";
+import ForgotPasswordLoggedOut from "./UserSettings/ForgotPasswordLoggedOut";
+
 import LearnMore1Screen from "./Onboarding/LearnMore1";
 import LearnMore2Screen from "./Onboarding/LearnMore2";
 import LearnMore3Screen from "./Onboarding/LearnMore3";
@@ -36,6 +43,32 @@ function HomeStack() {
         name="Home"
         component={HomeScreen}
         options={{ title: "Home" }}
+      />
+      <StackHome.Screen
+        name="ForgotPasswordLoggedIn"
+        component={ForgotPasswordScreen}
+      />
+      <StackHome.Screen
+        name="ChangeUsernameScreen"
+        component={ChangeUsernameScreen}
+      />
+      <StackHome.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+      />
+      <StackHome.Screen name="Settings" component={SettingsScreen} />
+      <StackHome.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+      />
+      <StackHome.Screen name="DeleteAccount" component={DeleteAccountScreen} />
+      <StackHome.Screen
+        name="ChangeUsername"
+        component={ChangeUsernameScreen}
+      />
+      <StackHome.Screen
+        name="ChangePassword"
+        component={ChangePasswordScreen}
       />
     </StackHome.Navigator>
   );
