@@ -2,12 +2,12 @@ import "react-native-gesture-handler";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useContext } from "react";
-// import { AccountContext } from "./AccountContext";
+import { AccountContext } from "./AccountContext";
 
-// import LoginScreen from "./Login/LoginScreen";
-// import SignUpScreen from "./Login/SignUpScreen";
+import LoginScreen from "./Login/LoginScreen";
+import SignUpScreen from "./Login/SignUpScreen";
 
-// import HomeScreen from "./HomeScreen";
+import HomeScreen from "./HomeScreen";
 import SplashScreen from "./SplashScreen";
 
 import LearnMore1Screen from "./Onboarding/LearnMore1";
@@ -18,23 +18,23 @@ import LearnMore5Screen from "./Onboarding/LearnMore5";
 import LearnMore6Screen from "./Onboarding/LearnMore6";
 import LearnMore7Screen from "./Onboarding/LearnMore7";
 
-// const StackHome = createNativeStackNavigator();
+const StackHome = createNativeStackNavigator();
 
-// function HomeStack() {
-//   return (
-//     <StackHome.Navigator
-//       initialRouteName="Home"
-//       screenOptions={{ headerBackTitleVisible: false }}
-//       // screenOptions={{ headerShown: false }}
-//     >
-//       <StackHome.Screen
-//         name="Home"
-//         component={HomeScreen}
-//         options={{ title: "Home" }}
-//       />
-//     </StackHome.Navigator>
-//   );
-// }
+function HomeStack() {
+  return (
+    <StackHome.Navigator
+      initialRouteName="Home"
+      screenOptions={{ headerBackTitleVisible: false }}
+      // screenOptions={{ headerShown: false }}
+    >
+      <StackHome.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: "Home" }}
+      />
+    </StackHome.Navigator>
+  );
+}
 
 const StackAuth = createNativeStackNavigator();
 
@@ -49,8 +49,8 @@ function AuthStack() {
         component={SplashScreen}
         options={{ headerShown: false }}
       />
-      {/* <StackAuth.Screen name="Login" component={LoginScreen} />
-      <StackAuth.Screen name="SignUp" component={SignUpScreen} /> */}
+      <StackAuth.Screen name="Login" component={LoginScreen} />
+      <StackAuth.Screen name="SignUp" component={SignUpScreen} />
 
       <StackAuth.Screen name="LearnMore1" component={LearnMore1Screen} />
       <StackAuth.Screen name="LearnMore2" component={LearnMore2Screen} />
@@ -66,22 +66,22 @@ function AuthStack() {
 const Stack = createNativeStackNavigator();
 
 export default function Views() {
-  //	const { user } = useContext(AccountContext);
-  //const isAuth = useAuth();
+  const { user } = useContext(AccountContext);
+  const isAuth = useAuth();
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* {user.loggedIn == false ? ( */}
-      <Stack.Screen
-        name="Sign in"
-        component={AuthStack}
-        options={{
-          title: "Log in",
-        }}
-      />
-      {/* ) : (
-				<Stack.Screen name="HomeStack" component={HomeStack} />
-			)} */}
+      {user.loggedIn == false ? (
+        <Stack.Screen
+          name="Sign in"
+          component={AuthStack}
+          options={{
+            title: "Log in",
+          }}
+        />
+      ) : (
+        <Stack.Screen name="HomeStack" component={HomeStack} />
+      )}
     </Stack.Navigator>
   );
 }
