@@ -279,6 +279,7 @@ export default function ChatScreen({ navigation }) {
             const vals = { ...values };
             const uservals = { ...user, ...values };
             actions.resetForm();
+            console.log(vals);
             socket.emit("insert msg return updated list", uservals);
           }}
         >
