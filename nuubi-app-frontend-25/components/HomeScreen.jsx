@@ -11,7 +11,7 @@ import {
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
 import { globalStyles } from "../styles/global";
-const port = process.env.PORT || 4000;
+import * as SecureStore from "expo-secure-store";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);

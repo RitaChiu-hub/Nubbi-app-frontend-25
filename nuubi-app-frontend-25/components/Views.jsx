@@ -18,6 +18,11 @@ import LearnMore5Screen from "./Onboarding/LearnMore5";
 import LearnMore6Screen from "./Onboarding/LearnMore6";
 import LearnMore7Screen from "./Onboarding/LearnMore7";
 
+const useAuth = () => {
+  const { user } = useContext(AccountContext);
+  return user && user.loggedIn;
+};
+
 const StackHome = createNativeStackNavigator();
 
 function HomeStack() {
