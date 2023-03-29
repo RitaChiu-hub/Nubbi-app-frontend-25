@@ -4,29 +4,29 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useContext } from "react";
 // import { AccountContext } from "./AccountContext";
 
-import LoginScreen from "./Login/LoginScreen";
-import SignUpScreen from "./Login/SignUpScreen";
+// import LoginScreen from "./Login/LoginScreen";
+// import SignUpScreen from "./Login/SignUpScreen";
 
-import HomeScreen from "./HomeScreen";
+// import HomeScreen from "./HomeScreen";
 import SplashScreen from "./SplashScreen";
 
-const StackHome = createNativeStackNavigator();
+// const StackHome = createNativeStackNavigator();
 
-function HomeStack() {
-  return (
-    <StackHome.Navigator
-      initialRouteName="Home"
-      screenOptions={{ headerBackTitleVisible: false }}
-      // screenOptions={{ headerShown: false }}
-    >
-      <StackHome.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{ title: "Home" }}
-      />
-    </StackHome.Navigator>
-  );
-}
+// function HomeStack() {
+//   return (
+//     <StackHome.Navigator
+//       initialRouteName="Home"
+//       screenOptions={{ headerBackTitleVisible: false }}
+//       // screenOptions={{ headerShown: false }}
+//     >
+//       <StackHome.Screen
+//         name="Home"
+//         component={HomeScreen}
+//         options={{ title: "Home" }}
+//       />
+//     </StackHome.Navigator>
+//   );
+// }
 
 const StackAuth = createNativeStackNavigator();
 
@@ -41,8 +41,8 @@ function AuthStack() {
         component={SplashScreen}
         options={{ headerShown: false }}
       />
-      <StackAuth.Screen name="Login" component={LoginScreen} />
-      <StackAuth.Screen name="SignUp" component={SignUpScreen} />
+      {/* <StackAuth.Screen name="Login" component={LoginScreen} />
+      <StackAuth.Screen name="SignUp" component={SignUpScreen} /> */}
     </StackAuth.Navigator>
   );
 }
