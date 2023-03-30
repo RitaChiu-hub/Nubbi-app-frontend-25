@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "pc-api-8104909131351138175-535",
+  "private_key_id": "c4e92b0b79bc477807e7a1277f611287901c28e4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDV/YCVx8cP2vkD\n8gbWwAwqE7r4Id1rR9VEWtS0EgY9FTlw2t7lgg9HnLolkNmrMxB/jhwnMs9rmeRK\ndKK7EpCQK/nvfXFhcxFByIP/IkawpJBory3f43uI6hpX1cBGzRloqOCO90cksQZM\nZTyFQF92aoRhCyFM+tGLi5S3E/j7nZo2N8D0SNZeW9eKRtoBuLp4cSEXqEKfS46D\nszkUKIHL00/lT3M9ZR5eiJR7cZHz4UIEEt86UUeUNStop74+Wma+szSNsz98OfdQ\neJBmvUyIFgzwyhS9LgnH4g1dxwfrsAI52q8MbeQJYJPqXagjIDHI6LdZSQqIsdEf\nE1XdpKenAgMBAAECggEANxkrQyWp5TS6GmB2j1PqrejfouVBWE6qJIwIqYbckVzG\nKf9JFiorWgKKUYLe8PxYeqdyK0ujaa65v8wRXH62t1CDbb1MdM2Ge3wwNIC0V+Y/\ngpzcgIHXvJSejNAuTmyf5rlY/KbB7Doih4gnkZ3WFqztgfk2LVaFntslQxCC8vIU\nMyD/xB00RjE77sDNm/+Ct5B7EBxjCUiJi9r6SAszP7fTuT+pgFWv+TER058B8J54\ncbkYZf5KTxjDuILvbStZV3H+iJd96X7/c+v9Ot7OAUaTVFGtAla1GwqNn8REeeOP\nd5XN+wrwnJnd9XFN/2Y7gWv7QqP1XkgBrwQy9+QGVQKBgQD8dYTfIHUkgefG4CWu\nKidcktR0aSZ3Q2OSgW2bGK+ow5F3AEpnW3Q20hG51ZuSTEqGLMvgZC+UEBItzxf+\noH08k12Os1trgCOcH8gZTAyoIjB4XyYA/pgq7IEbmHpWXpNomvOVgDh9in6XiTpS\n8cnkq2a6pZT66GmpzLh8LWSSqwKBgQDY/dtd9/L4mrAQVLyujJ1VUwNssJQeVU5G\nuB3aMemvFB6hCsYm6NFxcCeln3WIuJi+MID/zlidcb+f4L+LjH8qiVfRTvQE6SnA\nvL9I6zhRFCPY7iMoeaVcXIKi5IuoB3a9XGeoBOip/XAko1rKZj3qY4lVqWv7/c3k\neo0/f5ze9QKBgEerYR4qy7aiflcSGQBZjTUVpeSqWTYwVlsoDSKjnnKNmoUq+vRe\nnR5XAps8Dd85c0ql+vbn2i3xZgfFK+2oSAVjXIL/Xeulw/Y1e4va8BjnI9V4RYSw\nwiglXf2kis5sKPLgUlhVvzO8lnWUio8zfvpAwngoO6QDSMPgj1sJU+zjAoGALqG/\ndt5GNO7pT1kmg0xss113qu/3pN0oSUJgB/gaBCoKuwkZtFrsR7iWjJ1MIOmqyZSa\n5F5v5MYBLFacU10KJxYE7VJOVo/VDTqC0STboXD2kzP6EkSyKLsox+DdsmqINgGZ\ntR348i8o3nbMmBqIy8pARUx3jFvq12MO38qI59ECgYEA1ehJc84uXOy6gZiQldRa\ni38O391yGOcWR0OpLB0qyIGNzQzWhPce27azVTCqNcmzmJ1R+ZtYF1Vcz/ycBm4u\nemtWulcgN4tsZuRNgtmyP1HHvOya8Q+j0+FEukXKU2WdU9v+JfQsaNDIFTM5DXhf\njAlXVjNB+jOQA73q43mtZ0E=\n-----END PRIVATE KEY-----\n",
+  "client_email": "nuubi-app@pc-api-8104909131351138175-535.iam.gserviceaccount.com",
+  "client_id": "102301798278571133830",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/nuubi-app%40pc-api-8104909131351138175-535.iam.gserviceaccount.com"
+}
