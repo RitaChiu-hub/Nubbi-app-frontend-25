@@ -41,9 +41,6 @@ export default function CreatePostScreen({ navigation }) {
           validationSchema={createPostSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
-            console.log(vals);
-            console.log({ ...user, ...vals });
-            console.log("submit button triggered");
             actions.resetForm();
             fetch(
               `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,

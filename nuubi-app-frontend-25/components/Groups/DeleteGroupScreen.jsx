@@ -28,10 +28,8 @@ export default function DeleteGroupScreen({ navigation }) {
         <Formik
           initialValues={{ passattempt: "" }}
           onSubmit={(values, actions) => {
-            console.log(values);
             const vals = { ...values };
             const passattempt = vals.passattempt;
-            console.log({ ...user, ...vals });
             actions.resetForm();
             fetch(
               "https://coral-app-n96bn.ondigitalocean.app/groups/deletegroup",

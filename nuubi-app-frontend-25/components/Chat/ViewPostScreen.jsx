@@ -345,7 +345,6 @@ export default function ViewPostScreen({ navigation }) {
                           likes.push(comments.post_comment_id);
                           setLikes(likes);
                           comments.comment_points++;
-                          console.log(comments);
                           setIsChanged(!isChanged);
                         } else {
                           const index = likes.indexOf(comments.post_comment_id);

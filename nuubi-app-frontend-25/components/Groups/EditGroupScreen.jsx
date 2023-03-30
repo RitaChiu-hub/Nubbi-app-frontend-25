@@ -50,8 +50,6 @@ export default function EditGroupScreen({ navigation }) {
           onSubmit={(values, actions) => {
             const vals = { ...values };
             const allvals = { ...values, privacySelection };
-            // actions.resetForm();
-            console.log({ ...user, ...allvals });
             fetch(
               "https://coral-app-n96bn.ondigitalocean.app/groups/editgroup",
               {
@@ -119,16 +117,13 @@ export default function EditGroupScreen({ navigation }) {
                   <View style={globalStyles.buttonContainer}>
                     <View>
                       <TouchableOpacity
-                        //style={globalStyles.secondaryButton}
                         style={
                           privacySelection === "Private"
                             ? globalStyles.selected
                             : globalStyles.unselected
                         }
                         onPress={() => {
-                          //Alert.alert("you selected Private");
                           setPrivacySelection("Private");
-                          //console.log(privacySelection);
                         }}
                       >
                         <Text style={globalStyles.secondaryButtonText}>
@@ -138,17 +133,13 @@ export default function EditGroupScreen({ navigation }) {
                     </View>
                     <View>
                       <TouchableOpacity
-                        //style={globalStyles.primaryButton}
                         style={
                           privacySelection === "Public"
                             ? globalStyles.selected
                             : globalStyles.unselected
                         }
-                        //onPress={() => Alert.alert("you selected Public")}
                         onPress={() => {
-                          // Alert.alert("you selected Public");
                           setPrivacySelection("Public");
-                          //console.log(privacySelection);
                         }}
                       >
                         <Text style={globalStyles.secondaryButtonText}>

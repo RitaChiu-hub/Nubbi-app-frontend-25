@@ -12,62 +12,8 @@ import {
 import { globalStyles } from "../styles/global";
 
 export default function SplashScreen({ navigation }) {
-  const [myMessage, setMyMessage] = React.useState(null);
-  const [myMessage2, setMyMessage2] = React.useState(null);
-
-  const getMessage = async () => {
-    try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/backend/getmessage2`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({}),
-        }
-      );
-      const jsonData = await response.json();
-      setMyMessage(jsonData.message);
-      console.log(jsonData.message);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
-  const getMessage2 = async () => {
-    try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/getmessage`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({}),
-        }
-      );
-      const jsonData = await response.json();
-      setMyMessage2(jsonData.message);
-      console.log(jsonData.message);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
-  React.useEffect(() => {
-    getMessage();
-    getMessage2();
-  }, []);
-
   return (
     <SafeAreaView style={globalStyles.container}>
-      <Text>hey</Text>
-      <Text>{myMessage}</Text>
-      <Text>hi, auth message is {myMessage2}</Text>
-
       <Image
         style={{ width: 200, height: 200 }}
         source={require("../assets/nuubiTransparent.png")}

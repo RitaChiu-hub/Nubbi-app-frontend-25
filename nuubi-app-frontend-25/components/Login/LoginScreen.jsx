@@ -21,8 +21,8 @@ export default function LoginScreen({ navigation }) {
     <View style={globalStyles.container}>
       <View style={globalStyles.innerContainer}>
         <Formik
-          // initialValues={{ username: "Kittykat", password: "password" }}
-          initialValues={{ username: "Testuser", password: "testpass" }}
+          //      initialValues={{ username: "Testuser", password: "testpass" }}
+          initialValues={{ username: "", password: "" }}
           validationSchema={formSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };

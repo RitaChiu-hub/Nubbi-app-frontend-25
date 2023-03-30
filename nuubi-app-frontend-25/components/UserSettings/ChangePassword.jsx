@@ -33,9 +33,6 @@ export default function ChangePasswordScreen({ navigation }) {
           validationSchema={newPasswordSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
-            console.log("onsubmit is working");
-            console.log(vals);
-            console.log({ ...user, ...vals });
             actions.resetForm();
             fetch(
               "https://coral-app-n96bn.ondigitalocean.app/settings/updatepassword",

@@ -30,7 +30,6 @@ export default function SignUpScreen({ navigation }) {
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
-            console.log(values);
             actions.resetForm();
             fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
               method: "POST",

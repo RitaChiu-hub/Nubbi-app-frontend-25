@@ -117,16 +117,13 @@ export default function CreateGroupScreen({ navigation }) {
                   <View style={globalStyles.buttonContainer}>
                     <View>
                       <TouchableOpacity
-                        //style={globalStyles.secondaryButton}
                         style={
                           privacySelection === "Private"
                             ? globalStyles.selected
                             : globalStyles.unselected
                         }
                         onPress={() => {
-                          //Alert.alert("you selected Private");
                           setPrivacySelection("Private");
-                          //console.log(privacySelection);
                         }}
                       >
                         <Text style={globalStyles.secondaryButtonText}>
@@ -136,17 +133,13 @@ export default function CreateGroupScreen({ navigation }) {
                     </View>
                     <View>
                       <TouchableOpacity
-                        //style={globalStyles.primaryButton}
                         style={
                           privacySelection === "Public"
                             ? globalStyles.selected
                             : globalStyles.unselected
                         }
-                        //onPress={() => Alert.alert("you selected Public")}
                         onPress={() => {
-                          // Alert.alert("you selected Public");
                           setPrivacySelection("Public");
-                          //console.log(privacySelection);
                         }}
                       >
                         <Text style={globalStyles.secondaryButtonText}>

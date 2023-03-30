@@ -44,8 +44,6 @@ export default function EditPostScreen({ navigation }) {
           validationSchema={createPostSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
-            console.log({ ...user, ...vals });
-            //	actions.resetForm();
             fetch(
               `https://coral-app-n96bn.ondigitalocean.app/groups/editpost`,
               {

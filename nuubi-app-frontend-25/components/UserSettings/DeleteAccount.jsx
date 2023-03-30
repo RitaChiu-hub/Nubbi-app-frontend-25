@@ -31,7 +31,6 @@ export default function DeleteAccountScreen({ navigation }) {
         <Formik
           initialValues={{ passattempt: "" }}
           onSubmit={(values, actions) => {
-            console.log(values);
             const vals = { ...values };
             const passattempt = vals.passattempt;
             actions.resetForm();
