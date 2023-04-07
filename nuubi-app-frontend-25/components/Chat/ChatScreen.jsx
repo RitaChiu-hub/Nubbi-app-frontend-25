@@ -19,7 +19,7 @@ import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -29,6 +29,7 @@ export default function ChatScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [likes, setLikes] = React.useState([]);
   const [isChanged, setIsChanged] = React.useState(false);
+  const height = useHeaderHeight();
 
   const scrollViewRef = React.useRef();
 
@@ -167,7 +168,9 @@ export default function ChatScreen({ navigation }) {
   }, [navigation, groupTitle]);
 
   return (
-    <View
+    <KeyboardAvoidingView
+      behavior="padding"
+      keyboardVerticalOffset={height}
       style={{
         flex: 1,
         backgroundColor: "#fdfdfd",
@@ -303,7 +306,7 @@ export default function ChatScreen({ navigation }) {
                   flexDirection: "row",
                   paddingRight: 50,
                   paddingLeft: 30,
-                  marginVertical: -20,
+                  marginVertical: -18,
                 }}
               >
                 <TextInput
@@ -333,6 +336,6 @@ export default function ChatScreen({ navigation }) {
           )}
         </Formik>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

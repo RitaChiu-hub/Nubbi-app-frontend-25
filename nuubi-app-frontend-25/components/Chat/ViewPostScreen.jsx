@@ -3,16 +3,9 @@ import {
   TextInput,
   View,
   Text,
-  Alert,
-  FlatList,
   TouchableOpacity,
-  SafeAreaView,
-  Button,
   ScrollView,
   KeyboardAvoidingView,
-  Keyboard,
-  StyleSheet,
-  Dimensions,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -20,7 +13,6 @@ import { AccountContext } from "../AccountContext";
 import socket from "../../socket";
 const { addCommentSchema } = require("../validationSchema");
 import moment from "moment";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useHeaderHeight } from "@react-navigation/elements";
 
 export default function ViewPostScreen({ navigation }) {
