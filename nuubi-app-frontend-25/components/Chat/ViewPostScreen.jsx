@@ -11,6 +11,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Keyboard,
+  StyleSheet,
+  Dimensions,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -19,6 +21,7 @@ import socket from "../../socket";
 const { addCommentSchema } = require("../validationSchema");
 import moment from "moment";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 export default function ViewPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -34,6 +37,7 @@ export default function ViewPostScreen({ navigation }) {
   const [likes, setLikes] = React.useState([]);
   const [isChanged, setIsChanged] = React.useState(false);
   const [postLiked, setPostLiked] = React.useState(false);
+  const height = useHeaderHeight();
 
   const getPostLiked = async () => {
     try {
@@ -177,15 +181,15 @@ export default function ViewPostScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView
-      behavior="height"
+      behavior="padding"
+      keyboardVerticalOffset={height}
       style={{
         flex: 1,
         backgroundColor: "#f1f1f1",
         justifyContent: "center",
       }}
     >
-      <ScrollView //style={{ marginBottom: 120 }}
-      >
+      <ScrollView>
         <View
           style={{
             padding: 10,
@@ -430,20 +434,13 @@ export default function ViewPostScreen({ navigation }) {
             })}
         </View>
       </ScrollView>
-
       <View
         style={{
           width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          //   bottom: 0,
-          //  paddingBottom: 20,
-
-          backgroundColor: "#fdfdfd",
           paddingBottom: 20,
+          backgroundColor: "#fdfdfd",
           borderColor: "#ddd",
           borderTopWidth: 1,
-          borderBottomWidth: 1,
         }}
       >
         <Formik
@@ -474,6 +471,7 @@ export default function ViewPostScreen({ navigation }) {
                   flexDirection: "row",
                   paddingRight: 50,
                   paddingLeft: 30,
+                  marginVertical: -18,
                 }}
               >
                 <TextInput
