@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -18,6 +19,7 @@ import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -165,7 +167,14 @@ export default function ChatScreen({ navigation }) {
   }, [navigation, groupTitle]);
 
   return (
-    <View style={globalStyles.container}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#fdfdfd",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
       <ScrollView
         ref={scrollViewRef}
         onContentSizeChange={() =>
@@ -258,17 +267,14 @@ export default function ChatScreen({ navigation }) {
             );
           })}
       </ScrollView>
+
       <View
         style={{
           width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          bottom: 0,
           paddingBottom: 20,
           backgroundColor: "#fdfdfd",
           borderColor: "#ddd",
           borderTopWidth: 1,
-          borderBottomWidth: 1,
         }}
       >
         <Formik
@@ -283,13 +289,7 @@ export default function ChatScreen({ navigation }) {
           }}
         >
           {(props) => (
-            <View
-              style={{
-                borderColor: "#ddd",
-                borderTopWidth: 1,
-                width: "100%",
-              }}
-            >
+            <View>
               <Text>{error}</Text>
               <Text style={{ textAlign: "center", color: "red" }}>
                 <ErrorMessage name="mymessage" />
@@ -299,10 +299,20 @@ export default function ChatScreen({ navigation }) {
                   flexDirection: "row",
                   paddingRight: 50,
                   paddingLeft: 30,
+                  marginVertical: -20,
                 }}
               >
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    minWidth: "90%",
+                    maxWidth: "90%",
+                    alignItems: "stretch",
+                  }}
                   placeholder="Send message..."
                   onChangeText={props.handleChange("mymessage")}
                   value={props.values.mymessage}

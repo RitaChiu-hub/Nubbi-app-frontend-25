@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Button,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -16,6 +17,7 @@ import { AccountContext } from "../AccountContext";
 import socket from "../../socket";
 const { addCommentSchema } = require("../validationSchema");
 import moment from "moment";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function ViewPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -173,7 +175,8 @@ export default function ViewPostScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View
+    <KeyboardAvoidingView
+      behavior="height"
       style={{
         flex: 1,
         backgroundColor: "#f1f1f1",
@@ -217,10 +220,33 @@ export default function ViewPostScreen({ navigation }) {
                   {postPoints}
                 </Text>
 
-                <TouchableOpacity onPress={addPostPoint}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (postLiked != true) {
+                      setPostPoints(postPoints + 1);
+                      setPostLiked(!postLiked);
+                    } else {
+                      setPostPoints(postPoints - 1);
+                      setPostLiked(!postLiked);
+                    }
+
+                    fetch(
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/addpostpoint`,
+                      {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          ...user,
+                        }),
+                      }
+                    );
+                  }}
+                >
                   <Text
                     style={{
-                      //  color: "#228ee7",
                       color: postLiked ? "#228ee7" : "#bbb",
                       fontSize: 16,
                       fontWeight: "bold",
@@ -409,9 +435,11 @@ export default function ViewPostScreen({ navigation }) {
           width: "100%",
           justifyContent: "center",
           alignItems: "center",
-          bottom: 0,
-          paddingBottom: 20,
+          //   bottom: 0,
+          //  paddingBottom: 20,
+
           backgroundColor: "#fdfdfd",
+          paddingBottom: 20,
           borderColor: "#ddd",
           borderTopWidth: 1,
           borderBottomWidth: 1,
@@ -465,6 +493,6 @@ export default function ViewPostScreen({ navigation }) {
           )}
         </Formik>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

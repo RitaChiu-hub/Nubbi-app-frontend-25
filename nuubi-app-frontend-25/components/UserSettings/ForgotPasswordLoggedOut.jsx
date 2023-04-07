@@ -1,9 +1,16 @@
 import * as React from "react";
-import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function ForgotPasswordLoggedOut({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -17,7 +24,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
+    <KeyboardAvoidingView behavior="padding" style={globalStyles.container}>
       <View style={globalStyles.innerContainer}>
         <Text
           style={{
@@ -193,6 +200,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           </Formik>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

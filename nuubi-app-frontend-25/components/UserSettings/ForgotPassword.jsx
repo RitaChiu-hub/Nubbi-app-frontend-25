@@ -7,6 +7,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
@@ -60,7 +61,7 @@ export default function ForgotPasswordScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
+    <KeyboardAvoidingView behavior="padding" style={globalStyles.container}>
       <View>
         <Text
           style={{ fontWeight: "bold", maxWidth: "90%", paddingBottom: 20 }}
@@ -165,6 +166,6 @@ export default function ForgotPasswordScreen({ navigation }) {
           </View>
         )}
       </Formik>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

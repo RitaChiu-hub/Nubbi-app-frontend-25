@@ -86,7 +86,7 @@ export default function SettingsScreen({ navigation }) {
                 style={globalStyles.secondaryButton}
                 onPress={() => {
                   setModalVisible(false);
-                  navigation.navigate("DeleteScreen");
+                  navigation.navigate("DeleteAccount");
                 }}
               >
                 <Text style={globalStyles.secondaryButtonText}>
