@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Alert,
   Pressable,
+  Keyboard,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -95,6 +96,7 @@ export default function EditGroupScreen({ navigation }) {
                     onChangeText={props.handleChange("groupname")}
                     value={props.values.groupname}
                     marginBottom={10}
+                    onBlur={Keyboard.dismiss}
                   />
                   <Text>
                     <ErrorMessage name="groupname" />
@@ -108,6 +110,7 @@ export default function EditGroupScreen({ navigation }) {
                     onChangeText={props.handleChange("description")}
                     value={props.values.description}
                     marginBottom={10}
+                    onBlur={Keyboard.dismiss}
                   />
                   <Text>
                     <ErrorMessage name="description" />
