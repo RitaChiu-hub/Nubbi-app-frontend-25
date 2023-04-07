@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -84,6 +85,7 @@ export default function CreatePostScreen({ navigation }) {
                 onChangeText={props.handleChange("title")}
                 value={props.values.title}
                 marginBottom={10}
+                onBlur={Keyboard.dismiss}
               />
               <Text>
                 <ErrorMessage name="title" />
@@ -107,6 +109,7 @@ export default function CreatePostScreen({ navigation }) {
                 onChangeText={props.handleChange("body_text")}
                 value={props.values.body_text}
                 marginBottom={10}
+                onBlur={Keyboard.dismiss}
               />
               <Text>
                 <ErrorMessage name="body_text" />

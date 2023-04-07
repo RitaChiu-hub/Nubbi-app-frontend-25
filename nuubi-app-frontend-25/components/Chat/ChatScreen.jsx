@@ -260,6 +260,10 @@ export default function ChatScreen({ navigation }) {
                   <View style={{ marginHorizontal: 2 }}></View>
                   <Text style={{ fontSize: 10, color: "grey" }}>
                     {moment(chats.iso_time_sent).calendar()}
+                    {/* {moment(chats.iso_time_sent)
+                      .utc()
+                      .utcOffset("-1400")
+                      .calendar()} */}
                   </Text>
                 </View>
                 <Text style={{ color: "#333" }}>{chats.text}</Text>

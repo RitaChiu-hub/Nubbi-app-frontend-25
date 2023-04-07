@@ -10,6 +10,7 @@ import {
   Button,
   ScrollView,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";

@@ -106,7 +106,7 @@ export default function PostScreen({ navigation }) {
       id={item.post_id}
       body={item.body_text}
       post_author={item.post_author}
-      isoTimeSent={item.iso_time_sent}
+      isoTimeSent={item.created_at}
       point_total={item.point_total}
       number_comments={item.number_comments}
     />
