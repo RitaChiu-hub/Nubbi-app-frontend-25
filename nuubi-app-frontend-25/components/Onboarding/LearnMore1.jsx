@@ -43,7 +43,6 @@ export default function LearnMore1Screen({ navigation }) {
       <View
         style={{
           flexDirection: "row",
-          //alignItems: "flex-end",
           justifyContent: "flex-end",
           width: "90%",
         }}
