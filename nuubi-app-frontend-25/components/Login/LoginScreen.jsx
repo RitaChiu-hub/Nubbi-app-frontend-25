@@ -12,7 +12,7 @@ export default function LoginScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Log in",
+      title: "Log In",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -70,7 +70,16 @@ export default function LoginScreen({ navigation }) {
                 <View style={{ marginVertical: 10 }}></View>
                 <Text>Username or email</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Enter username or email"
                   onChangeText={props.handleChange("username")}
                   value={props.values.username}
@@ -81,7 +90,16 @@ export default function LoginScreen({ navigation }) {
                 </Text>
                 <Text>Password</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Enter password"
                   onChangeText={props.handleChange("password")}
                   value={props.values.password}
@@ -91,7 +109,7 @@ export default function LoginScreen({ navigation }) {
                 <Text>
                   <ErrorMessage name="password" />
                 </Text>
-
+                <View style={{ marginVertical: 5 }}></View>
                 <View style={globalStyles.buttonContainer}>
                   <View>
                     <TouchableOpacity

@@ -5,12 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  StatusBar,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function ForgotPasswordLoggedOut({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -18,19 +18,29 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Forgot password",
+      title: "Forgot Password",
       headerTitleAlign: "center",
     });
   }, [navigation]);
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={globalStyles.container}>
-      <View style={globalStyles.innerContainer}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={{
+        flex: 1,
+        backgroundColor: "#fdfdfd",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          marginTop: StatusBar.currentHeight || 15,
+        }}
+      >
         <Text
           style={{
             color: "red",
             textAlign: "center",
-            width: "80%",
           }}
         >
           {error}
@@ -38,9 +48,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
 
         <View
           style={{
-            flex: 1,
             backgroundColor: "#fdfdfd",
-            alignItems: "center",
             marginTop: 100,
           }}
         >
@@ -90,13 +98,20 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
 
                 <Text>Email</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                  }}
                   placeholder="Enter email"
                   onChangeText={props.handleChange("email")}
                   value={props.values.email}
-                  marginBottom={10}
                 />
-
+                <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
                     style={globalStyles.primaryButton}
@@ -153,38 +168,77 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               <View>
                 <Text>Passcode</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Enter 6 digit passcode"
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
-                  marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="passcode" />
                 </Text>
                 <Text>New password</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Enter new password"
                   onChangeText={props.handleChange("passattempt1")}
                   value={props.values.passattempt1}
-                  marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="passattempt1" />
                 </Text>
                 <Text>New password</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Repeat new password"
                   onChangeText={props.handleChange("passattempt2")}
                   value={props.values.passattempt2}
-                  marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="passattempt2" />
                 </Text>
-
+                <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
                     style={globalStyles.primaryButton}

@@ -119,7 +119,7 @@ export default function SignUpScreen({ navigation }) {
                 <Text>
                   <ErrorMessage name="password2" />
                 </Text>
-
+                <View style={{ marginVertical: 5 }}></View>
                 <View style={globalStyles.buttonContainer}>
                   <View>
                     <TouchableOpacity
