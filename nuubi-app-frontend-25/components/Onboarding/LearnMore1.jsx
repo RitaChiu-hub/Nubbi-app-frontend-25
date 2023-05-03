@@ -13,7 +13,7 @@ import { globalStyles } from "../../styles/global";
 export default function LearnMore1Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Learn more",
+      title: "Learn More",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -66,7 +66,6 @@ export default function LearnMore1Screen({ navigation }) {
           marginTop: 30,
           width: 440,
           height: 500,
-          marginLeft: -40,
         }}
         source={require("../../assets/onboarding/chatposts.png")}
       />

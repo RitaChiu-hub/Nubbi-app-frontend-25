@@ -5,7 +5,7 @@ import { globalStyles } from "../../styles/global";
 export default function LearnMore4Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Learn more",
+      title: "Learn More",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -55,8 +55,8 @@ export default function LearnMore4Screen({ navigation }) {
       </View>
       <Image
         style={{
-          width: 400,
-          height: 500,
+          width: 440,
+          height: 520,
         }}
         source={require("../../assets/onboarding/homepage2.png")}
       />

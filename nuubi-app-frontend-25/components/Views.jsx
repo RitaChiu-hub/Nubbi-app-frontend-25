@@ -105,11 +105,11 @@ const StackAuth = createNativeStackNavigator();
 function AuthStack() {
   return (
     <StackAuth.Navigator
-      initialRouteName="Splash"
+      initialRouteName="Welcome"
       screenOptions={{ headerBackTitleVisible: false }}
     >
       <StackAuth.Screen
-        name="Splash"
+        name="Welcome"
         component={SplashScreen}
         options={{ headerShown: false }}
       />

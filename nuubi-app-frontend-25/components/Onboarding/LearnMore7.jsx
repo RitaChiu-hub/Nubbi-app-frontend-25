@@ -5,7 +5,7 @@ import { globalStyles } from "../../styles/global";
 export default function LearnMore7Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Learn more",
+      title: "Learn More",
       headerTitleAlign: "center",
     });
   }, [navigation]);

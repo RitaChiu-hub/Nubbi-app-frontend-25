@@ -13,7 +13,7 @@ import { globalStyles } from "../../styles/global";
 export default function LearnMore2Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Learn more",
+      title: "Learn More",
       headerTitleAlign: "center",
     });
   }, [navigation]);
