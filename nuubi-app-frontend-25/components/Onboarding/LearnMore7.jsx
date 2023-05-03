@@ -37,7 +37,6 @@ export default function LearnMore7Screen({ navigation }) {
         style={{
           flexDirection: "row",
           justifyContent: "flex-end",
-          width: "90%",
         }}
       >
         <View></View>

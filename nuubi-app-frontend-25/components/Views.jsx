@@ -32,10 +32,7 @@ import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
 
 import LearnMore1Screen from "./Onboarding/LearnMore1";
 import LearnMore2Screen from "./Onboarding/LearnMore2";
-import LearnMore3Screen from "./Onboarding/LearnMore3";
 import LearnMore4Screen from "./Onboarding/LearnMore4";
-import LearnMore5Screen from "./Onboarding/LearnMore5";
-import LearnMore6Screen from "./Onboarding/LearnMore6";
 import LearnMore7Screen from "./Onboarding/LearnMore7";
 
 const useAuth = () => {
@@ -122,10 +119,7 @@ function AuthStack() {
 
       <StackAuth.Screen name="LearnMore1" component={LearnMore1Screen} />
       <StackAuth.Screen name="LearnMore2" component={LearnMore2Screen} />
-      <StackAuth.Screen name="LearnMore3" component={LearnMore3Screen} />
       <StackAuth.Screen name="LearnMore4" component={LearnMore4Screen} />
-      <StackAuth.Screen name="LearnMore5" component={LearnMore5Screen} />
-      <StackAuth.Screen name="LearnMore6" component={LearnMore6Screen} />
       <StackAuth.Screen name="LearnMore7" component={LearnMore7Screen} />
     </StackAuth.Navigator>
   );

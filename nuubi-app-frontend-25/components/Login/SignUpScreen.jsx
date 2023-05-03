@@ -12,7 +12,7 @@ export default function SignUpScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Sign up",
+      title: "Sign Up",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -74,49 +74,105 @@ export default function SignUpScreen({ navigation }) {
                 <View style={{ marginVertical: 10 }}></View>
                 <Text>Email</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Enter email"
                   onChangeText={props.handleChange("email")}
                   value={props.values.email}
                   marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="email" />
                 </Text>
                 <Text>Username (you can change this later)</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Enter username"
                   onChangeText={props.handleChange("username")}
                   value={props.values.username}
                   marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="username" />
                 </Text>
                 <Text>Password</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Enter password"
                   onChangeText={props.handleChange("password")}
                   value={props.values.password}
                   secureTextEntry={true}
                   marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="password" />
                 </Text>
 
                 <Text>Password</Text>
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
                   placeholder="Repeat password"
                   onChangeText={props.handleChange("password2")}
                   value={props.values.password2}
                   secureTextEntry={true}
                   marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="password2" />
                 </Text>
                 <View style={{ marginVertical: 5 }}></View>

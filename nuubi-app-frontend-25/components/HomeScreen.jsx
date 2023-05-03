@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Text,
   View,
-  SafeAreaView,
   Modal,
   Alert,
   FlatList,

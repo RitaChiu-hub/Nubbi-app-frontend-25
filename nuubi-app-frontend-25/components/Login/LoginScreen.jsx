@@ -85,7 +85,12 @@ export default function LoginScreen({ navigation }) {
                   value={props.values.username}
                   marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="username" />
                 </Text>
                 <Text>Password</Text>
@@ -106,7 +111,12 @@ export default function LoginScreen({ navigation }) {
                   secureTextEntry={true}
                   marginBottom={10}
                 />
-                <Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
                   <ErrorMessage name="password" />
                 </Text>
                 <View style={{ marginVertical: 5 }}></View>
