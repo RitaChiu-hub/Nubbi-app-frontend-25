@@ -33,7 +33,7 @@ export default function EditGroupScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Edit group info",
+      title: "Edit Group Info",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -87,7 +87,14 @@ export default function EditGroupScreen({ navigation }) {
             <View>
               <View style={{ marginVertical: 5 }}></View>
               <View style={{ marginHorizontal: 30 }}>
-                <Text>{error}</Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
+                  {error}
+                </Text>
                 <View style={{ marginRight: -30 }}>
                   <Text>Group name</Text>
                   <TextInput
@@ -98,7 +105,13 @@ export default function EditGroupScreen({ navigation }) {
                     marginBottom={10}
                     onBlur={Keyboard.dismiss}
                   />
-                  <Text>
+                  <View style={{ marginVertical: 5 }}></View>
+                  <Text
+                    style={{
+                      color: "red",
+                      textAlign: "center",
+                    }}
+                  >
                     <ErrorMessage name="groupname" />
                   </Text>
                   <Text>Description</Text>
@@ -112,7 +125,13 @@ export default function EditGroupScreen({ navigation }) {
                     marginBottom={10}
                     onBlur={Keyboard.dismiss}
                   />
-                  <Text>
+                  <View style={{ marginVertical: 5 }}></View>
+                  <Text
+                    style={{
+                      color: "red",
+                      textAlign: "center",
+                    }}
+                  >
                     <ErrorMessage name="description" />
                   </Text>
                   <Text>Visibility</Text>
@@ -158,7 +177,7 @@ export default function EditGroupScreen({ navigation }) {
                   onPress={props.handleSubmit}
                 >
                   <Text style={globalStyles.primaryButtonText}>
-                    Update group
+                    Update Group
                   </Text>
                 </TouchableOpacity>
               </View>
