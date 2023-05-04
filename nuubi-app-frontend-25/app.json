@@ -21,7 +21,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.kittykat.nuubiapp"
+      "package": "com.kittykat.nuubiapp",
+      "versionCode": "1100"
     },
     "web": {
       "favicon": "./assets/favicon.png"
