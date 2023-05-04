@@ -8,6 +8,7 @@ import {
   Alert,
   TouchableOpacity,
   Keyboard,
+  StatusBar,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -21,20 +22,25 @@ export default function EditPostScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Edit post",
+      title: "Edit Post",
       headerTitleAlign: "center",
     });
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#fdfdfd",
+        alignItems: "center",
+        paddingTop: 20,
+      }}
+    >
       <View
         style={{
-          marginVertical: 20,
-          flex: 1,
-          backgroundColor: "#fdfdfd",
-          alignItems: "center",
-          justifyContent: "center",
+          marginTop: StatusBar.currentHeight || 15,
+          marginBottom: 10,
+          minWidth: 300,
         }}
       >
         <Formik
@@ -78,18 +84,38 @@ export default function EditPostScreen({ navigation }) {
           }}
         >
           {(props) => (
-            <View style={{ flex: 1, justifyContent: "flex-start" }}>
-              <Text>{error}</Text>
-              <Text>Post title</Text>
+            <View>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {error}
+              </Text>
+              <Text>Post Title</Text>
               <TextInput
-                style={globalStyles.input}
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  padding: 10,
+                  fontSize: 18,
+                  borderRadius: 6,
+                  width: "100%",
+                  alignItems: "stretch",
+                }}
                 placeholder="Enter post title"
                 onChangeText={props.handleChange("title")}
                 value={props.values.title}
-                marginBottom={10}
                 onBlur={Keyboard.dismiss}
               />
-              <Text>
+              <View style={{ marginVertical: 5 }}></View>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
                 <ErrorMessage name="title" />
               </Text>
               <Text>Post</Text>
@@ -100,28 +126,32 @@ export default function EditPostScreen({ navigation }) {
                   padding: 10,
                   fontSize: 18,
                   borderRadius: 6,
-                  minWidth: "90%",
-                  maxWidth: "90%",
+                  width: "100%",
                   height: 350,
                   alignItems: "stretch",
                   textAlignVertical: "top",
+                  marginBottom: 5,
                 }}
                 multiline={true}
                 placeholder="Enter text"
                 onChangeText={props.handleChange("body_text")}
                 value={props.values.body_text}
-                marginBottom={10}
                 onBlur={Keyboard.dismiss}
               />
-              <Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
                 <ErrorMessage name="body_text" />
               </Text>
-
+              <View style={{ marginVertical: 10 }}></View>
               <TouchableOpacity
                 style={globalStyles.primaryButton}
                 onPress={props.handleSubmit}
               >
-                <Text style={globalStyles.primaryButtonText}>Update post</Text>
+                <Text style={globalStyles.primaryButtonText}>Update Post</Text>
               </TouchableOpacity>
             </View>
           )}
