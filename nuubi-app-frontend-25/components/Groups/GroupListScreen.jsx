@@ -62,7 +62,7 @@ export default function GroupListScreen({ navigation }) {
         }}
         onPress={() => {
           setUser({ ...user, currentGroup: id, groupName: title }),
-            navigation.navigate("ChatScreen");
+            navigation.navigate("Group Chat");
           const joinGroupId = id;
           fetch("https://coral-app-n96bn.ondigitalocean.app/groups/joingroup", {
             method: "POST",

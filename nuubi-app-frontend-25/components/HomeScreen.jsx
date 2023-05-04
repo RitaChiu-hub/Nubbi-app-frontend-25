@@ -82,7 +82,7 @@ export default function HomeScreen({ navigation }) {
             groupName: title,
             invitePasscode: invitePasscode,
           }),
-            navigation.navigate("ChatScreen");
+            navigation.navigate("Group Chat");
         }}
       >
         <Text

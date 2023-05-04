@@ -84,7 +84,7 @@ function HomeStack() {
       <StackHome.Screen name="CreateGroup" component={CreateGroupScreen} />
       <StackHome.Screen name="EditGroup" component={EditGroupScreen} />
       <StackHome.Screen name="ViewAllGroups" component={GroupListScreen} />
-      <StackHome.Screen name="ChatScreen" component={ChatScreen} />
+      <StackHome.Screen name="Group Chat" component={ChatScreen} />
       <StackHome.Screen name="PostScreen" component={PostScreen} />
       <StackHome.Screen name="CreatePost" component={CreatePostScreen} />
       <StackHome.Screen name="EditPost" component={EditPostScreen} />
