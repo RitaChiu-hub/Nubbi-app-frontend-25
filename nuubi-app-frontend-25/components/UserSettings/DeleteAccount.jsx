@@ -11,7 +11,6 @@ import {
 import * as SecureStore from "expo-secure-store";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
-const { formSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
 
 export default function DeleteAccountScreen({ navigation }) {
@@ -45,7 +44,8 @@ export default function DeleteAccountScreen({ navigation }) {
             const passattempt = vals.passattempt;
             actions.resetForm();
             fetch(
-              "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
+              //  "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
+              "http://localhost:8080/settings/delete",
               {
                 method: "POST",
                 credentials: "include",
