@@ -2,8 +2,6 @@ import * as React from "react";
 import {
   Text,
   View,
-  SafeAreaView,
-  Button,
   Modal,
   Alert,
   TouchableOpacity,
@@ -16,7 +14,6 @@ export default function GroupInfoScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [memberCount, setMemberCount] = React.useState(0);
   const [error, setError] = React.useState(null);
-  //const groupTitle = user.groupName;
   const [modalVisible, setModalVisible] = React.useState(false);
   const [members, setMembers] = React.useState([]);
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
@@ -113,8 +110,9 @@ export default function GroupInfoScreen({ navigation }) {
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
+        minWidth: 300,
         paddingBottom: 5,
-        paddingHorizontal: 15,
+        paddingHorizontal: 10,
       }}
     >
       <Text>{groupTotalPoints}</Text>
@@ -143,9 +141,11 @@ export default function GroupInfoScreen({ navigation }) {
   return (
     <View style={globalStyles.container}>
       <View style={globalStyles.innerContainer}>
-        <Text>Invite passcode: {user.invitePasscode}</Text>
+        <Text style={{ paddingBottom: 5 }}>
+          Invite passcode: {user.invitePasscode}
+        </Text>
 
-        <Text>{memberCount} members</Text>
+        <Text style={{ paddingBottom: 10 }}>{memberCount} members</Text>
 
         <Text
           style={{
@@ -173,6 +173,7 @@ export default function GroupInfoScreen({ navigation }) {
             alignItems: "center",
             position: "absolute",
             bottom: 70,
+            paddingHorizontal: 20,
           }}
         >
           <Modal
@@ -217,33 +218,60 @@ export default function GroupInfoScreen({ navigation }) {
           {myIsAdmin == "true" ? (
             <View
               style={{
-                width: "100%",
                 alignItems: "center",
               }}
             >
               <TouchableOpacity
-                style={globalStyles.primaryButtonWide}
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingVertical: 14,
+                  paddingHorizontal: 10,
+                  borderRadius: 12,
+                  elevation: 3,
+                  backgroundColor: "#1aa7ec",
+                  width: "100%",
+                  minWidth: 300,
+                }}
                 onPress={() => {
                   navigation.navigate("EditGroup");
                 }}
               >
-                <Text style={globalStyles.primaryButtonText}>
-                  Edit group info
-                </Text>
+                <Text style={globalStyles.primaryButtonText}>Edit Group</Text>
               </TouchableOpacity>
               <View style={{ paddingBottom: 10 }}></View>
               <TouchableOpacity
-                style={globalStyles.primaryButtonWide}
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingVertical: 14,
+                  paddingHorizontal: 10,
+                  borderRadius: 12,
+                  elevation: 3,
+                  backgroundColor: "#1aa7ec",
+                  width: "100%",
+                  minWidth: 300,
+                }}
                 onPress={() => {
                   setModalVisible(true);
                 }}
               >
-                <Text style={globalStyles.primaryButtonText}>Delete group</Text>
+                <Text style={globalStyles.primaryButtonText}>Delete Group</Text>
               </TouchableOpacity>
             </View>
           ) : (
             <TouchableOpacity
-              style={globalStyles.primaryButtonWide}
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                paddingVertical: 14,
+                paddingHorizontal: 10,
+                borderRadius: 12,
+                elevation: 3,
+                backgroundColor: "#1aa7ec",
+                width: "100%",
+                minWidth: 300,
+              }}
               onPress={() => {
                 fetch(
                   "https://coral-app-n96bn.ondigitalocean.app/groups/leavegroup",
@@ -282,7 +310,7 @@ export default function GroupInfoScreen({ navigation }) {
                   });
               }}
             >
-              <Text style={globalStyles.primaryButtonText}>Leave group</Text>
+              <Text style={globalStyles.primaryButtonText}>Leave Group</Text>
             </TouchableOpacity>
           )}
         </View>

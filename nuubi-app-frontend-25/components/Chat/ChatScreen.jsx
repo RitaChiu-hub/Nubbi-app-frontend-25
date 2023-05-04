@@ -185,14 +185,7 @@ export default function ChatScreen({ navigation }) {
         onContentSizeChange={() =>
           scrollViewRef.current.scrollToEnd({ animated: true })
         }
-        style={{
-          // flex: 1,
-          // marginBottom: 122,
-          // alignSelf: "flex-beginning",
-          // alignItems: "flex-beginning",
-          //  marginLeft: 10,
-          width: "90%",
-        }}
+        style={{ width: "90%" }}
       >
         {chats &&
           chats.map((chats) => {
@@ -282,8 +275,6 @@ export default function ChatScreen({ navigation }) {
           width: "100%",
           paddingBottom: 20,
           backgroundColor: "#fdfdfd",
-          borderColor: "#ddd",
-          borderTopWidth: 1,
         }}
       >
         <Formik
@@ -299,16 +290,11 @@ export default function ChatScreen({ navigation }) {
         >
           {(props) => (
             <View>
-              <Text>{error}</Text>
-              <Text style={{ textAlign: "center", color: "red" }}>
-                <ErrorMessage name="mymessage" />
-              </Text>
               <View
                 style={{
                   flexDirection: "row",
-                  paddingRight: 50,
+                  paddingRight: 60,
                   paddingLeft: 30,
-                  marginVertical: -18,
                 }}
               >
                 <TextInput
@@ -325,10 +311,15 @@ export default function ChatScreen({ navigation }) {
                   placeholder="Send message..."
                   onChangeText={props.handleChange("mymessage")}
                   value={props.values.mymessage}
-                  marginBottom={10}
                 />
                 <TouchableOpacity
-                  style={globalStyles.sendButton}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 10,
+                    backgroundColor: "#1aa7ec",
+                    borderRadius: 6,
+                  }}
                   onPress={props.handleSubmit}
                 >
                   <Text style={globalStyles.primaryButtonText}>Send</Text>

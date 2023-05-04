@@ -166,7 +166,7 @@ export default function ViewPostScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "View post",
+      title: "View Post",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -430,9 +430,7 @@ export default function ViewPostScreen({ navigation }) {
         style={{
           width: "100%",
           paddingBottom: 20,
-          backgroundColor: "#fdfdfd",
-          borderColor: "#ddd",
-          borderTopWidth: 1,
+          //   backgroundColor: "#fdfdfd",
         }}
       >
         <Formik
@@ -449,32 +447,44 @@ export default function ViewPostScreen({ navigation }) {
           {(props) => (
             <View
               style={{
-                borderColor: "#ddd",
-                borderTopWidth: 1,
                 width: "100%",
               }}
             >
-              <Text>{error}</Text>
+              {/* <Text>{error}</Text>
               <Text style={{ textAlign: "center", color: "red" }}>
                 <ErrorMessage name="mycomment" />
-              </Text>
+              </Text> */}
               <View
                 style={{
                   flexDirection: "row",
-                  paddingRight: 50,
+                  paddingRight: 60,
                   paddingLeft: 30,
-                  marginVertical: -18,
                 }}
               >
                 <TextInput
-                  style={globalStyles.input}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    minWidth: "90%",
+                    maxWidth: "90%",
+                    alignItems: "stretch",
+                    backgroundColor: "#fdfdfd",
+                  }}
                   placeholder="Add comment..."
                   onChangeText={props.handleChange("mycomment")}
                   value={props.values.mycomment}
-                  marginBottom={10}
                 />
                 <TouchableOpacity
-                  style={globalStyles.sendButton}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 10,
+                    backgroundColor: "#1aa7ec",
+                    borderRadius: 6,
+                  }}
                   onPress={props.handleSubmit}
                 >
                   <Text style={globalStyles.primaryButtonText}>Send</Text>
