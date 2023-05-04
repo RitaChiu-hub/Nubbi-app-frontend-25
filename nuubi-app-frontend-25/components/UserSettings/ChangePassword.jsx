@@ -20,7 +20,7 @@ export default function ChangePasswordScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Change password",
+      title: "Change Password",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -103,7 +103,6 @@ export default function ChangePasswordScreen({ navigation }) {
                 onChangeText={props.handleChange("password")}
                 value={props.values.password}
                 secureTextEntry={true}
-                marginBottom={10}
               />
               <Text
                 style={{
@@ -128,7 +127,6 @@ export default function ChangePasswordScreen({ navigation }) {
                 placeholder="Enter new password"
                 onChangeText={props.handleChange("passattempt1")}
                 value={props.values.passattempt1}
-                marginBottom={10}
               />
               <Text
                 style={{

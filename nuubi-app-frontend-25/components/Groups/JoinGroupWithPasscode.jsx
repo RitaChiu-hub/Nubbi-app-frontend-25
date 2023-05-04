@@ -25,14 +25,20 @@ export default function JoinGroupWithPasscode({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#fdfdfd",
+        alignItems: "center",
+      }}
+    >
       <View
         style={{
           marginVertical: 20,
-          flex: 1,
-          backgroundColor: "#fdfdfd",
-          alignItems: "center",
-          justifyContent: "center",
+          // flex: 1,
+          // backgroundColor: "#fdfdfd",
+          // alignItems: "center",
+          // justifyContent: "center",
         }}
       >
         <Formik
@@ -74,30 +80,63 @@ export default function JoinGroupWithPasscode({ navigation }) {
         >
           {(props) => (
             <View style={{ flex: 1, justifyContent: "flex-start" }}>
-              <Text>{error}</Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {error}
+              </Text>
               <Text>Passcode</Text>
               <TextInput
-                style={globalStyles.input}
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  padding: 10,
+                  fontSize: 18,
+                  borderRadius: 6,
+                  width: "100%",
+                  alignItems: "stretch",
+                  marginBottom: 5,
+                }}
                 placeholder="Enter passcode"
                 onChangeText={props.handleChange("passcode")}
                 value={props.values.passcode}
-                marginBottom={10}
               />
-              <Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
                 <ErrorMessage name="passcode" />
               </Text>
               <Text>Admin username</Text>
               <TextInput
-                style={globalStyles.input}
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  padding: 10,
+                  fontSize: 18,
+                  borderRadius: 6,
+                  width: "100%",
+                  alignItems: "stretch",
+                  marginBottom: 5,
+                }}
                 placeholder="Enter admin username"
                 onChangeText={props.handleChange("admin")}
                 value={props.values.admin}
-                marginBottom={10}
               />
-              <Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
                 <ErrorMessage name="admin" />
               </Text>
-
+              <View style={{ marginVertical: 5 }}></View>
               <TouchableOpacity
                 style={globalStyles.primaryButton}
                 onPress={props.handleSubmit}

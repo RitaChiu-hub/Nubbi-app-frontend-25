@@ -20,14 +20,24 @@ export default function DeleteAccountScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Delete account",
+      title: "Delete Account",
       headerTitleAlign: "center",
     });
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
-      <View>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#fdfdfd",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          marginTop: 20,
+        }}
+      >
         <Formik
           initialValues={{ passattempt: "" }}
           onSubmit={(values, actions) => {
@@ -69,17 +79,33 @@ export default function DeleteAccountScreen({ navigation }) {
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <View>
-              <Text>{error}</Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {error}
+              </Text>
               <Text>Please enter your password to verify your identity</Text>
               <TextInput
-                style={globalStyles.input}
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  padding: 10,
+                  fontSize: 18,
+                  borderRadius: 6,
+                  width: "100%",
+                  alignItems: "stretch",
+                  marginVertical: 5,
+                }}
                 placeholder="Enter password"
                 onChangeText={handleChange("passattempt")}
                 onBlur={handleBlur("passattempt")}
                 value={values.passattempt}
                 secureTextEntry={true}
-                marginBottom={10}
               />
+              <View style={{ marginVertical: 5 }}></View>
               <View>
                 <TouchableOpacity
                   style={globalStyles.primaryButton}

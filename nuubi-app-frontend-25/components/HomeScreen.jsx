@@ -118,7 +118,7 @@ export default function HomeScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "My groups",
+      title: "My Groups",
       headerTitleAlign: "center",
       headerRight: () => (
         <TouchableOpacity

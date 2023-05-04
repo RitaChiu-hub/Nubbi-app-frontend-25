@@ -31,7 +31,7 @@ export default function CreateGroupScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Create new group",
+      title: "Create New Group",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -87,7 +87,14 @@ export default function CreateGroupScreen({ navigation }) {
             <View>
               <View style={{ marginVertical: 5 }}></View>
               <View style={{ marginHorizontal: 30 }}>
-                <Text>{error}</Text>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
+                  {error}
+                </Text>
                 <View style={{ marginRight: -30 }}>
                   <Text>Group name</Text>
                   <TextInput
@@ -95,10 +102,15 @@ export default function CreateGroupScreen({ navigation }) {
                     placeholder="Enter group name"
                     onChangeText={props.handleChange("groupname")}
                     value={props.values.groupname}
-                    marginBottom={10}
                     onBlur={Keyboard.dismiss}
                   />
-                  <Text>
+                  <View style={{ marginVertical: 5 }}></View>
+                  <Text
+                    style={{
+                      color: "red",
+                      textAlign: "center",
+                    }}
+                  >
                     <ErrorMessage name="groupname" />
                   </Text>
                   <Text>Description</Text>
@@ -109,10 +121,15 @@ export default function CreateGroupScreen({ navigation }) {
                     placeholder="Enter description"
                     onChangeText={props.handleChange("description")}
                     value={props.values.description}
-                    marginBottom={10}
                     onBlur={Keyboard.dismiss}
                   />
-                  <Text>
+                  <View style={{ marginVertical: 5 }}></View>
+                  <Text
+                    style={{
+                      color: "red",
+                      textAlign: "center",
+                    }}
+                  >
                     <ErrorMessage name="description" />
                   </Text>
                   <Text>Visibility</Text>
