@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "nuubi-app",
-    "slug": "nuubi-app",
-    "version": "1.0.2",
+    "name": "Nuubi",
+    "slug": "Nuubi",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/nuubiIcon.png",
     "userInterfaceStyle": "light",
