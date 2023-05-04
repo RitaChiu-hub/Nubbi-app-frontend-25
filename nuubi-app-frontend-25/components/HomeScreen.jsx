@@ -103,9 +103,6 @@ export default function HomeScreen({ navigation }) {
         >
           {description}
         </Text>
-        {/* <Text style={{ paddingTop: 10, color: "#333" }}>
-					10 new notifications
-				</Text> */}
       </TouchableOpacity>
     </View>
   );
@@ -129,12 +126,16 @@ export default function HomeScreen({ navigation }) {
             setModalVisible(true);
           }}
         >
-          <Text style={{ color: "#228ee7", fontSize: 16 }}>New</Text>
+          <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
+            New
+          </Text>
         </TouchableOpacity>
       ),
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Text style={{ color: "#228ee7", fontSize: 16 }}>{myUsername}</Text>
+          <Text style={{ color: "#228ee7", fontSize: 16, paddingLeft: 10 }}>
+            {myUsername}
+          </Text>
         </TouchableOpacity>
       ),
     });
@@ -161,7 +162,6 @@ export default function HomeScreen({ navigation }) {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
             setModalVisible(false);
           }}
         >
@@ -202,7 +202,7 @@ export default function HomeScreen({ navigation }) {
                   Join group with passcode
                 </Text>
               </TouchableOpacity>
-
+              {/* 
               <TouchableOpacity
                 style={globalStyles.secondaryButton}
                 onPress={() => {
@@ -212,7 +212,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={globalStyles.secondaryButtonText}>
                   Take placement quiz
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               <View style={{ marginVertical: 10 }}></View>
 
@@ -230,9 +230,6 @@ export default function HomeScreen({ navigation }) {
           </View>
         </Modal>
       </View>
-      <TouchableOpacity style={globalStyles.secondaryButton} onPress={signOut}>
-        <Text style={globalStyles.secondaryButtonText}>Sign out</Text>
-      </TouchableOpacity>
     </View>
   );
 }

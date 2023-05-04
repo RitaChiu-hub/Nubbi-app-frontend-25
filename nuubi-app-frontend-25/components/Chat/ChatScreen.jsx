@@ -161,7 +161,9 @@ export default function ChatScreen({ navigation }) {
       headerTitleAlign: "center",
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate("PostScreen")}>
-          <Text style={{ color: "#228ee7", fontSize: 16 }}>Posts</Text>
+          <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
+            Posts
+          </Text>
         </TouchableOpacity>
       ),
     });

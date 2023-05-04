@@ -26,8 +26,19 @@ export default function ChangePasswordScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
-      <View>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#fdfdfd",
+        alignItems: "center",
+      }}
+    >
+      <View
+        style={{
+          backgroundColor: "#fdfdfd",
+          marginTop: 70,
+        }}
+      >
         <Formik
           initialValues={{ password: "", passattempt1: "", passattempt2: "" }}
           validationSchema={newPasswordSchema}
@@ -68,42 +79,91 @@ export default function ChangePasswordScreen({ navigation }) {
         >
           {(props) => (
             <View>
-              <Text>{error}</Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {error}
+              </Text>
               <Text>Current password</Text>
               <TextInput
-                style={globalStyles.input}
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  padding: 10,
+                  fontSize: 18,
+                  borderRadius: 6,
+                  width: "100%",
+                  alignItems: "stretch",
+                  marginBottom: 5,
+                }}
                 placeholder="Enter password"
                 onChangeText={props.handleChange("password")}
                 value={props.values.password}
                 secureTextEntry={true}
                 marginBottom={10}
               />
-              <Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
                 <ErrorMessage name="password" />
               </Text>
               <Text>New password</Text>
               <TextInput
-                style={globalStyles.input}
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  padding: 10,
+                  fontSize: 18,
+                  borderRadius: 6,
+                  width: "100%",
+                  alignItems: "stretch",
+                  marginBottom: 5,
+                }}
                 placeholder="Enter new password"
                 onChangeText={props.handleChange("passattempt1")}
                 value={props.values.passattempt1}
                 marginBottom={10}
               />
-              <Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
                 <ErrorMessage name="passattempt1" />
               </Text>
               <Text>New password</Text>
               <TextInput
-                style={globalStyles.input}
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  padding: 10,
+                  fontSize: 18,
+                  borderRadius: 6,
+                  width: "100%",
+                  alignItems: "stretch",
+                  marginBottom: 5,
+                }}
                 placeholder="Repeat new password"
                 onChangeText={props.handleChange("passattempt2")}
                 value={props.values.passattempt2}
                 marginBottom={10}
               />
-              <Text>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
                 <ErrorMessage name="passattempt2" />
               </Text>
-
+              <View style={{ marginVertical: 5 }}></View>
               <TouchableOpacity
                 style={globalStyles.primaryButton}
                 onPress={props.handleSubmit}

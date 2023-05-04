@@ -118,7 +118,9 @@ export default function PostScreen({ navigation }) {
       headerTitleAlign: "center",
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate("CreatePost")}>
-          <Text style={{ color: "#228ee7", fontSize: 16 }}>New</Text>
+          <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
+            New
+          </Text>
         </TouchableOpacity>
       ),
     });
