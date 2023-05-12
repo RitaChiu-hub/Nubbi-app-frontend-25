@@ -12,14 +12,10 @@ import { globalStyles } from "../../styles/global";
 const { formSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
-import { useHeaderHeight } from "@react-navigation/elements";
 
 export default function LoginScreen({ navigation }) {
   const { setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
-  const height = useHeaderHeight();
-
-  //const scrollViewRef = React.useRef();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({

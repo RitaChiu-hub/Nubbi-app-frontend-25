@@ -4,8 +4,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  StatusBar,
+  ScrollView,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
@@ -24,34 +23,29 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
   }, [navigation]);
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
+    <ScrollView
       style={{
-        flex: 1,
         backgroundColor: "#fdfdfd",
-        alignItems: "center",
       }}
     >
       <View
         style={{
-          marginTop: StatusBar.currentHeight || 15,
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 400,
         }}
       >
         <Text
           style={{
             color: "red",
             textAlign: "center",
+            marginTop: 20,
           }}
         >
           {error}
         </Text>
-
-        <View
-          style={{
-            backgroundColor: "#fdfdfd",
-            marginTop: 100,
-          }}
-        >
+        <View>
           <Formik
             initialValues={{ email: "" }}
             onSubmit={(values, actions) => {
@@ -94,8 +88,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           >
             {(props) => (
               <View>
-                <View style={{ marginVertical: -35 }}></View>
-
                 <Text>Email</Text>
                 <TextInput
                   style={{
@@ -125,9 +117,14 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               </View>
             )}
           </Formik>
+          {/* </View> */}
           <View style={{ marginVertical: 20 }}></View>
           <Formik
-            initialValues={{ passcode: "", passattempt1: "", passattempt2: "" }}
+            initialValues={{
+              passcode: "",
+              passattempt1: "",
+              passattempt2: "",
+            }}
             validationSchema={forgotPasswordSchema}
             onSubmit={(values, actions) => {
               const vals = { ...values };
@@ -238,7 +235,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 >
                   <ErrorMessage name="passattempt2" />
                 </Text>
-                <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
                     style={globalStyles.primaryButton}
@@ -254,6 +250,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           </Formik>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </ScrollView>
   );
 }

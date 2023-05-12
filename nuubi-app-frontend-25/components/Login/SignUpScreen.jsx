@@ -1,5 +1,11 @@
 import * as React from "react";
-import { TextInput, View, Text, TouchableOpacity } from "react-native";
+import {
+  TextInput,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 const { formSignupSchema } = require("../validationSchema");
@@ -18,8 +24,20 @@ export default function SignUpScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
-      <View style={globalStyles.innerContainer}>
+    <ScrollView
+      style={{
+        backgroundColor: "#fdfdfd",
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 20,
+          marginBottom: 400,
+        }}
+      >
         <Formik
           initialValues={{
             email: "",
@@ -203,6 +221,6 @@ export default function SignUpScreen({ navigation }) {
           )}
         </Formik>
       </View>
-    </View>
+    </ScrollView>
   );
 }
