@@ -235,6 +235,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 >
                   <ErrorMessage name="passattempt2" />
                 </Text>
+                <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
                     style={globalStyles.primaryButton}
