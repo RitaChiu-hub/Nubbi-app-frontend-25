@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { globalStyles } from "../../styles/global";
 
 export default function LearnMore7Screen({ navigation }) {
