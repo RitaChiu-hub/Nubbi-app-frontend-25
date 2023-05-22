@@ -89,8 +89,10 @@ export default function SettingsScreen({ navigation }) {
                   navigation.navigate("DeleteAccount");
                 }}
               >
-                <Text style={globalStyles.secondaryButtonText}>
-                  Yes!! Let me delete!!
+                <Text
+                  style={{ color: "red", fontSize: 18, fontWeight: "bold" }}
+                >
+                  Yes, I want to delete my account.
                 </Text>
               </TouchableOpacity>
             </View>

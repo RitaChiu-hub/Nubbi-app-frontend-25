@@ -2,9 +2,7 @@ import * as React from "react";
 import {
   Text,
   View,
-  SafeAreaView,
-  StyleSheet,
-  Button,
+  ScrollView,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -25,101 +23,117 @@ export default function DeleteAccountScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View
+    // <View
+    //   style={{
+    //     flex: 1,
+    //     backgroundColor: "#fdfdfd",
+    //     alignItems: "center",
+    //   }}
+    // >
+    <ScrollView
       style={{
-        flex: 1,
         backgroundColor: "#fdfdfd",
-        alignItems: "center",
       }}
     >
       <View
         style={{
-          marginTop: 20,
+          flex: 1,
+          backgroundColor: "#fdfdfd",
+          alignItems: "center",
+          justifyContent: "center",
+          // marginTop: 20,
+          // marginBottom: 50,
         }}
       >
-        <Formik
-          initialValues={{ passattempt: "" }}
-          onSubmit={(values, actions) => {
-            const vals = { ...values };
-            const passattempt = vals.passattempt;
-            actions.resetForm();
-            fetch(
-              "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
-              //  "http://localhost:8080/settings/delete",
-              {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, passattempt }),
-              }
-            )
-              .catch((err) => {
-                return;
-              })
-              .then((res) => {
-                if (!res || !res.ok || res.status >= 400) {
-                  return;
-                }
-                return res.json();
-              })
-              .then((data) => {
-                if (!data) return;
-                console.log(data);
-                setUser({ ...data });
-                if (data.status) {
-                  setError(data.status);
-                } else if (data.loggedIn) {
-                  SecureStore.deleteItemAsync("userToken");
-                  setUser({ loggedIn: false });
-                }
-              });
+        <View
+          style={{
+            margin: 20,
           }}
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <View>
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                {error}
-              </Text>
-              <Text>Please enter your password to verify your identity</Text>
-              <TextInput
-                style={{
-                  borderWidth: 1,
-                  borderColor: "#ddd",
-                  padding: 10,
-                  fontSize: 18,
-                  borderRadius: 6,
-                  width: "100%",
-                  alignItems: "stretch",
-                  marginVertical: 5,
-                }}
-                placeholder="Enter password"
-                onChangeText={handleChange("passattempt")}
-                onBlur={handleBlur("passattempt")}
-                value={values.passattempt}
-                secureTextEntry={true}
-              />
-              <View style={{ marginVertical: 5 }}></View>
+          <Formik
+            initialValues={{ passattempt: "" }}
+            onSubmit={(values, actions) => {
+              const vals = { ...values };
+              const passattempt = vals.passattempt;
+              actions.resetForm();
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
+                //  "http://localhost:8080/settings/delete",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, passattempt }),
+                }
+              )
+                .catch((err) => {
+                  return;
+                })
+                .then((res) => {
+                  if (!res || !res.ok || res.status >= 400) {
+                    return;
+                  }
+                  return res.json();
+                })
+                .then((data) => {
+                  if (!data) return;
+                  console.log(data);
+                  setUser({ ...data });
+                  if (data.status) {
+                    setError(data.status);
+                  } else if (data.loggedIn) {
+                    SecureStore.deleteItemAsync("userToken");
+                    setUser({ loggedIn: false });
+                  }
+                });
+            }}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values }) => (
               <View>
-                <TouchableOpacity
-                  style={globalStyles.primaryButton}
-                  onPress={handleSubmit}
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
                 >
-                  <Text style={globalStyles.primaryButtonText}>
-                    Delete account permanently {"&"} sign out
-                  </Text>
-                </TouchableOpacity>
+                  {error}
+                </Text>
+                <Text>Please enter your password to verify your identity</Text>
+                <TextInput
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginVertical: 5,
+                  }}
+                  placeholder="Enter password"
+                  onChangeText={handleChange("passattempt")}
+                  onBlur={handleBlur("passattempt")}
+                  value={values.passattempt}
+                  secureTextEntry={true}
+                />
+                <View style={{ marginVertical: 5 }}></View>
+                <View>
+                  <TouchableOpacity
+                    style={globalStyles.primaryButton}
+                    onPress={handleSubmit}
+                  >
+                    <Text style={globalStyles.primaryButtonText}>
+                      Delete account permanently {"&"} sign out
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          )}
-        </Formik>
+            )}
+          </Formik>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
