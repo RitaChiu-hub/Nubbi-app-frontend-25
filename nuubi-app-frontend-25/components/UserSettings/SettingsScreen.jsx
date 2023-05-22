@@ -90,7 +90,12 @@ export default function SettingsScreen({ navigation }) {
                 }}
               >
                 <Text
-                  style={{ color: "red", fontSize: 18, fontWeight: "bold" }}
+                  style={{
+                    color: "red",
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
                 >
                   Yes, I want to delete my account.
                 </Text>

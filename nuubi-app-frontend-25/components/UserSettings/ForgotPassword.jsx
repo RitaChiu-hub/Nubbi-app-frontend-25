@@ -70,7 +70,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           alignItems: "center",
           justifyContent: "center",
           marginTop: 20,
-          marginBottom: 50,
+          marginBottom: 400,
         }}
       >
         <View
