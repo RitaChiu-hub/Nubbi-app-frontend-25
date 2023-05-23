@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -171,9 +172,12 @@ export default function ViewPostScreen({ navigation }) {
     });
   }, [navigation]);
 
+  // const KeyboardBehavior = Platform.OS === "ios" ? "padding" : "false";
+  const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
+
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+      behavior={KeyboardBehavior}
       keyboardVerticalOffset={height}
       style={{
         flex: 1,
@@ -430,7 +434,6 @@ export default function ViewPostScreen({ navigation }) {
         style={{
           width: "100%",
           paddingBottom: 20,
-          //   backgroundColor: "#fdfdfd",
         }}
       >
         <Formik

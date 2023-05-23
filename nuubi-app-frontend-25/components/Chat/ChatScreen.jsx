@@ -1,15 +1,12 @@
 import * as React from "react";
 import {
-  Button,
   TextInput,
   View,
   Text,
-  Alert,
-  FlatList,
   TouchableOpacity,
-  Modal,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -169,9 +166,11 @@ export default function ChatScreen({ navigation }) {
     });
   }, [navigation, groupTitle]);
 
+  const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
+
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+      behavior={KeyboardBehavior}
       keyboardVerticalOffset={height}
       style={{
         flex: 1,
