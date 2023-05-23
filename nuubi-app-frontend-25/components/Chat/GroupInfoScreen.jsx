@@ -5,6 +5,7 @@ import {
   Modal,
   Alert,
   TouchableOpacity,
+  ScrollView,
   FlatList,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
@@ -208,8 +209,15 @@ export default function GroupInfoScreen({ navigation }) {
                     navigation.navigate("DeleteGroup");
                   }}
                 >
-                  <Text style={globalStyles.secondaryButtonText}>
-                    Yes!! Let me delete!!
+                  <Text
+                    style={{
+                      color: "red",
+                      fontSize: 18,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    Yes, I want to delete my account.
                   </Text>
                 </TouchableOpacity>
               </View>

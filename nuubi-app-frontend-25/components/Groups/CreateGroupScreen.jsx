@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Alert,
   Pressable,
+  ScrollView,
   Keyboard,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
@@ -38,151 +39,153 @@ export default function CreateGroupScreen({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <View style={globalStyles.innerContainer}>
-        <Formik
-          initialValues={{
-            groupname: "",
-            description: "",
-            visibility: "Private",
-          }}
-          validationSchema={createGroupSchema}
-          onSubmit={(values, actions) => {
-            const vals = { ...values };
-            const allvals = { ...values, privacySelection };
-            actions.resetForm();
-            fetch(
-              "https://coral-app-n96bn.ondigitalocean.app/groups/creategroup",
-              {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                //body: JSON.stringify({ ...user, ...vals }),
-                body: JSON.stringify({ ...user, ...allvals }),
-              }
-            )
-              .catch((err) => {
-                return;
-              })
-              .then((res) => {
-                if (!res || !res.ok || res.status >= 400) {
+      <ScrollView>
+        <View style={globalStyles.innerContainer}>
+          <Formik
+            initialValues={{
+              groupname: "",
+              description: "",
+              visibility: "Private",
+            }}
+            validationSchema={createGroupSchema}
+            onSubmit={(values, actions) => {
+              const vals = { ...values };
+              const allvals = { ...values, privacySelection };
+              actions.resetForm();
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/groups/creategroup",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  //body: JSON.stringify({ ...user, ...vals }),
+                  body: JSON.stringify({ ...user, ...allvals }),
+                }
+              )
+                .catch((err) => {
                   return;
-                }
-                return res.json();
-              })
-              .then((data) => {
-                if (!data) return;
-                console.log(data);
-                setUser({ ...data });
-                if (data.status) {
-                  setError(data.status);
-                } else if (data.loggedIn) {
-                  SecureStore.setItemAsync("token", data.token);
-                }
-              });
-          }}
-        >
-          {(props) => (
-            <View>
-              <View style={{ marginVertical: 5 }}></View>
-              <View style={{ marginHorizontal: 30 }}>
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  {error}
-                </Text>
-                <View style={{ marginRight: -30 }}>
-                  <Text>Group name</Text>
-                  <TextInput
-                    style={globalStyles.input}
-                    placeholder="Enter group name"
-                    onChangeText={props.handleChange("groupname")}
-                    value={props.values.groupname}
-                    onBlur={Keyboard.dismiss}
-                  />
-                  <View style={{ marginVertical: 5 }}></View>
+                })
+                .then((res) => {
+                  if (!res || !res.ok || res.status >= 400) {
+                    return;
+                  }
+                  return res.json();
+                })
+                .then((data) => {
+                  if (!data) return;
+                  console.log(data);
+                  setUser({ ...data });
+                  if (data.status) {
+                    setError(data.status);
+                  } else if (data.loggedIn) {
+                    SecureStore.setItemAsync("token", data.token);
+                  }
+                });
+            }}
+          >
+            {(props) => (
+              <View>
+                <View style={{ marginVertical: 5 }}></View>
+                <View style={{ marginHorizontal: 30 }}>
                   <Text
                     style={{
                       color: "red",
                       textAlign: "center",
                     }}
                   >
-                    <ErrorMessage name="groupname" />
+                    {error}
                   </Text>
-                  <Text>Description</Text>
-                  <TextInput
-                    // make the text box larger? Make sure it's maximum 255 characters.
-                    style={globalStyles.inputLarge}
-                    multiline={true}
-                    placeholder="Enter description"
-                    onChangeText={props.handleChange("description")}
-                    value={props.values.description}
-                    onBlur={Keyboard.dismiss}
-                  />
-                  <View style={{ marginVertical: 5 }}></View>
-                  <Text
-                    style={{
-                      color: "red",
-                      textAlign: "center",
-                    }}
-                  >
-                    <ErrorMessage name="description" />
-                  </Text>
-                  <Text>Visibility</Text>
-                  <View style={{ marginVertical: 5 }}></View>
-                  <View style={globalStyles.buttonContainer}>
-                    <View>
-                      <TouchableOpacity
-                        style={
-                          privacySelection === "Private"
-                            ? globalStyles.selected
-                            : globalStyles.unselected
-                        }
-                        onPress={() => {
-                          setPrivacySelection("Private");
-                        }}
-                      >
-                        <Text style={globalStyles.secondaryButtonText}>
-                          Private
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View>
-                      <TouchableOpacity
-                        style={
-                          privacySelection === "Public"
-                            ? globalStyles.selected
-                            : globalStyles.unselected
-                        }
-                        onPress={() => {
-                          setPrivacySelection("Public");
-                        }}
-                      >
-                        <Text style={globalStyles.secondaryButtonText}>
-                          Public
-                        </Text>
-                      </TouchableOpacity>
+                  <View style={{ marginRight: -30 }}>
+                    <Text>Group name</Text>
+                    <TextInput
+                      style={globalStyles.input}
+                      placeholder="Enter group name"
+                      onChangeText={props.handleChange("groupname")}
+                      value={props.values.groupname}
+                      onBlur={Keyboard.dismiss}
+                    />
+                    <View style={{ marginVertical: 5 }}></View>
+                    <Text
+                      style={{
+                        color: "red",
+                        textAlign: "center",
+                      }}
+                    >
+                      <ErrorMessage name="groupname" />
+                    </Text>
+                    <Text>Description</Text>
+                    <TextInput
+                      // make the text box larger? Make sure it's maximum 255 characters.
+                      style={globalStyles.inputLarge}
+                      multiline={true}
+                      placeholder="Enter description"
+                      onChangeText={props.handleChange("description")}
+                      value={props.values.description}
+                      onBlur={Keyboard.dismiss}
+                    />
+                    <View style={{ marginVertical: 5 }}></View>
+                    <Text
+                      style={{
+                        color: "red",
+                        textAlign: "center",
+                      }}
+                    >
+                      <ErrorMessage name="description" />
+                    </Text>
+                    <Text>Visibility</Text>
+                    <View style={{ marginVertical: 5 }}></View>
+                    <View style={globalStyles.buttonContainer}>
+                      <View>
+                        <TouchableOpacity
+                          style={
+                            privacySelection === "Private"
+                              ? globalStyles.selected
+                              : globalStyles.unselected
+                          }
+                          onPress={() => {
+                            setPrivacySelection("Private");
+                          }}
+                        >
+                          <Text style={globalStyles.secondaryButtonText}>
+                            Private
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View>
+                        <TouchableOpacity
+                          style={
+                            privacySelection === "Public"
+                              ? globalStyles.selected
+                              : globalStyles.unselected
+                          }
+                          onPress={() => {
+                            setPrivacySelection("Public");
+                          }}
+                        >
+                          <Text style={globalStyles.secondaryButtonText}>
+                            Public
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
+                  <View style={{ marginVertical: 10 }}></View>
+                  <TouchableOpacity
+                    style={globalStyles.primaryButton}
+                    onPress={props.handleSubmit}
+                  >
+                    <Text style={globalStyles.primaryButtonText}>
+                      Create Group
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-                <View style={{ marginVertical: 10 }}></View>
-                <TouchableOpacity
-                  style={globalStyles.primaryButton}
-                  onPress={props.handleSubmit}
-                >
-                  <Text style={globalStyles.primaryButtonText}>
-                    Create Group
-                  </Text>
-                </TouchableOpacity>
               </View>
-            </View>
-          )}
-        </Formik>
-      </View>
+            )}
+          </Formik>
+        </View>
+      </ScrollView>
     </View>
   );
 }
