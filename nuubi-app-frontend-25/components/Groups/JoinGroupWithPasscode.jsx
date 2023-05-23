@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -25,128 +26,130 @@ export default function JoinGroupWithPasscode({ navigation }) {
   }, [navigation]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#fdfdfd",
-        alignItems: "center",
-      }}
-    >
+    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
       <View
         style={{
-          marginVertical: 20,
-          // flex: 1,
-          // backgroundColor: "#fdfdfd",
-          // alignItems: "center",
-          // justifyContent: "center",
+          flex: 1,
+          backgroundColor: "#fdfdfd",
+          alignItems: "center",
         }}
       >
-        <Formik
-          initialValues={{ passcode: "", admin: "" }}
-          onSubmit={(values, actions) => {
-            const vals = { ...values };
-            actions.resetForm();
-            fetch(
-              `https://coral-app-n96bn.ondigitalocean.app/groups/joingroupwithpasscode`,
-              {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, ...vals }),
-              }
-            )
-              .catch((err) => {
-                return;
-              })
-              .then((res) => {
-                if (!res || !res.ok || res.status >= 400) {
-                  return;
-                }
-                return res.json();
-              })
-              .then((data) => {
-                if (!data) return;
-                console.log(data);
-                setUser({ ...data });
-                if (data.status) {
-                  setError(data.status);
-                } else if (data.loggedIn) {
-                  SecureStore.setItemAsync("token", data.token);
-                }
-              });
+        <View
+          style={{
+            marginVertical: 20,
+            // flex: 1,
+            // backgroundColor: "#fdfdfd",
+            // alignItems: "center",
+            // justifyContent: "center",
           }}
         >
-          {(props) => (
-            <View style={{ flex: 1, justifyContent: "flex-start" }}>
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                {error}
-              </Text>
-              <Text>Passcode</Text>
-              <TextInput
-                style={{
-                  borderWidth: 1,
-                  borderColor: "#ddd",
-                  padding: 10,
-                  fontSize: 18,
-                  borderRadius: 6,
-                  width: "100%",
-                  alignItems: "stretch",
-                  marginBottom: 5,
-                }}
-                placeholder="Enter passcode"
-                onChangeText={props.handleChange("passcode")}
-                value={props.values.passcode}
-              />
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                <ErrorMessage name="passcode" />
-              </Text>
-              <Text>Admin username</Text>
-              <TextInput
-                style={{
-                  borderWidth: 1,
-                  borderColor: "#ddd",
-                  padding: 10,
-                  fontSize: 18,
-                  borderRadius: 6,
-                  width: "100%",
-                  alignItems: "stretch",
-                  marginBottom: 5,
-                }}
-                placeholder="Enter admin username"
-                onChangeText={props.handleChange("admin")}
-                value={props.values.admin}
-              />
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                <ErrorMessage name="admin" />
-              </Text>
-              <View style={{ marginVertical: 5 }}></View>
-              <TouchableOpacity
-                style={globalStyles.primaryButton}
-                onPress={props.handleSubmit}
-              >
-                <Text style={globalStyles.primaryButtonText}>Join group</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </Formik>
+          <Formik
+            initialValues={{ passcode: "", admin: "" }}
+            onSubmit={(values, actions) => {
+              const vals = { ...values };
+              actions.resetForm();
+              fetch(
+                `https://coral-app-n96bn.ondigitalocean.app/groups/joingroupwithpasscode`,
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, ...vals }),
+                }
+              )
+                .catch((err) => {
+                  return;
+                })
+                .then((res) => {
+                  if (!res || !res.ok || res.status >= 400) {
+                    return;
+                  }
+                  return res.json();
+                })
+                .then((data) => {
+                  if (!data) return;
+                  console.log(data);
+                  setUser({ ...data });
+                  if (data.status) {
+                    setError(data.status);
+                  } else if (data.loggedIn) {
+                    SecureStore.setItemAsync("token", data.token);
+                  }
+                });
+            }}
+          >
+            {(props) => (
+              <View style={{ flex: 1, justifyContent: "flex-start" }}>
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
+                  {error}
+                </Text>
+                <Text>Passcode</Text>
+                <TextInput
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginBottom: 5,
+                  }}
+                  placeholder="Enter passcode"
+                  onChangeText={props.handleChange("passcode")}
+                  value={props.values.passcode}
+                />
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
+                  <ErrorMessage name="passcode" />
+                </Text>
+                <Text>Admin username</Text>
+                <TextInput
+                  style={{
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    padding: 10,
+                    fontSize: 18,
+                    borderRadius: 6,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginBottom: 5,
+                  }}
+                  placeholder="Enter admin username"
+                  onChangeText={props.handleChange("admin")}
+                  value={props.values.admin}
+                />
+                <Text
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                  }}
+                >
+                  <ErrorMessage name="admin" />
+                </Text>
+                <View style={{ marginVertical: 5 }}></View>
+                <TouchableOpacity
+                  style={globalStyles.primaryButton}
+                  onPress={props.handleSubmit}
+                >
+                  <Text style={globalStyles.primaryButtonText}>Join group</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </Formik>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }

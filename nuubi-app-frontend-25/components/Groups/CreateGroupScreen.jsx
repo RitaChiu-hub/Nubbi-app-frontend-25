@@ -10,6 +10,7 @@ import {
   Pressable,
   ScrollView,
   Keyboard,
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -38,9 +39,16 @@ export default function CreateGroupScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
-      <ScrollView>
-        <View style={globalStyles.innerContainer}>
+    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+      <View style={globalStyles.container}>
+        <View
+          style={{
+            flex: 1,
+            marginTop: 15,
+            alignItems: "center",
+            marginBottom: Platform.OS === "android" ? 100 : 400,
+          }}
+        >
           <Formik
             initialValues={{
               groupname: "",
@@ -185,7 +193,7 @@ export default function CreateGroupScreen({ navigation }) {
             )}
           </Formik>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }

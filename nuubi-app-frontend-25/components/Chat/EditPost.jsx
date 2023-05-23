@@ -10,6 +10,7 @@ import {
   Keyboard,
   StatusBar,
   ScrollView,
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -29,20 +30,21 @@ export default function EditPostScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#fdfdfd",
-        alignItems: "center",
-        paddingTop: 20,
-      }}
-    >
-      <ScrollView>
+    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#fdfdfd",
+          alignItems: "center",
+          paddingTop: 20,
+        }}
+      >
         <View
           style={{
             marginTop: StatusBar.currentHeight || 15,
             marginBottom: 10,
             minWidth: 300,
+            marginBottom: Platform.OS === "android" ? 100 : 400,
           }}
         >
           <Formik
@@ -161,7 +163,7 @@ export default function EditPostScreen({ navigation }) {
             )}
           </Formik>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }

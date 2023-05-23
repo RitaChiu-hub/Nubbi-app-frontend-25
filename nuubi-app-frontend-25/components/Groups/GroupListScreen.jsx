@@ -44,7 +44,8 @@ export default function GroupListScreen({ navigation }) {
   const Item = ({ title, description, id }) => (
     <View
       style={{
-        padding: 5,
+        paddingHorizontal: 5,
+        paddingTop: 10,
         backgroundColor: "#f1f1f1",
       }}
     >
@@ -53,7 +54,7 @@ export default function GroupListScreen({ navigation }) {
           paddingVertical: 10,
           paddingHorizontal: 10,
           width: "100%",
-          minWidth: 300,
+          minWidth: 200,
           borderWidth: 1,
           borderRadius: 6,
 
@@ -144,12 +145,11 @@ export default function GroupListScreen({ navigation }) {
     <View
       style={{
         flex: 1,
-        margin: 10,
+        marginHorizontal: 10,
       }}
     >
       <View
         style={{
-          backgroundColor: "#f1f1f1",
           width: "100%",
           marginBottom: 30,
         }}

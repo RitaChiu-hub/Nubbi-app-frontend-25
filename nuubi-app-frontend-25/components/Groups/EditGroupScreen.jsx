@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Keyboard,
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -36,9 +37,16 @@ export default function EditGroupScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={globalStyles.container}>
-      <ScrollView>
-        <View style={globalStyles.innerContainer}>
+    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+      <View style={globalStyles.container}>
+        <View
+          style={{
+            flex: 1,
+            marginTop: 15,
+            alignItems: "center",
+            marginBottom: Platform.OS === "android" ? 100 : 400,
+          }}
+        >
           <Formik
             initialValues={{
               groupname: user.groupName,
@@ -183,7 +191,7 @@ export default function EditGroupScreen({ navigation }) {
             )}
           </Formik>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
