@@ -143,7 +143,7 @@ export default function ChatScreen({ navigation }) {
             onPress={() => navigation.navigate("GroupInfo")}
           >
             <Text
-              //	numberOfLines={2}
+              // numberOfLines={2}
               style={{
                 fontWeight: "bold",
                 color: "#228ee7",
