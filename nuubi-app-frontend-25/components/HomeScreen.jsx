@@ -11,6 +11,7 @@ import { AccountContext } from "./AccountContext";
 import socket from "../socket";
 import { globalStyles } from "../styles/global";
 import * as SecureStore from "expo-secure-store";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -126,16 +127,29 @@ export default function HomeScreen({ navigation }) {
             setModalVisible(true);
           }}
         >
-          <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
+          <Text
+            style={{
+              color: "#228ee7",
+              fontSize: 18,
+              paddingRight: 10,
+            }}
+          >
             New
           </Text>
         </TouchableOpacity>
       ),
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Text style={{ color: "#228ee7", fontSize: 16, paddingLeft: 10 }}>
+          {/* <Text style={{ color: "#228ee7", fontSize: 16, paddingLeft: 10 }}>
             {myUsername}
-          </Text>
+          </Text> */}
+          {/* #4F8EF7 */}
+          <Icon
+            name="settings-outline"
+            size={30}
+            color="#228ee7"
+            style={{ paddingLeft: 10 }}
+          />
         </TouchableOpacity>
       ),
     });
