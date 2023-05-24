@@ -17,12 +17,14 @@ import socket from "../../socket";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/elements";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [chats, setChats] = React.useState([]);
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
+  const [adminId, setAdminId] = React.useState(null);
   const isFocused = useIsFocused();
   const [likes, setLikes] = React.useState([]);
   const [isChanged, setIsChanged] = React.useState(false);
@@ -45,6 +47,26 @@ export default function ChatScreen({ navigation }) {
       );
       const jsonData = await response.json();
       setGroupTitle(jsonData.groupname);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const getGroupInfo = async () => {
+    try {
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+      setAdminId(jsonData.admin_id);
     } catch (err) {
       console.error(err.message);
     }
@@ -122,6 +144,7 @@ export default function ChatScreen({ navigation }) {
     getLikes();
     getChats();
     getIsAdmin();
+    getGroupInfo();
   }, []);
 
   React.useEffect(() => {
@@ -146,7 +169,8 @@ export default function ChatScreen({ navigation }) {
               // numberOfLines={2}
               style={{
                 fontWeight: "bold",
-                color: "#228ee7",
+                // color: "#228ee7",
+                color: "#4F8EF7",
                 fontSize: 16,
               }}
             >
@@ -158,9 +182,21 @@ export default function ChatScreen({ navigation }) {
       headerTitleAlign: "center",
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate("PostScreen")}>
-          <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
+          <View style={{ flex: 1, justifyContent: "row" }}>
+            {/* <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
             Posts
-          </Text>
+          </Text> */}
+            <Icon name="forum-outline" size={30} color="#4F8EF7" />
+            {/* <Text
+              style={{
+                color: "#4F8EF7",
+                fontSize: 10,
+                textAlign: "center",
+              }}
+            >
+              Posts
+            </Text> */}
+          </View>
         </TouchableOpacity>
       ),
     });
@@ -204,7 +240,13 @@ export default function ChatScreen({ navigation }) {
                     alignItems: "center",
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", color: "#333" }}>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      color: "#0000cd",
+                      fontSize: 16,
+                    }}
+                  >
                     {chats.message_points}
                   </Text>
                   <TouchableOpacity
@@ -246,21 +288,24 @@ export default function ChatScreen({ navigation }) {
                         fontSize: 16,
                         fontWeight: "bold",
                         paddingBottom: 2,
+                        paddingRight: 2,
                       }}
                     >
                       +
                     </Text>
                   </TouchableOpacity>
-                  <Text style={{ fontWeight: "bold", color: "#333" }}>
+                  {/* <Text style={{ fontWeight: "bold", color: "#333" }}> */}
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      color: chats.user_id === adminId ? "purple" : "#333",
+                    }}
+                  >
                     {chats.sender_username}
                   </Text>
                   <View style={{ marginHorizontal: 2 }}></View>
                   <Text style={{ fontSize: 10, color: "grey" }}>
                     {moment(chats.iso_time_sent).calendar()}
-                    {/* {moment(chats.iso_time_sent)
-                      .utc()
-                      .utcOffset("-1400")
-                      .calendar()} */}
                   </Text>
                 </View>
                 <Text style={{ color: "#333" }}>{chats.text}</Text>

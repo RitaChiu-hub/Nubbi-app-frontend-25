@@ -18,7 +18,6 @@ export default function HomeScreen({ navigation }) {
   const [error, setError] = React.useState(null);
   const [groups, setGroups] = React.useState([]);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const myUsername = user.username;
 
   if (user.loggedIn === true) {
     React.useEffect(() => {
@@ -27,12 +26,6 @@ export default function HomeScreen({ navigation }) {
   } else {
     socket.disconnect();
   }
-
-  const signOut = () => {
-    SecureStore.deleteItemAsync("userToken");
-    setUser({ loggedIn: false });
-    socket.disconnect();
-  };
 
   const getGroups = async () => {
     try {
@@ -127,15 +120,6 @@ export default function HomeScreen({ navigation }) {
             setModalVisible(true);
           }}
         >
-          {/* <Text
-            style={{
-              color: "#228ee7",
-              fontSize: 18,
-              paddingRight: 10,
-            }}
-          >
-            New
-          </Text> */}
           <Icon
             name="add-circle-outline"
             size={30}
@@ -146,10 +130,6 @@ export default function HomeScreen({ navigation }) {
       ),
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          {/* <Text style={{ color: "#228ee7", fontSize: 16, paddingLeft: 10 }}>
-            {myUsername}
-          </Text> */}
-          {/* #4F8EF7 */}
           <Icon
             name="settings-outline"
             size={30}

@@ -13,6 +13,7 @@ const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/Entypo";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -118,9 +119,10 @@ export default function PostScreen({ navigation }) {
       headerTitleAlign: "center",
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate("CreatePost")}>
-          <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
+          {/* <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
             New
-          </Text>
+          </Text> */}
+          <Icon name="new-message" size={30} color="#4F8EF7" />
         </TouchableOpacity>
       ),
     });

@@ -29,7 +29,7 @@ export default function LoginScreen({ navigation }) {
       <ScrollView>
         <View style={globalStyles.innerContainer}>
           <Formik
-            initialValues={{ username: "Testuser6", password: "testpass" }}
+            initialValues={{ username: "Testuser", password: "testpass" }}
             //  initialValues={{ username: "", password: "" }}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {

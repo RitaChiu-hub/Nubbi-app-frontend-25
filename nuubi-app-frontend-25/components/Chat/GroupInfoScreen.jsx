@@ -5,7 +5,6 @@ import {
   Modal,
   Alert,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
