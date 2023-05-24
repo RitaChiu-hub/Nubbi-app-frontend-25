@@ -15,9 +15,7 @@ export default function App() {
       <StatusBar style="dark" />
       <UserContext>
         <FreshpaintNavigationContainer>
-          {/* <NavigationContainer> */}
           <Views />
-          {/* </NavigationContainer> */}
         </FreshpaintNavigationContainer>
       </UserContext>
     </Fragment>
