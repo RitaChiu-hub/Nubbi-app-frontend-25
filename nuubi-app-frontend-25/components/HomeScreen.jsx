@@ -127,7 +127,7 @@ export default function HomeScreen({ navigation }) {
             setModalVisible(true);
           }}
         >
-          <Text
+          {/* <Text
             style={{
               color: "#228ee7",
               fontSize: 18,
@@ -135,7 +135,13 @@ export default function HomeScreen({ navigation }) {
             }}
           >
             New
-          </Text>
+          </Text> */}
+          <Icon
+            name="add-circle-outline"
+            size={30}
+            color="#228ee7"
+            style={{ paddingRight: 10 }}
+          />
         </TouchableOpacity>
       ),
       headerLeft: () => (
