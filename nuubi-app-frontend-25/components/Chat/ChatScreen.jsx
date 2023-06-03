@@ -18,6 +18,7 @@ import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import FAIcon from "react-native-vector-icons/FontAwesome";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -183,19 +184,7 @@ export default function ChatScreen({ navigation }) {
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate("PostScreen")}>
           <View style={{ flex: 1, justifyContent: "row" }}>
-            {/* <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
-            Posts
-          </Text> */}
             <Icon name="forum-outline" size={30} color="#4F8EF7" />
-            {/* <Text
-              style={{
-                color: "#4F8EF7",
-                fontSize: 10,
-                textAlign: "center",
-              }}
-            >
-              Posts
-            </Text> */}
           </View>
         </TouchableOpacity>
       ),
@@ -333,42 +322,33 @@ export default function ChatScreen({ navigation }) {
           }}
         >
           {(props) => (
-            <View>
-              <View
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderWidth: 1,
+                borderColor: "#ddd",
+                borderRadius: 12,
+                marginHorizontal: 20,
+                paddingHorizontal: 10,
+              }}
+            >
+              <TextInput
                 style={{
-                  flexDirection: "row",
-                  paddingRight: 60,
-                  paddingLeft: 30,
+                  padding: 12,
+                  fontSize: 18,
+                  width: "90%",
+                  paddingTop: 12,
                 }}
-              >
-                <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    minWidth: "90%",
-                    maxWidth: "90%",
-                    alignItems: "stretch",
-                  }}
-                  placeholder="Send message..."
-                  onChangeText={props.handleChange("mymessage")}
-                  value={props.values.mymessage}
-                />
-                <TouchableOpacity
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: 10,
-                    backgroundColor: "#1aa7ec",
-                    borderRadius: 6,
-                  }}
-                  onPress={props.handleSubmit}
-                >
-                  <Text style={globalStyles.primaryButtonText}>Send</Text>
-                </TouchableOpacity>
-              </View>
+                placeholder="Send message..."
+                onChangeText={props.handleChange("mymessage")}
+                value={props.values.mymessage}
+                multiline={true}
+              />
+              <TouchableOpacity onPress={props.handleSubmit}>
+                <FAIcon name="send" size={30} color="#4F8EF7" />
+              </TouchableOpacity>
             </View>
           )}
         </Formik>
