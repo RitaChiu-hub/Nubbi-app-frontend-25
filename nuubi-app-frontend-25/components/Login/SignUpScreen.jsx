@@ -41,9 +41,8 @@ export default function SignUpScreen({ navigation }) {
         <Formik
           initialValues={{
             email: "",
-            username: "",
-            password: "",
-            password2: "",
+            password: "password",
+            password2: "password",
           }}
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
@@ -115,7 +114,7 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="email" />
                 </Text>
-                <Text>Username (you can change this later)</Text>
+                {/* <Text>Username (you can change this later)</Text>
                 <TextInput
                   style={{
                     borderWidth: 1,
@@ -139,7 +138,7 @@ export default function SignUpScreen({ navigation }) {
                   }}
                 >
                   <ErrorMessage name="username" />
-                </Text>
+                </Text> */}
                 <Text>Password</Text>
                 <TextInput
                   style={{

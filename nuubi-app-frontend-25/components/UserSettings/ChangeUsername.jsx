@@ -9,7 +9,7 @@ import {
 import * as SecureStore from "expo-secure-store";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
-const { formSchema, newPasswordSchema } = require("../validationSchema");
+const { changeUsernameSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
 
 export default function ChangeUsernameScreen({ navigation }) {
@@ -45,7 +45,7 @@ export default function ChangeUsernameScreen({ navigation }) {
         >
           <Formik
             initialValues={{ username: "", password: "" }}
-            validationSchema={formSchema}
+            validationSchema={changeUsernameSchema}
             onSubmit={(values, actions) => {
               const vals = { ...values };
               const newusername = vals.username;

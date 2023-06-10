@@ -5,18 +5,22 @@ const formSchema = Yup.object({
   password: Yup.string().required("Password required"),
 });
 
-const formSignupSchema = Yup.object({
-  email: Yup.string()
-    .required("Valid email required")
-    .email("Valid email required"),
+const changeUsernameSchema = Yup.object({
   username: Yup.string()
     .required("Username required")
-    .min(4, "Username must be at least 4 characters")
+    .min(3, "Username must be at least 3 characters")
     .max(12, "Username can be maximum 12 characters")
     .matches(
       /^[a-zA-Z0-9]+$/,
       "Username cannot contain white space or special characters"
     ),
+  password: Yup.string().required("Password required"),
+});
+
+const formSignupSchema = Yup.object({
+  email: Yup.string()
+    .required("Valid email required")
+    .email("Valid email required"),
   password: Yup.string()
     .required("Password required")
     .min(6, "Password must be at least 6 characters")
@@ -97,4 +101,5 @@ module.exports = {
   createGroupSchema,
   createPostSchema,
   addCommentSchema,
+  changeUsernameSchema,
 };
