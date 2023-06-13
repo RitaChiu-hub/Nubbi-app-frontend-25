@@ -39,17 +39,22 @@ export default function SignUpScreen({ navigation }) {
         }}
       >
         <Formik
+          // initialValues={{
+          //   email: "",
+          //   password: "password",
+          //   password2: "password",
+          // }}
           initialValues={{
             email: "",
-            password: "password",
-            password2: "password",
+            password: "",
+            password2: "",
           }}
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
             //actions.resetForm();
-            // fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
-            fetch("http://localhost:8080/auth/signup", {
+            fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
+              // fetch("http://localhost:8080/auth/signup", {
               method: "POST",
               credentials: "include",
               headers: {
