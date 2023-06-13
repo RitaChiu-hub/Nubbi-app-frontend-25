@@ -61,7 +61,6 @@ export default function SignUpScreen({ navigation }) {
                 return;
               })
               .then((res) => {
-                console.log("hmm");
                 if (!res || !res.ok || res.status >= 400) {
                   return;
                 }

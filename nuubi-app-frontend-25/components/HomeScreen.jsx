@@ -155,6 +155,46 @@ export default function HomeScreen({ navigation }) {
           keyExtractor={(item) => item.group_id}
         />
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={user.firstSignIn === true}
+        onRequestClose={() => {
+          setUser({
+            ...user,
+            firstSignIn: false,
+          });
+          console.log({ ...user });
+        }}
+      >
+        <View style={globalStyles.centeredView}>
+          <View style={globalStyles.modalView}>
+            <Text style={{ textAlign: "center", fontSize: 16 }}>
+              Welcome to Nuubi! Your username is {user.username}. If you'd like
+              to change it, you can do so by tapping the settings{" "}
+              <Icon
+                name="settings-outline"
+                size={18}
+                color="#228ee7"
+                style={{ paddingLeft: 10 }}
+              />{" "}
+              icon in the top left corner.
+            </Text>
+            <TouchableOpacity
+              style={globalStyles.secondaryButton}
+              onPress={() => {
+                setUser({
+                  ...user,
+                  firstSignIn: false,
+                });
+                console.log({ ...user });
+              }}
+            >
+              <Text style={globalStyles.secondaryButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       <View style={globalStyles.bottomView}>
         <Modal
@@ -202,18 +242,6 @@ export default function HomeScreen({ navigation }) {
                   Join group with passcode
                 </Text>
               </TouchableOpacity>
-              {/* 
-              <TouchableOpacity
-                style={globalStyles.secondaryButton}
-                onPress={() => {
-                  Alert.alert("Coming soon!");
-                }}
-              >
-                <Text style={globalStyles.secondaryButtonText}>
-                  Take placement quiz
-                </Text>
-              </TouchableOpacity> */}
-
               <View style={{ marginVertical: 10 }}></View>
 
               <TouchableOpacity
