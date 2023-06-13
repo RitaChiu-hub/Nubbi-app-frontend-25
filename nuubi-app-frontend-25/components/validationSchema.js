@@ -9,7 +9,7 @@ const changeUsernameSchema = Yup.object({
   username: Yup.string()
     .required("Username required")
     .min(3, "Username must be at least 3 characters")
-    .max(12, "Username can be maximum 12 characters")
+    .max(28, "Username can be maximum 28 characters")
     .matches(
       /^[a-zA-Z0-9]+$/,
       "Username cannot contain white space or special characters"
@@ -24,7 +24,7 @@ const formSignupSchema = Yup.object({
   password: Yup.string()
     .required("Password required")
     .min(6, "Password must be at least 6 characters")
-    .max(28, "Password too long!"),
+    .max(28, "Password can be 28 characters maximum"),
   password2: Yup.string()
     .required("Password required")
     .oneOf([Yup.ref("password"), null], "Passwords must match"),
@@ -34,12 +34,12 @@ const newPasswordSchema = Yup.object({
   password: Yup.string().required("Password required"),
   passattempt1: Yup.string()
     .required("Password required")
-    .min(6, "Password too short")
-    .max(28, "Password too long!"),
+    .min(6, "Password must be at least 6 characters")
+    .max(28, "Password can be 28 characters maximum"),
   passattempt2: Yup.string()
     .required("Password required")
-    .min(6, "Password too short")
-    .max(28, "Password too long!")
+    .min(6, "Password must be at least 6 characters")
+    .max(28, "Password can be 28 characters maximum")
     .oneOf([Yup.ref("passattempt1"), null], "Passwords don't match!"),
 });
 

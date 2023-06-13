@@ -47,8 +47,9 @@ export default function SignUpScreen({ navigation }) {
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
             const vals = { ...values };
-            actions.resetForm();
-            fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
+            //actions.resetForm();
+            // fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
+            fetch("http://localhost:8080/auth/signup", {
               method: "POST",
               credentials: "include",
               headers: {
@@ -60,6 +61,7 @@ export default function SignUpScreen({ navigation }) {
                 return;
               })
               .then((res) => {
+                console.log("hmm");
                 if (!res || !res.ok || res.status >= 400) {
                   return;
                 }
