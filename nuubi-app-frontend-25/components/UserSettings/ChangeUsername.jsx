@@ -36,6 +36,7 @@ export default function ChangeUsernameScreen({ navigation }) {
           alignItems: "center",
           justifyContent: "center",
           marginVertical: 50,
+          marginHorizontal: 20,
         }}
       >
         <View
@@ -43,6 +44,14 @@ export default function ChangeUsernameScreen({ navigation }) {
             backgroundColor: "#fdfdfd",
           }}
         >
+          <Text style={{ textAlign: "center", fontSize: 16 }}>
+            Your current username is {user.username}.
+          </Text>
+          <View style={{ marginVertical: 10 }}></View>
+          <Text style={{ fontSize: 14 }}>Your new username must have: </Text>
+          <Text> {"\u2022"} 3 characters minimum </Text>
+          <Text> {"\u2022"} 28 characters maximum </Text>
+          <Text> {"\u2022"} no whitespace or special characters</Text>
           <Formik
             initialValues={{ username: "", password: "" }}
             validationSchema={changeUsernameSchema}
