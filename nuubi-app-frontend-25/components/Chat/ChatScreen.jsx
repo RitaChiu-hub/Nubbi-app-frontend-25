@@ -42,6 +42,11 @@ export default function ChatScreen({ navigation }) {
   const [imageExample, setImageExample] = React.useState(null);
   const [myBinary, setMyBinary] = React.useState(null);
 
+  const cloudName = "dvvdc9evd";
+  const apiKey = "971765162862783";
+  const uploadPreset = "YOUR_UPLOAD_PRESET";
+  const cloudinaryBaseUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+
   const scrollViewRef = React.useRef();
 
   pickImage = async () => {
@@ -468,5 +473,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     padding: 10,
+  },
+  readyText: {
+    marginTop: 20,
+    textAlign: "center",
+  },
+  image: {
+    width: 300,
+    height: 300,
   },
 });
