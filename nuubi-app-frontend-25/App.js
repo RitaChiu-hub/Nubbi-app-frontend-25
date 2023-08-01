@@ -12,7 +12,10 @@ import { StatusBar } from "expo-status-bar";
 
 const linking = {
   config: {
-    screens: {},
+    screens: {
+      Signin: "Splash",
+      HomeStack: "Home",
+    },
   },
 };
 

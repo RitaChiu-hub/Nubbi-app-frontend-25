@@ -137,7 +137,7 @@ export default function Views() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {user.loggedIn == false ? (
         <Stack.Screen
-          name="Sign in"
+          name="Signin"
           component={AuthStack}
           options={{
             title: "Log in",
