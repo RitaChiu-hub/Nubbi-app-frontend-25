@@ -58,7 +58,13 @@ export default function SplashScreen({ navigation }) {
         style={globalStyles.secondaryButton}
         onPress={() => navigation.navigate("LearnMore1")}
       >
-        <Text style={globalStyles.secondaryButtonText}>Learn more</Text>
+        <Text style={globalStyles.secondaryButtonText}>Learn More</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={globalStyles.secondaryButton}
+        onPress={() => navigation.navigate("PrivacyScreen")}
+      >
+        <Text style={globalStyles.secondaryButtonText}>Privacy Policy</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
