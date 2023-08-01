@@ -5,12 +5,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import UserContext from "./components/AccountContext";
 import { Fragment } from "react";
 import { StatusBar } from "expo-status-bar";
+import * as Linking from "expo-linking";
 
 //Freshpaint.init("e1f8844c-e8e6-4bba-81b8-9873888789b1");
 // const FreshpaintNavigationContainer =
 //   Freshpaint.withReactNavigationAutotrack(NavigationContainer);
 
-const linking = {
+export const linking = {
+  prefixes: [Linking.createURL("/")],
   config: {
     screens: {
       Signin: "Splash",
