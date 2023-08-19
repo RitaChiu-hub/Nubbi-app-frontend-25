@@ -16,6 +16,7 @@ import ChangeUsernameScreen from "./UserSettings/ChangeUsername";
 import ChangePasswordScreen from "./UserSettings/ChangePassword";
 import ForgotPasswordScreen from "./UserSettings/ForgotPassword";
 import ForgotPasswordLoggedOut from "./UserSettings/ForgotPasswordLoggedOut";
+import HelpScreen from "./Onboarding/HelpPage";
 
 import CreateGroupScreen from "./Groups/CreateGroupScreen";
 import EditGroupScreen from "./Groups/EditGroupScreen";
@@ -55,6 +56,13 @@ function HomeStack() {
         component={HomeScreen}
         options={{ title: "Home" }}
       />
+
+      <StackHome.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{ title: "Nuubi How-To" }}
+      />
+
       <StackHome.Screen
         name="ForgotPasswordLoggedIn"
         component={ForgotPasswordScreen}
@@ -123,6 +131,11 @@ function AuthStack() {
       <StackAuth.Screen name="LearnMore4" component={LearnMore4Screen} />
       <StackAuth.Screen name="LearnMore7" component={LearnMore7Screen} />
       <StackAuth.Screen name="PrivacyScreen" component={PrivacyScreen} />
+      <StackAuth.Screen
+        name="HelpLoggedOut"
+        component={HelpScreen}
+        options={{ title: "Nuubi How-To" }}
+      />
     </StackAuth.Navigator>
   );
 }

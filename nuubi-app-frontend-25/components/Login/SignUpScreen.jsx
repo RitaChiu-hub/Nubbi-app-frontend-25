@@ -107,7 +107,7 @@ export default function SignUpScreen({ navigation }) {
                     alignItems: "stretch",
                     marginVertical: 5,
                   }}
-                  placeholder="Enter email"
+                  placeholder="Enter school email (me@school.edu)"
                   onChangeText={props.handleChange("email")}
                   value={props.values.email}
                   marginBottom={10}
@@ -198,6 +198,7 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="password2" />
                 </Text>
+
                 <View style={{ marginVertical: 5 }}></View>
                 <View style={globalStyles.buttonContainer}>
                   <View>

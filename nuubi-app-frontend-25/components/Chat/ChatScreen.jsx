@@ -186,7 +186,7 @@ export default function ChatScreen({ navigation }) {
       setChats(jsonData);
       getChats();
     });
-  }, []);
+  }, [chats]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
