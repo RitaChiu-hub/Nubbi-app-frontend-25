@@ -85,6 +85,42 @@ export default function HelpScreen({ navigation }) {
           6. Go back to the home screen. Now you can see the group.
         </Text>
         <Text style={styles.text}>7. Click on the group to view it.</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/plusIcon.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/joinPrivate.png")}
+            resizeMode="center"
+          />
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/joinPrivate2.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/myGroup.png")}
+            resizeMode="center"
+          />
+        </View>
 
         <Text style={styles.header}>
           3. How do I invite someone to my private group?
