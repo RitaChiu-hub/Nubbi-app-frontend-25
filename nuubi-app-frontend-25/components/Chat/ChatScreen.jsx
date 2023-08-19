@@ -22,7 +22,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import * as ImagePicker from "expo-image-picker";
+// import * as ImagePicker from "expo-image-picker";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -49,22 +49,22 @@ export default function ChatScreen({ navigation }) {
 
   const scrollViewRef = React.useRef();
 
-  pickImage = async () => {
-    let response = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-      base64: true,
-    });
-    if (!response.canceled) {
-      // console.log("response was NOT canceled!!! :" + response.assets[0].uri);
-      setImage(response.assets[0].uri);
-      setImageSource(response.assets[0].uri);
-      setBase64(response.assets[0].base64);
-      // setMyBinary(binEncode(response.assets[0].base64));
-    }
-  };
+  // pickImage = async () => {
+  //   let response = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [1, 1],
+  //     quality: 1,
+  //     base64: true,
+  //   });
+  //   if (!response.canceled) {
+  //     // console.log("response was NOT canceled!!! :" + response.assets[0].uri);
+  //     setImage(response.assets[0].uri);
+  //     setImageSource(response.assets[0].uri);
+  //     setBase64(response.assets[0].base64);
+  //     // setMyBinary(binEncode(response.assets[0].base64));
+  //   }
+  // };
 
   const getGroupName = async () => {
     try {
@@ -406,13 +406,13 @@ export default function ChatScreen({ navigation }) {
                     value={props.values.mymessage}
                     multiline={true}
                   />
-                  <TouchableOpacity onPress={pickImage}>
+                  {/* <TouchableOpacity onPress={pickImage}>
                     <MaterialIcon
                       name="add-a-photo"
                       size={30}
                       color="#4F8EF7"
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <View style={{ padding: 5 }}></View>
                   <TouchableOpacity onPress={props.handleSubmit}>
                     <FAIcon name="send" size={30} color="#4F8EF7" />

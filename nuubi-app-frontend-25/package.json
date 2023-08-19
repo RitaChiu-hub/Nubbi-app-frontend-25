@@ -34,12 +34,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.10",
     "socket.io-client": "^4.6.1",
-<<<<<<< HEAD
-    "yup": "^1.0.2",
-    "expo-image-picker": "~14.1.1"
-=======
     "yup": "^1.0.2"
->>>>>>> f002867 (removed freshpaint and linking)
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
