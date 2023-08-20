@@ -174,9 +174,14 @@ export default function HomeScreen({ navigation }) {
       >
         <View style={globalStyles.centeredView}>
           <View style={globalStyles.modalView}>
-            <Text style={{ textAlign: "center", fontSize: 16 }}>
-              Welcome to Nuubi! Your username is {user.username}. If you'd like
-              to change it, you can do so by tapping the settings{" "}
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 16,
+              }}
+            >
+              Welcome to Nuubi! Your username is {user.username}. To change it,
+              tap the settings{" "}
               <Icon
                 name="settings-outline"
                 size={18}
@@ -185,6 +190,18 @@ export default function HomeScreen({ navigation }) {
               />{" "}
               icon in the top left corner.
             </Text>
+            <View style={{ paddingVertical: 10 }}></View>
+            <Text style={{ textAlign: "center", fontSize: 16 }}>
+              Questions? Tap the{" "}
+              <Icon
+                name="help-circle-outline"
+                size={18}
+                color="#228ee7"
+                style={{ paddingLeft: 10 }}
+              />{" "}
+              icon in the top right corner.
+            </Text>
+            <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
               style={globalStyles.secondaryButton}
               onPress={() => {
