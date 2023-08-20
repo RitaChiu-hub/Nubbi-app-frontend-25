@@ -33,6 +33,7 @@ export default function HelpScreen({ navigation }) {
           //  alignItems: "center",
           justifyContent: "space-between",
           backgroundColor: "#fdfdfd",
+          paddingBottom: 100,
         }}
       >
         <Text style={styles.header}>0. Where can I find Nuubi? </Text>
@@ -148,21 +149,52 @@ export default function HelpScreen({ navigation }) {
           a group.
         </Text>
 
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/myGroup.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/groupInfo.png")}
+            resizeMode="center"
+          />
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.5,
+              height: dimensions.height * 0.5,
+            }}
+            source={require("../../assets/helpScreen/passcodeAdmin.png")}
+            resizeMode="center"
+          />
+        </View>
+
         <Text style={styles.header}>
           5. How do I see the points of each member in a group?
         </Text>
         <Text style={styles.text}>
-          The group info screen has a list of members in the group, along with
-          the amount of points each user has in that group.
+          Navigate to the group info screen {"("}#4 Steps 1 & 2{")"} to see a
+          list of members in the group, along with the amount of points each
+          user has in that group.
         </Text>
 
         <Text style={styles.header}>
           6. How do I edit my group information, where I'm the admin?
         </Text>
         <Text style={styles.text}>
-          At the bottom of the group list info screen, there is an Edit button
-          (only visible to Admin). Click this button to change the group info
-          and/or visibility.
+          Navigate to the group info screen {"("}#4 Steps 1 & 2{")"}. At the
+          bottom, there is an Edit button
+          {"("}only visible to Admin{")"}. Click this button to change the group
+          info and/or visibility.
         </Text>
 
         <Text style={styles.header}>7. How do I create my own group? </Text>
@@ -175,6 +207,43 @@ export default function HelpScreen({ navigation }) {
           or public. It’s private by default. You can edit these later. Then
           click “Create Group”
         </Text>
+
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/plusIcon.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/newGroup.png")}
+            resizeMode="center"
+          />
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/newGroup2.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/myGroup.png")}
+            resizeMode="center"
+          />
+        </View>
 
         <Text style={styles.header}>
           8. How do I find the Posts Screen {"("}for posts and discussion
@@ -189,6 +258,35 @@ export default function HelpScreen({ navigation }) {
           corner at the top of the page. This will bring you to the posts
           screen.
         </Text>
+
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/myGroup.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/postsIcon.png")}
+            resizeMode="center"
+          />
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.5,
+              height: dimensions.height * 0.5,
+            }}
+            source={require("../../assets/helpScreen/postsPage.png")}
+            resizeMode="center"
+          />
+        </View>
 
         <Text style={styles.header}>9. How do I add a discussion post? </Text>
         <Text style={styles.text}>
@@ -207,6 +305,35 @@ export default function HelpScreen({ navigation }) {
           there.
         </Text>
 
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/newPostIcon.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/createPost.png")}
+            resizeMode="center"
+          />
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.5,
+              height: dimensions.height * 0.5,
+            }}
+            source={require("../../assets/helpScreen/postsPage.png")}
+            resizeMode="center"
+          />
+        </View>
+
         <Text style={styles.header}>
           10. How do I answer a discussion post?
         </Text>
@@ -221,6 +348,25 @@ export default function HelpScreen({ navigation }) {
           click the submission button.
         </Text>
 
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/clickPost.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/answerPost.png")}
+            resizeMode="center"
+          />
+        </View>
+
         <Text style={styles.header}>11. How do I change my settings?</Text>
         <Text style={styles.text}>
           1. From the home screen, click on the gear icon in the upper left
@@ -231,8 +377,27 @@ export default function HelpScreen({ navigation }) {
           username and password.
         </Text>
 
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/settings.png")}
+            resizeMode="center"
+          />
+          <Image
+            style={{
+              width: dimensions.width * 0.45,
+              height: dimensions.height * 0.45,
+            }}
+            source={require("../../assets/helpScreen/viewSettings.png")}
+            resizeMode="center"
+          />
+        </View>
+
         <Text style={styles.header}>
-          12. How do I get more help if I have more questions?
+          12. How do I get help if I have more questions?
         </Text>
         <Text style={styles.text}>
           Email support@nuubi.app and we'll get back to you by the end of the
@@ -246,14 +411,16 @@ export default function HelpScreen({ navigation }) {
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
-    color: "#333",
+    color: "#4d4d4d",
     paddingTop: 10,
     marginLeft: 15,
     marginRight: 25,
+    fontFamily: "Futura",
   },
   indentText: {
     fontSize: 18,
-    color: "#333",
+    color: "#4d4d4d",
+    fontFamily: "Futura",
     paddingTop: 10,
     marginLeft: 15,
     marginRight: 25,
