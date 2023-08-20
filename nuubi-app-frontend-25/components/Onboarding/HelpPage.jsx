@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  Math,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 
