@@ -164,7 +164,7 @@ export default function CreatePostScreen({ navigation }) {
                       padding: 10,
                       fontSize: 18,
                       width: "100%",
-                      height: 250,
+                      height: 350,
                       alignItems: "stretch",
                       textAlignVertical: "top",
                       marginBottom: 5,
@@ -175,16 +175,6 @@ export default function CreatePostScreen({ navigation }) {
                     value={props.values.body_text}
                     onBlur={Keyboard.dismiss}
                   />
-                  {pickedImage && (
-                    <Image
-                      source={{ uri: pickedImage.uri }}
-                      style={styles.ImageContainer}
-                    />
-                  )}
-
-                  {pickedImage === null ? (
-                    <Button title="Pick Image" onPress={pickImage} />
-                  ) : null}
                 </View>
                 <Text
                   style={{
@@ -203,9 +193,6 @@ export default function CreatePostScreen({ navigation }) {
                     Create Post
                   </Text>
                 </TouchableOpacity>
-                {pickedImage !== null ? (
-                  <Button title="Clear Selected Image" onPress={resetApp} />
-                ) : null}
               </View>
             )}
           </Formik>
