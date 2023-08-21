@@ -47,14 +47,20 @@ export default function HelpScreen({ navigation }) {
         <Text style={styles.text}>
           3. Set a password, and then click “Sign up”
         </Text>
-        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: "100%",
+          }}
+        >
           <Image
             style={{
               width: dimensions.width * 0.45,
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/signup.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -62,7 +68,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/signup2.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
         <Text style={styles.header}>2. How do I join a private group? </Text>
@@ -92,7 +98,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/plusIcon.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -100,7 +106,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/joinPrivate.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -110,7 +116,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/joinPrivate2.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -118,7 +124,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/myGroup.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
 
@@ -155,7 +161,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/myGroup.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -163,7 +169,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/groupInfo.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -173,7 +179,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.5,
             }}
             source={require("../../assets/helpScreen/passcodeAdmin.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
 
@@ -214,7 +220,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/plusIcon.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -222,7 +228,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/newGroup.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -232,7 +238,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/newGroup2.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -240,7 +246,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/myGroup.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
 
@@ -265,7 +271,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/myGroup.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -273,7 +279,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/postsIcon.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -283,7 +289,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.5,
             }}
             source={require("../../assets/helpScreen/postsPage.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
 
@@ -311,7 +317,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/newPostIcon.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -319,7 +325,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/createPost.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -329,7 +335,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.5,
             }}
             source={require("../../assets/helpScreen/postsPage.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
 
@@ -354,7 +360,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/clickPost.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -362,7 +368,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/answerPost.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
 
@@ -383,7 +389,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/settings.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
           <Image
             style={{
@@ -391,7 +397,7 @@ export default function HelpScreen({ navigation }) {
               height: dimensions.height * 0.45,
             }}
             source={require("../../assets/helpScreen/viewSettings.png")}
-            resizeMode="center"
+            resizeMode="contain"
           />
         </View>
 
