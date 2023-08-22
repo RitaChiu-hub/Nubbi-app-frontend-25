@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.kittykat.nuubiapp",
-      "versionCode": 1217
+      "versionCode": 1218
     },
     "web": {
       "favicon": "./assets/favicon.png"
