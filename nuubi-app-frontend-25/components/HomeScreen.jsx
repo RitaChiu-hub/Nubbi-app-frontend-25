@@ -181,25 +181,25 @@ export default function HomeScreen({ navigation }) {
               }}
             >
               Welcome to Nuubi! Your username is {user.username}. To change it,
-              tap the settings{" "}
+              tap the settings icon{" "}
               <Icon
                 name="settings-outline"
                 size={18}
                 color="#228ee7"
-                style={{ paddingLeft: 10 }}
+                // style={{ paddingLeft: 10 }}
               />{" "}
-              icon in the top left corner.
+              in the top left corner.
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <Text style={{ textAlign: "center", fontSize: 16 }}>
-              Questions? Tap the{" "}
+              Questions? Tap the help icon{" "}
               <Icon
                 name="help-circle-outline"
                 size={18}
                 color="#228ee7"
-                style={{ paddingLeft: 10 }}
+                // style={{ paddingLeft: 10 }}
               />{" "}
-              icon in the top right corner.
+              in the top right corner.
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
