@@ -33,6 +33,7 @@ export default function LoginScreen({ navigation }) {
             initialValues={{ username: "", password: "" }}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {
+              values.username = values.username.trim();
               const vals = { ...values };
               actions.resetForm();
               fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {

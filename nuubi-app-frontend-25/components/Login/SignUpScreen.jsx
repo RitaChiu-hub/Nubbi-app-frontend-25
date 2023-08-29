@@ -51,8 +51,9 @@ export default function SignUpScreen({ navigation }) {
           }}
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
+            values.email = values.email.trim();
             const vals = { ...values };
-            //actions.resetForm();
+            actions.resetForm();
             fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
               // fetch("http://localhost:8080/auth/signup", {
               method: "POST",
@@ -199,6 +200,22 @@ export default function SignUpScreen({ navigation }) {
                   <ErrorMessage name="password2" />
                 </Text>
 
+                <View
+                  style={{
+                    padding: 10,
+                    fontSize: 18,
+                    width: "100%",
+                    alignItems: "stretch",
+                    marginBottom: 5,
+                  }}
+                >
+                  <Text>Password must contain: </Text>
+                  <Text>• 8 to 28 characters</Text>
+                  <Text>• At least one lowercase letter</Text>
+                  <Text>• At least one uppercase letter</Text>
+                  <Text>• At least one number</Text>
+                  <Text>• At least one special character</Text>
+                </View>
                 <View style={{ marginVertical: 5 }}></View>
                 <View style={globalStyles.buttonContainer}>
                   <View>

@@ -1,7 +1,9 @@
 const Yup = require("yup");
+import YupPassword from "yup-password";
+YupPassword(Yup);
 
 const formSchema = Yup.object({
-  username: Yup.string().required("Username or email required"),
+  username: Yup.string().trim().required("Username or email required"),
   password: Yup.string().required("Password required"),
 });
 
@@ -20,13 +22,20 @@ const changeUsernameSchema = Yup.object({
 const formSignupSchema = Yup.object({
   email: Yup.string()
     .required("Valid email required")
+    .trim()
     .email("Valid email required"),
   password: Yup.string()
     .required("Password required")
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,28})/,
-      "Must Contain 8 to 28 Characters, One Uppercase, One Lowercase, One Number and One Special Character"
-    ),
+    .min(8, "password must contain at least 8 characters")
+    .max(28, "Password can be a maximum of 28 characters")
+    .minLowercase(1, "password must contain at least 1 lower case letter")
+    .minUppercase(1, "password must contain at least 1 upper case letter")
+    .minNumbers(1, "password must contain at least 1 number")
+    .minSymbols(1, "password must contain at least 1 special character"),
+  // .matches(
+  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,28})/,
+  //   "Must Contain 8 to 28 Characters, One Uppercase, One Lowercase, One Number and One Special Character"
+  // ),
   password2: Yup.string()
     .required("Password required")
     .oneOf([Yup.ref("password"), null], "Passwords must match"),
