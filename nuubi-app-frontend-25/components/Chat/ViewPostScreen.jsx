@@ -282,6 +282,18 @@ export default function ViewPostScreen({ navigation }) {
                 {/* {user.post_author}: {user.post_body} */}
                 {postInfo.post_author}: {postInfo.body_text}
               </Text>
+
+              {/* add image here, if one exists */}
+              {/* <View style={styles.ImageContainer}>
+                    {imageUploadInfo === null ? (
+                      <Text>Uploaded photo will appear here</Text>
+                    ) : (
+                      <Image
+                        style={styles.ImageContainer}
+                        source={{ uri: imageUploadInfo.secure_url }}
+                      />
+                    )}
+                  </View> */}
             </View>
             <View
               style={{
