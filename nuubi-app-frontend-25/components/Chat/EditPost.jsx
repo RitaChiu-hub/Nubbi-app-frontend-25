@@ -115,11 +115,8 @@ export default function EditPostScreen({ navigation }) {
                   .then(async (r) => {
                     let data = await r.json();
                     setImageUploadInfo({ ...data });
-                    console.log("Hi from upload function ");
                     let uploadUrl = data["secure_url"];
-
                     const vals = { ...values, imageUrl: uploadUrl };
-
                     fetch(
                       `https://coral-app-n96bn.ondigitalocean.app/groups/editpost`,
 

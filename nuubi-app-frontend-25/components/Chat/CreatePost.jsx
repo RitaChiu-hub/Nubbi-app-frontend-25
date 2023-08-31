@@ -103,12 +103,8 @@ export default function CreatePostScreen({ navigation }) {
                   .then(async (r) => {
                     let data = await r.json();
                     setImageUploadInfo({ ...data });
-                    console.log("Hi from upload function ");
                     let uploadUrl = data["secure_url"];
-
                     const vals = { ...values, imageUrl: uploadUrl };
-                    // console.log(vals.imageUrl);
-                    // console.log(JSON.stringify({ ...user, ...vals }));
                     fetch(
                       `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                       //   `http://localhost:8080/groups/${user.currentGroup}/createpost`,
