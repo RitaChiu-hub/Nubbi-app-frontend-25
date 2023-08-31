@@ -128,7 +128,7 @@ export default function CreatePostScreen({ navigation }) {
                       })
                       .then((data) => {
                         if (!data) return;
-                        console.log(data);
+                        //    console.log(data);
                         setUser({ ...data });
                         if (data.status) {
                           setError(data.status);
@@ -165,7 +165,7 @@ export default function CreatePostScreen({ navigation }) {
                   })
                   .then((data) => {
                     if (!data) return;
-                    console.log(data);
+                    //   console.log(data);
                     setUser({ ...data });
                     if (data.status) {
                       setError(data.status);
