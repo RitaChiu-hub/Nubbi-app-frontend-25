@@ -11,7 +11,6 @@ import {
   Image,
   PixelRatio,
   StyleSheet,
-  Button,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -19,11 +18,10 @@ import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 const { createPostSchema } = require("../validationSchema");
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
-const uploadPreset = "msuif5u0";
-const cloudinaryBaseUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
 export default function CreatePostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -46,37 +44,6 @@ export default function CreatePostScreen({ navigation }) {
         base64: result.assets[0].base64,
       });
     }
-  };
-
-  const uploadImage = async () => {
-    //  let base64Img = `data:image/jpg;base64,${result.assets[0].base64}`;
-    let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
-
-    //Add your cloud name
-    let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-    let data = {
-      file: base64Img,
-      upload_preset: "ehsnm9es",
-      api_key: apiKey,
-    };
-
-    fetch(apiUrl, {
-      body: JSON.stringify(data),
-      headers: {
-        "content-type": "application/json",
-      },
-      method: "POST",
-    })
-      .then(async (r) => {
-        let data = await r.json();
-        setImageUploadInfo({ ...data });
-        console.log("Hi from upload function ");
-        let uploadUrl = data["secure_url"];
-        console.log(uploadUrl);
-        return data["secure_url"];
-      })
-      .catch((err) => console.log(err));
   };
 
   const resetApp = () => {
@@ -111,15 +78,10 @@ export default function CreatePostScreen({ navigation }) {
         >
           <Formik
             initialValues={{ title: "", body_text: "" }}
-            // validationSchema={createPostSchema}
+            validationSchema={createPostSchema}
             onSubmit={(values, actions) => {
               if (pickedImage !== null) {
-                console.log("picked image is not null");
-                // or, put the upload image function in here & add in the vals to be sent to the backend along wtih the
-                // image upload, all during the upload image function. get vals > upload image > Send image url
-                // and vals together IN the upload image function to the backend Database. So I don't have to
-                // wait for the secure url to load. Once it's loaded, THEN send EVERYTHING to the backend TOGETHER.
-
+                // upload image to cloudinary
                 let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
 
                 //Add your cloud name
@@ -147,10 +109,9 @@ export default function CreatePostScreen({ navigation }) {
                     const vals = { ...values, imageUrl: uploadUrl };
                     // console.log(vals.imageUrl);
                     // console.log(JSON.stringify({ ...user, ...vals }));
-                    // actions.resetForm();
                     fetch(
-                      //  `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
-                      `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                      //   `http://localhost:8080/groups/${user.currentGroup}/createpost`,
                       {
                         method: "POST",
                         credentials: "include",
@@ -186,8 +147,8 @@ export default function CreatePostScreen({ navigation }) {
                 const vals = { ...values, imageUrl: null };
                 actions.resetForm();
                 fetch(
-                  //  `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
-                  `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                  `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                  // `http://localhost:8080/groups/${user.currentGroup}/createpost`,
                   {
                     method: "POST",
                     credentials: "include",
@@ -296,22 +257,79 @@ export default function CreatePostScreen({ navigation }) {
                 >
                   <ErrorMessage name="body_text" />
                 </Text>
-                <Button title="Pick Image" onPress={pickImage} />
-                {pickedImage !== null ? (
-                  <Button title="Clear Selected Image" onPress={resetApp} />
-                ) : null}
-                {pickedImage !== null ? (
-                  <Button title="Upload Image" onPress={uploadImage} />
-                ) : null}
-                <View style={{ marginVertical: 10 }}></View>
-                <TouchableOpacity
-                  style={globalStyles.primaryButton}
-                  onPress={props.handleSubmit}
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
                 >
-                  <Text style={globalStyles.primaryButtonText}>
-                    Create Post
-                  </Text>
-                </TouchableOpacity>
+                  {pickedImage !== null ? (
+                    <TouchableOpacity
+                      onPress={resetApp}
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingVertical: 10,
+                        paddingHorizontal: 12,
+                        borderRadius: 12,
+                        elevation: 3,
+                        backgroundColor: "#1aa7ec",
+                      }}
+                    >
+                      <MaterialIcon
+                        name="no-photography"
+                        size={30}
+                        color="#fdfdfd"
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={pickImage}
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingVertical: 10,
+                        paddingHorizontal: 12,
+                        borderRadius: 12,
+                        elevation: 3,
+                        backgroundColor: "#1aa7ec",
+                      }}
+                    >
+                      <MaterialIcon
+                        name="add-a-photo"
+                        size={30}
+                        color="#fdfdfd"
+                      />
+                    </TouchableOpacity>
+                  )}
+                  <View style={{ marginVertical: 10 }}></View>
+
+                  <TouchableOpacity
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingVertical: 14,
+                      paddingHorizontal: 20,
+                      borderRadius: 12,
+                      elevation: 3,
+                      backgroundColor: "#1aa7ec",
+                      width: "80%",
+                    }}
+                    onPress={props.handleSubmit}
+                  >
+                    <Text
+                      style={{
+                        color: "#fdfdfd",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Create Post
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
           </Formik>
@@ -322,30 +340,13 @@ export default function CreatePostScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#ecf0f1",
-    padding: 8,
-    alignItems: "center",
-  },
-  readyText: {
-    marginTop: 20,
-    textAlign: "center",
-  },
-  image: {
-    width: 300,
-    height: 300,
-  },
   ImageContainer: {
     borderRadius: 10,
     width: 250,
     height: 250,
-    borderColor: "#9B9B9B",
-    borderWidth: 1 / PixelRatio.get(),
+    // borderWidth: 1 / PixelRatio.get(),
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#CDDC39",
     marginBottom: 10,
   },
 });

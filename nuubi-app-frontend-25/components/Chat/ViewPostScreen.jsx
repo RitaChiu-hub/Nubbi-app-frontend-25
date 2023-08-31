@@ -7,6 +7,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Image,
+  StyleSheet,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -25,6 +27,7 @@ export default function ViewPostScreen({ navigation }) {
     post_title: "loading",
     body_text: "loading",
     post_author: "loading",
+    image_url: null,
     iso_time_sent: "2000-01-01T01:00:00.000000",
   });
   const [likes, setLikes] = React.useState([]);
@@ -80,6 +83,7 @@ export default function ViewPostScreen({ navigation }) {
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
+        // `http://localhost:8080/groups/getpostinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -279,21 +283,23 @@ export default function ViewPostScreen({ navigation }) {
                   color: "#333",
                 }}
               >
-                {/* {user.post_author}: {user.post_body} */}
                 {postInfo.post_author}: {postInfo.body_text}
               </Text>
-
-              {/* add image here, if one exists */}
-              {/* <View style={styles.ImageContainer}>
-                    {imageUploadInfo === null ? (
-                      <Text>Uploaded photo will appear here</Text>
-                    ) : (
-                      <Image
-                        style={styles.ImageContainer}
-                        source={{ uri: imageUploadInfo.secure_url }}
-                      />
-                    )}
-                  </View> */}
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                {postInfo.image_url === null ? null : (
+                  <Image
+                    style={{
+                      borderRadius: 10,
+                      width: 250,
+                      height: 250,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginVertical: 10,
+                    }}
+                    source={{ uri: postInfo.image_url }}
+                  />
+                )}
+              </View>
             </View>
             <View
               style={{
@@ -325,7 +331,18 @@ export default function ViewPostScreen({ navigation }) {
                       backgroundColor: "#1aa7ec",
                       borderRadius: 5,
                     }}
-                    onPress={() => navigation.navigate("EditPost")}
+                    onPress={() => {
+                      setUser({
+                        ...user,
+                        post_title: postInfo.post_title,
+                        post_body: postInfo.body_text,
+                        post_author: postInfo.post_author,
+                        image_url: postInfo.image_url,
+                      }),
+                        navigation.navigate("EditPost");
+                    }}
+
+                    //  onPress={() => navigation.navigate("EditPost")}
                   >
                     <Text style={{ color: "#fdfdfd", fontSize: 14 }}>Edit</Text>
                   </TouchableOpacity>
@@ -512,3 +529,15 @@ export default function ViewPostScreen({ navigation }) {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  ImageContainer: {
+    borderRadius: 10,
+    width: 250,
+    height: 250,
+    // borderWidth: 1 / PixelRatio.get(),
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+});
