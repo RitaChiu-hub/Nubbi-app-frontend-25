@@ -1,6 +1,5 @@
 import "react-native-gesture-handler";
 import Views from "./components/Views";
-//import Freshpaint from "@freshpaint/freshpaint-react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import UserContext from "./components/AccountContext";
 import { Fragment } from "react";
@@ -11,27 +10,14 @@ import { StatusBar } from "expo-status-bar";
 // const FreshpaintNavigationContainer =
 //   Freshpaint.withReactNavigationAutotrack(NavigationContainer);
 
-// export const linking = {
-//   prefixes: [Linking.createURL("/")],
-//   config: {
-//     screens: {
-//       Signin: "Splash",
-//       HomeStack: "Home",
-//     },
-//   },
-// };
-
 export default function App() {
   return (
     <Fragment>
       <StatusBar style="dark" />
       <UserContext>
-        {/* <FreshpaintNavigationContainer> */}
-        {/* <NavigationContainer linking={linking}> */}
         <NavigationContainer>
           <Views />
         </NavigationContainer>
-        {/* </FreshpaintNavigationContainer> */}
       </UserContext>
     </Fragment>
   );

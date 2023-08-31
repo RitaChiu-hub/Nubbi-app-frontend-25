@@ -115,18 +115,23 @@ export default function HomeScreen({ navigation }) {
       title: "My Groups",
       headerTitleAlign: "center",
       headerRight: () => (
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true);
-          }}
-        >
-          <Icon
-            name="add-circle-outline"
-            size={30}
-            color="#228ee7"
-            style={{ paddingRight: 10 }}
-          />
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={() => navigation.navigate("HelpLoggedIn")}>
+            <Icon name="help-circle-outline" size={30} color="#228ee7" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(true);
+            }}
+          >
+            <Icon
+              name="add-circle-outline"
+              size={30}
+              color="#228ee7"
+              style={{ paddingHorizontal: 5 }}
+            />
+          </TouchableOpacity>
+        </View>
       ),
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
@@ -169,17 +174,34 @@ export default function HomeScreen({ navigation }) {
       >
         <View style={globalStyles.centeredView}>
           <View style={globalStyles.modalView}>
-            <Text style={{ textAlign: "center", fontSize: 16 }}>
-              Welcome to Nuubi! Your username is {user.username}. If you'd like
-              to change it, you can do so by tapping the settings{" "}
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 16,
+              }}
+            >
+              Welcome to Nuubi! Your username is {user.username}. To change it,
+              tap the settings icon{" "}
               <Icon
                 name="settings-outline"
                 size={18}
                 color="#228ee7"
-                style={{ paddingLeft: 10 }}
+                // style={{ paddingLeft: 10 }}
               />{" "}
-              icon in the top left corner.
+              in the top left corner.
             </Text>
+            <View style={{ paddingVertical: 10 }}></View>
+            <Text style={{ textAlign: "center", fontSize: 16 }}>
+              Questions? Tap the help icon{" "}
+              <Icon
+                name="help-circle-outline"
+                size={18}
+                color="#228ee7"
+                // style={{ paddingLeft: 10 }}
+              />{" "}
+              in the top right corner.
+            </Text>
+            <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
               style={globalStyles.secondaryButton}
               onPress={() => {

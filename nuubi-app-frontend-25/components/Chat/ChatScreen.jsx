@@ -9,12 +9,11 @@ import {
   Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
-import { globalStyles } from "../../styles/global";
 const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
-import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 import moment from "moment";
+import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -22,7 +21,6 @@ import FAIcon from "react-native-vector-icons/FontAwesome";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
-  const [error, setError] = React.useState(null);
   const [chats, setChats] = React.useState([]);
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [adminId, setAdminId] = React.useState(null);
@@ -153,7 +151,7 @@ export default function ChatScreen({ navigation }) {
       setChats(jsonData);
       getChats();
     });
-  }, []);
+  }, [chats]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -162,7 +160,7 @@ export default function ChatScreen({ navigation }) {
           <TouchableOpacity
             style={{
               alignItems: "center",
-              justifyContent: "center",
+              // justifyContent: "center",
             }}
             onPress={() => navigation.navigate("GroupInfo")}
           >
@@ -183,7 +181,7 @@ export default function ChatScreen({ navigation }) {
       headerTitleAlign: "center",
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate("PostScreen")}>
-          <View style={{ flex: 1, justifyContent: "row" }}>
+          <View style={{ flex: 1, flexDirection: "row" }}>
             <Icon name="forum-outline" size={30} color="#4F8EF7" />
           </View>
         </TouchableOpacity>
@@ -283,7 +281,6 @@ export default function ChatScreen({ navigation }) {
                       +
                     </Text>
                   </TouchableOpacity>
-                  {/* <Text style={{ fontWeight: "bold", color: "#333" }}> */}
                   <Text
                     style={{
                       fontWeight: "bold",
@@ -311,7 +308,6 @@ export default function ChatScreen({ navigation }) {
         }}
       >
         <Formik
-          // need title and message - hashtags????? Add those later??????
           initialValues={{ mymessage: "" }}
           validationSchema={addMessageSchema}
           onSubmit={(values, actions) => {
@@ -322,33 +318,52 @@ export default function ChatScreen({ navigation }) {
           }}
         >
           {(props) => (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderWidth: 1,
-                borderColor: "#ddd",
-                borderRadius: 12,
-                marginHorizontal: 20,
-                paddingHorizontal: 10,
-              }}
-            >
-              <TextInput
+            <View>
+              <Text
                 style={{
-                  padding: 12,
-                  fontSize: 18,
-                  width: "90%",
-                  paddingTop: 12,
+                  color: "red",
+                  textAlign: "center",
                 }}
-                placeholder="Send message..."
-                onChangeText={props.handleChange("mymessage")}
-                value={props.values.mymessage}
-                multiline={true}
-              />
-              <TouchableOpacity onPress={props.handleSubmit}>
-                <FAIcon name="send" size={30} color="#4F8EF7" />
-              </TouchableOpacity>
+              >
+                <ErrorMessage name="mymessage" />
+              </Text>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  borderRadius: 12,
+                  marginHorizontal: 20,
+                  paddingHorizontal: 10,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextInput
+                    style={{
+                      padding: 12,
+                      fontSize: 18,
+                      width: "90%",
+                      paddingTop: 12,
+                    }}
+                    placeholder="Send message..."
+                    onChangeText={props.handleChange("mymessage")}
+                    value={props.values.mymessage}
+                    multiline={true}
+                  />
+                  <View style={{ padding: 5 }}></View>
+                  <TouchableOpacity onPress={props.handleSubmit}>
+                    <FAIcon name="send" size={30} color="#4F8EF7" />
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
           )}
         </Formik>

@@ -103,21 +103,42 @@ export default function GroupInfoScreen({ navigation }) {
 
   const myIsAdmin = user.isAdmin;
 
-  const Item = ({ username, is_admin, id, groupTotalPoints }) => (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        width: "100%",
-        minWidth: 300,
-        paddingBottom: 5,
-        paddingHorizontal: 10,
-      }}
-    >
-      <Text>{groupTotalPoints}</Text>
-      <Text>{username}</Text>
-      <Text>{is_admin ? "Admin" : "Member"}</Text>
+  const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
+    <View>
+      {myIsAdmin == "true" ? (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+            minWidth: 300,
+            paddingBottom: 5,
+            paddingHorizontal: 10,
+          }}
+        >
+          <Text>{groupTotalPoints}</Text>
+          <Text>{username}</Text>
+          <Text>{email}</Text>
+          <Text>{is_admin ? "Admin" : "Member"}</Text>
+        </View>
+      ) : (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+            minWidth: 300,
+            paddingBottom: 5,
+            paddingHorizontal: 10,
+          }}
+        >
+          <Text>{groupTotalPoints}</Text>
+          <Text>{username}</Text>
+          <Text>{is_admin ? "Admin" : "Member"}</Text>
+        </View>
+      )}
     </View>
   );
 
@@ -159,6 +180,9 @@ export default function GroupInfoScreen({ navigation }) {
           style={{
             height: "50%",
             marginBottom: 10,
+            borderColor: "#cccccc",
+            borderWidth: 2,
+            borderRadius: 6,
           }}
         >
           <FlatList
