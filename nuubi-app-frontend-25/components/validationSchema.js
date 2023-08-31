@@ -1,5 +1,5 @@
 const Yup = require("yup");
-import YupPassword from "yup-password";
+const YupPassword = require("yup-password");
 YupPassword(Yup);
 
 const formSchema = Yup.object({
