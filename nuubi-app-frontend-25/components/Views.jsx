@@ -1,6 +1,11 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+
+import { Text, View } from "react-native";
+
 import { useContext } from "react";
 import { AccountContext } from "./AccountContext";
 
@@ -42,6 +47,41 @@ const useAuth = () => {
   return user && user.loggedIn;
 };
 
+const StackSettings = createNativeStackNavigator();
+
+function SettingsStack() {
+  return (
+    <StackSettings.Navigator
+      initialRouteName="Settings"
+      screenOptions={{ headerBackTitleVisible: false }}
+      // screenOptions={{ headerShown: false }}
+    >
+      <StackSettings.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ title: "Settings" }}
+      />
+
+      <StackSettings.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+      />
+      <StackSettings.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+      />
+      <StackSettings.Screen
+        name="DeleteAccount"
+        component={DeleteAccountScreen}
+      />
+      <StackSettings.Screen
+        name="ChangeUsernameScreen"
+        component={ChangeUsernameScreen}
+      />
+    </StackSettings.Navigator>
+  );
+}
+
 const StackHome = createNativeStackNavigator();
 
 function HomeStack() {
@@ -57,42 +97,8 @@ function HomeStack() {
         options={{ title: "Home" }}
       />
 
-      <StackHome.Screen
-        name="HelpLoggedIn"
-        component={HelpScreen}
-        options={{ title: "Nuubi How-To" }}
-      />
-
-      <StackHome.Screen
-        name="ForgotPasswordLoggedIn"
-        component={ForgotPasswordScreen}
-      />
-      <StackHome.Screen
-        name="ChangeUsernameScreen"
-        component={ChangeUsernameScreen}
-      />
-      <StackHome.Screen
-        name="ChangePasswordScreen"
-        component={ChangePasswordScreen}
-      />
-      <StackHome.Screen name="Settings" component={SettingsScreen} />
-      <StackHome.Screen
-        name="ForgotPassword"
-        component={ForgotPasswordScreen}
-      />
-      <StackHome.Screen name="DeleteAccount" component={DeleteAccountScreen} />
-      <StackHome.Screen
-        name="ChangeUsername"
-        component={ChangeUsernameScreen}
-      />
-      <StackHome.Screen
-        name="ChangePassword"
-        component={ChangePasswordScreen}
-      />
-
       <StackHome.Screen name="CreateGroup" component={CreateGroupScreen} />
       <StackHome.Screen name="EditGroup" component={EditGroupScreen} />
-      <StackHome.Screen name="ViewAllGroups" component={GroupListScreen} />
       <StackHome.Screen name="Group Chat" component={ChatScreen} />
       <StackHome.Screen name="PostScreen" component={PostScreen} />
       <StackHome.Screen name="CreatePost" component={CreatePostScreen} />
@@ -103,6 +109,19 @@ function HomeStack() {
       <StackHome.Screen name="DeleteMember" component={DeleteMemberScreen} />
       <StackHome.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
     </StackHome.Navigator>
+  );
+}
+
+const StackSearch = createNativeStackNavigator();
+
+function SearchStack() {
+  return (
+    <StackSearch.Navigator
+      initialRouteName="ViewAllGroups"
+      screenOptions={{ headerBackTitleVisible: false }}
+    >
+      <StackSearch.Screen name="ViewAllGroups" component={GroupListScreen} />
+    </StackSearch.Navigator>
   );
 }
 
@@ -140,6 +159,74 @@ function AuthStack() {
   );
 }
 
+function SearchScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Search!</Text>
+    </View>
+  );
+}
+function AddScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Add!</Text>
+    </View>
+  );
+}
+function NotificationScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Notifications!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          switch (route.name) {
+            case "HomeStack":
+              iconName = focused ? "ios-home" : "ios-home-outline";
+              break;
+            case "SearchStack":
+              iconName = focused ? "ios-search" : "ios-search-outline";
+              break;
+            case "Add":
+              iconName = focused ? "ios-add-circle" : "ios-add-circle-outline";
+              break;
+            case "Notifications":
+              iconName = focused
+                ? "ios-notifications"
+                : "ios-notifications-outline";
+              break;
+            case "SettingsStack":
+              iconName = focused ? "ios-settings" : "ios-settings-outline";
+              break;
+            default:
+              iconName = "ios-information-circle";
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarInactiveTintColor: "#767676",
+        tabBarActiveTintColor: "#33b7f0",
+      })}
+    >
+      <Tab.Screen name="HomeStack" component={HomeStack} />
+      <Tab.Screen name="SearchStack" component={SearchStack} />
+      <Tab.Screen name="Add" component={AddScreen} />
+      <Tab.Screen name="Notifications" component={NotificationScreen} />
+      <Tab.Screen name="SettingsStack" component={SettingsStack} />
+    </Tab.Navigator>
+  );
+};
+
 const Stack = createNativeStackNavigator();
 
 export default function Views() {
@@ -157,7 +244,7 @@ export default function Views() {
           }}
         />
       ) : (
-        <Stack.Screen name="HomeStack" component={HomeStack} />
+        <Stack.Screen name="BottomTabs" component={TabNavigator} />
       )}
     </Stack.Navigator>
   );

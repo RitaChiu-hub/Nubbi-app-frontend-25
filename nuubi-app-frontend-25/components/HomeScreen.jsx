@@ -133,16 +133,6 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       ),
-      headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Icon
-            name="settings-outline"
-            size={30}
-            color="#228ee7"
-            style={{ paddingLeft: 10 }}
-          />
-        </TouchableOpacity>
-      ),
     });
   }, [navigation]);
 
@@ -188,7 +178,7 @@ export default function HomeScreen({ navigation }) {
                 color="#228ee7"
                 // style={{ paddingLeft: 10 }}
               />{" "}
-              in the top left corner.
+              in the bottom navigation bar.
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <Text style={{ textAlign: "center", fontSize: 16 }}>
