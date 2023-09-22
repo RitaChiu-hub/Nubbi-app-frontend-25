@@ -193,21 +193,19 @@ const TabNavigator = () => {
           let iconName;
           switch (route.name) {
             case "HomeStack":
-              iconName = focused ? "ios-home" : "ios-home-outline";
+              iconName = "ios-home-outline";
               break;
             case "SearchStack":
-              iconName = focused ? "ios-search" : "ios-search-outline";
+              iconName = "ios-search-outline";
               break;
             case "Add":
-              iconName = focused ? "ios-add-circle" : "ios-add-circle-outline";
+              iconName = "ios-add-circle-outline";
               break;
             case "Notifications":
-              iconName = focused
-                ? "ios-notifications"
-                : "ios-notifications-outline";
+              iconName = "ios-notifications-outline";
               break;
             case "SettingsStack":
-              iconName = focused ? "ios-settings" : "ios-settings-outline";
+              iconName = "ios-settings-outline";
               break;
             default:
               iconName = "ios-information-circle";
