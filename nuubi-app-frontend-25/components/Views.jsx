@@ -4,6 +4,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Octicon from "react-native-vector-icons/Octicons";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
 
 import { useContext } from "react";
 import { AccountContext } from "./AccountContext";
@@ -213,23 +221,74 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarIcon: ({ color, size }) => {
+        tabBarIcon: ({ color, size, focused }) => {
           let iconName;
           switch (route.name) {
             case "HomeStack":
-              return <Octicon name="home" size={24} color={color} />;
+              return (
+                <Image
+                  source={
+                    focused
+                      ? require("../assets/icons/HomeFocused.png")
+                      : require("../assets/icons/Home.png")
+                  }
+                  style={{ width: 24, height: 24 }}
+                />
+              );
             case "SearchStack":
-              return <Octicon name="search" size={24} color={color} />;
+              return (
+                <Image
+                  source={
+                    focused
+                      ? require("../assets/icons/SearchFocused.png")
+                      : require("../assets/icons/Search.png")
+                  }
+                  style={{ width: 24, height: 24 }}
+                />
+              );
             case "AddGroupStack":
-              return <Octicon name="diff-added" size={24} color={color} />;
+              return (
+                <Image
+                  source={
+                    focused
+                      ? require("../assets/icons/AddFocused.png")
+                      : require("../assets/icons/Add.png")
+                  }
+                  style={{ width: 24, height: 24 }}
+                />
+              );
             case "NotificationsStack":
-              return <Octicon name="bell" size={24} color={color} />;
+              return (
+                <Image
+                  source={
+                    focused
+                      ? require("../assets/icons/NotificationFocused.png")
+                      : require("../assets/icons/Notification.png")
+                  }
+                  style={{ width: 24, height: 24 }}
+                />
+              );
             case "SettingsStack":
-              return <Octicon name="person" size={24} color={color} />;
+              return (
+                <Image
+                  source={
+                    focused
+                      ? require("../assets/icons/ProfileFocused.png")
+                      : require("../assets/icons/Profile.png")
+                  }
+                  style={{ width: 24, height: 24 }}
+                />
+              );
             default:
-              iconName = "ios-information-circle";
+              const imageSource = require("../assets/icons/Home.png");
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return (
+            <Image
+              source={require("../assets/icons/Home.png")}
+              style={{ width: 24, height: 24 }}
+            />
+          );
+          // return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarInactiveTintColor: "#767676",
         tabBarActiveTintColor: "#33b7f0",
