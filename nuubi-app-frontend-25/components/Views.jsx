@@ -3,8 +3,7 @@ import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
-import { Text, View } from "react-native";
+import Octicon from "react-native-vector-icons/Octicons";
 
 import { useContext } from "react";
 import { AccountContext } from "./AccountContext";
@@ -22,6 +21,9 @@ import ChangePasswordScreen from "./UserSettings/ChangePassword";
 import ForgotPasswordScreen from "./UserSettings/ForgotPassword";
 import ForgotPasswordLoggedOut from "./UserSettings/ForgotPasswordLoggedOut";
 import HelpScreen from "./Onboarding/HelpPage";
+
+import AddGroupScreen from "./Groups/AddGroup";
+import NotificationsScreen from "./Notifications/Notifications";
 
 import CreateGroupScreen from "./Groups/CreateGroupScreen";
 import EditGroupScreen from "./Groups/EditGroupScreen";
@@ -78,6 +80,11 @@ function SettingsStack() {
         name="ChangeUsernameScreen"
         component={ChangeUsernameScreen}
       />
+      <StackSettings.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{ title: "Nuubi How-To" }}
+      />
     </StackSettings.Navigator>
   );
 }
@@ -89,7 +96,6 @@ function HomeStack() {
     <StackHome.Navigator
       initialRouteName="Home"
       screenOptions={{ headerBackTitleVisible: false }}
-      // screenOptions={{ headerShown: false }}
     >
       <StackHome.Screen
         name="Home"
@@ -97,7 +103,6 @@ function HomeStack() {
         options={{ title: "Home" }}
       />
 
-      <StackHome.Screen name="CreateGroup" component={CreateGroupScreen} />
       <StackHome.Screen name="EditGroup" component={EditGroupScreen} />
       <StackHome.Screen name="Group Chat" component={ChatScreen} />
       <StackHome.Screen name="PostScreen" component={PostScreen} />
@@ -121,6 +126,16 @@ function SearchStack() {
       screenOptions={{ headerBackTitleVisible: false }}
     >
       <StackSearch.Screen name="ViewAllGroups" component={GroupListScreen} />
+      <StackSearch.Screen name="EditGroup" component={EditGroupScreen} />
+      <StackSearch.Screen name="Group Chat" component={ChatScreen} />
+      <StackSearch.Screen name="PostScreen" component={PostScreen} />
+      <StackSearch.Screen name="CreatePost" component={CreatePostScreen} />
+      <StackSearch.Screen name="EditPost" component={EditPostScreen} />
+      <StackSearch.Screen name="ViewPost" component={ViewPostScreen} />
+      <StackSearch.Screen name="GroupInfo" component={GroupInfoScreen} />
+      <StackSearch.Screen name="DeleteGroup" component={DeleteGroupScreen} />
+      <StackSearch.Screen name="DeleteMember" component={DeleteMemberScreen} />
+      <StackSearch.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
     </StackSearch.Navigator>
   );
 }
@@ -159,25 +174,34 @@ function AuthStack() {
   );
 }
 
-function SearchScreen() {
+const StackAddGroup = createNativeStackNavigator();
+
+function AddGroupStack() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Search!</Text>
-    </View>
+    <StackAddGroup.Navigator
+      initialRouteName="AddGroup"
+      screenOptions={{ headerBackTitleVisible: false }}
+    >
+      <StackSearch.Screen name="AddGroup" component={AddGroupScreen} />
+      <StackSearch.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
+      <StackSearch.Screen name="CreateGroup" component={CreateGroupScreen} />
+    </StackAddGroup.Navigator>
   );
 }
-function AddScreen() {
+
+const StackNotifications = createNativeStackNavigator();
+
+function NotificationsStack() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Add!</Text>
-    </View>
-  );
-}
-function NotificationScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Notifications!</Text>
-    </View>
+    <StackNotifications.Navigator
+      initialRouteName="Notifications"
+      screenOptions={{ headerBackTitleVisible: false }}
+    >
+      <StackNotifications.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+      />
+    </StackNotifications.Navigator>
   );
 }
 
@@ -189,24 +213,19 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ color, size }) => {
           let iconName;
           switch (route.name) {
             case "HomeStack":
-              iconName = "ios-home-outline";
-              break;
+              return <Octicon name="home" size={24} color={color} />;
             case "SearchStack":
-              iconName = "ios-search-outline";
-              break;
-            case "Add":
-              iconName = "ios-add-circle-outline";
-              break;
-            case "Notifications":
-              iconName = "ios-notifications-outline";
-              break;
+              return <Octicon name="search" size={24} color={color} />;
+            case "AddGroupStack":
+              return <Octicon name="diff-added" size={24} color={color} />;
+            case "NotificationsStack":
+              return <Octicon name="bell" size={24} color={color} />;
             case "SettingsStack":
-              iconName = "ios-settings-outline";
-              break;
+              return <Octicon name="person" size={24} color={color} />;
             default:
               iconName = "ios-information-circle";
           }
@@ -218,8 +237,8 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="HomeStack" component={HomeStack} />
       <Tab.Screen name="SearchStack" component={SearchStack} />
-      <Tab.Screen name="Add" component={AddScreen} />
-      <Tab.Screen name="Notifications" component={NotificationScreen} />
+      <Tab.Screen name="AddGroupStack" component={AddGroupStack} />
+      <Tab.Screen name="NotificationsStack" component={NotificationsStack} />
       <Tab.Screen name="SettingsStack" component={SettingsStack} />
     </Tab.Navigator>
   );

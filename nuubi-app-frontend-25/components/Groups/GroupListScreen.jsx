@@ -136,7 +136,7 @@ export default function GroupListScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Discover public groups",
+      title: "Discover Public Groups",
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -151,7 +151,6 @@ export default function GroupListScreen({ navigation }) {
       <View
         style={{
           width: "100%",
-          marginBottom: 30,
         }}
       >
         <FlatList

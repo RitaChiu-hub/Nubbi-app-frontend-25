@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  Modal,
-  Alert,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, Modal, FlatList, TouchableOpacity } from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
 import { globalStyles } from "../styles/global";
@@ -17,7 +10,6 @@ export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [groups, setGroups] = React.useState([]);
-  const [modalVisible, setModalVisible] = React.useState(false);
 
   if (user.loggedIn === true) {
     React.useEffect(() => {
@@ -50,7 +42,6 @@ export default function HomeScreen({ navigation }) {
 
   React.useEffect(() => {
     getGroups();
-    //}, [groups]);
   }, [user]);
 
   const Item = ({ title, description, id, invitePasscode }) => (
@@ -114,25 +105,6 @@ export default function HomeScreen({ navigation }) {
     navigation.setOptions({
       title: "My Groups",
       headerTitleAlign: "center",
-      headerRight: () => (
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity onPress={() => navigation.navigate("HelpLoggedIn")}>
-            <Icon name="help-circle-outline" size={30} color="#228ee7" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setModalVisible(true);
-            }}
-          >
-            <Icon
-              name="add-circle-outline"
-              size={30}
-              color="#228ee7"
-              style={{ paddingHorizontal: 5 }}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
     });
   }, [navigation]);
 
@@ -140,7 +112,8 @@ export default function HomeScreen({ navigation }) {
     <View
       style={{
         flex: 1,
-        margin: 10,
+        marginHorizontal: 10,
+        marginTop: 10,
       }}
     >
       <View style={{ backgroundColor: "#f1f1f1", width: "100%" }}>
@@ -172,24 +145,12 @@ export default function HomeScreen({ navigation }) {
             >
               Welcome to Nuubi! Your username is {user.username}. To change it,
               tap the settings icon{" "}
-              <Icon
-                name="settings-outline"
-                size={18}
-                color="#228ee7"
-                // style={{ paddingLeft: 10 }}
-              />{" "}
-              in the bottom navigation bar.
+              <Icon name="settings-outline" size={18} color="#228ee7" /> in the
+              bottom navigation bar.
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <Text style={{ textAlign: "center", fontSize: 16 }}>
-              Questions? Tap the help icon{" "}
-              <Icon
-                name="help-circle-outline"
-                size={18}
-                color="#228ee7"
-                // style={{ paddingLeft: 10 }}
-              />{" "}
-              in the top right corner.
+              Questions? In settings, click on "Help".
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
@@ -207,69 +168,6 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
       </Modal>
-
-      <View style={globalStyles.bottomView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(false);
-          }}
-        >
-          <View style={globalStyles.centeredView}>
-            <View style={globalStyles.modalView}>
-              <TouchableOpacity
-                style={globalStyles.secondaryButton}
-                onPress={() => {
-                  setModalVisible(false);
-                  navigation.navigate("CreateGroup");
-                }}
-              >
-                <Text style={globalStyles.secondaryButtonText}>
-                  Create new group
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={globalStyles.secondaryButton}
-                onPress={() => {
-                  setModalVisible(false);
-                  navigation.navigate("ViewAllGroups");
-                }}
-              >
-                <Text style={globalStyles.secondaryButtonText}>
-                  Discover public groups
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={globalStyles.secondaryButton}
-                onPress={() => {
-                  setModalVisible(false);
-                  navigation.navigate("JoinGroup");
-                }}
-              >
-                <Text style={globalStyles.secondaryButtonText}>
-                  Join group with passcode
-                </Text>
-              </TouchableOpacity>
-              <View style={{ marginVertical: 10 }}></View>
-
-              <TouchableOpacity
-                style={globalStyles.secondaryButton}
-                onPress={() => {
-                  setModalVisible(false);
-                }}
-              >
-                <Text style={globalStyles.secondaryButtonText}>
-                  {"< "} Back
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </View>
     </View>
   );
 }

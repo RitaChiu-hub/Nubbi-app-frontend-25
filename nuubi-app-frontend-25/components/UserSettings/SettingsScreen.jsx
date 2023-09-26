@@ -150,6 +150,14 @@ export default function SettingsScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyles.secondaryButton}
+            onPress={() => {
+              navigation.navigate("HelpLoggedIn");
+            }}
+          >
+            <Text style={globalStyles.secondaryButtonText}>Help</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={globalStyles.secondaryButton}
             onPress={signOut}
           >
             <Text style={globalStyles.secondaryButtonText}>Sign out</Text>

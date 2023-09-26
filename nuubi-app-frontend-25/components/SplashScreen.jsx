@@ -1,13 +1,10 @@
 import React from "react";
 import {
-  Button,
   View,
   Text,
   SafeAreaView,
   Image,
   TouchableOpacity,
-  Alert,
-  StyleSheet,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 

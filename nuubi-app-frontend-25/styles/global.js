@@ -1,6 +1,16 @@
 import { StyleSheet, StatusBar } from "react-native";
 
 export const globalStyles = StyleSheet.create({
+  primaryButtonText: {
+    color: "#fdfdfd",
+    fontSize: 18,
+    fontFamily: "Poppins_100Thin",
+  },
+  secondaryButtonText: {
+    color: "#228ee7",
+    fontSize: 18,
+    // fontFamily: "Poppins_100Thin",
+  },
   container: {
     flex: 1,
     backgroundColor: "#fdfdfd",
@@ -82,14 +92,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#1aa7ec",
     width: "80%",
   },
-  primaryButtonText: {
-    color: "#fdfdfd",
-    fontSize: 18,
-  },
-  secondaryButtonText: {
-    color: "#228ee7",
-    fontSize: 18,
-  },
+
   secondaryButton: {
     alignItems: "center",
     justifyContent: "center",
