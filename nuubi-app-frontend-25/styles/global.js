@@ -3,13 +3,15 @@ import { StyleSheet, StatusBar } from "react-native";
 export const globalStyles = StyleSheet.create({
   primaryButtonText: {
     color: "#fdfdfd",
-    fontSize: 18,
-    fontFamily: "Poppins_100Thin",
+    fontSize: 14,
+    fontFamily: "Poppins_600SemiBold",
+    letterSpacing: 1.25,
   },
   secondaryButtonText: {
     color: "#228ee7",
-    fontSize: 18,
-    // fontFamily: "Poppins_100Thin",
+    fontSize: 14,
+    fontFamily: "Poppins_600SemiBold",
+    letterSpacing: 1.25,
   },
   container: {
     flex: 1,

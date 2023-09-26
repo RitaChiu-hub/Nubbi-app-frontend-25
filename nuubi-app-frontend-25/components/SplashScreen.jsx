@@ -38,7 +38,7 @@ export default function SplashScreen({ navigation }) {
             style={globalStyles.secondaryButton}
             onPress={() => navigation.navigate("Login")}
           >
-            <Text style={globalStyles.secondaryButtonText}>Log in</Text>
+            <Text style={globalStyles.secondaryButtonText}>LOG IN</Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -46,7 +46,7 @@ export default function SplashScreen({ navigation }) {
             style={globalStyles.primaryButton}
             onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={globalStyles.primaryButtonText}>Sign up</Text>
+            <Text style={globalStyles.primaryButtonText}>SIGN UP</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -55,13 +55,13 @@ export default function SplashScreen({ navigation }) {
         style={globalStyles.secondaryButton}
         onPress={() => navigation.navigate("LearnMore1")}
       >
-        <Text style={globalStyles.secondaryButtonText}>Learn More</Text>
+        <Text style={globalStyles.secondaryButtonText}>LEARN MORE</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={globalStyles.secondaryButton}
         onPress={() => navigation.navigate("PrivacyScreen")}
       >
-        <Text style={globalStyles.secondaryButtonText}>Privacy Policy</Text>
+        <Text style={globalStyles.secondaryButtonText}>PRIVACY POLICY</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
