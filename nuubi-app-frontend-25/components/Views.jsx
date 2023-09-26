@@ -288,7 +288,6 @@ const TabNavigator = () => {
               style={{ width: 24, height: 24 }}
             />
           );
-          // return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarInactiveTintColor: "#767676",
         tabBarActiveTintColor: "#33b7f0",

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Nuubi",
     "slug": "nuubi-app",
-    "version": "1.2.0",
+    "version": "1.2.62",
     "orientation": "portrait",
     "icon": "./assets/nuubiicon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.kittykat.nuubiapp",
-      "versionCode": 1212
+      "versionCode": 1262
     },
     "web": {
       "favicon": "./assets/favicon.png"
