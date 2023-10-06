@@ -4,14 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Octicon from "react-native-vector-icons/Octicons";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
+import { Image } from "react-native";
 
 import { useContext } from "react";
 import { AccountContext } from "./AccountContext";
@@ -52,6 +45,8 @@ import LearnMore4Screen from "./Onboarding/LearnMore4";
 import LearnMore7Screen from "./Onboarding/LearnMore7";
 import PrivacyScreen from "./Onboarding/Privacy";
 
+import ProfilePageScreen from "./UserSettings/ProfilePageScreen";
+
 const useAuth = () => {
   const { user } = useContext(AccountContext);
   return user && user.loggedIn;
@@ -62,15 +57,13 @@ const StackSettings = createNativeStackNavigator();
 function SettingsStack() {
   return (
     <StackSettings.Navigator
-      initialRouteName="Settings"
+      initialRouteName="ProfilePage"
       screenOptions={{ headerBackTitleVisible: false }}
       // screenOptions={{ headerShown: false }}
     >
-      <StackSettings.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{ title: "Settings" }}
-      />
+      <StackSettings.Screen name="ProfilePage" component={ProfilePageScreen} />
+
+      <StackSettings.Screen name="Settings" component={SettingsScreen} />
 
       <StackSettings.Screen
         name="ForgotPassword"
