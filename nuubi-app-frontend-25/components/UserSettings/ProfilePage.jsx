@@ -56,7 +56,7 @@ export default function ProfilePageScreen({ navigation }) {
           {pickedImage === null ? (
             <Image
               style={styles.ImageContainer}
-              source={require("../assets/defaultAvatar.png")}
+              source={require("../../assets/defaultAvatar.png")}
             />
           ) : (
             <Image
@@ -65,17 +65,6 @@ export default function ProfilePageScreen({ navigation }) {
             />
           )}
         </View>
-
-        {/* <TouchableOpacity
-          style={globalStyles.secondaryButton}
-          onPress={() => {
-            navigation.navigate("JoinGroup");
-          }}
-        >
-          <Text style={globalStyles.secondaryButtonText}>
-            Join Group With Passcode
-          </Text>
-        </TouchableOpacity> */}
 
         {pickedImage !== null ? (
           <TouchableOpacity

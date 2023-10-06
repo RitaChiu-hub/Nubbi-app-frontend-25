@@ -45,7 +45,7 @@ import LearnMore4Screen from "./Onboarding/LearnMore4";
 import LearnMore7Screen from "./Onboarding/LearnMore7";
 import PrivacyScreen from "./Onboarding/Privacy";
 
-import ProfilePageScreen from "./UserSettings/ProfilePageScreen";
+import ProfilePageScreen from "./UserSettings/ProfilePage";
 
 const useAuth = () => {
   const { user } = useContext(AccountContext);
