@@ -8,10 +8,22 @@ export const globalStyles = StyleSheet.create({
     letterSpacing: 1.25,
   },
   secondaryButtonText: {
-    color: "#228ee7",
+    color: "#33b7f0",
     fontSize: 14,
     fontFamily: "Poppins_600SemiBold",
     letterSpacing: 1.25,
+  },
+  h3HeadingPrimary: {
+    color: "#33b7f0",
+    fontSize: 18,
+    fontFamily: "Poppins_400Regular",
+    letterSpacing: 0,
+  },
+  h3HeadingSecondary: {
+    color: "#767676",
+    fontSize: 18,
+    fontFamily: "Poppins_400Regular",
+    letterSpacing: 0,
   },
   container: {
     flex: 1,

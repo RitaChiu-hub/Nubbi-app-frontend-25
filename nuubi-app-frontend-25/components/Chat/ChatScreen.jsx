@@ -166,12 +166,7 @@ export default function ChatScreen({ navigation }) {
           >
             <Text
               // numberOfLines={2}
-              style={{
-                fontWeight: "bold",
-                // color: "#228ee7",
-                color: "#4F8EF7",
-                fontSize: 16,
-              }}
+              style={globalStyles.h3HeadingPrimary}
             >
               {groupTitle}
             </Text>

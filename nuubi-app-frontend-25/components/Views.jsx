@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Octicon from "react-native-vector-icons/Octicons";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 
 import { useContext } from "react";
 import { AccountContext } from "./AccountContext";
