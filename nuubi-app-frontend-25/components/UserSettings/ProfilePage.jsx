@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { AccountContext } from "../AccountContext";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -25,8 +25,7 @@ export default function ProfilePageScreen({ navigation }) {
   const getUserAvatar = async () => {
     try {
       const response = await fetch(
-        //  `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
-        `http://localhost:8080/settings/getuseravatar`,
+        "http://localhost:8080/settings/getuseravatar",
         {
           method: "POST",
           credentials: "include",
@@ -37,10 +36,27 @@ export default function ProfilePageScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      setAvatarInfo(jsonData);
-      console.log(avatarInfo);
+      setAvatarInfo(jsonData.avatar_url.avatar_url);
     } catch (err) {
       console.error(err.message);
+    }
+  };
+
+  const resizeImage = async (imageInfo, resizeAmount) => {
+    const resizedPhoto = await ImageManipulator.manipulateAsync(
+      imageInfo.uri,
+      [{ resize: { width: imageInfo.width * resizeAmount } }],
+      { compress: 0.7, format: "jpeg", base64: true }
+    );
+
+    setPickedImage({
+      uri: resizedPhoto.uri,
+      base64: resizedPhoto.base64,
+    });
+
+    const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
+    if (fileImg.size > 10400000) {
+      resizeImage(imageInfo, resizeAmount * 0.5);
     }
   };
 
@@ -48,21 +64,20 @@ export default function ProfilePageScreen({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      // aspect: [1, 1],
-
-      // either need to add an image resize that automatically shrinks too-large images, or
-      // have an error message telling the user that their image is too large, and informs them of the
-      // maximum file size (10.4mb)
-      aspect: [0.9, 0.9],
+      aspect: [1, 1],
       quality: 1,
       base64: true,
     });
-
     if (!result.canceled) {
       setPickedImage({
         uri: result.assets[0].uri,
         base64: result.assets[0].base64,
+        width: result.assets[0].width,
       });
+
+      if (result.assets[0].fileSize > 10400000) {
+        resizeImage(result.assets[0], 0.5);
+      }
     }
   };
 
@@ -72,6 +87,7 @@ export default function ProfilePageScreen({ navigation }) {
 
   React.useEffect(() => {
     getUserAvatar();
+    resetImage();
   }, [user]);
 
   React.useLayoutEffect(() => {
@@ -91,16 +107,26 @@ export default function ProfilePageScreen({ navigation }) {
           marginTop: 40,
         }}
       >
+        <Text
+          style={{
+            color: "red",
+            textAlign: "center",
+          }}
+        >
+          {error}
+        </Text>
         <View>
-          {pickedImage === null ? (
+          {avatarInfo !== null && pickedImage === null ? (
+            <Image style={styles.ImageContainer} source={{ uri: avatarInfo }} />
+          ) : pickedImage !== null ? (
             <Image
               style={styles.ImageContainer}
-              source={require("../../assets/defaultAvatar.png")}
+              source={{ uri: pickedImage.uri }}
             />
           ) : (
             <Image
               style={styles.ImageContainer}
-              source={{ uri: pickedImage.uri }}
+              source={require("../../assets/defaultAvatar.png")}
             />
           )}
         </View>
@@ -108,34 +134,63 @@ export default function ProfilePageScreen({ navigation }) {
         {pickedImage !== null ? (
           <TouchableOpacity
             onPress={resetImage}
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              paddingVertical: 10,
-              paddingHorizontal: 12,
-              borderRadius: 12,
-              elevation: 3,
-              backgroundColor: "#1aa7ec",
-            }}
+            style={globalStyles.secondaryButton}
           >
-            <MaterialIcon name="no-photography" size={30} color="#fdfdfd" />
+            <Text style={globalStyles.secondaryButtonText}>
+              Clear picked image
+            </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={pickImage}
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              paddingVertical: 10,
-              paddingHorizontal: 12,
-              borderRadius: 12,
-              elevation: 3,
-              backgroundColor: "#1aa7ec",
-            }}
+            style={globalStyles.secondaryButton}
           >
-            <MaterialIcon name="add-a-photo" size={30} color="#fdfdfd" />
+            <Text style={globalStyles.secondaryButtonText}>
+              Select new photo
+            </Text>
           </TouchableOpacity>
         )}
+
+        <TouchableOpacity
+          onPress={() => {
+            fetch(
+              //  `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+              `http://localhost:8080/settings/deleteavatar`,
+              {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user }),
+              }
+            )
+              .catch((err) => {
+                return;
+              })
+              .then((res) => {
+                if (!res || !res.ok || res.status >= 400) {
+                  return;
+                }
+                return res.json();
+              })
+              .then((data) => {
+                if (!data) return;
+                //    console.log(data);
+                setUser({ ...data });
+                if (data.status) {
+                  setError(data.status);
+                } else if (data.loggedIn) {
+                  SecureStore.setItemAsync("token", data.token);
+                }
+              });
+          }}
+          style={globalStyles.secondaryButton}
+        >
+          <Text style={globalStyles.secondaryButtonText}>
+            Delete Profile Picture
+          </Text>
+        </TouchableOpacity>
 
         {pickedImage !== null ? (
           <TouchableOpacity
@@ -170,8 +225,6 @@ export default function ProfilePageScreen({ navigation }) {
                   setImageUploadInfo({ ...data });
                   let uploadUrl = data["secure_url"];
                   const vals = { imageUrl: uploadUrl };
-                  console.log({ ...user, ...vals });
-                  console.log(imageUploadInfo);
                   fetch(
                     //  `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                     `http://localhost:8080/settings/updateavatar`,
@@ -197,6 +250,7 @@ export default function ProfilePageScreen({ navigation }) {
                       if (!data) return;
                       //    console.log(data);
                       setUser({ ...data });
+                      setPickedImage(null);
                       if (data.status) {
                         setError(data.status);
                       } else if (data.loggedIn) {

@@ -16,13 +16,13 @@ export const globalStyles = StyleSheet.create({
   h3HeadingPrimary: {
     color: "#33b7f0",
     fontSize: 18,
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Poppins_600SemiBold",
     letterSpacing: 0,
   },
   h3HeadingSecondary: {
     color: "#767676",
     fontSize: 18,
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Poppins_600SemiBold",
     letterSpacing: 0,
   },
   container: {

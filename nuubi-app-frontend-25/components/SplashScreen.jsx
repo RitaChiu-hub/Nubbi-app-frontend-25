@@ -69,6 +69,7 @@ export default function SplashScreen({ navigation }) {
       <Image
         style={{ width: 200, height: 200 }}
         source={require("../assets/nuubiTransparent.png")}
+        alt="The Nuubi logo, a green and blue chat bubble with an open book at the center."
       />
       <View style={{ marginVertical: 20 }}></View>
       <Text
