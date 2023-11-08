@@ -171,6 +171,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                     alignItems: "stretch",
                   }}
                   placeholder="Enter new password"
+                  secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt1")}
                   value={props.values.passattempt1}
                 />
@@ -194,6 +195,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                     alignItems: "stretch",
                   }}
                   placeholder="Enter new password again"
+                  secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt2")}
                   value={props.values.passattempt2}
                 />

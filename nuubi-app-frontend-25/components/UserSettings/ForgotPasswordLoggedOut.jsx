@@ -194,6 +194,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                     marginVertical: 5,
                   }}
                   placeholder="Enter new password"
+                  secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt1")}
                   value={props.values.passattempt1}
                 />
@@ -218,6 +219,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                     marginVertical: 5,
                   }}
                   placeholder="Repeat new password"
+                  secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt2")}
                   value={props.values.passattempt2}
                 />
