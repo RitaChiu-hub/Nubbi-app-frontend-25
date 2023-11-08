@@ -54,17 +54,14 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               const myNumber = Math.random().toString(10).substring(2, 8);
               const mypasscode = myNumber;
               const email = vals.email;
-              fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, email, mypasscode }),
-                }
-              )
+              fetch("http://localhost:8080/settings/generatepasscode", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user, email, mypasscode }),
+              })
                 .catch((err) => {
                   return;
                 })
@@ -129,17 +126,14 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
+              fetch("http://localhost:8080/settings/forgotpassword", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user, ...vals }),
+              })
                 .catch((err) => {
                   return;
                 })

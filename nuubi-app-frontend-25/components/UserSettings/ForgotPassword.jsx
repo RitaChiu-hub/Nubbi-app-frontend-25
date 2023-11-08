@@ -18,17 +18,14 @@ export default function ForgotPasswordScreen({ navigation }) {
   const generatePasscode = () => {
     const myNumber = Math.random().toString(10).substring(2, 8);
     const mypasscode = myNumber;
-    fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...user, mypasscode }),
-      }
-    )
+    fetch("http://localhost:8080/settings/generatepasscode", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...user, mypasscode }),
+    })
       .catch((err) => {
         return;
       })
@@ -100,17 +97,14 @@ export default function ForgotPasswordScreen({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
+              fetch("http://localhost:8080/settings/forgotpassword", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user, ...vals }),
+              })
                 .catch((err) => {
                   return;
                 })

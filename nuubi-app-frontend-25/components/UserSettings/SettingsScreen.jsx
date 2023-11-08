@@ -22,7 +22,7 @@ export default function SettingsScreen({ navigation }) {
   const getUserPoints = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `http://localhost:8080/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -33,7 +33,7 @@ export default function SettingsScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      setUserPoints(jsonData);
+      setUserPoints(jsonData.userPoints);
     } catch (err) {
       console.error(err.message);
     }

@@ -33,10 +33,12 @@ export default function LoginScreen({ navigation }) {
             // initialValues={{ username: "", password: "" }}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {
+              console.log("hi");
               values.username = values.username.trim();
               const vals = { ...values };
               actions.resetForm();
-              fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
+              //  fetch(`http://localhost:8080/auth/login`, {
+              fetch(`http://localhost:8080/auth/login`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

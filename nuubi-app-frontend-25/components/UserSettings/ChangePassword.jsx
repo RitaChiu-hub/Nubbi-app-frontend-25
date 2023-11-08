@@ -50,17 +50,14 @@ export default function ChangePasswordScreen({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/updatepassword",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
+              fetch("http://localhost:8080/settings/updatepassword", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user, ...vals }),
+              })
                 .catch((err) => {
                   return;
                 })
@@ -132,6 +129,7 @@ export default function ChangePasswordScreen({ navigation }) {
                   placeholder="Enter new password"
                   onChangeText={props.handleChange("passattempt1")}
                   value={props.values.passattempt1}
+                  secureTextEntry={true}
                 />
                 <Text
                   style={{
@@ -156,6 +154,7 @@ export default function ChangePasswordScreen({ navigation }) {
                   placeholder="Repeat new password"
                   onChangeText={props.handleChange("passattempt2")}
                   value={props.values.passattempt2}
+                  secureTextEntry={true}
                   marginBottom={10}
                 />
                 <Text

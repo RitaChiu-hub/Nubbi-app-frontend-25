@@ -20,9 +20,11 @@ export default function HomeScreen({ navigation }) {
   }
 
   const getGroups = async () => {
+    console.log("my groups loading");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
+        //   `http://localhost:8080/groups/mygroups`,
+        `http://localhost:8080/groups/mygroups`,
         {
           method: "POST",
           credentials: "include",

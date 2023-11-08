@@ -54,7 +54,7 @@ export default function SignUpScreen({ navigation }) {
             values.email = values.email.trim();
             const vals = { ...values };
             actions.resetForm();
-            fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
+            fetch("http://localhost:8080/auth/signup", {
               // fetch("http://localhost:8080/auth/signup", {
               method: "POST",
               credentials: "include",

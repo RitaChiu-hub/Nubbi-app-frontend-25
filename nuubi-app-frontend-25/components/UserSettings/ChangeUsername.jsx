@@ -61,7 +61,7 @@ export default function ChangeUsernameScreen({ navigation }) {
               const passattempt = vals.password;
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/updateusername",
+                "http://localhost:8080/settings/updateusername",
                 //  "http://localhost:8080/settings/updateusername",
                 {
                   method: "POST",
