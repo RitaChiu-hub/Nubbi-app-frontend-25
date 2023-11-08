@@ -41,17 +41,20 @@ export default function DeleteGroupScreen({ navigation }) {
             const vals = { ...values };
             const passattempt = vals.passattempt;
             actions.resetForm();
-            fetch("http://localhost:8080/groups/deletegroup", {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                ...user,
-                ...vals,
-              }),
-            })
+            fetch(
+              "https://coral-app-n96bn.ondigitalocean.app/groups/deletegroup",
+              {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  ...user,
+                  ...vals,
+                }),
+              }
+            )
               .catch((err) => {
                 return;
               })

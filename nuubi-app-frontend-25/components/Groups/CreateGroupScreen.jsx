@@ -60,15 +60,18 @@ export default function CreateGroupScreen({ navigation }) {
               const vals = { ...values };
               const allvals = { ...values, privacySelection };
               actions.resetForm();
-              fetch("http://localhost:8080/groups/creategroup", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                //body: JSON.stringify({ ...user, ...vals }),
-                body: JSON.stringify({ ...user, ...allvals }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/groups/creategroup",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  //body: JSON.stringify({ ...user, ...vals }),
+                  body: JSON.stringify({ ...user, ...allvals }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })

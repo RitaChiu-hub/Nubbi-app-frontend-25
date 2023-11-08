@@ -21,7 +21,7 @@ export default function GroupInfoScreen({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -59,7 +59,7 @@ export default function GroupInfoScreen({ navigation }) {
   const getMemberCount = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getmembercount`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
         {
           method: "POST",
           credentials: "include",
@@ -78,14 +78,17 @@ export default function GroupInfoScreen({ navigation }) {
 
   const getMembers = async () => {
     try {
-      const response = await fetch("http://localhost:8080/groups/getmembers", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
       const jsonData = await response.json();
       setMembers(jsonData);
     } catch (err) {
@@ -301,16 +304,19 @@ export default function GroupInfoScreen({ navigation }) {
                 minWidth: 300,
               }}
               onPress={() => {
-                fetch("http://localhost:8080/groups/leavegroup", {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    ...user,
-                  }),
-                })
+                fetch(
+                  "https://coral-app-n96bn.ondigitalocean.app/groups/leavegroup",
+                  {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      ...user,
+                    }),
+                  }
+                )
                   .catch((err) => {
                     return;
                   })

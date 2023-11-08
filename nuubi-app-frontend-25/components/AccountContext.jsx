@@ -11,7 +11,7 @@ const UserContext = ({ children }) => {
     currentGroup: null,
   });
   useEffect(() => {
-    fetch(`http://localhost:8080/auth/login`, {
+    fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
       credentials: "include",
       headers: {
         authorization: `Bearer ${user.token}`,

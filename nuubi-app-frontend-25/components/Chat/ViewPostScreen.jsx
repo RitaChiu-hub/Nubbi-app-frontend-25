@@ -38,7 +38,7 @@ export default function ViewPostScreen({ navigation }) {
   const getPostLiked = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostliked`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostliked`,
         {
           method: "POST",
           credentials: "include",
@@ -58,7 +58,7 @@ export default function ViewPostScreen({ navigation }) {
   const getLikes = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getcommentlikes`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getcommentlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -82,8 +82,8 @@ export default function ViewPostScreen({ navigation }) {
   const getPostInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostinfo`,
-        // `http://localhost:8080/groups/getpostinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
+        // `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -103,7 +103,7 @@ export default function ViewPostScreen({ navigation }) {
   const getPostPoints = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostpoints`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -123,7 +123,7 @@ export default function ViewPostScreen({ navigation }) {
   const getComments = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/${user.currentGroup}/posts/${user.currentPost}/getcomments`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/posts/${user.currentPost}/getcomments`,
         {
           method: "POST",
           credentials: "include",
@@ -235,16 +235,19 @@ export default function ViewPostScreen({ navigation }) {
                       setPostLiked(!postLiked);
                     }
 
-                    fetch(`http://localhost:8080/groups/addpostpoint`, {
-                      method: "POST",
-                      credentials: "include",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        ...user,
-                      }),
-                    });
+                    fetch(
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/addpostpoint`,
+                      {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          ...user,
+                        }),
+                      }
+                    );
                   }}
                 >
                   <Text
@@ -407,17 +410,20 @@ export default function ViewPostScreen({ navigation }) {
                           setIsChanged(!isChanged);
                         }
 
-                        fetch(`http://localhost:8080/groups/addcommentpoint`, {
-                          method: "POST",
-                          credentials: "include",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            ...user,
-                            comment_id: comments.post_comment_id,
-                          }),
-                        });
+                        fetch(
+                          `https://coral-app-n96bn.ondigitalocean.app/groups/addcommentpoint`,
+                          {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              ...user,
+                              comment_id: comments.post_comment_id,
+                            }),
+                          }
+                        );
                       }}
                     >
                       <Text

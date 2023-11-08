@@ -37,8 +37,8 @@ export default function LoginScreen({ navigation }) {
               values.username = values.username.trim();
               const vals = { ...values };
               actions.resetForm();
-              //  fetch(`http://localhost:8080/auth/login`, {
-              fetch(`http://localhost:8080/auth/login`, {
+              //  fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
+              fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

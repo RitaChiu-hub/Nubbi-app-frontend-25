@@ -50,14 +50,17 @@ export default function ChangePasswordScreen({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch("http://localhost:8080/settings/updatepassword", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, ...vals }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/updatepassword",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, ...vals }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
