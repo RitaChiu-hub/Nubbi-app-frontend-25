@@ -7,6 +7,7 @@ import {
   Modal,
   Alert,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
@@ -33,7 +34,7 @@ export default function SettingsScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      setUserPoints(jsonData.userPoints);
+      setUserPoints(jsonData);
     } catch (err) {
       console.error(err.message);
     }
@@ -44,8 +45,12 @@ export default function SettingsScreen({ navigation }) {
   }, []);
 
   const signOut = () => {
-    SecureStore.deleteItemAsync("userToken");
     setUser({ loggedIn: false });
+    if (Platform.OS === "web") {
+      localStorage.removeItem("token");
+    } else {
+      SecureStore.deleteItemAsync("token");
+    }
     socket.disconnect();
   };
 

@@ -47,11 +47,6 @@ import PrivacyScreen from "./Onboarding/Privacy";
 
 import ProfilePageScreen from "./UserSettings/ProfilePage";
 
-const useAuth = () => {
-  const { user } = useContext(AccountContext);
-  return user && user.loggedIn;
-};
-
 const StackSettings = createNativeStackNavigator();
 
 function SettingsStack() {
@@ -299,11 +294,12 @@ const Stack = createNativeStackNavigator();
 
 export default function Views() {
   const { user } = useContext(AccountContext);
-  const isAuth = useAuth();
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {user.loggedIn == false ? (
+      {user.token != null && user.token != "undefined" ? (
+        <Stack.Screen name="BottomTabs" component={TabNavigator} />
+      ) : (
         <Stack.Screen
           name="Signin"
           component={AuthStack}
@@ -311,8 +307,6 @@ export default function Views() {
             title: "Log in",
           }}
         />
-      ) : (
-        <Stack.Screen name="BottomTabs" component={TabNavigator} />
       )}
     </Stack.Navigator>
   );

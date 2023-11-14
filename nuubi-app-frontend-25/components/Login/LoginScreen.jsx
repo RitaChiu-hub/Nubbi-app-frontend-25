@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -33,7 +34,6 @@ export default function LoginScreen({ navigation }) {
             // initialValues={{ username: "", password: "" }}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {
-              console.log("hi");
               values.username = values.username.trim();
               const vals = { ...values };
               actions.resetForm();
@@ -57,12 +57,20 @@ export default function LoginScreen({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  console.log(data);
                   setUser({ ...data });
+                  if (Platform.OS === "web") {
+                    localStorage.setItem("token", data.token);
+                  } else {
+                    SecureStore.setItemAsync("token", data.token);
+                  }
                   if (data.status) {
                     setError(data.status);
                   } else if (data.loggedIn) {
-                    SecureStore.setItemAsync("token", data.token);
+                    if (Platform.OS === "web") {
+                      localStorage.setItem("token", data.token);
+                    } else {
+                      SecureStore.setItemAsync("token", data.token);
+                    }
                   }
                 });
             }}

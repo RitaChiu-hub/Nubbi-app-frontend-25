@@ -7,6 +7,8 @@ import * as SecureStore from "expo-secure-store";
 import Icon from "react-native-vector-icons/Ionicons";
 
 export default function HomeScreen({ navigation }) {
+  console.log("token is: " + localStorage.getItem("token"));
+
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [groups, setGroups] = React.useState([]);
@@ -20,7 +22,6 @@ export default function HomeScreen({ navigation }) {
   }
 
   const getGroups = async () => {
-    console.log("my groups loading");
     try {
       const response = await fetch(
         //   `http://localhost:8080/groups/mygroups`,
@@ -35,7 +36,7 @@ export default function HomeScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-
+      console.log(JSON.stringify({ ...user }));
       setGroups(jsonData);
     } catch (err) {
       console.error(err.message);

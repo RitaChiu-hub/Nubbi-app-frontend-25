@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -74,12 +75,20 @@ export default function SignUpScreen({ navigation }) {
               })
               .then((data) => {
                 if (!data) return;
-                console.log(data);
                 setUser({ ...data });
+                if (Platform.OS === "web") {
+                  localStorage.setItem("token", data.token);
+                } else {
+                  SecureStore.setItemAsync("token", data.token);
+                }
                 if (data.status) {
                   setError(data.status);
                 } else if (data.loggedIn) {
-                  SecureStore.setItemAsync("token", data.token);
+                  if (Platform.OS === "web") {
+                    localStorage.setItem("token", data.token);
+                  } else {
+                    SecureStore.setItemAsync("token", data.token);
+                  }
                 }
               });
           }}
@@ -121,31 +130,6 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="email" />
                 </Text>
-                {/* <Text>Username (you can change this later)</Text>
-                <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                    marginVertical: 5,
-                  }}
-                  placeholder="Enter username"
-                  onChangeText={props.handleChange("username")}
-                  value={props.values.username}
-                  marginBottom={10}
-                />
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  <ErrorMessage name="username" />
-                </Text> */}
                 <Text>Password</Text>
                 <TextInput
                   style={{

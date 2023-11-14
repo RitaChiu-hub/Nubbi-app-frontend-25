@@ -51,8 +51,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              const myNumber = Math.random().toString(10).substring(2, 8);
-              const mypasscode = myNumber;
               const email = vals.email;
               fetch("http://localhost:8080/settings/generatepasscode", {
                 method: "POST",
@@ -60,7 +58,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 headers: {
                   "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ ...user, email, mypasscode }),
+                body: JSON.stringify({ ...user, email }),
               })
                 .catch((err) => {
                   return;

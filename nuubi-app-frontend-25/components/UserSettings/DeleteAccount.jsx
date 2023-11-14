@@ -5,6 +5,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { AccountContext } from "../AccountContext";
@@ -23,13 +24,6 @@ export default function DeleteAccountScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    // <View
-    //   style={{
-    //     flex: 1,
-    //     backgroundColor: "#fdfdfd",
-    //     alignItems: "center",
-    //   }}
-    // >
     <ScrollView
       style={{
         backgroundColor: "#fdfdfd",
@@ -41,8 +35,6 @@ export default function DeleteAccountScreen({ navigation }) {
           backgroundColor: "#fdfdfd",
           alignItems: "center",
           justifyContent: "center",
-          // marginTop: 20,
-          // marginBottom: 50,
         }}
       >
         <View
@@ -79,13 +71,24 @@ export default function DeleteAccountScreen({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  console.log(data);
                   setUser({ ...data });
+                  if (Platform.OS === "web") {
+                    localStorage.removeItem("token");
+                  } else {
+                    SecureStore.deleteItemAsync("token");
+                  }
+                  setUser({ loggedIn: false });
+                  socket.disconnect();
                   if (data.status) {
                     setError(data.status);
                   } else if (data.loggedIn) {
-                    SecureStore.deleteItemAsync("userToken");
+                    if (Platform.OS === "web") {
+                      localStorage.removeItem("token");
+                    } else {
+                      SecureStore.deleteItemAsync("token");
+                    }
                     setUser({ loggedIn: false });
+                    socket.disconnect();
                   }
                 });
             }}
