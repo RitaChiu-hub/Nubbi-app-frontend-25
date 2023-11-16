@@ -21,7 +21,6 @@ export default function HomeScreen({ navigation }) {
 
   const getGroups = async () => {
     try {
-      console.log({ ...user });
       const response = await fetch(
         //   `http://localhost:8080/groups/mygroups`,
         `http://localhost:8080/groups/mygroups`,
