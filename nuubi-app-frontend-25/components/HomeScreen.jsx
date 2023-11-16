@@ -3,7 +3,6 @@ import { Text, View, Modal, FlatList, TouchableOpacity } from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
 import { globalStyles } from "../styles/global";
-import * as SecureStore from "expo-secure-store";
 import Icon from "react-native-vector-icons/Ionicons";
 
 export default function HomeScreen({ navigation }) {
