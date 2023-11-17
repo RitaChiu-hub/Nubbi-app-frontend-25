@@ -17,8 +17,9 @@ import * as SecureStore from "expo-secure-store";
 export default function SettingsScreen({ navigation }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const { user, setUser } = React.useContext(AccountContext);
-  const myUsername = user.username;
+  // const myUsername = user.username;
   const [userPoints, setUserPoints] = React.useState(0);
+  const [myUsername, setMyUsername] = React.useState("");
 
   const getUserPoints = async () => {
     try {
@@ -34,7 +35,8 @@ export default function SettingsScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      setUserPoints(jsonData);
+      setUserPoints(jsonData.userPoints);
+      setMyUsername(jsonData.username);
     } catch (err) {
       console.error(err.message);
     }
