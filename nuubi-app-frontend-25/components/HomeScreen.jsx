@@ -10,7 +10,7 @@ export default function HomeScreen({ navigation }) {
   const [error, setError] = React.useState(null);
   const [groups, setGroups] = React.useState([]);
 
-  if (user.loggedIn === true) {
+  if (user.token != null && user.token != "undefined") {
     React.useEffect(() => {
       socket.connect();
     }, []);
@@ -20,18 +20,14 @@ export default function HomeScreen({ navigation }) {
 
   const getGroups = async () => {
     try {
-      const response = await fetch(
-        //   `http://localhost:8080/groups/mygroups`,
-        `http://localhost:8080/groups/mygroups`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`http://localhost:8080/groups/mygroups`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setGroups(jsonData);
     } catch (err) {

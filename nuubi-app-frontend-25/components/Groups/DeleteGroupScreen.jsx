@@ -70,9 +70,10 @@ export default function DeleteGroupScreen({ navigation }) {
                   if (data.status === "Success") {
                     navigation.navigate("Home");
                   }
-                } else if (data.loggedIn) {
-                  console.log("no errors I guess");
                 }
+                // else if (data.loggedIn) {
+                //   SecureStore.setItemAsync("token", data.token);
+                // }
               });
           }}
         >

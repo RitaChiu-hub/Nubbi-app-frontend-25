@@ -75,9 +75,10 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);
-                  } else if (data.loggedIn) {
-                    console.log("no errors I guess");
                   }
+                  // else if (data.loggedIn) {
+                  //   SecureStore.setItemAsync("token", data.token);
+                  // }
                 });
             }}
           >
@@ -147,9 +148,10 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);
-                  } else if (data.loggedIn) {
-                    console.log("no errors I guess");
                   }
+                  // else if (data.loggedIn) {
+                  //   SecureStore.setItemAsync("token", data.token);
+                  // }
                 });
             }}
           >

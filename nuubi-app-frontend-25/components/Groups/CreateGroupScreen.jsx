@@ -84,9 +84,10 @@ export default function CreateGroupScreen({ navigation }) {
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);
-                  } else if (data.loggedIn) {
-                    SecureStore.setItemAsync("token", data.token);
                   }
+                  // else if (data.loggedIn) {
+                  //   SecureStore.setItemAsync("token", data.token);
+                  // }
                 });
             }}
           >

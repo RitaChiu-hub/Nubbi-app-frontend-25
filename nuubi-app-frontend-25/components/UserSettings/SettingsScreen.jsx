@@ -45,7 +45,7 @@ export default function SettingsScreen({ navigation }) {
   }, []);
 
   const signOut = () => {
-    setUser({ loggedIn: false });
+    setUser({ token: null });
     if (Platform.OS === "web") {
       localStorage.removeItem("token");
     } else {

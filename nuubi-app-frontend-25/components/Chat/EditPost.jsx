@@ -144,9 +144,10 @@ export default function EditPostScreen({ navigation }) {
                         setUser({ ...data });
                         if (data.status) {
                           setError(data.status);
-                        } else if (data.loggedIn) {
-                          SecureStore.setItemAsync("token", data.token);
                         }
+                        // else if (data.loggedIn) {
+                        //   SecureStore.setItemAsync("token", data.token);
+                        // }
                       });
                     return data["secure_url"];
                   })
@@ -177,9 +178,10 @@ export default function EditPostScreen({ navigation }) {
                     setUser({ ...data });
                     if (data.status) {
                       setError(data.status);
-                    } else if (data.loggedIn) {
-                      SecureStore.setItemAsync("token", data.token);
                     }
+                    // else if (data.loggedIn) {
+                    //   SecureStore.setItemAsync("token", data.token);
+                    // }
                   });
               }
             }}

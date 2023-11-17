@@ -26,12 +26,12 @@ const UserContext = ({ children }) => {
       },
     })
       .catch((err) => {
-        setUser({ loggedIn: false, message1: "A" });
+        setUser({ token: null });
         return;
       })
       .then((r) => {
         if (!r || !r.ok || r.status >= 400) {
-          setUser({ loggedIn: false, message2: "B" });
+          setUser({ token: null });
           return;
         }
         return r.json();

@@ -83,13 +83,10 @@ export default function SignUpScreen({ navigation }) {
                 }
                 if (data.status) {
                   setError(data.status);
-                } else if (data.loggedIn) {
-                  if (Platform.OS === "web") {
-                    localStorage.setItem("token", data.token);
-                  } else {
-                    SecureStore.setItemAsync("token", data.token);
-                  }
                 }
+                // else if (data.loggedIn) {
+                //   SecureStore.setItemAsync("token", data.token);
+                // }
               });
           }}
         >

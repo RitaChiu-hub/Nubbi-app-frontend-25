@@ -176,9 +176,10 @@ export default function ProfilePageScreen({ navigation }) {
                 setUser({ ...data });
                 if (data.status) {
                   setError(data.status);
-                } else if (data.loggedIn) {
-                  SecureStore.setItemAsync("token", data.token);
                 }
+                // else if (data.loggedIn) {
+                //   SecureStore.setItemAsync("token", data.token);
+                // }
               });
           }}
           style={globalStyles.secondaryButton}
@@ -245,9 +246,10 @@ export default function ProfilePageScreen({ navigation }) {
                       setPickedImage(null);
                       if (data.status) {
                         setError(data.status);
-                      } else if (data.loggedIn) {
-                        SecureStore.setItemAsync("token", data.token);
                       }
+                      // else if (data.loggedIn) {
+                      //   SecureStore.setItemAsync("token", data.token);
+                      // }
                     });
                   return data["secure_url"];
                 })

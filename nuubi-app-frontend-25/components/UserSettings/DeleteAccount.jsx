@@ -77,19 +77,19 @@ export default function DeleteAccountScreen({ navigation }) {
                   } else {
                     SecureStore.deleteItemAsync("token");
                   }
-                  setUser({ loggedIn: false });
+                  setUser({ token: null });
                   socket.disconnect();
                   if (data.status) {
                     setError(data.status);
-                  } else if (data.loggedIn) {
-                    if (Platform.OS === "web") {
-                      localStorage.removeItem("token");
-                    } else {
-                      SecureStore.deleteItemAsync("token");
-                    }
-                    setUser({ loggedIn: false });
-                    socket.disconnect();
                   }
+                  // else if (data.loggedIn) {
+                  //   if (Platform.OS === "web") {
+                  //     localStorage.removeItem("token");
+                  //   } else {
+                  //     SecureStore.deleteItemAsync("token");
+                  //   }
+                  //   socket.disconnect();
+                  // }
                 });
             }}
           >
