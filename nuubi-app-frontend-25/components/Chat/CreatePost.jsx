@@ -106,8 +106,8 @@ export default function CreatePostScreen({ navigation }) {
                     let uploadUrl = data["secure_url"];
                     const vals = { ...values, imageUrl: uploadUrl };
                     fetch(
-                      `http://localhost:8080/groups/${user.currentGroup}/createpost`,
-                      //   `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                      //   `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                       {
                         method: "POST",
                         credentials: "include",
@@ -144,8 +144,8 @@ export default function CreatePostScreen({ navigation }) {
                 const vals = { ...values, imageUrl: null };
                 actions.resetForm();
                 fetch(
-                  `http://localhost:8080/groups/${user.currentGroup}/createpost`,
-                  // `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                  `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                  // `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                   {
                     method: "POST",
                     credentials: "include",

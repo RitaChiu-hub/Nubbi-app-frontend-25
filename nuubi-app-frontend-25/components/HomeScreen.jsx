@@ -20,14 +20,17 @@ export default function HomeScreen({ navigation }) {
 
   const getGroups = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/groups/mygroups`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
       const jsonData = await response.json();
       setGroups(jsonData);
     } catch (err) {

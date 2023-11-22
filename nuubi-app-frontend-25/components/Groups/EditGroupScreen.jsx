@@ -57,14 +57,17 @@ export default function EditGroupScreen({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               const allvals = { ...values, privacySelection };
-              fetch("http://localhost:8080/groups/editgroup", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, ...allvals }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/groups/editgroup",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, ...allvals }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })

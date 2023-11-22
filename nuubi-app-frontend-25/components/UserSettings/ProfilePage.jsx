@@ -25,7 +25,7 @@ export default function ProfilePageScreen({ navigation }) {
   const getUserAvatar = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/settings/getuseravatar",
+        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
         {
           method: "POST",
           credentials: "include",
@@ -153,14 +153,17 @@ export default function ProfilePageScreen({ navigation }) {
 
         <TouchableOpacity
           onPress={() => {
-            fetch(`http://localhost:8080/settings/deleteavatar`, {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ ...user }),
-            })
+            fetch(
+              `https://coral-app-n96bn.ondigitalocean.app/settings/deleteavatar`,
+              {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user }),
+              }
+            )
               .catch((err) => {
                 return;
               })
@@ -222,14 +225,17 @@ export default function ProfilePageScreen({ navigation }) {
                   setImageUploadInfo({ ...data });
                   let uploadUrl = data["secure_url"];
                   const vals = { imageUrl: uploadUrl };
-                  fetch(`http://localhost:8080/settings/updateavatar`, {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ ...user, ...vals }),
-                  })
+                  fetch(
+                    `https://coral-app-n96bn.ondigitalocean.app/settings/updateavatar`,
+                    {
+                      method: "POST",
+                      credentials: "include",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({ ...user, ...vals }),
+                    }
+                  )
                     .catch((err) => {
                       return;
                     })

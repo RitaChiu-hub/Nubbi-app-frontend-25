@@ -34,7 +34,7 @@ export default function ChatScreen({ navigation }) {
   const getGroupName = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -54,7 +54,7 @@ export default function ChatScreen({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -73,14 +73,17 @@ export default function ChatScreen({ navigation }) {
 
   const getLikes = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/groupchat/getlikes`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
       const jsonData = await response.json();
       const myLikes =
         jsonData.length > 0
@@ -99,7 +102,7 @@ export default function ChatScreen({ navigation }) {
   const getChats = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/groupchat/getmessages",
+        "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
         {
           method: "POST",
           credentials: "include",
@@ -118,14 +121,17 @@ export default function ChatScreen({ navigation }) {
 
   const getIsAdmin = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/groups/isadmin`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
       const jsonData = await response.json();
       setUser(jsonData);
     } catch (err) {
@@ -240,17 +246,20 @@ export default function ChatScreen({ navigation }) {
                         setIsChanged(!isChanged);
                       }
 
-                      fetch(`http://localhost:8080/groups/addmessagepoint`, {
-                        method: "POST",
-                        credentials: "include",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          ...user,
-                          message_id: chats.messages_id,
-                        }),
-                      });
+                      fetch(
+                        `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+                        {
+                          method: "POST",
+                          credentials: "include",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            ...user,
+                            message_id: chats.messages_id,
+                          }),
+                        }
+                      );
                     }}
                   >
                     <Text

@@ -30,15 +30,15 @@ export default function LoginScreen({ navigation }) {
       <ScrollView>
         <View style={globalStyles.innerContainer}>
           <Formik
-            initialValues={{ username: "Testuser", password: "testpass" }}
-            // initialValues={{ username: "", password: "" }}
+            //   initialValues={{ username: "Testuser", password: "testpass" }}
+            initialValues={{ username: "", password: "" }}
             validationSchema={formSchema}
             onSubmit={(values, actions) => {
               values.username = values.username.trim();
               const vals = { ...values };
               actions.resetForm();
-              //  fetch(`http://localhost:8080/auth/login`, {
-              fetch(`http://localhost:8080/auth/login`, {
+              fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
+                // fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

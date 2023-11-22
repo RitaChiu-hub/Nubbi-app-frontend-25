@@ -52,14 +52,17 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               const vals = { ...values };
               actions.resetForm();
               const email = vals.email;
-              fetch("http://localhost:8080/settings/generatepasscode", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, email }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, email }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
@@ -125,14 +128,17 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch("http://localhost:8080/settings/forgotpassword", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, ...vals }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, ...vals }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
