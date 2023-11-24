@@ -15,7 +15,7 @@ import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 
 export default function LoginScreen({ navigation }) {
-  const { setUser } = React.useContext(AccountContext);
+  const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
 
   React.useLayoutEffect(() => {

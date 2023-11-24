@@ -56,7 +56,6 @@ export default function SignUpScreen({ navigation }) {
             const vals = { ...values };
             actions.resetForm();
             fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
-              // fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
               method: "POST",
               credentials: "include",
               headers: {

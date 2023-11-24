@@ -9,7 +9,12 @@ const UserContext = ({ children }) => {
   if (Platform.OS === "web") {
     myToken = localStorage.getItem("token");
   } else {
-    myToken = SecureStore.getItemAsync("token");
+    getToken = SecureStore.getItemAsync("token");
+    if (getToken._j != null) {
+      myToken = getToken._j;
+    } else {
+      myToken = null;
+    }
   }
 
   const [user, setUser] = useState({

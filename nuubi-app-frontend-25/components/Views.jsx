@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Octicon from "react-native-vector-icons/Octicons";
-import { Image, View } from "react-native";
+import { Image, Platform } from "react-native";
 
 import { useContext } from "react";
 import { AccountContext } from "./AccountContext";
@@ -295,9 +295,11 @@ const Stack = createNativeStackNavigator();
 export default function Views() {
   const { user } = useContext(AccountContext);
 
+  const isLoggedIn = user.token != null && user.token != "undefined";
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {user.token != null && user.token != "undefined" ? (
+      {isLoggedIn ? (
         <Stack.Screen name="BottomTabs" component={TabNavigator} />
       ) : (
         <Stack.Screen

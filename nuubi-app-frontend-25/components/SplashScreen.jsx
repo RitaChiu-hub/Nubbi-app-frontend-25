@@ -31,10 +31,11 @@ import { globalStyles } from "../styles/global";
 import * as SplashScreenExpo from "expo-splash-screen";
 import { AccountContext } from "./AccountContext";
 
-SplashScreenExpo.preventAutoHideAsync();
+// SplashScreenExpo.preventAutoHideAsync();
 
 export default function SplashScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
+
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
     Poppins_100Thin_Italic,
