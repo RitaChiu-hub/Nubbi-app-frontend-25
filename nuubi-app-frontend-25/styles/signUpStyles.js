@@ -1,0 +1,137 @@
+import { StyleSheet, StatusBar } from "react-native";
+
+export const signUpStyles = StyleSheet.create({
+    signUpButtonText: {
+        color: "#FFFFFF",
+        fontSize: 14,
+        fontFamily: "Poppins_600SemiBold",
+        letterSpacing: 1.25,
+    },
+    loginLabelText: {
+        color: "#333333",
+        fontSize: 14,
+        fontFamily: "Poppins_600SemiBold",
+        letterSpacing: 1.25,
+        marginTop: 8,
+        marginBottom: 4,
+    },
+    headingText: {
+        color: "#333333",
+        fontSize: 16,
+        fontFamily: "Poppins_600SemiBold",
+        letterSpacing: 1.25,
+        marginTop: 8,
+    },
+    passwordSpecsText: {
+        color: "#767676",
+        fontSize: 12,
+        fontFamily: "Poppins_400Regular",
+        letterSpacing: 1,
+    },
+    loginInput: {
+        borderWidth: 1,
+        borderColor: "#C0C0C0",
+        backgroundColor: "#EBEBEB",
+        fontFamily: "Poppins_400Regular",
+        fontSize: 14,
+        color: "#767676",
+        padding: 12,
+        borderRadius: 10,
+        width: "100%",
+        alignItems: "stretch",
+        marginVertical: 5,
+    },
+    passwordInput: {
+        flex: 1,
+        fontFamily: "Poppins_400Regular",
+        padding: 2,
+        fontSize: 14,
+        color: "#767676",
+    },
+    passwordInputContainer: {
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: "#C0C0C0",
+        backgroundColor: "#EBEBEB",
+        padding: 8,
+        borderRadius: 10,
+        width: "100%",
+        alignItems: "stretch",
+        marginVertical: 5,
+    },
+    passcodeInput: {
+        borderWidth: 1,
+        borderColor: "#C0C0C0",
+        backgroundColor: "#EBEBEB",
+        fontFamily: "Poppins_400Regular",
+        fontSize: 14,
+        color: "#767676",
+        padding: 12,
+        borderRadius: 10,
+        alignItems: "stretch",
+        marginVertical: 5,
+    },
+    acknowledgmentText: {
+        color: "#333333",
+        fontSize: 12,
+        fontFamily: "Poppins_400Regular",
+        letterSpacing: 1,
+    },
+    dividerContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginVertical: 32,
+    },
+    orContinueWithText: {
+        marginHorizontal: 10,
+        fontSize: 12,
+        fontFamily: "Poppins_400Regular",
+        color: "#767676", // You can customize the color of the text
+    },
+    halfDivider: {
+        flex: 1,
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc", // You can customize the color of the divider
+    },
+    ssoButtonsContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 10,
+      },
+      ssoButtonsContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 10,
+      },
+      ssoButton: {
+        flex: 1,
+        backgroundColor: "transparent", // Set button background color to transparent
+        padding: 10,
+        borderRadius: 12,
+        marginHorizontal: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 1,
+        borderColor: "#ccc", // Add border for better visibility
+      },
+      signUpButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 14,
+        paddingHorizontal: 20,
+        borderRadius: 60,
+        elevation: 3,
+        backgroundColor: "#2482AA",
+        width: "100%",
+      },
+      confirmButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 14,
+        paddingHorizontal: 20,
+        borderRadius: 60,
+        elevation: 3,
+        backgroundColor: "#2482AA",
+        width: "100%",
+      }
+});
