@@ -7,10 +7,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
-        "resourceClass": "m-medium",
-        "appleId": "kwifvat@yahoo.com",
-        "ascAppId": "6447013076",
-        "appleTeamId": "K49RCYR9C4"
+        "resourceClass": "m-medium"
       }
     },
     "preview": {
@@ -27,6 +24,11 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {},
+    "ios": {
+      "appleId": "kwifvat@yahoo.com",
+      "ascAppId": "6447013076",
+      "appleTeamId": "K49RCYR9C4"
+    }
   }
 }
