@@ -16,7 +16,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
-    "eas-cli": "^3.8.1",
+    "eas-cli": "^5.9.3",
     "expo": "~48.0.9",
     "expo-app-loading": "^2.1.1",
     "expo-font": "~11.1.1",
