@@ -5,7 +5,7 @@ import { globalStyles } from "../../styles/global";
 export default function LearnMore2Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Learn More",
+      headerTitle: () => <Text style={globalStyles.screenHeader}>Learn More</Text>,
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -20,17 +20,13 @@ export default function LearnMore2Screen({ navigation }) {
         style={{
           flex: 1,
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-between",
+          backgroundColor: "#fdfdfd",
+          padding: 16,
         }}
       >
         <Text
-          style={{
-            fontSize: 18,
-            color: "#333",
-            padding: 20,
-            marginLeft: 5,
-            marginRight: 25,
-          }}
+            style={globalStyles.body2Regular}
         >
           Get points for being helpful on any post, comment or message! The
           group info page shows the most helpful members.
@@ -45,11 +41,12 @@ export default function LearnMore2Screen({ navigation }) {
           <View></View>
           <TouchableOpacity
             style={{
+              marginTop: 10,
               paddingVertical: 14,
-              paddingHorizontal: 20,
-              borderRadius: 12,
+              paddingHorizontal: 30,
+              borderRadius: 60,
               elevation: 3,
-              backgroundColor: "#1aa7ec",
+              backgroundColor: "#2482AA",
             }}
             onPress={() => navigation.navigate("LearnMore4")}
           >

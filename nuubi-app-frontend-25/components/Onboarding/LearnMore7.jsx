@@ -5,7 +5,9 @@ import { globalStyles } from "../../styles/global";
 export default function LearnMore7Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Learn More",
+      headerTitle: () => (
+        <Text style={globalStyles.screenHeader}>Learn More</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -14,50 +16,35 @@ export default function LearnMore7Screen({ navigation }) {
     <View
       style={{
         flex: 1,
-        backgroundColor: "#fdfdfd",
         alignItems: "center",
-        justifyContent: "center",
+        backgroundColor: "#fdfdfd",
+        padding: 16,
+        paddingTop: 32,
       }}
     >
-      <Text
-        style={{
-          fontSize: 18,
-          color: "#333",
-          padding: 20,
-          marginLeft: 20,
-          marginRight: 20,
-          marginTop: -250,
-        }}
-      >
+      <Text style={globalStyles.body2Regular}>
         Time to start learning together, get your questions answered faster{" "}
         {"& "}
         get rewarded for being helpful!
       </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "flex-end",
-        }}
-      >
-        <View></View>
-        <View style={globalStyles.buttonContainer}>
-          <View>
-            <TouchableOpacity
-              style={globalStyles.secondaryButton}
-              onPress={() => navigation.navigate("Login")}
-            >
-              <Text style={globalStyles.secondaryButtonText}>Log in</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={globalStyles.primaryButton}
-              onPress={() => navigation.navigate("SignUp")}
-            >
-              <Text style={globalStyles.primaryButtonText}>Sign up</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+
+      <View>
+        <TouchableOpacity
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            paddingVertical: 14,
+            paddingHorizontal: 20,
+            borderRadius: 60,
+            elevation: 3,
+            backgroundColor: "#2482AA",
+            width: "100%",
+            marginTop: 16,
+          }}
+          onPress={() => navigation.navigate("SignUp")}
+        >
+          <Text style={globalStyles.primaryButtonText}>SIGN UP</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
