@@ -2,16 +2,16 @@ import * as React from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
   ScrollView,
-  StyleSheet,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 
 export default function PrivacyScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Privacy Policy",
+      headerTitle: () => (
+        <Text style={globalStyles.screenHeader}>Privacy Policy</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -25,12 +25,12 @@ export default function PrivacyScreen({ navigation }) {
       <View
         style={{
           flex: 1,
-          //  alignItems: "center",
           justifyContent: "space-between",
           backgroundColor: "#fdfdfd",
+          margin: 16,
         }}
       >
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           Protecting your private information is our priority. This Statement of
           Privacy applies to Nuubi, and Nuubi Inc and governs data collection
           and usage. For the purposes of this Privacy Policy, unless otherwise
@@ -39,27 +39,28 @@ export default function PrivacyScreen({ navigation }) {
           using the Nuubi application, you consent to the data practices
           described in this statement.
         </Text>
-
-        <Text style={styles.header}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.h3HeadingDark}>
           Collection of your Personal Information
         </Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           In order to better provide you with products and services offered,
           Nuubi may collect personally identifiable information, such as your:
         </Text>
-
-        <Text style={styles.text}>- First and Last Name</Text>
-        <Text style={styles.text}>- E-mail Address</Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>- First and Last Name</Text>
+        <Text style={globalStyles.body2Regular}>- E-mail Address</Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Nuubi may also collect anonymous demographic information, which is not
           unique to you, such as your:
         </Text>
-        <Text style={styles.text}>- Age</Text>
-        <Text style={styles.text}>- Gender</Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>- Age</Text>
+        <Text style={globalStyles.body2Regular}>- Gender</Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           We do not collect any personal information about you unless you
           voluntarily provide it to us. However, you may be required to provide
           certain personal information to us when you elect to use certain
@@ -73,21 +74,23 @@ export default function PrivacyScreen({ navigation }) {
           products you have requested from us. We also may gather additional
           personal or non-personal information in the future.
         </Text>
-
-        <Text style={styles.header}>Use of your Personal Information</Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.h3HeadingDark}>
+          Use of your Personal Information
+        </Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Nuubi collects and uses your personal information to operate and
           deliver the services you have requested. Nuubi may also use your
           personally identifiable information to inform you of other products or
           services available from Nuubi and its affiliates.
         </Text>
-
-        <Text style={styles.header}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.h3HeadingDark}>
           Sharing Information with Third Parties
         </Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Nuubi does not sell, rent or lease its customer lists to third
           parties. Nuubi may, from time to time, contact you on behalf of
           external business partners about a particular offering that may be of
@@ -106,28 +109,28 @@ export default function PrivacyScreen({ navigation }) {
           Nuubi; and/or (c) act under exigent circumstances to protect the
           personal safety of users of Nuubi, or the public.
         </Text>
-
-        <Text style={styles.header}>Right to Deletion</Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.h3HeadingDark}>Right to Deletion</Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Subject to certain exceptions set out below, on receipt of a
           verifiable request from you, we will:
         </Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           • Delete your personal information from our records; and
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Direct any service providers to delete your personal information
           from their records.
         </Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Please note that we may not be able to comply with requests to delete
           your personal information if it is necessary to:
         </Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           • Complete the transaction for which the personal information was
           collected, fulfill the terms of a written warranty or product recall
           conducted in accordance with federal law, provide a good or service
@@ -135,24 +138,24 @@ export default function PrivacyScreen({ navigation }) {
           ongoing business relationship with you, or otherwise perform a
           contract between you and us;
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Detect security incidents, protect against malicious, deceptive,
           fraudulent, or illegal activity; or prosecute those responsible for
           that activity;
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Debug to identify and repair errors that impair existing intended
           functionality;
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Exercise free speech, ensure the right of another consumer to
           exercise his or her right of free speech, or exercise another right
           provided for by law;
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Comply with the California Electronic Communications Privacy Act;
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Engage in public or peer-reviewed scientific, historical, or
           statistical research in the public interest that adheres to all other
           applicable ethics and privacy laws, when our deletion of the
@@ -160,31 +163,31 @@ export default function PrivacyScreen({ navigation }) {
           achievement of such research, provided we have obtained your informed
           consent;
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Enable solely internal uses that are reasonably aligned with your
           expectations based on your relationship with us;
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Comply with an existing legal obligation; or
         </Text>
-        <Text style={styles.text}>
+        <Text style={globalStyles.body2Regular}>
           • Otherwise use your personal information, internally, in a lawful
           manner that is compatible with the context in which you provided the
           information.
         </Text>
-
-        <Text style={styles.header}>Children Under Thirteen</Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.h3HeadingDark}>Children Under Thirteen</Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Nuubi does not knowingly collect personally identifiable information
           from children under the age of thirteen. If you are under the age of
           thirteen, you must ask your parent or guardian for permission to use
           this application.
         </Text>
-
-        <Text style={styles.header}>E-mail Communications</Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.h3HeadingDark}>E-mail Communications</Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           From time to time, Nuubi may contact you via email for the purpose of
           providing announcements, promotional offers, alerts, confirmations,
           surveys, and/or other general communication. If you would like to stop
@@ -192,10 +195,12 @@ export default function PrivacyScreen({ navigation }) {
           Nuubi, you may opt out of such communications by Clicking on the
           "unsubscribe" button at the bottom of each email.
         </Text>
-
-        <Text style={styles.header}>Changes to this Statement</Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.h3HeadingDark}>
+          Changes to this Statement
+        </Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Nuubi reserves the right to change this Privacy Policy from time to
           time. We will notify you about significant changes in the way we treat
           personal information by sending a notice to the primary email address
@@ -206,68 +211,32 @@ export default function PrivacyScreen({ navigation }) {
           Privacy Policy; and (b) agreement to abide and be bound by that
           Policy.
         </Text>
-
-        <Text style={styles.header}>Contact Information</Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.h3HeadingDark}>Contact Information</Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Nuubi welcomes your questions or comments regarding this Statement of
           Privacy. If you believe that Nuubi has not adhered to this Statement,
           please contact Nuubi at:
         </Text>
-
-        <Text style={styles.text}>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
           Nuubi Inc, 252 NW 29th St, 9th Floor Miami, Florida 33127
         </Text>
-
-        <Text style={styles.text}>Email Address: kat@nuubi.app</Text>
-
-        <Text style={styles.text}>Telephone number: +1 480-326-2763</Text>
-
-        <Text style={styles.text}>Effective as of August 01, 2023</Text>
-
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            width: "90%",
-            paddingBottom: 20,
-          }}
-        >
-          <View></View>
-          <TouchableOpacity
-            style={{
-              paddingVertical: 14,
-              paddingHorizontal: 20,
-              borderRadius: 12,
-              elevation: 3,
-              backgroundColor: "#1aa7ec",
-            }}
-            onPress={() => navigation.navigate("Welcome")}
-          >
-            <Text style={globalStyles.primaryButtonText}>Back</Text>
-          </TouchableOpacity>
-        </View>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
+          Email Address: support@nuubi.app
+        </Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
+          Telephone number: +1 813-489-9249
+        </Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.body2Regular}>
+          Effective as of August 01, 2023
+        </Text>
+        <View style={{ margin: 15 }}></View>
       </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 18,
-    color: "#333",
-    paddingTop: 10,
-    marginLeft: 15,
-    marginRight: 25,
-  },
-  header: {
-    fontSize: 18,
-    color: "#333",
-    paddingTop: 20,
-    marginLeft: 15,
-    marginRight: 25,
-    fontWeight: "bold",
-    fontSize: 18,
-    textAlign: "left",
-  },
-});
