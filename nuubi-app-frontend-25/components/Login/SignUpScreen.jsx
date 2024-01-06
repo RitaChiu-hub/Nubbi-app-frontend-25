@@ -6,20 +6,90 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
+  Pressable,
+  Image,
+  Alert,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 const { formSignupSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
+import IconMC from "react-native-vector-icons/MaterialCommunityIcons";
+import { signUpStyles } from "../../styles/signUpStyles";
+import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
+import IconAD from "react-native-vector-icons/AntDesign";
+import alert from './../alert'
 
 export default function SignUpScreen({ navigation }) {
-  const { setUser } = React.useContext(AccountContext);
+  const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [comfirmPassword, setComfirmPassword] = React.useState("");
+  const [showComfirmPWDStatus, setShowComfirmPWDStatus] = React.useState("");
+  const [comfirmPasswardStatus, setComfirmPasswardStatus] = React.useState("");
+
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+    useTogglePasswordVisibility();
+
+  const areAllFieldsEmpty = (values) => {
+    values.email = values.email.trim();
+    values.password = password;
+    values.password2 = comfirmPassword;
+    return (
+      !values.email.trim() ||
+      !values.password.trim() ||
+      !values.password2.trim()
+    );
+  };
+
+  const validatePassword = (input) => {
+    let newSuggestions = [];
+    if (input.length > 8) {
+      newSuggestions.push("L");
+    }
+    if (/\d/.test(input)) {
+      newSuggestions.push("NM");
+    }
+
+    if (/[a-z]/.test(input)) {
+      newSuggestions.push("LC");
+    }
+
+    if (/[A-Z]/.test(input)) {
+      newSuggestions.push("UC");
+    }
+
+    if (/[^A-Za-z0-9]/.test(input)) {
+      newSuggestions.push("SC");
+    }
+
+    setSuggestions(newSuggestions);
+  };
+
+  React.useEffect(() => {
+    if(password === comfirmPassword && comfirmPassword.length > 0){
+      setComfirmPasswardStatus('true');
+      setShowComfirmPWDStatus('true'); // The 'true' is to help show the password match text below the comfirm password input
+    }else if(password != comfirmPassword && comfirmPassword.length > 0){
+      setComfirmPasswardStatus('false');
+      setShowComfirmPWDStatus('yes'); //the 'yes' is to help show the password mismach text below the comfirm password input
+
+    }
+  }, [comfirmPassword])
+
+  React.useEffect(() => {
+    if (showComfirmPWDStatus == 'true' && comfirmPasswardStatus == 'true') {
+      // 1000 for 1 second
+      setTimeout(() => setShowComfirmPWDStatus('false'), 2000) //the 'false' is to help hide the password match/mismach text below the comfirm password input
+    }
+  }, [showComfirmPWDStatus])
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Sign Up",
+      headerTitle: () => <Text style={globalStyles.screenHeader}>Sign Up</Text>,
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -36,26 +106,36 @@ export default function SignUpScreen({ navigation }) {
           alignItems: "center",
           justifyContent: "center",
           marginTop: 20,
-          marginBottom: 400,
+          marginBottom: 70,
         }}
       >
         <Formik
-          // initialValues={{
-          //   email: "",
-          //   password: "password",
-          //   password2: "password",
-          // }}
           initialValues={{
             email: "",
-            password: "",
-            password2: "",
+            //  password: "",
+            password: password,
+            password2: comfirmPassword,
+         //   password2: "",
           }}
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
             values.email = values.email.trim();
-            const vals = { ...values };
+            values.password = password;
+            values.password2 = comfirmPassword;
+            //    const vals = { ...values };
+            const vals = {
+              email: values.email,
+              password: password,
+              password2: comfirmPassword,
+            //  password2: values.password2,
+              // password2: comfirmPassword,
+            };
+            // console.log({ ...vals });
+            // console.log({ ...values });
+            // console.log(areAllFieldsEmpty(values));
+
             actions.resetForm();
-            fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
+            fetch("https://coral-app-n96bn.ondigitalocean.app/auth/checkemail", {
               method: "POST",
               credentials: "include",
               headers: {
@@ -73,19 +153,15 @@ export default function SignUpScreen({ navigation }) {
                 return res.json();
               })
               .then((data) => {
-                if (!data) return;
-                setUser({ ...data });
-                if (Platform.OS === "web") {
-                  localStorage.setItem("token", data.token);
-                } else {
-                  SecureStore.setItemAsync("token", data.token);
-                }
                 if (data.status) {
                   setError(data.status);
+                } else {
+                  navigation.navigate("CodeVerificationScreen", {
+                    formVals: vals,
+                  });
                 }
-                // else if (data.loggedIn) {
-                //   SecureStore.setItemAsync("token", data.token);
-                // }
+                if (!data) return;
+                setUser({ ...data });
               });
           }}
         >
@@ -100,23 +176,12 @@ export default function SignUpScreen({ navigation }) {
                 >
                   {error}
                 </Text>
-                <View style={{ marginVertical: 10 }}></View>
-                <Text>Email</Text>
+                <Text style={signUpStyles.loginLabelText}>Email:</Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                    marginVertical: 5,
-                  }}
-                  placeholder="Enter school email (me@school.edu)"
+                  style={signUpStyles.loginInput}
+                  placeholder="School or Personal Email"
                   onChangeText={props.handleChange("email")}
                   value={props.values.email}
-                  marginBottom={10}
                 />
                 <Text
                   style={{
@@ -126,24 +191,28 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="email" />
                 </Text>
-                <Text>Password</Text>
-                <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                    marginVertical: 5,
-                  }}
-                  placeholder="Enter password"
-                  onChangeText={props.handleChange("password")}
-                  value={props.values.password}
-                  secureTextEntry={true}
-                  marginBottom={10}
-                />
+                <Text style={signUpStyles.loginLabelText}>Password:</Text>
+                <View style={signUpStyles.passwordInputContainer}>
+                  <TextInput
+                    style={[
+                      signUpStyles.passwordInput,
+                      Platform.OS === "web" && {
+                        outlineStyle: "none",
+                      },
+                    ]}
+                    placeholder="Password"
+                    // onChangeText={props.handleChange("password")}
+                    onChangeText={(passwordText) => {
+                      setPassword(passwordText), validatePassword(passwordText);
+                    }}
+                    //   value={props.values.password}
+                    value={password}
+                    secureTextEntry={passwordVisibility}
+                  />
+                  <Pressable onPress={handlePasswordVisibility}>
+                    <IconMC name={rightIcon} size={22} color="#2482AA" />
+                  </Pressable>
+                </View>
                 <Text
                   style={{
                     color: "red",
@@ -152,25 +221,27 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="password" />
                 </Text>
+                <Text style={signUpStyles.loginLabelText}>Repeat Password:</Text>
+                <View style={signUpStyles.passwordInputContainer}>
+                  <TextInput
+                    style={[
+                      signUpStyles.passwordInput,
+                      Platform.OS === "web" && {
+                        outlineStyle: "none",
+                      },
+                    ]}
+                    placeholder="Confirm Password"
+                 //   onChangeText={props.handleChange("password2")}
+                 //   value={props.values.password2}
+                 onChangeText={(passwordText2)=> {setComfirmPassword(passwordText2)}}
+                 value={comfirmPassword}
+                    secureTextEntry={passwordVisibility}
+                  />
+                  <Pressable onPress={handlePasswordVisibility}>
+                    <IconMC name={rightIcon} size={22} color="#2482AA" />
+                  </Pressable>
+                </View>
 
-                <Text>Password</Text>
-                <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                    marginVertical: 5,
-                  }}
-                  placeholder="Repeat password"
-                  onChangeText={props.handleChange("password2")}
-                  value={props.values.password2}
-                  secureTextEntry={true}
-                  marginBottom={10}
-                />
                 <Text
                   style={{
                     color: "red",
@@ -179,6 +250,10 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="password2" />
                 </Text>
+                {(showComfirmPWDStatus == 'yes' || showComfirmPWDStatus == 'true') && <View>
+                    {comfirmPasswardStatus === 'true' ? <Text style={{color:'green'}}>*Passwords match</Text>: <Text style={{color:'red'}}>*Passwords do not match</Text>}
+                </View>}
+
 
                 <View
                   style={{
@@ -186,41 +261,214 @@ export default function SignUpScreen({ navigation }) {
                     fontSize: 18,
                     width: "100%",
                     alignItems: "stretch",
+                    marginTop: 5,
                     marginBottom: 5,
                   }}
                 >
-                  <Text>Password must contain: </Text>
-                  <Text>• 8 to 28 characters</Text>
-                  <Text>• At least one lowercase letter</Text>
-                  <Text>• At least one uppercase letter</Text>
-                  <Text>• At least one number</Text>
-                  <Text>• At least one special character</Text>
+                  
+                  <Text
+                    style={{ fontFamily: "Poppins_500Medium", color: "black" }}
+                  >
+                    Password must contain:{" "}
+                  </Text>
+                  {suggestions.includes("L") && password.length > 0 ? (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#00A86B" /> 8
+                      to 28 characters
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> 8
+                      to 28 characters
+                    </Text>
+                  )}
+                  {suggestions.includes("LC") && password.length > 0 ? (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#00A86B" /> At
+                      least one lowercase letter
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
+                      least one lowercase letter
+                    </Text>
+                  )}
+                  {suggestions.includes("UC") && password.length > 0 ? (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#00A86B" /> At
+                      least one uppercase letter
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
+                      least one uppercase letter
+                    </Text>
+                  )}
+                  {suggestions.includes("NM") && password.length > 0 ? (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#00A86B" /> At
+                      least one number
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
+                      least one number
+                    </Text>
+                  )}
+                  {suggestions.includes("SC") && password.length > 0 ? (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#00A86B" /> At
+                      least one special character
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
+                      least one special character
+                    </Text>
+                  )}
                 </View>
                 <View style={{ marginVertical: 5 }}></View>
-                <View style={globalStyles.buttonContainer}>
+                <View>
                   <View>
                     <TouchableOpacity
-                      style={globalStyles.secondaryButton}
-                      onPress={() => navigation.navigate("Login")}
-                    >
-                      <Text style={globalStyles.secondaryButtonText}>
-                        Log in
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      style={globalStyles.primaryButton}
+                      style={[
+                        signUpStyles.signUpButton,
+                        {
+                          backgroundColor: areAllFieldsEmpty(props.values)
+                            ? "#EBEBEB"
+                            : signUpStyles.signUpButton.backgroundColor,
+                        },
+                      ]}
                       onPress={props.handleSubmit}
+                    disabled={areAllFieldsEmpty(props.values)}
                     >
-                      <Text style={globalStyles.primaryButtonText}>
-                        Sign up
+                      <Text
+                        style={[
+                          signUpStyles.signUpButtonText,
+                          {
+                            color: areAllFieldsEmpty(props.values)
+                              ? "#33333366"
+                              : signUpStyles.signUpButtonText.color,
+                          },
+                        ]}
+                      >
+                        Sign Up
                       </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
+                <View style={{ marginTop: 16 }}>
+                  <Text style={signUpStyles.acknowledgmentText}>
+                    By signing up, I agree to NUUBI’s{" "}
+                    <Text
+                      style={globalStyles.captionLinkBlue}
+                      onPress={() => {
+                        navigation.navigate("TermsScreen");
+                      }}
+                    >
+                      Terms of Service
+                    </Text>{" "}
+                    and{" "}
+                    <Text
+                      style={globalStyles.captionLinkBlue}
+                      onPress={() => {
+                        navigation.navigate("PrivacyScreen");
+                      }}
+                    >
+                      Privacy Policy
+                    </Text>
+                    .
+                  </Text>
+
+                  <View style={signUpStyles.dividerContainer}>
+                    <View style={signUpStyles.halfDivider}></View>
+                    <Text style={signUpStyles.orContinueWithText}>
+                      or continue with
+                    </Text>
+                    <View style={signUpStyles.halfDivider}></View>
+                  </View>
+                </View>
+
+                <View style={signUpStyles.ssoButtonsContainer}>
+                  <TouchableOpacity
+                    style={signUpStyles.ssoButton}
+                    onPress={() => Alert.alert("Apple login coming soon!")}
+                  >
+                    <IconMC name="apple" size={22} color="black" />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={signUpStyles.ssoButton}
+                    onPress={() => Alert.alert("Google login coming soon!")}
+                  >
+                    <Image
+                      style={{ width: 20, height: 20 }}
+                      source={require("../../assets/google-logo.png")}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={signUpStyles.ssoButton}
+                    onPress={() => Alert.alert("Facebook login coming soon!")}
+                  >
+                    <Image
+                      style={{ width: 22, height: 22 }}
+                      source={require("../../assets/facebook-logo.png")}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+          </View>
           )}
         </Formik>
       </View>

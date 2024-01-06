@@ -2,8 +2,6 @@ import "react-native-gesture-handler";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import Octicon from "react-native-vector-icons/Octicons";
 import { Image, Platform } from "react-native";
 
 import { useContext } from "react";
@@ -11,6 +9,7 @@ import { AccountContext } from "./AccountContext";
 
 import LoginScreen from "./Login/LoginScreen";
 import SignUpScreen from "./Login/SignUpScreen";
+import CodeVerificationScreen from "./Login/CodeVerificationScreen";
 
 import HomeScreen from "./HomeScreen";
 import SplashScreen from "./SplashScreen";
@@ -44,6 +43,7 @@ import LearnMore2Screen from "./Onboarding/LearnMore2";
 import LearnMore4Screen from "./Onboarding/LearnMore4";
 import LearnMore7Screen from "./Onboarding/LearnMore7";
 import PrivacyScreen from "./Onboarding/Privacy";
+import TermsScreen from "./Onboarding/Terms";
 
 import ProfilePageScreen from "./UserSettings/ProfilePage";
 
@@ -155,12 +155,17 @@ function AuthStack() {
         name="ForgotPasswordLoggedOut"
         component={ForgotPasswordLoggedOut}
       />
+      <StackAuth.Screen
+        name="CodeVerificationScreen"
+        component={CodeVerificationScreen}
+      />
 
       <StackAuth.Screen name="LearnMore1" component={LearnMore1Screen} />
       <StackAuth.Screen name="LearnMore2" component={LearnMore2Screen} />
       <StackAuth.Screen name="LearnMore4" component={LearnMore4Screen} />
       <StackAuth.Screen name="LearnMore7" component={LearnMore7Screen} />
       <StackAuth.Screen name="PrivacyScreen" component={PrivacyScreen} />
+      <StackAuth.Screen name="TermsScreen" component={TermsScreen} />
       <StackAuth.Screen
         name="HelpLoggedOut"
         component={HelpScreen}
