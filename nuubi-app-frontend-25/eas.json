@@ -24,11 +24,13 @@
     }
   },
   "submit": {
-    "production": {},
-    "ios": {
-      "appleId": "kwifvat@yahoo.com",
-      "ascAppId": "6447013076",
-      "appleTeamId": "K49RCYR9C4"
+    "production": {
+      "ios": {
+        "appleId": "kwifvat@yahoo.com",
+        "ascAppId": "6447013076",
+        "appleTeamId": "K49RCYR9C4"
+      }
     }
+   
   }
 }
