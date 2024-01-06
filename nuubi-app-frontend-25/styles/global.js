@@ -1,16 +1,61 @@
 import { StyleSheet, StatusBar } from "react-native";
 
 export const globalStyles = StyleSheet.create({
+  h2HeadingMedium: {
+    fontSize: 24,
+    textAlign: "center",
+    color: "#111111",
+    fontFamily: "Poppins_500Medium",
+    letterSpacing: -0.5,
+  },
+  screenHeader: {
+    color: "#111111",
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Poppins_600SemiBold",
+  },
+  bodyRegular: {
+    color: "#111111",
+    fontFamily: "Poppins_400Regular",
+    fontSize: 16,
+    letterSpacing: 0.5,
+  },
+  body2Regular: {
+    color: "#111111",
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    letterSpacing: 0.5,
+  },
+  caption: {
+    color: "#111111",
+    fontFamily: "Poppins_500Medium",
+    fontSize: 12,
+    letterSpacing: 0.4,
+  },
+  captionLink: {
+    color: "#111111",
+    fontFamily: "Poppins_500Medium",
+    fontSize: 12,
+    letterSpacing: 0.4,
+    textDecorationLine: "underline",
+  },
+  captionLinkBlue: {
+    color: "#2482AA",
+    fontFamily: "Poppins_500Medium",
+    fontSize: 12,
+    letterSpacing: 0.4,
+    textDecorationLine: "underline",
+  },
   primaryButtonText: {
     color: "#fdfdfd",
     fontSize: 14,
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
   },
   secondaryButtonText: {
     color: "#33b7f0",
     fontSize: 14,
-    fontFamily: "Poppins_600SemiBold",
+    fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
   },
   h3HeadingPrimary: {
@@ -21,6 +66,12 @@ export const globalStyles = StyleSheet.create({
   },
   h3HeadingSecondary: {
     color: "#767676",
+    fontSize: 18,
+    fontFamily: "Poppins_600SemiBold",
+    letterSpacing: 0,
+  },
+  h3HeadingDark: {
+    color: "#111111",
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
     letterSpacing: 0,
