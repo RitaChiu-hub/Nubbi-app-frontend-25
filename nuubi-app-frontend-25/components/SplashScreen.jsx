@@ -203,8 +203,6 @@ export default function SplashScreen({ navigation }) {
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, user-scalable=yes, maximum-scale=2.0001"
-            // user-scalable="yes"
-            // maximum-scale={2}
           />
         </Helmet>
 
