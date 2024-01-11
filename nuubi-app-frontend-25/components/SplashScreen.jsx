@@ -10,7 +10,7 @@ import {
   Platform,
   StyleSheet,
   Animated,
-  Alert
+  Alert,
 } from "react-native";
 import { Helmet } from "react-helmet";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
@@ -89,6 +89,10 @@ export default function SplashScreen({ navigation }) {
   const systemFonts = [...defaultSystemFonts, "Poppins_400Regular"];
 
   const htmlContent = `
+  <head>
+    <title>Nuubi: The chat platform for incentivized peer learning.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1", user-scalable="yes", maximum-scale={2} />
+  </head>
     <h1 style="font-size: 16px; font-weight: normal; fontFamily: Poppins_400Regular; letterSpacing: 0.5">
       The chat platform for learning.
     </h1>
@@ -97,17 +101,17 @@ export default function SplashScreen({ navigation }) {
 
   const CarouselItem = ({ item, scrollX }) => {
     return (
-      <View style={[stylesCarousel.container]}>
+      <View style={[stylesCarousel.container]} accessibilityRole="none">
         <Image
           source={item.img}
+          alt={"Graphic images of people learning online"}
           style={[stylesCarousel.img, { resizeMode: "contain" }]}
         />
-        <View style={{ flex: 0.3 }}>
-          <View style={{ marginTop: 16,
-             }}>
+        <View style={{ flex: 0.3 }} accessibilityRole="none">
+          <View style={{ marginTop: 16 }} accessibilityRole="none">
             <Text style={globalStyles.h2HeadingMedium}>{item.title}</Text>
           </View>
-          <View style={{ paddingHorizontal: 60 }}>
+          <View style={{ paddingHorizontal: 60 }} accessibilityRole="none">
             <Text style={globalStyles.bodyRegular}>{item.desc}</Text>
           </View>
         </View>
@@ -117,7 +121,10 @@ export default function SplashScreen({ navigation }) {
 
   const CarouselPaginator = ({ data }) => {
     return (
-      <View style={{ flexDirection: "row", height: 64 }}>
+      <View
+        style={{ flexDirection: "row", height: 64 }}
+        accessibilityRole="none"
+      >
         {data.map((_, i) => {
           const inputRange = [
             (i - 1) * deviceWidth,
@@ -139,6 +146,7 @@ export default function SplashScreen({ navigation }) {
           return (
             <Animated.View
               style={[stylesCarousel.dot, { width: dotWidth, opacity }]}
+              accessibilityRole="grid"
               key={i.toString()}
             />
           );
@@ -179,10 +187,12 @@ export default function SplashScreen({ navigation }) {
       colors={["#fdfdfd", "#fdfdfd", "#8bdae8"]}
       style={globalStyles.container}
       locations={[0.0, 0.46, 1.0]}
+      accessibilityRole="none"
     >
       <SafeAreaView
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         onLayout={onLayoutRootView}
+        accessibilityRole="none"
       >
         <Helmet>
           <meta
@@ -197,6 +207,7 @@ export default function SplashScreen({ navigation }) {
             justifyContent: "space-around",
             alignItems: "center",
           }}
+          accessibilityRole="none"
         >
           <Image
             style={{ width: 45, height: 45 }}
@@ -215,7 +226,7 @@ export default function SplashScreen({ navigation }) {
             NUUBI
           </Text>
         </View>
-        <View style={{ marginTop: 2 }}></View>
+        <View style={{ marginTop: 2 }} accessibilityRole="none"></View>
         <RenderHTML
           source={{ html: htmlContent }}
           contentWidth={deviceWidth}
@@ -224,6 +235,7 @@ export default function SplashScreen({ navigation }) {
 
         <View
           style={[stylesCarousel.container, { marginTop: platformMarginTop }]}
+          accessibilityRole="none"
         >
           <View style={[stylesCarousel.secondaryContainer]}>
             <FlatList
@@ -263,6 +275,7 @@ export default function SplashScreen({ navigation }) {
             borderRadius: 60,
             elevation: 3,
           }}
+          accessibilityRole="button"
           onPress={() => navigation.navigate("SignUp")}
         >
           <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
@@ -274,10 +287,12 @@ export default function SplashScreen({ navigation }) {
             justifyContent: "space-around",
             alignItems: "center",
           }}
+          accessibilityRole="none"
         >
           <Text style={globalStyles.caption}>Already have an account? </Text>
           <TouchableOpacity
             style={{ paddingHorizontal: 5, paddingVertical: 23 }}
+            accessibilityRole="button"
             onPress={() => navigation.navigate("Login")}
           >
             <Text style={globalStyles.captionLink}>Log In</Text>
@@ -290,10 +305,12 @@ export default function SplashScreen({ navigation }) {
             justifyContent: "space-around",
             alignItems: "center",
           }}
+          accessibilityRole="none"
         >
           <Icon name="info-outline" size={20} color="#111111" />
           <TouchableOpacity
             style={{ paddingVertical: 13, paddingHorizontal: 5 }}
+            accessibilityRole="button"
             onPress={() => navigation.navigate("LearnMore1")}
           >
             <Text style={globalStyles.captionLink}>Learn More</Text>
@@ -303,6 +320,7 @@ export default function SplashScreen({ navigation }) {
           <Icon name="language" size={20} color="#111111" />
           <TouchableOpacity
             style={{ paddingVertical: 13, paddingHorizontal: 5 }}
+            accessibilityRole="button"
             onPress={() => Alert.alert("Spanish Coming Soon!")}
           >
             <Text style={globalStyles.captionLink}>Language</Text>
