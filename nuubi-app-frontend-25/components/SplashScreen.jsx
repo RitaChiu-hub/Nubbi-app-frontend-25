@@ -89,10 +89,6 @@ export default function SplashScreen({ navigation }) {
   const systemFonts = [...defaultSystemFonts, "Poppins_400Regular"];
 
   const htmlContent = `
-  <head>
-    <title>Nuubi: The chat platform for incentivized peer learning.</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1", user-scalable="yes", maximum-scale={2} />
-  </head>
     <h1 style="font-size: 16px; font-weight: normal; fontFamily: Poppins_400Regular; letterSpacing: 0.5">
       The chat platform for learning.
     </h1>
@@ -195,9 +191,20 @@ export default function SplashScreen({ navigation }) {
         accessibilityRole="none"
       >
         <Helmet>
+          <title>
+            Nuubi: The chat platform for incentivized peer learning.
+          </title>
+
           <meta
             name="Nuubi"
             content="EdTech chat app for students and teachers that fosters learning."
+          />
+
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+            user-scalable="yes"
+            maximum-scale={2}
           />
         </Helmet>
 
