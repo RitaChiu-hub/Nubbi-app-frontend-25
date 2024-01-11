@@ -49,6 +49,7 @@ export default function LearnMore4Screen({ navigation }) {
               elevation: 3,
               backgroundColor: "#2482AA",
             }}
+            accessibilityRole="button"
             onPress={() => navigation.navigate("LearnMore7")}
           >
             <Text style={globalStyles.primaryButtonText}>Next</Text>

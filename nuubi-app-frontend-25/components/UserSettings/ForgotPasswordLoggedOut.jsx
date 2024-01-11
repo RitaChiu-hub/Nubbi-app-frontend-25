@@ -131,6 +131,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 <View>
                   <TouchableOpacity
                     style={styles.loginButton}
+                    accessibilityRole="button"
                     onPress={props.handleSubmit}
                   >
                     <Text style={loginStyles.loginButtonText}>
@@ -238,6 +239,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 <View>
                   <TouchableOpacity
                     style={styles.loginButton}
+                    accessibilityRole="button"
                     onPress={props.handleSubmit}
                   >
                     <Text style={loginStyles.loginButtonText}>

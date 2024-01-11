@@ -41,6 +41,7 @@ export default function LearnMore7Screen({ navigation }) {
             width: "100%",
             marginTop: 16,
           }}
+          accessibilityRole="button"
           onPress={() => navigation.navigate("SignUp")}
         >
           <Text style={globalStyles.primaryButtonText}>SIGN UP</Text>

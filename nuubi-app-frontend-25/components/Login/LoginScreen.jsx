@@ -157,6 +157,7 @@ export default function LoginScreen({ navigation }) {
                         : loginStyles.loginButton.backgroundColor,
                     },
                   ]}
+                  accessibilityRole="button"
                   onPress={props.handleSubmit}
                   disabled={areAllFieldsEmpty(props.values)}
                 >
@@ -176,6 +177,7 @@ export default function LoginScreen({ navigation }) {
               </View>
               <TouchableOpacity
                 style={loginStyles.secondaryButton}
+                accessibilityRole="button"
                 onPress={() => navigation.navigate("ForgotPasswordLoggedOut")}
               >
                 <Text style={loginStyles.forgotPasswordText}>
@@ -196,6 +198,7 @@ export default function LoginScreen({ navigation }) {
                 <View style={loginStyles.ssoButtonsContainer}>
                   <TouchableOpacity
                     style={loginStyles.ssoButton}
+                    accessibilityRole="button"
                     onPress={() => alert("Apple login coming soon!")}
                   >
                     <IconMC name="apple" size={22} color="black" />
@@ -203,20 +206,24 @@ export default function LoginScreen({ navigation }) {
 
                   <TouchableOpacity
                     style={loginStyles.ssoButton}
+                    accessibilityRole="button"
                     onPress={() => alert("Google login coming soon!")}
                   >
                     <Image
                       style={{ width: 20, height: 20 }}
+                      alt={"Google Logo"}
                       source={require("../../assets/google-logo.png")}
                     />
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={loginStyles.ssoButton}
+                    accessibilityRole="button"
                     onPress={() => alert("Facebook login coming soon!")}
                   >
                     <Image
                       style={{ width: 22, height: 22 }}
+                      alt={"Facebook Logo"}
                       source={require("../../assets/facebook-logo.png")}
                     />
                   </TouchableOpacity>

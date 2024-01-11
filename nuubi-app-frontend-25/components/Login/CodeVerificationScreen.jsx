@@ -192,6 +192,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
                         backgroundColor: isFieldEmpty(props.values) ? "#EBEBEB" : signUpStyles.signUpButton.backgroundColor,
                       },
                     ]}
+                    accessibilityRole="button"
                     onPress={props.handleSubmit}
                     disabled={isFieldEmpty(props.values)}
                   >
