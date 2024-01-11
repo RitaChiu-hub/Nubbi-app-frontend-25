@@ -43,10 +43,7 @@
     "react-native-web": "~0.19.6",
     "socket.io-client": "^4.6.1",
     "yup": "^1.0.2",
-    "yup-password": "^0.2.2",
-    "@expo/config-plugins": "7.2.2",
-    "@expo/prebuild-config": "6.2.4",
-    "expo-modules-autolinking": "1.5.0"
+    "yup-password": "^0.2.2"
   },
   "overrides": {
     "@expo/config-plugins": "7.2.2",
