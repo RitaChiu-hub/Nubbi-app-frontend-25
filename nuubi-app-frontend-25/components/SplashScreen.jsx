@@ -40,7 +40,7 @@ import * as SplashScreenExpo from "expo-splash-screen";
 // import { AccountContext } from "./AccountContext";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";
-// import alert from './alert'
+import alert from './alert'
 
 // SplashScreenExpo.preventAutoHideAsync();
 
@@ -328,7 +328,7 @@ export default function SplashScreen({ navigation }) {
           <TouchableOpacity
             style={{ paddingVertical: 13, paddingHorizontal: 5 }}
             accessibilityRole="button"
-            onPress={() => Alert.alert("Spanish Coming Soon!")}
+            onPress={() => alert("Spanish Coming Soon!")}
           >
             <Text style={globalStyles.captionLink}>Language</Text>
           </TouchableOpacity>

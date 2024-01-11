@@ -196,14 +196,14 @@ export default function LoginScreen({ navigation }) {
                 <View style={loginStyles.ssoButtonsContainer}>
                   <TouchableOpacity
                     style={loginStyles.ssoButton}
-                    onPress={() => Alert.alert("Apple login coming soon!")}
+                    onPress={() => alert("Apple login coming soon!")}
                   >
                     <IconMC name="apple" size={22} color="black" />
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={loginStyles.ssoButton}
-                    onPress={() => Alert.alert("Google login coming soon!")}
+                    onPress={() => alert("Google login coming soon!")}
                   >
                     <Image
                       style={{ width: 20, height: 20 }}
@@ -213,7 +213,7 @@ export default function LoginScreen({ navigation }) {
 
                   <TouchableOpacity
                     style={loginStyles.ssoButton}
-                    onPress={() => Alert.alert("Facebook login coming soon!")}
+                    onPress={() => alert("Facebook login coming soon!")}
                   >
                     <Image
                       style={{ width: 22, height: 22 }}
