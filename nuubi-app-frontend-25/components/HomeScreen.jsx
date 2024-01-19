@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, Modal, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, Modal, FlatList, TouchableOpacity, Image } from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
 import { globalStyles } from "../styles/global";
@@ -141,13 +141,18 @@ export default function HomeScreen({ navigation }) {
               }}
             >
               Welcome to Nuubi! Your username is {user.username}. To change it,
-              tap the settings icon{" "}
-              <Icon name="settings-outline" size={18} color="#228ee7" /> in the
-              bottom navigation bar.
+              tap the profile icon{" "}
+              <Image
+                  source={
+                     require("../assets/icons/Profile.png")
+                  }
+                  style={{ width: 24, height: 24 }}
+                /> in the
+              bottom navigation bar. Then, click "Settings", and then "Change Username".
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <Text style={{ textAlign: "center", fontSize: 16 }}>
-              Questions? In settings, click on "Help".
+              Questions? In "Settings", click on "Help".
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
