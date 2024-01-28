@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Animated,
   Alert,
+  ScrollView,
 } from "react-native";
 import { Helmet } from "react-helmet";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
@@ -40,7 +41,7 @@ import * as SplashScreenExpo from "expo-splash-screen";
 // import { AccountContext } from "./AccountContext";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import alert from './alert'
+import alert from "./alert";
 
 // SplashScreenExpo.preventAutoHideAsync();
 
@@ -107,7 +108,7 @@ export default function SplashScreen({ navigation }) {
           <View style={{ marginTop: 16 }} accessibilityRole="none">
             <Text style={globalStyles.h2HeadingMedium}>{item.title}</Text>
           </View>
-          <View style={{ paddingHorizontal: 60 }} accessibilityRole="none">
+          <View style={{ paddingHorizontal: 50 }} accessibilityRole="none">
             <Text style={globalStyles.bodyRegular}>{item.desc}</Text>
           </View>
         </View>
@@ -117,10 +118,7 @@ export default function SplashScreen({ navigation }) {
 
   const CarouselPaginator = ({ data }) => {
     return (
-      <View
-        style={{ flexDirection: "row", height: 64 }}
-        accessibilityRole="none"
-      >
+      <View style={{ flexDirection: "row" }} accessibilityRole="none">
         {data.map((_, i) => {
           const inputRange = [
             (i - 1) * deviceWidth,
@@ -186,7 +184,7 @@ export default function SplashScreen({ navigation }) {
       accessibilityRole="none"
     >
       <SafeAreaView
-        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        style={{ flex: 1, alignItems: "center" }}
         onLayout={onLayoutRootView}
         accessibilityRole="none"
       >
@@ -209,8 +207,8 @@ export default function SplashScreen({ navigation }) {
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "space-around",
             alignItems: "center",
+            marginTop: "10%",
           }}
           accessibilityRole="none"
         >
@@ -231,7 +229,6 @@ export default function SplashScreen({ navigation }) {
             NUUBI
           </Text>
         </View>
-        <View style={{ marginTop: 2 }} accessibilityRole="none"></View>
         <RenderHTML
           source={{ html: htmlContent }}
           contentWidth={deviceWidth}
@@ -239,12 +236,22 @@ export default function SplashScreen({ navigation }) {
         />
 
         <View
-          style={[stylesCarousel.container, { marginTop: platformMarginTop }]}
+          style={{
+            flexGrow: 0.6,
+            width: deviceWidth,
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            marginTop: platformMarginTop,
+            height: 0,
+            paddingBottom: deviceWidth > 500 ? 40 : 0,
+          }}
           accessibilityRole="none"
         >
           <View style={[stylesCarousel.secondaryContainer]}>
             <FlatList
-              style={{ width: deviceWidth }}
+              style={{
+                width: deviceWidth,
+              }}
               data={carouselData}
               renderItem={({ item }) => <CarouselItem item={item} />}
               horizontal
@@ -269,67 +276,78 @@ export default function SplashScreen({ navigation }) {
           <CarouselPaginator data={carouselData} scrollX={scrollX} />
         </View>
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#2482aa",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingVertical: 14,
-            marginTop: 5,
-            width: deviceWidth * 0.9,
-            borderRadius: 60,
-            elevation: 3,
-          }}
-          accessibilityRole="button"
-          onPress={() => navigation.navigate("SignUp")}
-        >
-          <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
-        </TouchableOpacity>
-
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
             alignItems: "center",
+            justifyContent: "space-between",
+            //   marginBottom: Platform.OS == "web" ? 0 : "-50%",
+            marginBottom: deviceWidth > 500 ? 0 : "-60%",
           }}
-          accessibilityRole="none"
         >
-          <Text style={globalStyles.caption}>Already have an account? </Text>
           <TouchableOpacity
-            style={{ paddingHorizontal: 5, paddingVertical: 23 }}
+            style={{
+              backgroundColor: "#2482aa",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: 14,
+              marginTop: 5,
+              width: deviceWidth * 0.9,
+              borderRadius: 60,
+              elevation: 3,
+            }}
             accessibilityRole="button"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={globalStyles.captionLink}>Log In</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-          accessibilityRole="none"
-        >
-          <Icon name="info-outline" size={20} color="#111111" />
-          <TouchableOpacity
-            style={{ paddingVertical: 13, paddingHorizontal: 5 }}
-            accessibilityRole="button"
-            onPress={() => navigation.navigate("LearnMore1")}
-          >
-            <Text style={globalStyles.captionLink}>Learn More</Text>
+            <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
           </TouchableOpacity>
 
-          <Text style={{ paddingHorizontal: 10, fontSize: 20 }}>|</Text>
-          <Icon name="language" size={20} color="#111111" />
-          <TouchableOpacity
-            style={{ paddingVertical: 13, paddingHorizontal: 5 }}
-            accessibilityRole="button"
-            onPress={() => alert("Spanish Coming Soon!")}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+              paddingTop: 16,
+              paddingBottom: 6,
+            }}
+            accessibilityRole="none"
           >
-            <Text style={globalStyles.captionLink}>Language</Text>
-          </TouchableOpacity>
+            <Text style={globalStyles.caption}>Already have an account? </Text>
+            <TouchableOpacity
+              style={{ paddingHorizontal: 5 }}
+              accessibilityRole="button"
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Text style={globalStyles.captionLink}>Log In</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}
+            accessibilityRole="none"
+          >
+            <Icon name="info-outline" size={20} color="#111111" />
+            <TouchableOpacity
+              style={{ paddingVertical: 13, paddingHorizontal: 5 }}
+              accessibilityRole="button"
+              onPress={() => navigation.navigate("LearnMore1")}
+            >
+              <Text style={globalStyles.captionLink}>Learn More</Text>
+            </TouchableOpacity>
+
+            <Text style={{ paddingHorizontal: 10, fontSize: 20 }}>|</Text>
+            <Icon name="language" size={20} color="#111111" />
+            <TouchableOpacity
+              style={{ paddingVertical: 13, paddingHorizontal: 5 }}
+              accessibilityRole="button"
+              onPress={() => alert("Spanish Coming Soon!")}
+            >
+              <Text style={globalStyles.captionLink}>Language</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
     </LinearGradient>
@@ -340,19 +358,18 @@ const deviceWidth = Dimensions.get("window").width;
 const platformMarginTop = Platform.OS == "web" ? 0 : "-8%";
 const stylesCarousel = StyleSheet.create({
   container: {
-    flexGrow: 0.7,
+    flexGrow: 0.6,
     width: deviceWidth,
-    justifyContent: "center",
     alignItems: "center",
   },
   secondaryContainer: {
-    flexGrow: 1,
+    flexGrow: 0.8,
     width: deviceWidth,
   },
   img: {
     flex: 0.5,
     flexDirection: "row",
-    width: deviceWidth,
+    width: deviceWidth * 0.7,
     ...Platform.select({
       ios: {
         flexBasis: 0,
@@ -370,6 +387,5 @@ const stylesCarousel = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#24D265",
     marginHorizontal: 8,
-    marginTop: 40,
   },
 });
