@@ -24,7 +24,7 @@ export const signUpStyles = StyleSheet.create({
     },
     passwordSpecsText: {
         color: "#767676",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "Poppins_400Regular",
         letterSpacing: 1,
     },
@@ -35,7 +35,7 @@ export const signUpStyles = StyleSheet.create({
         fontFamily: "Poppins_400Regular",
         fontSize: 14,
         color: "#767676",
-        padding: 12,
+        padding: 14,
         borderRadius: 10,
         width: "100%",
         alignItems: "stretch",
@@ -66,14 +66,14 @@ export const signUpStyles = StyleSheet.create({
         fontFamily: "Poppins_400Regular",
         fontSize: 14,
         color: "#767676",
-        padding: 12,
+        padding: 4,
         borderRadius: 10,
         alignItems: "stretch",
         marginVertical: 5,
     },
     acknowledgmentText: {
         color: "#333333",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "Poppins_400Regular",
         letterSpacing: 1,
     },
@@ -84,7 +84,7 @@ export const signUpStyles = StyleSheet.create({
     },
     orContinueWithText: {
         marginHorizontal: 10,
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "Poppins_400Regular",
         color: "#767676", // You can customize the color of the text
     },

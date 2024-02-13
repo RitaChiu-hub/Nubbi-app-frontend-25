@@ -29,20 +29,20 @@ export const globalStyles = StyleSheet.create({
   caption: {
     color: "#111111",
     fontFamily: "Poppins_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     letterSpacing: 0.4,
   },
   captionLink: {
     color: "#111111",
     fontFamily: "Poppins_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     letterSpacing: 0.4,
     textDecorationLine: "underline",
   },
   captionLinkBlue: {
     color: "#2482AA",
     fontFamily: "Poppins_500Medium",
-    fontSize: 12,
+    fontSize: 14,
     letterSpacing: 0.4,
     textDecorationLine: "underline",
   },
@@ -143,7 +143,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 14,
     paddingHorizontal: 20,
-    borderRadius: 12,
+    borderRadius: 14,
     elevation: 3,
     backgroundColor: "#1aa7ec",
   },
@@ -152,7 +152,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 14,
     paddingHorizontal: 20,
-    borderRadius: 12,
+    borderRadius: 14,
     elevation: 3,
     backgroundColor: "#1aa7ec",
     width: "80%",
@@ -211,4 +211,20 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "bold",
     paddingBottom: 2,
   },
+  topNav: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 10,
+    width: "80%"
+  },
+  topNavTab: {
+    borderBottomWidth: 0,
+    borderColor: "transparent",
+    marginBottom: 12,
+  },
+  topNavTabSelected: {
+    borderBottomWidth: 2,
+    borderColor: "#33B7F0",
+  }
 });

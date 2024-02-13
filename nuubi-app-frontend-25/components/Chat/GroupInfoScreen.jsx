@@ -17,6 +17,7 @@ export default function GroupInfoScreen({ navigation }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [members, setMembers] = React.useState([]);
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
+  const [selectedTab, setSelectedTab] = React.useState("Group");
 
   const getGroupInfo = async () => {
     try {
@@ -152,12 +153,89 @@ export default function GroupInfoScreen({ navigation }) {
     />
   );
 
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     title: groupTitle,
+  //     headerTitleAlign: "center",
+  //   });
+  // }, [navigation, groupTitle]);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: groupTitle,
-      headerTitleAlign: "center",
+      headerTitle: () => (
+        <View style={globalStyles.topNav}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Group Chat");
+              setSelectedTab("Chat");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Chat" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Chat" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Chat
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("PostScreen");
+              setSelectedTab("Posts");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Posts" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Posts" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Posts
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              //  navigation.navigate("GroupInfo");
+              setSelectedTab("Group");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Group" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Group
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ),
     });
-  }, [navigation, groupTitle]);
+  }, [navigation, selectedTab]);
 
   return (
     <View style={globalStyles.container}>

@@ -31,7 +31,7 @@ export const loginStyles = StyleSheet.create({
     },
     passwordSpecsText: {
         color: "#767676",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "Poppins_400Regular",
         letterSpacing: 1,
     },
@@ -79,7 +79,7 @@ export const loginStyles = StyleSheet.create({
     },
     acknowledgmentText: {
         color: "#333333",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "Poppins_400Regular",
         letterSpacing: 1,
     },
@@ -90,7 +90,7 @@ export const loginStyles = StyleSheet.create({
     },
     orContinueWithText: {
         marginHorizontal: 10,
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "Poppins_400Regular",
         color: "#767676", // You can customize the color of the text
     },

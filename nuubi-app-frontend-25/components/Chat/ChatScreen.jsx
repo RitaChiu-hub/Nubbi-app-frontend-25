@@ -28,6 +28,7 @@ export default function ChatScreen({ navigation }) {
   const [likes, setLikes] = React.useState([]);
   const [isChanged, setIsChanged] = React.useState(false);
   const height = useHeaderHeight();
+  const [selectedTab, setSelectedTab] = React.useState("Chat");
 
   const scrollViewRef = React.useRef();
 
@@ -156,33 +157,110 @@ export default function ChatScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <View>
+        <View style={globalStyles.topNav}>
           <TouchableOpacity
-            style={{
-              alignItems: "center",
-              // justifyContent: "center",
+            onPress={() => {
+              // navigation.navigate("Group Chat");
+              setSelectedTab("Chat");
             }}
-            onPress={() => navigation.navigate("GroupInfo")}
           >
-            <Text
-              // numberOfLines={2}
-              style={globalStyles.h3HeadingPrimary}
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Chat" && globalStyles.topNavTabSelected,
+              ]}
             >
-              {groupTitle}
-            </Text>
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Chat" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Chat
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("PostScreen");
+              setSelectedTab("Posts");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Posts" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Posts" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Posts
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("GroupInfo");
+              setSelectedTab("Group");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Group" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Group
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
       ),
-      headerTitleAlign: "center",
-      headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate("PostScreen")}>
-          <View style={{ flex: 1, flexDirection: "row" }}>
-            <Icon name="forum-outline" size={30} color="#4F8EF7" />
-          </View>
-        </TouchableOpacity>
-      ),
     });
-  }, [navigation, groupTitle]);
+  }, [navigation, selectedTab]);
+
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerTitle: () => (
+  //       <View>
+  //         <TouchableOpacity
+  //           style={{
+  //             alignItems: "center",
+  //             // justifyContent: "center",
+  //           }}
+  //           onPress={() => navigation.navigate("GroupInfo")}
+  //         >
+  //           <Text
+  //             // numberOfLines={2}
+  //             style={globalStyles.h3HeadingPrimary}
+  //           >
+  //             {groupTitle}
+  //           </Text>
+  //         </TouchableOpacity>
+  //       </View>
+  //     ),
+  //     headerTitleAlign: "center",
+  //     headerRight: () => (
+  //       <TouchableOpacity onPress={() => navigation.navigate("PostScreen")}>
+  //         <View style={{ flex: 1, flexDirection: "row" }}>
+  //           <Icon name="forum-outline" size={30} color="#4F8EF7" />
+  //         </View>
+  //       </TouchableOpacity>
+  //     ),
+  //   });
+  // }, [navigation, groupTitle]);
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 

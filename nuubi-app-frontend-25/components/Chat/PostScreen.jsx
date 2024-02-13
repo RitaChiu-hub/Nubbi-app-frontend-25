@@ -20,6 +20,7 @@ export default function PostScreen({ navigation }) {
   const [error, setError] = React.useState(null);
   const [posts, setPosts] = React.useState([]);
   const isFocused = useIsFocused();
+  const [selectedTab, setSelectedTab] = React.useState("Posts");
 
   const groupTitleButton = user.groupName;
 
@@ -113,20 +114,98 @@ export default function PostScreen({ navigation }) {
     />
   );
 
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     title: "Posts",
+  //     headerTitleAlign: "center",
+  //     headerRight: () => (
+  //       <TouchableOpacity onPress={() => navigation.navigate("CreatePost")}>
+  //         {/* <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
+  //           New
+  //         </Text> */}
+  //         <Icon name="new-message" size={30} color="#4F8EF7" />
+  //       </TouchableOpacity>
+  //     ),
+  //   });
+  // }, [navigation]);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Posts",
-      headerTitleAlign: "center",
-      headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate("CreatePost")}>
-          {/* <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
-            New
-          </Text> */}
-          <Icon name="new-message" size={30} color="#4F8EF7" />
-        </TouchableOpacity>
+      headerTitle: () => (
+        <View style={globalStyles.topNav}>
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTab("Chat");
+              navigation.navigate("Group Chat");
+             // setSelectedTab("Chat");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Chat" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Chat" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Chat
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              //  navigation.navigate("PostScreen");
+              setSelectedTab("Posts");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Posts" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Posts" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Posts
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("GroupInfo");
+              setSelectedTab("Group");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Group" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Group
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       ),
     });
-  }, [navigation]);
+  }, [navigation, selectedTab]);
 
   return (
     <View
