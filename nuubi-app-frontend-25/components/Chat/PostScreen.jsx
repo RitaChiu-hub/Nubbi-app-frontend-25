@@ -47,6 +47,7 @@ export default function PostScreen({ navigation }) {
 
   React.useEffect(() => {
     getPosts();
+    setSelectedTab("Posts");
   }, [isFocused]);
 
   const Item = ({
@@ -135,9 +136,8 @@ export default function PostScreen({ navigation }) {
         <View style={globalStyles.topNav}>
           <TouchableOpacity
             onPress={() => {
-              setSelectedTab("Chat");
               navigation.navigate("Group Chat");
-             // setSelectedTab("Chat");
+              setSelectedTab("Chat");
             }}
           >
             <View

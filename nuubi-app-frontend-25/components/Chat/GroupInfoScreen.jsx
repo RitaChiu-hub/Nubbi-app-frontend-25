@@ -100,6 +100,7 @@ export default function GroupInfoScreen({ navigation }) {
   React.useEffect(() => {
     getMemberCount();
     getMembers();
+    setSelectedTab("Group");
   }, []);
 
   const myIsAdmin = user.isAdmin;

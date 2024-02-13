@@ -98,6 +98,7 @@ export default function ChatScreen({ navigation }) {
 
   React.useEffect(() => {
     getGroupName();
+    setSelectedTab("Chat");
   }, [isFocused]);
 
   const getChats = async () => {
