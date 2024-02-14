@@ -157,76 +157,105 @@ export default function ChatScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => (
-        <View style={globalStyles.topNav}>
-          <TouchableOpacity
-            onPress={() => {
-              // navigation.navigate("Group Chat");
-              setSelectedTab("Chat");
+      header: () => (
+        <View style={{ height: 70, width: "100%", backgroundColor: "blue" }}>
+          <View
+            style={{
+              alignItems: "center",
+            //  width: "80%",
+              justifyContent: "center",
+              backgroundColor: "red",
             }}
           >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Chat" && globalStyles.topNavTabSelected,
-              ]}
+            <Text>{groupTitle}</Text>
+          </View>
+          <View style={globalStyles.topNav}>
+            <TouchableOpacity
+              onPress={() => {
+                // navigation.navigate("Group Chat");
+                setSelectedTab("Chat");
+              }}
             >
-              <Text
+              <View
                 style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Chat" && globalStyles.h3HeadingPrimary,
+                  {
+                    borderBottomWidth: 0,
+                    borderColor: "transparent",
+                    marginBottom: 12,
+                  },
+                  selectedTab === "Chat" && {
+                    borderBottomWidth: 2,
+                    borderColor: "#33B7F0",
+                  },
                 ]}
               >
-                Chat
-              </Text>
-            </View>
-          </TouchableOpacity>
+                <Text
+                  style={[
+                    {
+                      color: "#767676",
+                      fontSize: 1,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                    selectedTab === "Chat" && {
+                      color: "#33b7f0",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                  ]}
+                >
+                  Chat
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("PostScreen");
-              setSelectedTab("Posts");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Posts" && globalStyles.topNavTabSelected,
-              ]}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("PostScreen");
+                setSelectedTab("Posts");
+              }}
             >
-              <Text
+              <View
                 style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Posts" && globalStyles.h3HeadingPrimary,
+                  globalStyles.topNavTab,
+                  selectedTab === "Posts" && globalStyles.topNavTabSelected,
                 ]}
               >
-                Posts
-              </Text>
-            </View>
-          </TouchableOpacity>
+                <Text
+                  style={[
+                    globalStyles.h3HeadingSecondary,
+                    selectedTab === "Posts" && globalStyles.h3HeadingPrimary,
+                  ]}
+                >
+                  Posts
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("GroupInfo");
-              setSelectedTab("Group");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Group" && globalStyles.topNavTabSelected,
-              ]}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("GroupInfo");
+                setSelectedTab("Group");
+              }}
             >
-              <Text
+              <View
                 style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                  globalStyles.topNavTab,
+                  selectedTab === "Group" && globalStyles.topNavTabSelected,
                 ]}
               >
-                Group
-              </Text>
-            </View>
-          </TouchableOpacity>
+                <Text
+                  style={[
+                    globalStyles.h3HeadingSecondary,
+                    selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                  ]}
+                >
+                  Group
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       ),
     });
