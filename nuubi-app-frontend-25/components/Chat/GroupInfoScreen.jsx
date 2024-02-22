@@ -170,13 +170,23 @@ export default function GroupInfoScreen({ navigation }) {
       headerLeft: () => (
         <HeaderBackButton
           labelVisible={false}
+          style={{ maxWidth: 40 }}
           onPress={() => {
             navigation.navigate("Home");
           }}
         />
       ),
       headerTitle: () => (
-        <View style={globalStyles.topNav}>
+        <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: 8,
+          width: "92%",
+          marginLeft: "-10%",
+        }}
+      >
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Group Chat");
@@ -219,7 +229,7 @@ export default function GroupInfoScreen({ navigation }) {
                   selectedTab === "Group" && globalStyles.h3HeadingPrimary,
                 ]}
               >
-                Group
+              {groupTitle + ">"}
               </Text>
             </View>
           </TouchableOpacity>

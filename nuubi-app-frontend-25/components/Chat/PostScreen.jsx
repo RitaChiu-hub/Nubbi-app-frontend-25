@@ -23,7 +23,7 @@ export default function PostScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [selectedTab, setSelectedTab] = React.useState("Posts");
 
-  const groupTitleButton = user.groupName;
+  const groupTitle = user.groupName;
 
   const getPosts = async () => {
     try {
@@ -136,13 +136,23 @@ export default function PostScreen({ navigation }) {
       headerLeft: () => (
         <HeaderBackButton
           labelVisible={false}
+          style={{ maxWidth: 40 }}
           onPress={() => {
             navigation.navigate("Home");
           }}
         />
       ),
       headerTitle: () => (
-        <View style={globalStyles.topNav}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 8,
+            width: "92%",
+            marginLeft: "-10%",
+          }}
+        >
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Group Chat");
@@ -166,7 +176,6 @@ export default function PostScreen({ navigation }) {
             </View>
           </TouchableOpacity>
 
-        
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("GroupInfo");
@@ -185,7 +194,7 @@ export default function PostScreen({ navigation }) {
                   selectedTab === "Group" && globalStyles.h3HeadingPrimary,
                 ]}
               >
-                Group
+                {groupTitle + ">"}
               </Text>
             </View>
           </TouchableOpacity>
@@ -212,7 +221,6 @@ export default function PostScreen({ navigation }) {
               </Text>
             </View>
           </TouchableOpacity>
-
         </View>
       ),
     });
