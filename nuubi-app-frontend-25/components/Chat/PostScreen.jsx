@@ -14,6 +14,7 @@ import { AccountContext } from "../AccountContext";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Entypo";
+import { HeaderBackButton } from "@react-navigation/elements";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -132,6 +133,14 @@ export default function PostScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <HeaderBackButton
+          labelVisible={false}
+          onPress={() => {
+            navigation.navigate("Home");
+          }}
+        />
+      ),
       headerTitle: () => (
         <View style={globalStyles.topNav}>
           <TouchableOpacity
@@ -153,6 +162,30 @@ export default function PostScreen({ navigation }) {
                 ]}
               >
                 Chat
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+        
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("GroupInfo");
+              setSelectedTab("Group");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Group" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Group
               </Text>
             </View>
           </TouchableOpacity>
@@ -180,28 +213,6 @@ export default function PostScreen({ navigation }) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("GroupInfo");
-              setSelectedTab("Group");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Group" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
-                ]}
-              >
-                Group
-              </Text>
-            </View>
-          </TouchableOpacity>
         </View>
       ),
     });

@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
+import { useIsFocused } from "@react-navigation/native";
+import { HeaderBackButton } from "@react-navigation/elements";
 
 export default function GroupInfoScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -18,6 +20,7 @@ export default function GroupInfoScreen({ navigation }) {
   const [members, setMembers] = React.useState([]);
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [selectedTab, setSelectedTab] = React.useState("Group");
+  const isFocused = useIsFocused();
 
   const getGroupInfo = async () => {
     try {
@@ -55,6 +58,7 @@ export default function GroupInfoScreen({ navigation }) {
 
   React.useEffect(() => {
     getGroupInfo();
+    setSelectedTab("Group");
   }, [user.groupName]);
 
   const getMemberCount = async () => {
@@ -101,7 +105,7 @@ export default function GroupInfoScreen({ navigation }) {
     getMemberCount();
     getMembers();
     setSelectedTab("Group");
-  }, []);
+  }, [isFocused]);
 
   const myIsAdmin = user.isAdmin;
 
@@ -163,6 +167,14 @@ export default function GroupInfoScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <HeaderBackButton
+          labelVisible={false}
+          onPress={() => {
+            navigation.navigate("Home");
+          }}
+        />
+      ),
       headerTitle: () => (
         <View style={globalStyles.topNav}>
           <TouchableOpacity
@@ -184,6 +196,30 @@ export default function GroupInfoScreen({ navigation }) {
                 ]}
               >
                 Chat
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+        
+
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTab("Group");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Group" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.h3HeadingSecondary,
+                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                ]}
+              >
+                Group
               </Text>
             </View>
           </TouchableOpacity>
@@ -210,29 +246,6 @@ export default function GroupInfoScreen({ navigation }) {
               </Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              //  navigation.navigate("GroupInfo");
-              setSelectedTab("Group");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Group" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
-                ]}
-              >
-                Group
-              </Text>
-            </View>
-          </TouchableOpacity>
         </View>
       ),
     });
@@ -241,6 +254,10 @@ export default function GroupInfoScreen({ navigation }) {
   return (
     <View style={globalStyles.container}>
       <View style={globalStyles.innerContainer}>
+      <Text style={{ paddingBottom: 5 }}>
+          Group: {groupTitle}
+        </Text>
+
         <Text style={{ paddingBottom: 5 }}>
           Invite passcode: {user.invitePasscode}
         </Text>
