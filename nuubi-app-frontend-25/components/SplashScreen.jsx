@@ -108,7 +108,7 @@ export default function SplashScreen({ navigation }) {
           <View style={{ marginTop: 16 }} accessibilityRole="none">
             <Text style={globalStyles.h2HeadingMedium}>{item.title}</Text>
           </View>
-          <View style={{ paddingHorizontal: 50 }} accessibilityRole="none">
+          <View style={{ paddingHorizontal: 50, paddingTop: 8 }} accessibilityRole="none">
             <Text style={globalStyles.bodyRegular}>{item.desc}</Text>
           </View>
         </View>
