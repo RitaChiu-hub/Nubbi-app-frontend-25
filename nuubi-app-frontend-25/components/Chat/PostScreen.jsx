@@ -149,8 +149,8 @@ export default function PostScreen({ navigation }) {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 8,
-            width: "92%",
-            marginLeft: "-10%",
+            width: "90%",
+            marginLeft: "-8%",
           }}
         >
           <TouchableOpacity
@@ -167,8 +167,18 @@ export default function PostScreen({ navigation }) {
             >
               <Text
                 style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Chat" && globalStyles.h3HeadingPrimary,
+                  {
+                    color: "#767676",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Chat" && {
+                    color: "#33b7f0",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
                 ]}
               >
                 Chat
@@ -190,8 +200,18 @@ export default function PostScreen({ navigation }) {
             >
               <Text
                 style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                  {
+                    color: "#767676",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Group" && {
+                    color: "#33b7f0",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
                 ]}
               >
                 {groupTitle + ">"}
@@ -213,8 +233,18 @@ export default function PostScreen({ navigation }) {
             >
               <Text
                 style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Posts" && globalStyles.h3HeadingPrimary,
+                  {
+                    color: "#767676",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Posts" && {
+                    color: "#33b7f0",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
                 ]}
               >
                 Posts

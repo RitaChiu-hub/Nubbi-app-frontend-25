@@ -23,7 +23,6 @@ import { HeaderBackButton } from "@react-navigation/elements";
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [chats, setChats] = React.useState([]);
-  console.log(user.groupName);
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [adminId, setAdminId] = React.useState(null);
   const isFocused = useIsFocused();
@@ -56,7 +55,6 @@ export default function ChatScreen({ navigation }) {
   };
 
   const getGroupInfo = async () => {
-    console.log("hi");
     try {
       const response = await fetch(
         //     `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
@@ -178,8 +176,8 @@ export default function ChatScreen({ navigation }) {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 8,
-            width: "92%",
-            marginLeft: "-10%",
+            width: "90%",
+            marginLeft: "-8%",
           }}
         >
           <TouchableOpacity
@@ -292,36 +290,6 @@ export default function ChatScreen({ navigation }) {
     });
   }, [navigation, selectedTab]);
 
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerTitle: () => (
-  //       <View>
-  //         <TouchableOpacity
-  //           style={{
-  //             alignItems: "center",
-  //             // justifyContent: "center",
-  //           }}
-  //           onPress={() => navigation.navigate("GroupInfo")}
-  //         >
-  //           <Text
-  //             // numberOfLines={2}
-  //             style={globalStyles.h3HeadingPrimary}
-  //           >
-  //             {groupTitle}
-  //           </Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     ),
-  //     headerTitleAlign: "center",
-  //     headerRight: () => (
-  //       <TouchableOpacity onPress={() => navigation.navigate("PostScreen")}>
-  //         <View style={{ flex: 1, flexDirection: "row" }}>
-  //           <Icon name="forum-outline" size={30} color="#4F8EF7" />
-  //         </View>
-  //       </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [navigation, groupTitle]);
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
