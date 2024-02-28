@@ -15,6 +15,7 @@ import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Entypo";
 import { HeaderBackButton } from "@react-navigation/elements";
+import { loginStyles } from "../../styles/loginStyles";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -115,21 +116,6 @@ export default function PostScreen({ navigation }) {
       number_comments={item.number_comments}
     />
   );
-
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     title: "Posts",
-  //     headerTitleAlign: "center",
-  //     headerRight: () => (
-  //       <TouchableOpacity onPress={() => navigation.navigate("CreatePost")}>
-  //         {/* <Text style={{ color: "#228ee7", fontSize: 16, paddingRight: 10 }}>
-  //           New
-  //         </Text> */}
-  //         <Icon name="new-message" size={30} color="#4F8EF7" />
-  //       </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [navigation]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -263,7 +249,19 @@ export default function PostScreen({ navigation }) {
         margin: 10,
       }}
     >
-      <View style={{ backgroundColor: "#f1f1f1", width: "100%" }}>
+      <View>
+        <TouchableOpacity
+          style={loginStyles.loginButton}
+          accessibilityRole="button"
+          onPress={() => {
+            navigation.navigate("CreatePost");
+          }}
+        >
+          <Text style={loginStyles.loginButtonText}>Create Post</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ backgroundColor: "#f1f1f1", width: "100%", marginTop: 12 }}>
         <FlatList
           data={posts}
           renderItem={renderItem}
