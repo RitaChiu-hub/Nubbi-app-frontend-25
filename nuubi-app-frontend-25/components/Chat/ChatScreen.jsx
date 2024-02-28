@@ -23,6 +23,7 @@ import { HeaderBackButton } from "@react-navigation/elements";
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [chats, setChats] = React.useState([]);
+  console.log(user.groupName);
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [adminId, setAdminId] = React.useState(null);
   const isFocused = useIsFocused();
@@ -36,7 +37,8 @@ export default function ChatScreen({ navigation }) {
   const getGroupName = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        //  `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -54,9 +56,11 @@ export default function ChatScreen({ navigation }) {
   };
 
   const getGroupInfo = async () => {
+    console.log("hi");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        //     `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -207,7 +211,7 @@ export default function ChatScreen({ navigation }) {
                   },
                   selectedTab === "Chat" && {
                     color: "#33b7f0",
-                    fontSize: 18,
+                    fontSize: 16,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -232,8 +236,18 @@ export default function ChatScreen({ navigation }) {
             >
               <Text
                 style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Group" && globalStyles.h3HeadingPrimary,
+                  {
+                    color: "#767676",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Group" && {
+                    color: "#33b7f0",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
                 ]}
               >
                 {groupTitle + ">"}
@@ -255,8 +269,18 @@ export default function ChatScreen({ navigation }) {
             >
               <Text
                 style={[
-                  globalStyles.h3HeadingSecondary,
-                  selectedTab === "Posts" && globalStyles.h3HeadingPrimary,
+                  {
+                    color: "#767676",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Posts" && {
+                    color: "#33b7f0",
+                    fontSize: 16,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
                 ]}
               >
                 Posts
@@ -463,7 +487,7 @@ export default function ChatScreen({ navigation }) {
                       width: "90%",
                       paddingTop: 12,
                     }}
-                    placeholder={"send message in " + groupTitle + "..."}
+                    placeholder="Send message... "
                     onChangeText={props.handleChange("mymessage")}
                     value={props.values.mymessage}
                     multiline={true}
