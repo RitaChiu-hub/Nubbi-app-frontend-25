@@ -21,6 +21,7 @@ import ChangePasswordScreen from "./UserSettings/ChangePassword";
 import ForgotPasswordScreen from "./UserSettings/ForgotPassword";
 import ForgotPasswordLoggedOut from "./UserSettings/ForgotPasswordLoggedOut";
 import HelpScreen from "./Onboarding/HelpPage";
+import AccountScreen from "./UserSettings/AccountScreen";
 
 import AddGroupScreen from "./Groups/AddGroup";
 import NotificationsScreen from "./Notifications/Notifications";
@@ -76,6 +77,7 @@ function SettingsStack() {
         name="ChangeUsernameScreen"
         component={ChangeUsernameScreen}
       />
+      <StackSettings.Screen name="AccountScreen" component={AccountScreen} />
       <StackSettings.Screen
         name="HelpLoggedIn"
         component={HelpScreen}
@@ -101,11 +103,19 @@ function HomeStack() {
 
       <StackHome.Screen name="EditGroup" component={EditGroupScreen} />
       <StackHome.Screen name="Group Chat" component={ChatScreen} />
-      <StackHome.Screen name="PostScreen" component={PostScreen} options={{ animation: 'none' }} />
+      <StackHome.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={{ animation: "none" }}
+      />
       <StackHome.Screen name="CreatePost" component={CreatePostScreen} />
       <StackHome.Screen name="EditPost" component={EditPostScreen} />
       <StackHome.Screen name="ViewPost" component={ViewPostScreen} />
-      <StackHome.Screen name="GroupInfo" component={GroupInfoScreen} options={{ animation: 'none' }} />
+      <StackHome.Screen
+        name="GroupInfo"
+        component={GroupInfoScreen}
+        options={{ animation: "none" }}
+      />
       <StackHome.Screen name="DeleteGroup" component={DeleteGroupScreen} />
       <StackHome.Screen name="DeleteMember" component={DeleteMemberScreen} />
       <StackHome.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
