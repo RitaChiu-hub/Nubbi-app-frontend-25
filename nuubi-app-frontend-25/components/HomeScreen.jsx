@@ -15,9 +15,8 @@ import socket from "../socket";
 import { globalStyles } from "../styles/global";
 import * as SecureStore from "expo-secure-store";
 import Icon from "react-native-vector-icons/FontAwesome";
-// import { HTTP_TYPE, HOST_IP } from "../config.json";
 import { Entypo } from "@expo/vector-icons";
-import HomeScreenNavBar from "./HomeScreen/HomeScreenNavBar";
+// import HomeScreenNavBar from "./HomeScreen/HomeScreenNavBar";
 import HomeScreenTasks from "./HomeScreen/HomeScreenTasks";
 import HomeScreenLeaderboard from "./HomeScreen/HomeScreenLeaderboard";
 import HomeScreenBadges from "./HomeScreen/HomeScreenBadges";
@@ -32,6 +31,7 @@ export default function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [forYouScreen, setForYouScreen] = React.useState(true); // if this is true,
   // screen for my groups must be false and vice versa so i dont bother making a seperate state for that.
+  const [selectedTab, setSelectedTab] = React.useState("Home");
 
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
@@ -110,56 +110,134 @@ export default function HomeScreen({ navigation }) {
     "Find your earned badges here. You can choose to feature 3 of your choice.",
   ];
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-around",
+            marginTop: 8,
+            width: "90%",
+            marginLeft: "-8%",
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              // navigation.navigate("Home");
+              setSelectedTab("Home");
+            }}
+          >
+            <View
+              style={[
+                {
+                  borderBottomWidth: 0,
+                  borderColor: "transparent",
+                  marginBottom: 12,
+                },
+                selectedTab === "Home" && {
+                  borderBottomWidth: 2,
+                  borderColor: "#33B7F0",
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  {
+                    color: "#767676",
+                    fontSize: 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Home" && {
+                    color: "#33b7f0",
+                    fontSize: 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                ]}
+              >
+                For You
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("MyGroups");
+              setSelectedTab("Groups");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Groups" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  {
+                    color: "#767676",
+                    fontSize: 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Groups" && {
+                    color: "#33b7f0",
+                    fontSize: 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                ]}
+              >
+                My Groups
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, [navigation, selectedTab]);
+
   return (
     <View style={styles.container}>
-      <View
-        style={[
-          styles.navbar,
-          { backgroundColor: "red" },
-          //  { backgroundColor: performOnboarding ? "#BBBBBB" : "white" },
-        ]}
-      >
-        <HomeScreenNavBar
-          forYouScreen={forYouScreen}
-          setForYouScreen={setForYouScreen}
-        />
-      </View>
       {forYouScreen ? (
         <ScrollView style={styles.sections} ref={scrollViewRef}>
           <View
             style={{
-              height: screenHeight * 0.33,
-              opacity: onboardingState == 3 || onboardingState == 6 ? 1 : 1,
-              backgroundColor:
-                onboardingState == 3 || onboardingState == 6
-                  ? "white"
-                  : "#BBBBBB",
+            //  height: screenHeight * 0.33,
+              // opacity: onboardingState == 3 || onboardingState == 6 ? 1 : 1,
+              // backgroundColor:
+              //   onboardingState == 3 || onboardingState == 6
+              //     ? "white"
+              //     : "#BBBBBB",
             }}
           >
             <HomeScreenTasks />
           </View>
           <View style={{ height: 5, backgroundColor: "lightgray" }}></View>
           <View
-            style={{
-              height: screenHeight * 0.33,
-              opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
-              backgroundColor:
-                onboardingState == 4 || onboardingState == 6
-                  ? "white"
-                  : "#BBBBBB",
-            }}
+            // style={{
+            //   height: screenHeight * 0.33,
+            //   opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
+            //   backgroundColor:
+            //     onboardingState == 4 || onboardingState == 6
+            //       ? "white"
+            //       : "#BBBBBB",
+            // }}
           >
             <HomeScreenLeaderboard />
           </View>
           <View
-            style={{
-              height: screenHeight * 0.33,
-              opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
-              backgroundColor:
-                onboardingState == 5 || onboardingState == 6
-                  ? "white"
-                  : "#BBBBBB",
-            }}
+            // style={{
+            //   height: screenHeight * 0.33,
+            //   opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
+            //   backgroundColor:
+            //     onboardingState == 5 || onboardingState == 6
+            //       ? "white"
+            //       : "#BBBBBB",
+            // }}
           >
             <HomeScreenBadges />
           </View>
@@ -381,178 +459,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-// import * as React from "react";
-// import { Text, View, Modal, FlatList, TouchableOpacity, Image } from "react-native";
-// import { AccountContext } from "./AccountContext";
-// import socket from "../socket";
-// import { globalStyles } from "../styles/global";
-// import Icon from "react-native-vector-icons/Ionicons";
-
-// export default function HomeScreen({ navigation }) {
-//   const { user, setUser } = React.useContext(AccountContext);
-//   const [error, setError] = React.useState(null);
-//   const [groups, setGroups] = React.useState([]);
-
-//   if (user.token != null && user.token != "undefined") {
-//     React.useEffect(() => {
-//       socket.connect();
-//     }, []);
-//   } else {
-//     socket.disconnect();
-//   }
-
-//   const getGroups = async () => {
-//     try {
-//       const response = await fetch(
-//         `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
-//         {
-//           method: "POST",
-//           credentials: "include",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify({ ...user }),
-//         }
-//       );
-//       const jsonData = await response.json();
-//       setGroups(jsonData);
-//     } catch (err) {
-//       console.error(err.message);
-//     }
-//   };
-
-//   React.useEffect(() => {
-//     getGroups();
-//   }, [user]);
-
-//   const Item = ({ title, description, id, invitePasscode }) => (
-//     <View>
-//       <TouchableOpacity
-//         style={{
-//           alignItems: "flex-start",
-//           justifyContent: "center",
-//           paddingVertical: 10,
-//           paddingHorizontal: 10,
-//           width: "100%",
-//           minWidth: 300,
-//           borderWidth: 1,
-//           borderRadius: 6,
-//           marginBottom: 10,
-//           borderColor: "#ddd",
-//           backgroundColor: "#fdfdfd",
-//         }}
-//         onPress={() => {
-//           setUser({
-//             ...user,
-//             currentGroup: id,
-//             groupName: title,
-//             invitePasscode: invitePasscode,
-//           }),
-//             navigation.navigate("Group Chat");
-//         }}
-//       >
-//         <Text
-//           style={{
-//             fontSize: 18,
-//             fontWeight: "bold",
-//             color: "#333",
-//           }}
-//         >
-//           {title}
-//         </Text>
-//         <Text
-//           style={{
-//             fontSize: 16,
-//             fontWeight: "normal",
-//             color: "#333",
-//           }}
-//         >
-//           {description}
-//         </Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-
-//   const renderItem = ({ item }) => (
-//     <Item
-//       title={item.name}
-//       description={item.description}
-//       id={item.group_id}
-//       invitePasscode={item.invite_passcode}
-//     />
-//   );
-
-//   React.useLayoutEffect(() => {
-//     navigation.setOptions({
-//       title: "My Groups",
-//       headerTitleAlign: "center",
-//     });
-//   }, [navigation]);
-
-//   return (
-//     <View
-//       style={{
-//         flex: 1,
-//         marginHorizontal: 10,
-//         marginTop: 10,
-//       }}
-//     >
-//       <View style={{ backgroundColor: "#f1f1f1", width: "100%" }}>
-//         <FlatList
-//           data={groups}
-//           renderItem={renderItem}
-//           keyExtractor={(item) => item.group_id}
-//         />
-//       </View>
-//       <Modal
-//         animationType="slide"
-//         transparent={true}
-//         visible={user.firstSignIn === true}
-//         onRequestClose={() => {
-//           setUser({
-//             ...user,
-//             firstSignIn: false,
-//           });
-//         }}
-//       >
-//         <View style={globalStyles.centeredView}>
-//           <View style={globalStyles.modalView}>
-//             <Text
-//               style={{
-//                 textAlign: "center",
-//                 fontSize: 16,
-//               }}
-//             >
-//               Welcome to Nuubi! Your username is {user.username}. To change it,
-//               tap the profile icon{" "}
-//               <Image
-//                   source={
-//                      require("../assets/icons/Profile.png")
-//                   }
-//                   style={{ width: 24, height: 24 }}
-//                 /> in the
-//               bottom navigation bar. Then, click "Settings", and then "Change Username".
-//             </Text>
-//             <View style={{ paddingVertical: 10 }}></View>
-//             <Text style={{ textAlign: "center", fontSize: 16 }}>
-//               Questions? In "Settings", click on "Help".
-//             </Text>
-//             <View style={{ paddingVertical: 10 }}></View>
-//             <TouchableOpacity
-//               style={globalStyles.secondaryButton}
-//               onPress={() => {
-//                 setUser({
-//                   ...user,
-//                   firstSignIn: false,
-//                 });
-//               }}
-//             >
-//               <Text style={globalStyles.secondaryButtonText}>OK</Text>
-//             </TouchableOpacity>
-//           </View>
-//         </View>
-//       </Modal>
-//     </View>
-//   );
-// }

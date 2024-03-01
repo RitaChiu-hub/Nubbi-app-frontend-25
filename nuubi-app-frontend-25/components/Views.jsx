@@ -12,6 +12,7 @@ import SignUpScreen from "./Login/SignUpScreen";
 import CodeVerificationScreen from "./Login/CodeVerificationScreen";
 
 import HomeScreen from "./HomeScreen";
+import MyGroupsScreen from "./MyGroups";
 import SplashScreen from "./SplashScreen";
 
 import SettingsScreen from "./UserSettings/SettingsScreen";
@@ -98,7 +99,12 @@ function HomeStack() {
       <StackHome.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: "Home" }}
+    //    options={{ title: "Home" }}
+      />
+   <StackHome.Screen
+        name="MyGroups"
+        component={MyGroupsScreen}
+    //    options={{ title: "My Groups" }}
       />
 
       <StackHome.Screen name="EditGroup" component={EditGroupScreen} />

@@ -203,7 +203,7 @@ export default function ChatScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: 1,
+                    fontSize: 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
