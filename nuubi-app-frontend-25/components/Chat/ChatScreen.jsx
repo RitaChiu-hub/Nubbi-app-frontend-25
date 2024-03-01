@@ -209,7 +209,7 @@ export default function ChatScreen({ navigation }) {
                   },
                   selectedTab === "Chat" && {
                     color: "#33b7f0",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -236,13 +236,15 @@ export default function ChatScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: 16,
+                    //    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Group" && {
                     color: "#33b7f0",
-                    fontSize: 16,
+                    // fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -269,13 +271,13 @@ export default function ChatScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Posts" && {
                     color: "#33b7f0",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -289,7 +291,6 @@ export default function ChatScreen({ navigation }) {
       ),
     });
   }, [navigation, selectedTab]);
-
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 

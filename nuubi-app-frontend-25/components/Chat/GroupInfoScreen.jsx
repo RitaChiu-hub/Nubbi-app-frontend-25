@@ -158,13 +158,6 @@ export default function GroupInfoScreen({ navigation }) {
     />
   );
 
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     title: groupTitle,
-  //     headerTitleAlign: "center",
-  //   });
-  // }, [navigation, groupTitle]);
-
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -203,13 +196,13 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Chat" && {
                     color: "#33b7f0",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -235,13 +228,13 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Group" && {
                     color: "#33b7f0",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -268,13 +261,13 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Posts" && {
                     color: "#33b7f0",
-                    fontSize: 16,
+                    fontSize: groupTitle.length <= 12 ? 18 : 14,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
