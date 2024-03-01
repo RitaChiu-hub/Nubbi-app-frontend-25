@@ -68,8 +68,8 @@ export default function HomeScreen({ navigation }) {
 
   React.useEffect(() => {
     getGroups();
-    //}, [groups]);
-  }, [user]);
+    setSelectedTab("Home");
+  }, [groups, user]);
 
   const scrollViewRef = React.useRef();
 
@@ -165,8 +165,8 @@ export default function HomeScreen({ navigation }) {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("MyGroups");
               setSelectedTab("Groups");
+              navigation.navigate("MyGroups");
             }}
           >
             <View
@@ -205,39 +205,41 @@ export default function HomeScreen({ navigation }) {
       {forYouScreen ? (
         <ScrollView style={styles.sections} ref={scrollViewRef}>
           <View
-            style={{
-            //  height: screenHeight * 0.33,
-              // opacity: onboardingState == 3 || onboardingState == 6 ? 1 : 1,
-              // backgroundColor:
-              //   onboardingState == 3 || onboardingState == 6
-              //     ? "white"
-              //     : "#BBBBBB",
-            }}
+            style={
+              {
+                //  height: screenHeight * 0.33,
+                // opacity: onboardingState == 3 || onboardingState == 6 ? 1 : 1,
+                // backgroundColor:
+                //   onboardingState == 3 || onboardingState == 6
+                //     ? "white"
+                //     : "#BBBBBB",
+              }
+            }
           >
             <HomeScreenTasks />
           </View>
           <View style={{ height: 5, backgroundColor: "lightgray" }}></View>
           <View
-            // style={{
-            //   height: screenHeight * 0.33,
-            //   opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
-            //   backgroundColor:
-            //     onboardingState == 4 || onboardingState == 6
-            //       ? "white"
-            //       : "#BBBBBB",
-            // }}
+          // style={{
+          //   height: screenHeight * 0.33,
+          //   opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
+          //   backgroundColor:
+          //     onboardingState == 4 || onboardingState == 6
+          //       ? "white"
+          //       : "#BBBBBB",
+          // }}
           >
             <HomeScreenLeaderboard />
           </View>
           <View
-            // style={{
-            //   height: screenHeight * 0.33,
-            //   opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
-            //   backgroundColor:
-            //     onboardingState == 5 || onboardingState == 6
-            //       ? "white"
-            //       : "#BBBBBB",
-            // }}
+          // style={{
+          //   height: screenHeight * 0.33,
+          //   opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
+          //   backgroundColor:
+          //     onboardingState == 5 || onboardingState == 6
+          //       ? "white"
+          //       : "#BBBBBB",
+          // }}
           >
             <HomeScreenBadges />
           </View>

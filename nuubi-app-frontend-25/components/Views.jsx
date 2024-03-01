@@ -99,11 +99,13 @@ function HomeStack() {
       <StackHome.Screen
         name="Home"
         component={HomeScreen}
+        options={{ animation: "none" }}
     //    options={{ title: "Home" }}
       />
    <StackHome.Screen
         name="MyGroups"
         component={MyGroupsScreen}
+        options={{ animation: "none" }}
     //    options={{ title: "My Groups" }}
       />
 

@@ -1,6 +1,12 @@
-
 import * as React from "react";
-import { Text, View, Modal, FlatList, TouchableOpacity, Image } from "react-native";
+import {
+  Text,
+  View,
+  Modal,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
 import { globalStyles } from "../styles/global";
@@ -10,7 +16,7 @@ export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [groups, setGroups] = React.useState([]);
-  const [selectedTab, setSelectedTab] = React.useState("Home");
+  const [selectedTab, setSelectedTab] = React.useState("Groups");
 
   if (user.token != null && user.token != "undefined") {
     React.useEffect(() => {
@@ -42,6 +48,7 @@ export default function MyGroupsScreen({ navigation }) {
 
   React.useEffect(() => {
     getGroups();
+    setSelectedTab("Groups");
   }, [user]);
 
   const Item = ({ title, description, id, invitePasscode }) => (
@@ -116,8 +123,8 @@ export default function MyGroupsScreen({ navigation }) {
         >
           <TouchableOpacity
             onPress={() => {
-               navigation.navigate("Home");
-              setSelectedTab("Home");
+            setSelectedTab("Home");
+              navigation.navigate("Home");
             }}
           >
             <View
@@ -156,7 +163,7 @@ export default function MyGroupsScreen({ navigation }) {
 
           <TouchableOpacity
             onPress={() => {
-            //  navigation.navigate("MyGroups");
+              //  navigation.navigate("MyGroups");
               setSelectedTab("Groups");
             }}
           >
@@ -188,6 +195,7 @@ export default function MyGroupsScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       ),
+      headerBackVisible: false,
     });
   }, [navigation, selectedTab]);
 
@@ -228,12 +236,11 @@ export default function MyGroupsScreen({ navigation }) {
               Welcome to Nuubi! Your username is {user.username}. To change it,
               tap the profile icon{" "}
               <Image
-                  source={
-                     require("../assets/icons/Profile.png")
-                  }
-                  style={{ width: 24, height: 24 }}
-                /> in the
-              bottom navigation bar. Then, click "Settings", and then "Change Username".
+                source={require("../assets/icons/Profile.png")}
+                style={{ width: 24, height: 24 }}
+              />{" "}
+              in the bottom navigation bar. Then, click "Settings", and then
+              "Change Username".
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <Text style={{ textAlign: "center", fontSize: 16 }}>
