@@ -21,6 +21,33 @@ export default function ProfilePageScreen({ navigation }) {
   const [pickedImage, setPickedImage] = React.useState(null);
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [avatarInfo, setAvatarInfo] = React.useState(null);
+  const [userPoints, setUserPoints] = React.useState(0);
+  const [myUsername, setMyUsername] = React.useState("");
+
+  const getUserPoints = async () => {
+    try {
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+      setUserPoints(jsonData.userPoints);
+      setMyUsername(jsonData.username);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getUserPoints();
+  }, []);
 
   const getUserAvatar = async () => {
     try {
@@ -130,6 +157,23 @@ export default function ProfilePageScreen({ navigation }) {
             />
           )}
         </View>
+
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+            color: "#333",
+            padding: 20,
+            marginLeft: 25,
+            marginRight: 25,
+            textAlign: "center",
+          }}
+        >
+          Hi {myUsername}!
+        </Text>
+        <Text style={{ marginBottom: 10 }}>
+          You have {userPoints} total points 🎉
+        </Text>
 
         {pickedImage !== null ? (
           <TouchableOpacity

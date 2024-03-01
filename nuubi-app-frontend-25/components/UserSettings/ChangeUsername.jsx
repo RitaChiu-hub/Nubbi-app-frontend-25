@@ -15,6 +15,31 @@ import { Formik, ErrorMessage } from "formik";
 export default function ChangeUsernameScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
+  const [myUsername, setMyUsername] = React.useState("");
+
+  const getUserPoints = async () => {
+    try {
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+      setMyUsername(jsonData.username);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getUserPoints();
+  }, []);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,7 +70,7 @@ export default function ChangeUsernameScreen({ navigation }) {
           }}
         >
           <Text style={{ textAlign: "center", fontSize: 16 }}>
-            Your current username is {user.username}.
+            Your current username is {myUsername}.
           </Text>
           <View style={{ marginVertical: 10 }}></View>
           <Text style={{ fontSize: 14 }}>Your new username must have: </Text>
