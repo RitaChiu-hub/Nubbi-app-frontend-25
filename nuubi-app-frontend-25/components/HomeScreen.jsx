@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import {
   Text,
@@ -16,7 +15,7 @@ import socket from "../socket";
 import { globalStyles } from "../styles/global";
 import * as SecureStore from "expo-secure-store";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { HTTP_TYPE, HOST_IP } from "../config.json";
+// import { HTTP_TYPE, HOST_IP } from "../config.json";
 import { Entypo } from "@expo/vector-icons";
 import HomeScreenNavBar from "./HomeScreen/HomeScreenNavBar";
 import HomeScreenTasks from "./HomeScreen/HomeScreenTasks";
@@ -48,7 +47,8 @@ export default function HomeScreen({ navigation }) {
   const getGroups = async () => {
     try {
       const response = await fetch(
-        `${HTTP_TYPE}://${HOST_IP}/groups/mygroups`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
+        //  `${HTTP_TYPE}://${HOST_IP}/groups/mygroups`,
         {
           method: "POST",
           credentials: "include",
@@ -71,7 +71,7 @@ export default function HomeScreen({ navigation }) {
     //}, [groups]);
   }, [user]);
 
-  const scrollViewRef = useRef();
+  const scrollViewRef = React.useRef();
 
   const scrollToBottom = () => {
     if (scrollViewRef.current) {
@@ -79,9 +79,9 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  const [performOnboarding, setPerformOnboarding] = useState(true);
-  const [onboardingState, setOnboardingState] = useState(0);
-  const [showFinishedPopup, setShowFinishedPopup] = useState(false);
+  const [performOnboarding, setPerformOnboarding] = React.useState(false);
+  const [onboardingState, setOnboardingState] = React.useState(0);
+  const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
   const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];
   const positionLeft = [0.02, 0.25, 0.26, 0.2, 0.1, 0.05];
   const arrowPositionLeft = [0.05, 0.22, 0.61, 0.4, 0.15, 0.1];
@@ -115,7 +115,8 @@ export default function HomeScreen({ navigation }) {
       <View
         style={[
           styles.navbar,
-          { backgroundColor: performOnboarding ? "#BBBBBB" : "white" },
+          { backgroundColor: "red" },
+          //  { backgroundColor: performOnboarding ? "#BBBBBB" : "white" },
         ]}
       >
         <HomeScreenNavBar
@@ -285,6 +286,8 @@ export default function HomeScreen({ navigation }) {
                       scrollToBottom();
                     }
                     if (onboardingState == 5) {
+                      console.log("heloooo");
+                      console.log(showFinishedPopup);
                       setShowFinishedPopup(true);
                     } else {
                       setOnboardingState(onboardingState + 1);
@@ -335,57 +338,7 @@ export default function HomeScreen({ navigation }) {
           <Text>Hello world, no design for this so far. </Text>
         </ScrollView>
       )}
-      <View
-        style={{
-          flex: 0.1,
-          flexDirection: "row",
-          alignItems: "center",
-          opacity: onboardingState <= 2 || onboardingState == 6 ? 1 : 1,
-          backgroundColor:
-            onboardingState <= 2 || onboardingState == 6 ? "white" : "#BBBBBB",
-        }}
-      >
-        <TouchableOpacity style={{ flex: 0.2 }}>
-          <Icon
-            style={{ textAlign: "center" }}
-            name="home"
-            color="lightblue"
-            size={28}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ flex: 0.2 }}>
-          <Icon
-            style={{ textAlign: "center" }}
-            name="search"
-            color="black"
-            size={28}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ flex: 0.2 }}>
-          <Icon
-            style={{ textAlign: "center" }}
-            name="plus-square-o"
-            color="black"
-            size={36}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ flex: 0.2 }}>
-          <Icon
-            style={{ textAlign: "center" }}
-            name="bell-o"
-            color="black"
-            size={28}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ flex: 0.2 }}>
-          <Icon
-            style={{ textAlign: "center" }}
-            name="user"
-            color="black"
-            size={28}
-          />
-        </TouchableOpacity>
-      </View>
+
       <AwesomeAlert
         show={showFinishedPopup}
         title="You're all set!"
@@ -428,7 +381,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
 
 // import * as React from "react";
 // import { Text, View, Modal, FlatList, TouchableOpacity, Image } from "react-native";

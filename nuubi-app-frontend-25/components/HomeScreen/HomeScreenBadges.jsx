@@ -13,16 +13,18 @@ import {
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   
+  const defaultImage = "../../assets/nuubiTransparent45.png";
+
   export default function HomeScreenBadges() {
     const badges = [
-      { name: "Badge1", image: "something" },
-      { name: "Badge1", image: "something" },
-      { name: "Badge1", image: "something" },
-      { name: "Badge1", image: "something" },
-      { name: "Badge1", image: "something" },
-      { name: "Badge1", image: "something" },
-      { name: "Badge1", image: "something" },
-      { name: "Badge1", image: "something" },
+      { name: "Badge1", image: defaultImage },
+      { name: "Badge1", image: defaultImage },
+      { name: "Badge1", image: defaultImage },
+      { name: "Badge1", image: defaultImage },
+      { name: "Badge1", image: defaultImage },
+      { name: "Badge1", image: defaultImage },
+      { name: "Badge1", image: defaultImage },
+      { name: "Badge1", image: defaultImage },
     ];
     return (
       <View style={styles.container}>
@@ -82,7 +84,8 @@ import {
                           }}
                         >
                           <Image
-                            source={{ uri: badge.image || "something" }}
+                         //   source={{ uri: badge.image ||  }}
+                         source = {require("../../assets/nuubiTransparent45.png")}
                             resizeMode="contain"
                             alt="Badge Image"
                             style={{
