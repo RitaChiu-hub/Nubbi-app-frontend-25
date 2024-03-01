@@ -5,6 +5,7 @@ import {
   Modal,
   Alert,
   FlatList,
+  Image,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
@@ -437,6 +438,53 @@ export default function HomeScreen({ navigation }) {
           setShowFinishedPopup(false);
         }}
       />
+       <Modal
+        animationType="slide"
+        transparent={true}
+        visible={user.firstSignIn === true}
+        onRequestClose={() => {
+          setUser({
+            ...user,
+            firstSignIn: false,
+          });
+        }}
+      >
+        <View style={globalStyles.centeredView}>
+          <View style={globalStyles.modalView}>
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 16,
+              }}
+            >
+              Welcome to Nuubi! Your username is {user.username}. To change it,
+              tap the profile icon{" "}
+              <Image
+                source={require("../assets/icons/Profile.png")}
+                style={{ width: 24, height: 24 }}
+              />{" "}
+              in the bottom navigation bar. Then, click "Settings", and then
+              "Change Username".
+            </Text>
+            <View style={{ paddingVertical: 10 }}></View>
+            <Text style={{ textAlign: "center", fontSize: 16 }}>
+              Questions? In "Settings", click on "Help".
+            </Text>
+            <View style={{ paddingVertical: 10 }}></View>
+            <TouchableOpacity
+              style={globalStyles.secondaryButton}
+              onPress={() => {
+                setUser({
+                  ...user,
+                  firstSignIn: false,
+                });
+              }}
+            >
+              <Text style={globalStyles.secondaryButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }

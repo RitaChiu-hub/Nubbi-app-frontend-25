@@ -85,7 +85,7 @@ import {
                         >
                           <Image
                          //   source={{ uri: badge.image ||  }}
-                         source = {require("../../assets/nuubiTransparent45.png")}
+                         source = {require("../../assets/badgeIcon.png")}
                             resizeMode="contain"
                             alt="Badge Image"
                             style={{
