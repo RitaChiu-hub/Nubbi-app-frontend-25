@@ -36,8 +36,8 @@ export default function ChatScreen({ navigation }) {
   const getGroupName = async () => {
     try {
       const response = await fetch(
-        //  `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
-        `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+       // `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -57,8 +57,8 @@ export default function ChatScreen({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-        //     `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
-        `http://localhost:8080/groups/getgroupinfo`,
+           `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+       // `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",

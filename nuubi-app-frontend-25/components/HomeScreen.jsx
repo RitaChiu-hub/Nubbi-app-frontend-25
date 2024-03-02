@@ -159,7 +159,7 @@ export default function HomeScreen({ navigation }) {
                   },
                 ]}
               >
-                For You
+                For you
               </Text>
             </View>
           </TouchableOpacity>
@@ -192,7 +192,7 @@ export default function HomeScreen({ navigation }) {
                   },
                 ]}
               >
-                My Groups
+                Your groups
               </Text>
             </View>
           </TouchableOpacity>
