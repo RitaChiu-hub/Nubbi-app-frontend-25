@@ -95,7 +95,7 @@ export default function HomeScreen({ navigation }) {
     "price-ribbon",
   ];
   const titleMessage = [
-    "Welcome To Nuubi, Star Student 31415!",
+    "Welcome To Nuubi, " + user.username + "!",
     "Create Posts, Chats, or Join Groups here!",
     "Accounts & Settings",
     "Earn Points with Tasks!",
@@ -367,7 +367,6 @@ export default function HomeScreen({ navigation }) {
                       scrollToBottom();
                     }
                     if (onboardingState == 5) {
-                      console.log("show finished popup is" + showFinishedPopup);
                       setPerformOnboarding(false);
                       setShowFinishedPopup(true);
                     } else {
@@ -433,6 +432,8 @@ export default function HomeScreen({ navigation }) {
         confirmButtonStyle={styles.popupConfirm}
         confirmButtonColor="#6699cc"
         onConfirmPressed={() => {
+          setOnboardingState(false);
+          setPerformOnboarding(false);
           setShowFinishedPopup(false);
         }}
       />

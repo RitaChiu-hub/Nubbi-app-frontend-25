@@ -108,7 +108,10 @@ export default function SplashScreen({ navigation }) {
           <View style={{ marginTop: 16 }} accessibilityRole="none">
             <Text style={globalStyles.h2HeadingMedium}>{item.title}</Text>
           </View>
-          <View style={{ paddingHorizontal: 50, paddingTop: 8 }} accessibilityRole="none">
+          <View
+            style={{ paddingHorizontal: 50, paddingTop: 8 }}
+            accessibilityRole="none"
+          >
             <Text style={globalStyles.bodyRegular}>{item.desc}</Text>
           </View>
         </View>
@@ -183,8 +186,13 @@ export default function SplashScreen({ navigation }) {
       locations={[0.0, 0.46, 1.0]}
       accessibilityRole="none"
     >
-      <SafeAreaView
-        style={{ flex: 1, alignItems: "center" }}
+      <ScrollView
+        contentContainerStyle={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "flex-start",
+          
+        }}
         onLayout={onLayoutRootView}
         accessibilityRole="none"
       >
@@ -208,7 +216,8 @@ export default function SplashScreen({ navigation }) {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginTop: "10%",
+            paddingTop:  deviceWidth > 500 ? 60 : "25%",
+          
           }}
           accessibilityRole="none"
         >
@@ -349,7 +358,7 @@ export default function SplashScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
-      </SafeAreaView>
+      </ScrollView>
     </LinearGradient>
   );
 }
