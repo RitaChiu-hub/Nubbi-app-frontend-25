@@ -27,46 +27,21 @@ import AwesomeAlert from "react-native-awesome-alerts";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
-  const [error, setError] = React.useState(null);
-  // const [groups, setGroups] = React.useState([]);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [forYouScreen, setForYouScreen] = React.useState(true); // if this is true,
-  // screen for my groups must be false and vice versa so i dont bother making a seperate state for that.
+  const [forYouScreen, setForYouScreen] = React.useState(true); 
   const [selectedTab, setSelectedTab] = React.useState("Home");
   const [myUsername, setMyUsername] = React.useState("");
 
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
 
-  if (user.loggedIn === true) {
+  if (user.token != null && user.token != "undefined") {
     React.useEffect(() => {
       socket.connect();
     }, []);
   } else {
     socket.disconnect();
   }
-
-  // const getGroups = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
-  //       //  `${HTTP_TYPE}://${HOST_IP}/groups/mygroups`,
-  //       {
-  //         method: "POST",
-  //         credentials: "include",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ ...user }),
-  //       }
-  //     );
-  //     const jsonData = await response.json();
-
-  //     setGroups(jsonData);
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // };
 
   const getUserPoints = async () => {
     try {
@@ -82,20 +57,17 @@ export default function HomeScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      //  setUserPoints(jsonData.userPoints);
       setMyUsername(jsonData.username);
+      setSelectedTab("Home");
     } catch (err) {
       console.error(err.message);
     }
   };
 
   React.useEffect(() => {
-    // getGroups();
     setSelectedTab("Home");
     getUserPoints();
-    console.log({ ...user });
-    //}, [groups, user]);
-  }, [user]);
+  }, [selectedTab, user]);
 
   const scrollViewRef = React.useRef();
 
