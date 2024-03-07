@@ -80,7 +80,7 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  const [performOnboarding, setPerformOnboarding] = React.useState(false);
+  const [performOnboarding, setPerformOnboarding] = React.useState(true);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
   const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];
@@ -367,8 +367,8 @@ export default function HomeScreen({ navigation }) {
                       scrollToBottom();
                     }
                     if (onboardingState == 5) {
-                      console.log("heloooo");
-                      console.log(showFinishedPopup);
+                      console.log("show finished popup is" + showFinishedPopup);
+                      setPerformOnboarding(false);
                       setShowFinishedPopup(true);
                     } else {
                       setOnboardingState(onboardingState + 1);
@@ -433,12 +433,11 @@ export default function HomeScreen({ navigation }) {
         confirmButtonStyle={styles.popupConfirm}
         confirmButtonColor="#6699cc"
         onConfirmPressed={() => {
-          setPerformOnboarding(false);
-          setOnboardingState(6);
           setShowFinishedPopup(false);
         }}
       />
-       <Modal
+
+      <Modal
         animationType="slide"
         transparent={true}
         visible={user.firstSignIn === true}
