@@ -165,7 +165,7 @@ export default function GroupInfoScreen({ navigation }) {
           labelVisible={false}
           style={{ maxWidth: 40 }}
           onPress={() => {
-            navigation.navigate("Home");
+            navigation.navigate("MyGroups");
           }}
         />
       ),

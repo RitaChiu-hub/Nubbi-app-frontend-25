@@ -80,7 +80,7 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  const [performOnboarding, setPerformOnboarding] = React.useState(true);
+  const [performOnboarding, setPerformOnboarding] = React.useState(false);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
   const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];

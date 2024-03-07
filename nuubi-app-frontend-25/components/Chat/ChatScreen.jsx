@@ -165,7 +165,7 @@ export default function ChatScreen({ navigation }) {
           labelVisible={false}
           style={{ maxWidth: 40 }}
           onPress={() => {
-            navigation.navigate("Home");
+            navigation.navigate("MyGroups");
           }}
         />
       ),

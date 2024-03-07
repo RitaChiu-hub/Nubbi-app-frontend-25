@@ -110,6 +110,10 @@ export default function MyGroupsScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      // headerBackVisible: false,
+      headerLeft: () => (
+       null
+      ),
       headerTitle: () => (
         <View
           style={{
@@ -123,7 +127,7 @@ export default function MyGroupsScreen({ navigation }) {
         >
           <TouchableOpacity
             onPress={() => {
-            setSelectedTab("Home");
+              setSelectedTab("Home");
               navigation.navigate("Home");
             }}
           >
