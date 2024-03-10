@@ -28,7 +28,7 @@ import AwesomeAlert from "react-native-awesome-alerts";
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [forYouScreen, setForYouScreen] = React.useState(true); 
+  const [forYouScreen, setForYouScreen] = React.useState(true);
   const [selectedTab, setSelectedTab] = React.useState("Home");
   const [myUsername, setMyUsername] = React.useState("");
 
@@ -115,10 +115,10 @@ export default function HomeScreen({ navigation }) {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-around",
+            justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
             marginTop: 8,
-            width: "90%",
-            marginLeft: "-8%",
+            width: screenWidth > 500 ? screenWidth : "90%",
+            marginLeft: screenWidth > 500 ? 0 : "-8%",
           }}
         >
           <TouchableOpacity
