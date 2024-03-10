@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
@@ -17,6 +18,8 @@ export default function MyGroupsScreen({ navigation }) {
   const [error, setError] = React.useState(null);
   const [groups, setGroups] = React.useState([]);
   const [selectedTab, setSelectedTab] = React.useState("Groups");
+
+  const screenWidth = Dimensions.get("window").width;
 
   if (user.token != null && user.token != "undefined") {
     React.useEffect(() => {
@@ -119,10 +122,10 @@ export default function MyGroupsScreen({ navigation }) {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-around",
+            justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
             marginTop: 8,
-            width: "90%",
-            marginLeft: "-8%",
+            width: screenWidth > 500 ? screenWidth : "90%",
+            marginLeft: screenWidth > 500 ? 0 : "-8%",
           }}
         >
           <TouchableOpacity
