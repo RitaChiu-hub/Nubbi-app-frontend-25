@@ -21,8 +21,6 @@ import HomeScreenTasks from "./HomeScreen/HomeScreenTasks";
 import HomeScreenLeaderboard from "./HomeScreen/HomeScreenLeaderboard";
 import HomeScreenBadges from "./HomeScreen/HomeScreenBadges";
 import { Overlay } from "react-native-elements";
-import { useState, useRef } from "react";
-import AwesomeAlert from "react-native-awesome-alerts";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -470,24 +468,6 @@ export default function HomeScreen({ navigation }) {
           </View>
         </View>
       </Modal>
-      {/* <AwesomeAlert
-        show={showFinishedPopup}
-        title="You're all set!"
-        titleStyle={styles.popupTitle}
-        message="You are now ready to begin learning."
-        messageStyle={styles.popupMessage}
-        closeOnTouchOutside={true}
-        showConfirmButton={true}
-        confirmText="OK"
-        confirmButtonTextStyle={styles.popupConfirmText}
-        confirmButtonStyle={styles.popupConfirm}
-        confirmButtonColor="#6699cc"
-        onConfirmPressed={() => {
-          setOnboardingState(false);
-          setPerformOnboarding(false);
-          setShowFinishedPopup(false);
-        }}
-      /> */}
 
       <Modal
         animationType="slide"
