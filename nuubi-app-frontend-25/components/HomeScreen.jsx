@@ -77,7 +77,7 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  const [performOnboarding, setPerformOnboarding] = React.useState(false);
+  const [performOnboarding, setPerformOnboarding] = React.useState(true);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
   const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];
@@ -100,7 +100,7 @@ export default function HomeScreen({ navigation }) {
     "Badges Earned!",
   ];
   const secondaryMessage = [
-    "Take a tour of the app so you can see how Nuubi Works",
+    "Take a tour of the app so you can see how Nuubi works.",
     "Tap the plus icon to add or join a group; Or create a new post",
     "Update your profile, username, notifications, and more here",
     "Get rewarded by asking questions, chattings, and learning with peers. Swipe to see all your daily tasks.",
