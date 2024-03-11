@@ -16,7 +16,7 @@ import socket from "../socket";
 import { globalStyles } from "../styles/global";
 import * as SecureStore from "expo-secure-store";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import HomeScreenTasks from "./HomeScreen/HomeScreenTasks";
 import HomeScreenLeaderboard from "./HomeScreen/HomeScreenLeaderboard";
 import HomeScreenBadges from "./HomeScreen/HomeScreenBadges";
@@ -248,7 +248,10 @@ export default function HomeScreen({ navigation }) {
               bottom: screenHeight * positionBottom[onboardingState],
               left: screenWidth * positionLeft[onboardingState],
               padding: 0,
-              borderRadius: 5,
+              borderRadius: 14,
+              shadowColor: "#111111",
+              shadowOpacity: 0.8,
+              shadowRadius: 2,
             }}
             backdropStyle={{ opacity: 0.1 }}
           >
@@ -300,12 +303,18 @@ export default function HomeScreen({ navigation }) {
                     }}
                   />
                 </View>
-                <View style={{ width: "10%", height: "100%" }}>
-                  <Entypo
-                    name="cross"
-                    style={{ textAlign: "center" }}
-                    size={26}
-                  />
+                <View style={{ width: "16%", height: "100%" }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      Alert.alert("hi");
+                    }}
+                  >
+                    <AntDesign
+                      name="close"
+                      style={{ textAlign: "center", color: "#2482AA", padding: 10 }}
+                      size={24}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
               <Text
