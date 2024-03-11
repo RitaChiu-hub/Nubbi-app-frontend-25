@@ -25,6 +25,7 @@ import { Overlay } from "react-native-elements";
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [closeModalVisible, setCloseModalVisible] = React.useState(true);
   const [forYouScreen, setForYouScreen] = React.useState(true);
   const [selectedTab, setSelectedTab] = React.useState("Home");
   const [myUsername, setMyUsername] = React.useState("");
@@ -306,12 +307,21 @@ export default function HomeScreen({ navigation }) {
                 <View style={{ width: "16%", height: "100%" }}>
                   <TouchableOpacity
                     onPress={() => {
-                      Alert.alert("hi");
+                      console.log("closed");
+                      setPerformOnboarding(false);
+                      setShowFinishedPopup(true);
+                      setCloseModalVisible(true);
+                      console.log(closeModalVisible);
+                      //  setOnboardingState(false);
                     }}
                   >
                     <AntDesign
                       name="close"
-                      style={{ textAlign: "center", color: "#2482AA", padding: 10 }}
+                      style={{
+                        textAlign: "center",
+                        color: "#2482AA",
+                        padding: 10,
+                      }}
                       size={24}
                     />
                   </TouchableOpacity>
@@ -410,7 +420,7 @@ export default function HomeScreen({ navigation }) {
         </ScrollView>
       )}
 
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={showFinishedPopup}
@@ -456,6 +466,80 @@ export default function HomeScreen({ navigation }) {
               }}
             >
               You are now ready to start learning.
+            </Text>
+            <View style={{ paddingVertical: 10 }}></View>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 14,
+                paddingHorizontal: 50,
+                borderRadius: 60,
+                elevation: 3,
+                backgroundColor: "#2482AA",
+                alignSelf: "center",
+              }}
+              onPress={() => {
+                // setUser({
+                //   ...user,
+                //   firstSignIn: false,
+                // });
+                setOnboardingState(false);
+                setPerformOnboarding(false);
+                setShowFinishedPopup(false);
+              }}
+            >
+              <Text style={globalStyles.primaryButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal> */}
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        //  visible={closeModalVisible}
+        visible={showFinishedPopup}
+        onRequestClose={() => {
+          // setUser({
+          //   ...user,
+          //   firstSignIn: false,
+          // });
+          setOnboardingState(false);
+          setPerformOnboarding(false);
+          setShowFinishedPopup(false);
+        }}
+      >
+        <View style={globalStyles.centeredView}>
+          <View style={globalStyles.modalView}>
+            <Image
+              source={cardIcon[6]}
+              style={{
+                width: 35,
+                height: 40,
+                resizeMode: "contain",
+              }}
+            />
+            <Text
+              style={{
+                color: "#111111",
+                textAlign: "center",
+                fontSize: 18,
+                fontFamily: "Poppins_600SemiBold",
+                textAlign: "center",
+                paddingBottom: 8,
+              }}
+            >
+              Are you sure???
+            </Text>
+            <Text
+              style={{
+                color: "#111111",
+                fontFamily: "Poppins_400Regular",
+                fontSize: 16,
+                letterSpacing: 0.5,
+                textAlign: "center",
+              }}
+            >
+              Meow meow meow
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
