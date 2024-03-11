@@ -205,41 +205,42 @@ export default function HomeScreen({ navigation }) {
       {forYouScreen ? (
         <ScrollView style={styles.sections} ref={scrollViewRef}>
           <View
-            style={
-              {
-                //  height: screenHeight * 0.33,
-                // opacity: onboardingState == 3 || onboardingState == 6 ? 1 : 1,
-                // backgroundColor:
-                //   onboardingState == 3 || onboardingState == 6
-                //     ? "white"
-                //     : "#BBBBBB",
-              }
-            }
+            style={{
+              height: screenHeight * 0.33,
+              opacity: onboardingState == 3 || onboardingState == 6 ? 1 : 1,
+              backgroundColor:
+                (performOnboarding == true && onboardingState != 3) ||
+                showFinishedPopup == true
+                  ? "#BBBBBB"
+                  : "#fdfdfd",
+            }}
           >
             <HomeScreenTasks />
           </View>
           <View style={{ height: 5, backgroundColor: "lightgray" }}></View>
           <View
-          // style={{
-          //   height: screenHeight * 0.33,
-          //   opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
-          //   backgroundColor:
-          //     onboardingState == 4 || onboardingState == 6
-          //       ? "white"
-          //       : "#BBBBBB",
-          // }}
+            style={{
+              height: screenHeight * 0.33,
+              opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
+              backgroundColor:
+                (performOnboarding == true && onboardingState != 4) ||
+                showFinishedPopup == true
+                  ? "#BBBBBB"
+                  : "#fdfdfd",
+            }}
           >
             <HomeScreenLeaderboard />
           </View>
           <View
-          // style={{
-          //   height: screenHeight * 0.33,
-          //   opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
-          //   backgroundColor:
-          //     onboardingState == 5 || onboardingState == 6
-          //       ? "white"
-          //       : "#BBBBBB",
-          // }}
+            style={{
+              height: screenHeight * 0.33,
+              opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
+              backgroundColor:
+                (performOnboarding == true && onboardingState != 5) ||
+                showFinishedPopup == true
+                  ? "#BBBBBB"
+                  : "#fdfdfd",
+            }}
           >
             <HomeScreenBadges />
           </View>
@@ -377,6 +378,7 @@ export default function HomeScreen({ navigation }) {
                     if (onboardingState == 5) {
                       setPerformOnboarding(false);
                       setShowFinishedPopup(true);
+                      setOnboardingState(onboardingState + 1);
                     } else {
                       setOnboardingState(onboardingState + 1);
                     }

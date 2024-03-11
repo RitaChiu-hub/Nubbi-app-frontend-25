@@ -11,6 +11,7 @@ import {
   import { Entypo } from "@expo/vector-icons";
   import "../../assets/nuubiicon.png";
   import Icon from "react-native-vector-icons/FontAwesome";
+  import { globalStyles } from "../../styles/global";
   
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
@@ -54,7 +55,7 @@ import {
               justifyContent: "space-between",
             }}
           >
-            <Text style={styles.textTitle}>Leaderboards</Text>
+            <Text style={globalStyles.h2HeadingMedium}>Leaderboards</Text>
             <Entypo name="chevron-small-right" color="gray" size={24} />
           </View>
           <View style={{ width: "5%" }}></View>
