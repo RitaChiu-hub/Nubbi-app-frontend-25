@@ -359,10 +359,15 @@ export default function HomeScreen({ navigation }) {
                 <View style={{ width: "10%" }}></View>
                 <TouchableOpacity
                   style={{
-                    width: "40%",
-                    height: "55%",
-                    borderRadius: 15,
-                    backgroundColor: "#6699cc",
+                    // width: "40%",
+                    // height: "55%",
+                    // borderRadius: 15,
+                    // backgroundColor: "#6699cc",
+                    paddingVertical: 14,
+                    paddingHorizontal: 30,
+                    borderRadius: 60,
+                    elevation: 3,
+                    backgroundColor: "#2482AA",
                     alignSelf: "center",
                   }}
                   onPress={() => {
@@ -377,16 +382,7 @@ export default function HomeScreen({ navigation }) {
                     }
                   }}
                 >
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontWeight: "600",
-                      color: "white",
-                      textAlign: "center",
-                      textAlignVertical: "center",
-                      height: "100%",
-                    }}
-                  >
+                  <Text style={globalStyles.primaryButtonText}>
                     {onboardingState < 5 ? "Next" : "Done"}
                   </Text>
                 </TouchableOpacity>
@@ -452,7 +448,14 @@ export default function HomeScreen({ navigation }) {
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
-              style={globalStyles.secondaryButton}
+              style={{
+                paddingVertical: 14,
+                paddingHorizontal: 30,
+                borderRadius: 60,
+                elevation: 3,
+                backgroundColor: "#2482AA",
+                alignSelf: "center",
+              }}
               onPress={() => {
                 // setUser({
                 //   ...user,
@@ -463,7 +466,7 @@ export default function HomeScreen({ navigation }) {
                 setShowFinishedPopup(false);
               }}
             >
-              <Text style={globalStyles.secondaryButtonText}>OK</Text>
+              <Text style={globalStyles.primaryButtonText}>OK</Text>
             </TouchableOpacity>
           </View>
         </View>
