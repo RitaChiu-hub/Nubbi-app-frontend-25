@@ -35,7 +35,7 @@ export default function HomeScreenTasks({}) {
           }}
         >
           <Text style={globalStyles.h2HeadingMedium}>Tasks</Text>
-          <Entypo name="chevron-small-right" color="gray" size={24} />
+          <Entypo name="chevron-small-right" color="#2482AA" size={36} />
         </View>
         <View style={{ width: "5%" }}></View>
       </View>
