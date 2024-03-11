@@ -25,10 +25,10 @@ import { Overlay } from "react-native-elements";
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [closeModalVisible, setCloseModalVisible] = React.useState(true);
   const [forYouScreen, setForYouScreen] = React.useState(true);
   const [selectedTab, setSelectedTab] = React.useState("Home");
   const [myUsername, setMyUsername] = React.useState("");
+  const [modalTheme, setModalTheme] = React.useState("Finished");
 
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
@@ -90,6 +90,7 @@ export default function HomeScreen({ navigation }) {
     require("../assets/tooltips/ToolRocket.png"),
     require("../assets/tooltips/ToolBadge.png"),
     require("../assets/tooltips/ToolBrain.png"),
+    require("../assets/tooltips/ToolEyes.png"),
   ];
 
   const titleMessage = [
@@ -307,12 +308,9 @@ export default function HomeScreen({ navigation }) {
                 <View style={{ width: "16%", height: "100%" }}>
                   <TouchableOpacity
                     onPress={() => {
-                      console.log("closed");
+                      setModalTheme("Leaving");
                       setPerformOnboarding(false);
                       setShowFinishedPopup(true);
-                      setCloseModalVisible(true);
-                      console.log(closeModalVisible);
-                      //  setOnboardingState(false);
                     }}
                   >
                     <AntDesign
@@ -420,83 +418,9 @@ export default function HomeScreen({ navigation }) {
         </ScrollView>
       )}
 
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showFinishedPopup}
-        onRequestClose={() => {
-          // setUser({
-          //   ...user,
-          //   firstSignIn: false,
-          // });
-          setOnboardingState(false);
-          setPerformOnboarding(false);
-          setShowFinishedPopup(false);
-        }}
-      >
-        <View style={globalStyles.centeredView}>
-          <View style={globalStyles.modalView}>
-            <Image
-              source={cardIcon[6]}
-              style={{
-                width: 35,
-                height: 40,
-                resizeMode: "contain",
-              }}
-            />
-            <Text
-              style={{
-                color: "#111111",
-                textAlign: "center",
-                fontSize: 18,
-                fontFamily: "Poppins_600SemiBold",
-                textAlign: "center",
-                paddingBottom: 8,
-              }}
-            >
-              You're all set!
-            </Text>
-            <Text
-              style={{
-                color: "#111111",
-                fontFamily: "Poppins_400Regular",
-                fontSize: 16,
-                letterSpacing: 0.5,
-                textAlign: "center",
-              }}
-            >
-              You are now ready to start learning.
-            </Text>
-            <View style={{ paddingVertical: 10 }}></View>
-            <TouchableOpacity
-              style={{
-                paddingVertical: 14,
-                paddingHorizontal: 50,
-                borderRadius: 60,
-                elevation: 3,
-                backgroundColor: "#2482AA",
-                alignSelf: "center",
-              }}
-              onPress={() => {
-                // setUser({
-                //   ...user,
-                //   firstSignIn: false,
-                // });
-                setOnboardingState(false);
-                setPerformOnboarding(false);
-                setShowFinishedPopup(false);
-              }}
-            >
-              <Text style={globalStyles.primaryButtonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal> */}
-
       <Modal
         animationType="slide"
         transparent={true}
-        //  visible={closeModalVisible}
         visible={showFinishedPopup}
         onRequestClose={() => {
           // setUser({
@@ -511,7 +435,7 @@ export default function HomeScreen({ navigation }) {
         <View style={globalStyles.centeredView}>
           <View style={globalStyles.modalView}>
             <Image
-              source={cardIcon[6]}
+              source={modalTheme == "Finished" ? cardIcon[6] : cardIcon[7]}
               style={{
                 width: 35,
                 height: 40,
@@ -528,7 +452,7 @@ export default function HomeScreen({ navigation }) {
                 paddingBottom: 8,
               }}
             >
-              Are you sure???
+              {modalTheme == "Finished" ? "You're all set!" : "Skip the Tour?"}
             </Text>
             <Text
               style={{
@@ -539,7 +463,9 @@ export default function HomeScreen({ navigation }) {
                 textAlign: "center",
               }}
             >
-              Meow meow meow
+              {modalTheme == "Finished"
+                ? "You are now ready to start learning."
+                : "No worries. Get the tour later, by going to the FAQs section in your settings."}
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
