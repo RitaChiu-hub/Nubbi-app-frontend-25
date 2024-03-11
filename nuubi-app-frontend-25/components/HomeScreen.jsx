@@ -17,7 +17,6 @@ import { globalStyles } from "../styles/global";
 import * as SecureStore from "expo-secure-store";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Entypo } from "@expo/vector-icons";
-// import HomeScreenNavBar from "./HomeScreen/HomeScreenNavBar";
 import HomeScreenTasks from "./HomeScreen/HomeScreenTasks";
 import HomeScreenLeaderboard from "./HomeScreen/HomeScreenLeaderboard";
 import HomeScreenBadges from "./HomeScreen/HomeScreenBadges";
@@ -83,14 +82,17 @@ export default function HomeScreen({ navigation }) {
   const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];
   const positionLeft = [0.02, 0.25, 0.26, 0.2, 0.1, 0.05];
   const arrowPositionLeft = [0.05, 0.22, 0.61, 0.4, 0.15, 0.1];
+
   const cardIcon = [
-    "price-ribbon",
-    "price-ribbon",
-    "price-ribbon",
-    "price-ribbon",
-    "price-ribbon",
-    "price-ribbon",
+    require("../assets/tooltips/ToolCelebrate.png"),
+    require("../assets/tooltips/ToolChat.png"),
+    require("../assets/tooltips/ToolClipboard.png"),
+    require("../assets/tooltips/ToolTimer.png"),
+    require("../assets/tooltips/ToolRocket.png"),
+    require("../assets/tooltips/ToolBadge.png"),
+    require("../assets/tooltips/ToolBrain.png"),
   ];
+
   const titleMessage = [
     "Welcome To Nuubi, " + myUsername + "!",
     "Create Posts, Chats, or Join Groups here!",
@@ -288,10 +290,16 @@ export default function HomeScreen({ navigation }) {
               >
                 <View style={{ width: "10%", height: "100%" }}></View>
                 <View style={{ width: "10%", height: "100%" }}>
-                  <Entypo
-                    name={cardIcon[onboardingState]}
-                    size={32}
-                    style={{ height: "100%", textAlignVertical: "bottom" }}
+                  <Image
+                    source={cardIcon[onboardingState]}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      resizeMode: "contain",
+                    }}
                   />
                 </View>
                 <View style={{ width: "10%", height: "100%" }}>
@@ -416,7 +424,53 @@ export default function HomeScreen({ navigation }) {
         </ScrollView>
       )}
 
-      <AwesomeAlert
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showFinishedPopup}
+        onRequestClose={() => {
+          // setUser({
+          //   ...user,
+          //   firstSignIn: false,
+          // });
+          setOnboardingState(false);
+          setPerformOnboarding(false);
+          setShowFinishedPopup(false);
+        }}
+      >
+        <View style={globalStyles.centeredView}>
+          <View style={globalStyles.modalView}>
+            <Image
+              source={cardIcon[6]}
+              style={{
+                width: 32,
+                height: 32,
+                resizeMode: "contain",
+              }}
+            />
+            <Text style={styles.popupTitle}>You're all set!</Text>
+            <Text style={styles.popupMessage}>
+              You are now ready to begin learning.
+            </Text>
+            <View style={{ paddingVertical: 10 }}></View>
+            <TouchableOpacity
+              style={globalStyles.secondaryButton}
+              onPress={() => {
+                // setUser({
+                //   ...user,
+                //   firstSignIn: false,
+                // });
+                setOnboardingState(false);
+                setPerformOnboarding(false);
+                setShowFinishedPopup(false);
+              }}
+            >
+              <Text style={globalStyles.secondaryButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* <AwesomeAlert
         show={showFinishedPopup}
         title="You're all set!"
         titleStyle={styles.popupTitle}
@@ -433,7 +487,7 @@ export default function HomeScreen({ navigation }) {
           setPerformOnboarding(false);
           setShowFinishedPopup(false);
         }}
-      />
+      /> */}
 
       <Modal
         animationType="slide"
@@ -488,7 +542,6 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  navbar: { flex: 0.18 },
   sections: { flex: 0.62 },
   popupMessage: { fontSize: 20, width: "80%" },
   popupTitle: {
