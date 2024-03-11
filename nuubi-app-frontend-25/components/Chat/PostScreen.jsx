@@ -7,6 +7,7 @@ import {
   Alert,
   FlatList,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 const { addMessageSchema } = require("../validationSchema");
@@ -23,6 +24,7 @@ export default function PostScreen({ navigation }) {
   const [posts, setPosts] = React.useState([]);
   const isFocused = useIsFocused();
   const [selectedTab, setSelectedTab] = React.useState("Posts");
+  const screenWidth = Dimensions.get("window").width;
 
   const groupTitle = user.groupName;
 
@@ -133,10 +135,10 @@ export default function PostScreen({ navigation }) {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
             marginTop: 8,
-            width: "90%",
-            marginLeft: "-8%",
+            width: screenWidth > 500 ? screenWidth : "90%",
+            marginLeft: screenWidth > 500 ? 0 : "-8%",
           }}
         >
           <TouchableOpacity
@@ -155,13 +157,13 @@ export default function PostScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Chat" && {
                     color: "#33b7f0",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -188,13 +190,13 @@ export default function PostScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Group" && {
                     color: "#33b7f0",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -221,13 +223,13 @@ export default function PostScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                   fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Posts" && {
                     color: "#33b7f0",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },

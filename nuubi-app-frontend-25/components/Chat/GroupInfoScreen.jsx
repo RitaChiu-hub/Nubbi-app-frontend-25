@@ -6,6 +6,7 @@ import {
   Alert,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
@@ -21,6 +22,7 @@ export default function GroupInfoScreen({ navigation }) {
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [selectedTab, setSelectedTab] = React.useState("Group");
   const isFocused = useIsFocused();
+  const screenWidth = Dimensions.get("window").width;
 
   const getGroupInfo = async () => {
     try {
@@ -174,10 +176,10 @@ export default function GroupInfoScreen({ navigation }) {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
             marginTop: 8,
-            width: "90%",
-            marginLeft: "-8%",
+            width: screenWidth > 500 ? screenWidth : "90%",
+            marginLeft: screenWidth > 500 ? 0 : "-8%",
           }}
         >
           <TouchableOpacity
@@ -196,13 +198,13 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Chat" && {
                     color: "#33b7f0",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -228,13 +230,13 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Group" && {
                     color: "#33b7f0",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -261,13 +263,13 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Posts" && {
                     color: "#33b7f0",
-                    fontSize: groupTitle.length <= 12 ? 18 : 14,
+                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
