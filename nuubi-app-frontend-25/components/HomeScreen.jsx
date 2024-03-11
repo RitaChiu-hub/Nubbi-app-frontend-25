@@ -101,10 +101,10 @@ export default function HomeScreen({ navigation }) {
   ];
   const secondaryMessage = [
     "Take a tour of the app so you can see how Nuubi works.",
-    "Tap the plus icon to add or join a group; Or create a new post",
-    "Update your profile, username, notifications, and more here",
-    "Get rewarded by asking questions, chattings, and learning with peers. Swipe to see all your daily tasks.",
-    "Every group has a leaderboard. Swipe to view each groups stats. Increase your chances at leading, the more points you earn.",
+    "Tap the plus icon to add or join a group; Or create a new post.",
+    "Update your profile, username, notifications, and more here.",
+    "Get rewarded by asking questions, chatting and learning with peers. Swipe to see all your daily tasks.",
+    "Every group has a leaderboard. Swipe to view each group's stats. Increase your chances at leading, the more points you earn!",
     "Find your earned badges here. You can choose to feature 3 of your choice.",
   ];
 
@@ -291,8 +291,8 @@ export default function HomeScreen({ navigation }) {
                   <Image
                     source={cardIcon[onboardingState]}
                     style={{
-                      width: 32,
-                      height: 32,
+                      width: 35,
+                      height: 40,
                       flex: 1,
                       alignItems: "center",
                       justifyContent: "center",
@@ -308,61 +308,44 @@ export default function HomeScreen({ navigation }) {
                   />
                 </View>
               </View>
-              <View style={{ height: "20%", width: "100%" }}>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    textAlignVertical: "center",
-                    fontSize: 16,
-                    fontWeight: "500",
-                    height: "100%",
-                  }}
-                >
-                  {titleMessage[onboardingState]}
-                </Text>
-              </View>
-              <View
+              <Text
                 style={{
-                  height: "35%",
-                  width: "85%",
-                  alignSelf: "center",
+                  color: "#111111",
+                  textAlign: "center",
+                  fontSize: 18,
+                  fontFamily: "Poppins_600SemiBold",
+                  textAlign: "center",
+                  paddingHorizontal: 8,
+                  paddingBottom: 8,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontStyle: "italic",
-                    fontWeight: "400",
-                    textAlignVertical: "center",
-                    height: "100%",
-                  }}
-                >
+                {titleMessage[onboardingState]}
+              </Text>
+              <View
+                style={{
+                  alignSelf: "center",
+                  paddingHorizontal: 8,
+                  paddingBottom: onboardingState != 4 ? 24 : 6,
+                }}
+              >
+                <Text style={globalStyles.bodyRegular}>
                   {secondaryMessage[onboardingState]}
                 </Text>
               </View>
               <View
-                style={{ height: "25%", width: "100%", flexDirection: "row" }}
+                style={{
+                  height: "25%",
+                  width: "100%",
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                }}
               >
-                <View style={{ width: "45%" }}>
-                  <Text
-                    style={{
-                      color: "gray",
-                      textAlign: "right",
-                      textAlignVertical: "center",
-                      height: "100%",
-                      fontWeight: "600",
-                    }}
-                  >
-                    {onboardingState + 1}/6
-                  </Text>
-                </View>
-                <View style={{ width: "10%" }}></View>
+                <Text style={globalStyles.bodyRegular}>
+                  {onboardingState + 1}/6
+                </Text>
                 <TouchableOpacity
                   style={{
-                    // width: "40%",
-                    // height: "55%",
-                    // borderRadius: 15,
-                    // backgroundColor: "#6699cc",
                     paddingVertical: 14,
                     paddingHorizontal: 30,
                     borderRadius: 60,
@@ -437,20 +420,39 @@ export default function HomeScreen({ navigation }) {
             <Image
               source={cardIcon[6]}
               style={{
-                width: 32,
-                height: 32,
+                width: 35,
+                height: 40,
                 resizeMode: "contain",
               }}
             />
-            <Text style={styles.popupTitle}>You're all set!</Text>
-            <Text style={styles.popupMessage}>
-              You are now ready to begin learning.
+            <Text
+              style={{
+                color: "#111111",
+                textAlign: "center",
+                fontSize: 18,
+                fontFamily: "Poppins_600SemiBold",
+                textAlign: "center",
+                paddingBottom: 8,
+              }}
+            >
+              You're all set!
+            </Text>
+            <Text
+              style={{
+                color: "#111111",
+                fontFamily: "Poppins_400Regular",
+                fontSize: 16,
+                letterSpacing: 0.5,
+                textAlign: "center",
+              }}
+            >
+              You are now ready to start learning.
             </Text>
             <View style={{ paddingVertical: 10 }}></View>
             <TouchableOpacity
               style={{
                 paddingVertical: 14,
-                paddingHorizontal: 30,
+                paddingHorizontal: 50,
                 borderRadius: 60,
                 elevation: 3,
                 backgroundColor: "#2482AA",
