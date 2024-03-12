@@ -53,7 +53,9 @@ export default function CreatePostScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Create Post",
+      headerTitle: () => (
+        <Text style={globalStyles.screenHeader}>Create Post</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);

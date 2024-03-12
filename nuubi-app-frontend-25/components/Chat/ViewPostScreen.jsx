@@ -171,7 +171,9 @@ export default function ViewPostScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "View Post",
+      headerTitle: () => (
+        <Text style={globalStyles.screenHeader}>View Post</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
