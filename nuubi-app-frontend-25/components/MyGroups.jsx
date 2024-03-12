@@ -60,15 +60,23 @@ export default function MyGroupsScreen({ navigation }) {
         style={{
           alignItems: "flex-start",
           justifyContent: "center",
-          paddingVertical: 10,
-          paddingHorizontal: 10,
-          width: "100%",
+          padding: 16,
           minWidth: 300,
           borderWidth: 1,
-          borderRadius: 6,
-          marginBottom: 10,
+          borderRadius: 16,
+          marginHorizontal: 16,
+          marginVertical: 8,
           borderColor: "#ddd",
           backgroundColor: "#fdfdfd",
+          elevation: 15,
+          shadowColor: "#333333",
+          shadowOpacity: 0.5,
+          shadowRadius: 2,
+          shadowOffset: {
+            width: 0.8,
+            height: 0.8,
+          },
+          overflow: "visible",
         }}
         onPress={() => {
           setUser({
@@ -81,20 +89,12 @@ export default function MyGroupsScreen({ navigation }) {
         }}
       >
         <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "bold",
-            color: "#333",
-          }}
+          style={globalStyles.screenHeader}
         >
           {title}
         </Text>
         <Text
-          style={{
-            fontSize: 16,
-            fontWeight: "normal",
-            color: "#333",
-          }}
+          style={globalStyles.body2Regular}
         >
           {description}
         </Text>
@@ -114,9 +114,7 @@ export default function MyGroupsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       // headerBackVisible: false,
-      headerLeft: () => (
-       null
-      ),
+      headerLeft: () => null,
       headerTitle: () => (
         <View
           style={{
@@ -210,17 +208,15 @@ export default function MyGroupsScreen({ navigation }) {
     <View
       style={{
         flex: 1,
-        marginHorizontal: 10,
-        marginTop: 10,
+        paddingTop: 8,
+        backgroundColor: "#fdfdfd",
       }}
     >
-      <View style={{ backgroundColor: "#f1f1f1", width: "100%" }}>
-        <FlatList
-          data={groups}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.group_id}
-        />
-      </View>
+      <FlatList
+        data={groups}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.group_id}
+      />
     </View>
   );
 }

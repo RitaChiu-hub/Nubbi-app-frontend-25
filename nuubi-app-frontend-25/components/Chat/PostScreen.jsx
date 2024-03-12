@@ -65,18 +65,39 @@ export default function PostScreen({ navigation }) {
   }) => (
     <View>
       <TouchableOpacity
+        // style={{
+        //   alignItems: "flex-start",
+        //   justifyContent: "center",
+        //   paddingVertical: 10,
+        //   paddingHorizontal: 10,
+        //   width: "100%",
+        //   minWidth: 300,
+        //   borderWidth: 1,
+        //   borderRadius: 6,
+        //   marginBottom: 10,
+        //   borderColor: "#ddd",
+        //   backgroundColor: "#fdfdfd",
+        // }}
         style={{
           alignItems: "flex-start",
           justifyContent: "center",
-          paddingVertical: 10,
-          paddingHorizontal: 10,
-          width: "100%",
+          padding: 16,
           minWidth: 300,
           borderWidth: 1,
-          borderRadius: 6,
-          marginBottom: 10,
+          borderRadius: 16,
+          marginHorizontal: 16,
+          marginVertical: 8,
           borderColor: "#ddd",
           backgroundColor: "#fdfdfd",
+          elevation: 15,
+          shadowColor: "#333333",
+          shadowOpacity: 0.5,
+          shadowRadius: 2,
+          shadowOffset: {
+            width: 0.8,
+            height: 0.8,
+          },
+          overflow: "visible",
         }}
         onPress={() => {
           setUser({
@@ -92,13 +113,25 @@ export default function PostScreen({ navigation }) {
         }}
       >
         <View style={{ paddingHorizontal: 1 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 16 }}>{title}</Text>
-          <Text numberOfLines={2} ellipsizeMode="tail">
+          <Text
+            style={{
+              color: "#111111",
+              fontSize: 18,
+              fontFamily: "Poppins_600SemiBold",
+            }}
+          >
+            {title}
+          </Text>
+          <Text
+            style={globalStyles.body2Regular}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
             {post_author}: {body}
           </Text>
         </View>
         <View style={{ paddingVertical: 2 }}></View>
-        <Text>
+        <Text style={globalStyles.body2Regular}>
           {point_total} points • {number_comments}{" "}
           {number_comments === "1" ? "comment" : "comments"} •{" "}
           {moment(isoTimeSent).calendar()}
@@ -157,13 +190,15 @@ export default function PostScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Chat" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -190,13 +225,15 @@ export default function PostScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Group" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -223,13 +260,15 @@ export default function PostScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Posts" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -248,10 +287,16 @@ export default function PostScreen({ navigation }) {
     <View
       style={{
         flex: 1,
-        margin: 10,
+        paddingTop: 8,
+        backgroundColor: "#fdfdfd",
       }}
     >
-      <View>
+      <FlatList
+        data={posts}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.post_id}
+      />
+      <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
           style={loginStyles.loginButton}
           accessibilityRole="button"
@@ -261,14 +306,6 @@ export default function PostScreen({ navigation }) {
         >
           <Text style={loginStyles.loginButtonText}>Create Post</Text>
         </TouchableOpacity>
-      </View>
-
-      <View style={{ backgroundColor: "#f1f1f1", width: "100%", marginTop: 12 }}>
-        <FlatList
-          data={posts}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.post_id}
-        />
       </View>
     </View>
   );
