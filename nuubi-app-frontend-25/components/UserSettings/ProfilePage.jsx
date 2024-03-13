@@ -11,6 +11,7 @@ import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
 import { AccountContext } from "../AccountContext";
 import * as ImageManipulator from "expo-image-manipulator";
+import { loginStyles } from "../../styles/loginStyles";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -171,25 +172,25 @@ export default function ProfilePageScreen({ navigation }) {
         >
           Hi {myUsername}!
         </Text>
-        <Text style={{ marginBottom: 10 }}>
+        <Text style={{ marginBottom: 20 }}>
           You have {userPoints} total points 🎉
         </Text>
 
         {pickedImage !== null ? (
           <TouchableOpacity
             onPress={resetImage}
-            style={globalStyles.secondaryButton}
+            style={styles.settingsButton}
           >
-            <Text style={globalStyles.secondaryButtonText}>
+            <Text style={loginStyles.loginButtonText}>
               Clear picked image
             </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={pickImage}
-            style={globalStyles.secondaryButton}
+            style={styles.settingsButton}
           >
-            <Text style={globalStyles.secondaryButtonText}>
+            <Text style={loginStyles.loginButtonText}>
               Select new photo
             </Text>
           </TouchableOpacity>
@@ -229,16 +230,16 @@ export default function ProfilePageScreen({ navigation }) {
                 // }
               });
           }}
-          style={globalStyles.secondaryButton}
+          style={styles.settingsButton}
         >
-          <Text style={globalStyles.secondaryButtonText}>
+          <Text style={loginStyles.loginButtonText}>
             Delete Profile Picture
           </Text>
         </TouchableOpacity>
 
         {pickedImage !== null ? (
           <TouchableOpacity
-            style={globalStyles.secondaryButton}
+          style={styles.settingsButton}
             onPress={() => {
               // upload the pickedimage to cloudinary
 
@@ -306,20 +307,30 @@ export default function ProfilePageScreen({ navigation }) {
                 .catch((err) => console.log(err));
             }}
           >
-            <Text style={globalStyles.secondaryButtonText}>
+            <Text style={loginStyles.loginButtonText}>
               Save Profile Picture
             </Text>
           </TouchableOpacity>
         ) : null}
 
         <TouchableOpacity
-          style={globalStyles.secondaryButton}
+           style={styles.settingsButton}
           onPress={() => {
             navigation.navigate("Settings");
           }}
         >
-          <Text style={globalStyles.secondaryButtonText}>Settings</Text>
+          <Text style={loginStyles.loginButtonText}>Settings</Text>
         </TouchableOpacity>
+
+
+        <TouchableOpacity
+            style={styles.settingsButton}
+            onPress={() => {
+              alert("Coming soon!");
+            }}
+          >
+            <Text style={loginStyles.loginButtonText}>My Analytics</Text>
+          </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -327,7 +338,7 @@ export default function ProfilePageScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   ImageContainer: {
-    borderRadius: 10,
+    borderRadius: 200,
     width: 250,
     height: 250,
     // borderWidth: 1 / PixelRatio.get(),
@@ -335,4 +346,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
+  settingsButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 60,
+    elevation: 3,
+    backgroundColor: "#2482AA",
+    minWidth: "90%",
+    marginBottom: 10,
+  }
 });

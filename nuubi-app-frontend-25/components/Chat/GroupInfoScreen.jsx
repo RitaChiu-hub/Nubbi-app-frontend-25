@@ -12,6 +12,8 @@ import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import { HeaderBackButton } from "@react-navigation/elements";
+import { loginStyles } from "../../styles/loginStyles";
+import alert from "../alert";
 
 export default function GroupInfoScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -121,8 +123,9 @@ export default function GroupInfoScreen({ navigation }) {
             alignItems: "center",
             width: "100%",
             minWidth: 300,
-            paddingBottom: 5,
+            paddingBottom: 10,
             paddingHorizontal: 10,
+            paddingTop: 10,
           }}
         >
           <Text>{groupTotalPoints}</Text>
@@ -198,13 +201,15 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Chat" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -230,13 +235,15 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Group" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -263,13 +270,15 @@ export default function GroupInfoScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Posts" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -309,7 +318,7 @@ export default function GroupInfoScreen({ navigation }) {
             marginBottom: 10,
             borderColor: "#cccccc",
             borderWidth: 2,
-            borderRadius: 6,
+            borderRadius: 16,
           }}
         >
           <FlatList
@@ -332,7 +341,7 @@ export default function GroupInfoScreen({ navigation }) {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
+              alert("Modal has been closed.");
               setModalVisible(false);
             }}
           >
@@ -373,6 +382,25 @@ export default function GroupInfoScreen({ navigation }) {
               </View>
             </View>
           </Modal>
+          <TouchableOpacity
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: 14,
+              paddingHorizontal: 20,
+              borderRadius: 60,
+              elevation: 3,
+              backgroundColor: "#2482AA",
+              minWidth: "100%",
+              marginBottom: 10,
+            }}
+            onPress={() => {
+              alert("Coming soon!");
+            }}
+          >
+            <Text style={loginStyles.loginButtonText}>Group Analytics</Text>
+          </TouchableOpacity>
+
           {myIsAdmin == "true" ? (
             <View
               style={{
@@ -384,18 +412,17 @@ export default function GroupInfoScreen({ navigation }) {
                   alignItems: "center",
                   justifyContent: "center",
                   paddingVertical: 14,
-                  paddingHorizontal: 10,
-                  borderRadius: 12,
+                  paddingHorizontal: 20,
+                  borderRadius: 60,
                   elevation: 3,
-                  backgroundColor: "#1aa7ec",
-                  width: "100%",
-                  minWidth: 300,
+                  backgroundColor: "#2482AA",
+                  minWidth: "100%",
                 }}
                 onPress={() => {
                   navigation.navigate("EditGroup");
                 }}
               >
-                <Text style={globalStyles.primaryButtonText}>Edit Group</Text>
+                <Text style={loginStyles.loginButtonText}>Edit Group</Text>
               </TouchableOpacity>
               <View style={{ paddingBottom: 10 }}></View>
               <TouchableOpacity
@@ -403,18 +430,17 @@ export default function GroupInfoScreen({ navigation }) {
                   alignItems: "center",
                   justifyContent: "center",
                   paddingVertical: 14,
-                  paddingHorizontal: 10,
-                  borderRadius: 12,
+                  paddingHorizontal: 20,
+                  borderRadius: 60,
                   elevation: 3,
-                  backgroundColor: "#1aa7ec",
-                  width: "100%",
-                  minWidth: 300,
+                  backgroundColor: "#2482AA",
+                  minWidth: "100%",
                 }}
                 onPress={() => {
                   setModalVisible(true);
                 }}
               >
-                <Text style={globalStyles.primaryButtonText}>Delete Group</Text>
+                <Text style={loginStyles.loginButtonText}>Delete Group</Text>
               </TouchableOpacity>
             </View>
           ) : (
@@ -423,12 +449,11 @@ export default function GroupInfoScreen({ navigation }) {
                 alignItems: "center",
                 justifyContent: "center",
                 paddingVertical: 14,
-                paddingHorizontal: 10,
-                borderRadius: 12,
+                paddingHorizontal: 20,
+                borderRadius: 60,
                 elevation: 3,
-                backgroundColor: "#1aa7ec",
-                width: "100%",
-                minWidth: 300,
+                backgroundColor: "#2482AA",
+                minWidth: "100%",
               }}
               onPress={() => {
                 fetch(
@@ -469,7 +494,7 @@ export default function GroupInfoScreen({ navigation }) {
                   });
               }}
             >
-              <Text style={globalStyles.primaryButtonText}>Leave Group</Text>
+              <Text style={loginStyles.loginButtonText}>Leave Group</Text>
             </TouchableOpacity>
           )}
         </View>
