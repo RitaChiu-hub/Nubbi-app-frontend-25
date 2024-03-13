@@ -39,7 +39,7 @@ export default function ChatScreen({ navigation }) {
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
-       // `http://localhost:8080/groups/getgroupinfo`,
+        // `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -59,8 +59,8 @@ export default function ChatScreen({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-           `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
-       // `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        // `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -211,7 +211,8 @@ export default function ChatScreen({ navigation }) {
                   },
                   selectedTab === "Chat" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -238,13 +239,15 @@ export default function ChatScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Group" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -271,13 +274,15 @@ export default function ChatScreen({ navigation }) {
                 style={[
                   {
                     color: "#767676",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
                   selectedTab === "Posts" && {
                     color: "#33b7f0",
-                    fontSize: (groupTitle.length >= 12 & screenWidth < 500)  ? 14 : 18,
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
                     fontFamily: "Poppins_600SemiBold",
                     letterSpacing: 0,
                   },
@@ -387,7 +392,7 @@ export default function ChatScreen({ navigation }) {
                   <Text
                     style={{
                       fontWeight: "bold",
-                      color: chats.user_id === adminId ? "purple" : "#333",
+                      color: chats.user_id === adminId ? "#111111" : "#333",
                     }}
                   >
                     {chats.sender_username}
@@ -432,40 +437,60 @@ export default function ChatScreen({ navigation }) {
               </Text>
               <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  borderRadius: 16,
+                  minWidth: "90%",
+                  maxWidth: "90%",
                   alignItems: "center",
+                  justifyContent: "space-between",
+                  backgroundColor: "#fdfdfd",
+                  elevation: 15,
                   borderWidth: 1,
                   borderColor: "#ddd",
-                  borderRadius: 12,
-                  marginHorizontal: 20,
-                  paddingHorizontal: 10,
+                  shadowColor: "#333333",
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  shadowOffset: {
+                    width: 0.8,
+                    height: 0.8,
+                  },
+                  overflow: "visible",
+                  alignSelf: "center",
                 }}
               >
-                <View
+                <TextInput
                   style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    fontSize: 18,
+                    minWidth: "85%",
+                    maxWidth: "85%",
                   }}
+                  placeholder="   Send message... "
+                  onChangeText={props.handleChange("mymessage")}
+                  value={props.values.mymessage}
+                  multiline={true}
+                />
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 10,
+                    paddingHorizontal: 14,
+                    borderRadius: 16,
+                    elevation: 3,
+                    backgroundColor: "#2482AA",
+                    alignSelf: "center",
+                    elevation: 15,
+                    shadowColor: "#333333",
+                    shadowOpacity: 0.5,
+                    shadowRadius: 2,
+                    shadowOffset: {
+                      width: 0.8,
+                      height: 0.8,
+                    },
+                    overflow: "visible",
+                  }}
+                  onPress={props.handleSubmit}
                 >
-                  <TextInput
-                    style={{
-                      padding: 12,
-                      fontSize: 16,
-                      width: "90%",
-                      paddingTop: 12,
-                    }}
-                    placeholder="Send message... "
-                    onChangeText={props.handleChange("mymessage")}
-                    value={props.values.mymessage}
-                    multiline={true}
-                  />
-                  <View style={{ padding: 5 }}></View>
-                  <TouchableOpacity onPress={props.handleSubmit}>
-                    <FAIcon name="send" size={30} color="#4F8EF7" />
-                  </TouchableOpacity>
-                </View>
+                  <FAIcon name="arrow-up" size={30} color="#fdfdfd" />
+                </TouchableOpacity>
               </View>
             </View>
           )}
