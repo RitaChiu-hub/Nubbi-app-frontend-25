@@ -114,18 +114,17 @@ export default function GroupInfoScreen({ navigation }) {
   const myIsAdmin = user.isAdmin;
 
   const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
-    <View>
+    <View style={{paddingTop: 6}}>
       {myIsAdmin == "true" ? (
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            width: "100%",
-            minWidth: 300,
+            width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
             paddingBottom: 10,
             paddingHorizontal: 10,
-            paddingTop: 10,
+            backgroundColor: "red",
           }}
         >
           <Text>{groupTotalPoints}</Text>
@@ -139,9 +138,8 @@ export default function GroupInfoScreen({ navigation }) {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            width: "100%",
-            minWidth: 300,
-            paddingBottom: 5,
+            width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
+            paddingBottom: 2,
             paddingHorizontal: 10,
           }}
         >
@@ -316,6 +314,7 @@ export default function GroupInfoScreen({ navigation }) {
           style={{
             height: "50%",
             marginBottom: 10,
+            marginHorizontal: 20,
             borderColor: "#cccccc",
             borderWidth: 2,
             borderRadius: 16,
