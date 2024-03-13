@@ -327,18 +327,25 @@ export default function ChatScreen({ navigation }) {
                   padding: 5,
                   marginTop: 10,
                   marginRight: 40,
+                  elevation: 15,
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  minWidth: "90%",
+                  borderRadius: 16,
+                  alignSelf: "left",
                 }}
               >
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
+                    paddingLeft: 4,
                   }}
                 >
                   <Text
                     style={{
                       fontWeight: "bold",
-                      color: "#0000cd",
+                      color: "#2482AA",
                       fontSize: 16,
                     }}
                   >
@@ -391,7 +398,9 @@ export default function ChatScreen({ navigation }) {
                   </TouchableOpacity>
                   <Text
                     style={{
-                      fontWeight: "bold",
+                      textAlign: "center",
+                      fontSize: 14,
+                      fontFamily: "Poppins_600SemiBold",
                       color: chats.user_id === adminId ? "#111111" : "#333",
                     }}
                   >
@@ -402,7 +411,17 @@ export default function ChatScreen({ navigation }) {
                     {moment(chats.iso_time_sent).calendar()}
                   </Text>
                 </View>
-                <Text style={{ color: "#333" }}>{chats.text}</Text>
+                <Text
+                  style={{
+                    paddingLeft: 4,
+                    color: "#111111",
+                    fontFamily: "Poppins_400Regular",
+                    fontSize: 14,
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  {chats.text}
+                </Text>
               </View>
             );
           })}
@@ -460,9 +479,11 @@ export default function ChatScreen({ navigation }) {
               >
                 <TextInput
                   style={{
-                    fontSize: 18,
                     minWidth: "85%",
                     maxWidth: "85%",
+                    fontFamily: "Poppins_400Regular",
+                    fontSize: 18,
+                    letterSpacing: 0.5,
                   }}
                   placeholder="   Send message... "
                   onChangeText={props.handleChange("mymessage")}
