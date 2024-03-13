@@ -289,11 +289,11 @@ export default function HomeScreen({ navigation }) {
                   flexDirection: "row",
                   height: "20%",
                   width: "100%",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                 }}
               >
-                <View style={{ width: "10%", height: "100%" }}></View>
-                <View style={{ width: "10%", height: "100%" }}>
+                <View style={{ width: "50%", height: "100%" }}></View>
+                <View style={{ width: "35%", height: "100%" }}>
                   <Image
                     source={cardIcon[onboardingState]}
                     style={{
