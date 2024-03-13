@@ -187,7 +187,7 @@ export default function ViewPostScreen({ navigation }) {
       keyboardVerticalOffset={height}
       style={{
         flex: 1,
-        backgroundColor: "#f1f1f1",
+        backgroundColor: "#fdfdfd",
         justifyContent: "center",
       }}
     >
@@ -202,9 +202,19 @@ export default function ViewPostScreen({ navigation }) {
             style={{
               borderWidth: 1,
               borderColor: "#ddd",
-              backgroundColor: "#fdfdfd",
               width: "100%",
-              borderRadius: 6,
+              borderRadius: 16,
+              borderColor: "#ddd",
+              backgroundColor: "#fdfdfd",
+              elevation: 15,
+              shadowColor: "#333333",
+              shadowOpacity: 0.5,
+              shadowRadius: 2,
+              shadowOffset: {
+                width: 0.8,
+                height: 0.8,
+              },
+              overflow: "visible",
             }}
           >
             <View
@@ -254,7 +264,7 @@ export default function ViewPostScreen({ navigation }) {
                 >
                   <Text
                     style={{
-                      color: postLiked ? "#228ee7" : "#bbb",
+                      color: postLiked ? "#2482AA" : "#bbb",
                       fontSize: 16,
                       fontWeight: "bold",
                       paddingBottom: 2,
@@ -265,11 +275,12 @@ export default function ViewPostScreen({ navigation }) {
                 </TouchableOpacity>
               </View>
               <View style={{ marginLeft: 10 }}></View>
+
               <Text
                 style={{
-                  fontWeight: "bold",
-                  fontSize: 16,
-                  color: "#333",
+                  color: "#111111",
+                  fontSize: 18,
+                  fontFamily: "Poppins_600SemiBold",
                 }}
               >
                 {/* {user.post_title} */}
@@ -330,7 +341,8 @@ export default function ViewPostScreen({ navigation }) {
                       paddingHorizontal: 8,
                       paddingVertical: 4,
                       marginBottom: 10,
-                      backgroundColor: "#1aa7ec",
+                      //  backgroundColor: "#1aa7ec",
+                      backgroundColor: "#2482AA",
                       borderRadius: 5,
                     }}
                     onPress={() => {
@@ -364,10 +376,11 @@ export default function ViewPostScreen({ navigation }) {
         >
           <Text
             style={{
-              fontWeight: "bold",
-              fontSize: 16,
-              color: "#333",
+              color: "#111111",
+              fontSize: 18,
+              fontFamily: "Poppins_600SemiBold",
               paddingBottom: 10,
+              paddingLeft: 4,
             }}
           >
             {user.number_comments}{" "}
@@ -380,21 +393,37 @@ export default function ViewPostScreen({ navigation }) {
                   key={comments.post_comment_id}
                   style={{
                     borderColor: "#ddd",
-                    borderRadius: 6,
+                    borderRadius: 16,
                     borderWidth: 1,
                     marginBottom: 10,
                     padding: 5,
                     paddingBottom: 10,
                     backgroundColor: "#fdfdfd",
+                    borderColor: "#ddd",
+                    elevation: 15,
+                    shadowColor: "#333333",
+                    shadowOpacity: 0.5,
+                    shadowRadius: 2,
+                    shadowOffset: {
+                      width: 0.8,
+                      height: 0.8,
+                    },
+                    overflow: "visible",
                   }}
                 >
                   <View
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
+                      paddingLeft: 4,
                     }}
                   >
-                    <Text style={{ fontWeight: "bold", color: "#333" }}>
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        color: "#333",
+                      }}
+                    >
                       {comments.comment_points}
                     </Text>
                     <TouchableOpacity
@@ -455,7 +484,11 @@ export default function ViewPostScreen({ navigation }) {
                       {moment(comments.comment_iso_time_sent).calendar()}
                     </Text>
                   </View>
-                  <Text style={{ color: "#333" }}>{comments.comment_text}</Text>
+                  <View style={{ paddingLeft: 4 }}>
+                    <Text style={globalStyles.body2Regular}>
+                      {comments.comment_text}
+                    </Text>
+                  </View>
                 </View>
               );
             })}
@@ -491,21 +524,32 @@ export default function ViewPostScreen({ navigation }) {
               <View
                 style={{
                   flexDirection: "row",
-                  paddingRight: 60,
-                  paddingLeft: 30,
+                  borderRadius: 16,
+                  minWidth: "90%",
+                  maxWidth: "90%",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  backgroundColor: "#fdfdfd",
+                  elevation: 15,
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  shadowColor: "#333333",
+                  shadowOpacity: 0.5,
+                  shadowRadius: 2,
+                  shadowOffset: {
+                    width: 0.8,
+                    height: 0.8,
+                  },
+                  overflow: "visible",
+                  alignSelf: "center",
                 }}
               >
                 <TextInput
                   style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
                     padding: 10,
                     fontSize: 18,
-                    borderRadius: 6,
-                    minWidth: "90%",
-                    maxWidth: "90%",
-                    alignItems: "stretch",
-                    backgroundColor: "#fdfdfd",
+                    minWidth: "77%",
+                    maxWidth: "77%",
                   }}
                   placeholder="Add comment..."
                   onChangeText={props.handleChange("mycomment")}
@@ -513,11 +557,21 @@ export default function ViewPostScreen({ navigation }) {
                 />
                 <TouchableOpacity
                   style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: 10,
-                    backgroundColor: "#1aa7ec",
-                    borderRadius: 6,
+                    paddingVertical: 14,
+                    paddingHorizontal: 20,
+                    borderRadius: 16,
+                    elevation: 3,
+                    backgroundColor: "#2482AA",
+                    alignSelf: "center",
+                    elevation: 15,
+                    shadowColor: "#333333",
+                    shadowOpacity: 0.5,
+                    shadowRadius: 2,
+                    shadowOffset: {
+                      width: 0.8,
+                      height: 0.8,
+                    },
+                    overflow: "visible",
                   }}
                   onPress={props.handleSubmit}
                 >

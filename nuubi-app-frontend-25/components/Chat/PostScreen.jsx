@@ -65,19 +65,6 @@ export default function PostScreen({ navigation }) {
   }) => (
     <View>
       <TouchableOpacity
-        // style={{
-        //   alignItems: "flex-start",
-        //   justifyContent: "center",
-        //   paddingVertical: 10,
-        //   paddingHorizontal: 10,
-        //   width: "100%",
-        //   minWidth: 300,
-        //   borderWidth: 1,
-        //   borderRadius: 6,
-        //   marginBottom: 10,
-        //   borderColor: "#ddd",
-        //   backgroundColor: "#fdfdfd",
-        // }}
         style={{
           alignItems: "flex-start",
           justifyContent: "center",
