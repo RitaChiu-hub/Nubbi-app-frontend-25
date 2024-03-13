@@ -59,7 +59,7 @@ export default function HomeScreenTasks({}) {
                   ></View>
                   <View
                     style={{
-                      height: "100%",
+                      height: screenWidth > 500 ? "200%" : "100%",
                       width: screenWidth * 0.92,
                       borderWidth: 1,
                       borderRadius: 10,

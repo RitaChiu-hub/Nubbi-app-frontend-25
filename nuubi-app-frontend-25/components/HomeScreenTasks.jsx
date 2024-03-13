@@ -33,7 +33,7 @@ import {
               justifyContent: "space-between",
             }}
           >
-            <Text style={styles.textTitle}>Tasks</Text>
+            <Text style={styles.textTitle}>Taskssssss</Text>
             <Entypo name="chevron-small-right" color="gray" size={24} />
           </View>
           <View style={{ width: "5%" }}></View>
@@ -58,11 +58,13 @@ import {
                     ></View>
                     <View
                       style={{
-                        height: "100%",
+                     //   height: "100%",
+                        height: screenWidth > 500 ? 500 : "100%",
                         width: screenWidth * 0.92,
                         borderWidth: 1,
                         borderRadius: 10,
                         borderColor: "black",
+                        backgroundColor: "red",
                       }}
                     >
                       <View
