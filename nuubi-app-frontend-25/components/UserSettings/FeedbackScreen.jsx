@@ -93,7 +93,6 @@ export default function FeedbackScreen({ navigation }) {
             }}
             accessibilityRole="button"
             onPress={() => {
-              actions.resetForm();
               fetch("http://localhost:8080/settings/sendfeedback", {
                 method: "POST",
                 credentials: "include",
@@ -117,6 +116,7 @@ export default function FeedbackScreen({ navigation }) {
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);
+                    setUserFeedback("");
                   }
                 });
             }}
