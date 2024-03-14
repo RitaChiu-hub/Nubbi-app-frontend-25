@@ -93,14 +93,17 @@ export default function FeedbackScreen({ navigation }) {
             }}
             accessibilityRole="button"
             onPress={() => {
-              fetch("http://localhost:8080/settings/sendfeedback", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, userFeedback }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/sendfeedback",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, userFeedback }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
