@@ -19,7 +19,7 @@ export default function ForgotPasswordScreen({ navigation }) {
     const myNumber = Math.random().toString(10).substring(2, 8);
     const mypasscode = myNumber;
     fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+      "http://localhost:8080/settings/generatepasscode",
       {
         method: "POST",
         credentials: "include",
@@ -102,7 +102,7 @@ export default function ForgotPasswordScreen({ navigation }) {
               const vals = { ...values };
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                "http://localhost:8080/settings/forgotpassword",
                 {
                   method: "POST",
                   credentials: "include",

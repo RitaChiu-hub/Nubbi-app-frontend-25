@@ -38,7 +38,7 @@ export default function ChatScreen({ navigation }) {
   const getGroupName = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         // `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
@@ -59,7 +59,7 @@ export default function ChatScreen({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         // `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
@@ -80,7 +80,7 @@ export default function ChatScreen({ navigation }) {
   const getLikes = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
+        `http://localhost:8080/groupchat/getlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -109,7 +109,7 @@ export default function ChatScreen({ navigation }) {
   const getChats = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+        "http://localhost:8080/groupchat/getmessages",
         {
           method: "POST",
           credentials: "include",
@@ -129,7 +129,7 @@ export default function ChatScreen({ navigation }) {
   const getIsAdmin = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+        `http://localhost:8080/groups/isadmin`,
         {
           method: "POST",
           credentials: "include",
@@ -367,7 +367,7 @@ export default function ChatScreen({ navigation }) {
                       }
 
                       fetch(
-                        `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+                        `http://localhost:8080/groups/addmessagepoint`,
                         {
                           method: "POST",
                           credentials: "include",

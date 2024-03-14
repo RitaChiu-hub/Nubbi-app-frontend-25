@@ -34,7 +34,7 @@ export default function DeleteMemberScreen({ navigation }) {
             const passattempt = vals.passattempt;
             console.log({ ...user, ...vals });
             // actions.resetForm();
-            // fetch("https://coral-app-n96bn.ondigitalocean.app/groups/deletemember", {
+            // fetch("http://localhost:8080/groups/deletemember", {
             // 	method: "POST",
             // 	credentials: "include",
             // 	headers: {

@@ -32,7 +32,7 @@ export default function MyGroupsScreen({ navigation }) {
   const getGroups = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
+        `http://localhost:8080/groups/mygroups`,
         {
           method: "POST",
           credentials: "include",

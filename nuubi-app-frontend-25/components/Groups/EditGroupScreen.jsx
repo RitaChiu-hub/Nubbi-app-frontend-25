@@ -58,7 +58,7 @@ export default function EditGroupScreen({ navigation }) {
               const vals = { ...values };
               const allvals = { ...values, privacySelection };
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/editgroup",
+                "http://localhost:8080/groups/editgroup",
                 {
                   method: "POST",
                   credentials: "include",

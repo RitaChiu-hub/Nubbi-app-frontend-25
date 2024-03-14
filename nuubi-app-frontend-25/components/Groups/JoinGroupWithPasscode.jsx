@@ -49,7 +49,7 @@ export default function JoinGroupWithPasscode({ navigation }) {
               const vals = { ...values };
               actions.resetForm();
               fetch(
-                `https://coral-app-n96bn.ondigitalocean.app/groups/joingroupwithpasscode`,
+                `http://localhost:8080/groups/joingroupwithpasscode`,
                 {
                   method: "POST",
                   credentials: "include",
