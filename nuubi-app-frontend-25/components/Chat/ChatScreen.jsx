@@ -38,8 +38,8 @@ export default function ChatScreen({ navigation }) {
   const getGroupName = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getgroupinfo`,
-        // `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        // `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -59,8 +59,8 @@ export default function ChatScreen({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getgroupinfo`,
-        // `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        // `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -80,7 +80,7 @@ export default function ChatScreen({ navigation }) {
   const getLikes = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groupchat/getlikes`,
+        `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -109,7 +109,7 @@ export default function ChatScreen({ navigation }) {
   const getChats = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/groupchat/getmessages",
+        "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
         {
           method: "POST",
           credentials: "include",
@@ -129,7 +129,7 @@ export default function ChatScreen({ navigation }) {
   const getIsAdmin = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/isadmin`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
         {
           method: "POST",
           credentials: "include",
@@ -367,7 +367,7 @@ export default function ChatScreen({ navigation }) {
                       }
 
                       fetch(
-                        `http://localhost:8080/groups/addmessagepoint`,
+                        `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
                         {
                           method: "POST",
                           credentials: "include",

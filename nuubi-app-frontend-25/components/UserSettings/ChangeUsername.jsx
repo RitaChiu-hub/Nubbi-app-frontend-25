@@ -20,7 +20,7 @@ export default function ChangeUsernameScreen({ navigation }) {
   const getUserPoints = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getuserpoints`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -86,8 +86,8 @@ export default function ChangeUsernameScreen({ navigation }) {
               const passattempt = vals.password;
               actions.resetForm();
               fetch(
-                "http://localhost:8080/settings/updateusername",
-                //  "http://localhost:8080/settings/updateusername",
+                "https://coral-app-n96bn.ondigitalocean.app/settings/updateusername",
+                //  "https://coral-app-n96bn.ondigitalocean.app/settings/updateusername",
                 {
                   method: "POST",
                   credentials: "include",

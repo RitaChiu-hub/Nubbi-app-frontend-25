@@ -51,7 +51,7 @@ export default function ChangePasswordScreen({ navigation }) {
               const vals = { ...values };
               actions.resetForm();
               fetch(
-                "http://localhost:8080/settings/updatepassword",
+                "https://coral-app-n96bn.ondigitalocean.app/settings/updatepassword",
                 {
                   method: "POST",
                   credentials: "include",

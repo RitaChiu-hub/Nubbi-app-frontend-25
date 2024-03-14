@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
 //   const getUserPoints = async () => {
 //     try {
 //       const response = await fetch(
-//         `http://localhost:8080/groups/getuserpoints`,
+//         `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
 //         {
 //           method: "POST",
 //           credentials: "include",
