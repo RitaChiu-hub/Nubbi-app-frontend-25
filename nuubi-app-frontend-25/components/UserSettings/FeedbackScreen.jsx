@@ -8,6 +8,7 @@ import {
     Text, TextInput, TouchableOpacity,
     View
 } from "react-native";
+import { globalStyles } from "../../styles/global";
 
 
 export default function FeedbackScreen({ navigation }) {
@@ -23,21 +24,6 @@ export default function FeedbackScreen({ navigation }) {
           headerTitleAlign: "center",
         });
       }, [navigation]);
-
-    // Function to handle navigation to different routes
-    // const handleNavigation = (navRoute, label) => {
-    //     if (navRoute === "" || !navRoute) {
-    //     } else if (navRoute == "comingSoonAlert") {
-    //         if (Platform.OS === "web") {
-    //             window.alert("Feature coming soon!");
-    //             console.log("Web alert!");
-    //         } else {
-    //             Alert.alert("Feature coming soon!");
-    //         }
-    //     } else {
-    //         navigate(navRoute);
-    //     }
-    // };
 
     return (
         <SafeAreaView style={styles.container} >
