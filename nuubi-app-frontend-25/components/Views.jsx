@@ -23,6 +23,7 @@ import ForgotPasswordScreen from "./UserSettings/ForgotPassword";
 import ForgotPasswordLoggedOut from "./UserSettings/ForgotPasswordLoggedOut";
 import HelpScreen from "./Onboarding/HelpPage";
 import AccountScreen from "./UserSettings/AccountScreen";
+import FeedbackScreen from "./UserSettings/FeedbackScreen";
 
 import AddGroupScreen from "./Groups/AddGroup";
 import NotificationsScreen from "./Notifications/Notifications";
@@ -79,6 +80,7 @@ function SettingsStack() {
         component={ChangeUsernameScreen}
       />
       <StackSettings.Screen name="AccountScreen" component={AccountScreen} />
+      <StackSettings.Screen name="FeedbackScreen" component={FeedbackScreen} />
       <StackSettings.Screen
         name="HelpLoggedIn"
         component={HelpScreen}
