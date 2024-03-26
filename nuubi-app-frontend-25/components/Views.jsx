@@ -102,13 +102,13 @@ function HomeStack() {
         name="Home"
         component={HomeScreen}
         options={{ animation: "none" }}
-    //    options={{ title: "Home" }}
+        //    options={{ title: "Home" }}
       />
-   <StackHome.Screen
+      <StackHome.Screen
         name="MyGroups"
         component={MyGroupsScreen}
         options={{ animation: "none" }}
-    //    options={{ title: "My Groups" }}
+        //    options={{ title: "My Groups" }}
       />
 
       <StackHome.Screen name="EditGroup" component={EditGroupScreen} />
@@ -127,6 +127,11 @@ function HomeStack() {
         options={{ animation: "none" }}
       />
       <StackHome.Screen name="DeleteGroup" component={DeleteGroupScreen} />
+      <StackHome.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{ title: "Nuubi How-To" }}
+      />
       <StackHome.Screen name="DeleteMember" component={DeleteMemberScreen} />
       <StackHome.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
     </StackHome.Navigator>
