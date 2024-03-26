@@ -42,8 +42,12 @@ export default function HelpScreen({ navigation }) {
         </Text>
 
         <Text style={styles.header}>1. How do I create an account? </Text>
-        <Text style={styles.text}>1. Click on “Sign up” </Text>
-        <Text style={styles.text}>2. Enter your school email address</Text>
+        <Text style={styles.text}>
+          1. Click on “Sign up” on your browser or smart device{" "}
+        </Text>
+        <Text style={styles.text}>
+          2. Enter your school/personal email address
+        </Text>
         <Text style={styles.text}>
           3. Set a password, and then click “Sign up”
         </Text>
@@ -72,25 +76,29 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
         <Text style={styles.header}>2. How do I join a private group? </Text>
-        <Text style={styles.text}>1. You will need:</Text>
+        <Text style={styles.text}>1. Before you begin, you will need:</Text>
         <Text style={styles.indentText}>
-          1. Admin username “UsernameExample”
+          1. Find out the username of the admin of the group
         </Text>
         <Text style={styles.indentText}>
-          2. 6 digit group invite passcode “123456”
+          2. The 6 digit passcode assigned to the group
         </Text>
         <Text style={styles.text}>
-          2. From the home page, click on the + sign in the upper right corner
-        </Text>
-        <Text style={styles.text}>3. Click on “Join group with passcode”</Text>
-        <Text style={styles.text}>4. Enter Admin username and Passcode</Text>
-        <Text style={styles.text}>
-          5. You should see a message saying “Successfully added”
+          2. On the home page press the “+” sign in the middle on the bottom
         </Text>
         <Text style={styles.text}>
-          6. Go back to the home screen. Now you can see the group.
+          3. Next select “Join group with passcode”
         </Text>
-        <Text style={styles.text}>7. Click on the group to view it.</Text>
+        <Text style={styles.text}>
+          4. Enter the Admin username and Passcode in the designated boxes
+        </Text>
+        <Text style={styles.text}>
+          5. You should see a message saying “Successfully added 😘”
+        </Text>
+        <Text style={styles.text}>
+          6. From the home screen you should see that you are in the group and
+          can view it by clicking on it
+        </Text>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
           <Image
             style={{
@@ -132,8 +140,8 @@ export default function HelpScreen({ navigation }) {
           3. How do I invite someone to my private group?
         </Text>
         <Text style={styles.text}>
-          Give them the Admin username, along with the group passcode. Send them
-          instructions from #2
+          Give them the admin username and group passcode and have them do the
+          steps from #2.
         </Text>
 
         <Text style={styles.header}>
