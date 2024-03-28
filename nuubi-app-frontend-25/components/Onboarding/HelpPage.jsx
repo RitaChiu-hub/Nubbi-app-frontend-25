@@ -157,9 +157,8 @@ export default function HelpScreen({ navigation }) {
         </Text>
         <Text style={styles.text}>
           3. At the top of the group info screen there is an “Invite passcode”
-          with a 6 digit code. You can also see who the Admin is from the list
-          of members. Both the passcode and Admin username are required to join
-          a group.
+          with a 6 digit code along with the Admin username and username of the
+          other members.
         </Text>
 
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -195,30 +194,30 @@ export default function HelpScreen({ navigation }) {
           5. How do I see the points of each member in a group?
         </Text>
         <Text style={styles.text}>
-          Navigate to the group info screen {"("}#4 Steps 1 & 2{")"} to see a
-          list of members in the group, along with the amount of points each
-          user has in that group.
+          Go to the group info screen {"("}Steps 1 & 2 from #4{")"} to see the
+          list of group members, along with the amount of points each user has
+          in that group.
         </Text>
 
         <Text style={styles.header}>
           6. How do I edit my group information, where I'm the admin?
         </Text>
         <Text style={styles.text}>
-          Navigate to the group info screen {"("}#4 Steps 1 & 2{")"}. At the
-          bottom, there is an Edit button
-          {"("}only visible to Admin{")"}. Click this button to change the group
-          info and/or visibility.
+          Go to the group info screen. At the bottom, there is an Edit button
+          {"("}Only the Admin can see this{")"}. Click this button to change the
+          group info such as the Group name, group description, and change the
+          group to private or public under visibility.
         </Text>
 
         <Text style={styles.header}>7. How do I create my own group? </Text>
         <Text style={styles.text}>
-          1. From the home page, click on the + sign in the upper right corner
+          1. From the home page, select the + sign on the bottom of the page in
+          the middle
         </Text>
-        <Text style={styles.text}>2. Click on “Create new group”</Text>
+        <Text style={styles.text}>2. Next select “Create New Group” </Text>
         <Text style={styles.text}>
-          3. Enter the group information and select whether it will be private
-          or public. It’s private by default. You can edit these later. Then
-          click “Create Group”
+          3. Enter your group's information: the group name, group description,
+          and whether you want it to be a public or private group.
         </Text>
 
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -263,13 +262,12 @@ export default function HelpScreen({ navigation }) {
           questions?{")"}
         </Text>
         <Text style={styles.text}>
-          1. From the home screen, click on the group you want to add a
-          discussion or post for. This will bring you to the chat screen.
+          1. From the home screen, choose which group you want to create a
+          discussion or post for and select it.
         </Text>
         <Text style={styles.text}>
-          2. From the chat screen, click on the post icon at the upper right
-          corner at the top of the page. This will bring you to the posts
-          screen.
+          2. This will bring you to the chat screen, from there in the top right
+          corner select the post icon and there you can see the group posts.
         </Text>
 
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -302,20 +300,21 @@ export default function HelpScreen({ navigation }) {
         </View>
 
         <Text style={styles.header}>9. How do I add a discussion post? </Text>
+        <Text style={styles.text}>1. Repeat steps from #8.</Text>
         <Text style={styles.text}>
-          1. Navigate to the Posts Screen {"("}See #8{")"}
+          2. From the posts screen select the pen and pad in the top right
+          corner. This is the “Create Post” icon.
         </Text>
         <Text style={styles.text}>
-          2. Click on the Write Post button at the top right of the Posts
-          screen.
+          3. Fill in your posts information: The post title, the content of your
+          post in the post box, and you decide to you can add a photo.
         </Text>
         <Text style={styles.text}>
-          3. Fill in the post information and click “Create Post”. You will see
-          a message confirming the submission.
+          4. Once your information is filled out you can select create post and
+          you see a text stating that your post is created.
         </Text>
         <Text style={styles.text}>
-          4. Now when you go back to the Posts screen, you can see the post
-          there.
+          5. If you return to your posts screen you can see your post.
         </Text>
 
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -350,15 +349,13 @@ export default function HelpScreen({ navigation }) {
         <Text style={styles.header}>
           10. How do I answer a discussion post?
         </Text>
+        <Text style={styles.text}>1. Repeat steps from #8.</Text>
         <Text style={styles.text}>
-          1. Navigate to the Posts Screen {"("}See #8{")"}
-        </Text>
-        <Text style={styles.text}>
-          2. Click on the Discussion post you want to answer.
+          2. Select the discussion post you want to answer.
         </Text>
         <Text style={styles.text}>
           3. Type your message in the comment box at the bottom of the page and
-          click the submission button.
+          click “Send” when you want to submit your comment.
         </Text>
 
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -382,12 +379,13 @@ export default function HelpScreen({ navigation }) {
 
         <Text style={styles.header}>11. How do I change my settings?</Text>
         <Text style={styles.text}>
-          1. From the home screen, click on the gear icon in the upper left
-          corner.
+          1. Select your “Profile Page” icon in the bottom right of the home
+          screen it. It should like the outline of a person.
         </Text>
+        <Text style={styles.text}>2. Next, select settings.</Text>
         <Text style={styles.text}>
-          2. This will bring you to the settings page, where you can change your
-          username and password.
+          3. Here you can change your username, password, and sign out and
+          delete your account.
         </Text>
 
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
@@ -413,8 +411,8 @@ export default function HelpScreen({ navigation }) {
           12. How do I get help if I have more questions?
         </Text>
         <Text style={styles.text}>
-          Email support@nuubi.app and we'll get back to you by the end of the
-          next business day.
+          Email our support at support@nuubi.app and we’ll get back to you as
+          soon as we can.
         </Text>
       </View>
     </ScrollView>
