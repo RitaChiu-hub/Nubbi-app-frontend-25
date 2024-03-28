@@ -17,6 +17,7 @@ import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 const { createPostSchema } = require("../validationSchema");
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
@@ -28,6 +29,7 @@ export default function CreatePostScreen({ navigation }) {
   const [error, setError] = React.useState(null);
   const [pickedImage, setPickedImage] = React.useState(null);
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
+  const [pickedFile, setPickedFile] = React.useState(null);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -46,9 +48,55 @@ export default function CreatePostScreen({ navigation }) {
     }
   };
 
+  const pickFile = async () => {
+    try {
+      const filePickResponse = await DocumentPicker.getDocumentAsync({
+        type: "*/*",
+      });
+
+      if (filePickResponse.type === "success") {
+        setPickedFile({
+          name: filePickResponse.name,
+          type: filePickResponse.mimeType,
+          uri: filePickResponse.uri,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const uploadFile = async () => {
+    let apiUrl = "https://api.cloudinary.com/v1_1/${cloudName}/auto/upload";
+
+    const formData = new FormData();
+    formData.append("file", pickedFile);
+    formData.append("api_key", apiKey);
+    formData.append("upload_preset", "ehsnm9es");
+
+    fetch(apiUrl, {
+      body: formData,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+      },
+      method: "POST",
+    })
+      .then(async (r) => {
+        let data = await r.json();
+        console.log({ ...data });
+        return data;
+      })
+      .catch((err) => console.log(err));
+  };
+
   const resetApp = () => {
     setPickedImage(null);
     setImageUploadInfo(null);
+  };
+
+  const resetFile = () => {
+    setPickedFile(null);
   };
 
   React.useLayoutEffect(() => {
@@ -247,6 +295,16 @@ export default function CreatePostScreen({ navigation }) {
                         source={{ uri: pickedImage.uri }}
                       />
                     )}
+                    {pickedFile === null ? null : (
+                      <Text
+                        style={{
+                          color: "red",
+                          textAlign: "center",
+                        }}
+                      >
+                        {pickedFile.name}
+                      </Text>
+                    )}
                   </View>
                 </View>
                 <Text
@@ -306,6 +364,7 @@ export default function CreatePostScreen({ navigation }) {
                   )}
                   <View style={{ marginVertical: 10 }}></View>
 
+
                   <TouchableOpacity
                     style={{
                       alignItems: "center",
@@ -327,6 +386,81 @@ export default function CreatePostScreen({ navigation }) {
                       }}
                     >
                       Create Post
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View>
+
+                <TouchableOpacity
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingVertical: 14,
+                      paddingHorizontal: 20,
+                      borderRadius: 12,
+                      elevation: 3,
+                      backgroundColor: "#1aa7ec",
+                      width: "40%",
+                    }}
+                    onPress={uploadFile}
+                  >
+                    <Text
+                      style={{
+                        color: "#fdfdfd",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Upload File
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingVertical: 14,
+                      paddingHorizontal: 20,
+                      borderRadius: 12,
+                      elevation: 3,
+                      backgroundColor: "#1aa7ec",
+                      width: "40%",
+                    }}
+                    onPress={resetFile}
+                  >
+                    <Text
+                      style={{
+                        color: "#fdfdfd",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Clear Picked File
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingVertical: 14,
+                      paddingHorizontal: 2,
+                      borderRadius: 10,
+                      elevation: 3,
+                      backgroundColor: "#1aa7ec",
+                      width: "20%",
+                    }}
+                    onPress={pickFile}
+                  >
+                    <Text
+                      style={{
+                        color: "#fdfdfd",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Pick File
                     </Text>
                   </TouchableOpacity>
                 </View>
