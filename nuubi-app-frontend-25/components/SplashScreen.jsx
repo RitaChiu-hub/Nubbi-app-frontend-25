@@ -13,6 +13,7 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
+import { useAssets } from "expo-asset";
 import { Helmet } from "react-helmet";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
 import {
@@ -43,7 +44,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import alert from "./alert";
 
-// SplashScreenExpo.preventAutoHideAsync();
+SplashScreenExpo.preventAutoHideAsync();
 
 export default function SplashScreen({ navigation }) {
   const [currCarouselIndex, setCurrCarouselIndex] = useState(0);
@@ -53,6 +54,13 @@ export default function SplashScreen({ navigation }) {
     setCurrCarouselIndex(viewableItems[0].index);
   }).current;
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+  let [assets] = useAssets([
+    require("../assets/nuubiTransparent45.png"),
+    require("../assets/Carousel1.png"),
+    require("../assets/Carousel2.png"),
+    require("../assets/Carousel3.png"),
+    require("../assets/Carousel4.1.png"),
+  ]);
 
   // const { user, setUser } = React.useContext(AccountContext);
 
@@ -157,25 +165,29 @@ export default function SplashScreen({ navigation }) {
       id: "1",
       title: "Team Learning.",
       desc: "Where students and teachers come together and help each other excel academically.",
-      img: require("../assets/Carousel1.png"),
+      //   img: require("../assets/Carousel1.png"),
+      img: assets[1],
     },
     {
       id: "2",
       title: "Get Rewarded.",
       desc: "Earn extra credit with simple daily tasks, helping students, and participation.",
-      img: require("../assets/Carousel2.png"),
+      //  img: require("../assets/Carousel2.png"),
+      img: assets[2],
     },
     {
       id: "3",
       title: "More Ways to Chat.",
       desc: "Collaborate with ease between live chats and group forums. Plus, easily search by tags.",
-      img: require("../assets/Carousel3.png"),
+      // img: require("../assets/Carousel3.png"),
+      img: assets[3],
     },
     {
       id: "4",
       title: "Questions Solved.",
       desc: "Find study groups, mentors, or ask your teacher. Either way, get your questions answered.",
-      img: require("../assets/Carousel4.1.png"),
+      //  img: require("../assets/Carousel4.1.png"),
+      img: assets[4],
     },
   ];
 
@@ -191,7 +203,6 @@ export default function SplashScreen({ navigation }) {
           flex: 1,
           alignItems: "center",
           justifyContent: "flex-start",
-          
         }}
         onLayout={onLayoutRootView}
         accessibilityRole="none"
@@ -216,15 +227,16 @@ export default function SplashScreen({ navigation }) {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            paddingTop:  deviceWidth > 500 ? 60 : "25%",
-          
+            paddingTop: deviceWidth > 500 ? 60 : "25%",
           }}
           accessibilityRole="none"
         >
           <Image
             style={{ width: 45, height: 45 }}
-            source={require("../assets/nuubiTransparent45.png")}
-            alt="The Nuubi logo, a green and blue chat bubble with an open book at the center."
+            //  source={require("../assets/nuubiTransparent45.png")}
+            //  source="../assets/nuubiTransparent45.png"
+            source={assets[0]}
+            //   alt="The Nuubi logo, a green and blue chat bubble with an open book at the center."
           />
 
           <Text
@@ -396,5 +408,19 @@ const stylesCarousel = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#24D265",
     marginHorizontal: 8,
+  },
+});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#0553",
   },
 });

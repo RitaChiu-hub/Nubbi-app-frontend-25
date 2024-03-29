@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kittykat.nuubiapp"
@@ -31,6 +33,9 @@
       "eas": {
         "projectId": "248f8701-02d5-444d-81c1-c001c6bc6273"
       }
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
