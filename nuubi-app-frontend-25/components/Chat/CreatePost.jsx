@@ -30,6 +30,7 @@ export default function CreatePostScreen({ navigation }) {
   const [pickedImage, setPickedImage] = React.useState(null);
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [pickedFile, setPickedFile] = React.useState(null);
+  const [fileUploadInfo, setFileUploadInfo] = React.useState(null);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -53,11 +54,15 @@ export default function CreatePostScreen({ navigation }) {
       const filePickResponse = await DocumentPicker.getDocumentAsync({
         type: "*/*",
       });
-      if (filePickResponse.canceled === false) {
+      if (
+        filePickResponse.canceled === false ||
+        filePickResponse.type == "success"
+      ) {
         setPickedFile({
-          name: filePickResponse.assets[0].name,
-          type: filePickResponse.assets[0].mimeType,
-          uri: filePickResponse.assets[0].uri,
+          name: filePickResponse.name || filePickResponse.assets[0].name,
+          type:
+            filePickResponse.mimeType || filePickResponse.assets[0].mimeType,
+          uri: filePickResponse.uri || filePickResponse.assets[0].uri,
         });
       }
     } catch (error) {
@@ -66,27 +71,64 @@ export default function CreatePostScreen({ navigation }) {
   };
 
   const uploadFile = async () => {
-    let apiUrl = "https://api.cloudinary.com/v1_1/${cloudName}/auto/upload";
+    console.log("uploading file");
+    if (Platform.OS === "web") {
+      console.log("uploading file on the web");
 
-    const formData = new FormData();
-    formData.append("file", pickedFile);
-    formData.append("api_key", apiKey);
-    formData.append("upload_preset", "ehsnm9es");
+      let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
 
-    fetch(apiUrl, {
-      body: formData,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
-      },
-      method: "POST",
-    })
-      .then(async (r) => {
-        let data = await r.json();
-        console.log({ ...data });
-        return data;
+      // let apiUrl = "https://api.cloudinary.com/v1_1/${cloudName}/auto/upload";
+      let data = {
+        file: pickedFile.uri,
+        upload_preset: "ehsnm9es",
+        api_key: apiKey,
+      };
+
+      fetch(apiUrl, {
+        body: JSON.stringify(data),
+        headers: {
+          "content-type": "application/json",
+        },
+        // headers: {
+        //   Accept: "application/json",
+        //   "Content-Type": "multipart/form-data",
+        // },
+        method: "POST",
       })
-      .catch((err) => console.log(err));
+        .then(async (r) => {
+          let data = await r.json();
+          console.log({ ...data });
+          setFileUploadInfo({ ...data });
+          let fileUploadUrl = data["secure_url"];
+          console.log("upload file URL is..." + fileUploadUrl);
+          return data;
+        })
+        .catch((err) => console.log(err));
+    } else {
+      let apiUrl = "https://api.cloudinary.com/v1_1/${cloudName}/auto/upload";
+      const formData = new FormData();
+      formData.append("file", pickedFile);
+      formData.append("api_key", apiKey);
+      formData.append("upload_preset", "ehsnm9es");
+
+      fetch(apiUrl, {
+        body: formData,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
+        method: "POST",
+      })
+        .then(async (r) => {
+          let data = await r.json();
+          console.log({ ...data });
+          setFileUploadInfo({ ...data });
+          let fileUploadUrl = data["secure_url"];
+          console.log("upload file URL is..." + fileUploadUrl);
+          return data;
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   const resetApp = () => {
@@ -448,6 +490,7 @@ export default function CreatePostScreen({ navigation }) {
                       backgroundColor: "#1aa7ec",
                       width: "20%",
                     }}
+                    // onPress={console.log("hello????")}
                     onPress={pickFile}
                   >
                     <Text
@@ -457,7 +500,7 @@ export default function CreatePostScreen({ navigation }) {
                         fontWeight: "bold",
                       }}
                     >
-                      Pick File
+                      Pick File !!!
                     </Text>
                   </TouchableOpacity>
                 </View>
