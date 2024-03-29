@@ -53,16 +53,15 @@ export default function CreatePostScreen({ navigation }) {
       const filePickResponse = await DocumentPicker.getDocumentAsync({
         type: "*/*",
       });
-
-      if (filePickResponse.type === "success") {
+      if (filePickResponse.canceled === false) {
         setPickedFile({
-          name: filePickResponse.name,
-          type: filePickResponse.mimeType,
-          uri: filePickResponse.uri,
+          name: filePickResponse.assets[0].name,
+          type: filePickResponse.assets[0].mimeType,
+          uri: filePickResponse.assets[0].uri,
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log("my error is: " + error);
     }
   };
 
@@ -364,7 +363,6 @@ export default function CreatePostScreen({ navigation }) {
                   )}
                   <View style={{ marginVertical: 10 }}></View>
 
-
                   <TouchableOpacity
                     style={{
                       alignItems: "center",
@@ -391,8 +389,7 @@ export default function CreatePostScreen({ navigation }) {
                 </View>
 
                 <View>
-
-                <TouchableOpacity
+                  <TouchableOpacity
                     style={{
                       alignItems: "center",
                       justifyContent: "center",
