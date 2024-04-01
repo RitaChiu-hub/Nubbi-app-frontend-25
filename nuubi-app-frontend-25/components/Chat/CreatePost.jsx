@@ -20,6 +20,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 const { createPostSchema } = require("../validationSchema");
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import IonIcon from "react-native-vector-icons/Ionicons";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -721,18 +722,56 @@ export default function CreatePostScreen({ navigation }) {
                       />
                     </TouchableOpacity>
                   )}
-                  <View style={{ marginVertical: 10 }}></View>
+                  {pickedFile !== null ? (
+                    <TouchableOpacity
+                      onPress={resetFile}
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingVertical: 10,
+                        paddingHorizontal: 12,
+                        borderRadius: 12,
+                        elevation: 3,
+                        backgroundColor: "#1aa7ec",
+                      }}
+                    >
+                      <MaterialIcon
+                        name="edit-document"
+                        size={30}
+                        color="#fdfdfd"
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={pickFile}
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingVertical: 10,
+                        paddingHorizontal: 12,
+                        borderRadius: 12,
+                        elevation: 3,
+                        backgroundColor: "#1aa7ec",
+                      }}
+                    >
+                      <IonIcon
+                        name="document-attach"
+                        size={30}
+                        color="#fdfdfd"
+                      />
+                    </TouchableOpacity>
+                  )}
 
                   <TouchableOpacity
                     style={{
                       alignItems: "center",
                       justifyContent: "center",
                       paddingVertical: 14,
-                      paddingHorizontal: 20,
+                      paddingHorizontal: 12,
                       borderRadius: 12,
                       elevation: 3,
                       backgroundColor: "#1aa7ec",
-                      width: "80%",
+                      width: "65%",
                     }}
                     onPress={props.handleSubmit}
                   >
@@ -744,81 +783,6 @@ export default function CreatePostScreen({ navigation }) {
                       }}
                     >
                       Create Post
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View>
-                  <TouchableOpacity
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      paddingVertical: 14,
-                      paddingHorizontal: 20,
-                      borderRadius: 12,
-                      elevation: 3,
-                      backgroundColor: "#1aa7ec",
-                      width: "40%",
-                    }}
-                    onPress={uploadFile}
-                  >
-                    <Text
-                      style={{
-                        color: "#fdfdfd",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Upload File
-                    </Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      paddingVertical: 14,
-                      paddingHorizontal: 20,
-                      borderRadius: 12,
-                      elevation: 3,
-                      backgroundColor: "#1aa7ec",
-                      width: "40%",
-                    }}
-                    onPress={resetFile}
-                  >
-                    <Text
-                      style={{
-                        color: "#fdfdfd",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Clear Picked File
-                    </Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      paddingVertical: 14,
-                      paddingHorizontal: 2,
-                      borderRadius: 10,
-                      elevation: 3,
-                      backgroundColor: "#1aa7ec",
-                      width: "20%",
-                    }}
-                    // onPress={console.log("hello????")}
-                    onPress={pickFile}
-                  >
-                    <Text
-                      style={{
-                        color: "#fdfdfd",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Pick File !!!
                     </Text>
                   </TouchableOpacity>
                 </View>
