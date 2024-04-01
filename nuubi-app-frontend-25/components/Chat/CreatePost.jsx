@@ -237,11 +237,195 @@ export default function CreatePostScreen({ navigation }) {
                 console.log(
                   "there is an image AND a file attachment. Work in progress."
                 );
+
+                if (Platform.OS === "web") {
+                  console.log("uploading file on the web");
+
+                  let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
+
+                  let data = {
+                    file: pickedFile.uri,
+                    upload_preset: "ehsnm9es",
+                    api_key: apiKey,
+                  };
+
+                  fetch(apiUrl, {
+                    body: JSON.stringify(data),
+                    headers: {
+                      "content-type": "application/json",
+                    },
+                    method: "POST",
+                  }).then(async (r) => {
+                    let data = await r.json();
+                    console.log({ ...data });
+                    setFileUploadInfo({ ...data });
+                    let fileUploadUrl = data["secure_url"];
+                    // const vals = {
+                    //   ...values,
+                    //   imageUrl: null,
+                    //   fileUrl: fileUploadUrl,
+                    // };
+                    // console.log({ ...vals });
+
+                    // now upload the image
+                    let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
+
+                    //Add your cloud name
+                    let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+
+                    let imageData = {
+                      file: base64Img,
+                      upload_preset: "ehsnm9es",
+                      api_key: apiKey,
+                    };
+
+                    fetch(apiUrl, {
+                      body: JSON.stringify(imageData),
+                      headers: {
+                        "content-type": "application/json",
+                      },
+                      method: "POST",
+                    })
+                      .then(async (r) => {
+                        let data = await r.json();
+                        setImageUploadInfo({ ...data });
+                        let uploadUrl = data["secure_url"];
+                        const vals = {
+                          ...values,
+                          imageUrl: uploadUrl,
+                          fileUrl: fileUploadUrl,
+                        };
+                        console.log({ ...vals });
+                        fetch(
+                          `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                          //   `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                          {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ ...user, ...vals }),
+                          }
+                        )
+                          .catch((err) => {
+                            return;
+                          })
+                          .then((res) => {
+                            if (!res || !res.ok || res.status >= 400) {
+                              return;
+                            }
+                            return res.json();
+                          })
+                          .then((data) => {
+                            if (!data) return;
+                            console.log(data);
+                            setUser({ ...data });
+                            if (data.status) {
+                              setError(data.status);
+                            }
+                            // else if (data.loggedIn) {
+                            //   SecureStore.setItemAsync("token", data.token);
+                            // }
+                          });
+                        return data["secure_url"];
+                      })
+                      .catch((err) => console.log(err));
+                  });
+                } else {
+                  console.log("uploading file in the ios or android");
+                  let apiUrl =
+                    "https://api.cloudinary.com/v1_1/${cloudName}/auto/upload";
+                  const formData = new FormData();
+                  formData.append("file", pickedFile);
+                  formData.append("api_key", apiKey);
+                  formData.append("upload_preset", "ehsnm9es");
+
+                  fetch(apiUrl, {
+                    body: formData,
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "multipart/form-data",
+                    },
+                    method: "POST",
+                  }).then(async (r) => {
+                    let data = await r.json();
+                    setFileUploadInfo({ ...data });
+                    let fileUploadUrl = data["secure_url"];
+                    // const vals = {
+                    //   ...values,
+                    //   imageUrl: null,
+                    //   fileUrl: fileUploadUrl,
+                    // };
+
+                    // now upload the image
+                    let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
+
+                    //Add your cloud name
+                    let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+
+                    let imageData = {
+                      file: base64Img,
+                      upload_preset: "ehsnm9es",
+                      api_key: apiKey,
+                    };
+
+                    fetch(apiUrl, {
+                      body: JSON.stringify(imageData),
+                      headers: {
+                        "content-type": "application/json",
+                      },
+                      method: "POST",
+                    })
+                      .then(async (r) => {
+                        let data = await r.json();
+                        setImageUploadInfo({ ...data });
+                        let uploadUrl = data["secure_url"];
+                        const vals = {
+                          ...values,
+                          imageUrl: uploadUrl,
+                          fileUrl: fileUploadUrl,
+                        };
+                        console.log({ ...vals });
+                        fetch(
+                          `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                          //   `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                          {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ ...user, ...vals }),
+                          }
+                        )
+                          .catch((err) => {
+                            return;
+                          })
+                          .then((res) => {
+                            if (!res || !res.ok || res.status >= 400) {
+                              return;
+                            }
+                            return res.json();
+                          })
+                          .then((data) => {
+                            if (!data) return;
+                            console.log(data);
+                            setUser({ ...data });
+                            if (data.status) {
+                              setError(data.status);
+                            }
+                            // else if (data.loggedIn) {
+                            //   SecureStore.setItemAsync("token", data.token);
+                            // }
+                          });
+                        return data["secure_url"];
+                      })
+                      .catch((err) => console.log(err));
+                  });
+                }
               } else if (pickedImage == null && pickedFile !== null) {
                 // post with no image and with a file attachment
-                console.log(
-                  "there is a file attachment with no image. Work in progress."
-                );
 
                 if (Platform.OS === "web") {
                   console.log("uploading file on the web");
