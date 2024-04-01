@@ -167,7 +167,7 @@ export default function CreatePostScreen({ navigation }) {
             onSubmit={(values, actions) => {
               if (pickedImage !== null && pickedFile == null) {
                 // post submission with image but with no file attachment
-
+                console.log("post with image and no file");
                 // upload image to cloudinary
                 let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
 
@@ -196,8 +196,9 @@ export default function CreatePostScreen({ navigation }) {
                       imageUrl: uploadUrl,
                       fileUrl: null,
                     };
+                    console.log({ ...vals });
                     fetch(
-                      `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                      `http://localhost:8080/groups/${user.currentGroup}/createpost`,
                       //   `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                       {
                         method: "POST",
@@ -219,7 +220,7 @@ export default function CreatePostScreen({ navigation }) {
                       })
                       .then((data) => {
                         if (!data) return;
-                        //    console.log(data);
+                        console.log(data);
                         setUser({ ...data });
                         if (data.status) {
                           setError(data.status);
