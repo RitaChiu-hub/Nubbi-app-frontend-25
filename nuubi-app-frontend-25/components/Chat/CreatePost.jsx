@@ -20,6 +20,7 @@ import * as DocumentPicker from "expo-document-picker";
 const { createPostSchema } = require("../validationSchema");
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import IonIcon from "@expo/vector-icons/Ionicons";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -31,6 +32,24 @@ export default function CreatePostScreen({ navigation }) {
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [pickedFile, setPickedFile] = React.useState(null);
   const [fileUploadInfo, setFileUploadInfo] = React.useState(null);
+
+  const resizeImage = async (imageInfo, resizeAmount) => {
+    const resizedPhoto = await ImageManipulator.manipulateAsync(
+      imageInfo.uri,
+      [{ resize: { width: imageInfo.width * resizeAmount } }],
+      { compress: 0.7, format: "jpeg", base64: true }
+    );
+
+    setPickedImage({
+      uri: resizedPhoto.uri,
+      base64: resizedPhoto.base64,
+    });
+
+    const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
+    if (fileImg.size > 10400000) {
+      resizeImage(imageInfo, resizeAmount * 0.5);
+    }
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,7 +64,12 @@ export default function CreatePostScreen({ navigation }) {
       setPickedImage({
         uri: result.assets[0].uri,
         base64: result.assets[0].base64,
+        width: result.assets[0].width,
       });
+
+      if (result.assets[0].fileSize > 10400000) {
+        resizeImage(result.assets[0], 0.5);
+      }
     }
   };
 
@@ -63,6 +87,7 @@ export default function CreatePostScreen({ navigation }) {
           type:
             filePickResponse.mimeType || filePickResponse.assets[0].mimeType,
           uri: filePickResponse.uri || filePickResponse.assets[0].uri,
+          size: filePickResponse.size || filePickResponse.assets[0].size,
         });
       }
     } catch (error) {
