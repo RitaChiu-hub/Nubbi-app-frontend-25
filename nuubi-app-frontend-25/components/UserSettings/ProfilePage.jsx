@@ -6,12 +6,14 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  Platform,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
 import { AccountContext } from "../AccountContext";
 import * as ImageManipulator from "expo-image-manipulator";
 import { loginStyles } from "../../styles/loginStyles";
+import { useAssets } from "expo-asset";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -24,6 +26,8 @@ export default function ProfilePageScreen({ navigation }) {
   const [avatarInfo, setAvatarInfo] = React.useState(null);
   const [userPoints, setUserPoints] = React.useState(0);
   const [myUsername, setMyUsername] = React.useState("");
+
+  let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
   const getUserPoints = async () => {
     try {
@@ -150,11 +154,20 @@ export default function ProfilePageScreen({ navigation }) {
             <Image
               style={styles.ImageContainer}
               source={{ uri: pickedImage.uri }}
+              // source={
+              //   Platform.OS == "web"
+              //     ? require("../../assets/defaultAvatar.png")
+              //     : assets2[0]
+              // }
             />
           ) : (
             <Image
               style={styles.ImageContainer}
-              source={require("../../assets/defaultAvatar.png")}
+              source={
+                Platform.OS == "web"
+                  ? require("../../assets/defaultAvatar.png")
+                  : assets1[0]
+              }
             />
           )}
         </View>
@@ -177,22 +190,12 @@ export default function ProfilePageScreen({ navigation }) {
         </Text>
 
         {pickedImage !== null ? (
-          <TouchableOpacity
-            onPress={resetImage}
-            style={styles.settingsButton}
-          >
-            <Text style={loginStyles.loginButtonText}>
-              Clear picked image
-            </Text>
+          <TouchableOpacity onPress={resetImage} style={styles.settingsButton}>
+            <Text style={loginStyles.loginButtonText}>Clear picked image</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity
-            onPress={pickImage}
-            style={styles.settingsButton}
-          >
-            <Text style={loginStyles.loginButtonText}>
-              Select new photo
-            </Text>
+          <TouchableOpacity onPress={pickImage} style={styles.settingsButton}>
+            <Text style={loginStyles.loginButtonText}>Select new photo</Text>
           </TouchableOpacity>
         )}
 
@@ -220,14 +223,10 @@ export default function ProfilePageScreen({ navigation }) {
               })
               .then((data) => {
                 if (!data) return;
-                //    console.log(data);
                 setUser({ ...data });
                 if (data.status) {
                   setError(data.status);
                 }
-                // else if (data.loggedIn) {
-                //   SecureStore.setItemAsync("token", data.token);
-                // }
               });
           }}
           style={styles.settingsButton}
@@ -239,7 +238,7 @@ export default function ProfilePageScreen({ navigation }) {
 
         {pickedImage !== null ? (
           <TouchableOpacity
-          style={styles.settingsButton}
+            style={styles.settingsButton}
             onPress={() => {
               // upload the pickedimage to cloudinary
 
@@ -292,15 +291,11 @@ export default function ProfilePageScreen({ navigation }) {
                     })
                     .then((data) => {
                       if (!data) return;
-                      //    console.log(data);
                       setUser({ ...data });
                       setPickedImage(null);
                       if (data.status) {
                         setError(data.status);
                       }
-                      // else if (data.loggedIn) {
-                      //   SecureStore.setItemAsync("token", data.token);
-                      // }
                     });
                   return data["secure_url"];
                 })
@@ -314,7 +309,7 @@ export default function ProfilePageScreen({ navigation }) {
         ) : null}
 
         <TouchableOpacity
-           style={styles.settingsButton}
+          style={styles.settingsButton}
           onPress={() => {
             navigation.navigate("Settings");
           }}
@@ -322,15 +317,14 @@ export default function ProfilePageScreen({ navigation }) {
           <Text style={loginStyles.loginButtonText}>Settings</Text>
         </TouchableOpacity>
 
-
         <TouchableOpacity
-            style={styles.settingsButton}
-            onPress={() => {
-              alert("Coming soon!");
-            }}
-          >
-            <Text style={loginStyles.loginButtonText}>My Analytics</Text>
-          </TouchableOpacity>
+          style={styles.settingsButton}
+          onPress={() => {
+            alert("Coming soon!");
+          }}
+        >
+          <Text style={loginStyles.loginButtonText}>My Analytics</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -356,5 +350,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#2482AA",
     minWidth: "90%",
     marginBottom: 10,
-  }
+  },
 });

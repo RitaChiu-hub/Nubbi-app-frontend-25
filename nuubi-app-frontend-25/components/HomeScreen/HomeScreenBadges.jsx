@@ -6,17 +6,21 @@ import {
   Image,
   ScrollView,
   Dimensions,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/global";
+import { useAssets } from "expo-asset";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-const defaultImage = "../../assets/nuubiTransparent45.png";
-
 export default function HomeScreenBadges() {
+  let assets1 = useAssets([require("../../assets/badgeIcon.png")]);
+
+  const defaultImage = "../../assets/badgeIcon.png";
+
   const badges = [
     { name: "Badge1", image: defaultImage },
     { name: "Badge1", image: defaultImage },
@@ -38,7 +42,7 @@ export default function HomeScreenBadges() {
             justifyContent: "space-between",
           }}
         >
-          <Text  style={globalStyles.h2HeadingMedium}>Badges</Text>
+          <Text style={globalStyles.h2HeadingMedium}>Badges</Text>
           <Entypo name="chevron-small-right" color="#2482AA" size={36} />
         </View>
         <View style={{ width: "5%" }}></View>
@@ -86,7 +90,12 @@ export default function HomeScreenBadges() {
                       >
                         <Image
                           //   source={{ uri: badge.image ||  }}
-                          source={require("../../assets/badgeIcon.png")}
+                          // source={require("../../assets/badgeIcon.png")}
+                          source={
+                            Platform.OS == "web"
+                              ? require("../../assets/badgeIcon.png")
+                              : assets1[0]
+                          }
                           resizeMode="contain"
                           alt="Badge Image"
                           style={{
@@ -107,7 +116,7 @@ export default function HomeScreenBadges() {
                             fontSize: 18,
                             fontFamily: "Poppins_600SemiBold",
                             letterSpacing: 0,
-                            alignSelf: "center"
+                            alignSelf: "center",
                           }}
                         >
                           {badge.name}
