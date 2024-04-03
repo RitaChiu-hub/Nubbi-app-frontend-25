@@ -23,7 +23,7 @@ const tabs = [
   { name: "Members", icon: "users" },
 ];
 
-export default function GroupPage({ navigation }) {
+export default function GroupInfoScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [value, setValue] = useState(0);
   const [memberCount, setMemberCount] = React.useState(0);
@@ -282,7 +282,7 @@ export default function GroupPage({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => triggerComingSoonAlert()}
+        onPress={() => navigation.navigate("GroupAnalytics")}
       >
         <Text style={styles.rowLabel}>Group Analytics</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />

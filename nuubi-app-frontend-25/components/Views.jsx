@@ -38,6 +38,7 @@ import CreatePostScreen from "./Chat/CreatePost";
 import EditPostScreen from "./Chat/EditPost";
 import ViewPostScreen from "./Chat/ViewPostScreen";
 import GroupInfoScreen from "./Chat/GroupInfoScreen";
+import GroupAnalytics from "./Chat/GroupAnalytics";
 import DeleteGroupScreen from "./Groups/DeleteGroupScreen";
 import DeleteMemberScreen from "./Groups/DeleteMemberScreen";
 import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
@@ -126,6 +127,11 @@ function HomeStack() {
         name="GroupInfo"
         component={GroupInfoScreen}
         options={{ animation: "none" }}
+      />
+      <StackHome.Screen
+        name="GroupAnalytics"
+        component={GroupAnalytics}
+        //   options={{ animation: "none" }}
       />
       <StackHome.Screen name="DeleteGroup" component={DeleteGroupScreen} />
       <StackHome.Screen
