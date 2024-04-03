@@ -14,7 +14,6 @@ const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
-import { HeaderBackButton } from "@react-navigation/elements";
 import { loginStyles } from "../../styles/loginStyles";
 
 export default function PostScreen({ navigation }) {
@@ -140,24 +139,15 @@ export default function PostScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <HeaderBackButton
-          labelVisible={false}
-          style={{ maxWidth: 40 }}
-          onPress={() => {
-            navigation.navigate("MyGroups");
-          }}
-        />
-      ),
       headerTitle: () => (
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
+            justifyContent: screenWidth > 500 ? "space-evenly" : "space-evenly",
             marginTop: 8,
-            width: screenWidth > 500 ? screenWidth : "90%",
-            marginLeft: screenWidth > 500 ? 0 : "-8%",
+            width: screenWidth > 500 ? screenWidth : "100%",
+            marginLeft: screenWidth > 500 ? 0 : "-10%",
           }}
         >
           <TouchableOpacity

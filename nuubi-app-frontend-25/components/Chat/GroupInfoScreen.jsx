@@ -1,11 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, FlatList, Modal, Alert, StyleSheet, SafeAreaView, ScrollView, Platform, Switch, Image, Clipboard } from 'react-native';
-import { AccountContext } from '../AccountContext';
-import FeatherIcon from '@expo/vector-icons/Feather';
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  Modal,
+  Alert,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  Image,
+  Dimensions,
+} from "react-native";
+import { AccountContext } from "../AccountContext";
+import FeatherIcon from "@expo/vector-icons/Feather";
+import { globalStyles } from "../../styles/global";
+import { useIsFocused } from "@react-navigation/native";
 
 const tabs = [
-  { name: 'Preferences', icon: 'settings' },
-  { name: 'Members', icon: 'users' },
+  { name: "Preferences", icon: "settings" },
+  { name: "Members", icon: "users" },
 ];
 
 export default function GroupPage({ navigation }) {
@@ -16,38 +31,157 @@ export default function GroupPage({ navigation }) {
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [members, setMembers] = React.useState([user.members]);
   const [invitePasscode, setInvitePasscode] = React.useState(user.inviteCode);
+  const [selectedTab, setSelectedTab] = React.useState("Group");
+  const screenWidth = Dimensions.get("window").width;
+  const isFocused = useIsFocused();
 
   React.useEffect(() => {
     getGroupInfo();
     getMembers();
     getMemberCount();
     setInvitePasscode(user.invitePasscode);
-  }, []);
+    setSelectedTab("Group");
+  }, [isFocused]);
 
   const myIsAdmin = user ? user.isAdmin : false;
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "",
-      headerTitleAlign: "center",
+      headerTitle: () => (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: screenWidth > 500 ? "space-evenly" : "space-evenly",
+            marginTop: 8,
+            width: screenWidth > 500 ? screenWidth : "100%",
+            marginLeft: screenWidth > 500 ? 0 : "-10%",
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Group Chat");
+              setSelectedTab("Chat");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Chat" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  {
+                    color: "#767676",
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Chat" && {
+                    color: "#33b7f0",
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                ]}
+              >
+                Chat
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedTab("Group");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Group" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  {
+                    color: "#767676",
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Group" && {
+                    color: "#33b7f0",
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                ]}
+              >
+                {groupTitle + ">"}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("PostScreen");
+              setSelectedTab("Posts");
+            }}
+          >
+            <View
+              style={[
+                globalStyles.topNavTab,
+                selectedTab === "Posts" && globalStyles.topNavTabSelected,
+              ]}
+            >
+              <Text
+                style={[
+                  {
+                    color: "#767676",
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                  selectedTab === "Posts" && {
+                    color: "#33b7f0",
+                    fontSize:
+                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
+                    fontFamily: "Poppins_600SemiBold",
+                    letterSpacing: 0,
+                  },
+                ]}
+              >
+                Posts
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ),
     });
-  }, [navigation]);
+  }, [navigation, selectedTab]);
 
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
-          method: 'POST',
-          credentials: 'include',
+          method: "POST",
+          credentials: "include",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...user }),
         }
       );
       const jsonData = await response.json();
-      const visibilitySetting = jsonData.is_public === false ? 'Private' : 'Public';
+      const visibilitySetting =
+        jsonData.is_public === false ? "Private" : "Public";
       const groupInfo = {
         ...jsonData,
         visibility: visibilitySetting,
@@ -70,10 +204,10 @@ export default function GroupPage({ navigation }) {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
         {
-          method: 'POST',
-          credentials: 'include',
+          method: "POST",
+          credentials: "include",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...user }),
         }
@@ -88,12 +222,12 @@ export default function GroupPage({ navigation }) {
   const getMembers = async () => {
     try {
       const response = await fetch(
-        'https://coral-app-n96bn.ondigitalocean.app/groups/getmembers',
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
         {
-          method: 'POST',
-          credentials: 'include',
+          method: "POST",
+          credentials: "include",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...user }),
         }
@@ -111,71 +245,121 @@ export default function GroupPage({ navigation }) {
 
   //Used to trigger a Web or iOS alert for features that are not yet implemented.
   const triggerComingSoonAlert = () => {
-    if(Platform.OS === 'web'){
+    if (Platform.OS === "web") {
       window.alert("Feature coming soon!");
-    }else{
+    } else {
       Alert.alert("Feature coming soon!");
     }
-  };  
+  };
 
   const renderSettings = () => (
     <ScrollView style={styles.container}>
       {myIsAdmin == "true" && (
-        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('EditGroup')}>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => navigation.navigate("EditGroup")}
+        >
           <Text style={styles.rowLabel}>Edit Group</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
       )}
-      <TouchableOpacity style={styles.row} onPress={() => Alert.alert("Copied to Clipboard!") }>
-        <Text style={styles.rowLabel}>Invitation Passcode: {' '}
-          <Text style={[styles.passcodeLabel, { fontWeight: 'bold', color: '#242424' }]}>{invitePasscode}</Text>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => Alert.alert("Copied to Clipboard!")}
+      >
+        <Text style={styles.rowLabel}>
+          Invitation Passcode:{" "}
+          <Text
+            style={[
+              styles.passcodeLabel,
+              { fontWeight: "bold", color: "#242424" },
+            ]}
+          >
+            {invitePasscode}
+          </Text>
         </Text>
         <FeatherIcon name="copy" color="#242424" size={20} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row} onPress={() => triggerComingSoonAlert()}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => triggerComingSoonAlert()}
+      >
         <Text style={styles.rowLabel}>Group Analytics</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row} onPress={() => triggerComingSoonAlert()}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => triggerComingSoonAlert()}
+      >
         <Text style={styles.rowLabel}>Moderation Dashboard</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row} onPress={() => triggerComingSoonAlert()}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => triggerComingSoonAlert()}
+      >
         <Text style={styles.rowLabel}>Manage Discussions</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row} onPress={() => triggerComingSoonAlert()}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => triggerComingSoonAlert()}
+      >
         <Text style={styles.rowLabel}>Community Roles</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('HelpLoggedIn')}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => navigation.navigate("HelpLoggedIn")}
+      >
         <Text style={styles.rowLabel}>Help</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
       {myIsAdmin == "true" && (
-        <TouchableOpacity style={styles.row} onPress={() => setModalVisible(true)}>
-          <Text style={[styles.rowLabel, { color: 'red' }]}>Delete Group</Text>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={[styles.rowLabel, { color: "red" }]}>Delete Group</Text>
         </TouchableOpacity>
       )}
       {myIsAdmin != "true" && (
-        <TouchableOpacity style={styles.row} onPress={() => setModalVisible(true)}>
-          <Text style={[styles.rowLabel, { color: 'red' }]}>Leave Group</Text>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={[styles.rowLabel, { color: "red" }]}>Leave Group</Text>
         </TouchableOpacity>
       )}
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
+        onRequestClose={() => setModalVisible(false)}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Are you sure you want to PERMANENTLY delete this group? This action cannot be undone.</Text>
+            <Text style={styles.modalText}>
+              Are you sure you want to PERMANENTLY delete this group? This
+              action cannot be undone.
+            </Text>
             <View style={styles.modalButtons}>
-              <TouchableOpacity style={[styles.modalButton, { backgroundColor: '#1aa7ec' }]} onPress={() => setModalVisible(false)}>
+              <TouchableOpacity
+                style={[styles.modalButton, { backgroundColor: "#1aa7ec" }]}
+                onPress={() => setModalVisible(false)}
+              >
                 <Text style={styles.buttonText}>No, go back</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.modalButton, { backgroundColor: 'red' }]} onPress={() => { setModalVisible(false); navigation.navigate('DeleteGroup'); }}>
-                <Text style={styles.buttonText}>Yes, I want to delete this group.</Text>
+              <TouchableOpacity
+                style={[styles.modalButton, { backgroundColor: "red" }]}
+                onPress={() => {
+                  setModalVisible(false);
+                  navigation.navigate("DeleteGroup");
+                }}
+              >
+                <Text style={styles.buttonText}>
+                  Yes, I want to delete this group.
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -192,7 +376,9 @@ export default function GroupPage({ navigation }) {
         renderItem={({ item }) => (
           <View style={styles.member}>
             <Text style={styles.memberText}>{item.username}</Text>
-            <Text style={styles.memberText}>{item.is_admin ? 'Admin' : 'Member'}</Text>
+            <Text style={styles.memberText}>
+              {item.is_admin ? "Admin" : "Member"}
+            </Text>
           </View>
         )}
         keyExtractor={(item) => item.user_id.toString()}
@@ -204,8 +390,11 @@ export default function GroupPage({ navigation }) {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Image source={{ uri: 'https://via.placeholder.com/140' }} style={styles.groupPhoto} />
-          
+          <Image
+            source={{ uri: "https://via.placeholder.com/140" }}
+            style={styles.groupPhoto}
+          />
+
           <Text style={styles.title}>{groupTitle}</Text>
         </View>
 
@@ -213,8 +402,22 @@ export default function GroupPage({ navigation }) {
           {tabs.map((tab, index) => (
             <TouchableOpacity key={index} onPress={() => handleTabPress(index)}>
               <View style={[styles.tab, index === value && styles.activeTab]}>
-                <FeatherIcon name={tab.icon} size={18} style={[styles.tabIcon, index === value && styles.activeTabIcon]} />                
-                <Text style={[styles.tabText, index === value && styles.activeTabText]}>{tab.name}</Text>
+                <FeatherIcon
+                  name={tab.icon}
+                  size={18}
+                  style={[
+                    styles.tabIcon,
+                    index === value && styles.activeTabIcon,
+                  ]}
+                />
+                <Text
+                  style={[
+                    styles.tabText,
+                    index === value && styles.activeTabText,
+                  ]}
+                >
+                  {tab.name}
+                </Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -228,7 +431,7 @@ export default function GroupPage({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   container: {
     flex: 1,
@@ -239,7 +442,7 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 12,
-    alignItems: 'center',
+    alignItems: "center",
   },
   groupPhoto: {
     width: 140,
@@ -249,98 +452,98 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: '700',
-    color: '#1d1d1d',
+    fontWeight: "700",
+    color: "#1d1d1d",
     marginBottom: 6,
-    fontFamily: 'Poppins_400Regular',
+    fontFamily: "Poppins_400Regular",
   },
   subtitle: {
     fontSize: 15,
-    fontFamily: 'Poppins_400Regular',
-    fontWeight: '500',
-    color: '#929292',
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    color: "#929292",
   },
   passcodeLabel: {
-    fontFamily: 'Poppins_500Medium',
+    fontFamily: "Poppins_500Medium",
     fontSize: 16,
-    color: '#333',
+    color: "#333",
   },
   tabs: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    backgroundColor: "#fff",
     marginBottom: 12,
   },
   tab: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 20,
     borderBottomWidth: 2,
-    borderColor: '#e5e7eb',
+    borderColor: "#e5e7eb",
   },
   activeTab: {
-    borderBottomColor: '#33b7f0',
+    borderBottomColor: "#33b7f0",
   },
   tabText: {
     fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
-    fontWeight: '600',
-    color: '#6b7280',
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "600",
+    color: "#6b7280",
     marginLeft: 5,
   },
   tabIcon: {
-    color: '#6b7280',
+    color: "#6b7280",
   },
   activeTabIcon: {
-    color: '#33b7f0',
+    color: "#33b7f0",
   },
   activeTabText: {
-    color: '#33b7f0',
+    color: "#33b7f0",
   },
   label: {
     fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
-    fontWeight: '500',
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
     marginBottom: 10,
   },
   member: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     paddingVertical: 10,
   },
   memberText: {
     fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
-    fontWeight: '500',
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
     marginRight: 10,
-    color: '#333',
+    color: "#333",
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
+    alignItems: "center",
     elevation: 5,
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   modalButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
   modalButton: {
     borderRadius: 12,
@@ -350,27 +553,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontFamily: 'Poppins_400Regular',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    fontFamily: "Poppins_400Regular",
+    textAlign: "center",
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     paddingVertical: 10,
   },
   rowLabel: {
-    fontFamily: 'Poppins_400Regular',
+    fontFamily: "Poppins_400Regular",
     fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
+    fontWeight: "500",
+    color: "#333",
   },
 });
-
 
 // import * as React from "react";
 // import {

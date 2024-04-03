@@ -18,7 +18,6 @@ import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/elements";
 import FAIcon from "@expo/vector-icons/FontAwesome";
-import { HeaderBackButton } from "@react-navigation/elements";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -166,7 +165,7 @@ export default function ChatScreen({ navigation }) {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
+            justifyContent: screenWidth > 500 ? "space-evenly" : "space-evenly",
             marginTop: 8,
             width: screenWidth > 500 ? screenWidth : "100%",
             marginLeft: screenWidth > 500 ? 0 : "-10%",
