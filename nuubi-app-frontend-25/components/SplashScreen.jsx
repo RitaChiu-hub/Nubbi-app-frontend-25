@@ -51,13 +51,12 @@ export default function SplashScreen({ navigation }) {
     setCurrCarouselIndex(viewableItems[0].index);
   }).current;
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
-  let [assets] = useAssets([
-    require("../assets/nuubiTransparent45.png"),
-    require("../assets/Carousel1.png"),
-    require("../assets/Carousel2.png"),
-    require("../assets/Carousel3.png"),
-    require("../assets/Carousel4.1.png"),
-  ]);
+
+  let assets1 = useAssets([require("../assets/nuubiTransparent45.png")]);
+  let assets2 = useAssets([require("../assets/Carousel1.png")]);
+  let assets3 = useAssets([require("../assets/Carousel2.png")]);
+  let assets4 = useAssets([require("../assets/Carousel3.png")]);
+  let assets5 = useAssets([require("../assets/Carousel4.1.png")]);
 
   // const { user, setUser } = React.useContext(AccountContext);
 
@@ -163,28 +162,34 @@ export default function SplashScreen({ navigation }) {
       title: "Team Learning.",
       desc: "Where students and teachers come together and help each other excel academically.",
       //   img: require("../assets/Carousel1.png"),
-      img: assets[1],
+      img:
+        Platform.OS == "web" ? require("../assets/Carousel1.png") : assets2[0],
     },
     {
       id: "2",
       title: "Get Rewarded.",
       desc: "Earn extra credit with simple daily tasks, helping students, and participation.",
       //  img: require("../assets/Carousel2.png"),
-      img: assets[2],
+      img:
+        Platform.OS == "web" ? require("../assets/Carousel2.png") : assets3[0],
     },
     {
       id: "3",
       title: "More Ways to Chat.",
       desc: "Collaborate with ease between live chats and group forums. Plus, easily search by tags.",
       // img: require("../assets/Carousel3.png"),
-      img: assets[3],
+      img:
+        Platform.OS == "web" ? require("../assets/Carousel3.png") : assets4[0],
     },
     {
       id: "4",
       title: "Questions Solved.",
       desc: "Find study groups, mentors, or ask your teacher. Either way, get your questions answered.",
       //  img: require("../assets/Carousel4.1.png"),
-      img: assets[4],
+      img:
+        Platform.OS == "web"
+          ? require("../assets/Carousel4.1.png")
+          : assets5[0],
     },
   ];
 
@@ -230,10 +235,12 @@ export default function SplashScreen({ navigation }) {
         >
           <Image
             style={{ width: 45, height: 45 }}
-            //  source={require("../assets/nuubiTransparent45.png")}
-            //  source="../assets/nuubiTransparent45.png"
-            source={assets[0]}
-            //   alt="The Nuubi logo, a green and blue chat bubble with an open book at the center."
+            source={
+              Platform.OS == "web"
+                ? require("../assets/nuubiTransparent45.png")
+                : assets1[0]
+            }
+            alt="The Nuubi logo, a green and blue chat bubble with an open book at the center."
           />
 
           <Text

@@ -83,6 +83,8 @@ const handleSignOut = (setUser, navigation) => {
     SecureStore.deleteItemAsync("token");
   }
   socket.disconnect();
+  console.log("hi from sign out page");
+  // navigation.navigate(Splash);
 };
 
 export default function SettingsScreen({ navigation }) {
