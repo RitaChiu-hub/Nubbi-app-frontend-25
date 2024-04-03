@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
-  Platform
+  Platform,
 } from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
@@ -73,23 +73,44 @@ export default function HomeScreen({ navigation }) {
     }
   };
   // change onboarding to true when ready to demo
-  const [performOnboarding, setPerformOnboarding] = React.useState(false);
+  const [performOnboarding, setPerformOnboarding] = React.useState(true);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
   const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];
   const positionLeft = [0.02, 0.25, 0.26, 0.2, 0.1, 0.05];
   const arrowPositionLeft = [0.05, 0.22, 0.61, 0.4, 0.15, 0.1];
 
-  const cardIcon = [
-    require("../assets/tooltips/ToolCelebrate.png"),
-    require("../assets/tooltips/ToolChat.png"),
-    require("../assets/tooltips/ToolClipboard.png"),
-    require("../assets/tooltips/ToolTimer.png"),
-    require("../assets/tooltips/ToolRocket.png"),
-    require("../assets/tooltips/ToolBadge.png"),
-    require("../assets/tooltips/ToolBrain.png"),
-    require("../assets/tooltips/ToolEyes.png"),
-  ];
+  let assets1 = useAssets([require("../assets/tooltips/ToolCelebrate.png")]);
+  let assets2 = useAssets([require("../assets/tooltips/ToolChat.png")]);
+  let assets3 = useAssets([require("../assets/tooltips/ToolClipboard.png")]);
+  let assets4 = useAssets([require("../assets/tooltips/ToolTimer.png")]);
+  let assets5 = useAssets([require("../assets/tooltips/ToolRocket.png")]);
+  let assets6 = useAssets([require("../assets/tooltips/ToolBadge.png")]);
+  let assets7 = useAssets([require("../assets/tooltips/ToolBrain.png")]);
+  let assets8 = useAssets([require("../assets/tooltips/ToolEyes.png")]);
+
+  const cardIcon =
+    Platform.OS == "web"
+      ? [
+          require("../assets/tooltips/ToolCelebrate.png"),
+          require("../assets/tooltips/ToolChat.png"),
+          require("../assets/tooltips/ToolClipboard.png"),
+          require("../assets/tooltips/ToolTimer.png"),
+          require("../assets/tooltips/ToolRocket.png"),
+          require("../assets/tooltips/ToolBadge.png"),
+          require("../assets/tooltips/ToolBrain.png"),
+          require("../assets/tooltips/ToolEyes.png"),
+        ]
+      : [
+          assets1[0],
+          assets2[0],
+          assets3[0],
+          assets4[0],
+          assets5[0],
+          assets6[0],
+          assets7[0],
+          assets8[0],
+        ];
 
   const titleMessage = [
     "Welcome To Nuubi, " + myUsername + "!",
