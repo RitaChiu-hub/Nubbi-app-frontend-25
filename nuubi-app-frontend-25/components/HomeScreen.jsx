@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
+  Platform
 } from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
@@ -17,6 +18,7 @@ import HomeScreenTasks from "./HomeScreen/HomeScreenTasks";
 import HomeScreenLeaderboard from "./HomeScreen/HomeScreenLeaderboard";
 import HomeScreenBadges from "./HomeScreen/HomeScreenBadges";
 import { Overlay } from "react-native-elements";
+import { useAssets } from "expo-asset";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);

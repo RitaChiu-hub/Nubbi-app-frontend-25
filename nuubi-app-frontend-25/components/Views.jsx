@@ -364,8 +364,6 @@ export default function Views() {
   const { user } = useContext(AccountContext);
 
   const isLoggedIn = user.token != null && user.token != "undefined";
-  console.log("hi from views page");
-  console.log("isLoggedIn: " + isLoggedIn);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isLoggedIn ? (

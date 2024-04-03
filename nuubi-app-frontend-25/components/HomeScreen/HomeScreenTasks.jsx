@@ -6,11 +6,13 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import "../../assets/nuubiicon.png";
 import { globalStyles } from "../../styles/global";
+import { useAssets } from "expo-asset";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -21,6 +23,9 @@ export default function HomeScreenTasks({}) {
     { name: "Write 3 Comments", points: 150, claimed: true },
     { name: "Send 1 Live Chat", points: 100, claimed: false },
   ]);
+
+  let assets1 = useAssets([require("../../assets/HomeCalendar.png")]);
+  // let assets2 = useAssets([require("../assets/Carousel2.png")]);
 
   return (
     <View style={styles.container}>
@@ -92,7 +97,12 @@ export default function HomeScreenTasks({}) {
                         }}
                       >
                         <Image
-                          source={require("../../assets/HomeCalendar.png")}
+                          //     source={require("../../assets/HomeCalendar.png")}
+                          source={
+                            Platform.OS == "web"
+                              ? require("../../assets/HomeCalendar.png")
+                              : assets1[0]
+                          }
                           style={{
                             width: 70,
                             height: 70,

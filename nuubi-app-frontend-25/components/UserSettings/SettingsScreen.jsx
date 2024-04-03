@@ -83,7 +83,6 @@ const handleSignOut = (setUser, navigation) => {
     SecureStore.deleteItemAsync("token");
   }
   socket.disconnect();
-  console.log("hi from sign out page");
   // navigation.navigate(Splash);
 };
 
@@ -107,7 +106,6 @@ export default function SettingsScreen({ navigation }) {
     } else if (navRoute == "comingSoonAlert") {
       if (Platform.OS === "web") {
         window.alert("Feature coming soon!");
-        console.log("Web alert!");
       } else {
         Alert.alert("Feature coming soon!");
       }
