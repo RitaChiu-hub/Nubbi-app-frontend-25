@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image, Platform, View } from "react-native";
+import { Image, Platform } from "react-native";
 import { useAssets } from "expo-asset";
 
 import { useContext } from "react";
@@ -256,43 +256,93 @@ const TabNavigator = () => {
             case "HomeStack":
               return (
                 <Image
-                  source={focused ? assets1[0] : assets2[0]}
+                  source={
+                    Platform.OS == "web"
+                      ? focused
+                        ? require("../assets/icons/HomeFocused.png")
+                        : require("../assets/icons/Home.png")
+                      : focused
+                      ? assets1[0]
+                      : assets2[0]
+                  }
                   style={{ width: 24, height: 24 }}
                 />
               );
             case "SearchStack":
               return (
                 <Image
-                  source={focused ? assets3[0] : assets4[0]}
+                  source={
+                    Platform.OS == "web"
+                      ? focused
+                        ? require("../assets/icons/SearchFocused.png")
+                        : require("../assets/icons/Search.png")
+                      : focused
+                      ? assets3[0]
+                      : assets4[0]
+                  }
                   style={{ width: 24, height: 24 }}
                 />
               );
             case "AddGroupStack":
               return (
                 <Image
-                  source={focused ? assets5[0] : assets6[0]}
+                  source={
+                    Platform.OS == "web"
+                      ? focused
+                        ? require("../assets/icons/AddFocused.png")
+                        : require("../assets/icons/Add.png")
+                      : focused
+                      ? assets5[0]
+                      : assets6[0]
+                  }
                   style={{ width: 24, height: 24 }}
                 />
               );
             case "NotificationsStack":
               return (
                 <Image
-                  source={focused ? assets7[0] : assets8[0]}
+                  source={
+                    Platform.OS == "web"
+                      ? focused
+                        ? require("../assets/icons/NotificationFocused.png")
+                        : require("../assets/icons/Notification.png")
+                      : focused
+                      ? assets7[0]
+                      : assets8[0]
+                  }
                   style={{ width: 24, height: 24 }}
                 />
               );
             case "SettingsStack":
               return (
                 <Image
-                  source={focused ? assets9[0] : assets10[0]}
+                  source={
+                    Platform.OS == "web"
+                      ? focused
+                        ? require("../assets/icons/ProfileFocused.png")
+                        : require("../assets/icons/Profile.png")
+                      : focused
+                      ? assets9[0]
+                      : assets10[0]
+                  }
                   style={{ width: 24, height: 24 }}
                 />
               );
             default:
-              const ImageSource = assets1[0];
+              const ImageSource =
+                Platform.OS == "web"
+                  ? require("../assets/icons/HomeFocused.png")
+                  : assets1[0];
           }
           return (
-            <Image source={assets1[0]} style={{ width: 24, height: 24 }} />
+            <Image
+              source={
+                Platform.OS == "web"
+                  ? require("../assets/icons/HomeFocused.png")
+                  : assets1[0]
+              }
+              style={{ width: 24, height: 24 }}
+            />
           );
         },
         tabBarInactiveTintColor: "#767676",

@@ -222,7 +222,11 @@ export default function LoginScreen({ navigation }) {
                     <Image
                       style={{ width: 20, height: 20 }}
                       alt={"Google Logo"}
-                      source={assets[0]}
+                      source={
+                        Platform.OS == "web"
+                          ? require("../../assets/google-logo.png")
+                          : assets[0]
+                      }
                     />
                   </TouchableOpacity>
 
@@ -234,7 +238,12 @@ export default function LoginScreen({ navigation }) {
                     <Image
                       style={{ width: 22, height: 22 }}
                       alt={"Facebook Logo"}
-                      source={assets2[0]}
+                      source={
+                        Platform.OS == "web"
+                          ? require("../../assets/facebook-logo.png")
+                          : assets2[0]
+                      }
+                  
                     />
                   </TouchableOpacity>
                 </View>

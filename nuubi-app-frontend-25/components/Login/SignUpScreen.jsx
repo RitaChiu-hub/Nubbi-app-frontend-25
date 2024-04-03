@@ -17,7 +17,7 @@ import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
 import { signUpStyles } from "../../styles/signUpStyles";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import IconAD from "@expo/vector-icons/AntDesign";
-import alert from './../alert'
+import alert from "./../alert";
 import { useAssets } from "expo-asset";
 
 export default function SignUpScreen({ navigation }) {
@@ -71,22 +71,21 @@ export default function SignUpScreen({ navigation }) {
   };
 
   React.useEffect(() => {
-    if(password === comfirmPassword && comfirmPassword.length > 0){
-      setComfirmPasswardStatus('true');
-      setShowComfirmPWDStatus('true'); // The 'true' is to help show the password match text below the comfirm password input
-    }else if(password != comfirmPassword && comfirmPassword.length > 0){
-      setComfirmPasswardStatus('false');
-      setShowComfirmPWDStatus('yes'); //the 'yes' is to help show the password mismach text below the comfirm password input
-
+    if (password === comfirmPassword && comfirmPassword.length > 0) {
+      setComfirmPasswardStatus("true");
+      setShowComfirmPWDStatus("true"); // The 'true' is to help show the password match text below the comfirm password input
+    } else if (password != comfirmPassword && comfirmPassword.length > 0) {
+      setComfirmPasswardStatus("false");
+      setShowComfirmPWDStatus("yes"); //the 'yes' is to help show the password mismach text below the comfirm password input
     }
-  }, [comfirmPassword])
+  }, [comfirmPassword]);
 
   React.useEffect(() => {
-    if (showComfirmPWDStatus == 'true' && comfirmPasswardStatus == 'true') {
+    if (showComfirmPWDStatus == "true" && comfirmPasswardStatus == "true") {
       // 1000 for 1 second
-      setTimeout(() => setShowComfirmPWDStatus('false'), 2000) //the 'false' is to help hide the password match/mismach text below the comfirm password input
+      setTimeout(() => setShowComfirmPWDStatus("false"), 2000); //the 'false' is to help hide the password match/mismach text below the comfirm password input
     }
-  }, [showComfirmPWDStatus])
+  }, [showComfirmPWDStatus]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -116,7 +115,7 @@ export default function SignUpScreen({ navigation }) {
             //  password: "",
             password: password,
             password2: comfirmPassword,
-         //   password2: "",
+            //   password2: "",
           }}
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
@@ -128,7 +127,7 @@ export default function SignUpScreen({ navigation }) {
               email: values.email,
               password: password,
               password2: comfirmPassword,
-            //  password2: values.password2,
+              //  password2: values.password2,
               // password2: comfirmPassword,
             };
             // console.log({ ...vals });
@@ -136,14 +135,17 @@ export default function SignUpScreen({ navigation }) {
             // console.log(areAllFieldsEmpty(values));
 
             actions.resetForm();
-            fetch("https://coral-app-n96bn.ondigitalocean.app/auth/checkemail", {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(vals),
-            })
+            fetch(
+              "https://coral-app-n96bn.ondigitalocean.app/auth/checkemail",
+              {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(vals),
+              }
+            )
               .catch((err) => {
                 return;
               })
@@ -222,7 +224,9 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="password" />
                 </Text>
-                <Text style={signUpStyles.loginLabelText}>Repeat Password:</Text>
+                <Text style={signUpStyles.loginLabelText}>
+                  Repeat Password:
+                </Text>
                 <View style={signUpStyles.passwordInputContainer}>
                   <TextInput
                     style={[
@@ -232,10 +236,12 @@ export default function SignUpScreen({ navigation }) {
                       },
                     ]}
                     placeholder="Confirm Password"
-                 //   onChangeText={props.handleChange("password2")}
-                 //   value={props.values.password2}
-                 onChangeText={(passwordText2)=> {setComfirmPassword(passwordText2)}}
-                 value={comfirmPassword}
+                    //   onChangeText={props.handleChange("password2")}
+                    //   value={props.values.password2}
+                    onChangeText={(passwordText2) => {
+                      setComfirmPassword(passwordText2);
+                    }}
+                    value={comfirmPassword}
                     secureTextEntry={passwordVisibility}
                   />
                   <Pressable onPress={handlePasswordVisibility}>
@@ -251,10 +257,18 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="password2" />
                 </Text>
-                {(showComfirmPWDStatus == 'yes' || showComfirmPWDStatus == 'true') && <View>
-                    {comfirmPasswardStatus === 'true' ? <Text style={{color:'green'}}>*Passwords match</Text>: <Text style={{color:'red'}}>*Passwords do not match</Text>}
-                </View>}
-
+                {(showComfirmPWDStatus == "yes" ||
+                  showComfirmPWDStatus == "true") && (
+                  <View>
+                    {comfirmPasswardStatus === "true" ? (
+                      <Text style={{ color: "green" }}>*Passwords match</Text>
+                    ) : (
+                      <Text style={{ color: "red" }}>
+                        *Passwords do not match
+                      </Text>
+                    )}
+                  </View>
+                )}
 
                 <View
                   style={{
@@ -266,7 +280,6 @@ export default function SignUpScreen({ navigation }) {
                     marginBottom: 5,
                   }}
                 >
-                  
                   <Text
                     style={{ fontFamily: "Poppins_500Medium", color: "black" }}
                   >
@@ -392,7 +405,7 @@ export default function SignUpScreen({ navigation }) {
                       ]}
                       accessibilityRole="button"
                       onPress={props.handleSubmit}
-                    disabled={areAllFieldsEmpty(props.values)}
+                      disabled={areAllFieldsEmpty(props.values)}
                     >
                       <Text
                         style={[
@@ -458,7 +471,11 @@ export default function SignUpScreen({ navigation }) {
                     <Image
                       style={{ width: 20, height: 20 }}
                       alt={"Google Logo"}
-                      source={assets[0]}
+                      source={
+                        Platform.OS == "web"
+                          ? require("../../assets/google-logo.png")
+                          : assets[0]
+                      }
                     />
                   </TouchableOpacity>
 
@@ -470,12 +487,16 @@ export default function SignUpScreen({ navigation }) {
                     <Image
                       style={{ width: 22, height: 22 }}
                       alt={"Facebook Logo"}
-                      source={assets2[0]}
+                      source={
+                        Platform.OS == "web"
+                          ? require("../../assets/facebook-logo.png")
+                          : assets2[0]
+                      }
                     />
                   </TouchableOpacity>
                 </View>
               </View>
-          </View>
+            </View>
           )}
         </Formik>
       </View>
