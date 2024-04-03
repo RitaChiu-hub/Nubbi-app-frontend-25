@@ -9,7 +9,6 @@ import {
   Keyboard,
   Platform,
   Image,
-  PixelRatio,
   StyleSheet,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";

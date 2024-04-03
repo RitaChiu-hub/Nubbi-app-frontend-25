@@ -2,10 +2,8 @@ import * as React from "react";
 import {
   Text,
   View,
-  Modal,
   FlatList,
   TouchableOpacity,
-  Image,
   Dimensions,
 } from "react-native";
 import { AccountContext } from "./AccountContext";
@@ -87,16 +85,8 @@ export default function MyGroupsScreen({ navigation }) {
             navigation.navigate("Group Chat");
         }}
       >
-        <Text
-          style={globalStyles.screenHeader}
-        >
-          {title}
-        </Text>
-        <Text
-          style={globalStyles.body2Regular}
-        >
-          {description}
-        </Text>
+        <Text style={globalStyles.screenHeader}>{title}</Text>
+        <Text style={globalStyles.body2Regular}>{description}</Text>
       </TouchableOpacity>
     </View>
   );
