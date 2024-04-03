@@ -41,7 +41,7 @@ import { globalStyles } from "../styles/global";
 import * as SplashScreenExpo from "expo-splash-screen";
 // import { AccountContext } from "./AccountContext";
 import { LinearGradient } from "expo-linear-gradient";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import alert from "./alert";
 
 SplashScreenExpo.preventAutoHideAsync();
@@ -350,7 +350,7 @@ export default function SplashScreen({ navigation }) {
             }}
             accessibilityRole="none"
           >
-            <Icon name="info-outline" size={20} color="#111111" />
+            <MaterialIcons name="info-outline" size={20} color="#111111" />
             <TouchableOpacity
               style={{ paddingVertical: 13, paddingHorizontal: 5 }}
               accessibilityRole="button"
@@ -360,7 +360,7 @@ export default function SplashScreen({ navigation }) {
             </TouchableOpacity>
 
             <Text style={{ paddingHorizontal: 10, fontSize: 20 }}>|</Text>
-            <Icon name="language" size={20} color="#111111" />
+            <MaterialIcons name="language" size={20} color="#111111" />
             <TouchableOpacity
               style={{ paddingVertical: 13, paddingHorizontal: 5 }}
               accessibilityRole="button"

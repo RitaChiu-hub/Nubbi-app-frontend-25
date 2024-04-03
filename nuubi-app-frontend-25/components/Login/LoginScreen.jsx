@@ -10,7 +10,6 @@ import {
   Platform,
   Dimensions,
   StyleSheet,
-  Alert
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -19,8 +18,8 @@ const { formSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
-import IconMC from "react-native-vector-icons/MaterialCommunityIcons";
-// import alert from './../alert'
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import alert from './../alert'
 
 export default function LoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -35,9 +34,7 @@ export default function LoginScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Login</Text>
-      ),
+      headerTitle: () => <Text style={globalStyles.screenHeader}>Login</Text>,
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -57,8 +54,8 @@ export default function LoginScreen({ navigation }) {
         }}
       >
         <Formik
-        //  initialValues={{ username: "", password: "" }}
-        initialValues={{ username: "Testuser", password: "Testpass!23" }}
+          //  initialValues={{ username: "", password: "" }}
+          initialValues={{ username: "Testuser", password: "Testpass!23" }}
           validationSchema={formSchema}
           onSubmit={(values, actions) => {
             values.username = values.username.trim();
@@ -136,7 +133,7 @@ export default function LoginScreen({ navigation }) {
                   secureTextEntry={passwordVisibility}
                 />
                 <Pressable onPress={handlePasswordVisibility}>
-                  <IconMC name={rightIcon} size={22} color="#2482AA" />
+                  <MaterialCommunityIcons name={rightIcon} size={22} color="#2482AA" />
                 </Pressable>
               </View>
               <Text
@@ -202,7 +199,7 @@ export default function LoginScreen({ navigation }) {
                     accessibilityRole="button"
                     onPress={() => alert("Apple login coming soon!")}
                   >
-                    <IconMC name="apple" size={22} color="black" />
+                    <MaterialCommunityIcons name="apple" size={22} color="black" />
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -253,17 +250,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "stretch",
     marginVertical: 5,
-    width: deviceWidth*0.9,
+    width: deviceWidth * 0.9,
   },
   passwordInputContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderWidth: 1,
     borderColor: "#C0C0C0",
     backgroundColor: "#EBEBEB",
     padding: 8,
     borderRadius: 10,
-    width: deviceWidth*0.9,
+    width: deviceWidth * 0.9,
     alignItems: "stretch",
     marginVertical: 5,
-},
+  },
 });

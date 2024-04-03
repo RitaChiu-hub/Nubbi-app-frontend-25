@@ -11,7 +11,6 @@ import {
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
 import { globalStyles } from "../styles/global";
-import Icon from "react-native-vector-icons/Ionicons";
 
 export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);

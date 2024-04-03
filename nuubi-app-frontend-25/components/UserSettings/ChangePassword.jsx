@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import IconAD from "react-native-vector-icons/AntDesign";
-import IconMC from "react-native-vector-icons/MaterialCommunityIcons";
+import IconAD from "@expo/vector-icons/AntDesign";
+import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";

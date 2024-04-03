@@ -9,7 +9,7 @@ import {
   Platform,
   SafeAreaView,
 } from "react-native";
-import FeatherIcon from "react-native-vector-icons/Feather";
+import FeatherIcon from "@expo/vector-icons/Feather";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import socket from "../../socket";

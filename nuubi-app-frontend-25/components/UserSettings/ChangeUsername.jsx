@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import IconAD from "react-native-vector-icons/AntDesign";
+import IconAD from "@expo/vector-icons/AntDesign";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 const { changeUsernameSchema } = require("../validationSchema");

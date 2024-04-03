@@ -15,10 +15,10 @@ import { globalStyles } from "../../styles/global";
 const { formSignupSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
-import IconMC from "react-native-vector-icons/MaterialCommunityIcons";
+import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
 import { signUpStyles } from "../../styles/signUpStyles";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
-import IconAD from "react-native-vector-icons/AntDesign";
+import IconAD from "@expo/vector-icons/AntDesign";
 import alert from './../alert'
 
 export default function SignUpScreen({ navigation }) {

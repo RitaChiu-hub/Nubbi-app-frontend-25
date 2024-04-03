@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, FlatList, Modal, Alert, StyleSheet, SafeAreaView, ScrollView, Platform, Switch, Image, Clipboard } from 'react-native';
 import { AccountContext } from '../AccountContext';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import FeatherIcon from '@expo/vector-icons/Feather';
 
 const tabs = [
   { name: 'Preferences', icon: 'settings' },

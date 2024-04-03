@@ -9,7 +9,7 @@ import {
   Alert,
   Platform,
 } from "react-native";
-import FeatherIcon from "react-native-vector-icons/Feather";
+import FeatherIcon from "@expo/vector-icons/Feather";
 import { AccountContext } from "../AccountContext";
 
 //Dynamically create setting items

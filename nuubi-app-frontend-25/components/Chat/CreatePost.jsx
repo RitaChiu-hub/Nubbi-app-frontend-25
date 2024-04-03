@@ -19,8 +19,8 @@ import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
 const { createPostSchema } = require("../validationSchema");
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
-import IonIcon from "react-native-vector-icons/Ionicons";
+import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import IonIcon from "@expo/vector-icons/Ionicons";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";

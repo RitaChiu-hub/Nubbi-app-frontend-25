@@ -17,8 +17,7 @@ import moment from "moment";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import FAIcon from "react-native-vector-icons/FontAwesome";
+import FAIcon from "@expo/vector-icons/FontAwesome";
 import { HeaderBackButton } from "@react-navigation/elements";
 
 export default function ChatScreen({ navigation }) {

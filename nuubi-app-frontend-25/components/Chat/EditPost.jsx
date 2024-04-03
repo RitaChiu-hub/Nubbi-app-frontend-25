@@ -19,7 +19,7 @@ import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 const { createPostSchema } = require("../validationSchema");
 import * as ImagePicker from "expo-image-picker";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";

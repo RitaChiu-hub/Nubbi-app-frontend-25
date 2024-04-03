@@ -10,7 +10,6 @@ import {
   import React, { useState } from "react";
   import { Entypo } from "@expo/vector-icons";
   import "../../assets/nuubiicon.png";
-  import Icon from "react-native-vector-icons/FontAwesome";
   
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;

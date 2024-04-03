@@ -14,7 +14,6 @@ const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/Entypo";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { loginStyles } from "../../styles/loginStyles";
 
