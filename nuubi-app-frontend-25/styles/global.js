@@ -216,7 +216,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: 10,
-    width: "80%"
+    width: "80%",
   },
   topNavTab: {
     borderBottomWidth: 0,
@@ -226,5 +226,31 @@ export const globalStyles = StyleSheet.create({
   topNavTabSelected: {
     borderBottomWidth: 2,
     borderColor: "#33B7F0",
-  }
+  },
+  cancelButton: {
+    backgroundColor: "#fdfdfd",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 14,
+    marginTop: 10,
+    borderRadius: 60,
+    width: "100%",
+    elevation: 3,
+    borderWidth: 2,
+    borderColor: "#123234",
+    alignSelf: "center",
+  },
+  grayTextinput: {
+    borderWidth: 1,
+    borderColor: "#C0C0C0",
+    backgroundColor: "#EBEBEB",
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#767676",
+    padding: 14,
+    borderRadius: 10,
+    width: "100%",
+    alignItems: "stretch",
+    marginVertical: 5,
+  },
 });

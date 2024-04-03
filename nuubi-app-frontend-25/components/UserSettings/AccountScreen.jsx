@@ -20,7 +20,7 @@ const SECTIONS = [
     header: "",
     items: [
       {
-        label: "Edit username",
+        label: "Update username",
         type: "link",
         navRoute: "ChangeUsernameScreen",
       },
