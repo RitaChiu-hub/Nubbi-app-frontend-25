@@ -3,8 +3,6 @@ import {
   Text,
   View,
   Modal,
-  Alert,
-  FlatList,
   Image,
   TouchableOpacity,
   StyleSheet,
@@ -14,7 +12,6 @@ import {
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
 import { globalStyles } from "../styles/global";
-import * as SecureStore from "expo-secure-store";
 import { AntDesign } from "@expo/vector-icons";
 import HomeScreenTasks from "./HomeScreen/HomeScreenTasks";
 import HomeScreenLeaderboard from "./HomeScreen/HomeScreenLeaderboard";

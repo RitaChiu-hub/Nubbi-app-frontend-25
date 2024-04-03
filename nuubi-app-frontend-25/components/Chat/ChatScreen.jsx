@@ -161,15 +161,6 @@ export default function ChatScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <HeaderBackButton
-          labelVisible={false}
-          style={{ maxWidth: 40 }}
-          onPress={() => {
-            navigation.navigate("MyGroups");
-          }}
-        />
-      ),
       headerTitle: () => (
         <View
           style={{
@@ -177,8 +168,8 @@ export default function ChatScreen({ navigation }) {
             alignItems: "center",
             justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
             marginTop: 8,
-            width: screenWidth > 500 ? screenWidth : "90%",
-            marginLeft: screenWidth > 500 ? 0 : "-8%",
+            width: screenWidth > 500 ? screenWidth : "100%",
+            marginLeft: screenWidth > 500 ? 0 : "-10%",
           }}
         >
           <TouchableOpacity
