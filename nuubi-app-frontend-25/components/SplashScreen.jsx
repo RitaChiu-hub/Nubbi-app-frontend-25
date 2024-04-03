@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import {
   View,
   Text,
-  SafeAreaView,
   Image,
   TouchableOpacity,
   Dimensions,
@@ -10,7 +9,6 @@ import {
   Platform,
   StyleSheet,
   Animated,
-  Alert,
   ScrollView,
 } from "react-native";
 import { useAssets } from "expo-asset";
@@ -39,7 +37,6 @@ import {
 } from "@expo-google-fonts/poppins";
 import { globalStyles } from "../styles/global";
 import * as SplashScreenExpo from "expo-splash-screen";
-// import { AccountContext } from "./AccountContext";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import alert from "./alert";

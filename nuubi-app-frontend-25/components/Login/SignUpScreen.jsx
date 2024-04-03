@@ -8,18 +8,17 @@ import {
   Platform,
   Pressable,
   Image,
-  Alert,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 const { formSignupSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
-import * as SecureStore from "expo-secure-store";
 import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
 import { signUpStyles } from "../../styles/signUpStyles";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import IconAD from "@expo/vector-icons/AntDesign";
 import alert from './../alert'
+import { useAssets } from "expo-asset";
 
 export default function SignUpScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -30,6 +29,8 @@ export default function SignUpScreen({ navigation }) {
   const [comfirmPassword, setComfirmPassword] = React.useState("");
   const [showComfirmPWDStatus, setShowComfirmPWDStatus] = React.useState("");
   const [comfirmPasswardStatus, setComfirmPasswardStatus] = React.useState("");
+  let assets = useAssets([require("../../assets/google-logo.png")]);
+  let assets2 = useAssets([require("../../assets/facebook-logo.png")]);
 
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
@@ -457,7 +458,7 @@ export default function SignUpScreen({ navigation }) {
                     <Image
                       style={{ width: 20, height: 20 }}
                       alt={"Google Logo"}
-                      source={require("../../assets/google-logo.png")}
+                      source={assets[0]}
                     />
                   </TouchableOpacity>
 
@@ -469,7 +470,7 @@ export default function SignUpScreen({ navigation }) {
                     <Image
                       style={{ width: 22, height: 22 }}
                       alt={"Facebook Logo"}
-                      source={require("../../assets/facebook-logo.png")}
+                      source={assets2[0]}
                     />
                   </TouchableOpacity>
                 </View>

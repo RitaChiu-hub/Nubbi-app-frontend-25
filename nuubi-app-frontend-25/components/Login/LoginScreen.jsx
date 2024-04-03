@@ -19,11 +19,15 @@ import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import alert from './../alert'
+import alert from "./../alert";
+import { useAssets } from "expo-asset";
 
 export default function LoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
+
+  let assets = useAssets([require("../../assets/google-logo.png")]);
+  let assets2 = useAssets([require("../../assets/facebook-logo.png")]);
 
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
@@ -133,7 +137,11 @@ export default function LoginScreen({ navigation }) {
                   secureTextEntry={passwordVisibility}
                 />
                 <Pressable onPress={handlePasswordVisibility}>
-                  <MaterialCommunityIcons name={rightIcon} size={22} color="#2482AA" />
+                  <MaterialCommunityIcons
+                    name={rightIcon}
+                    size={22}
+                    color="#2482AA"
+                  />
                 </Pressable>
               </View>
               <Text
@@ -199,7 +207,11 @@ export default function LoginScreen({ navigation }) {
                     accessibilityRole="button"
                     onPress={() => alert("Apple login coming soon!")}
                   >
-                    <MaterialCommunityIcons name="apple" size={22} color="black" />
+                    <MaterialCommunityIcons
+                      name="apple"
+                      size={22}
+                      color="black"
+                    />
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -210,7 +222,7 @@ export default function LoginScreen({ navigation }) {
                     <Image
                       style={{ width: 20, height: 20 }}
                       alt={"Google Logo"}
-                      source={require("../../assets/google-logo.png")}
+                      source={assets[0]}
                     />
                   </TouchableOpacity>
 
@@ -222,7 +234,7 @@ export default function LoginScreen({ navigation }) {
                     <Image
                       style={{ width: 22, height: 22 }}
                       alt={"Facebook Logo"}
-                      source={require("../../assets/facebook-logo.png")}
+                      source={assets2[0]}
                     />
                   </TouchableOpacity>
                 </View>

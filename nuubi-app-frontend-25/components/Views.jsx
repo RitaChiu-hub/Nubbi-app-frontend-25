@@ -3,6 +3,7 @@ import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, Platform, View } from "react-native";
+import { useAssets } from "expo-asset";
 
 import { useContext } from "react";
 import { AccountContext } from "./AccountContext";
@@ -234,77 +235,64 @@ function NotificationsStack() {
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  let assets1 = useAssets([require("../assets/icons/HomeFocused.png")]);
+  let assets2 = useAssets([require("../assets/icons/Home.png")]);
+  let assets3 = useAssets([require("../assets/icons/SearchFocused.png")]);
+  let assets4 = useAssets([require("../assets/icons/Search.png")]);
+  let assets5 = useAssets([require("../assets/icons/AddFocused.png")]);
+  let assets6 = useAssets([require("../assets/icons/Add.png")]);
+  let assets7 = useAssets([require("../assets/icons/NotificationFocused.png")]);
+  let assets8 = useAssets([require("../assets/icons/Notification.png")]);
+  let assets9 = useAssets([require("../assets/icons/ProfileFocused.png")]);
+  let assets10 = useAssets([require("../assets/icons/Profile.png")]);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarIcon: ({ color, size, focused }) => {
-          let iconName;
+        tabBarIcon: ({ focused }) => {
           switch (route.name) {
             case "HomeStack":
               return (
                 <Image
-                  source={
-                    focused
-                      ? require("../assets/icons/HomeFocused.png")
-                      : require("../assets/icons/Home.png")
-                  }
+                  source={focused ? assets1[0] : assets2[0]}
                   style={{ width: 24, height: 24 }}
                 />
               );
             case "SearchStack":
               return (
                 <Image
-                  source={
-                    focused
-                      ? require("../assets/icons/SearchFocused.png")
-                      : require("../assets/icons/Search.png")
-                  }
+                  source={focused ? assets3[0] : assets4[0]}
                   style={{ width: 24, height: 24 }}
                 />
               );
             case "AddGroupStack":
               return (
                 <Image
-                  source={
-                    focused
-                      ? require("../assets/icons/AddFocused.png")
-                      : require("../assets/icons/Add.png")
-                  }
+                  source={focused ? assets5[0] : assets6[0]}
                   style={{ width: 24, height: 24 }}
                 />
               );
             case "NotificationsStack":
               return (
                 <Image
-                  source={
-                    focused
-                      ? require("../assets/icons/NotificationFocused.png")
-                      : require("../assets/icons/Notification.png")
-                  }
+                  source={focused ? assets7[0] : assets8[0]}
                   style={{ width: 24, height: 24 }}
                 />
               );
             case "SettingsStack":
               return (
                 <Image
-                  source={
-                    focused
-                      ? require("../assets/icons/ProfileFocused.png")
-                      : require("../assets/icons/Profile.png")
-                  }
+                  source={focused ? assets9[0] : assets10[0]}
                   style={{ width: 24, height: 24 }}
                 />
               );
             default:
-              const imageSource = require("../assets/icons/Home.png");
+              const ImageSource = assets1[0];
           }
           return (
-            <Image
-              source={require("../assets/icons/Home.png")}
-              style={{ width: 24, height: 24 }}
-            />
+            <Image source={assets1[0]} style={{ width: 24, height: 24 }} />
           );
         },
         tabBarInactiveTintColor: "#767676",
