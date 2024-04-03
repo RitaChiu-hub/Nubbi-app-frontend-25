@@ -47,7 +47,7 @@ export default function SignUpScreen({ navigation }) {
 
   const validatePassword = (input) => {
     let newSuggestions = [];
-    if (input.length > 8) {
+    if (input.length >= 8) {
       newSuggestions.push("L");
     }
     if (/\d/.test(input)) {
