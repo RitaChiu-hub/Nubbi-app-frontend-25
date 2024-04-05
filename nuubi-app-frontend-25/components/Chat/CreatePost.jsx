@@ -22,6 +22,7 @@ import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import IonIcon from "@expo/vector-icons/Ionicons";
 import * as ImageManipulator from "expo-image-manipulator";
 import alert from "./../alert";
+import * as FileSystem from 'expo-file-system';
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -33,6 +34,14 @@ export default function CreatePostScreen({ navigation }) {
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [pickedFile, setPickedFile] = React.useState(null);
   const [fileUploadInfo, setFileUploadInfo] = React.useState(null);
+
+  const myFile = `https://res.cloudinary.com/dvvdc9evd/image/upload/v1711996826/image/upload/cbid3tcbtmqjr9rmptxa.pdf`;
+  console.log("my file is " + FileSystem.readAsStringAsync(myFile, options));
+
+  // - convert pdf in cloudinary url to image 
+	// - web version 
+	// - mobile version 
+
 
   const resizeImage = async (imageInfo, resizeAmount) => {
     const resizedPhoto = await ImageManipulator.manipulateAsync(
