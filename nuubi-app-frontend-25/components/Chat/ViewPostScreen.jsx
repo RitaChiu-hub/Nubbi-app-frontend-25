@@ -313,6 +313,27 @@ export default function ViewPostScreen({ navigation }) {
                   />
                 )}
               </View>
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                {postInfo.file_url === null ? null : (
+                  <View>
+                    <Text>{postInfo.file_url}</Text>
+                    <Image
+                      style={{
+                        borderRadius: 10,
+                        // loop through the page numbers in a pop up for the preview??? F
+                        width: 250,
+                        height: 250,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginVertical: 10,
+                      }}
+                      source={{
+                        uri: `https://res.cloudinary.com/dvvdc9evd/image/upload/pg_3/v1711996826/image/upload/cbid3tcbtmqjr9rmptxa.jpg`,
+                      }}
+                    />
+                  </View>
+                )}
+              </View>
             </View>
             <View
               style={{
