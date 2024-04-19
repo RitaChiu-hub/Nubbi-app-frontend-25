@@ -19,8 +19,9 @@ import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 
 const tabs = [
-  { name: "Preferences", icon: "settings" },
-  { name: "Members", icon: "users" },
+  { name: "Options", icon: "settings" },
+ // { name: "Members", icon: "users" },
+  { name: "Leaderboard", icon: "award" },
 ];
 
 export default function GroupInfoScreen({ navigation }) {
@@ -386,6 +387,65 @@ export default function GroupInfoScreen({ navigation }) {
     </View>
   );
 
+  const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
+    <View style={{ paddingTop: 6 }}>
+      {myIsAdmin == "true" ? (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
+            paddingBottom: 10,
+            paddingHorizontal: 10,
+            backgroundColor: "red",
+          }}
+        >
+          <Text>{groupTotalPoints}</Text>
+          <Text>{username}</Text>
+          {/* <Text>{email}</Text> */}
+          <Text>{is_admin ? "Admin" : "Member"}</Text>
+        </View>
+      ) : (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
+            paddingBottom: 2,
+            paddingHorizontal: 10,
+          }}
+        >
+          <Text>{groupTotalPoints}</Text>
+          <Text>{username}</Text>
+          <Text>{is_admin ? "Admin" : "Member"}</Text>
+        </View>
+      )}
+    </View>
+  );
+
+  const renderItem = ({ item }) => (
+    <Item
+      username={item.username}
+     // email={item.email}
+      is_admin={item.is_admin}
+      id={item.user_id}
+      groupTotalPoints={item.group_total_points}
+    />
+  );
+
+  const renderLeaderboard = () => (
+    <View style={styles.container}>
+      <Text style={styles.label}>{memberCount} members</Text>
+      <FlatList
+        data={members}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.user_id}
+      />
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -422,7 +482,8 @@ export default function GroupInfoScreen({ navigation }) {
             </TouchableOpacity>
           ))}
         </View>
-        {value === 0 ? renderSettings() : renderMembers()}
+        {/* {value === 0 ? renderSettings() : renderMembers()} */}
+        {value === 0 ? renderSettings() : renderLeaderboard()}
       </View>
     </SafeAreaView>
   );
@@ -479,7 +540,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: 10,
     paddingBottom: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     borderBottomWidth: 2,
     borderColor: "#e5e7eb",
   },
@@ -487,7 +548,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#33b7f0",
   },
   tabText: {
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: "Poppins_400Regular",
     fontWeight: "600",
     color: "#6b7280",
