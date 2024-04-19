@@ -20,7 +20,7 @@ import { useIsFocused } from "@react-navigation/native";
 
 const tabs = [
   { name: "Options", icon: "settings" },
- // { name: "Members", icon: "users" },
+  // { name: "Members", icon: "users" },
   { name: "Leaderboard", icon: "award" },
 ];
 
@@ -428,7 +428,7 @@ export default function GroupInfoScreen({ navigation }) {
   const renderItem = ({ item }) => (
     <Item
       username={item.username}
-     // email={item.email}
+      // email={item.email}
       is_admin={item.is_admin}
       id={item.user_id}
       groupTotalPoints={item.group_total_points}
