@@ -115,6 +115,10 @@ export default function GroupAnalytics({ navigation }) {
         >
           <Text style={styles.memberText}>{username}</Text>
           <Text style={styles.memberText}>{email}</Text>
+          <Text style={styles.memberText}>100</Text>
+          <Text style={styles.memberText}>200</Text>
+          <Text style={styles.memberText}>100</Text>
+          <Text style={styles.memberText}>200</Text>
           <Text style={styles.memberText}>{groupTotalPoints}</Text>
         </View>
       )}
@@ -145,6 +149,24 @@ export default function GroupAnalytics({ navigation }) {
       <View style={globalStyles.container}>
         <View style={globalStyles.innerContainer}>
           <View style={styles.container}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
+                paddingBottom: 2,
+                paddingHorizontal: 10,
+              }}
+            >
+              <Text style={styles.memberText}>Username</Text>
+              <Text style={styles.memberText}>Email</Text>
+              <Text style={styles.memberText}>Unit 1</Text>
+              <Text style={styles.memberText}>Unit 2</Text>
+              <Text style={styles.memberText}>Unit 3</Text>
+              <Text style={styles.memberText}>Unit 4</Text>
+              <Text style={styles.memberText}>Total Points</Text>
+            </View>
             <FlatList
               data={members}
               renderItem={renderItem}
