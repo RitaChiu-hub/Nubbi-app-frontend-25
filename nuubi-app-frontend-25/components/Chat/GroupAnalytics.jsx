@@ -106,14 +106,23 @@ export default function GroupAnalytics({ navigation }) {
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
             width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
             paddingBottom: 2,
             paddingHorizontal: 10,
           }}
         >
-          <Text style={styles.memberText}>{username}</Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: "Poppins_400Regular",
+              fontWeight: "500",
+              marginRight: 10,
+              color: "#333",
+              backgroundColor: "red",
+            }}
+          >
+            {username}
+          </Text>
           <Text style={styles.memberText}>{email}</Text>
           <Text style={styles.memberText}>100</Text>
           <Text style={styles.memberText}>200</Text>
@@ -125,15 +134,38 @@ export default function GroupAnalytics({ navigation }) {
     </View>
   );
 
-  const renderItem = ({ item }) => (
-    <Item
-      username={item.username}
-      email={item.email}
-      is_admin={item.is_admin}
-      id={item.user_id}
-      groupTotalPoints={item.group_total_points}
-    />
-  );
+
+
+  const renderItem = ({ item }) => {
+    // Calculate the maximum width needed for each column
+    const maxUsernameWidth = Math.max(
+      120,
+      ...members.map((member) => member.username.length * 10)
+    );
+    const maxEmailWidth = Math.max(
+      120,
+      ...members.map((member) => member.email.length * 10)
+    );
+    const totalPointsWidth = Math.max(
+      120,
+      ...members.map((member) => String(member.group_total_points).length * 10),
+      "Total Points".length * 10
+    );
+
+    return (
+      <View style={styles.row}>
+        <View style={[styles.column, { width: maxUsernameWidth }]}>
+          <Text style={styles.memberText}>{item.username}</Text>
+        </View>
+        <View style={[styles.column, { width: maxEmailWidth }]}>
+          <Text style={styles.memberText}>{item.email}</Text>
+        </View>
+        <View style={[styles.column, { width: totalPointsWidth }]}>
+          <Text style={styles.memberText}>{item.group_total_points}</Text>
+        </View>
+      </View>
+    );
+  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -144,36 +176,39 @@ export default function GroupAnalytics({ navigation }) {
     });
   }, [navigation]);
 
+  const maxUsernameWidth = Math.max(
+    120,
+    ...members.map((member) => member.username.length * 10)
+  );
+  const maxEmailWidth = Math.max(
+    120,
+    ...members.map((member) => member.email.length * 10)
+  );
+  const totalPointsWidth = Math.max(
+    120,
+    ...members.map((member) => String(member.group_total_points).length * 10),
+    "Total Points".length * 10
+  );
+
   return (
-    <ScrollView horizontal={true}>
-      <View style={globalStyles.container}>
-        <View style={globalStyles.innerContainer}>
-          <View style={styles.container}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
-                paddingBottom: 2,
-                paddingHorizontal: 10,
-              }}
-            >
-              <Text style={styles.memberText}>Username</Text>
-              <Text style={styles.memberText}>Email</Text>
-              <Text style={styles.memberText}>Unit 1</Text>
-              <Text style={styles.memberText}>Unit 2</Text>
-              <Text style={styles.memberText}>Unit 3</Text>
-              <Text style={styles.memberText}>Unit 4</Text>
-              <Text style={styles.memberText}>Total Points</Text>
-            </View>
-            <FlatList
-              data={members}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.user_id}
-            />
+    <ScrollView horizontal={true} vertical={true}>
+      <View style={styles.container}>
+        <View style={styles.row}>
+          <View style={[styles.column, { width: maxUsernameWidth }]}>
+            <Text style={styles.memberText}>Username</Text>
+          </View>
+          <View style={[styles.column, { width: maxEmailWidth }]}>
+            <Text style={styles.memberText}>Email</Text>
+          </View>
+          <View style={[styles.column, { width: totalPointsWidth }]}>
+            <Text style={styles.memberText}>Total Points</Text>
           </View>
         </View>
+        <FlatList
+          data={members}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.user_id}
+        />
       </View>
     </ScrollView>
   );
@@ -207,6 +242,10 @@ const styles = StyleSheet.create({
     color: "#1d1d1d",
     marginBottom: 6,
     fontFamily: "Poppins_400Regular",
+  },
+  column: {
+    flex: 1,
+    alignItems: "center",
   },
   subtitle: {
     fontSize: 15,
@@ -322,5 +361,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     color: "#333",
+  },
+  usernameContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  username: {
+    backgroundColor: "lightgray",
+    padding: 10,
+    borderRadius: 5,
+  },
+  padding: {
+    height: "100%",
   },
 });
