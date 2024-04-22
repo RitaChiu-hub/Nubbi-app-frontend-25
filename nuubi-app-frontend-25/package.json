@@ -59,7 +59,6 @@
     "socket.io-client": "^4.6.1",
     "yup": "^1.0.2",
     "yup-password": "^0.2.2",
-    "expo-dev-client": "~3.3.11",
     "expo-splash-screen": "~0.26.4"
   },
   "devDependencies": {
