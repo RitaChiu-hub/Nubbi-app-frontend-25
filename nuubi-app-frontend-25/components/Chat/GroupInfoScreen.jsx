@@ -223,7 +223,8 @@ export default function GroupInfoScreen({ navigation }) {
   const getMembers = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
+        //   "http://localhost:8080/groups/getleaderboard",
         {
           method: "POST",
           credentials: "include",
@@ -389,39 +390,20 @@ export default function GroupInfoScreen({ navigation }) {
 
   const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
     <View style={{ paddingTop: 6 }}>
-      {myIsAdmin == "true" ? (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
-            paddingBottom: 10,
-            paddingHorizontal: 10,
-            backgroundColor: "red",
-          }}
-        >
-          <Text>{groupTotalPoints}</Text>
-          <Text>{username}</Text>
-          {/* <Text>{email}</Text> */}
-          <Text>{is_admin ? "Admin" : "Member"}</Text>
-        </View>
-      ) : (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
-            paddingBottom: 2,
-            paddingHorizontal: 10,
-          }}
-        >
-          <Text>{groupTotalPoints}</Text>
-          <Text>{username}</Text>
-          <Text>{is_admin ? "Admin" : "Member"}</Text>
-        </View>
-      )}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
+          paddingBottom: 2,
+          paddingHorizontal: 10,
+        }}
+      >
+        <Text>{groupTotalPoints}</Text>
+        <Text>{username}</Text>
+        <Text>{is_admin ? "Admin" : "Member"}</Text>
+      </View>
     </View>
   );
 
