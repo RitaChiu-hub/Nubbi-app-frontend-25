@@ -60,7 +60,8 @@ export default function GroupAnalytics({ navigation }) {
   const getMembers = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
+        //  "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
+        "http://localhost:8080/groups/getmembers",
         {
           method: "POST",
           credentials: "include",
@@ -83,58 +84,56 @@ export default function GroupAnalytics({ navigation }) {
 
   const myIsAdmin = user.isAdmin;
 
-  const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
-    <View style={{ paddingTop: 6 }}>
-      {myIsAdmin == "true" ? (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
-            paddingBottom: 10,
-            paddingHorizontal: 10,
-            backgroundColor: "red",
-          }}
-        >
-          <Text style={styles.memberText}>{groupTotalPoints}</Text>
-          <Text style={styles.memberText}>{username}</Text>
-          <Text style={styles.memberText}>{email}</Text>
-          <Text style={styles.memberText}>{is_admin ? "Admin" : "Member"}</Text>
-        </View>
-      ) : (
-        <View
-          style={{
-            flexDirection: "row",
-            width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
-            paddingBottom: 2,
-            paddingHorizontal: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 16,
-              fontFamily: "Poppins_400Regular",
-              fontWeight: "500",
-              marginRight: 10,
-              color: "#333",
-              backgroundColor: "red",
-            }}
-          >
-            {username}
-          </Text>
-          <Text style={styles.memberText}>{email}</Text>
-          <Text style={styles.memberText}>100</Text>
-          <Text style={styles.memberText}>200</Text>
-          <Text style={styles.memberText}>100</Text>
-          <Text style={styles.memberText}>200</Text>
-          <Text style={styles.memberText}>{groupTotalPoints}</Text>
-        </View>
-      )}
-    </View>
-  );
-
-
+  // const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
+  //   <View style={{ paddingTop: 6 }}>
+  //     {myIsAdmin == "true" ? (
+  //       <View
+  //         style={{
+  //           flexDirection: "row",
+  //           justifyContent: "space-between",
+  //           alignItems: "center",
+  //           width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
+  //           paddingBottom: 10,
+  //           paddingHorizontal: 10,
+  //           backgroundColor: "red",
+  //         }}
+  //       >
+  //         <Text style={styles.memberText}>{groupTotalPoints}</Text>
+  //         <Text style={styles.memberText}>{username}</Text>
+  //         <Text style={styles.memberText}>{email}</Text>
+  //         <Text style={styles.memberText}>{is_admin ? "Admin" : "Member"}</Text>
+  //       </View>
+  //     ) : (
+  //       <View
+  //         style={{
+  //           flexDirection: "row",
+  //           width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
+  //           paddingBottom: 2,
+  //           paddingHorizontal: 10,
+  //         }}
+  //       >
+  //         <Text
+  //           style={{
+  //             fontSize: 16,
+  //             fontFamily: "Poppins_400Regular",
+  //             fontWeight: "500",
+  //             marginRight: 10,
+  //             color: "#333",
+  //             backgroundColor: "red",
+  //           }}
+  //         >
+  //           {username}
+  //         </Text>
+  //         <Text style={styles.memberText}>{email}</Text>
+  //         <Text style={styles.memberText}>100</Text>
+  //         <Text style={styles.memberText}>200</Text>
+  //         <Text style={styles.memberText}>100</Text>
+  //         <Text style={styles.memberText}>200</Text>
+  //         <Text style={styles.memberText}>{groupTotalPoints}</Text>
+  //       </View>
+  //     )}
+  //   </View>
+  // );
 
   const renderItem = ({ item }) => {
     // Calculate the maximum width needed for each column
@@ -145,6 +144,11 @@ export default function GroupAnalytics({ navigation }) {
     const maxEmailWidth = Math.max(
       120,
       ...members.map((member) => member.email.length * 10)
+    );
+    const maxUnitWidth = Math.max(
+      120,
+      ...members.map((member) => String(member.unit_1).length * 10),
+      "Unit 1".length * 10
     );
     const totalPointsWidth = Math.max(
       120,
@@ -159,6 +163,30 @@ export default function GroupAnalytics({ navigation }) {
         </View>
         <View style={[styles.column, { width: maxEmailWidth }]}>
           <Text style={styles.memberText}>{item.email}</Text>
+        </View>
+        <View style={[styles.column, { width: maxUnitWidth }]}>
+          <Text style={styles.memberText}>{item.unit_1}</Text>
+        </View>
+        <View style={[styles.column, { width: maxUnitWidth }]}>
+          <Text style={styles.memberText}>{item.unit_2}</Text>
+        </View>
+        <View style={[styles.column, { width: maxUnitWidth }]}>
+          <Text style={styles.memberText}>{item.unit_3}</Text>
+        </View>
+        <View style={[styles.column, { width: maxUnitWidth }]}>
+          <Text style={styles.memberText}>{item.unit_4}</Text>
+        </View>
+        <View style={[styles.column, { width: maxUnitWidth }]}>
+          <Text style={styles.memberText}>{item.unit_5}</Text>
+        </View>
+        <View style={[styles.column, { width: maxUnitWidth }]}>
+          <Text style={styles.memberText}>{item.unit_6}</Text>
+        </View>
+        <View style={[styles.column, { width: maxUnitWidth }]}>
+          <Text style={styles.memberText}>{item.unit_7}</Text>
+        </View>
+        <View style={[styles.column, { width: maxUnitWidth }]}>
+          <Text style={styles.memberText}>{item.unit_8}</Text>
         </View>
         <View style={[styles.column, { width: totalPointsWidth }]}>
           <Text style={styles.memberText}>{item.group_total_points}</Text>
@@ -184,6 +212,11 @@ export default function GroupAnalytics({ navigation }) {
     120,
     ...members.map((member) => member.email.length * 10)
   );
+  const maxUnitWidth = Math.max(
+    120,
+    ...members.map((member) => String(member.unit_1).length * 10),
+    "Unit 1".length * 10
+  );
   const totalPointsWidth = Math.max(
     120,
     ...members.map((member) => String(member.group_total_points).length * 10),
@@ -199,6 +232,30 @@ export default function GroupAnalytics({ navigation }) {
           </View>
           <View style={[styles.column, { width: maxEmailWidth }]}>
             <Text style={styles.memberText}>Email</Text>
+          </View>
+          <View style={[styles.column, { width: maxUnitWidth }]}>
+            <Text style={styles.memberText}>Unit 1</Text>
+          </View>
+          <View style={[styles.column, { width: maxUnitWidth }]}>
+            <Text style={styles.memberText}>Unit 2</Text>
+          </View>
+          <View style={[styles.column, { width: maxUnitWidth }]}>
+            <Text style={styles.memberText}>Unit 3</Text>
+          </View>
+          <View style={[styles.column, { width: maxUnitWidth }]}>
+            <Text style={styles.memberText}>Unit 4</Text>
+          </View>
+          <View style={[styles.column, { width: maxUnitWidth }]}>
+            <Text style={styles.memberText}>Unit 5</Text>
+          </View>
+          <View style={[styles.column, { width: maxUnitWidth }]}>
+            <Text style={styles.memberText}>Unit 6</Text>
+          </View>
+          <View style={[styles.column, { width: maxUnitWidth }]}>
+            <Text style={styles.memberText}>Unit 7</Text>
+          </View>
+          <View style={[styles.column, { width: maxUnitWidth }]}>
+            <Text style={styles.memberText}>Unit 8</Text>
           </View>
           <View style={[styles.column, { width: totalPointsWidth }]}>
             <Text style={styles.memberText}>Total Points</Text>
