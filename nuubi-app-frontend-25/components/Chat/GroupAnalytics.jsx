@@ -200,76 +200,78 @@ export default function GroupAnalytics({ navigation }) {
   );
 
   return (
-    <ScrollView horizontal={true} vertical={true}>
-      <View style={styles.container}>
-        <View style={styles.row}>
-          <View
-            style={[
-              styles.column,
-              Platform.OS == "web"
-                ? {
-                    width: maxUsernameWidth + 40,
-                    marginHorizontal: 20,
-                    paddingHorizontal: 20,
-                  }
-                : {
-                    width: maxUsernameWidth,
-                  },
-            ]}
-          >
-            <Text style={styles.memberText}>Username</Text>
+    <View style={{ backgroundColor: "#fdfdfd" }}>
+      <ScrollView horizontal={true} vertical={true}>
+        <View style={styles.container}>
+          <View style={styles.row}>
+            <View
+              style={[
+                styles.column,
+                Platform.OS == "web"
+                  ? {
+                      width: maxUsernameWidth + 40,
+                      marginHorizontal: 20,
+                      paddingHorizontal: 20,
+                    }
+                  : {
+                      width: maxUsernameWidth,
+                    },
+              ]}
+            >
+              <Text style={styles.memberText}>Username</Text>
+            </View>
+            <View
+              style={[
+                styles.column,
+                Platform.OS == "web"
+                  ? {
+                      width: maxEmailWidth + 80,
+                      marginHorizontal: 40,
+                      paddingHorizontal: 40,
+                    }
+                  : {
+                      width: maxEmailWidth,
+                    },
+              ]}
+            >
+              <Text style={styles.memberText}>Email</Text>
+            </View>
+            <View style={[styles.column, { width: maxUnitWidth }]}>
+              <Text style={styles.memberText}>Unit 1</Text>
+            </View>
+            <View style={[styles.column, { width: maxUnitWidth }]}>
+              <Text style={styles.memberText}>Unit 2</Text>
+            </View>
+            <View style={[styles.column, { width: maxUnitWidth }]}>
+              <Text style={styles.memberText}>Unit 3</Text>
+            </View>
+            <View style={[styles.column, { width: maxUnitWidth }]}>
+              <Text style={styles.memberText}>Unit 4</Text>
+            </View>
+            <View style={[styles.column, { width: maxUnitWidth }]}>
+              <Text style={styles.memberText}>Unit 5</Text>
+            </View>
+            <View style={[styles.column, { width: maxUnitWidth }]}>
+              <Text style={styles.memberText}>Unit 6</Text>
+            </View>
+            <View style={[styles.column, { width: maxUnitWidth }]}>
+              <Text style={styles.memberText}>Unit 7</Text>
+            </View>
+            <View style={[styles.column, { width: maxUnitWidth }]}>
+              <Text style={styles.memberText}>Unit 8</Text>
+            </View>
+            <View style={[styles.column, { width: totalPointsWidth }]}>
+              <Text style={styles.memberText}>Total Points</Text>
+            </View>
           </View>
-          <View
-            style={[
-              styles.column,
-              Platform.OS == "web"
-                ? {
-                    width: maxEmailWidth + 80,
-                    marginHorizontal: 40,
-                    paddingHorizontal: 40,
-                  }
-                : {
-                    width: maxEmailWidth,
-                  },
-            ]}
-          >
-            <Text style={styles.memberText}>Email</Text>
-          </View>
-          <View style={[styles.column, { width: maxUnitWidth }]}>
-            <Text style={styles.memberText}>Unit 1</Text>
-          </View>
-          <View style={[styles.column, { width: maxUnitWidth }]}>
-            <Text style={styles.memberText}>Unit 2</Text>
-          </View>
-          <View style={[styles.column, { width: maxUnitWidth }]}>
-            <Text style={styles.memberText}>Unit 3</Text>
-          </View>
-          <View style={[styles.column, { width: maxUnitWidth }]}>
-            <Text style={styles.memberText}>Unit 4</Text>
-          </View>
-          <View style={[styles.column, { width: maxUnitWidth }]}>
-            <Text style={styles.memberText}>Unit 5</Text>
-          </View>
-          <View style={[styles.column, { width: maxUnitWidth }]}>
-            <Text style={styles.memberText}>Unit 6</Text>
-          </View>
-          <View style={[styles.column, { width: maxUnitWidth }]}>
-            <Text style={styles.memberText}>Unit 7</Text>
-          </View>
-          <View style={[styles.column, { width: maxUnitWidth }]}>
-            <Text style={styles.memberText}>Unit 8</Text>
-          </View>
-          <View style={[styles.column, { width: totalPointsWidth }]}>
-            <Text style={styles.memberText}>Total Points</Text>
-          </View>
+          <FlatList
+            data={members}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.user_id}
+          />
         </View>
-        <FlatList
-          data={members}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.user_id}
-        />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
