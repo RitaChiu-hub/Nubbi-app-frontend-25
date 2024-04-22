@@ -7,6 +7,7 @@ import {
   Dimensions,
   StyleSheet,
   ScrollView,
+  Platform,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
@@ -84,57 +85,6 @@ export default function GroupAnalytics({ navigation }) {
 
   const myIsAdmin = user.isAdmin;
 
-  // const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
-  //   <View style={{ paddingTop: 6 }}>
-  //     {myIsAdmin == "true" ? (
-  //       <View
-  //         style={{
-  //           flexDirection: "row",
-  //           justifyContent: "space-between",
-  //           alignItems: "center",
-  //           width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
-  //           paddingBottom: 10,
-  //           paddingHorizontal: 10,
-  //           backgroundColor: "red",
-  //         }}
-  //       >
-  //         <Text style={styles.memberText}>{groupTotalPoints}</Text>
-  //         <Text style={styles.memberText}>{username}</Text>
-  //         <Text style={styles.memberText}>{email}</Text>
-  //         <Text style={styles.memberText}>{is_admin ? "Admin" : "Member"}</Text>
-  //       </View>
-  //     ) : (
-  //       <View
-  //         style={{
-  //           flexDirection: "row",
-  //           width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
-  //           paddingBottom: 2,
-  //           paddingHorizontal: 10,
-  //         }}
-  //       >
-  //         <Text
-  //           style={{
-  //             fontSize: 16,
-  //             fontFamily: "Poppins_400Regular",
-  //             fontWeight: "500",
-  //             marginRight: 10,
-  //             color: "#333",
-  //             backgroundColor: "red",
-  //           }}
-  //         >
-  //           {username}
-  //         </Text>
-  //         <Text style={styles.memberText}>{email}</Text>
-  //         <Text style={styles.memberText}>100</Text>
-  //         <Text style={styles.memberText}>200</Text>
-  //         <Text style={styles.memberText}>100</Text>
-  //         <Text style={styles.memberText}>200</Text>
-  //         <Text style={styles.memberText}>{groupTotalPoints}</Text>
-  //       </View>
-  //     )}
-  //   </View>
-  // );
-
   const renderItem = ({ item }) => {
     // Calculate the maximum width needed for each column
     const maxUsernameWidth = Math.max(
@@ -158,10 +108,36 @@ export default function GroupAnalytics({ navigation }) {
 
     return (
       <View style={styles.row}>
-        <View style={[styles.column, { width: maxUsernameWidth }]}>
+        <View
+          style={[
+            styles.column,
+            Platform.OS == "web"
+              ? {
+                  width: maxUsernameWidth + 40,
+                  marginHorizontal: 20,
+                  paddingHorizontal: 20,
+                }
+              : {
+                  width: maxUsernameWidth,
+                },
+          ]}
+        >
           <Text style={styles.memberText}>{item.username}</Text>
         </View>
-        <View style={[styles.column, { width: maxEmailWidth }]}>
+        <View
+          style={[
+            styles.column,
+            Platform.OS == "web"
+              ? {
+                  width: maxEmailWidth + 80,
+                  marginHorizontal: 40,
+                  paddingHorizontal: 40,
+                }
+              : {
+                  width: maxEmailWidth,
+                },
+          ]}
+        >
           <Text style={styles.memberText}>{item.email}</Text>
         </View>
         <View style={[styles.column, { width: maxUnitWidth }]}>
@@ -227,10 +203,36 @@ export default function GroupAnalytics({ navigation }) {
     <ScrollView horizontal={true} vertical={true}>
       <View style={styles.container}>
         <View style={styles.row}>
-          <View style={[styles.column, { width: maxUsernameWidth }]}>
+          <View
+            style={[
+              styles.column,
+              Platform.OS == "web"
+                ? {
+                    width: maxUsernameWidth + 40,
+                    marginHorizontal: 20,
+                    paddingHorizontal: 20,
+                  }
+                : {
+                    width: maxUsernameWidth,
+                  },
+            ]}
+          >
             <Text style={styles.memberText}>Username</Text>
           </View>
-          <View style={[styles.column, { width: maxEmailWidth }]}>
+          <View
+            style={[
+              styles.column,
+              Platform.OS == "web"
+                ? {
+                    width: maxEmailWidth + 80,
+                    marginHorizontal: 40,
+                    paddingHorizontal: 40,
+                  }
+                : {
+                    width: maxEmailWidth,
+                  },
+            ]}
+          >
             <Text style={styles.memberText}>Email</Text>
           </View>
           <View style={[styles.column, { width: maxUnitWidth }]}>
@@ -272,10 +274,6 @@ export default function GroupAnalytics({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-  },
   container: {
     flex: 1,
     paddingHorizontal: 24,
@@ -283,77 +281,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  header: {
-    marginBottom: 12,
-    alignItems: "center",
-  },
-  groupPhoto: {
-    width: 140,
-    height: 140,
-    borderRadius: 75,
-    marginBottom: 12,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#1d1d1d",
-    marginBottom: 6,
-    fontFamily: "Poppins_400Regular",
-  },
   column: {
     flex: 1,
     alignItems: "center",
-  },
-  subtitle: {
-    fontSize: 15,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "500",
-    color: "#929292",
-  },
-  passcodeLabel: {
-    fontFamily: "Poppins_500Medium",
-    fontSize: 16,
-    color: "#333",
-  },
-  tabs: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    marginBottom: 12,
-  },
-  tab: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingHorizontal: 16,
-    borderBottomWidth: 2,
-    borderColor: "#e5e7eb",
-  },
-  activeTab: {
-    borderBottomColor: "#33b7f0",
-  },
-  tabText: {
-    fontSize: 18,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "600",
-    color: "#6b7280",
-    marginLeft: 5,
-  },
-  tabIcon: {
-    color: "#6b7280",
-  },
-  activeTabIcon: {
-    color: "#33b7f0",
-  },
-  activeTabText: {
-    color: "#33b7f0",
-  },
-  label: {
-    fontSize: 16,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "500",
-    marginBottom: 10,
   },
   member: {
     flexDirection: "row",
@@ -370,41 +300,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: "#333",
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    elevation: 5,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  modalButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  modalButton: {
-    borderRadius: 12,
-    paddingVertical: 14,
-    paddingHorizontal: 10,
-    elevation: 2,
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontFamily: "Poppins_400Regular",
-    textAlign: "center",
-  },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -412,24 +307,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#ccc",
     paddingVertical: 10,
-  },
-  rowLabel: {
-    fontFamily: "Poppins_400Regular",
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-  },
-  usernameContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 5,
-  },
-  username: {
-    backgroundColor: "lightgray",
-    padding: 10,
-    borderRadius: 5,
-  },
-  padding: {
-    height: "100%",
   },
 });

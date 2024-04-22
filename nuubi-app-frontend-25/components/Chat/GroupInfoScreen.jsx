@@ -400,9 +400,9 @@ export default function GroupInfoScreen({ navigation }) {
           paddingHorizontal: 10,
         }}
       >
-        <Text>{groupTotalPoints}</Text>
-        <Text>{username}</Text>
-        <Text>{is_admin ? "Admin" : "Member"}</Text>
+        <Text style={styles.memberText}>{groupTotalPoints}</Text>
+        <Text style={styles.memberText}>{username}</Text>
+        <Text style={styles.memberText}>{is_admin ? "Admin" : "Member"}</Text>
       </View>
     </View>
   );
@@ -474,7 +474,7 @@ export default function GroupInfoScreen({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fdfdfd",
   },
   container: {
     flex: 1,
