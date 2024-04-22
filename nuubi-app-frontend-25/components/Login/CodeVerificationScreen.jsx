@@ -24,15 +24,18 @@ export default function CodeVerificationScreen({ navigation, route }) {
     const generateSignUpCode = async () => {
       try {
         const email = formVals.email;
-        const response = await fetch("https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode", {
-          // fetch("https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        });
+        const response = await fetch(
+          "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
+          {
+            // fetch("https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+          }
+        );
 
         if (!response.ok || response.status >= 400) {
           throw new Error("Failed to generate sign-up code");
@@ -93,19 +96,25 @@ export default function CodeVerificationScreen({ navigation, route }) {
             const hashedOTP = verificationData;
 
             try {
-              const response = await fetch("https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup", {
-                //fetch("https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ userInputCode, hashedOTP }),
-              });
+              const response = await fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
+                {
+                  //fetch("https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup", {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ userInputCode, hashedOTP }),
+                }
+              );
 
               if (!response.ok || response.status >= 400) {
                 // Handle error
-                console.error("Error validating sign-up code:", response.status);
+                console.error(
+                  "Error validating sign-up code:",
+                  response.status
+                );
                 // Show frontend error message
                 setError("Invalid passcode. Please try again.");
                 return;
@@ -114,7 +123,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
               // Successful validation, now sign up the user using the formVals obtained from SignUpScreen
               const responseData = await response.json();
 
-              fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", { 
+              fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
                 //fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
                 method: "POST",
                 credentials: "include",
@@ -134,7 +143,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  setUser({ ...data });
+                  setUser({ ...data, firstSignIn: true });
                   if (Platform.OS === "web") {
                     localStorage.setItem("token", data.token);
                   } else {
@@ -143,8 +152,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
                   if (data.status) {
                     setError(data.status);
                   }
-              });
-
+                });
 
               // Reset form after successful validation
               actions.resetForm();
@@ -161,13 +169,16 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 </Text>
                 <View style={{ marginVertical: 10 }}></View>
                 <Text style={signUpStyles.acknowledgmentText}>
-                  An email containing the verification code was sent to your email address.
+                  An email containing the verification code was sent to your
+                  email address.
                 </Text>
               </View>
               <View style={{ marginVertical: 10 }}></View>
-              <Text style={signUpStyles.loginLabelText}>Verification Code:</Text>
+              <Text style={signUpStyles.loginLabelText}>
+                Verification Code:
+              </Text>
               <TextInput
-                style={signUpStyles.passcodeInput}
+                style={[signUpStyles.passcodeInput, { padding: 10 }]}
                 placeholder="Enter 6 digit code"
                 onChangeText={props.handleChange("passcode")}
                 value={props.values.passcode}
@@ -189,17 +200,25 @@ export default function CodeVerificationScreen({ navigation, route }) {
                     style={[
                       signUpStyles.confirmButton,
                       {
-                        backgroundColor: isFieldEmpty(props.values) ? "#EBEBEB" : signUpStyles.signUpButton.backgroundColor,
+                        backgroundColor: isFieldEmpty(props.values)
+                          ? "#EBEBEB"
+                          : signUpStyles.signUpButton.backgroundColor,
                       },
                     ]}
                     accessibilityRole="button"
                     onPress={props.handleSubmit}
                     disabled={isFieldEmpty(props.values)}
                   >
-                    <Text style={[
-                      signUpStyles.signUpButtonText,
-                      { color: isFieldEmpty(props.values) ? "#33333366" : signUpStyles.signUpButtonText.color }
-                    ]}>
+                    <Text
+                      style={[
+                        signUpStyles.signUpButtonText,
+                        {
+                          color: isFieldEmpty(props.values)
+                            ? "#33333366"
+                            : signUpStyles.signUpButtonText.color,
+                        },
+                      ]}
+                    >
                       Confirm
                     </Text>
                   </TouchableOpacity>
