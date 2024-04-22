@@ -60,8 +60,8 @@ export default function GroupAnalytics({ navigation }) {
   const getMembers = async () => {
     try {
       const response = await fetch(
-        //  "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
-        "http://localhost:8080/groups/getmembers",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
+        //  "http://localhost:8080/groups/getmembers",
         {
           method: "POST",
           credentials: "include",
