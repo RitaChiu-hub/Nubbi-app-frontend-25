@@ -77,7 +77,7 @@ export default function ChangePasswordScreen({ navigation }) {
 
   return (
     <ScrollView
-      style={{}}
+      style={{ backgroundColor: "#fdfdfd" }}
       onLayout={(event) => {
         if (initialLayoutHeight === 0) {
           setInitialLayoutHeight(event.nativeEvent.layout.height);
@@ -169,12 +169,23 @@ export default function ChangePasswordScreen({ navigation }) {
               {/* Old password input */}
               <TextInput
                 style={[
-                  globalStyles.grayTextinput,
+                  {
+                    borderWidth: 1,
+                    borderColor: "#C0C0C0",
+                    backgroundColor: "#EBEBEB",
+                    fontFamily: "Poppins_400Regular",
+                    fontSize: 14,
+                    color: "#767676",
+                    padding: 14,
+                    borderRadius: 10,
+                    width: "100%",
+                    alignItems: "stretch",
+                  },
                   Platform.OS === "web" && {
                     outlineStyle: "none",
                   },
                 ]}
-                placeholder="Enter your new password"
+                placeholder="Enter your old password"
                 secureTextEntry={true}
                 onChangeText={props.handleChange("password")}
                 value={props.values.password}
@@ -211,6 +222,11 @@ export default function ChangePasswordScreen({ navigation }) {
                   style={{
                     flex: 1,
                     color: "#767676",
+                    backgroundColor: "#EBEBEB",
+                    fontFamily: "Poppins_400Regular",
+                    fontSize: 14,
+                    alignItems: "stretch",
+
                     ...(Platform.OS === "web" && {
                       outlineStyle: "none",
                     }),
@@ -263,6 +279,11 @@ export default function ChangePasswordScreen({ navigation }) {
                   style={{
                     flex: 1,
                     color: "#767676",
+                    backgroundColor: "#EBEBEB",
+                    fontFamily: "Poppins_400Regular",
+                    fontSize: 14,
+                    alignItems: "stretch",
+
                     ...(Platform.OS === "web" && {
                       outlineStyle: "none",
                     }),
