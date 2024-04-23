@@ -44,7 +44,7 @@ const SECTIONS = [
         label: "Notifications",
         icon: "bell",
         type: "link",
-        navRoute: "comingSoonAlert",
+        navRoute: "NotificationSettings",
       },
       {
         label: "Privacy and Security",

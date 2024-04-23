@@ -25,6 +25,8 @@ import ForgotPasswordLoggedOut from "./UserSettings/ForgotPasswordLoggedOut";
 import HelpScreen from "./Onboarding/HelpPage";
 import AccountScreen from "./UserSettings/AccountScreen";
 import FeedbackScreen from "./UserSettings/FeedbackScreen";
+import NotificationSettings from "./UserSettings/NotificationSettings";
+import StudyModeScreen from "./UserSettings/StudyModeScreen";
 
 import AddGroupScreen from "./Groups/AddGroup";
 import NotificationsScreen from "./Notifications/Notifications";
@@ -83,6 +85,14 @@ function SettingsStack() {
       />
       <StackSettings.Screen name="AccountScreen" component={AccountScreen} />
       <StackSettings.Screen name="FeedbackScreen" component={FeedbackScreen} />
+      <StackSettings.Screen
+        name="NotificationSettings"
+        component={NotificationSettings}
+      />
+      <StackSettings.Screen
+        name="StudyModeScreen"
+        component={StudyModeScreen}
+      />
       <StackSettings.Screen
         name="HelpLoggedIn"
         component={HelpScreen}
