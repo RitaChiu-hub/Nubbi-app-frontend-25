@@ -13,6 +13,7 @@ export const loginStyles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "Poppins_600SemiBold",
         letterSpacing: 1.25,
+        textAlign: "center"
     },
     loginLabelText: {
         color: "#333333",

@@ -5,9 +5,13 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+  Platform,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
+import { loginStyles } from "../../styles/loginStyles";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
 
@@ -53,7 +57,9 @@ export default function ForgotPasswordScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Forgot Password",
+      headerTitle: () => (
+        <Text style={globalStyles.screenHeader}>Forgot Password</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -77,21 +83,32 @@ export default function ForgotPasswordScreen({ navigation }) {
         <View
           style={{
             backgroundColor: "#fdfdfd",
-            marginTop: 20,
             paddingHorizontal: 20,
           }}
         >
-          <Text style={{ paddingVertical: 10 }}>
+          <Text
+            style={[
+              {
+                fontFamily: "Poppins_400Regular",
+                fontSize: 14,
+                color: "#333",
+                padding: 14,
+              },
+              Platform.OS === "web" && {
+                outlineStyle: "none",
+              },
+            ]}
+          >
             Click this button to send a 6 digit passcode to the email associated
             with this account. Enter the 6 digit passcode and a new password
             below.
           </Text>
           <View>
             <TouchableOpacity
-              style={globalStyles.primaryButton}
+              style={styles.loginButton}
               onPress={generatePasscode}
             >
-              <Text style={globalStyles.primaryButtonText}>Send passcode</Text>
+              <Text style={loginStyles.loginButtonText}>Send passcode</Text>
             </TouchableOpacity>
           </View>
           <View style={{ marginVertical: 5 }}></View>
@@ -144,18 +161,38 @@ export default function ForgotPasswordScreen({ navigation }) {
                 >
                   {error}
                 </Text>
-                <Text>Enter the 6 digit passcode</Text>
+                <Text
+                  style={[
+                    globalStyles.h2HeadingMedium,
+                    {
+                      fontSize: 22,
+                      marginTop: 10,
+                      color: "#606060",
+                    },
+                  ]}
+                >
+                  Enter the 6 digit passcode
+                </Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                  }}
-                  placeholder="Enter passcode"
+                  style={[
+                    {
+                      marginTop: 10,
+                      borderWidth: 1,
+                      borderColor: "#C0C0C0",
+                      backgroundColor: "#EBEBEB",
+                      fontFamily: "Poppins_400Regular",
+                      fontSize: 14,
+                      color: "#767676",
+                      padding: 14,
+                      borderRadius: 10,
+                      width: "100%",
+                      alignItems: "stretch",
+                    },
+                    Platform.OS === "web" && {
+                      outlineStyle: "none",
+                    },
+                  ]}
+                  placeholder="Enter 6 digit passcode"
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
                 />
@@ -167,17 +204,37 @@ export default function ForgotPasswordScreen({ navigation }) {
                 >
                   <ErrorMessage name="passcode" />
                 </Text>
-                <Text>Please enter your desired new password</Text>
+                <Text
+                  style={[
+                    globalStyles.h2HeadingMedium,
+                    {
+                      fontSize: 22,
+                      marginTop: 10,
+                      color: "#606060",
+                    },
+                  ]}
+                >
+                  Enter new password
+                </Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                  }}
+                  style={[
+                    {
+                      marginTop: 10,
+                      borderWidth: 1,
+                      borderColor: "#C0C0C0",
+                      backgroundColor: "#EBEBEB",
+                      fontFamily: "Poppins_400Regular",
+                      fontSize: 14,
+                      color: "#767676",
+                      padding: 14,
+                      borderRadius: 10,
+                      width: "100%",
+                      alignItems: "stretch",
+                    },
+                    Platform.OS === "web" && {
+                      outlineStyle: "none",
+                    },
+                  ]}
                   placeholder="Enter new password"
                   secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt1")}
@@ -191,17 +248,37 @@ export default function ForgotPasswordScreen({ navigation }) {
                 >
                   <ErrorMessage name="passattempt1" />
                 </Text>
-                <Text>Please enter your desired new password again</Text>
+                <Text
+                  style={[
+                    globalStyles.h2HeadingMedium,
+                    {
+                      fontSize: 22,
+                      marginTop: 10,
+                      color: "#606060",
+                    },
+                  ]}
+                >
+                  Confirm new password
+                </Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                  }}
+                  style={[
+                    {
+                      marginTop: 10,
+                      borderWidth: 1,
+                      borderColor: "#C0C0C0",
+                      backgroundColor: "#EBEBEB",
+                      fontFamily: "Poppins_400Regular",
+                      fontSize: 14,
+                      color: "#767676",
+                      padding: 14,
+                      borderRadius: 10,
+                      width: "100%",
+                      alignItems: "stretch",
+                    },
+                    Platform.OS === "web" && {
+                      outlineStyle: "none",
+                    },
+                  ]}
                   placeholder="Enter new password again"
                   secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt2")}
@@ -218,10 +295,10 @@ export default function ForgotPasswordScreen({ navigation }) {
                 <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
-                    style={globalStyles.primaryButton}
+                    style={styles.loginButton}
                     onPress={props.handleSubmit}
                   >
-                    <Text style={globalStyles.primaryButtonText}>
+                    <Text style={loginStyles.loginButtonText}>
                       Reset password
                     </Text>
                   </TouchableOpacity>
@@ -234,3 +311,31 @@ export default function ForgotPasswordScreen({ navigation }) {
     </ScrollView>
   );
 }
+
+const deviceWidth = Dimensions.get("window").width;
+const styles = StyleSheet.create({
+  loginInput: {
+    borderWidth: 1,
+    borderColor: "#C0C0C0",
+    backgroundColor: "#EBEBEB",
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#767676",
+    padding: 12,
+    borderRadius: 10,
+    // alignItems: "center",
+    // justifyContent: "center",
+    marginVertical: 5,
+    width: deviceWidth * 0.9,
+  },
+  loginButton: {
+    // alignItems: "center",
+    // justifyContent: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 60,
+    elevation: 3,
+    backgroundColor: "#2482AA",
+    width: deviceWidth * 0.9,
+  },
+});
