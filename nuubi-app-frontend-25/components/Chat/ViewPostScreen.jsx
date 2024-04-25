@@ -9,6 +9,7 @@ import {
   Platform,
   Image,
   StyleSheet,
+  Modal,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -37,6 +38,7 @@ export default function ViewPostScreen({ navigation }) {
   const [postLiked, setPostLiked] = React.useState(false);
   const [previewUrl, setPreviewUrl] = React.useState(null);
   const height = useHeaderHeight();
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   const getPostLiked = async () => {
     try {
@@ -209,6 +211,47 @@ export default function ViewPostScreen({ navigation }) {
       }}
     >
       <ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View>
+                <Image
+                  style={{
+                    borderRadius: 10,
+                    // loop through the page numbers in a pop up for the preview???
+                    width: 250,
+                    height: 350,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginVertical: 10,
+                  }}
+                  source={{
+                    uri: previewUrl,
+                  }}
+                />
+              </View>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 14,
+                    paddingHorizontal: 30,
+                    borderRadius: 60,
+                    elevation: 3,
+                    backgroundColor: "#2482AA",
+                  }}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={globalStyles.primaryButtonText}>Back</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
         <View
           style={{
             padding: 10,
@@ -310,7 +353,10 @@ export default function ViewPostScreen({ navigation }) {
                 style={{
                   paddingHorizontal: 10,
                   paddingBottom: 5,
-                  color: "#333",
+                  color: "#111111",
+                  fontFamily: "Poppins_500Medium",
+                  fontSize: 12,
+                  letterSpacing: 0.4,
                 }}
               >
                 {postInfo.post_author}: {postInfo.body_text}
@@ -334,32 +380,37 @@ export default function ViewPostScreen({ navigation }) {
                 {postInfo.file_url === null ? null : (
                   <View>
                     <View>
-                    <Text>Attached file:{" "}</Text>
-                    <TouchableOpacity
-              style={{ paddingHorizontal: 5 }}
-              accessibilityRole="button"
-              onPress={() => alert("Show modal with file Preview")}
-            >
-              <Text style={globalStyles.captionLink}>{postInfo.file_url}</Text>
-            </TouchableOpacity>
+                      <Text
+                        style={{
+                          color: "#111111",
+                          fontFamily: "Poppins_500Medium",
+                          fontSize: 12,
+                          letterSpacing: 0.4,
+                          paddingHorizontal: 7,
+                          paddingTop: 5,
+                        }}
+                      >
+                        Attached file:{" "}
+                      </Text>
+                      <TouchableOpacity
+                        style={{ paddingHorizontal: 7 }}
+                        accessibilityRole="button"
+                        onPress={() => setModalVisible(true)}
+                        //  onPress={() => alert("Show modal with file Preview")}
+                      >
+                        <Text
+                          style={{
+                            color: "#2482AA",
+                            fontFamily: "Poppins_500Medium",
+                            fontSize: 12,
+                            letterSpacing: 0.4,
+                            textDecorationLine: "underline",
+                          }}
+                        >
+                          {postInfo.file_url}
+                        </Text>
+                      </TouchableOpacity>
                     </View>
-                    <Image
-                      style={{
-                        borderRadius: 10,
-                        // loop through the page numbers in a pop up for the preview??? F
-                        width: 250,
-                        height: 350,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginVertical: 10,
-                      }}
-                      source={{
-                        uri: previewUrl,
-                        //   uri: `https://res.cloudinary.com/dvvdc9evd/image/upload/w_250,h_350,pg_3/v1712341447/image/upload/jsyo8yxcr5vpwrcobqui.jpg`,
-                        //   uri: `https://res.cloudinary.com/dvvdc9evd/image/upload/w_250,h_350,pg_3/v1711996826/image/upload/cbid3tcbtmqjr9rmptxa.jpg`,
-                        //     uri: `https://res.cloudinary.com/demo/image/fetch/w_150,h_150,c_thumb,q_95,f_jpg/https://res.cloudinary.com/demo/image/upload/multi_page_pdf.pdf`
-                      }}
-                    />
                   </View>
                 )}
               </View>
@@ -645,5 +696,157 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#fdfdfd",
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  header: {
+    marginBottom: 12,
+    alignItems: "center",
+  },
+  groupPhoto: {
+    width: 140,
+    height: 140,
+    borderRadius: 75,
+    marginBottom: 12,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#1d1d1d",
+    marginBottom: 6,
+    fontFamily: "Poppins_400Regular",
+  },
+  subtitle: {
+    fontSize: 15,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    color: "#929292",
+  },
+  passcodeLabel: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 16,
+    color: "#333",
+  },
+  tabs: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    marginBottom: 12,
+  },
+  tab: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingHorizontal: 16,
+    borderBottomWidth: 2,
+    borderColor: "#e5e7eb",
+  },
+  activeTab: {
+    borderBottomColor: "#33b7f0",
+  },
+  tabText: {
+    fontSize: 18,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "600",
+    color: "#6b7280",
+    marginLeft: 5,
+  },
+  tabIcon: {
+    color: "#6b7280",
+  },
+  activeTabIcon: {
+    color: "#33b7f0",
+  },
+  activeTabText: {
+    color: "#33b7f0",
+  },
+  label: {
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    marginBottom: 10,
+  },
+  member: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 10,
+  },
+  memberText: {
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    marginRight: 10,
+    color: "#333",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    elevation: 15,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    shadowColor: "#333333",
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowOffset: {
+      width: 0.8,
+      height: 0.8,
+    },
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  modalButton: {
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 10,
+    elevation: 2,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontFamily: "Poppins_400Regular",
+    textAlign: "center",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 10,
+  },
+  rowLabel: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#333",
   },
 });
