@@ -17,6 +17,7 @@ import socket from "../../socket";
 const { addCommentSchema } = require("../validationSchema");
 import moment from "moment";
 import { useHeaderHeight } from "@react-navigation/elements";
+import alert from "./../alert";
 
 export default function ViewPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -28,11 +29,13 @@ export default function ViewPostScreen({ navigation }) {
     body_text: "loading",
     post_author: "loading",
     image_url: null,
+    file_url: null,
     iso_time_sent: "2000-01-01T01:00:00.000000",
   });
   const [likes, setLikes] = React.useState([]);
   const [isChanged, setIsChanged] = React.useState(false);
   const [postLiked, setPostLiked] = React.useState(false);
+  const [previewUrl, setPreviewUrl] = React.useState(null);
   const height = useHeaderHeight();
 
   const getPostLiked = async () => {
@@ -95,6 +98,20 @@ export default function ViewPostScreen({ navigation }) {
       );
       const jsonData = await response.json();
       setPostInfo(jsonData);
+      if (jsonData.file_url !== null) {
+        const parts = jsonData.file_url.split("upload/");
+        const jpgPart2 = parts[2].split("pdf");
+        setPreviewUrl(
+          parts[0] +
+            "upload/w_250,h_350,pg_3/" +
+            parts[1] +
+            "upload/" +
+            jpgPart2[0] +
+            "jpg"
+        );
+      } else {
+        null;
+      }
     } catch (err) {
       console.error(err.message);
     }
@@ -316,19 +333,31 @@ export default function ViewPostScreen({ navigation }) {
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 {postInfo.file_url === null ? null : (
                   <View>
-                    <Text>{postInfo.file_url}</Text>
+                    <View>
+                    <Text>Attached file:{" "}</Text>
+                    <TouchableOpacity
+              style={{ paddingHorizontal: 5 }}
+              accessibilityRole="button"
+              onPress={() => alert("Show modal with file Preview")}
+            >
+              <Text style={globalStyles.captionLink}>{postInfo.file_url}</Text>
+            </TouchableOpacity>
+                    </View>
                     <Image
                       style={{
                         borderRadius: 10,
                         // loop through the page numbers in a pop up for the preview??? F
                         width: 250,
-                        height: 250,
+                        height: 350,
                         justifyContent: "center",
                         alignItems: "center",
                         marginVertical: 10,
                       }}
                       source={{
-                        uri: `https://res.cloudinary.com/dvvdc9evd/image/upload/pg_3/v1711996826/image/upload/cbid3tcbtmqjr9rmptxa.jpg`,
+                        uri: previewUrl,
+                        //   uri: `https://res.cloudinary.com/dvvdc9evd/image/upload/w_250,h_350,pg_3/v1712341447/image/upload/jsyo8yxcr5vpwrcobqui.jpg`,
+                        //   uri: `https://res.cloudinary.com/dvvdc9evd/image/upload/w_250,h_350,pg_3/v1711996826/image/upload/cbid3tcbtmqjr9rmptxa.jpg`,
+                        //     uri: `https://res.cloudinary.com/demo/image/fetch/w_150,h_150,c_thumb,q_95,f_jpg/https://res.cloudinary.com/demo/image/upload/multi_page_pdf.pdf`
                       }}
                     />
                   </View>
