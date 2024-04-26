@@ -20,6 +20,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
+    "cloudinary": "^2.2.0",
     "eas-cli": "^3.8.1",
     "expo": "^50.0.14",
     "expo-app-loading": "^2.1.1",

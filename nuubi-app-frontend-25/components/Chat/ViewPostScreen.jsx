@@ -19,6 +19,7 @@ const { addCommentSchema } = require("../validationSchema");
 import moment from "moment";
 import { useHeaderHeight } from "@react-navigation/elements";
 import alert from "./../alert";
+const cloudinary = require("cloudinary").v2;
 
 export default function ViewPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -199,6 +200,32 @@ export default function ViewPostScreen({ navigation }) {
 
   // const KeyboardBehavior = Platform.OS === "ios" ? "padding" : "false";
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
+
+  // Function to get metadata of a PDF file from its URL
+  function getPdfMetadataFromUrl(url) {
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.explicit(url, { pages: true }, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.pages);
+        }
+      });
+    });
+  }
+
+  console.log(getPdfMetadataFromUrl({ ...previewUrl }));
+
+  // Example usage with Cloudinary URL
+  const pdfUrl =
+    "https://res.cloudinary.com/your_cloud_name/image/upload/sample.pdf";
+  getPdfMetadataFromUrl(pdfUrl)
+    .then((pages) => {
+      console.log(`The PDF has ${pages} pages.`);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 
   return (
     <KeyboardAvoidingView
