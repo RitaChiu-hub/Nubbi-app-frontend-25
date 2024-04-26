@@ -105,7 +105,7 @@ export default function ViewPostScreen({ navigation }) {
         const jpgPart2 = parts[2].split("pdf");
         setPreviewUrl(
           parts[0] +
-            "upload/w_250,h_350,pg_3/" +
+            "upload/pg_1,q_100/" +
             parts[1] +
             "upload/" +
             jpgPart2[0] +
