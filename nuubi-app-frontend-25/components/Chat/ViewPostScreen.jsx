@@ -20,6 +20,7 @@ const { addCommentSchema } = require("../validationSchema");
 import moment from "moment";
 import { useHeaderHeight } from "@react-navigation/elements";
 import FeatherIcon from "@expo/vector-icons/Feather";
+import alert from "./../alert";
 
 export default function ViewPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -281,10 +282,9 @@ export default function ViewPostScreen({ navigation }) {
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-between",
+                  justifyContent: "space-around",
                   alignItems: "center",
                   width: "100%",
-                  backgroundColor: "red",
                 }}
                 accessibilityRole="none"
               >
@@ -309,7 +309,7 @@ export default function ViewPostScreen({ navigation }) {
                     elevation: 3,
                     backgroundColor: "#2482AA",
                   }}
-                  onPress={() => setModalVisible(false)}
+                  onPress={() => alert("File Downloads are coming soon!")}
                 >
                   <FeatherIcon name="download" color="#fdfdfd" size={20} />
                 </TouchableOpacity>
