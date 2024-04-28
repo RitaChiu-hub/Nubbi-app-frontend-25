@@ -10,6 +10,7 @@ import {
   Image,
   StyleSheet,
   Modal,
+  Dimensions,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -18,8 +19,7 @@ import socket from "../../socket";
 const { addCommentSchema } = require("../validationSchema");
 import moment from "moment";
 import { useHeaderHeight } from "@react-navigation/elements";
-import alert from "./../alert";
-const cloudinary = require("cloudinary").v2;
+import FeatherIcon from "@expo/vector-icons/Feather";
 
 export default function ViewPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -40,6 +40,7 @@ export default function ViewPostScreen({ navigation }) {
   const [previewUrl, setPreviewUrl] = React.useState(null);
   const height = useHeaderHeight();
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [previewUrls, setPreviewUrls] = React.useState([]);
 
   const getPostLiked = async () => {
     try {
@@ -89,7 +90,7 @@ export default function ViewPostScreen({ navigation }) {
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
+        // `http://localhost:8080/groups/getpostinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -112,6 +113,22 @@ export default function ViewPostScreen({ navigation }) {
             jpgPart2[0] +
             "jpg"
         );
+
+        //  const totalPages = 3; // Change this to the total number of pages in your PDF
+        const totalPages = jsonData.filePages;
+        const urls = [];
+        for (let i = 1; i <= totalPages; i++) {
+          urls.push(
+            parts[0] +
+              `upload/pg_${i},q_100/` +
+              parts[1] +
+              "upload/" +
+              jpgPart2[0] +
+              "jpg"
+          );
+        }
+        setPreviewUrls(urls);
+        //   console.log(jsonData.filePages);
       } else {
         null;
       }
@@ -198,34 +215,9 @@ export default function ViewPostScreen({ navigation }) {
     });
   }, [navigation]);
 
-  // const KeyboardBehavior = Platform.OS === "ios" ? "padding" : "false";
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
-  // Function to get metadata of a PDF file from its URL
-  function getPdfMetadataFromUrl(url) {
-    return new Promise((resolve, reject) => {
-      cloudinary.uploader.explicit(url, { pages: true }, (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result.pages);
-        }
-      });
-    });
-  }
-
-  console.log(getPdfMetadataFromUrl({ ...previewUrl }));
-
-  // Example usage with Cloudinary URL
-  const pdfUrl =
-    "https://res.cloudinary.com/your_cloud_name/image/upload/sample.pdf";
-  getPdfMetadataFromUrl(pdfUrl)
-    .then((pages) => {
-      console.log(`The PDF has ${pages} pages.`);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  // console.log("the url has this many pages: " + pdfPages);
 
   return (
     <KeyboardAvoidingView
@@ -245,24 +237,57 @@ export default function ViewPostScreen({ navigation }) {
           onRequestClose={() => setModalVisible(false)}
         >
           <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View>
-                <Image
-                  style={{
-                    borderRadius: 10,
-                    // loop through the page numbers in a pop up for the preview???
-                    width: 250,
-                    height: 350,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginVertical: 10,
-                  }}
-                  source={{
-                    uri: previewUrl,
-                  }}
-                />
-              </View>
-              <View style={styles.modalButtons}>
+            <View
+              //style={styles.modalView}
+              style={{
+                backgroundColor: "#fdfdfd",
+                maxWidth: Dimensions.get("window").width * 0.8,
+                maxHeight: Dimensions.get("window").height * 0.7,
+                borderRadius: 20,
+                padding: 35,
+                alignItems: "center",
+                elevation: 15,
+                borderWidth: 1,
+                borderColor: "#ddd",
+                shadowColor: "#333333",
+                shadowOpacity: 0.5,
+                shadowRadius: 2,
+                shadowOffset: {
+                  width: 0.8,
+                  height: 0.8,
+                },
+              }}
+            >
+              <ScrollView>
+                {previewUrls.map((url, index) => (
+                  <Image
+                    key={index}
+                    style={{
+                      borderRadius: 10,
+                      width: 250,
+                      height: 350,
+                      maxWidth: Dimensions.get("window").width * 0.7,
+                      maxHeight: Dimensions.get("window").height * 0.6,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginVertical: 10,
+                      marginHorizontal: 10,
+                    }}
+                    source={{ uri: url }}
+                  />
+                ))}
+              </ScrollView>
+              <View style={{ paddingVertical: 10 }}></View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  backgroundColor: "red",
+                }}
+                accessibilityRole="none"
+              >
                 <TouchableOpacity
                   style={{
                     paddingVertical: 14,
@@ -274,6 +299,19 @@ export default function ViewPostScreen({ navigation }) {
                   onPress={() => setModalVisible(false)}
                 >
                   <Text style={globalStyles.primaryButtonText}>Back</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 14,
+                    paddingHorizontal: 30,
+                    borderRadius: 60,
+                    elevation: 3,
+                    backgroundColor: "#2482AA",
+                  }}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <FeatherIcon name="download" color="#fdfdfd" size={20} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -403,6 +441,7 @@ export default function ViewPostScreen({ navigation }) {
                   />
                 )}
               </View>
+
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 {postInfo.file_url === null ? null : (
                   <View>
