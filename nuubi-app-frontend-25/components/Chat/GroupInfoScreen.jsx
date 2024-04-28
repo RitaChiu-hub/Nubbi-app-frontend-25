@@ -286,7 +286,7 @@ export default function GroupInfoScreen({ navigation }) {
         style={styles.row}
         onPress={() => navigation.navigate("GroupAnalytics")}
       >
-        <Text style={styles.rowLabel}>Group Analytics</Text>
+        <Text style={styles.rowLabel}>Group Analytics Dashboard</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
       <TouchableOpacity
@@ -310,6 +310,23 @@ export default function GroupInfoScreen({ navigation }) {
         <Text style={styles.rowLabel}>Community Roles</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => triggerComingSoonAlert()}
+      >
+        <Text style={styles.rowLabel}>Group Files</Text>
+        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => triggerComingSoonAlert()}
+      >
+        <Text style={styles.rowLabel}>Group Images</Text>
+        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+      </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.row}
         onPress={() => navigation.navigate("HelpLoggedIn")}
@@ -437,7 +454,7 @@ export default function GroupInfoScreen({ navigation }) {
             style={styles.groupPhoto}
           />
 
-          <Text style={styles.title}>{groupTitle}</Text>
+          {/* <Text style={styles.title}>{groupTitle}</Text> */}
         </View>
 
         <View style={styles.tabs}>
@@ -484,7 +501,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   header: {
-    marginBottom: 12,
+    marginBottom: 10,
     alignItems: "center",
   },
   groupPhoto: {
@@ -513,8 +530,8 @@ const styles = StyleSheet.create({
   },
   tabs: {
     flexDirection: "row",
-    backgroundColor: "#fff",
-    marginBottom: 12,
+    alignItems: "center",
+    backgroundColor: "#fdfdfd",
   },
   tab: {
     flexDirection: "row",
