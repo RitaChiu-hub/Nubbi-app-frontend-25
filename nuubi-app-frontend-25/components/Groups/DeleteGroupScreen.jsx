@@ -42,7 +42,7 @@ export default function DeleteGroupScreen({ navigation }) {
             const passattempt = vals.passattempt;
             actions.resetForm();
             fetch(
-              "http://localhost:8080/groups/deletegroup",
+              "https://coral-app-n96bn.ondigitalocean.app/groups/deletegroup",
               {
                 method: "POST",
                 credentials: "include",

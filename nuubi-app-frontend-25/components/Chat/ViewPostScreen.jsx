@@ -46,7 +46,7 @@ export default function ViewPostScreen({ navigation }) {
   const getPostLiked = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostliked`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostliked`,
         {
           method: "POST",
           credentials: "include",
@@ -66,7 +66,7 @@ export default function ViewPostScreen({ navigation }) {
   const getLikes = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getcommentlikes`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getcommentlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -90,8 +90,8 @@ export default function ViewPostScreen({ navigation }) {
   const getPostInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostinfo`,
-        // `http://localhost:8080/groups/getpostinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
+        // `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -141,7 +141,7 @@ export default function ViewPostScreen({ navigation }) {
   const getPostPoints = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostpoints`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -161,7 +161,7 @@ export default function ViewPostScreen({ navigation }) {
   const getComments = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/${user.currentGroup}/posts/${user.currentPost}/getcomments`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/posts/${user.currentPost}/getcomments`,
         {
           method: "POST",
           credentials: "include",
@@ -373,7 +373,7 @@ export default function ViewPostScreen({ navigation }) {
                     }
 
                     fetch(
-                      `http://localhost:8080/groups/addpostpoint`,
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/addpostpoint`,
                       {
                         method: "POST",
                         credentials: "include",
@@ -609,7 +609,7 @@ export default function ViewPostScreen({ navigation }) {
                         }
 
                         fetch(
-                          `http://localhost:8080/groups/addcommentpoint`,
+                          `https://coral-app-n96bn.ondigitalocean.app/groups/addcommentpoint`,
                           {
                             method: "POST",
                             credentials: "include",

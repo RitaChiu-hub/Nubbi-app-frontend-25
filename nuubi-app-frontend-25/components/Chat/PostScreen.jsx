@@ -29,7 +29,7 @@ export default function PostScreen({ navigation }) {
   const getPosts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/${user.currentGroup}/posts`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/posts`,
         {
           method: "POST",
           credentials: "include",

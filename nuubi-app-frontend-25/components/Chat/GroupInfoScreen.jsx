@@ -170,7 +170,7 @@ export default function GroupInfoScreen({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -203,7 +203,7 @@ export default function GroupInfoScreen({ navigation }) {
   const getMemberCount = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getmembercount`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
         {
           method: "POST",
           credentials: "include",
@@ -223,8 +223,8 @@ export default function GroupInfoScreen({ navigation }) {
   const getMembers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getleaderboard",
-        //   "http://localhost:8080/groups/getleaderboard",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
+        //   "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
         {
           method: "POST",
           credentials: "include",
@@ -665,7 +665,7 @@ const styles = StyleSheet.create({
 //   const getGroupInfo = async () => {
 //     try {
 //       const response = await fetch(
-//         `http://localhost:8080/groups/getgroupinfo`,
+//         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -704,7 +704,7 @@ const styles = StyleSheet.create({
 //   const getMemberCount = async () => {
 //     try {
 //       const response = await fetch(
-//         `http://localhost:8080/groups/getmembercount`,
+//         `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -724,7 +724,7 @@ const styles = StyleSheet.create({
 //   const getMembers = async () => {
 //     try {
 //       const response = await fetch(
-//         "http://localhost:8080/groups/getmembers",
+//         "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -1092,7 +1092,7 @@ const styles = StyleSheet.create({
 //               }}
 //               onPress={() => {
 //                 fetch(
-//                   "http://localhost:8080/groups/leavegroup",
+//                   "https://coral-app-n96bn.ondigitalocean.app/groups/leavegroup",
 //                   {
 //                     method: "POST",
 //                     credentials: "include",

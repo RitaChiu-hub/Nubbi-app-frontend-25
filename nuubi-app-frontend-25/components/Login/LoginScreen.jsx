@@ -65,8 +65,9 @@ export default function LoginScreen({ navigation }) {
             values.username = values.username.trim();
             const vals = { ...values };
             actions.resetForm();
-            //    fetch(`http://localhost:8080/auth/login`, {
-            fetch(`http://localhost:8080/auth/login`, {
+            console.log("hi"); // new
+            //    fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
+            fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
               method: "POST",
               credentials: "include",
               headers: {
@@ -75,12 +76,15 @@ export default function LoginScreen({ navigation }) {
               body: JSON.stringify(vals),
             })
               .catch((err) => {
+                console.log(err); // new
                 return;
               })
               .then((res) => {
                 if (!res || !res.ok || res.status >= 400) {
+                  console.log(res); // new
                   return;
                 }
+                console.log(res); // new
                 return res.json();
               })
               .then((data) => {

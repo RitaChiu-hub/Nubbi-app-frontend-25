@@ -136,7 +136,7 @@ export default function SignUpScreen({ navigation }) {
 
             actions.resetForm();
             fetch(
-              "http://localhost:8080/auth/checkemail",
+              "https://coral-app-n96bn.ondigitalocean.app/auth/checkemail",
               {
                 method: "POST",
                 credentials: "include",
