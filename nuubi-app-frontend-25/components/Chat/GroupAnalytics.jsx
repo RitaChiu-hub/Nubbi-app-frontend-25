@@ -23,7 +23,7 @@ export default function GroupAnalytics({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -61,7 +61,7 @@ export default function GroupAnalytics({ navigation }) {
   const getMembers = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
+        "http://localhost:8080/groups/getmembers",
         //  "http://localhost:8080/groups/getmembers",
         {
           method: "POST",

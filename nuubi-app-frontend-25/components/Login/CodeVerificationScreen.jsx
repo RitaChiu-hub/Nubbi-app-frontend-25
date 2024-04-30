@@ -25,9 +25,9 @@ export default function CodeVerificationScreen({ navigation, route }) {
       try {
         const email = formVals.email;
         const response = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
+          "http://localhost:8080/settings/generatesignupcode",
           {
-            // fetch("https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode", {
+            // fetch("http://localhost:8080/settings/generatesignupcode", {
             method: "POST",
             credentials: "include",
             headers: {
@@ -97,9 +97,9 @@ export default function CodeVerificationScreen({ navigation, route }) {
 
             try {
               const response = await fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
+                "http://localhost:8080/settings/validatesignup",
                 {
-                  //fetch("https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup", {
+                  //fetch("http://localhost:8080/settings/validatesignup", {
                   method: "POST",
                   credentials: "include",
                   headers: {
@@ -123,8 +123,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
               // Successful validation, now sign up the user using the formVals obtained from SignUpScreen
               const responseData = await response.json();
 
-              fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
-                //fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
+              fetch("http://localhost:8080/auth/signup", {
+                //fetch("http://localhost:8080/auth/signup", {
                 method: "POST",
                 credentials: "include",
                 headers: {

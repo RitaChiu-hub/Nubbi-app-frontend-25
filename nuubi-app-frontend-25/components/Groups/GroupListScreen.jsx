@@ -24,7 +24,7 @@ export default function GroupListScreen({ navigation }) {
   const getGroups = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getpublicgroups",
+        "http://localhost:8080/groups/getpublicgroups",
         {
           credentials: "include",
         }
@@ -65,7 +65,7 @@ export default function GroupListScreen({ navigation }) {
           setUser({ ...user, currentGroup: id, groupName: title }),
             navigation.navigate("Group Chat");
           const joinGroupId = id;
-          fetch("https://coral-app-n96bn.ondigitalocean.app/groups/joingroup", {
+          fetch("http://localhost:8080/groups/joingroup", {
             method: "POST",
             credentials: "include",
             headers: {
