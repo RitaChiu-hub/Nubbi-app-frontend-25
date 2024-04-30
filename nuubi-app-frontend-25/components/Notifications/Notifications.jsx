@@ -3,16 +3,19 @@ import { View, Text } from "react-native";
 import { globalStyles } from "../../styles/global";
 
 export default function NotificationsScreen({ navigation }) {
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Notifications",
+      headerTitle: () => (
+        <Text style={globalStyles.screenHeader}>Notifications</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Notifications coming soon!</Text>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#fdfdfd" }}>
+      <Text style={globalStyles.body2Regular}>Notifications coming soon!</Text>
     </View>
   );
 }

@@ -4,6 +4,7 @@ import { globalStyles } from "../../styles/global";
 import { loginStyles } from "../../styles/loginStyles";
 
 export default function AddGroupScreen({ navigation }) {
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -32,7 +33,7 @@ export default function AddGroupScreen({ navigation }) {
           }}
         >
           <Text style={loginStyles.loginButtonText}>
-            Join Group With Passcode
+            Join Private Group
           </Text>
         </TouchableOpacity>
         <View style={{ padding: 10 }}></View>

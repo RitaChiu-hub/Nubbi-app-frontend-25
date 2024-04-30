@@ -8,11 +8,13 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
+import { loginStyles } from "../../styles/loginStyles";
 
 export default function JoinGroupWithPasscode({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -20,7 +22,9 @@ export default function JoinGroupWithPasscode({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Join group with passcode",
+      headerTitle: () => (
+        <Text style={globalStyles.screenHeader}>Join Private Group</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -37,10 +41,6 @@ export default function JoinGroupWithPasscode({ navigation }) {
         <View
           style={{
             marginVertical: 20,
-            // flex: 1,
-            // backgroundColor: "#fdfdfd",
-            // alignItems: "center",
-            // justifyContent: "center",
           }}
         >
           <Formik
@@ -91,18 +91,9 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 >
                   {error}
                 </Text>
-                <Text>Passcode</Text>
+                <Text style={loginStyles.loginLabelText}>Passcode</Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                    marginBottom: 5,
-                  }}
+                  style={styles.loginInput}
                   placeholder="Enter passcode"
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
@@ -115,18 +106,9 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 >
                   <ErrorMessage name="passcode" />
                 </Text>
-                <Text>Admin username</Text>
+                <Text style={loginStyles.loginLabelText}>Admin username</Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                    marginBottom: 5,
-                  }}
+                  style={styles.loginInput}
                   placeholder="Enter admin username"
                   onChangeText={props.handleChange("admin")}
                   value={props.values.admin}
@@ -141,10 +123,10 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 </Text>
                 <View style={{ marginVertical: 5 }}></View>
                 <TouchableOpacity
-                  style={globalStyles.primaryButton}
+                  style={loginStyles.loginButton}
                   onPress={props.handleSubmit}
                 >
-                  <Text style={globalStyles.primaryButtonText}>Join group</Text>
+                  <Text style={loginStyles.loginButtonText}>Join group</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -154,3 +136,33 @@ export default function JoinGroupWithPasscode({ navigation }) {
     </ScrollView>
   );
 }
+
+const deviceWidth = Dimensions.get("window").width;
+const styles = StyleSheet.create({
+  loginInput: {
+    flex: 0.5,
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "#C0C0C0",
+    backgroundColor: "#EBEBEB",
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#767676",
+    padding: 12,
+    borderRadius: 10,
+    alignItems: "stretch",
+    marginVertical: 5,
+    width: deviceWidth * 0.9,
+  },
+  passwordInputContainer: {
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "#C0C0C0",
+    backgroundColor: "#EBEBEB",
+    padding: 8,
+    borderRadius: 10,
+    width: deviceWidth * 0.9,
+    alignItems: "stretch",
+    marginVertical: 5,
+  },
+});

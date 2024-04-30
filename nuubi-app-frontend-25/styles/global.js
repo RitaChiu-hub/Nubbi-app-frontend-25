@@ -195,7 +195,7 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 20,
     backgroundColor: "transparent",
-    borderColor: "#228ee7",
+    borderColor: "#2482AA",
     borderWidth: 5,
     borderRadius: 12,
   },
