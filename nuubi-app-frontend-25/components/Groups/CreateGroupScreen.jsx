@@ -92,9 +92,6 @@ export default function CreateGroupScreen({ navigation }) {
                   if (data.status) {
                     setError(data.status);
                   }
-                  // else if (data.loggedIn) {
-                  //   SecureStore.setItemAsync("token", data.token);
-                  // }
                 });
             }}
           >
@@ -111,7 +108,7 @@ export default function CreateGroupScreen({ navigation }) {
                     {error}
                   </Text>
                   <View>
-                    <Text style={loginStyles.loginLabelText}>Group name</Text>
+                    <Text style={loginStyles.loginLabelText}>Group Name</Text>
                     <TextInput
                       style={styles.loginInput}
                       placeholder="Enter group name"

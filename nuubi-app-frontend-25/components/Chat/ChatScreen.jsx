@@ -313,7 +313,7 @@ export default function ChatScreen({ navigation }) {
                 key={chats.messages_id}
                 style={{
                   backgroundColor: "transparent",
-                  padding: 5,
+                  padding: 8,
                   marginTop: 10,
                   marginRight: 40,
                   elevation: 15,

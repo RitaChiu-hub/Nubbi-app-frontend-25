@@ -7,12 +7,15 @@ import {
   ScrollView,
   Keyboard,
   Platform,
+  Dimensions,
+  StyleSheet
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 const { createGroupSchema } = require("../validationSchema");
+import { loginStyles } from "../../styles/loginStyles";
 
 export default function EditGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -31,7 +34,9 @@ export default function EditGroupScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Edit Group Info",
+      headerTitle: () => (
+        <Text style={globalStyles.screenHeader}>Edit Group</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -84,9 +89,6 @@ export default function EditGroupScreen({ navigation }) {
                   if (data.status) {
                     setError(data.status);
                   }
-                  // else if (data.loggedIn) {
-                  //   SecureStore.setItemAsync("token", data.token);
-                  // }
                 });
             }}
           >
@@ -102,10 +104,10 @@ export default function EditGroupScreen({ navigation }) {
                   >
                     {error}
                   </Text>
-                  <View style={{ marginRight: -30 }}>
-                    <Text>Group name</Text>
+                  <View >
+                  <Text style={loginStyles.loginLabelText}>Group Name</Text>
                     <TextInput
-                      style={globalStyles.input}
+                      style={styles.loginInput}
                       placeholder="Enter group name"
                       onChangeText={props.handleChange("groupname")}
                       value={props.values.groupname}
@@ -121,10 +123,10 @@ export default function EditGroupScreen({ navigation }) {
                     >
                       <ErrorMessage name="groupname" />
                     </Text>
-                    <Text>Description</Text>
+                    <Text style={loginStyles.loginLabelText}>Description</Text>
                     <TextInput
                       // make the text box larger? Make sure it's maximum 255 characters.
-                      style={globalStyles.inputLarge}
+                      style={styles.loginInputLarge}
                       multiline={true}
                       placeholder="Enter description"
                       onChangeText={props.handleChange("description")}
@@ -141,7 +143,7 @@ export default function EditGroupScreen({ navigation }) {
                     >
                       <ErrorMessage name="description" />
                     </Text>
-                    <Text>Visibility</Text>
+                    <Text style={loginStyles.loginLabelText}>Visibility</Text>
                     <View style={{ marginVertical: 5 }}></View>
                     <View style={globalStyles.buttonContainer}>
                       <View>
@@ -155,7 +157,7 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Private");
                           }}
                         >
-                          <Text style={globalStyles.secondaryButtonText}>
+                          <Text style={styles.radioText}>
                             Private
                           </Text>
                         </TouchableOpacity>
@@ -171,7 +173,7 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Public");
                           }}
                         >
-                          <Text style={globalStyles.secondaryButtonText}>
+                         <Text style={styles.radioText}>
                             Public
                           </Text>
                         </TouchableOpacity>
@@ -180,10 +182,10 @@ export default function EditGroupScreen({ navigation }) {
                   </View>
                   <View style={{ marginVertical: 10 }}></View>
                   <TouchableOpacity
-                    style={globalStyles.primaryButton}
+               style={loginStyles.loginButton}
                     onPress={props.handleSubmit}
                   >
-                    <Text style={globalStyles.primaryButtonText}>
+                  <Text style={loginStyles.loginButtonText}>
                       Update Group
                     </Text>
                   </TouchableOpacity>
@@ -196,3 +198,61 @@ export default function EditGroupScreen({ navigation }) {
     </ScrollView>
   );
 }
+
+
+
+const deviceWidth = Dimensions.get("window").width;
+const styles = StyleSheet.create({
+  loginInput: {
+    flex: 0.5,
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "#C0C0C0",
+    backgroundColor: "#EBEBEB",
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#767676",
+    padding: 12,
+    borderRadius: 10,
+    alignItems: "stretch",
+    marginVertical: 5,
+    width: deviceWidth * 0.9,
+  },
+  loginInputLarge: {
+    flex: 0.5,
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "#C0C0C0",
+    backgroundColor: "#EBEBEB",
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#767676",
+    padding: 12,
+    borderRadius: 10,
+    alignItems: "stretch",
+    width: deviceWidth * 0.9,
+    height: 200,
+    paddingTop: 12,
+    paddingRight: 12,
+    textAlignVertical: "top",
+  },
+  passwordInputContainer: {
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "#C0C0C0",
+    backgroundColor: "#EBEBEB",
+    padding: 8,
+    borderRadius: 10,
+    width: deviceWidth * 0.9,
+    alignItems: "stretch",
+    marginVertical: 5,
+  },
+  radioText: {
+    color: "#333333",
+    fontSize: 14,
+    fontFamily: "Poppins_600SemiBold",
+    letterSpacing: 1.25,
+    // marginTop: 8,
+    //  marginBottom: 4,
+  },
+});
