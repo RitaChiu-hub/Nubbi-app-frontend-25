@@ -2,10 +2,8 @@ import * as React from "react";
 import {
   Text,
   View,
-  TouchableOpacity,
   FlatList,
   Dimensions,
-  StyleSheet,
   ScrollView,
   Platform,
 } from "react-native";
@@ -277,39 +275,3 @@ export default function GroupAnalytics({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 12,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  column: {
-    flex: 1,
-    alignItems: "center",
-  },
-  member: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#ccc",
-    paddingVertical: 10,
-  },
-  memberText: {
-    fontSize: 16,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "500",
-    marginRight: 10,
-    color: "#333",
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#ccc",
-    paddingVertical: 10,
-  },
-});

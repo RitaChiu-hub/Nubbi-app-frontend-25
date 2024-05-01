@@ -3,10 +3,8 @@ import {
   TextInput,
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -132,33 +130,3 @@ export default function JoinGroupWithPasscode({ navigation }) {
     </ScrollView>
   );
 }
-
-const deviceWidth = Dimensions.get("window").width;
-const styles = StyleSheet.create({
-  loginInput: {
-    flex: 0.5,
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    fontFamily: "Poppins_400Regular",
-    fontSize: 14,
-    color: "#767676",
-    padding: 12,
-    borderRadius: 10,
-    alignItems: "stretch",
-    marginVertical: 5,
-    width: deviceWidth * 0.9,
-  },
-  passwordInputContainer: {
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    padding: 8,
-    borderRadius: 10,
-    width: deviceWidth * 0.9,
-    alignItems: "stretch",
-    marginVertical: 5,
-  },
-});

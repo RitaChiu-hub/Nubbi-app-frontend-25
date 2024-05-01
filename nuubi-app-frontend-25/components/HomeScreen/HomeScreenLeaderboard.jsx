@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   ScrollView,
   Dimensions,
@@ -12,7 +11,6 @@ import "../../assets/nuubiicon.png";
 import { globalStyles } from "../../styles/global";
 
 const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
 
 export default function HomeScreenLeaderboard() {
   const [leaderboardStats, setLeaderboardStats] = useState([

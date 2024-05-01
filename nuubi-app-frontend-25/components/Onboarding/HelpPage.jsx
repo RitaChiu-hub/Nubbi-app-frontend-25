@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Image,
-  Dimensions,
-} from "react-native";
+import { View, Text, ScrollView, Image, Dimensions } from "react-native";
 import { globalStyles } from "../../styles/global";
 
 const dimensions = Dimensions.get("window");
@@ -75,8 +67,12 @@ export default function HelpScreen({ navigation }) {
             resizeMode="contain"
           />
         </View>
-        <Text style={globalStyles.header}>2. How do I join a private group? </Text>
-        <Text style={globalStyles.text}>1. Before you begin, you will need:</Text>
+        <Text style={globalStyles.header}>
+          2. How do I join a private group?{" "}
+        </Text>
+        <Text style={globalStyles.text}>
+          1. Before you begin, you will need:
+        </Text>
         <Text style={globalStyles.indentText}>
           1. Find out the username of the admin of the group
         </Text>
@@ -209,12 +205,16 @@ export default function HelpScreen({ navigation }) {
           group to private or public under visibility.
         </Text>
 
-        <Text style={globalStyles.header}>7. How do I create my own group? </Text>
+        <Text style={globalStyles.header}>
+          7. How do I create my own group?{" "}
+        </Text>
         <Text style={globalStyles.text}>
           1. From the home page, select the + sign on the bottom of the page in
           the middle
         </Text>
-        <Text style={globalStyles.text}>2. Next select “Create New Group” </Text>
+        <Text style={globalStyles.text}>
+          2. Next select “Create New Group”{" "}
+        </Text>
         <Text style={globalStyles.text}>
           3. Enter your group's information: the group name, group description,
           and whether you want it to be a public or private group.
@@ -299,7 +299,9 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>9. How do I add a discussion post? </Text>
+        <Text style={globalStyles.header}>
+          9. How do I add a discussion post?{" "}
+        </Text>
         <Text style={globalStyles.text}>1. Repeat steps from #8.</Text>
         <Text style={globalStyles.text}>
           2. From the posts screen select the pen and pad in the top right
@@ -377,7 +379,9 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>11. How do I change my settings?</Text>
+        <Text style={globalStyles.header}>
+          11. How do I change my settings?
+        </Text>
         <Text style={globalStyles.text}>
           1. Select your “Profile Page” icon in the bottom right of the home
           screen it. It should like the outline of a person.
@@ -418,33 +422,3 @@ export default function HelpScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 18,
-    color: "#4d4d4d",
-    paddingTop: 10,
-    marginLeft: 15,
-    marginRight: 25,
-    fontFamily: "Futura",
-  },
-  indentText: {
-    fontSize: 18,
-    color: "#4d4d4d",
-    fontFamily: "Futura",
-    paddingTop: 10,
-    marginLeft: 15,
-    marginRight: 25,
-    paddingLeft: 15,
-  },
-  header: {
-    fontSize: 18,
-    color: "#333",
-    paddingTop: 20,
-    marginLeft: 15,
-    marginRight: 25,
-    fontWeight: "bold",
-    fontSize: 18,
-    textAlign: "left",
-  },
-});

@@ -4,7 +4,6 @@ import {
   Keyboard,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -160,57 +159,3 @@ export default function FeedbackScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-// This is the styles, call by Ex.. (globalStyles.text)
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#f8f8f8",
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-  textCount: {
-    textAlign: "right",
-    marginRight: 25,
-    marginLeft: 15,
-    fontSize: 17,
-    color: "#4d4d4d",
-    alignSelf: "flex-end",
-  },
-  text: {
-    fontSize: 19,
-    color: "#4d4d4d",
-    marginLeft: 15,
-    marginRight: 25,
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#123234",
-    borderRadius: 20,
-    padding: 10,
-    fontSize: 18,
-    marginTop: 10,
-    marginLeft: 15,
-    marginRight: 25,
-    minWidth: "90%",
-    maxWidth: "90%",
-    width: "100%",
-    height: 200,
-    alignItems: "stretch",
-    textAlignVertical: "top",
-  },
-  headerText: {
-    fontSize: 25,
-    color: "#333",
-    marginLeft: 15,
-    marginRight: 25,
-    fontWeight: "bold",
-    textAlign: "left",
-  },
-  primaryButtonText: {
-    color: "#111111",
-    fontSize: 14,
-    fontFamily: "Poppins_700Bold",
-    letterSpacing: 1.25,
-  },
-});

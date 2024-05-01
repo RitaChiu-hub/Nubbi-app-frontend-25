@@ -5,8 +5,6 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  Dimensions,
-  StyleSheet,
   Platform,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
@@ -311,30 +309,4 @@ export default function ForgotPasswordScreen({ navigation }) {
   );
 }
 
-const deviceWidth = Dimensions.get("window").width;
-const styles = StyleSheet.create({
-  loginInput: {
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    fontFamily: "Poppins_400Regular",
-    fontSize: 14,
-    color: "#767676",
-    padding: 12,
-    borderRadius: 10,
-    // alignItems: "center",
-    // justifyContent: "center",
-    marginVertical: 5,
-    width: deviceWidth * 0.9,
-  },
-  loginButton: {
-    // alignItems: "center",
-    // justifyContent: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 60,
-    elevation: 3,
-    backgroundColor: "#2482AA",
-    width: deviceWidth * 0.9,
-  },
-});
+

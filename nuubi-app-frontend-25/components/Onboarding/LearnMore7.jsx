@@ -44,7 +44,7 @@ export default function LearnMore7Screen({ navigation }) {
           accessibilityRole="button"
           onPress={() => navigation.navigate("SignUp")}
         >
-          <Text style={globalStyles.primaryButtonText}>SIGN UP</Text>
+          <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>

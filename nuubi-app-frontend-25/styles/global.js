@@ -1,7 +1,6 @@
 import { StyleSheet, StatusBar, Dimensions } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
 
 export const globalStyles = StyleSheet.create({
   h2HeadingMedium: {
@@ -662,6 +661,10 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 10,
   },
+  column: {
+    flex: 1,
+    alignItems: "center",
+  },
   member: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -802,7 +805,7 @@ export const globalStyles = StyleSheet.create({
   subjectNameView: {
     height: "20%",
     justifyContent: "flex-end",
-    width: screenWidth * 0.4,
+    width: deviceWidth * 0.4,
     alignItems: "center",
   },
   subjectText: {
@@ -820,5 +823,76 @@ export const globalStyles = StyleSheet.create({
   textTitle: {
     fontSize: 24,
     fontWeight: "500",
+  },
+  textCount: {
+    textAlign: "right",
+    marginRight: 25,
+    marginLeft: 15,
+    fontSize: 17,
+    color: "#4d4d4d",
+    alignSelf: "flex-end",
+  },
+  text: {
+    fontSize: 19,
+    color: "#4d4d4d",
+    marginLeft: 15,
+    marginRight: 25,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#123234",
+    borderRadius: 20,
+    padding: 10,
+    fontSize: 18,
+    marginTop: 10,
+    marginLeft: 15,
+    marginRight: 25,
+    minWidth: "90%",
+    maxWidth: "90%",
+    width: "100%",
+    height: 200,
+    alignItems: "stretch",
+    textAlignVertical: "top",
+  },
+  headerText: {
+    fontSize: 25,
+    color: "#333",
+    marginLeft: 15,
+    marginRight: 25,
+    fontWeight: "bold",
+    textAlign: "left",
+  },
+  indentText: {
+    fontSize: 18,
+    color: "#4d4d4d",
+    fontFamily: "Futura",
+    paddingTop: 10,
+    marginLeft: 15,
+    marginRight: 25,
+    paddingLeft: 15,
+  },
+
+  saveButtonText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontFamily: "Poppins_600SemiBold",
+    letterSpacing: 1.25,
+  },
+  saveButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 60,
+    elevation: 3,
+    backgroundColor: "#2482AA",
+    width: "60%",
+    alignSelf: "center",
+  },
+  cancelButtonText: {
+    color: "#181828",
+    fontSize: 14,
+    fontFamily: "Poppins_600SemiBold",
+    letterSpacing: 1.25,
   },
 });

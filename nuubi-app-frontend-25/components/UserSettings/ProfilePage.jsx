@@ -5,9 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  StyleSheet,
   Platform,
-  Dimensions,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
@@ -149,7 +147,10 @@ export default function ProfilePageScreen({ navigation }) {
         </Text>
         <View>
           {avatarInfo !== null && pickedImage === null ? (
-            <Image style={globalStyles.ImageContainer} source={{ uri: avatarInfo }} />
+            <Image
+              style={globalStyles.ImageContainer}
+              source={{ uri: avatarInfo }}
+            />
           ) : pickedImage !== null ? (
             <Image
               style={globalStyles.ImageContainer}
@@ -190,11 +191,17 @@ export default function ProfilePageScreen({ navigation }) {
         </Text>
 
         {pickedImage !== null ? (
-          <TouchableOpacity onPress={resetImage} style={globalStyles.settingsButton}>
+          <TouchableOpacity
+            onPress={resetImage}
+            style={globalStyles.settingsButton}
+          >
             <Text style={globalStyles.loginButtonText}>Clear picked image</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={pickImage} style={globalStyles.settingsButton}>
+          <TouchableOpacity
+            onPress={pickImage}
+            style={globalStyles.settingsButton}
+          >
             <Text style={globalStyles.loginButtonText}>Select new photo</Text>
           </TouchableOpacity>
         )}
@@ -329,28 +336,3 @@ export default function ProfilePageScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-const deviceWidth = Dimensions.get("window").width;
-const styles = StyleSheet.create({
-  ImageContainer: {
-    borderRadius: 200,
-    width: 250,
-    height: 250,
-    // borderWidth: 1 / PixelRatio.get(),
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  settingsButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 60,
-    elevation: 3,
-    backgroundColor: "#2482AA",
-    marginBottom: 10,
-    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-    maxWidth: 500,
-  },
-});

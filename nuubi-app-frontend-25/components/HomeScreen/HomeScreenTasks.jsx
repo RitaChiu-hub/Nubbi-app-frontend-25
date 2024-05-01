@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  StyleSheet,
   TouchableOpacity,
   Image,
   Dimensions,
@@ -15,7 +14,6 @@ import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
 
 const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
 
 export default function HomeScreenTasks({}) {
   const [randomInfo, setRandomInfo] = useState([
@@ -260,43 +258,3 @@ export default function HomeScreenTasks({}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    height: screenHeight * 0.33,
-  },
-  headerTitle: {
-    height: "20%",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  textTitle: {
-    fontSize: 24,
-    fontWeight: "500",
-  },
-  taskContainer: {
-    height: "80%",
-    width: "100%",
-    backgroundColor: "red",
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 30,
-    marginTop: 10,
-  },
-  subjectNameView: {
-    height: "20%",
-    justifyContent: "flex-end",
-    width: screenWidth * 0.4,
-    alignItems: "center",
-  },
-  subjectText: {
-    textAlign: "center",
-    textAlignVertical: "bottom",
-    height: "100%",
-    width: "100%",
-    color: "black",
-  },
-  profilePicturesContainer: {
-    backgroundColor: "blue",
-  },
-});

@@ -1,14 +1,9 @@
 import * as React from "react";
 import {
-  Button,
-  TextInput,
   View,
   Text,
-  StyleSheet,
-  Alert,
   TouchableOpacity,
   FlatList,
-  SafeAreaView,
   Dimensions,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";

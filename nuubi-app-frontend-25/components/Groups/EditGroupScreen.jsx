@@ -7,8 +7,6 @@ import {
   ScrollView,
   Keyboard,
   Platform,
-  Dimensions,
-  StyleSheet
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -102,8 +100,8 @@ export default function EditGroupScreen({ navigation }) {
                   >
                     {error}
                   </Text>
-                  <View >
-                  <Text style={globalStyles.loginLabelText}>Group Name</Text>
+                  <View>
+                    <Text style={globalStyles.loginLabelText}>Group Name</Text>
                     <TextInput
                       style={globalStyles.loginInput}
                       placeholder="Enter group name"
@@ -155,9 +153,7 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Private");
                           }}
                         >
-                          <Text style={globalStyles.radioText}>
-                            Private
-                          </Text>
+                          <Text style={globalStyles.radioText}>Private</Text>
                         </TouchableOpacity>
                       </View>
                       <View>
@@ -171,19 +167,17 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Public");
                           }}
                         >
-                         <Text style={globalStyles.radioText}>
-                            Public
-                          </Text>
+                          <Text style={globalStyles.radioText}>Public</Text>
                         </TouchableOpacity>
                       </View>
                     </View>
                   </View>
                   <View style={{ marginVertical: 10 }}></View>
                   <TouchableOpacity
-               style={globalStyles.loginButton}
+                    style={globalStyles.loginButton}
                     onPress={props.handleSubmit}
                   >
-                  <Text style={globalStyles.loginButtonText}>
+                    <Text style={globalStyles.loginButtonText}>
                       Update Group
                     </Text>
                   </TouchableOpacity>
@@ -196,59 +190,3 @@ export default function EditGroupScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-
-
-const deviceWidth = Dimensions.get("window").width;
-const styles = StyleSheet.create({
-  loginInput: {
-    flex: 0.5,
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    fontFamily: "Poppins_400Regular",
-    fontSize: 14,
-    color: "#767676",
-    padding: 12,
-    borderRadius: 10,
-    alignItems: "stretch",
-    marginVertical: 5,
-    width: deviceWidth * 0.9,
-  },
-  loginInputLarge: {
-    flex: 0.5,
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    fontFamily: "Poppins_400Regular",
-    fontSize: 14,
-    color: "#767676",
-    padding: 12,
-    borderRadius: 10,
-    alignItems: "stretch",
-    width: deviceWidth * 0.9,
-    height: 200,
-    paddingTop: 12,
-    paddingRight: 12,
-    textAlignVertical: "top",
-  },
-  passwordInputContainer: {
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    padding: 8,
-    borderRadius: 10,
-    width: deviceWidth * 0.9,
-    alignItems: "stretch",
-    marginVertical: 5,
-  },
-  radioText: {
-    color: "#333333",
-    fontSize: 14,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 1.25,
-  },
-});
