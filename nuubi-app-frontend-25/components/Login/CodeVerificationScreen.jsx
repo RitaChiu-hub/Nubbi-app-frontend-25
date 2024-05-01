@@ -166,11 +166,12 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 <Text style={globalStyles.headingText}>
                   Enter your Passcode
                 </Text>
-                <View style={{ marginVertical: 10 }}></View>
-                <Text style={globalStyles.bodyRegular}>
-                  An email containing the verification code was sent to your
-                  email address.
-                </Text>
+                <View style={[globalStyles.widthContainer, { marginTop: 16 }]}>
+                  <Text style={globalStyles.bodyRegular}>
+                    An email containing the verification code was sent to your
+                    email address.
+                  </Text>
+                </View>
               </View>
               <View style={{ marginVertical: 10 }}></View>
               <Text style={globalStyles.textInputLabel}>

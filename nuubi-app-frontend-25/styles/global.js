@@ -71,6 +71,10 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  widthContainer: {
+    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
+    maxWidth: 500,
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -125,8 +129,6 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 2,
     borderColor: nuubiColors["primaryGray"],
     alignSelf: "center",
-
-    
   },
   buttonContainer: {
     width: "90%",

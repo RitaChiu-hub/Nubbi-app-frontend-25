@@ -88,7 +88,9 @@ export default function SignUpScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text style={globalStyles.h3HeadingRegular}>Sign Up</Text>,
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingRegular}>Sign Up</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -410,7 +412,7 @@ export default function SignUpScreen({ navigation }) {
                   </TouchableOpacity>
                 </View>
               </View>
-              <View style={{ marginTop: 16 }}>
+              <View style={[globalStyles.widthContainer, { marginTop: 16 }]}>
                 <Text style={globalStyles.bodyRegular}>
                   By signing up, I agree to NUUBI’s{" "}
                   <Text
@@ -435,9 +437,7 @@ export default function SignUpScreen({ navigation }) {
 
                 <View style={globalStyles.dividerContainer}>
                   <View style={globalStyles.halfDivider}></View>
-                  <Text style={globalStyles.bodyRegular}>
-                    or continue with
-                  </Text>
+                  <Text style={globalStyles.bodyRegular}>or continue with</Text>
                   <View style={globalStyles.halfDivider}></View>
                 </View>
               </View>
