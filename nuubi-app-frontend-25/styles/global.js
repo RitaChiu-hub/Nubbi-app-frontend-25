@@ -54,24 +54,6 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
   },
-  secondaryButtonText: {
-    color: "#33b7f0",
-    fontSize: 14,
-    fontFamily: "Poppins_700Bold",
-    letterSpacing: 1.25,
-  },
-  h3HeadingPrimary: {
-    color: "#33b7f0",
-    fontSize: 18,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 0,
-  },
-  h3HeadingSecondary: {
-    color: "#767676",
-    fontSize: 18,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 0,
-  },
   h3HeadingDark: {
     color: "#111111",
     fontSize: 18,
@@ -84,12 +66,6 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  innerContainer: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 15,
-    marginBottom: 10,
-    alignItems: "center",
-  },
   input: {
     borderWidth: 1,
     borderColor: "#ddd",
@@ -99,18 +75,6 @@ export const globalStyles = StyleSheet.create({
     minWidth: "90%",
     maxWidth: "90%",
     alignItems: "stretch",
-  },
-  inputLarge: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    padding: 10,
-    fontSize: 18,
-    borderRadius: 6,
-    minWidth: "90%",
-    maxWidth: "90%",
-    height: 200,
-    alignItems: "stretch",
-    textAlignVertical: "top",
   },
   centeredView: {
     flex: 1,
@@ -133,13 +97,6 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  bottomView: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    bottom: 40,
-  },
   primaryButton: {
     alignItems: "center",
     justifyContent: "center",
@@ -148,16 +105,6 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 14,
     elevation: 3,
     backgroundColor: "#1aa7ec",
-  },
-  primaryButtonWide: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 14,
-    elevation: 3,
-    backgroundColor: "#1aa7ec",
-    width: "80%",
   },
   secondaryButton: {
     alignItems: "center",
@@ -172,14 +119,6 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingHorizontal: 20,
-  },
-  sendButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    backgroundColor: "#1aa7ec",
-    borderRadius: 6,
   },
   /** Cards */
   card: {
@@ -226,25 +165,6 @@ export const globalStyles = StyleSheet.create({
     borderColor: "#2482AA",
     borderWidth: 5,
     borderRadius: 12,
-  },
-  liked: {
-    color: "#228ee7",
-    fontSize: 16,
-    fontWeight: "bold",
-    paddingBottom: 2,
-  },
-  unliked: {
-    color: "#bbb",
-    fontSize: 16,
-    fontWeight: "bold",
-    paddingBottom: 2,
-  },
-  topNav: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 10,
-    width: "80%",
   },
   topNavTab: {
     borderBottomWidth: 0,
@@ -350,24 +270,6 @@ export const globalStyles = StyleSheet.create({
     letterSpacing: 1.25,
     marginTop: 8,
   },
-  passwordSpecsText: {
-    color: "#767676",
-    fontSize: 14,
-    fontFamily: "Poppins_400Regular",
-    letterSpacing: 1,
-  },
-  loginInput: {
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    fontFamily: "Poppins_400Regular",
-    fontSize: 14,
-    color: "#767676",
-    padding: 12,
-    borderRadius: 10,
-    alignItems: "stretch",
-    marginVertical: 5,
-  },
   passwordInput: {
     flex: 1,
     fontFamily: "Poppins_400Regular",
@@ -404,12 +306,12 @@ export const globalStyles = StyleSheet.create({
     marginHorizontal: 10,
     fontSize: 14,
     fontFamily: "Poppins_400Regular",
-    color: "#767676", // You can customize the color of the text
+    color: "#767676", 
   },
   halfDivider: {
     flex: 1,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc", // You can customize the color of the divider
+    borderBottomColor: "#ccc", 
   },
   ssoButtonsContainer: {
     flexDirection: "row",
@@ -418,7 +320,7 @@ export const globalStyles = StyleSheet.create({
   },
   ssoButton: {
     flex: 1,
-    backgroundColor: "transparent", // Set button background color to transparent
+    backgroundColor: "transparent", 
     padding: 12,
     borderRadius: 12,
     marginHorizontal: 6,
@@ -524,7 +426,6 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: 12,
   },
-  /** Section */
   section: {
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -560,7 +461,6 @@ export const globalStyles = StyleSheet.create({
     position: "relative",
     zIndex: 1, // Ensure dropdown is on top
   },
-  /** Row */
   row: {
     flexDirection: "row",
     alignItems: "center",
@@ -597,34 +497,11 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     color: "#ababab",
   },
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#fdfdfd",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 12,
-  },
   groupPhoto: {
     width: 140,
     height: 140,
     borderRadius: 75,
     marginBottom: 12,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#1d1d1d",
-    marginBottom: 6,
-    fontFamily: "Poppins_400Regular",
-  },
-  subtitle: {
-    fontSize: 15,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "500",
-    color: "#929292",
   },
   passcodeLabel: {
     fontFamily: "Poppins_500Medium",
@@ -690,12 +567,7 @@ export const globalStyles = StyleSheet.create({
     marginRight: 10,
     color: "#333",
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
+
   modalText: {
     marginBottom: 15,
     textAlign: "center",
@@ -724,33 +596,6 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "500",
     color: "#333",
   },
-  sections: { flex: 0.62 },
-  popupMessage: { fontSize: 20, width: "80%" },
-  popupTitle: {
-    fontSize: 22,
-    color: "black",
-    fontWeight: "600",
-  },
-  popupConfirm: {
-    width: "30%",
-    borderRadius: 20,
-    backgroundColor: "#2F9CB4",
-  },
-  popupConfirmText: {
-    width: "100%",
-    textAlign: "center",
-  },
-  image: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "#0553",
-  },
-  headerAction: {
-    width: 40,
-    height: 40,
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
   headerTitle: {
     fontSize: 19,
     fontFamily: "Poppins_400Regular",
@@ -759,14 +604,6 @@ export const globalStyles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 16,
-  },
-  contentFooter: {
-    marginTop: 24,
-    fontSize: 13,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "500",
-    textAlign: "center",
-    color: "#a69f9f",
   },
   sectionTitle: {
     margin: 10,
@@ -803,36 +640,11 @@ export const globalStyles = StyleSheet.create({
   disabledText: {
     color: "#999",
   },
-
-  taskContainer: {
-    height: "80%",
-    width: "100%",
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 30,
-    marginTop: 10,
-  },
   subjectNameView: {
     height: "20%",
     justifyContent: "flex-end",
     width: deviceWidth * 0.4,
     alignItems: "center",
-  },
-  subjectText: {
-    textAlign: "center",
-    textAlignVertical: "bottom",
-    height: "100%",
-    width: "100%",
-    color: "black",
-    fontWeight: "700",
-    fontSize: 18,
-  },
-  profilePicturesContainer: {
-    backgroundColor: "blue",
-  },
-  textTitle: {
-    fontSize: 24,
-    fontWeight: "500",
   },
   textCount: {
     textAlign: "right",

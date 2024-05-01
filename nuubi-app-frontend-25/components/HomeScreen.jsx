@@ -224,7 +224,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={globalStyles.container}>
       {forYouScreen ? (
-        <ScrollView style={globalStyles.sections} ref={scrollViewRef}>
+        <ScrollView ref={scrollViewRef}>
           <View
             style={{
               height: screenHeight * 0.33,

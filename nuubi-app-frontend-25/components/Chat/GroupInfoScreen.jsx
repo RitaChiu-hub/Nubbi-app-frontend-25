@@ -444,15 +444,13 @@ export default function GroupInfoScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={globalStyles.safeArea}>
+    <SafeAreaView style={globalStyles.container}>
       <View style={globalStyles.container}>
         <View style={globalStyles.header}>
           <Image
             source={{ uri: "https://via.placeholder.com/140" }}
             style={globalStyles.groupPhoto}
           />
-
-          {/* <Text style={globalStyles.title}>{groupTitle}</Text> */}
         </View>
         <View style={globalStyles.tabs}>
           {tabs.map((tab, index) => (
