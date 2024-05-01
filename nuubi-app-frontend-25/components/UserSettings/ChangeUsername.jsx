@@ -1,7 +1,6 @@
 import { ErrorMessage, Formik } from "formik";
 import * as React from "react";
 import {
-  // Dimensions,
   ScrollView,
   Text,
   TextInput,
@@ -10,6 +9,7 @@ import {
 } from "react-native";
 import IconAD from "@expo/vector-icons/AntDesign";
 import { globalStyles } from "../../styles/global";
+import { loginStyles } from "../../styles/loginStyles";
 import { AccountContext } from "../AccountContext";
 const { changeUsernameSchema } = require("../validationSchema");
 
@@ -78,20 +78,11 @@ export default function ChangeUsernameScreen({ navigation }) {
     setSuggestions(newSuggestions);
   };
 
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     title: "Update Username",
-  //     headerTitleAlign: "center",
-  //   });
-  // }, [navigation]);
-
   return (
     <ScrollView
       style={{
         backgroundColor: "#fdfdfd",
       }}
-      // Sets the layout height of the ScrollView on initial rendering.
-      // Updates layoutHeight state with ScrollView height if not already set.
       onLayout={(event) => {
         if (!layoutHeight) {
           setLayoutHeight(event.nativeEvent.layout.height);
@@ -126,20 +117,14 @@ export default function ChangeUsernameScreen({ navigation }) {
               fontSize: 22,
               marginTop: 40,
               color: "#606060",
+              marginBottom: 20
             },
           ]}
         >
           Your current username is {myUsername}.
         </Text>
         <Text
-          style={[
-            globalStyles.h2HeadingMedium,
-            {
-              fontSize: 22,
-              marginTop: 40,
-              color: "#606060",
-            },
-          ]}
+          style={loginStyles.loginLabelText}
         >
           Enter your new username
         </Text>
@@ -226,14 +211,7 @@ export default function ChangeUsernameScreen({ navigation }) {
               </Text>
 
               <Text
-                style={[
-                  globalStyles.h2HeadingMedium,
-                  {
-                    fontSize: 22,
-                    marginBottom: 10,
-                    color: "#606060",
-                  },
-                ]}
+                style={loginStyles.loginLabelText}
               >
                 Enter your password
               </Text>

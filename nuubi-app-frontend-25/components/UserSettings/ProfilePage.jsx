@@ -7,6 +7,7 @@ import {
   Image,
   StyleSheet,
   Platform,
+  Dimensions,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
@@ -330,6 +331,7 @@ export default function ProfilePageScreen({ navigation }) {
   );
 }
 
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   ImageContainer: {
     borderRadius: 200,
@@ -348,7 +350,10 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     elevation: 3,
     backgroundColor: "#2482AA",
-    minWidth: "90%",
+    // minWidth: "90%",
     marginBottom: 10,
+    // width: deviceWidth * 0.9,
+    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
+    maxWidth: 500,
   },
 });

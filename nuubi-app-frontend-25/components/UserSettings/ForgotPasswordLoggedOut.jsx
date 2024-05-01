@@ -88,14 +88,17 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               const vals = { ...values };
               actions.resetForm();
               const email = vals.email;
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, email }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, email }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
@@ -154,14 +157,17 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, ...vals }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, ...vals }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
@@ -282,7 +288,9 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center",
     marginVertical: 5,
-    width: deviceWidth * 0.9,
+    // width: deviceWidth * 0.9,
+    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
+    maxWidth: 500,
   },
   loginButton: {
     // alignItems: "center",
@@ -292,6 +300,8 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     elevation: 3,
     backgroundColor: "#2482AA",
-    width: deviceWidth * 0.9,
+    // width: deviceWidth * 0.9,
+    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
+    maxWidth: 500,
   },
 });

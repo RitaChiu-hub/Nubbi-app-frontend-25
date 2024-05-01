@@ -316,9 +316,11 @@ export default function SplashScreen({ navigation }) {
               justifyContent: "center",
               paddingVertical: 14,
               marginTop: 5,
-              width: deviceWidth * 0.9,
+              // width: deviceWidth * 0.9,
+              width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
               borderRadius: 60,
               elevation: 3,
+              maxWidth: 500,
             }}
             accessibilityRole="button"
             onPress={() => navigation.navigate("SignUp")}
