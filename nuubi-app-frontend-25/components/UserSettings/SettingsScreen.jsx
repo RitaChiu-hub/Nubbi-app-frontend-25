@@ -118,7 +118,7 @@ export default function SettingsScreen({ navigation }) {
       {SECTIONS.map(({ header, items }) => (
         <View style={globalStyles.section} key={header}>
           <View style={globalStyles.sectionHeader}>
-            <Text style={globalStyles.sectionHeaderText}>{header}</Text>
+            <Text style={globalStyles.caption}>{header}</Text>
           </View>
           <View style={globalStyles.sectionBody}>
             {items.map(
@@ -155,7 +155,7 @@ export default function SettingsScreen({ navigation }) {
 
                         <Text
                           style={[
-                            globalStyles.rowLabel,
+                            globalStyles.headingText,
                             { color: color ? color : "#000" }, // Dynamic color based on provided color attribute
                           ]}
                         >

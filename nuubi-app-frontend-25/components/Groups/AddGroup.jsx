@@ -26,7 +26,7 @@ export default function AddGroupScreen({ navigation }) {
         }}
       >
         <TouchableOpacity
-          style={globalStyles.loginButton}
+          style={globalStyles.primaryButton}
           onPress={() => {
             navigation.navigate("JoinGroup");
           }}
@@ -37,7 +37,7 @@ export default function AddGroupScreen({ navigation }) {
         </TouchableOpacity>
         <View style={{ padding: 10 }}></View>
         <TouchableOpacity
-          style={globalStyles.loginButton}
+          style={globalStyles.primaryButton}
           onPress={() => {
             navigation.navigate("CreateGroup");
           }}

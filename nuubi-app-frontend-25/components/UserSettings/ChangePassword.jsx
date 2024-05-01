@@ -216,7 +216,7 @@ export default function ChangePasswordScreen({ navigation }) {
 
               {/*New Password inputbox */}
               <View
-                style={[globalStyles.grayTextinput, { flexDirection: "row" }]}
+                style={[globalStyles.textInput, { flexDirection: "row" }]}
               >
                 <TextInput
                   style={{
@@ -273,7 +273,7 @@ export default function ChangePasswordScreen({ navigation }) {
 
               {/* Confirm password inputbox */}
               <View
-                style={[globalStyles.grayTextinput, { flexDirection: "row" }]}
+                style={[globalStyles.textInput, { flexDirection: "row" }]}
               >
                 <TextInput
                   style={{

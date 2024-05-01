@@ -71,7 +71,7 @@ export default function NotificationSettings({ navigation }) {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
       <View style={globalStyles.container}>
         <ScrollView contentContainerStyle={globalStyles.content}>
-          <Text style={globalStyles.sectionTitle}>Productivity</Text>
+          <Text style={globalStyles.bodyRegular}>Productivity</Text>
           <View style={[globalStyles.section, { paddingTop: 4 }]}>
             <View style={globalStyles.sectionBody}>
               <TouchableOpacity
@@ -93,7 +93,7 @@ export default function NotificationSettings({ navigation }) {
                 <View style={globalStyles.cardBody}>
                   <Text style={globalStyles.cardName}>Pause All</Text>
 
-                  <Text style={globalStyles.cardHandle}>
+                  <Text style={globalStyles.bodyRegular}>
                     Temporarily pause all notifications.
                   </Text>
                 </View>
@@ -130,7 +130,7 @@ export default function NotificationSettings({ navigation }) {
                 <View style={globalStyles.cardBody}>
                   <Text style={globalStyles.cardName}>Study Mode</Text>
 
-                  <Text style={globalStyles.cardHandle}>
+                  <Text style={globalStyles.bodyRegular}>
                     Automatically mute notifications at night or whenever you
                     need to focus.
                   </Text>
@@ -142,13 +142,13 @@ export default function NotificationSettings({ navigation }) {
           </View>
 
           <View style={globalStyles.section}>
-            <Text style={globalStyles.sectionTitle}>
+            <Text style={globalStyles.bodyRegular}>
               Notification Preferences
             </Text>
             <View style={globalStyles.sectionBody}>
               <View style={[globalStyles.rowWrapper, globalStyles.rowFirst]}>
                 <View style={globalStyles.row}>
-                  <Text style={globalStyles.rowLabel}>Discussion Activity</Text>
+                  <Text style={globalStyles.headingText}>Discussion Activity</Text>
 
                   <View style={globalStyles.rowSpacer} />
 
@@ -164,7 +164,7 @@ export default function NotificationSettings({ navigation }) {
 
               <View style={globalStyles.rowWrapper}>
                 <View style={globalStyles.row}>
-                  <Text style={globalStyles.rowLabel}>Course Posts</Text>
+                  <Text style={globalStyles.headingText}>Course Posts</Text>
 
                   <View style={globalStyles.rowSpacer} />
 
@@ -180,7 +180,7 @@ export default function NotificationSettings({ navigation }) {
 
               <View style={globalStyles.rowWrapper}>
                 <View style={globalStyles.row}>
-                  <Text style={globalStyles.rowLabel}>Post Activity</Text>
+                  <Text style={globalStyles.headingText}>Post Activity</Text>
 
                   <View style={globalStyles.rowSpacer} />
 
@@ -196,7 +196,7 @@ export default function NotificationSettings({ navigation }) {
 
               <View style={globalStyles.rowWrapper}>
                 <View style={globalStyles.row}>
-                  <Text style={globalStyles.rowLabel}>Likes Received</Text>
+                  <Text style={globalStyles.headingText}>Likes Received</Text>
 
                   <View style={globalStyles.rowSpacer} />
 
@@ -212,7 +212,7 @@ export default function NotificationSettings({ navigation }) {
 
               <View style={globalStyles.rowWrapper}>
                 <View style={globalStyles.row}>
-                  <Text style={globalStyles.rowLabel}>Milestone Reached</Text>
+                  <Text style={globalStyles.headingText}>Milestone Reached</Text>
 
                   <View style={globalStyles.rowSpacer} />
 
@@ -228,7 +228,7 @@ export default function NotificationSettings({ navigation }) {
 
               <View style={globalStyles.rowWrapper}>
                 <View style={globalStyles.row}>
-                  <Text style={globalStyles.rowLabel}>Badge Earned</Text>
+                  <Text style={globalStyles.headingText}>Badge Earned</Text>
 
                   <View style={globalStyles.rowSpacer} />
 
@@ -244,7 +244,7 @@ export default function NotificationSettings({ navigation }) {
 
               <View style={globalStyles.rowWrapper}>
                 <View style={globalStyles.row}>
-                  <Text style={globalStyles.rowLabel}>Messages</Text>
+                  <Text style={globalStyles.headingText}>Messages</Text>
 
                   <View style={globalStyles.rowSpacer} />
 
@@ -260,7 +260,7 @@ export default function NotificationSettings({ navigation }) {
 
               <View style={[globalStyles.rowWrapper, globalStyles.rowLast]}>
                 <View style={globalStyles.row}>
-                  <Text style={globalStyles.rowLabel}>Announcements</Text>
+                  <Text style={globalStyles.headingText}>Announcements</Text>
 
                   <View style={globalStyles.rowSpacer} />
 
@@ -278,7 +278,7 @@ export default function NotificationSettings({ navigation }) {
           <View style={globalStyles.section}>
             <View style={globalStyles.buttonContainer}>
               <TouchableOpacity
-                style={globalStyles.saveButton}
+                style={globalStyles.primaryButton}
                 accessibilityRole="button"
               >
                 <Text style={globalStyles.primaryButtonText}>Save</Text>

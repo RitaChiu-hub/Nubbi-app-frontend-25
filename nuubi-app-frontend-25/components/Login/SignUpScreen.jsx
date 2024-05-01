@@ -169,9 +169,9 @@ export default function SignUpScreen({ navigation }) {
               >
                 {error}
               </Text>
-              <Text style={globalStyles.loginLabelText}>Email:</Text>
+              <Text style={globalStyles.textInputLabel}>Email:</Text>
               <TextInput
-                style={globalStyles.loginInput}
+                style={globalStyles.textInput}
                 placeholder="School or Personal Email"
                 onChangeText={props.handleChange("email")}
                 value={props.values.email}
@@ -184,7 +184,7 @@ export default function SignUpScreen({ navigation }) {
               >
                 <ErrorMessage name="email" />
               </Text>
-              <Text style={globalStyles.loginLabelText}>Password:</Text>
+              <Text style={globalStyles.textInputLabel}>Password:</Text>
               <View style={globalStyles.passwordInputContainer}>
                 <TextInput
                   style={[
@@ -214,7 +214,7 @@ export default function SignUpScreen({ navigation }) {
               >
                 <ErrorMessage name="password" />
               </Text>
-              <Text style={globalStyles.loginLabelText}>Repeat Password:</Text>
+              <Text style={globalStyles.textInputLabel}>Repeat Password:</Text>
               <View style={globalStyles.passwordInputContainer}>
                 <TextInput
                   style={[
@@ -384,11 +384,11 @@ export default function SignUpScreen({ navigation }) {
                 <View>
                   <TouchableOpacity
                     style={[
-                      globalStyles.signUpButton,
+                      globalStyles.primaryButton,
                       {
                         backgroundColor: areAllFieldsEmpty(props.values)
                           ? "#EBEBEB"
-                          : globalStyles.signUpButton.backgroundColor,
+                          : globalStyles.primaryButton.backgroundColor,
                       },
                     ]}
                     accessibilityRole="button"
@@ -411,7 +411,7 @@ export default function SignUpScreen({ navigation }) {
                 </View>
               </View>
               <View style={{ marginTop: 16 }}>
-                <Text style={globalStyles.acknowledgmentText}>
+                <Text style={globalStyles.bodyRegular}>
                   By signing up, I agree to NUUBI’s{" "}
                   <Text
                     style={globalStyles.captionLinkBlue}
@@ -435,7 +435,7 @@ export default function SignUpScreen({ navigation }) {
 
                 <View style={globalStyles.dividerContainer}>
                   <View style={globalStyles.halfDivider}></View>
-                  <Text style={globalStyles.orContinueWithText}>
+                  <Text style={globalStyles.bodyRegular}>
                     or continue with
                   </Text>
                   <View style={globalStyles.halfDivider}></View>

@@ -104,9 +104,9 @@ export default function LoginScreen({ navigation }) {
               >
                 {error}
               </Text>
-              <Text style={globalStyles.loginLabelText}>Email or Username:</Text>
+              <Text style={globalStyles.textInputLabel}>Email or Username:</Text>
               <TextInput
-                style={globalStyles.loginInput}
+                style={globalStyles.textInput}
                 placeholder="Email or Username"
                 onChangeText={props.handleChange("username")}
                 value={props.values.username}
@@ -119,7 +119,7 @@ export default function LoginScreen({ navigation }) {
               >
                 <ErrorMessage name="username" />
               </Text>
-              <Text style={globalStyles.loginLabelText}>Password:</Text>
+              <Text style={globalStyles.textInputLabel}>Password:</Text>
               <View style={globalStyles.passwordInputContainer}>
                 <TextInput
                   style={[
@@ -153,11 +153,11 @@ export default function LoginScreen({ navigation }) {
               <View>
                 <TouchableOpacity
                   style={[
-                    globalStyles.loginButton,
+                    globalStyles.primaryButton,
                     {
                       backgroundColor: areAllFieldsEmpty(props.values)
                         ? "#EBEBEB"
-                        : globalStyles.loginButton.backgroundColor,
+                        : globalStyles.primaryButton.backgroundColor,
                     },
                   ]}
                   accessibilityRole="button"
@@ -191,7 +191,7 @@ export default function LoginScreen({ navigation }) {
                 <View style={{ marginTop: 10 }}>
                   <View style={globalStyles.dividerContainer}>
                     <View style={globalStyles.halfDivider}></View>
-                    <Text style={globalStyles.orContinueWithText}>
+                    <Text style={globalStyles.bodyRegular}>
                       or continue with
                     </Text>
                     <View style={globalStyles.halfDivider}></View>

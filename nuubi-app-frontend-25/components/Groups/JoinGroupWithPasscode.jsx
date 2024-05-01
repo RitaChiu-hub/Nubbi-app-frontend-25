@@ -85,9 +85,9 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 >
                   {error}
                 </Text>
-                <Text style={globalStyles.loginLabelText}>Passcode</Text>
+                <Text style={globalStyles.textInputLabel}>Passcode</Text>
                 <TextInput
-                  style={globalStyles.loginInput}
+                  style={globalStyles.textInput}
                   placeholder="Enter passcode"
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
@@ -100,9 +100,9 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 >
                   <ErrorMessage name="passcode" />
                 </Text>
-                <Text style={globalStyles.loginLabelText}>Admin username</Text>
+                <Text style={globalStyles.textInputLabel}>Admin username</Text>
                 <TextInput
-                  style={globalStyles.loginInput}
+                  style={globalStyles.textInput}
                   placeholder="Enter admin username"
                   onChangeText={props.handleChange("admin")}
                   value={props.values.admin}
@@ -117,7 +117,7 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 </Text>
                 <View style={{ marginVertical: 5 }}></View>
                 <TouchableOpacity
-                  style={globalStyles.loginButton}
+                  style={globalStyles.primaryButton}
                   onPress={props.handleSubmit}
                 >
                   <Text style={globalStyles.primaryButtonText}>Join group</Text>

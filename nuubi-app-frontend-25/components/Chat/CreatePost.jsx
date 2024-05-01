@@ -626,7 +626,7 @@ export default function CreatePostScreen({ navigation }) {
                   <View>
                     {pickedImage === null ? null : (
                       <Image
-                        style={globalStyles.postImageContainer}
+                        style={globalStyles.squareImageContainer}
                         source={{ uri: pickedImage.uri }}
                       />
                     )}

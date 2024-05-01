@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -54,27 +54,11 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
   },
-  h3HeadingDark: {
-    color: "#111111",
-    fontSize: 18,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 0,
-  },
   container: {
     flex: 1,
     backgroundColor: "#fdfdfd",
     alignItems: "center",
     justifyContent: "center",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    padding: 10,
-    fontSize: 18,
-    borderRadius: 6,
-    minWidth: "90%",
-    maxWidth: "90%",
-    alignItems: "stretch",
   },
   centeredView: {
     flex: 1,
@@ -83,28 +67,33 @@ export const globalStyles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#fdfdfd",
+    maxWidth: Dimensions.get("window").width * 0.8,
+    maxHeight: Dimensions.get("window").height * 0.7,
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
-    shadowColor: "#000",
+    elevation: 15,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    shadowColor: "#333333",
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: 0.8,
+      height: 0.8,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
   primaryButton: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 14,
     paddingHorizontal: 20,
-    borderRadius: 14,
+    borderRadius: 60,
     elevation: 3,
-    backgroundColor: "#1aa7ec",
+    backgroundColor: "#2482AA",
+    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
+    maxWidth: 500,
   },
   secondaryButton: {
     alignItems: "center",
@@ -120,7 +109,6 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "space-around",
     paddingHorizontal: 20,
   },
-  /** Cards */
   card: {
     padding: 12,
     backgroundColor: "#fff",
@@ -138,13 +126,6 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     fontWeight: "600",
     color: "#292929",
-  },
-  cardHandle: {
-    marginTop: 2,
-    fontSize: 14,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "400",
-    color: "#858585",
   },
   unselected: {
     alignItems: "center",
@@ -188,20 +169,7 @@ export const globalStyles = StyleSheet.create({
     borderColor: "#123234",
     alignSelf: "center",
   },
-  grayTextinput: {
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    fontFamily: "Poppins_400Regular",
-    fontSize: 14,
-    color: "#767676",
-    padding: 14,
-    borderRadius: 10,
-    width: "100%",
-    alignItems: "stretch",
-    marginVertical: 5,
-  },
-  loginInput: {
+  textInput: {
     flex: 0.5,
     flexDirection: "row",
     borderWidth: 1,
@@ -217,7 +185,7 @@ export const globalStyles = StyleSheet.create({
     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
     maxWidth: 500,
   },
-  loginInputLarge: {
+  textInputLarge: {
     flex: 0.5,
     flexDirection: "row",
     borderWidth: 1,
@@ -248,7 +216,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "stretch",
     marginVertical: 5,
   },
-  loginLabelText: {
+  textInputLabel: {
     color: "#333333",
     fontSize: 14,
     fontFamily: "Poppins_600SemiBold",
@@ -282,24 +250,10 @@ export const globalStyles = StyleSheet.create({
     alignItems: "stretch",
     marginVertical: 5,
   },
-  acknowledgmentText: {
-    color: "#333333",
-    fontSize: 14,
-    fontFamily: "Poppins_400Regular",
-    letterSpacing: 1,
-    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-    maxWidth: 500,
-  },
   dividerContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 20,
-  },
-  orContinueWithText: {
-    marginHorizontal: 10,
-    fontSize: 14,
-    fontFamily: "Poppins_400Regular",
-    color: "#767676",
   },
   halfDivider: {
     flex: 1,
@@ -323,18 +277,7 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc", // Add border for better visibility
   },
-  loginButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 60,
-    elevation: 3,
-    backgroundColor: "#2482AA",
-    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-    maxWidth: 500,
-  },
-  loginButtonLong: {
+  primaryButtonWide: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 14,
@@ -344,35 +287,14 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#2482AA",
     width: "100%",
   },
-  signUpButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 60,
-    elevation: 3,
-    backgroundColor: "#2482AA",
-    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-    maxWidth: 500,
-  },
-  confirmButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 60,
-    elevation: 3,
-    backgroundColor: "#2482AA",
-    width: "100%",
-  },
-  radioText: {
+  textInputLabel: {
     color: "#333333",
     fontSize: 14,
     fontFamily: "Poppins_600SemiBold",
     letterSpacing: 1.25,
+    marginVertical: 4,
   },
-  ImageContainer: {
-    // for avatars
+  roundImageContainer: {
     borderRadius: 200,
     width: 250,
     height: 250,
@@ -380,25 +302,13 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  postImageContainer: {
+  squareImageContainer: {
     borderRadius: 10,
     width: 250,
     height: 250,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
-  },
-  settingsButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 60,
-    elevation: 3,
-    backgroundColor: "#2482AA",
-    marginBottom: 10,
-    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-    maxWidth: 500,
   },
   header: {
     flexDirection: "row",
@@ -413,13 +323,6 @@ export const globalStyles = StyleSheet.create({
   sectionHeader: {
     padding: 8,
     paddingLeft: 12,
-  },
-  sectionHeaderText: {
-    fontSize: 13,
-    fontWeight: "500",
-    fontFamily: "Poppins_400Regular",
-    color: "#adadad",
-    textTransform: "uppercase",
   },
   sectionBody: {
     backgroundColor: "#f8f8f8",
@@ -475,18 +378,7 @@ export const globalStyles = StyleSheet.create({
   rowValue: {
     fontSize: 17,
     fontFamily: "Poppins_400Regular",
-    color: "#ababab",
-  },
-  groupPhoto: {
-    width: 140,
-    height: 140,
-    borderRadius: 75,
-    marginBottom: 12,
-  },
-  passcodeLabel: {
-    fontFamily: "Poppins_500Medium",
-    fontSize: 16,
-    color: "#333",
+    color: "#6b7280",
   },
   tabs: {
     flexDirection: "row",
@@ -506,13 +398,6 @@ export const globalStyles = StyleSheet.create({
   activeTab: {
     borderBottomColor: "#33b7f0",
   },
-  tabText: {
-    fontSize: 18,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "600",
-    color: "#6b7280",
-    marginLeft: 5,
-  },
   tabIcon: {
     color: "#6b7280",
   },
@@ -521,12 +406,6 @@ export const globalStyles = StyleSheet.create({
   },
   activeTabText: {
     color: "#33b7f0",
-  },
-  label: {
-    fontSize: 16,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "500",
-    marginBottom: 10,
   },
   column: {
     flex: 1,
@@ -540,14 +419,6 @@ export const globalStyles = StyleSheet.create({
     borderColor: "#ccc",
     paddingVertical: 10,
   },
-  memberText: {
-    fontSize: 16,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "500",
-    marginRight: 10,
-    color: "#333",
-  },
-
   modalText: {
     marginBottom: 15,
     textAlign: "center",
@@ -564,39 +435,8 @@ export const globalStyles = StyleSheet.create({
     elevation: 2,
     marginBottom: 10,
   },
-  rowLabel: {
-    fontFamily: "Poppins_400Regular",
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-  },
-  headerTitle: {
-    fontSize: 19,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "600",
-    color: "#000",
-  },
   content: {
     paddingHorizontal: 16,
-  },
-  sectionTitle: {
-    margin: 10,
-    marginLeft: 12,
-    fontSize: 13,
-    letterSpacing: 0.33,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "500",
-    color: "#a69f9f",
-    textTransform: "uppercase",
-  },
-  sectionText: {
-    margin: 10,
-    marginLeft: 12,
-    fontSize: 13,
-    letterSpacing: 0.33,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "bold",
-    color: "#181828",
   },
   rowSingle: {
     borderTopLeftRadius: 12,
@@ -619,63 +459,5 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "flex-end",
     width: deviceWidth * 0.4,
     alignItems: "center",
-  },
-  textCount: {
-    textAlign: "right",
-    marginRight: 25,
-    marginLeft: 15,
-    fontSize: 17,
-    color: "#4d4d4d",
-    alignSelf: "flex-end",
-  },
-  text: {
-    fontSize: 19,
-    color: "#4d4d4d",
-    marginLeft: 15,
-    marginRight: 25,
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#123234",
-    borderRadius: 20,
-    padding: 10,
-    fontSize: 18,
-    marginTop: 10,
-    marginLeft: 15,
-    marginRight: 25,
-    minWidth: "90%",
-    maxWidth: "90%",
-    width: "100%",
-    height: 200,
-    alignItems: "stretch",
-    textAlignVertical: "top",
-  },
-  headerText: {
-    fontSize: 25,
-    color: "#333",
-    marginLeft: 15,
-    marginRight: 25,
-    fontWeight: "bold",
-    textAlign: "left",
-  },
-  indentText: {
-    fontSize: 18,
-    color: "#4d4d4d",
-    fontFamily: "Futura",
-    paddingTop: 10,
-    marginLeft: 15,
-    marginRight: 25,
-    paddingLeft: 15,
-  },
-  saveButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 60,
-    elevation: 3,
-    backgroundColor: "#2482AA",
-    width: "60%",
-    alignSelf: "center",
   },
 });

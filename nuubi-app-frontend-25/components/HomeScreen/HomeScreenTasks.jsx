@@ -27,7 +27,7 @@ export default function HomeScreenTasks({}) {
 
   return (
     <View style={globalStyles.container}>
-      <View style={globalStyles.headerTitle}>
+      <View style={globalStyles.headingText}>
         <View style={{ width: "5%", height: "100%" }}></View>
         <View
           style={{

@@ -40,7 +40,7 @@ export default function PrivacyScreen({ navigation }) {
           described in this statement.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           Collection of your Personal Information
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -75,7 +75,7 @@ export default function PrivacyScreen({ navigation }) {
           personal or non-personal information in the future.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           Use of your Personal Information
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -86,7 +86,7 @@ export default function PrivacyScreen({ navigation }) {
           services available from Nuubi and its affiliates.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           Sharing Information with Third Parties
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -110,7 +110,7 @@ export default function PrivacyScreen({ navigation }) {
           personal safety of users of Nuubi, or the public.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>Right to Deletion</Text>
+        <Text style={globalStyles.headingText}>Right to Deletion</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           Subject to certain exceptions set out below, on receipt of a
@@ -176,7 +176,7 @@ export default function PrivacyScreen({ navigation }) {
           information.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>Children Under Thirteen</Text>
+        <Text style={globalStyles.headingText}>Children Under Thirteen</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           Nuubi does not knowingly collect personally identifiable information
@@ -185,7 +185,7 @@ export default function PrivacyScreen({ navigation }) {
           this application.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>E-mail Communications</Text>
+        <Text style={globalStyles.headingText}>E-mail Communications</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           From time to time, Nuubi may contact you via email for the purpose of
@@ -196,7 +196,7 @@ export default function PrivacyScreen({ navigation }) {
           "unsubscribe" button at the bottom of each email.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           Changes to this Statement
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -212,7 +212,7 @@ export default function PrivacyScreen({ navigation }) {
           Policy.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>Contact Information</Text>
+        <Text style={globalStyles.headingText}>Contact Information</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           Nuubi welcomes your questions or comments regarding this Statement of

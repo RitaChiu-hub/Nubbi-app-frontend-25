@@ -120,7 +120,7 @@ export default function GroupAnalytics({ navigation }) {
                 },
           ]}
         >
-          <Text style={globalStyles.memberText}>{item.username}</Text>
+          <Text style={globalStyles.headingText}>{item.username}</Text>
         </View>
         <View
           style={[
@@ -136,34 +136,34 @@ export default function GroupAnalytics({ navigation }) {
                 },
           ]}
         >
-          <Text style={globalStyles.memberText}>{item.email}</Text>
+          <Text style={globalStyles.headingText}>{item.email}</Text>
         </View>
         <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.memberText}>{item.unit_1}</Text>
+          <Text style={globalStyles.headingText}>{item.unit_1}</Text>
         </View>
         <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.memberText}>{item.unit_2}</Text>
+          <Text style={globalStyles.headingText}>{item.unit_2}</Text>
         </View>
         <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.memberText}>{item.unit_3}</Text>
+          <Text style={globalStyles.headingText}>{item.unit_3}</Text>
         </View>
         <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.memberText}>{item.unit_4}</Text>
+          <Text style={globalStyles.headingText}>{item.unit_4}</Text>
         </View>
         <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.memberText}>{item.unit_5}</Text>
+          <Text style={globalStyles.headingText}>{item.unit_5}</Text>
         </View>
         <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.memberText}>{item.unit_6}</Text>
+          <Text style={globalStyles.headingText}>{item.unit_6}</Text>
         </View>
         <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.memberText}>{item.unit_7}</Text>
+          <Text style={globalStyles.headingText}>{item.unit_7}</Text>
         </View>
         <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.memberText}>{item.unit_8}</Text>
+          <Text style={globalStyles.headingText}>{item.unit_8}</Text>
         </View>
         <View style={[globalStyles.column, { width: totalPointsWidth }]}>
-          <Text style={globalStyles.memberText}>{item.group_total_points}</Text>
+          <Text style={globalStyles.headingText}>{item.group_total_points}</Text>
         </View>
       </View>
     );
@@ -219,7 +219,7 @@ export default function GroupAnalytics({ navigation }) {
                   },
             ]}
           >
-            <Text style={globalStyles.memberText}>Username</Text>
+            <Text style={globalStyles.headingText}>Username</Text>
           </View>
           <View
             style={[
@@ -235,34 +235,34 @@ export default function GroupAnalytics({ navigation }) {
                   },
             ]}
           >
-            <Text style={globalStyles.memberText}>Email</Text>
+            <Text style={globalStyles.headingText}>Email</Text>
           </View>
           <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.memberText}>Unit 1</Text>
+            <Text style={globalStyles.headingText}>Unit 1</Text>
           </View>
           <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.memberText}>Unit 2</Text>
+            <Text style={globalStyles.headingText}>Unit 2</Text>
           </View>
           <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.memberText}>Unit 3</Text>
+            <Text style={globalStyles.headingText}>Unit 3</Text>
           </View>
           <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.memberText}>Unit 4</Text>
+            <Text style={globalStyles.headingText}>Unit 4</Text>
           </View>
           <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.memberText}>Unit 5</Text>
+            <Text style={globalStyles.headingText}>Unit 5</Text>
           </View>
           <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.memberText}>Unit 6</Text>
+            <Text style={globalStyles.headingText}>Unit 6</Text>
           </View>
           <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.memberText}>Unit 7</Text>
+            <Text style={globalStyles.headingText}>Unit 7</Text>
           </View>
           <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.memberText}>Unit 8</Text>
+            <Text style={globalStyles.headingText}>Unit 8</Text>
           </View>
           <View style={[globalStyles.column, { width: totalPointsWidth }]}>
-            <Text style={globalStyles.memberText}>Total Points</Text>
+            <Text style={globalStyles.headingText}>Total Points</Text>
           </View>
         </View>
         <FlatList

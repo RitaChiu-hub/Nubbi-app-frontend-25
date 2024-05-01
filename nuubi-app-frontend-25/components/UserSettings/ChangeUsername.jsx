@@ -123,7 +123,7 @@ export default function ChangeUsernameScreen({ navigation }) {
           Your current username is {myUsername}.
         </Text>
         <Text
-          style={globalStyles.loginLabelText}
+          style={globalStyles.textInputLabel}
         >
           Enter your new username
         </Text>
@@ -190,7 +190,7 @@ export default function ChangeUsernameScreen({ navigation }) {
 
               {/* Username inputbox props.handleChange.. errormessage */}
               <TextInput
-                style={[globalStyles.grayTextinput]}
+                style={[globalStyles.textInput]}
                 placeholder="Enter your new username"
                 onChangeText={(usernameText) => {
                   setUsername(usernameText);
@@ -210,13 +210,13 @@ export default function ChangeUsernameScreen({ navigation }) {
               </Text>
 
               <Text
-                style={globalStyles.loginLabelText}
+                style={globalStyles.textInputLabel}
               >
                 Enter your password
               </Text>
               {/* Password inputbox */}
               <TextInput
-                style={[globalStyles.grayTextinput, { marginBottom: 10 }]}
+                style={[globalStyles.textInput, { marginBottom: 10 }]}
                 placeholder="Enter your password"
                 onChangeText={props.handleChange("password")}
                 value={props.values.password}

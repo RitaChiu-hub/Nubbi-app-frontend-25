@@ -30,7 +30,7 @@ export default function TermsScreen({ navigation }) {
           margin: 16,
         }}
       >
-        <Text style={globalStyles.h3HeadingDark}>NUUBI TERMS OF USE</Text>
+        <Text style={globalStyles.headingText}>NUUBI TERMS OF USE</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           Last Updated: December 29, 2023
@@ -45,7 +45,7 @@ export default function TermsScreen({ navigation }) {
           Nuubi regarding the use of the App and services provided therein.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           Acceptance of these Terms.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -58,7 +58,7 @@ export default function TermsScreen({ navigation }) {
           the “Terms” throughout.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>TABLE OF CONTENTS</Text>
+        <Text style={globalStyles.headingText}>TABLE OF CONTENTS</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           1. Accessing the App; Account Security.
@@ -96,7 +96,7 @@ export default function TermsScreen({ navigation }) {
         <Text style={globalStyles.bodyRegular}>18. Governing Law.</Text>
         <Text style={globalStyles.bodyRegular}>19. Severability</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           1. Accessing the App; Account Security.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -107,7 +107,7 @@ export default function TermsScreen({ navigation }) {
           the App, or the entire App, to users, including registered users.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>2. User Accounts.</Text>
+        <Text style={globalStyles.headingText}>2. User Accounts.</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           Some content may only be available to users who create an account. In
@@ -125,7 +125,7 @@ export default function TermsScreen({ navigation }) {
           of these Terms to include violating the copyright of third parties.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>3. Privacy Policy. </Text>
+        <Text style={globalStyles.headingText}>3. Privacy Policy. </Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           Your privacy is important to us. Our Privacy Policy discuss what types
@@ -133,7 +133,7 @@ export default function TermsScreen({ navigation }) {
           The Privacy Policy is available on this app.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           4. Modification of the Terms.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -151,7 +151,7 @@ export default function TermsScreen({ navigation }) {
           those changes.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           5. Intellectual Property Rights.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -168,7 +168,7 @@ export default function TermsScreen({ navigation }) {
           reserved by Nuubi.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           6. User Posts and Uploads.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -219,7 +219,7 @@ export default function TermsScreen({ navigation }) {
           User of the App.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           7. Digital Millennium Copyright Act.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -270,7 +270,7 @@ export default function TermsScreen({ navigation }) {
           8. Otherwise interfere with the proper function of this App.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           11. Third-Party Sites, Products and Services; Links.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -283,7 +283,7 @@ export default function TermsScreen({ navigation }) {
           done solely at your own risk.{" "}
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           12. Term and Termination.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -297,7 +297,7 @@ export default function TermsScreen({ navigation }) {
           occurs. Repeat copyright offender accounts will be terminated.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>13. Indemnification.</Text>
+        <Text style={globalStyles.headingText}>13. Indemnification.</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           To the extent permitted by applicable law, you agree to defend,
@@ -314,7 +314,7 @@ export default function TermsScreen({ navigation }) {
           Nuubi’s App and related services.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           14. Disclaimers; No Warranties.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -370,7 +370,7 @@ export default function TermsScreen({ navigation }) {
           OTHERWISE MEET YOUR NEEDS OR EXPECTATIONS.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>
+        <Text style={globalStyles.headingText}>
           15. Limitations of Liability and Damages.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -389,7 +389,7 @@ export default function TermsScreen({ navigation }) {
           CONTRACT, OR OTHERWISE, EVEN IF FORESEEABLE
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>16. Arbitration.</Text>
+        <Text style={globalStyles.headingText}>16. Arbitration.</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           You agree that any dispute arising from these Terms shall be resolved
@@ -403,21 +403,21 @@ export default function TermsScreen({ navigation }) {
           Association.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>17. Entire Agreement.</Text>
+        <Text style={globalStyles.headingText}>17. Entire Agreement.</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           These Terms constitute the entirety of the Agreement between you and
           Nuubi.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>18. Governing Law.</Text>
+        <Text style={globalStyles.headingText}>18. Governing Law.</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           These Terms are governed by the law of the State of Arizona, without
           regard to any conflict of laws principles to the contrary.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.h3HeadingDark}>19. Severability.</Text>
+        <Text style={globalStyles.headingText}>19. Severability.</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           If any portion of these Terms are determined invalid or inoperative,

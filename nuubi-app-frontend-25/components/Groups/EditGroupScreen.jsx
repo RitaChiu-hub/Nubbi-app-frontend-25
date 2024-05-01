@@ -101,9 +101,9 @@ export default function EditGroupScreen({ navigation }) {
                     {error}
                   </Text>
                   <View>
-                    <Text style={globalStyles.loginLabelText}>Group Name</Text>
+                    <Text style={globalStyles.textInputLabel}>Group Name</Text>
                     <TextInput
-                      style={globalStyles.loginInput}
+                      style={globalStyles.textInput}
                       placeholder="Enter group name"
                       onChangeText={props.handleChange("groupname")}
                       value={props.values.groupname}
@@ -119,10 +119,10 @@ export default function EditGroupScreen({ navigation }) {
                     >
                       <ErrorMessage name="groupname" />
                     </Text>
-                    <Text style={globalStyles.loginLabelText}>Description</Text>
+                    <Text style={globalStyles.textInputLabel}>Description</Text>
                     <TextInput
                       // make the text box larger? Make sure it's maximum 255 characters.
-                      style={globalStyles.loginInputLarge}
+                      style={globalStyles.textInputLarge}
                       multiline={true}
                       placeholder="Enter description"
                       onChangeText={props.handleChange("description")}
@@ -139,7 +139,7 @@ export default function EditGroupScreen({ navigation }) {
                     >
                       <ErrorMessage name="description" />
                     </Text>
-                    <Text style={globalStyles.loginLabelText}>Visibility</Text>
+                    <Text style={globalStyles.textInputLabel}>Visibility</Text>
                     <View style={{ marginVertical: 5 }}></View>
                     <View style={globalStyles.buttonContainer}>
                       <View>
@@ -153,7 +153,7 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Private");
                           }}
                         >
-                          <Text style={globalStyles.radioText}>Private</Text>
+                          <Text style={globalStyles.textInputLabel}>Private</Text>
                         </TouchableOpacity>
                       </View>
                       <View>
@@ -167,14 +167,14 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Public");
                           }}
                         >
-                          <Text style={globalStyles.radioText}>Public</Text>
+                          <Text style={globalStyles.textInputLabel}>Public</Text>
                         </TouchableOpacity>
                       </View>
                     </View>
                   </View>
                   <View style={{ marginVertical: 10 }}></View>
                   <TouchableOpacity
-                    style={globalStyles.loginButton}
+                    style={globalStyles.primaryButton}
                     onPress={props.handleSubmit}
                   >
                     <Text style={globalStyles.primaryButtonText}>

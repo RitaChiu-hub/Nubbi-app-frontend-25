@@ -42,7 +42,6 @@ import ViewPostScreen from "./Chat/ViewPostScreen";
 import GroupInfoScreen from "./Chat/GroupInfoScreen";
 import GroupAnalytics from "./Chat/GroupAnalytics";
 import DeleteGroupScreen from "./Groups/DeleteGroupScreen";
-import DeleteMemberScreen from "./Groups/DeleteMemberScreen";
 import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
 
 import LearnMore1Screen from "./Onboarding/LearnMore1";
@@ -149,7 +148,6 @@ function HomeStack() {
         component={HelpScreen}
         options={{ title: "Nuubi How-To" }}
       />
-      <StackHome.Screen name="DeleteMember" component={DeleteMemberScreen} />
       <StackHome.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
     </StackHome.Navigator>
   );
@@ -172,7 +170,6 @@ function SearchStack() {
       <StackSearch.Screen name="ViewPost" component={ViewPostScreen} />
       <StackSearch.Screen name="GroupInfo" component={GroupInfoScreen} />
       <StackSearch.Screen name="DeleteGroup" component={DeleteGroupScreen} />
-      <StackSearch.Screen name="DeleteMember" component={DeleteMemberScreen} />
       <StackSearch.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
     </StackSearch.Navigator>
   );

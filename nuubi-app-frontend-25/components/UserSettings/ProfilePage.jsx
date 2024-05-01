@@ -148,12 +148,12 @@ export default function ProfilePageScreen({ navigation }) {
         <View>
           {avatarInfo !== null && pickedImage === null ? (
             <Image
-              style={globalStyles.ImageContainer}
+              style={globalStyles.roundImageContainer}
               source={{ uri: avatarInfo }}
             />
           ) : pickedImage !== null ? (
             <Image
-              style={globalStyles.ImageContainer}
+              style={globalStyles.roundImageContainer}
               source={{ uri: pickedImage.uri }}
               // source={
               //   Platform.OS == "web"
@@ -163,7 +163,7 @@ export default function ProfilePageScreen({ navigation }) {
             />
           ) : (
             <Image
-              style={globalStyles.ImageContainer}
+              style={globalStyles.roundImageContainer}
               source={
                 Platform.OS == "web"
                   ? require("../../assets/defaultAvatar.png")
@@ -193,14 +193,14 @@ export default function ProfilePageScreen({ navigation }) {
         {pickedImage !== null ? (
           <TouchableOpacity
             onPress={resetImage}
-            style={globalStyles.settingsButton}
+            style={globalStyles.primaryButton}
           >
             <Text style={globalStyles.primaryButtonText}>Clear picked image</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={pickImage}
-            style={globalStyles.settingsButton}
+            style={globalStyles.primaryButton}
           >
             <Text style={globalStyles.primaryButtonText}>Select new photo</Text>
           </TouchableOpacity>
@@ -236,7 +236,7 @@ export default function ProfilePageScreen({ navigation }) {
                 }
               });
           }}
-          style={globalStyles.settingsButton}
+          style={globalStyles.primaryButton}
         >
           <Text style={globalStyles.primaryButtonText}>
             Delete Profile Picture
@@ -245,7 +245,7 @@ export default function ProfilePageScreen({ navigation }) {
 
         {pickedImage !== null ? (
           <TouchableOpacity
-            style={globalStyles.settingsButton}
+            style={globalStyles.primaryButton}
             onPress={() => {
               // upload the pickedimage to cloudinary
 
@@ -316,7 +316,7 @@ export default function ProfilePageScreen({ navigation }) {
         ) : null}
 
         <TouchableOpacity
-          style={globalStyles.settingsButton}
+          style={globalStyles.primaryButton}
           onPress={() => {
             navigation.navigate("Settings");
           }}
@@ -325,7 +325,7 @@ export default function ProfilePageScreen({ navigation }) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={globalStyles.settingsButton}
+          style={globalStyles.primaryButton}
           onPress={() => {
             alert("Coming soon!");
           }}

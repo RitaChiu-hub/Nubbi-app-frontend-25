@@ -259,7 +259,7 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => navigation.navigate("EditGroup")}
         >
-          <Text style={globalStyles.rowLabel}>Edit Group</Text>
+          <Text style={globalStyles.headingText}>Edit Group</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
       )}
@@ -267,11 +267,11 @@ export default function GroupInfoScreen({ navigation }) {
         style={globalStyles.row}
         onPress={() => Alert.alert("Copied to Clipboard!")}
       >
-        <Text style={globalStyles.rowLabel}>
+        <Text style={globalStyles.headingText}>
           Invitation Passcode:{" "}
           <Text
             style={[
-              globalStyles.passcodeLabel,
+              globalStyles.textInputLabel,
               { fontWeight: "bold", color: "#242424" },
             ]}
           >
@@ -284,36 +284,28 @@ export default function GroupInfoScreen({ navigation }) {
         style={globalStyles.row}
         onPress={() => navigation.navigate("GroupAnalytics")}
       >
-        <Text style={globalStyles.rowLabel}>Group Analytics Dashboard</Text>
+        <Text style={globalStyles.headingText}>Group Analytics Dashboard</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
       <TouchableOpacity
         style={globalStyles.row}
         onPress={() => triggerComingSoonAlert()}
       >
-        <Text style={globalStyles.rowLabel}>Moderation Dashboard</Text>
+        <Text style={globalStyles.headingText}>Moderation Dashboard</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
       <TouchableOpacity
         style={globalStyles.row}
         onPress={() => triggerComingSoonAlert()}
       >
-        <Text style={globalStyles.rowLabel}>Manage Discussions</Text>
+        <Text style={globalStyles.headingText}>Manage Discussions</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
       <TouchableOpacity
         style={globalStyles.row}
         onPress={() => triggerComingSoonAlert()}
       >
-        <Text style={globalStyles.rowLabel}>Community Roles</Text>
-        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => triggerComingSoonAlert()}
-      >
-        <Text style={globalStyles.rowLabel}>Group Files</Text>
+        <Text style={globalStyles.headingText}>Community Roles</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
 
@@ -321,7 +313,15 @@ export default function GroupInfoScreen({ navigation }) {
         style={globalStyles.row}
         onPress={() => triggerComingSoonAlert()}
       >
-        <Text style={globalStyles.rowLabel}>Group Images</Text>
+        <Text style={globalStyles.headingText}>Group Files</Text>
+        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={globalStyles.row}
+        onPress={() => triggerComingSoonAlert()}
+      >
+        <Text style={globalStyles.headingText}>Group Images</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
 
@@ -329,7 +329,7 @@ export default function GroupInfoScreen({ navigation }) {
         style={globalStyles.row}
         onPress={() => navigation.navigate("HelpLoggedIn")}
       >
-        <Text style={globalStyles.rowLabel}>Help</Text>
+        <Text style={globalStyles.headingText}>Help</Text>
         <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
       </TouchableOpacity>
       {myIsAdmin == "true" && (
@@ -337,7 +337,7 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={[globalStyles.rowLabel, { color: "red" }]}>
+          <Text style={[globalStyles.headingText, { color: "red" }]}>
             Delete Group
           </Text>
         </TouchableOpacity>
@@ -347,7 +347,7 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={[globalStyles.rowLabel, { color: "red" }]}>
+          <Text style={[globalStyles.headingText, { color: "red" }]}>
             Leave Group
           </Text>
         </TouchableOpacity>
@@ -394,13 +394,13 @@ export default function GroupInfoScreen({ navigation }) {
 
   const renderMembers = () => (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.label}>{memberCount} members</Text>
+      <Text style={globalStyles.caption}>{memberCount} members</Text>
       <FlatList
         data={members}
         renderItem={({ item }) => (
           <View style={globalStyles.member}>
-            <Text style={globalStyles.memberText}>{item.username}</Text>
-            <Text style={globalStyles.memberText}>
+            <Text style={globalStyles.headingText}>{item.username}</Text>
+            <Text style={globalStyles.headingText}>
               {item.is_admin ? "Admin" : "Member"}
             </Text>
           </View>
@@ -413,9 +413,9 @@ export default function GroupInfoScreen({ navigation }) {
   const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
     <View style={{ paddingTop: 6 }}>
       <View style={globalStyles.row}>
-        <Text style={globalStyles.memberText}>{groupTotalPoints}</Text>
-        <Text style={globalStyles.memberText}>{username}</Text>
-        <Text style={globalStyles.memberText}>
+        <Text style={globalStyles.headingText}>{groupTotalPoints}</Text>
+        <Text style={globalStyles.headingText}>{username}</Text>
+        <Text style={globalStyles.headingText}>
           {is_admin ? "Admin" : "Member"}
         </Text>
       </View>
@@ -434,7 +434,7 @@ export default function GroupInfoScreen({ navigation }) {
 
   const renderLeaderboard = () => (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.label}>{memberCount} members</Text>
+      <Text style={globalStyles.caption}>{memberCount} members</Text>
       <FlatList
         data={members}
         renderItem={renderItem}
@@ -449,7 +449,7 @@ export default function GroupInfoScreen({ navigation }) {
         <View style={globalStyles.header}>
           <Image
             source={{ uri: "https://via.placeholder.com/140" }}
-            style={globalStyles.groupPhoto}
+            style={globalStyles.roundImageContainer}
           />
         </View>
         <View style={globalStyles.tabs}>
@@ -471,7 +471,7 @@ export default function GroupInfoScreen({ navigation }) {
                 />
                 <Text
                   style={[
-                    globalStyles.tabText,
+                    globalStyles.screenHeader,
                     index === value && globalStyles.activeTabText,
                   ]}
                 >

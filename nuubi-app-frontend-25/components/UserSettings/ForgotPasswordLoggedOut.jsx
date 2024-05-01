@@ -120,9 +120,9 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           >
             {(props) => (
               <View>
-                <Text style={globalStyles.loginLabelText}>Email:</Text>
+                <Text style={globalStyles.textInputLabel}>Email:</Text>
                 <TextInput
-                  style={globalStyles.loginInput}
+                  style={globalStyles.textInput}
                   placeholder="School or Personal Email"
                   onChangeText={props.handleChange("email")}
                   value={props.values.email}
@@ -130,7 +130,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
-                    style={globalStyles.loginButton}
+                    style={globalStyles.primaryButton}
                     accessibilityRole="button"
                     onPress={props.handleSubmit}
                   >
@@ -189,9 +189,9 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           >
             {(props) => (
               <View>
-                <Text style={globalStyles.loginLabelText}>Passcode:</Text>
+                <Text style={globalStyles.textInputLabel}>Passcode:</Text>
                 <TextInput
-                  style={globalStyles.loginInput}
+                  style={globalStyles.textInput}
                   placeholder="Enter 6 Digit Passcode"
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
@@ -204,9 +204,9 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 >
                   <ErrorMessage name="passcode" />
                 </Text>
-                <Text style={globalStyles.loginLabelText}>New Password:</Text>
+                <Text style={globalStyles.textInputLabel}>New Password:</Text>
                 <TextInput
-                  style={globalStyles.loginInput}
+                  style={globalStyles.textInput}
                   placeholder="Enter New Password"
                   secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt1")}
@@ -220,11 +220,11 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 >
                   <ErrorMessage name="passattempt1" />
                 </Text>
-                <Text style={globalStyles.loginLabelText}>
+                <Text style={globalStyles.textInputLabel}>
                   Repeat New Password:
                 </Text>
                 <TextInput
-                  style={globalStyles.loginInput}
+                  style={globalStyles.textInput}
                   placeholder="Repeat New Password"
                   secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt2")}
@@ -241,7 +241,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
-                    style={globalStyles.loginButton}
+                    style={globalStyles.primaryButton}
                     accessibilityRole="button"
                     onPress={props.handleSubmit}
                   >

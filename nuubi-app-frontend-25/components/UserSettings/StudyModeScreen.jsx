@@ -85,11 +85,11 @@ export default function StudyModeScreen({ navigation }) {
             <View style={globalStyles.container}>
               <View style={globalStyles.content}>
                     <View style={globalStyles.section}>
-                        <Text style={globalStyles.sectionTitle}>SET UP</Text>
+                        <Text style={globalStyles.bodyRegular}>SET UP</Text>
                         <View style={globalStyles.sectionBody}>
                             <View style={[globalStyles.rowWrapper, globalStyles.rowSingle]}>
                                 <View style={globalStyles.row}>
-                                    <Text style={globalStyles.rowLabel}>Study Mode</Text>
+                                    <Text style={globalStyles.headingText}>Study Mode</Text>
                                     <View style={globalStyles.rowSpacer} />
                                     <Switch
                                         onValueChange={studyModeToggle =>
@@ -103,17 +103,17 @@ export default function StudyModeScreen({ navigation }) {
                     </View>
 
                     <View style={globalStyles.altBody}>
-                      <Text style={globalStyles.sectionText}>
+                      <Text style={globalStyles.bodyRegular}>
                         Select specific times to automatically silence notifications when needed. These times can be changed at anytime.
                       </Text>
                     </View>
 
                     <View style={globalStyles.section}>
-                        <Text style={globalStyles.sectionTitle}>Select a time schedule</Text>
+                        <Text style={globalStyles.bodyRegular}>Select a time schedule</Text>
                         <View style={{marginTop: 20}}></View>
                         <View style={[globalStyles.altWrapper, {zIndex: 100}]}>
                           <View style={[globalStyles.row, form.studyModeToggle ? null : globalStyles.disabledRow]}>
-                                <Text style={[globalStyles.rowLabel, form.studyModeToggle ? null : globalStyles.disabledText]}>From</Text>
+                                <Text style={[globalStyles.headingText, form.studyModeToggle ? null : globalStyles.disabledText]}>From</Text>
                                 <View style={globalStyles.rowSpacer} />
                                 <DropDownPicker
                                     open={openFrom}
@@ -131,7 +131,7 @@ export default function StudyModeScreen({ navigation }) {
                         <View style={{marginTop: 20, zIndex: 60}}></View>
                         <View style={[globalStyles.altWrapper, {zIndex: 50}]}>
                           <View style={[globalStyles.row, form.studyModeToggle ? null : globalStyles.disabledRow]}>
-                              <Text style={[globalStyles.rowLabel, form.studyModeToggle ? null : globalStyles.disabledText]}>To</Text>
+                              <Text style={[globalStyles.headingText, form.studyModeToggle ? null : globalStyles.disabledText]}>To</Text>
                                 <View style={globalStyles.rowSpacer} />
                                 <DropDownPicker
                                     open={openTo}

@@ -167,13 +167,13 @@ export default function CodeVerificationScreen({ navigation, route }) {
                   Enter your Passcode
                 </Text>
                 <View style={{ marginVertical: 10 }}></View>
-                <Text style={globalStyles.acknowledgmentText}>
+                <Text style={globalStyles.bodyRegular}>
                   An email containing the verification code was sent to your
                   email address.
                 </Text>
               </View>
               <View style={{ marginVertical: 10 }}></View>
-              <Text style={globalStyles.loginLabelText}>
+              <Text style={globalStyles.textInputLabel}>
                 Verification Code:
               </Text>
               <TextInput
@@ -197,11 +197,11 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 <View>
                   <TouchableOpacity
                     style={[
-                      globalStyles.confirmButton,
+                      globalStyles.primaryButton,
                       {
                         backgroundColor: isFieldEmpty(props.values)
                           ? "#EBEBEB"
-                          : globalStyles.signUpButton.backgroundColor,
+                          : globalStyles.primaryButton.backgroundColor,
                       },
                     ]}
                     accessibilityRole="button"

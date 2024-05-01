@@ -237,27 +237,7 @@ export default function ViewPostScreen({ navigation }) {
           onRequestClose={() => setModalVisible(false)}
         >
           <View style={globalStyles.centeredView}>
-            <View
-              //style={globalStyles.modalView}
-              style={{
-                backgroundColor: "#fdfdfd",
-                maxWidth: Dimensions.get("window").width * 0.8,
-                maxHeight: Dimensions.get("window").height * 0.7,
-                borderRadius: 20,
-                padding: 35,
-                alignItems: "center",
-                elevation: 15,
-                borderWidth: 1,
-                borderColor: "#ddd",
-                shadowColor: "#333333",
-                shadowOpacity: 0.5,
-                shadowRadius: 2,
-                shadowOffset: {
-                  width: 0.8,
-                  height: 0.8,
-                },
-              }}
-            >
+            <View style={globalStyles.modalView}>
               <ScrollView>
                 {previewUrls.map((url, index) => (
                   <Image

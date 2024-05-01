@@ -46,15 +46,15 @@ export default function FeedbackScreen({ navigation }) {
             {error}
           </Text>
           {/* Style addition syntax */}
-          <Text style={[globalStyles.headerText]}>Share Your Feedback</Text>
-          <Text style={[globalStyles.text, { color: "#888888" }]}>
+          <Text style={[globalStyles.h2HeadingMedium]}>Share Your Feedback</Text>
+          <Text style={[globalStyles.bodyRegular, { color: "#888888" }]}>
             Enter in your feedback in the text field below and submit. We
             appreciate and value all feedback provided!
           </Text>
 
           {/* Input box */}
           <TextInput
-            style={[globalStyles.textInput]}
+            style={[globalStyles.textInputLarge]}
             multiline={true}
             placeholder=""
             onChangeText={(e) => setUserFeedback(e)}
@@ -66,7 +66,7 @@ export default function FeedbackScreen({ navigation }) {
           {/* Align text count and max length text */}
           <Text
             style={[
-              globalStyles.textCount,
+              globalStyles.headingText,
               { textAlign: "right" },
               { fontSize: 17 },
               { color: "#888" },
