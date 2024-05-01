@@ -445,7 +445,7 @@ export default function GroupInfoScreen({ navigation }) {
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      <View style={globalStyles.container}>
+      {/* <View style={globalStyles.container}> */}
         <View style={globalStyles.header}>
           <Image
             source={{ uri: "https://via.placeholder.com/140" }}
@@ -455,7 +455,7 @@ export default function GroupInfoScreen({ navigation }) {
           {/* <Text style={globalStyles.title}>{groupTitle}</Text> */}
         </View>
 
-        <View style={globalStyles.tabs}>
+        {/* <View style={globalStyles.tabs}>
           {tabs.map((tab, index) => (
             <TouchableOpacity key={index} onPress={() => handleTabPress(index)}>
               <View style={[globalStyles.tab, index === value && globalStyles.activeTab]}>
@@ -480,7 +480,7 @@ export default function GroupInfoScreen({ navigation }) {
           ))}
         </View>
         {value === 0 ? renderSettings() : renderLeaderboard()}
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }
