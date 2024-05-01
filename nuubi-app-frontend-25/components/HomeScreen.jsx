@@ -5,7 +5,6 @@ import {
   Modal,
   Image,
   TouchableOpacity,
-  StyleSheet,
   ScrollView,
   Dimensions,
   Platform,
@@ -76,6 +75,7 @@ export default function HomeScreen({ navigation }) {
   const [performOnboarding, setPerformOnboarding] = React.useState(
     user.firstSignIn == true ? true : false
   );
+  // const [performOnboarding, setPerformOnboarding] = React.useState(true);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
   const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];
@@ -518,23 +518,3 @@ export default function HomeScreen({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-  sections: { flex: 0.62 },
-  popupMessage: { fontSize: 20, width: "80%" },
-  popupTitle: {
-    fontSize: 22,
-    color: "black",
-    fontWeight: "600",
-  },
-  popupConfirm: {
-    width: "30%",
-    borderRadius: 20,
-    backgroundColor: "#2F9CB4",
-  },
-  popupConfirmText: {
-    width: "100%",
-    textAlign: "center",
-  },
-});

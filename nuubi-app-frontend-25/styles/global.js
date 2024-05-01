@@ -1,6 +1,8 @@
 import { StyleSheet, StatusBar, Dimensions } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+
 export const globalStyles = StyleSheet.create({
   h2HeadingMedium: {
     fontSize: 24,
@@ -180,6 +182,32 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#1aa7ec",
     borderRadius: 6,
   },
+  /** Cards */
+  card: {
+    padding: 12,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  cardBody: {
+    flex: "1",
+    marginRight: 16,
+  },
+  cardName: {
+    fontSize: 18,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "600",
+    color: "#292929",
+  },
+  cardHandle: {
+    marginTop: 2,
+    fontSize: 14,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "400",
+    color: "#858585",
+  },
   unselected: {
     alignItems: "center",
     justifyContent: "center",
@@ -296,7 +324,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#EBEBEB",
     padding: 8,
     borderRadius: 10,
-     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
+    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
     maxWidth: 500,
     alignItems: "stretch",
     marginVertical: 5,
@@ -453,7 +481,16 @@ export const globalStyles = StyleSheet.create({
     letterSpacing: 1.25,
   },
   ImageContainer: {
+    // for avatars
     borderRadius: 200,
+    width: 250,
+    height: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  postImageContainer: {
+    borderRadius: 10,
     width: 250,
     height: 250,
     justifyContent: "center",
@@ -495,17 +532,25 @@ export const globalStyles = StyleSheet.create({
     textTransform: "uppercase",
   },
   sectionBody: {
+    backgroundColor: "#f8f8f8",
     borderRadius: 12,
-    shadowColor: "rgba(0,0,0,0.25)",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 1,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    backgroundColor: "#ffffff",
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
-
+  altBody: {
+    backgroundColor: "#f8f8f8",
+  },
+  altWrapper: {
+    paddingLeft: 16,
+    position: "relative",
+    zIndex: 1, // Ensure dropdown is on top
+  },
   /** Row */
   row: {
     flexDirection: "row",
@@ -666,5 +711,114 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "500",
     color: "#333",
   },
-});
+  sections: { flex: 0.62 },
+  popupMessage: { fontSize: 20, width: "80%" },
+  popupTitle: {
+    fontSize: 22,
+    color: "black",
+    fontWeight: "600",
+  },
+  popupConfirm: {
+    width: "30%",
+    borderRadius: 20,
+    backgroundColor: "#2F9CB4",
+  },
+  popupConfirmText: {
+    width: "100%",
+    textAlign: "center",
+  },
+  image: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#0553",
+  },
+  headerAction: {
+    width: 40,
+    height: 40,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  headerTitle: {
+    fontSize: 19,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "600",
+    color: "#000",
+  },
+  content: {
+    paddingHorizontal: 16,
+  },
+  contentFooter: {
+    marginTop: 24,
+    fontSize: 13,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    textAlign: "center",
+    color: "#a69f9f",
+  },
+  sectionTitle: {
+    margin: 10,
+    marginLeft: 12,
+    fontSize: 13,
+    letterSpacing: 0.33,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    color: "#a69f9f",
+    textTransform: "uppercase",
+  },
+  sectionText: {
+    margin: 10,
+    marginLeft: 12,
+    fontSize: 13,
+    letterSpacing: 0.33,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "bold",
+    color: "#181828",
+  },
+  rowSingle: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
 
+  disabledPicker: {
+    opacity: 0.3,
+  },
+  disabledRow: {
+    opacity: 0.4,
+  },
+  disabledText: {
+    color: "#999",
+  },
+
+  taskContainer: {
+    height: "80%",
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 30,
+    marginTop: 10,
+  },
+  subjectNameView: {
+    height: "20%",
+    justifyContent: "flex-end",
+    width: screenWidth * 0.4,
+    alignItems: "center",
+  },
+  subjectText: {
+    textAlign: "center",
+    textAlignVertical: "bottom",
+    height: "100%",
+    width: "100%",
+    color: "black",
+    fontWeight: "700",
+    fontSize: 18,
+  },
+  profilePicturesContainer: {
+    backgroundColor: "blue",
+  },
+  textTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+  },
+});

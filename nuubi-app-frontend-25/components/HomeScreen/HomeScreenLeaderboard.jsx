@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Image,
   ScrollView,
   Dimensions,
@@ -216,44 +215,3 @@ export default function HomeScreenLeaderboard() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    height: screenHeight * 0.33,
-  },
-  headerTitle: {
-    height: "20%",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  textTitle: {
-    fontSize: 24,
-    fontWeight: "500",
-  },
-  taskContainer: {
-    height: "80%",
-    width: "100%",
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 30,
-    marginTop: 10,
-  },
-  subjectNameView: {
-    height: "20%",
-    justifyContent: "flex-end",
-    width: screenWidth * 0.4,
-    alignItems: "center",
-  },
-  subjectText: {
-    textAlign: "center",
-    textAlignVertical: "bottom",
-    height: "100%",
-    width: "100%",
-    color: "black",
-    fontWeight: "700",
-    fontSize: 18,
-  },
-  profilePicturesContainer: {
-    backgroundColor: "blue",
-  },
-});

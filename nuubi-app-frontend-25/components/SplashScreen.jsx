@@ -416,17 +416,3 @@ const stylesCarousel = StyleSheet.create({
     marginHorizontal: 8,
   },
 });
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "#0553",
-  },
-});

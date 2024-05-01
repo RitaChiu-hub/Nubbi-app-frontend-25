@@ -9,7 +9,6 @@ import {
   Keyboard,
   Platform,
   Image,
-  StyleSheet,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -627,9 +626,9 @@ export default function CreatePostScreen({ navigation }) {
                   <View>
                     {pickedImage === null ? null : (
                       <Image
-                        style={globalStyles.ImageContainer}
+                        style={globalStyles.postImageContainer}
                         source={{ uri: pickedImage.uri }}
-                       />
+                      />
                     )}
                     {pickedFile === null ? null : (
                       <Text
@@ -770,15 +769,3 @@ export default function CreatePostScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  ImageContainer: {
-    borderRadius: 10,
-    width: 250,
-    height: 250,
-    // borderWidth: 1 / PixelRatio.get(),
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-});

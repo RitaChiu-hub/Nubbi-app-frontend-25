@@ -1,11 +1,8 @@
 import * as React from "react";
 import {
-  Button,
   TextInput,
   View,
   Text,
-  StyleSheet,
-  Alert,
   TouchableOpacity,
   Keyboard,
   StatusBar,
@@ -16,7 +13,6 @@ import {
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
-import * as SecureStore from "expo-secure-store";
 const { createPostSchema } = require("../validationSchema");
 import * as ImagePicker from "expo-image-picker";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
