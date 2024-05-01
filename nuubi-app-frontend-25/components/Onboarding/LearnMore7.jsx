@@ -13,39 +13,23 @@ export default function LearnMore7Screen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: "#fdfdfd",
-        padding: 16,
-        paddingTop: 32,
-      }}
-    >
-      <Text style={globalStyles.bodyRegular}>
-        Time to start learning together, get your questions answered faster{" "}
-        {"& "}
-        get rewarded for being helpful!
-      </Text>
-
-      <View>
-        <TouchableOpacity
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            paddingVertical: 14,
-            paddingHorizontal: 20,
-            borderRadius: 60,
-            elevation: 3,
-            backgroundColor: "#2482AA",
-            width: "100%",
-            marginTop: 16,
-          }}
-          accessibilityRole="button"
-          onPress={() => navigation.navigate("SignUp")}
-        >
-          <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
-        </TouchableOpacity>
+    <View style={globalStyles.container}>
+      <View style={globalStyles.widthContainer}>
+        <Text style={globalStyles.bodyRegular}>
+          Time to start learning together, get your questions answered faster{" "}
+          {"& "}
+          get rewarded for being helpful!
+        </Text>
+        <View style={{ marginVertical: 8 }}></View>
+        <View>
+          <TouchableOpacity
+            style={globalStyles.primaryButton}
+            accessibilityRole="button"
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

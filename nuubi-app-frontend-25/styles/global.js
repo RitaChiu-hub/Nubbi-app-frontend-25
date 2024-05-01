@@ -125,13 +125,6 @@ export const globalStyles = StyleSheet.create({
     maxWidth: 500,
   },
   secondaryButton: {
-    // alignItems: "center",
-    // justifyContent: "center",
-    // marginVertical: 10,
-    // paddingVertical: 14,
-    // paddingHorizontal: 20,
-    // backgroundColor: "transparent",
-
     backgroundColor: nuubiColors["white"],
     alignItems: "center",
     justifyContent: "center",
@@ -143,6 +136,22 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 2,
     borderColor: nuubiColors["primaryGray"],
     alignSelf: "center",
+  },
+  linkButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    backgroundColor: "transparent",
+  },
+  smallRightButton: {
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 60,
+    elevation: 3,
+    backgroundColor: "#2482AA",
+    alignSelf: "flex-end",
   },
   buttonContainer: {
     width: "90%",

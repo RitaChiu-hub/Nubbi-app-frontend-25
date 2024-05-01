@@ -39,15 +39,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           alignItems: "center",
         }}
       >
-        <Text
-          style={{
-            color: "red",
-            textAlign: "center",
-            marginTop: 16,
-          }}
-        >
-          {error}
-        </Text>
+        <Text style={globalStyles.captionError}>{error}</Text>
 
         <View
           style={{
@@ -196,12 +188,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
                 />
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
+                <Text style={globalStyles.captionError}>
                   <ErrorMessage name="passcode" />
                 </Text>
                 <Text style={globalStyles.textInputLabel}>New Password:</Text>
@@ -212,12 +199,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   onChangeText={props.handleChange("passattempt1")}
                   value={props.values.passattempt1}
                 />
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
+                <Text style={globalStyles.captionError}>
                   <ErrorMessage name="passattempt1" />
                 </Text>
                 <Text style={globalStyles.textInputLabel}>
@@ -230,12 +212,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   onChangeText={props.handleChange("passattempt2")}
                   value={props.values.passattempt2}
                 />
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
+                <Text style={globalStyles.captionError}>
                   <ErrorMessage name="passattempt2" />
                 </Text>
                 <View style={{ marginVertical: 5 }}></View>
@@ -249,15 +226,11 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                       Reset password
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text
-                      style={{
-                        textAlign: "center",
-                        marginTop: 30,
-                        color: "#2482AA",
-                        textDecorationLine: "underline",
-                      }}
-                    >
+                  <TouchableOpacity
+                    style={globalStyles.linkButton}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <Text style={globalStyles.captionLinkBlue}>
                       Return to Sign In
                     </Text>
                   </TouchableOpacity>
@@ -270,4 +243,3 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
     </ScrollView>
   );
 }
-

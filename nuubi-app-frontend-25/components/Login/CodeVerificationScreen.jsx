@@ -184,14 +184,11 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 value={props.values.passcode}
                 marginBottom={10}
               />
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="passcode" />
-                {error && <Text style={{ color: "red" }}>{error}</Text>}
+                {error && (
+                  <Text style={globalStyles.captionError}>{error}</Text>
+                )}
               </Text>
               <View>
                 <View style={{ marginVertical: 10 }}></View>

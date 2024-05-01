@@ -12,42 +12,19 @@ export default function LearnMore2Screen({ navigation }) {
 
   return (
     <ScrollView
-      style={{
-        backgroundColor: "#fdfdfd",
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "space-between",
-          backgroundColor: "#fdfdfd",
-          padding: 16,
-        }}
-      >
-        <Text
-            style={globalStyles.bodyRegular}
-        >
+    style={{
+      padding: 12,
+      backgroundColor: "#fdfdfd",
+    }}
+  >
+    <View style={globalStyles.container}>
+      <View style={globalStyles.widthContainer}>
+        <Text style={globalStyles.bodyRegular}>
           Get points for being helpful on any post, comment or message! The
           group info page shows the most helpful members.
         </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            width: "90%",
-          }}
-        >
-          <View></View>
-          <TouchableOpacity
-            style={{
-              marginTop: 10,
-              paddingVertical: 14,
-              paddingHorizontal: 30,
-              borderRadius: 60,
-              elevation: 3,
-              backgroundColor: "#2482AA",
-            }}
+        <TouchableOpacity
+            style={globalStyles.smallRightButton}
             accessibilityRole="button"
             onPress={() => navigation.navigate("LearnMore4")}
           >

@@ -35,7 +35,9 @@ export default function LoginScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text style={globalStyles.h3HeadingRegular}>Login</Text>,
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingRegular}>Login</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -96,27 +98,17 @@ export default function LoginScreen({ navigation }) {
         >
           {(props) => (
             <View style={{ marginHorizontal: 30 }}>
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                {error}
+              <Text style={globalStyles.captionError}>{error}</Text>
+              <Text style={globalStyles.textInputLabel}>
+                Email or Username:
               </Text>
-              <Text style={globalStyles.textInputLabel}>Email or Username:</Text>
               <TextInput
                 style={globalStyles.textInput}
                 placeholder="Email or Username"
                 onChangeText={props.handleChange("username")}
                 value={props.values.username}
               />
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="username" />
               </Text>
               <Text style={globalStyles.textInputLabel}>Password:</Text>
@@ -141,15 +133,10 @@ export default function LoginScreen({ navigation }) {
                   />
                 </Pressable>
               </View>
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="password" />
               </Text>
-              <View style={{ marginVertical: 16 }}></View>
+              <View style={{ marginVertical: 8 }}></View>
               <View>
                 <TouchableOpacity
                   style={[
@@ -179,7 +166,7 @@ export default function LoginScreen({ navigation }) {
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
-                style={globalStyles.secondaryButton}
+                style={globalStyles.linkButton}
                 accessibilityRole="button"
                 onPress={() => navigation.navigate("ForgotPasswordLoggedOut")}
               >
@@ -192,7 +179,8 @@ export default function LoginScreen({ navigation }) {
                   <View style={globalStyles.dividerContainer}>
                     <View style={globalStyles.halfDivider}></View>
                     <Text style={globalStyles.bodyRegular}>
-                      or continue with
+                      {" "}
+                      or continue with{" "}
                     </Text>
                     <View style={globalStyles.halfDivider}></View>
                   </View>
@@ -251,4 +239,3 @@ export default function LoginScreen({ navigation }) {
     </ScrollView>
   );
 }
-
