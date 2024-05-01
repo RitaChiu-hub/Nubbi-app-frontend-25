@@ -101,11 +101,10 @@ export default function SignUpScreen({ navigation }) {
     >
       <View
         style={{
-          flex: 1,
           alignItems: "center",
           justifyContent: "center",
           marginTop: 20,
-          marginBottom: 70,
+          marginBottom: 20,
         }}
       >
         <Formik
@@ -121,18 +120,11 @@ export default function SignUpScreen({ navigation }) {
             values.email = values.email.trim();
             values.password = password;
             values.password2 = comfirmPassword;
-            //    const vals = { ...values };
             const vals = {
               email: values.email,
               password: password,
               password2: comfirmPassword,
-              //  password2: values.password2,
-              // password2: comfirmPassword,
             };
-            // console.log({ ...vals });
-            // console.log({ ...values });
-            // console.log(areAllFieldsEmpty(values));
-
             actions.resetForm();
             fetch(
               "https://coral-app-n96bn.ondigitalocean.app/auth/checkemail",
@@ -168,332 +160,328 @@ export default function SignUpScreen({ navigation }) {
           }}
         >
           {(props) => (
-            <View>
-              <View style={{ marginHorizontal: 30 }}>
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  {error}
-                </Text>
-                <Text style={globalStyles.loginLabelText}>Email:</Text>
+            <View style={{ marginHorizontal: 30 }}>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {error}
+              </Text>
+              <Text style={globalStyles.loginLabelText}>Email:</Text>
+              <TextInput
+                style={globalStyles.loginInput}
+                placeholder="School or Personal Email"
+                onChangeText={props.handleChange("email")}
+                value={props.values.email}
+              />
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                <ErrorMessage name="email" />
+              </Text>
+              <Text style={globalStyles.loginLabelText}>Password:</Text>
+              <View style={globalStyles.passwordInputContainer}>
                 <TextInput
-                  style={globalStyles.loginInput}
-                  placeholder="School or Personal Email"
-                  onChangeText={props.handleChange("email")}
-                  value={props.values.email}
+                  style={[
+                    globalStyles.passwordInput,
+                    Platform.OS === "web" && {
+                      outlineStyle: "none",
+                    },
+                  ]}
+                  placeholder="Password"
+                  // onChangeText={props.handleChange("password")}
+                  onChangeText={(passwordText) => {
+                    setPassword(passwordText), validatePassword(passwordText);
+                  }}
+                  //   value={props.values.password}
+                  value={password}
+                  secureTextEntry={passwordVisibility}
                 />
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
+                <Pressable onPress={handlePasswordVisibility}>
+                  <IconMC name={rightIcon} size={22} color="#2482AA" />
+                </Pressable>
+              </View>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                <ErrorMessage name="password" />
+              </Text>
+              <Text style={globalStyles.loginLabelText}>Repeat Password:</Text>
+              <View style={globalStyles.passwordInputContainer}>
+                <TextInput
+                  style={[
+                    globalStyles.passwordInput,
+                    Platform.OS === "web" && {
+                      outlineStyle: "none",
+                    },
+                  ]}
+                  placeholder="Confirm Password"
+                  //   onChangeText={props.handleChange("password2")}
+                  //   value={props.values.password2}
+                  onChangeText={(passwordText2) => {
+                    setComfirmPassword(passwordText2);
                   }}
-                >
-                  <ErrorMessage name="email" />
-                </Text>
-                <Text style={globalStyles.loginLabelText}>Password:</Text>
-                <View style={globalStyles.passwordInputContainer}>
-                  <TextInput
-                    style={[
-                      globalStyles.passwordInput,
-                      Platform.OS === "web" && {
-                        outlineStyle: "none",
-                      },
-                    ]}
-                    placeholder="Password"
-                    // onChangeText={props.handleChange("password")}
-                    onChangeText={(passwordText) => {
-                      setPassword(passwordText), validatePassword(passwordText);
-                    }}
-                    //   value={props.values.password}
-                    value={password}
-                    secureTextEntry={passwordVisibility}
-                  />
-                  <Pressable onPress={handlePasswordVisibility}>
-                    <IconMC name={rightIcon} size={22} color="#2482AA" />
-                  </Pressable>
-                </View>
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  <ErrorMessage name="password" />
-                </Text>
-                <Text style={globalStyles.loginLabelText}>
-                  Repeat Password:
-                </Text>
-                <View style={globalStyles.passwordInputContainer}>
-                  <TextInput
-                    style={[
-                      globalStyles.passwordInput,
-                      Platform.OS === "web" && {
-                        outlineStyle: "none",
-                      },
-                    ]}
-                    placeholder="Confirm Password"
-                    //   onChangeText={props.handleChange("password2")}
-                    //   value={props.values.password2}
-                    onChangeText={(passwordText2) => {
-                      setComfirmPassword(passwordText2);
-                    }}
-                    value={comfirmPassword}
-                    secureTextEntry={passwordVisibility}
-                  />
-                  <Pressable onPress={handlePasswordVisibility}>
-                    <IconMC name={rightIcon} size={22} color="#2482AA" />
-                  </Pressable>
-                </View>
+                  value={comfirmPassword}
+                  secureTextEntry={passwordVisibility}
+                />
+                <Pressable onPress={handlePasswordVisibility}>
+                  <IconMC name={rightIcon} size={22} color="#2482AA" />
+                </Pressable>
+              </View>
 
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  <ErrorMessage name="password2" />
-                </Text>
-                {(showComfirmPWDStatus == "yes" ||
-                  showComfirmPWDStatus == "true") && (
-                  <View>
-                    {comfirmPasswardStatus === "true" ? (
-                      <Text style={{ color: "green" }}>*Passwords match</Text>
-                    ) : (
-                      <Text style={{ color: "red" }}>
-                        *Passwords do not match
-                      </Text>
-                    )}
-                  </View>
-                )}
-
-                <View
-                  style={{
-                    padding: 10,
-                    fontSize: 18,
-                    width: "100%",
-                    alignItems: "stretch",
-                    marginTop: 5,
-                    marginBottom: 5,
-                  }}
-                >
-                  <Text
-                    style={{ fontFamily: "Poppins_500Medium", color: "black" }}
-                  >
-                    Password must contain:{" "}
-                  </Text>
-                  {suggestions.includes("L") && password.length > 0 ? (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#00A86B" /> 8
-                      to 28 characters
-                    </Text>
-                  ) : (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> 8
-                      to 28 characters
-                    </Text>
-                  )}
-                  {suggestions.includes("LC") && password.length > 0 ? (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#00A86B" /> At
-                      least one lowercase letter
-                    </Text>
-                  ) : (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
-                      least one lowercase letter
-                    </Text>
-                  )}
-                  {suggestions.includes("UC") && password.length > 0 ? (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#00A86B" /> At
-                      least one uppercase letter
-                    </Text>
-                  ) : (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
-                      least one uppercase letter
-                    </Text>
-                  )}
-                  {suggestions.includes("NM") && password.length > 0 ? (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#00A86B" /> At
-                      least one number
-                    </Text>
-                  ) : (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
-                      least one number
-                    </Text>
-                  )}
-                  {suggestions.includes("SC") && password.length > 0 ? (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#00A86B" /> At
-                      least one special character
-                    </Text>
-                  ) : (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins_500Medium",
-                        color: "black",
-                      }}
-                    >
-                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
-                      least one special character
-                    </Text>
-                  )}
-                </View>
-                <View style={{ marginVertical: 5 }}></View>
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                <ErrorMessage name="password2" />
+              </Text>
+              {(showComfirmPWDStatus == "yes" ||
+                showComfirmPWDStatus == "true") && (
                 <View>
-                  <View>
-                    <TouchableOpacity
+                  {comfirmPasswardStatus === "true" ? (
+                    <Text style={{ color: "green" }}>*Passwords match</Text>
+                  ) : (
+                    <Text style={{ color: "red" }}>
+                      *Passwords do not match
+                    </Text>
+                  )}
+                </View>
+              )}
+
+              <View
+                style={{
+                  padding: 10,
+                  fontSize: 18,
+                  width: "100%",
+                  alignItems: "stretch",
+                  marginTop: 5,
+                  marginBottom: 5,
+                }}
+              >
+                <Text
+                  style={{ fontFamily: "Poppins_500Medium", color: "black" }}
+                >
+                  Password must contain:{" "}
+                </Text>
+                {suggestions.includes("L") && password.length > 0 ? (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#00A86B" /> 8 to
+                    28 characters
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#d8d8d8" /> 8 to
+                    28 characters
+                  </Text>
+                )}
+                {suggestions.includes("LC") && password.length > 0 ? (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#00A86B" /> At
+                    least one lowercase letter
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
+                    least one lowercase letter
+                  </Text>
+                )}
+                {suggestions.includes("UC") && password.length > 0 ? (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#00A86B" /> At
+                    least one uppercase letter
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
+                    least one uppercase letter
+                  </Text>
+                )}
+                {suggestions.includes("NM") && password.length > 0 ? (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#00A86B" /> At
+                    least one number
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
+                    least one number
+                  </Text>
+                )}
+                {suggestions.includes("SC") && password.length > 0 ? (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#00A86B" /> At
+                    least one special character
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontFamily: "Poppins_500Medium",
+                      color: "black",
+                    }}
+                  >
+                    <IconAD name="checkcircle" size={14} color="#d8d8d8" /> At
+                    least one special character
+                  </Text>
+                )}
+              </View>
+              <View style={{ marginVertical: 5 }}></View>
+              <View>
+                <View>
+                  <TouchableOpacity
+                    style={[
+                      globalStyles.signUpButton,
+                      {
+                        backgroundColor: areAllFieldsEmpty(props.values)
+                          ? "#EBEBEB"
+                          : globalStyles.signUpButton.backgroundColor,
+                      },
+                    ]}
+                    accessibilityRole="button"
+                    onPress={props.handleSubmit}
+                    disabled={areAllFieldsEmpty(props.values)}
+                  >
+                    <Text
                       style={[
-                        globalStyles.signUpButton,
+                        globalStyles.signUpButtonText,
                         {
-                          backgroundColor: areAllFieldsEmpty(props.values)
-                            ? "#EBEBEB"
-                            : globalStyles.signUpButton.backgroundColor,
+                          color: areAllFieldsEmpty(props.values)
+                            ? "#33333366"
+                            : globalStyles.signUpButtonText.color,
                         },
                       ]}
-                      accessibilityRole="button"
-                      onPress={props.handleSubmit}
-                      disabled={areAllFieldsEmpty(props.values)}
                     >
-                      <Text
-                        style={[
-                          globalStyles.signUpButtonText,
-                          {
-                            color: areAllFieldsEmpty(props.values)
-                              ? "#33333366"
-                              : globalStyles.signUpButtonText.color,
-                          },
-                        ]}
-                      >
-                        Sign Up
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <View style={{ marginTop: 16 }}>
-                  <Text style={globalStyles.acknowledgmentText}>
-                    By signing up, I agree to NUUBI’s{" "}
-                    <Text
-                      style={globalStyles.captionLinkBlue}
-                      onPress={() => {
-                        navigation.navigate("TermsScreen");
-                      }}
-                    >
-                      Terms of Service
-                    </Text>{" "}
-                    and{" "}
-                    <Text
-                      style={globalStyles.captionLinkBlue}
-                      onPress={() => {
-                        navigation.navigate("PrivacyScreen");
-                      }}
-                    >
-                      Privacy Policy
+                      Sign Up
                     </Text>
-                    .
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={{ marginTop: 16 }}>
+                <Text style={globalStyles.acknowledgmentText}>
+                  By signing up, I agree to NUUBI’s{" "}
+                  <Text
+                    style={globalStyles.captionLinkBlue}
+                    onPress={() => {
+                      navigation.navigate("TermsScreen");
+                    }}
+                  >
+                    Terms of Service
+                  </Text>{" "}
+                  and{" "}
+                  <Text
+                    style={globalStyles.captionLinkBlue}
+                    onPress={() => {
+                      navigation.navigate("PrivacyScreen");
+                    }}
+                  >
+                    Privacy Policy
                   </Text>
+                  .
+                </Text>
 
-                  <View style={globalStyles.dividerContainer}>
-                    <View style={globalStyles.halfDivider}></View>
-                    <Text style={globalStyles.orContinueWithText}>
-                      or continue with
-                    </Text>
-                    <View style={globalStyles.halfDivider}></View>
-                  </View>
+                <View style={globalStyles.dividerContainer}>
+                  <View style={globalStyles.halfDivider}></View>
+                  <Text style={globalStyles.orContinueWithText}>
+                    or continue with
+                  </Text>
+                  <View style={globalStyles.halfDivider}></View>
                 </View>
+              </View>
 
-                <View style={globalStyles.ssoButtonsContainer}>
-                  <TouchableOpacity
-                    style={globalStyles.ssoButton}
-                    accessibilityRole="button"
-                    onPress={() => alert("Apple login coming soon!")}
-                  >
-                    <IconMC name="apple" size={22} color="black" />
-                  </TouchableOpacity>
+              <View style={globalStyles.ssoButtonsContainer}>
+                <TouchableOpacity
+                  style={globalStyles.ssoButton}
+                  accessibilityRole="button"
+                  onPress={() => alert("Apple login coming soon!")}
+                >
+                  <IconMC name="apple" size={22} color="black" />
+                </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={globalStyles.ssoButton}
-                    accessibilityRole="button"
-                    onPress={() => alert("Google login coming soon!")}
-                  >
-                    <Image
-                      style={{ width: 20, height: 20 }}
-                      alt={"Google Logo"}
-                      source={
-                        Platform.OS == "web"
-                          ? require("../../assets/google-logo.png")
-                          : assets[0]
-                      }
-                    />
-                  </TouchableOpacity>
+                <TouchableOpacity
+                  style={globalStyles.ssoButton}
+                  accessibilityRole="button"
+                  onPress={() => alert("Google login coming soon!")}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    alt={"Google Logo"}
+                    source={
+                      Platform.OS == "web"
+                        ? require("../../assets/google-logo.png")
+                        : assets[0]
+                    }
+                  />
+                </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={globalStyles.ssoButton}
-                    accessibilityRole="button"
-                    onPress={() => alert("Facebook login coming soon!")}
-                  >
-                    <Image
-                      style={{ width: 22, height: 22 }}
-                      alt={"Facebook Logo"}
-                      source={
-                        Platform.OS == "web"
-                          ? require("../../assets/facebook-logo.png")
-                          : assets2[0]
-                      }
-                    />
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                  style={globalStyles.ssoButton}
+                  accessibilityRole="button"
+                  onPress={() => alert("Facebook login coming soon!")}
+                >
+                  <Image
+                    style={{ width: 22, height: 22 }}
+                    alt={"Facebook Logo"}
+                    source={
+                      Platform.OS == "web"
+                        ? require("../../assets/facebook-logo.png")
+                        : assets2[0]
+                    }
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           )}

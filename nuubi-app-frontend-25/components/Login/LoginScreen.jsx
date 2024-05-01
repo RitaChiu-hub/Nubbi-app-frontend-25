@@ -8,8 +8,6 @@ import {
   Image,
   ScrollView,
   Platform,
-  Dimensions,
-  StyleSheet,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -254,34 +252,3 @@ export default function LoginScreen({ navigation }) {
   );
 }
 
-const deviceWidth = Dimensions.get("window").width;
-const styles = StyleSheet.create({
-  loginInput: {
-    flex: 0.5,
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    fontFamily: "Poppins_400Regular",
-    fontSize: 14,
-    color: "#767676",
-    padding: 12,
-    borderRadius: 10,
-    alignItems: "stretch",
-    marginVertical: 5,
-    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-    maxWidth: 500,
-  },
-  passwordInputContainer: {
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
-    padding: 8,
-    borderRadius: 10,
-    width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-    maxWidth: 500,
-    alignItems: "stretch",
-    marginVertical: 5,
-  },
-});
