@@ -11,6 +11,8 @@ export const nuubiColors = {
   primaryGray: "#333333",
   lighterGray: "#767676",
   lightestGray: "#EBEBEB",
+  darkerRed: "#E70808",
+  darkerGreen: "#147438",
 };
 
 export const globalStyles = StyleSheet.create({
@@ -52,6 +54,18 @@ export const globalStyles = StyleSheet.create({
     fontSize: 14,
     letterSpacing: 0.4,
     textDecorationLine: "underline",
+  },
+  captionError: {
+    color: nuubiColors["darkerRed"],
+    fontFamily: "Poppins_500Medium",
+    fontSize: 14,
+    letterSpacing: 0.4,
+  },
+  captionErrorSuccess: {
+    color: nuubiColors["darkerGreen"],
+    fontFamily: "Poppins_500Medium",
+    fontSize: 14,
+    letterSpacing: 0.4,
   },
   primaryButtonText: {
     color: nuubiColors["white"],

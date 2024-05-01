@@ -163,14 +163,7 @@ export default function SignUpScreen({ navigation }) {
         >
           {(props) => (
             <View style={{ marginHorizontal: 30 }}>
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                {error}
-              </Text>
+              <Text style={globalStyles.captionError}>{error}</Text>
               <Text style={globalStyles.textInputLabel}>Email:</Text>
               <TextInput
                 style={globalStyles.textInput}
@@ -178,12 +171,7 @@ export default function SignUpScreen({ navigation }) {
                 onChangeText={props.handleChange("email")}
                 value={props.values.email}
               />
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="email" />
               </Text>
               <Text style={globalStyles.textInputLabel}>Password:</Text>
@@ -208,12 +196,7 @@ export default function SignUpScreen({ navigation }) {
                   <IconMC name={rightIcon} size={22} color="#2482AA" />
                 </Pressable>
               </View>
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="password" />
               </Text>
               <Text style={globalStyles.textInputLabel}>Repeat Password:</Text>
@@ -239,21 +222,18 @@ export default function SignUpScreen({ navigation }) {
                 </Pressable>
               </View>
 
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="password2" />
               </Text>
               {(showComfirmPWDStatus == "yes" ||
                 showComfirmPWDStatus == "true") && (
                 <View>
                   {comfirmPasswardStatus === "true" ? (
-                    <Text style={{ color: "green" }}>*Passwords match</Text>
+                    <Text style={globalStyles.captionErrorSuccess}>
+                      *Passwords match
+                    </Text>
                   ) : (
-                    <Text style={{ color: "red" }}>
+                    <Text style={globalStyles.captionError}>
                       *Passwords do not match
                     </Text>
                   )}
