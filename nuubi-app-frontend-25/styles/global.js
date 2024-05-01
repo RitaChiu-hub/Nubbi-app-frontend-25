@@ -472,4 +472,199 @@ export const globalStyles = StyleSheet.create({
     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
     maxWidth: 500,
   },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 12,
+  },
+  /** Section */
+  section: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  sectionHeader: {
+    padding: 8,
+    paddingLeft: 12,
+  },
+  sectionHeaderText: {
+    fontSize: 13,
+    fontWeight: "500",
+    fontFamily: "Poppins_400Regular",
+    color: "#adadad",
+    textTransform: "uppercase",
+  },
+  sectionBody: {
+    borderRadius: 12,
+    shadowColor: "rgba(0,0,0,0.25)",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    backgroundColor: "#ffffff",
+  },
+
+  /** Row */
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingTop: 12,
+    paddingRight: 12,
+    paddingBottom: 12,
+    paddingLeft: 0,
+  },
+  rowWrapper: {
+    paddingLeft: 16,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderColor: "#f0f0f0",
+  },
+  rowFirst: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  rowLast: {
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  rowIcon: {
+    marginRight: 12,
+  },
+  rowSpacer: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+  rowValue: {
+    fontSize: 17,
+    fontFamily: "Poppins_400Regular",
+    color: "#ababab",
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#fdfdfd",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 12,
+  },
+  groupPhoto: {
+    width: 140,
+    height: 140,
+    borderRadius: 75,
+    marginBottom: 12,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#1d1d1d",
+    marginBottom: 6,
+    fontFamily: "Poppins_400Regular",
+  },
+  subtitle: {
+    fontSize: 15,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    color: "#929292",
+  },
+  passcodeLabel: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 16,
+    color: "#333",
+  },
+  tabs: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fdfdfd",
+  },
+  tab: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingHorizontal: 16,
+    borderBottomWidth: 2,
+    borderColor: "#e5e7eb",
+  },
+  activeTab: {
+    borderBottomColor: "#33b7f0",
+  },
+  tabText: {
+    fontSize: 18,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "600",
+    color: "#6b7280",
+    marginLeft: 5,
+  },
+  tabIcon: {
+    color: "#6b7280",
+  },
+  activeTabIcon: {
+    color: "#33b7f0",
+  },
+  activeTabText: {
+    color: "#33b7f0",
+  },
+  label: {
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    marginBottom: 10,
+  },
+  member: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 10,
+  },
+  memberText: {
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    fontWeight: "500",
+    marginRight: 10,
+    color: "#333",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  modalButton: {
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 10,
+    elevation: 2,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontFamily: "Poppins_400Regular",
+    textAlign: "center",
+  },
+  rowLabel: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#333",
+  },
 });
+

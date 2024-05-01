@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import FeatherIcon from "@expo/vector-icons/Feather";
 import { AccountContext } from "../AccountContext";
+import { globalStyles } from "../../styles/global";
 
 //Dynamically create setting items
 // The optional attributes for each item: label, type, color, navRoute
