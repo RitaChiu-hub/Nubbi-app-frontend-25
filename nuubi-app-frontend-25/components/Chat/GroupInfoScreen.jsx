@@ -253,7 +253,7 @@ export default function GroupInfoScreen({ navigation }) {
   };
 
   const renderSettings = () => (
-    <ScrollView style={globalStyles.container}>
+    <ScrollView>
       {myIsAdmin == "true" && (
         <TouchableOpacity
           style={globalStyles.row}
@@ -337,7 +337,9 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={[globalStyles.rowLabel, { color: "red" }]}>Delete Group</Text>
+          <Text style={[globalStyles.rowLabel, { color: "red" }]}>
+            Delete Group
+          </Text>
         </TouchableOpacity>
       )}
       {myIsAdmin != "true" && (
@@ -345,7 +347,9 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={[globalStyles.rowLabel, { color: "red" }]}>Leave Group</Text>
+          <Text style={[globalStyles.rowLabel, { color: "red" }]}>
+            Leave Group
+          </Text>
         </TouchableOpacity>
       )}
       <Modal
@@ -362,7 +366,10 @@ export default function GroupInfoScreen({ navigation }) {
             </Text>
             <View style={globalStyles.modalButtons}>
               <TouchableOpacity
-                style={[globalStyles.modalButton, { backgroundColor: "#1aa7ec" }]}
+                style={[
+                  globalStyles.modalButton,
+                  { backgroundColor: "#1aa7ec" },
+                ]}
                 onPress={() => setModalVisible(false)}
               >
                 <Text style={globalStyles.buttonText}>No, go back</Text>
@@ -405,19 +412,12 @@ export default function GroupInfoScreen({ navigation }) {
 
   const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
     <View style={{ paddingTop: 6 }}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: screenWidth > 500 ? screenWidth * 0.7 : "100%",
-          paddingBottom: 2,
-          paddingHorizontal: 10,
-        }}
-      >
+      <View style={globalStyles.row}>
         <Text style={globalStyles.memberText}>{groupTotalPoints}</Text>
         <Text style={globalStyles.memberText}>{username}</Text>
-        <Text style={globalStyles.memberText}>{is_admin ? "Admin" : "Member"}</Text>
+        <Text style={globalStyles.memberText}>
+          {is_admin ? "Admin" : "Member"}
+        </Text>
       </View>
     </View>
   );
@@ -445,7 +445,7 @@ export default function GroupInfoScreen({ navigation }) {
 
   return (
     <SafeAreaView style={globalStyles.safeArea}>
-      {/* <View style={globalStyles.container}> */}
+      <View style={globalStyles.container}>
         <View style={globalStyles.header}>
           <Image
             source={{ uri: "https://via.placeholder.com/140" }}
@@ -454,11 +454,15 @@ export default function GroupInfoScreen({ navigation }) {
 
           {/* <Text style={globalStyles.title}>{groupTitle}</Text> */}
         </View>
-
-        {/* <View style={globalStyles.tabs}>
+        <View style={globalStyles.tabs}>
           {tabs.map((tab, index) => (
             <TouchableOpacity key={index} onPress={() => handleTabPress(index)}>
-              <View style={[globalStyles.tab, index === value && globalStyles.activeTab]}>
+              <View
+                style={[
+                  globalStyles.tab,
+                  index === value && globalStyles.activeTab,
+                ]}
+              >
                 <FeatherIcon
                   name={tab.icon}
                   size={18}
@@ -480,7 +484,7 @@ export default function GroupInfoScreen({ navigation }) {
           ))}
         </View>
         {value === 0 ? renderSettings() : renderLeaderboard()}
-      </View> */}
+      </View>
     </SafeAreaView>
   );
 }
