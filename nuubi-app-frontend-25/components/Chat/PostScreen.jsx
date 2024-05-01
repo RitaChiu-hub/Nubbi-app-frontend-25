@@ -107,7 +107,7 @@ export default function PostScreen({ navigation }) {
             {title}
           </Text>
           <Text
-            style={globalStyles.body2Regular}
+            style={globalStyles.bodyRegular}
             numberOfLines={2}
             ellipsizeMode="tail"
           >
@@ -115,7 +115,7 @@ export default function PostScreen({ navigation }) {
           </Text>
         </View>
         <View style={{ paddingVertical: 2 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           {point_total} points • {number_comments}{" "}
           {number_comments === "1" ? "comment" : "comments"} •{" "}
           {moment(isoTimeSent).calendar()}
@@ -279,7 +279,7 @@ export default function PostScreen({ navigation }) {
             navigation.navigate("CreatePost");
           }}
         >
-          <Text style={globalStyles.loginButtonText}>Create Post</Text>
+          <Text style={globalStyles.primaryButtonText}>Create Post</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -281,13 +281,13 @@ export default function NotificationSettings({ navigation }) {
                 style={globalStyles.saveButton}
                 accessibilityRole="button"
               >
-                <Text style={globalStyles.saveButtonText}>Save</Text>
+                <Text style={globalStyles.primaryButtonText}>Save</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyles.cancelButton}
                 accessibilityRole="button"
               >
-                <Text style={globalStyles.cancelButtonText}>Cancel</Text>
+                <Text style={globalStyles.secondaryButtonText}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>

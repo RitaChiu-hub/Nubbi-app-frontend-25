@@ -134,7 +134,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                     accessibilityRole="button"
                     onPress={props.handleSubmit}
                   >
-                    <Text style={globalStyles.loginButtonText}>
+                    <Text style={globalStyles.primaryButtonText}>
                       Send passcode
                     </Text>
                   </TouchableOpacity>
@@ -245,7 +245,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                     accessibilityRole="button"
                     onPress={props.handleSubmit}
                   >
-                    <Text style={globalStyles.loginButtonText}>
+                    <Text style={globalStyles.primaryButtonText}>
                       Reset password
                     </Text>
                   </TouchableOpacity>

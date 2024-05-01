@@ -15,7 +15,7 @@ export default function NotificationsScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#fdfdfd" }}>
-      <Text style={globalStyles.body2Regular}>Notifications coming soon!</Text>
+      <Text style={globalStyles.bodyRegular}>Notifications coming soon!</Text>
     </View>
   );
 }

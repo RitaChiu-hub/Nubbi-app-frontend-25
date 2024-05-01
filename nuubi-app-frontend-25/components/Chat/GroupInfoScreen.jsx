@@ -372,7 +372,7 @@ export default function GroupInfoScreen({ navigation }) {
                 ]}
                 onPress={() => setModalVisible(false)}
               >
-                <Text style={globalStyles.buttonText}>No, go back</Text>
+                <Text style={globalStyles.primaryButtonText}>No, go back</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[globalStyles.modalButton, { backgroundColor: "red" }]}
@@ -381,7 +381,7 @@ export default function GroupInfoScreen({ navigation }) {
                   navigation.navigate("DeleteGroup");
                 }}
               >
-                <Text style={globalStyles.buttonText}>
+                <Text style={globalStyles.primaryButtonText}>
                   Yes, I want to delete this group.
                 </Text>
               </TouchableOpacity>

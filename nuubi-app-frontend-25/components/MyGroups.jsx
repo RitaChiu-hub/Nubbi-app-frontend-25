@@ -86,7 +86,7 @@ export default function MyGroupsScreen({ navigation }) {
         }}
       >
         <Text style={globalStyles.screenHeader}>{title}</Text>
-        <Text style={globalStyles.body2Regular}>{description}</Text>
+        <Text style={globalStyles.bodyRegular}>{description}</Text>
       </TouchableOpacity>
     </View>
   );

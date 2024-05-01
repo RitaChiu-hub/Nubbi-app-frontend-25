@@ -26,7 +26,7 @@ export default function LearnMore2Screen({ navigation }) {
         }}
       >
         <Text
-            style={globalStyles.body2Regular}
+            style={globalStyles.bodyRegular}
         >
           Get points for being helpful on any post, comment or message! The
           group info page shows the most helpful members.

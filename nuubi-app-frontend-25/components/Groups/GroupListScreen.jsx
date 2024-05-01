@@ -113,7 +113,7 @@ export default function GroupListScreen({ navigation }) {
           >
             {title}
           </Text>
-          <Text style={globalStyles.body2Regular}>{description}</Text>
+          <Text style={globalStyles.bodyRegular}>{description}</Text>
         </View>
 
         <View

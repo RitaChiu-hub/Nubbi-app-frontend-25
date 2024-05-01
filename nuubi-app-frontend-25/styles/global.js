@@ -19,12 +19,6 @@ export const globalStyles = StyleSheet.create({
   bodyRegular: {
     color: "#111111",
     fontFamily: "Poppins_400Regular",
-    fontSize: 16,
-    letterSpacing: 0.5,
-  },
-  body2Regular: {
-    color: "#111111",
-    fontFamily: "Poppins_400Regular",
     fontSize: 14,
     letterSpacing: 0.5,
   },
@@ -50,6 +44,12 @@ export const globalStyles = StyleSheet.create({
   },
   primaryButtonText: {
     color: "#fdfdfd",
+    fontSize: 14,
+    fontFamily: "Poppins_700Bold",
+    letterSpacing: 1.25,
+  },
+  secondaryButtonText: {
+    color: "#111111",
     fontSize: 14,
     fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
@@ -248,13 +248,6 @@ export const globalStyles = StyleSheet.create({
     alignItems: "stretch",
     marginVertical: 5,
   },
-  loginButtonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 1.25,
-    textAlign: "center",
-  },
   loginLabelText: {
     color: "#333333",
     fontSize: 14,
@@ -306,12 +299,12 @@ export const globalStyles = StyleSheet.create({
     marginHorizontal: 10,
     fontSize: 14,
     fontFamily: "Poppins_400Regular",
-    color: "#767676", 
+    color: "#767676",
   },
   halfDivider: {
     flex: 1,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc", 
+    borderBottomColor: "#ccc",
   },
   ssoButtonsContainer: {
     flexDirection: "row",
@@ -320,7 +313,7 @@ export const globalStyles = StyleSheet.create({
   },
   ssoButton: {
     flex: 1,
-    backgroundColor: "transparent", 
+    backgroundColor: "transparent",
     padding: 12,
     borderRadius: 12,
     marginHorizontal: 6,
@@ -351,13 +344,6 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#2482AA",
     width: "100%",
   },
-  forgotPasswordText: {
-    fontFamily: "Poppins_600SemiBold",
-    fontSize: 14,
-    color: "#2482AA",
-    textDecorationLine: "underline",
-    letterSpacing: 0.4,
-  },
   signUpButton: {
     alignItems: "center",
     justifyContent: "center",
@@ -368,12 +354,6 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#2482AA",
     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
     maxWidth: 500,
-  },
-  signUpButtonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 1.25,
   },
   confirmButton: {
     alignItems: "center",
@@ -584,12 +564,6 @@ export const globalStyles = StyleSheet.create({
     elevation: 2,
     marginBottom: 10,
   },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontFamily: "Poppins_400Regular",
-    textAlign: "center",
-  },
   rowLabel: {
     fontFamily: "Poppins_400Regular",
     fontSize: 16,
@@ -693,13 +667,6 @@ export const globalStyles = StyleSheet.create({
     marginRight: 25,
     paddingLeft: 15,
   },
-
-  saveButtonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 1.25,
-  },
   saveButton: {
     alignItems: "center",
     justifyContent: "center",
@@ -710,11 +677,5 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#2482AA",
     width: "60%",
     alignSelf: "center",
-  },
-  cancelButtonText: {
-    color: "#181828",
-    fontSize: 14,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 1.25,
   },
 });

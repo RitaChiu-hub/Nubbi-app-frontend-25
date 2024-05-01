@@ -195,14 +195,14 @@ export default function ProfilePageScreen({ navigation }) {
             onPress={resetImage}
             style={globalStyles.settingsButton}
           >
-            <Text style={globalStyles.loginButtonText}>Clear picked image</Text>
+            <Text style={globalStyles.primaryButtonText}>Clear picked image</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={pickImage}
             style={globalStyles.settingsButton}
           >
-            <Text style={globalStyles.loginButtonText}>Select new photo</Text>
+            <Text style={globalStyles.primaryButtonText}>Select new photo</Text>
           </TouchableOpacity>
         )}
 
@@ -238,7 +238,7 @@ export default function ProfilePageScreen({ navigation }) {
           }}
           style={globalStyles.settingsButton}
         >
-          <Text style={globalStyles.loginButtonText}>
+          <Text style={globalStyles.primaryButtonText}>
             Delete Profile Picture
           </Text>
         </TouchableOpacity>
@@ -309,7 +309,7 @@ export default function ProfilePageScreen({ navigation }) {
                 .catch((err) => console.log(err));
             }}
           >
-            <Text style={globalStyles.loginButtonText}>
+            <Text style={globalStyles.primaryButtonText}>
               Save Profile Picture
             </Text>
           </TouchableOpacity>
@@ -321,7 +321,7 @@ export default function ProfilePageScreen({ navigation }) {
             navigation.navigate("Settings");
           }}
         >
-          <Text style={globalStyles.loginButtonText}>Settings</Text>
+          <Text style={globalStyles.primaryButtonText}>Settings</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -330,7 +330,7 @@ export default function ProfilePageScreen({ navigation }) {
             alert("Coming soon!");
           }}
         >
-          <Text style={globalStyles.loginButtonText}>My Analytics</Text>
+          <Text style={globalStyles.primaryButtonText}>My Analytics</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

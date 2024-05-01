@@ -175,7 +175,7 @@ export default function CreateGroupScreen({ navigation }) {
                     style={globalStyles.loginButton}
                     onPress={props.handleSubmit}
                   >
-                    <Text style={globalStyles.loginButtonText}>
+                    <Text style={globalStyles.primaryButtonText}>
                       Create Group
                     </Text>
                   </TouchableOpacity>

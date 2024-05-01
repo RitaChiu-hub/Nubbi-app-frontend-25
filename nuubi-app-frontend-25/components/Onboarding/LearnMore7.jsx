@@ -22,7 +22,7 @@ export default function LearnMore7Screen({ navigation }) {
         paddingTop: 32,
       }}
     >
-      <Text style={globalStyles.body2Regular}>
+      <Text style={globalStyles.bodyRegular}>
         Time to start learning together, get your questions answered faster{" "}
         {"& "}
         get rewarded for being helpful!

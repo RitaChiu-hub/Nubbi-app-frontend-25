@@ -166,11 +166,11 @@ export default function LoginScreen({ navigation }) {
                 >
                   <Text
                     style={[
-                      globalStyles.loginButtonText,
+                      globalStyles.primaryButtonText,
                       {
                         color: areAllFieldsEmpty(props.values)
                           ? "#33333366"
-                          : globalStyles.loginButtonText.color,
+                          : globalStyles.primaryButtonText.color,
                       },
                     ]}
                   >
@@ -183,7 +183,7 @@ export default function LoginScreen({ navigation }) {
                 accessibilityRole="button"
                 onPress={() => navigation.navigate("ForgotPasswordLoggedOut")}
               >
-                <Text style={globalStyles.forgotPasswordText}>
+                <Text style={globalStyles.captionLinkBlue}>
                   Forgot password?
                 </Text>
               </TouchableOpacity>

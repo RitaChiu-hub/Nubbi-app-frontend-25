@@ -32,11 +32,11 @@ export default function TermsScreen({ navigation }) {
       >
         <Text style={globalStyles.h3HeadingDark}>NUUBI TERMS OF USE</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           Last Updated: December 29, 2023
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           Hello! Thank you for using Nuubi Inc’s app. Nuubi Inc {"("}“Nuubi,”
           “we,” “us,” or “our,”{")"} is a corporation that operates the mobile
           and web app Nuubi {"("}
@@ -49,7 +49,7 @@ export default function TermsScreen({ navigation }) {
           Acceptance of these Terms.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           Read the terms of service below carefully. By registering for an
           account, accessing the App, browsing or otherwise using the App and
           any associated content you agree and are acknowledging that you have
@@ -60,47 +60,47 @@ export default function TermsScreen({ navigation }) {
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>TABLE OF CONTENTS</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           1. Accessing the App; Account Security.
         </Text>
-        <Text style={globalStyles.body2Regular}>2. User Accounts.</Text>
-        <Text style={globalStyles.body2Regular}>3. Privacy Policy.</Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>2. User Accounts.</Text>
+        <Text style={globalStyles.bodyRegular}>3. Privacy Policy.</Text>
+        <Text style={globalStyles.bodyRegular}>
           4. Modification of the Terms
         </Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           5. Intellectual Property Rights.
         </Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           6. User Posts and Uploads.
         </Text>
-        <Text style={globalStyles.body2Regular}>7. Purchase License Grant</Text>
-        <Text style={globalStyles.body2Regular}>8. Item Pricing.</Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>7. Purchase License Grant</Text>
+        <Text style={globalStyles.bodyRegular}>8. Item Pricing.</Text>
+        <Text style={globalStyles.bodyRegular}>
           9. Digital Millennium Copyright Act.
         </Text>
-        <Text style={globalStyles.body2Regular}>10. Prohibited Conduct.</Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>10. Prohibited Conduct.</Text>
+        <Text style={globalStyles.bodyRegular}>
           11. Third-Party Sites, Products, Plugins, and Services; Links.
         </Text>
-        <Text style={globalStyles.body2Regular}>12. Term and Termination.</Text>
-        <Text style={globalStyles.body2Regular}>13. Indemnification.</Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>12. Term and Termination.</Text>
+        <Text style={globalStyles.bodyRegular}>13. Indemnification.</Text>
+        <Text style={globalStyles.bodyRegular}>
           14. Disclaimers; No Warranties.
         </Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           15. Limitation of Liability and Damages.
         </Text>
-        <Text style={globalStyles.body2Regular}>16. Arbitration.</Text>
-        <Text style={globalStyles.body2Regular}>17. Entire Agreement.</Text>
-        <Text style={globalStyles.body2Regular}>18. Governing Law.</Text>
-        <Text style={globalStyles.body2Regular}>19. Severability</Text>
+        <Text style={globalStyles.bodyRegular}>16. Arbitration.</Text>
+        <Text style={globalStyles.bodyRegular}>17. Entire Agreement.</Text>
+        <Text style={globalStyles.bodyRegular}>18. Governing Law.</Text>
+        <Text style={globalStyles.bodyRegular}>19. Severability</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>
           1. Accessing the App; Account Security.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           At our sole discretion we may withdraw or amend this App and any
           portion of it without notice. We are not liable to you if any part of
           the App becomes unavailable. We may restrict access to some parts of
@@ -109,7 +109,7 @@ export default function TermsScreen({ navigation }) {
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>2. User Accounts.</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           Some content may only be available to users who create an account. In
           order to create an account on our App, an email address, a username
           that will be visible to the public, and a password to protect your
@@ -127,7 +127,7 @@ export default function TermsScreen({ navigation }) {
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>3. Privacy Policy. </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           Your privacy is important to us. Our Privacy Policy discuss what types
           of information we collect, what it is used for, and how its protected.
           The Privacy Policy is available on this app.
@@ -137,7 +137,7 @@ export default function TermsScreen({ navigation }) {
           4. Modification of the Terms.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           When you register for an account, access the App, browse or otherwise
           use our App or any associated content, you agree to the Terms posted
           on the App. We reserve the right to change, modify, add, or remove
@@ -155,7 +155,7 @@ export default function TermsScreen({ navigation }) {
           5. Intellectual Property Rights.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           Nuubi’s App, its entire contents, features, and functionality are
           owned by Nuubi, its licensors, or other providers of such material and
           are protected by United States and international copyright, trademark,
@@ -172,7 +172,7 @@ export default function TermsScreen({ navigation }) {
           6. User Posts and Uploads.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           As part of the function of the App, users are permitted to upload
           content between them and other users. When you post something to
           Nuubi’s App you are representing and warranting that you have the
@@ -184,7 +184,7 @@ export default function TermsScreen({ navigation }) {
           accuracy, and appropriateness
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           By posting content to the App, you grant Nuubi a worldwide,
           non-exclusive, royalty-free, sublicensable and transferable license to
           use the content you upload (including to reproduce, distribute,
@@ -196,21 +196,21 @@ export default function TermsScreen({ navigation }) {
           violating these terms.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           We have the right to cooperate fully with any law enforcement
           authorities or court order requesting or directing us to disclose the
           identity or other information of anyone posting any materials on or
           through our App.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           YOU WAIVE AND HOLD HARMLESS NUUBI AND ITS AFFILIATES, LICENSEES, AND
           ANY OTHER SERVICE PROVIDER WE WORK WITH FROM ANY CLAIMS STEMMING FROM
           ANY ACTION TAKEN BY NUUBI DURING INVESTIGATIONS BY EITHER NUUBI OR ANY
           LAW ENFORCEMENT AUTHORITIES.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           We do not undertake to review user posts and uploads before they are
           posted for distribution on our App. For this reason, we cannot ensure
           prompt removal of objectionable material after it has been posted.
@@ -223,17 +223,17 @@ export default function TermsScreen({ navigation }) {
           7. Digital Millennium Copyright Act.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           As the User of Nuubi, you agree to use this App only within the bounds
           of these Terms and agree not to do the following:{" "}
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           1. Use this App for any unlawful purpose that would be a violation of
           federal, state, local, or international law or regulation.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           2. Transmit, upload, install, or otherwise infect the App or any
           content contained thereon with any virus or malicious programing or
           attacks (including but not limited to, denial of service attacks,
@@ -242,31 +242,31 @@ export default function TermsScreen({ navigation }) {
           use and enjoyment of the site, or the servers or property of Nuubi.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           3. Post, upload, or distribute any defamatory, libelous, or inaccurate
           content;
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           4. Post obscene, harassing, defamatory, filthy, violent, pornographic,
           abusive, threatening, objectionable or illegal material on the Site.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           5. Post a communication that advocates or encourages criminal conduct
           or conduct that may give rise to civil liability.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           6. Allow persons under 18 to access the site via your account.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           7. Impersonate or attempt to impersonate Nuubi, one of our employees
           or contractors, any other user or person.{" "}
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           8. Otherwise interfere with the proper function of this App.
         </Text>
         <View style={{ margin: 5 }}></View>
@@ -274,7 +274,7 @@ export default function TermsScreen({ navigation }) {
           11. Third-Party Sites, Products and Services; Links.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           The Services may include links or references to other Apps not owned
           or otherwise operated, endorsed, or maintained by Nuubi solely as a
           convenience to Users. Nuubi does not endorse or guarantee the
@@ -287,7 +287,7 @@ export default function TermsScreen({ navigation }) {
           12. Term and Termination.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           The Terms shall remain in effect while you use the site and other
           services unless you terminate your account, or it is otherwise
           terminated by us. In the event of termination, you no longer have the
@@ -299,7 +299,7 @@ export default function TermsScreen({ navigation }) {
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>13. Indemnification.</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           To the extent permitted by applicable law, you agree to defend,
           indemnify, and hold harmless Nuubi Inc, its Affiliates, officers,
           directors, employees, and agents against any and all claims, damages,
@@ -318,7 +318,7 @@ export default function TermsScreen({ navigation }) {
           14. Disclaimers; No Warranties.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           You understand that we cannot and do not guarantee or warrant that
           files available for downloading and purchase from our App, and the
           internet in general, will be free of viruses or other harmful or
@@ -327,7 +327,7 @@ export default function TermsScreen({ navigation }) {
           protection and online security.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           TO THE FULLEST EXTENT PROVIDED BY LAW, NUUBI WILL NOT BE LIABLE FOR
           ANY LOSS OR DAMAGE CAUSED BY ANY TECHNOLOGICALLY HARMFUL MATERIAL THAT
           MAY INFECT YOUR COMPUTER, PROGRAMS, DATA, OR OTHER PROPRIETARY
@@ -336,7 +336,7 @@ export default function TermsScreen({ navigation }) {
           OR ON ANY WEBSITE LINKED TO IT.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           YOU USE AT YOUR OWN RISK OUR APP, CONTENT, AND ANY SERVICES OR ITEMS
           OBTAINED THROUGH THEM. OUR APP, CONTENT, AND ALL SERVICES OR ITEMS
           OBTAINED THROUGH THEM ARE PROVIDED “AS IS”, WITHOUT ANY WARRANTIES OF
@@ -346,7 +346,7 @@ export default function TermsScreen({ navigation }) {
           IMPLIED WARRANTIES MAY NOT BE DISCLAIMED UNDER APPLICABLE LAW.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           NEITHER NUUBI NOR ANY PERSON ASSOCIATED WITH US MAKES ANY WARRANTY OR
           REPRESENTATION WITH RESPECT TO THE COMPLETENESS, SECURITY,
           RELIABILITY, QUALITY, ACCURACY, OR AVAILABILITY OF THE APP. NEITHER
@@ -355,17 +355,17 @@ export default function TermsScreen({ navigation }) {
           THROUGH THE APP WILL BE:
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           1. ACCURATE, RELIABLE, ERROR-FREE, OR UNINTERRUPTED,{" "}
         </Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           2. THAT DEFECTS WILL BE CORRECTED,{" "}
         </Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           3. THAT OUR SITE OR THE SERVER THAT MAKES IT AVAILABLE ARE FREE OF
           VIRUSES OR OTHER HARMFUL COMPONENTS.{" "}
         </Text>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           4. THAT THE APP OR ANY SERVICES OR ITEMS OBTAINED THROUGH THE APP WILL
           OTHERWISE MEET YOUR NEEDS OR EXPECTATIONS.
         </Text>
@@ -374,7 +374,7 @@ export default function TermsScreen({ navigation }) {
           15. Limitations of Liability and Damages.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           TO THE FULLEST EXTENT PROVIDED BY LAW, IN NO EVENT WILL NUUBI OR ITS
           AFFILIATES, THEIR LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS,
           OFFICERS, OR DIRECTORS BE LIABLE FOR DAMAGES OF ANY KIND, UNDER ANY
@@ -391,7 +391,7 @@ export default function TermsScreen({ navigation }) {
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>16. Arbitration.</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           You agree that any dispute arising from these Terms shall be resolved
           by confidential arbitration. The confidential arbitration shall be
           held via telephone, unless the arbitrator requests in-person
@@ -405,21 +405,21 @@ export default function TermsScreen({ navigation }) {
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>17. Entire Agreement.</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           These Terms constitute the entirety of the Agreement between you and
           Nuubi.
         </Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>18. Governing Law.</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           These Terms are governed by the law of the State of Arizona, without
           regard to any conflict of laws principles to the contrary.
         </Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.h3HeadingDark}>19. Severability.</Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           If any portion of these Terms are determined invalid or inoperative,
           that provision shall be severed from the Terms to the minimum extent
           necessary and the remainder are valid and enforceable. No portion of

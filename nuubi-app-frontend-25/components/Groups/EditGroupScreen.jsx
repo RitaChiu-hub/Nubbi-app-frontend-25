@@ -177,7 +177,7 @@ export default function EditGroupScreen({ navigation }) {
                     style={globalStyles.loginButton}
                     onPress={props.handleSubmit}
                   >
-                    <Text style={globalStyles.loginButtonText}>
+                    <Text style={globalStyles.primaryButtonText}>
                       Update Group
                     </Text>
                   </TouchableOpacity>

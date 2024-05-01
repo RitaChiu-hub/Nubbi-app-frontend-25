@@ -397,11 +397,11 @@ export default function SignUpScreen({ navigation }) {
                   >
                     <Text
                       style={[
-                        globalStyles.signUpButtonText,
+                        globalStyles.primaryButtonText,
                         {
                           color: areAllFieldsEmpty(props.values)
                             ? "#33333366"
-                            : globalStyles.signUpButtonText.color,
+                            : globalStyles.primaryButtonText.color,
                         },
                       ]}
                     >

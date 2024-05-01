@@ -27,7 +27,7 @@ export default function LearnMore1Screen({ navigation }) {
           padding: 16,
         }}
       >
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           Nuubi is your home for learning groups. Each group has two main parts:
           Live chat and posts. Live chat is for general topics and quick
           questions. Posts are for longer questions and sharing important info.

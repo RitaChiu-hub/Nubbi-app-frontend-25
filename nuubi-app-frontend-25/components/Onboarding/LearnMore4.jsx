@@ -27,7 +27,7 @@ export default function LearnMore4Screen({ navigation }) {
           padding: 16,
         }}
       >
-        <Text style={globalStyles.body2Regular}>
+        <Text style={globalStyles.bodyRegular}>
           You can see all your groups on the home page. To join your first
           group, click "New" in the upper right corner. You can create your own
           group, browse public groups, or enter a passcode to join a private

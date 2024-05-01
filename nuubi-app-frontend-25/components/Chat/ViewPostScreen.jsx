@@ -651,7 +651,7 @@ export default function ViewPostScreen({ navigation }) {
                     </Text>
                   </View>
                   <View style={{ paddingLeft: 4 }}>
-                    <Text style={globalStyles.body2Regular}>
+                    <Text style={globalStyles.bodyRegular}>
                       {comments.comment_text}
                     </Text>
                   </View>

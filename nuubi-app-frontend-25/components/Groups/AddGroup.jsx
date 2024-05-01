@@ -31,7 +31,7 @@ export default function AddGroupScreen({ navigation }) {
             navigation.navigate("JoinGroup");
           }}
         >
-          <Text style={globalStyles.loginButtonText}>
+          <Text style={globalStyles.primaryButtonText}>
             Join Private Group
           </Text>
         </TouchableOpacity>
@@ -42,7 +42,7 @@ export default function AddGroupScreen({ navigation }) {
             navigation.navigate("CreateGroup");
           }}
         >
-          <Text style={globalStyles.loginButtonText}>Create New Group</Text>
+          <Text style={globalStyles.primaryButtonText}>Create New Group</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

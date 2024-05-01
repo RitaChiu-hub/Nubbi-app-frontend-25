@@ -210,11 +210,11 @@ export default function CodeVerificationScreen({ navigation, route }) {
                   >
                     <Text
                       style={[
-                        globalStyles.signUpButtonText,
+                        globalStyles.primaryButtonText,
                         {
                           color: isFieldEmpty(props.values)
                             ? "#33333366"
-                            : globalStyles.signUpButtonText.color,
+                            : globalStyles.primaryButtonText.color,
                         },
                       ]}
                     >

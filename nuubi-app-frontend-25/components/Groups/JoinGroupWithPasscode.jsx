@@ -120,7 +120,7 @@ export default function JoinGroupWithPasscode({ navigation }) {
                   style={globalStyles.loginButton}
                   onPress={props.handleSubmit}
                 >
-                  <Text style={globalStyles.loginButtonText}>Join group</Text>
+                  <Text style={globalStyles.primaryButtonText}>Join group</Text>
                 </TouchableOpacity>
               </View>
             )}

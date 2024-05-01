@@ -105,7 +105,7 @@ export default function ForgotPasswordScreen({ navigation }) {
               style={globalStyles.loginButton}
               onPress={generatePasscode}
             >
-              <Text style={globalStyles.loginButtonText}>Send passcode</Text>
+              <Text style={globalStyles.primaryButtonText}>Send passcode</Text>
             </TouchableOpacity>
           </View>
           <View style={{ marginVertical: 5 }}></View>
@@ -295,7 +295,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                     style={globalStyles.loginButton}
                     onPress={props.handleSubmit}
                   >
-                    <Text style={globalStyles.loginButtonText}>
+                    <Text style={globalStyles.primaryButtonText}>
                       Reset password
                     </Text>
                   </TouchableOpacity>
