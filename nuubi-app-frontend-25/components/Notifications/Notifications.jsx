@@ -7,7 +7,7 @@ export default function NotificationsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Notifications</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Notifications</Text>
       ),
       headerTitleAlign: "center",
     });

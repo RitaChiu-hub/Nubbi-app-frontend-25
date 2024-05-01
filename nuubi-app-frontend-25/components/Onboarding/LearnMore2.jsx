@@ -5,7 +5,7 @@ import { globalStyles } from "../../styles/global";
 export default function LearnMore2Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text style={globalStyles.screenHeader}>Learn More</Text>,
+      headerTitle: () => <Text style={globalStyles.h3HeadingRegular}>Learn More</Text>,
       headerTitleAlign: "center",
     });
   }, [navigation]);

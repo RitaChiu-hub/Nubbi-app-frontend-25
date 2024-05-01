@@ -31,7 +31,7 @@ export default function EditGroupScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Edit Group</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Edit Group</Text>
       ),
       headerTitleAlign: "center",
     });

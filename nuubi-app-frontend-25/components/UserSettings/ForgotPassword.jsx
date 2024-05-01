@@ -55,7 +55,7 @@ export default function ForgotPasswordScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Forgot Password</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Forgot Password</Text>
       ),
       headerTitleAlign: "center",
     });

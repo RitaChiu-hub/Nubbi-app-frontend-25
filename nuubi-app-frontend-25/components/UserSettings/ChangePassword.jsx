@@ -69,7 +69,7 @@ export default function ChangePasswordScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Update Password</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Update Password</Text>
       ),
       headerTitleAlign: "center",
     });
@@ -477,7 +477,7 @@ export default function ChangePasswordScreen({ navigation }) {
 
                 {/* goBack function for the Cancel button  */}
                 <TouchableOpacity
-                  style={[globalStyles.cancelButton, { marginBottom: 10 }]}
+                  style={[globalStyles.secondaryButton, { marginBottom: 10 }]}
                   accessibilityRole="button"
                   onPress={() => goBack()}
                 >

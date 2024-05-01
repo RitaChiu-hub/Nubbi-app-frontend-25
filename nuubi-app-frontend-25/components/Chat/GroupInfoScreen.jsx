@@ -471,7 +471,7 @@ export default function GroupInfoScreen({ navigation }) {
                 />
                 <Text
                   style={[
-                    globalStyles.screenHeader,
+                    globalStyles.h3HeadingRegular,
                     index === value && globalStyles.activeTabText,
                   ]}
                 >

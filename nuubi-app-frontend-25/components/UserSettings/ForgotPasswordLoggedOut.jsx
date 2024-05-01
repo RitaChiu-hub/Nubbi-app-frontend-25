@@ -19,7 +19,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Reset Password</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Reset Password</Text>
       ),
       headerTitleAlign: "center",
     });

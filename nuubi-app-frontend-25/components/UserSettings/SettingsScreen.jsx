@@ -94,7 +94,7 @@ export default function SettingsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Settings</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Settings</Text>
       ),
       headerTitleAlign: "center",
     });

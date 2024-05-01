@@ -49,7 +49,7 @@ export default function NotificationSettings({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Notifications</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Notifications</Text>
       ),
       headerTitleAlign: "center",
     });
@@ -91,7 +91,7 @@ export default function NotificationSettings({ navigation }) {
                 />
 
                 <View style={globalStyles.cardBody}>
-                  <Text style={globalStyles.cardName}>Pause All</Text>
+                  <Text style={globalStyles.h3HeadingRegular}>Pause All</Text>
 
                   <Text style={globalStyles.bodyRegular}>
                     Temporarily pause all notifications.
@@ -128,7 +128,7 @@ export default function NotificationSettings({ navigation }) {
                 />
 
                 <View style={globalStyles.cardBody}>
-                  <Text style={globalStyles.cardName}>Study Mode</Text>
+                  <Text style={globalStyles.h3HeadingRegular}>Study Mode</Text>
 
                   <Text style={globalStyles.bodyRegular}>
                     Automatically mute notifications at night or whenever you
@@ -284,7 +284,7 @@ export default function NotificationSettings({ navigation }) {
                 <Text style={globalStyles.primaryButtonText}>Save</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={globalStyles.cancelButton}
+                style={globalStyles.secondaryButton}
                 accessibilityRole="button"
               >
                 <Text style={globalStyles.secondaryButtonText}>Cancel</Text>

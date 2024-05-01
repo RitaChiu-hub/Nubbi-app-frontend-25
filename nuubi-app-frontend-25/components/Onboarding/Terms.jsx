@@ -10,7 +10,7 @@ export default function TermsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Terms of Service</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Terms of Service</Text>
       ),
       headerTitleAlign: "center",
     });

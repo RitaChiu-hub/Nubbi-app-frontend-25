@@ -17,7 +17,7 @@ export default function JoinGroupWithPasscode({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Join Private Group</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Join Private Group</Text>
       ),
       headerTitleAlign: "center",
     });

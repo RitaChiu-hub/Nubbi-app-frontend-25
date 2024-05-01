@@ -22,7 +22,7 @@ export default function FeedbackScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Feedback</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Feedback</Text>
       ),
       headerTitleAlign: "center",
     });

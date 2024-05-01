@@ -46,7 +46,7 @@ export default function ChangeUsernameScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.screenHeader}>Update Username</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Update Username</Text>
       ),
       headerTitleAlign: "center",
     });
@@ -95,7 +95,7 @@ export default function ChangeUsernameScreen({ navigation }) {
             Username changed successfully!
           </Text>
           <TouchableOpacity
-            style={[globalStyles.primaryButton, globalStyles.cancelButton]}
+            style={[globalStyles.primaryButton, globalStyles.secondaryButton]}
             onPress={() => goBack()}
           >
             <Text style={[globalStyles.primaryButtonText, { color: "#111111", fontSize: 15 }]}>Back</Text>
@@ -343,7 +343,7 @@ export default function ChangeUsernameScreen({ navigation }) {
 
                 {/* goBack function for the Cancel button  */}
                 <TouchableOpacity
-                  style={[globalStyles.cancelButton, { marginBottom: 10 }]}
+                  style={[globalStyles.secondaryButton, { marginBottom: 10 }]}
                   accessibilityRole="button"
                   onPress={() => goBack()}
                 >

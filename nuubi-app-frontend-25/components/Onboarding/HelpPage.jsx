@@ -73,10 +73,10 @@ export default function HelpScreen({ navigation }) {
         <Text style={globalStyles.bodyRegular}>
           1. Before you begin, you will need:
         </Text>
-        <Text style={globalStyles.screenHeader}>
+        <Text style={globalStyles.h3HeadingRegular}>
           1. Find out the username of the admin of the group
         </Text>
-        <Text style={globalStyles.screenHeader}>
+        <Text style={globalStyles.h3HeadingRegular}>
           2. The 6 digit passcode assigned to the group
         </Text>
         <Text style={globalStyles.bodyRegular}>

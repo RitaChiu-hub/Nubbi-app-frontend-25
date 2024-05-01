@@ -2,61 +2,72 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
 
+export const nuubiColors = {
+  white: "#FDFDFD",
+  black: "#111111",
+  darkerBlue: "#2482AA",
+  primaryBlue: "#33B7F0",
+  darkerGray: "#292929",
+  primaryGray: "#333333",
+  lighterGray: "#767676",
+  lightestGray: "#EBEBEB",
+};
+
 export const globalStyles = StyleSheet.create({
   h2HeadingMedium: {
     fontSize: 24,
     textAlign: "center",
-    color: "#111111",
+    color: nuubiColors["black"],
     fontFamily: "Poppins_500Medium",
     letterSpacing: -0.5,
   },
-  screenHeader: {
-    color: "#111111",
+  h3HeadingRegular: {
+    color: nuubiColors["black"],
     textAlign: "center",
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
   },
   bodyRegular: {
-    color: "#111111",
+    color: nuubiColors["black"],
     fontFamily: "Poppins_400Regular",
     fontSize: 14,
     letterSpacing: 0.5,
   },
   caption: {
-    color: "#111111",
+    color: nuubiColors["black"],
     fontFamily: "Poppins_500Medium",
     fontSize: 14,
     letterSpacing: 0.4,
   },
   captionLink: {
-    color: "#111111",
+    color: nuubiColors["black"],
     fontFamily: "Poppins_500Medium",
     fontSize: 14,
     letterSpacing: 0.4,
     textDecorationLine: "underline",
   },
   captionLinkBlue: {
-    color: "#2482AA",
+    color: nuubiColors["darkerBlue"],
     fontFamily: "Poppins_500Medium",
     fontSize: 14,
     letterSpacing: 0.4,
     textDecorationLine: "underline",
   },
   primaryButtonText: {
-    color: "#fdfdfd",
+    color: nuubiColors["white"],
     fontSize: 14,
     fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
   },
   secondaryButtonText: {
-    color: "#111111",
+    color: nuubiColors["black"],
     fontSize: 14,
     fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
   },
   container: {
     flex: 1,
-    backgroundColor: "#fdfdfd",
+    backgroundColor: nuubiColors["white"],
     alignItems: "center",
     justifyContent: "center",
   },
@@ -64,10 +75,10 @@ export const globalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: 20,
   },
   modalView: {
-    backgroundColor: "#fdfdfd",
+    backgroundColor: nuubiColors["white"],
     maxWidth: Dimensions.get("window").width * 0.8,
     maxHeight: Dimensions.get("window").height * 0.7,
     borderRadius: 20,
@@ -75,8 +86,8 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     elevation: 15,
     borderWidth: 1,
-    borderColor: "#ddd",
-    shadowColor: "#333333",
+    borderColor: nuubiColors["lighterGray"],
+    shadowColor: nuubiColors["primaryGray"],
     shadowOpacity: 0.5,
     shadowRadius: 2,
     shadowOffset: {
@@ -91,17 +102,31 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 60,
     elevation: 3,
-    backgroundColor: "#2482AA",
+    backgroundColor: nuubiColors["darkerBlue"],
     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
     maxWidth: 500,
   },
   secondaryButton: {
+    // alignItems: "center",
+    // justifyContent: "center",
+    // marginVertical: 10,
+    // paddingVertical: 14,
+    // paddingHorizontal: 20,
+    // backgroundColor: "transparent",
+
+    backgroundColor: nuubiColors["white"],
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 10,
     paddingVertical: 14,
-    paddingHorizontal: 20,
-    backgroundColor: "transparent",
+    marginTop: 10,
+    borderRadius: 60,
+    width: "100%",
+    elevation: 3,
+    borderWidth: 2,
+    borderColor: nuubiColors["primaryGray"],
+    alignSelf: "center",
+
+    
   },
   buttonContainer: {
     width: "90%",
@@ -111,7 +136,7 @@ export const globalStyles = StyleSheet.create({
   },
   card: {
     padding: 12,
-    backgroundColor: "#fff",
+    backgroundColor: nuubiColors["white"],
     borderRadius: 12,
     flexDirection: "row",
     alignItems: "center",
@@ -120,12 +145,6 @@ export const globalStyles = StyleSheet.create({
   cardBody: {
     flex: "1",
     marginRight: 16,
-  },
-  cardName: {
-    fontSize: 18,
-    fontFamily: "Poppins_400Regular",
-    fontWeight: "600",
-    color: "#292929",
   },
   unselected: {
     alignItems: "center",
@@ -143,7 +162,7 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 20,
     backgroundColor: "transparent",
-    borderColor: "#2482AA",
+    borderColor: nuubiColors["darkerBlue"],
     borderWidth: 5,
     borderRadius: 12,
   },
@@ -154,30 +173,17 @@ export const globalStyles = StyleSheet.create({
   },
   topNavTabSelected: {
     borderBottomWidth: 2,
-    borderColor: "#33B7F0",
-  },
-  cancelButton: {
-    backgroundColor: "#fdfdfd",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 14,
-    marginTop: 10,
-    borderRadius: 60,
-    width: "100%",
-    elevation: 3,
-    borderWidth: 2,
-    borderColor: "#123234",
-    alignSelf: "center",
+    borderColor: nuubiColors["primary-blue"],
   },
   textInput: {
     flex: 0.5,
     flexDirection: "row",
     borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
+    borderColor: nuubiColors["lighterGray"],
+    backgroundColor: nuubiColors["lightestGray"],
     fontFamily: "Poppins_400Regular",
     fontSize: 14,
-    color: "#767676",
+    color: nuubiColors["lighterGray"],
     padding: 12,
     borderRadius: 10,
     alignItems: "stretch",
@@ -189,11 +195,11 @@ export const globalStyles = StyleSheet.create({
     flex: 0.5,
     flexDirection: "row",
     borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
+    borderColor: nuubiColors["lighterGray"],
+    backgroundColor: nuubiColors["lightestGray"],
     fontFamily: "Poppins_400Regular",
     fontSize: 14,
-    color: "#767676",
+    color: nuubiColors["lighterGray"],
     padding: 12,
     borderRadius: 10,
     alignItems: "stretch",
@@ -207,8 +213,8 @@ export const globalStyles = StyleSheet.create({
   passwordInputContainer: {
     flexDirection: "row",
     borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
+    borderColor: nuubiColors["lighterGray"],
+    backgroundColor: nuubiColors["lightestGray"],
     padding: 8,
     borderRadius: 10,
     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
@@ -217,7 +223,7 @@ export const globalStyles = StyleSheet.create({
     marginVertical: 5,
   },
   textInputLabel: {
-    color: "#333333",
+    color: nuubiColors["primaryGray"],
     fontSize: 14,
     fontFamily: "Poppins_600SemiBold",
     letterSpacing: 1.25,
@@ -225,7 +231,7 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 4,
   },
   headingText: {
-    color: "#333333",
+    color: nuubiColors["primaryGray"],
     fontSize: 16,
     fontFamily: "Poppins_600SemiBold",
     letterSpacing: 1.25,
@@ -236,15 +242,15 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     padding: 2,
     fontSize: 14,
-    color: "#767676",
+    color: nuubiColors["lighterGray"],
   },
   passcodeInput: {
     borderWidth: 1,
-    borderColor: "#C0C0C0",
-    backgroundColor: "#EBEBEB",
+    borderColor: nuubiColors["lighterGray"],
+    backgroundColor: nuubiColors["lightestGray"],
     fontFamily: "Poppins_400Regular",
     fontSize: 14,
-    color: "#767676",
+    color: nuubiColors["lighterGray"],
     padding: 12,
     borderRadius: 10,
     alignItems: "stretch",
@@ -258,7 +264,7 @@ export const globalStyles = StyleSheet.create({
   halfDivider: {
     flex: 1,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: nuubiColors["lighterGray"],
   },
   ssoButtonsContainer: {
     flexDirection: "row",
@@ -275,7 +281,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     borderWidth: 1,
-    borderColor: "#ccc", // Add border for better visibility
+    borderColor: nuubiColors["lighterGray"], // Add border for better visibility
   },
   primaryButtonWide: {
     alignItems: "center",
@@ -284,15 +290,8 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 60,
     elevation: 3,
-    backgroundColor: "#2482AA",
+    backgroundColor: nuubiColors["darkerBlue"],
     width: "100%",
-  },
-  textInputLabel: {
-    color: "#333333",
-    fontSize: 14,
-    fontFamily: "Poppins_600SemiBold",
-    letterSpacing: 1.25,
-    marginVertical: 4,
   },
   roundImageContainer: {
     borderRadius: 200,
@@ -325,9 +324,9 @@ export const globalStyles = StyleSheet.create({
     paddingLeft: 12,
   },
   sectionBody: {
-    backgroundColor: "#f8f8f8",
+    backgroundColor: nuubiColors["white"],
     borderRadius: 12,
-    shadowColor: "#000",
+    shadowColor: nuubiColors["black"],
     shadowOffset: {
       width: 0,
       height: 1,
@@ -337,7 +336,7 @@ export const globalStyles = StyleSheet.create({
     elevation: 2,
   },
   altBody: {
-    backgroundColor: "#f8f8f8",
+    backgroundColor: nuubiColors["white"],
   },
   altWrapper: {
     paddingLeft: 16,
@@ -355,9 +354,9 @@ export const globalStyles = StyleSheet.create({
   },
   rowWrapper: {
     paddingLeft: 16,
-    backgroundColor: "#fff",
+    backgroundColor: nuubiColors["white"],
     borderTopWidth: 1,
-    borderColor: "#f0f0f0",
+    borderColor: nuubiColors["lightestGray"],
   },
   rowFirst: {
     borderTopLeftRadius: 12,
@@ -376,14 +375,14 @@ export const globalStyles = StyleSheet.create({
     flexBasis: 0,
   },
   rowValue: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: "Poppins_400Regular",
-    color: "#6b7280",
+    color: nuubiColors["lighterGray"],
   },
   tabs: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fdfdfd",
+    backgroundColor: nuubiColors["white"],
   },
   tab: {
     flexDirection: "row",
@@ -393,19 +392,19 @@ export const globalStyles = StyleSheet.create({
     paddingBottom: 10,
     paddingHorizontal: 16,
     borderBottomWidth: 2,
-    borderColor: "#e5e7eb",
+    borderColor: nuubiColors["lightestGray"],
   },
   activeTab: {
-    borderBottomColor: "#33b7f0",
+    borderBottomColor: nuubiColors["primaryBlue"],
   },
   tabIcon: {
-    color: "#6b7280",
+    color: nuubiColors["lighterGray"],
   },
   activeTabIcon: {
-    color: "#33b7f0",
+    color: nuubiColors["primaryBlue"],
   },
   activeTabText: {
-    color: "#33b7f0",
+    color: nuubiColors["primaryBlue"],
   },
   column: {
     flex: 1,
@@ -416,7 +415,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: "#ccc",
+    borderColor: nuubiColors["lighterGray"],
     paddingVertical: 10,
   },
   modalText: {
@@ -452,7 +451,7 @@ export const globalStyles = StyleSheet.create({
     opacity: 0.4,
   },
   disabledText: {
-    color: "#999",
+    color: nuubiColors["lighterGray"],
   },
   subjectNameView: {
     height: "20%",

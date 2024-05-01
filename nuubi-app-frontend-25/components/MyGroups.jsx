@@ -85,7 +85,7 @@ export default function MyGroupsScreen({ navigation }) {
             navigation.navigate("Group Chat");
         }}
       >
-        <Text style={globalStyles.screenHeader}>{title}</Text>
+        <Text style={globalStyles.h3HeadingRegular}>{title}</Text>
         <Text style={globalStyles.bodyRegular}>{description}</Text>
       </TouchableOpacity>
     </View>
