@@ -222,9 +222,9 @@ export default function HomeScreen({ navigation }) {
   }, [navigation, selectedTab]);
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       {forYouScreen ? (
-        <ScrollView style={styles.sections} ref={scrollViewRef}>
+        <ScrollView style={globalStyles.sections} ref={scrollViewRef}>
           <View
             style={{
               height: screenHeight * 0.33,

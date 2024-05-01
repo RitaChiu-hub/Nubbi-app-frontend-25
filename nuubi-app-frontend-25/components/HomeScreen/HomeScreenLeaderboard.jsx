@@ -44,8 +44,8 @@ export default function HomeScreenLeaderboard() {
   ]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerTitle}>
+    <View style={globalStyles.container}>
+      <View style={globalStyles.headerTitle}>
         <View style={{ width: "5%", height: "100%" }}></View>
         <View
           style={{
@@ -86,7 +86,7 @@ export default function HomeScreenLeaderboard() {
                       borderColor: "black",
                     }}
                   >
-                    <View style={styles.subjectNameView}>
+                    <View style={globalStyles.subjectNameView}>
                       <Text
                         style={{
                           color: "#111111",

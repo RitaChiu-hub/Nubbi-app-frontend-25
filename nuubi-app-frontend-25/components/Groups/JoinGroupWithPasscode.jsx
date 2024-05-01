@@ -1,11 +1,9 @@
 import * as React from "react";
 import {
-  Button,
   TextInput,
   View,
   Text,
   StyleSheet,
-  Alert,
   TouchableOpacity,
   ScrollView,
   Dimensions,
@@ -13,8 +11,6 @@ import {
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
-import * as SecureStore from "expo-secure-store";
-import { loginStyles } from "../../styles/loginStyles";
 
 export default function JoinGroupWithPasscode({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -91,9 +87,9 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 >
                   {error}
                 </Text>
-                <Text style={loginStyles.loginLabelText}>Passcode</Text>
+                <Text style={globalStyles.loginLabelText}>Passcode</Text>
                 <TextInput
-                  style={styles.loginInput}
+                  style={globalStyles.loginInput}
                   placeholder="Enter passcode"
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
@@ -106,9 +102,9 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 >
                   <ErrorMessage name="passcode" />
                 </Text>
-                <Text style={loginStyles.loginLabelText}>Admin username</Text>
+                <Text style={globalStyles.loginLabelText}>Admin username</Text>
                 <TextInput
-                  style={styles.loginInput}
+                  style={globalStyles.loginInput}
                   placeholder="Enter admin username"
                   onChangeText={props.handleChange("admin")}
                   value={props.values.admin}
@@ -123,10 +119,10 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 </Text>
                 <View style={{ marginVertical: 5 }}></View>
                 <TouchableOpacity
-                  style={loginStyles.loginButton}
+                  style={globalStyles.loginButton}
                   onPress={props.handleSubmit}
                 >
-                  <Text style={loginStyles.loginButtonText}>Join group</Text>
+                  <Text style={globalStyles.loginButtonText}>Join group</Text>
                 </TouchableOpacity>
               </View>
             )}

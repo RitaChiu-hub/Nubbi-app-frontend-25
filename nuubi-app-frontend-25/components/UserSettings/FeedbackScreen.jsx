@@ -30,7 +30,7 @@ export default function FeedbackScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <ScrollView>
         <View
           style={{
@@ -47,15 +47,15 @@ export default function FeedbackScreen({ navigation }) {
             {error}
           </Text>
           {/* Style addition syntax */}
-          <Text style={[styles.headerText]}>Share Your Feedback</Text>
-          <Text style={[styles.text, { color: "#888888" }]}>
+          <Text style={[globalStyles.headerText]}>Share Your Feedback</Text>
+          <Text style={[globalStyles.text, { color: "#888888" }]}>
             Enter in your feedback in the text field below and submit. We
             appreciate and value all feedback provided!
           </Text>
 
           {/* Input box */}
           <TextInput
-            style={[styles.textInput]}
+            style={[globalStyles.textInput]}
             multiline={true}
             placeholder=""
             onChangeText={(e) => setUserFeedback(e)}
@@ -67,7 +67,7 @@ export default function FeedbackScreen({ navigation }) {
           {/* Align text count and max length text */}
           <Text
             style={[
-              styles.textCount,
+              globalStyles.textCount,
               { textAlign: "right" },
               { fontSize: 17 },
               { color: "#888" },
@@ -127,7 +127,7 @@ export default function FeedbackScreen({ navigation }) {
           >
             <Text
               style={[
-                styles.primaryButtonText,
+                globalStyles.primaryButtonText,
                 { color: userFeedback.length <= 0 ? "#123234" : "#fdfdfd" },
               ]}
             >
@@ -153,7 +153,7 @@ export default function FeedbackScreen({ navigation }) {
             accessibilityRole="button"
             onPress={() => goBack()}
           >
-            <Text style={styles.primaryButtonText}>Cancel</Text>
+            <Text style={globalStyles.primaryButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -161,7 +161,7 @@ export default function FeedbackScreen({ navigation }) {
   );
 }
 
-// This is the styles, call by Ex.. (styles.text)
+// This is the styles, call by Ex.. (globalStyles.text)
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f8f8f8",

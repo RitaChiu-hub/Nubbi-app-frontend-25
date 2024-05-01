@@ -14,7 +14,6 @@ const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
-import { loginStyles } from "../../styles/loginStyles";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -274,13 +273,13 @@ export default function PostScreen({ navigation }) {
       />
       <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
-          style={loginStyles.loginButton}
+          style={globalStyles.loginButton}
           accessibilityRole="button"
           onPress={() => {
             navigation.navigate("CreatePost");
           }}
         >
-          <Text style={loginStyles.loginButtonText}>Create Post</Text>
+          <Text style={globalStyles.loginButtonText}>Create Post</Text>
         </TouchableOpacity>
       </View>
     </View>

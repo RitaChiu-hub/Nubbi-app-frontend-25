@@ -13,9 +13,7 @@ import {
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
-import * as SecureStore from "expo-secure-store";
 const { createGroupSchema } = require("../validationSchema");
-import { loginStyles } from "../../styles/loginStyles";
 
 export default function EditGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -105,9 +103,9 @@ export default function EditGroupScreen({ navigation }) {
                     {error}
                   </Text>
                   <View >
-                  <Text style={loginStyles.loginLabelText}>Group Name</Text>
+                  <Text style={globalStyles.loginLabelText}>Group Name</Text>
                     <TextInput
-                      style={styles.loginInput}
+                      style={globalStyles.loginInput}
                       placeholder="Enter group name"
                       onChangeText={props.handleChange("groupname")}
                       value={props.values.groupname}
@@ -123,10 +121,10 @@ export default function EditGroupScreen({ navigation }) {
                     >
                       <ErrorMessage name="groupname" />
                     </Text>
-                    <Text style={loginStyles.loginLabelText}>Description</Text>
+                    <Text style={globalStyles.loginLabelText}>Description</Text>
                     <TextInput
                       // make the text box larger? Make sure it's maximum 255 characters.
-                      style={styles.loginInputLarge}
+                      style={globalStyles.loginInputLarge}
                       multiline={true}
                       placeholder="Enter description"
                       onChangeText={props.handleChange("description")}
@@ -143,7 +141,7 @@ export default function EditGroupScreen({ navigation }) {
                     >
                       <ErrorMessage name="description" />
                     </Text>
-                    <Text style={loginStyles.loginLabelText}>Visibility</Text>
+                    <Text style={globalStyles.loginLabelText}>Visibility</Text>
                     <View style={{ marginVertical: 5 }}></View>
                     <View style={globalStyles.buttonContainer}>
                       <View>
@@ -157,7 +155,7 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Private");
                           }}
                         >
-                          <Text style={styles.radioText}>
+                          <Text style={globalStyles.radioText}>
                             Private
                           </Text>
                         </TouchableOpacity>
@@ -173,7 +171,7 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Public");
                           }}
                         >
-                         <Text style={styles.radioText}>
+                         <Text style={globalStyles.radioText}>
                             Public
                           </Text>
                         </TouchableOpacity>
@@ -182,10 +180,10 @@ export default function EditGroupScreen({ navigation }) {
                   </View>
                   <View style={{ marginVertical: 10 }}></View>
                   <TouchableOpacity
-               style={loginStyles.loginButton}
+               style={globalStyles.loginButton}
                     onPress={props.handleSubmit}
                   >
-                  <Text style={loginStyles.loginButtonText}>
+                  <Text style={globalStyles.loginButtonText}>
                       Update Group
                     </Text>
                   </TouchableOpacity>
@@ -252,7 +250,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Poppins_600SemiBold",
     letterSpacing: 1.25,
-    // marginTop: 8,
-    //  marginBottom: 4,
   },
 });

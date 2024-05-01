@@ -115,13 +115,13 @@ export default function SettingsScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={globalStyles.container}>
       {SECTIONS.map(({ header, items }) => (
-        <View style={styles.section} key={header}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>{header}</Text>
+        <View style={globalStyles.section} key={header}>
+          <View style={globalStyles.sectionHeader}>
+            <Text style={globalStyles.sectionHeaderText}>{header}</Text>
           </View>
-          <View style={styles.sectionBody}>
+          <View style={globalStyles.sectionBody}>
             {items.map(
               (
                 { icon, label, type, value, color, navRoute, onPress },
@@ -133,10 +133,10 @@ export default function SettingsScreen({ navigation }) {
                   <View
                     key={label}
                     style={[
-                      styles.rowWrapper,
+                      globalStyles.rowWrapper,
                       index === 0 && { borderTopWidth: 0 },
-                      isFirst && styles.rowFirst,
-                      isLast && styles.rowLast,
+                      isFirst && globalStyles.rowFirst,
+                      isLast && globalStyles.rowLast,
                     ]}
                   >
                     <TouchableOpacity
@@ -146,27 +146,27 @@ export default function SettingsScreen({ navigation }) {
                           : () => handleNavigation(navRoute, label)
                       }
                     >
-                      <View style={styles.row}>
+                      <View style={globalStyles.row}>
                         <FeatherIcon
                           color="#616161"
                           name={icon}
-                          style={styles.rowIcon}
+                          style={globalStyles.rowIcon}
                           size={22}
                         />
 
                         <Text
                           style={[
-                            styles.rowLabel,
+                            globalStyles.rowLabel,
                             { color: color ? color : "#000" }, // Dynamic color based on provided color attribute
                           ]}
                         >
                           {label}
                         </Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         {type === "input" && (
-                          <Text style={styles.rowValue}>{value}</Text>
+                          <Text style={globalStyles.rowValue}>{value}</Text>
                         )}
 
                         {type === "boolean" && <Switch value={value} />}

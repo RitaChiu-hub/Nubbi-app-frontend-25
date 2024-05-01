@@ -13,7 +13,6 @@ import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
 import { AccountContext } from "../AccountContext";
 import * as ImageManipulator from "expo-image-manipulator";
-import { loginStyles } from "../../styles/loginStyles";
 import { useAssets } from "expo-asset";
 
 const cloudName = "dvvdc9evd";
@@ -150,10 +149,10 @@ export default function ProfilePageScreen({ navigation }) {
         </Text>
         <View>
           {avatarInfo !== null && pickedImage === null ? (
-            <Image style={styles.ImageContainer} source={{ uri: avatarInfo }} />
+            <Image style={globalStyles.ImageContainer} source={{ uri: avatarInfo }} />
           ) : pickedImage !== null ? (
             <Image
-              style={styles.ImageContainer}
+              style={globalStyles.ImageContainer}
               source={{ uri: pickedImage.uri }}
               // source={
               //   Platform.OS == "web"
@@ -163,7 +162,7 @@ export default function ProfilePageScreen({ navigation }) {
             />
           ) : (
             <Image
-              style={styles.ImageContainer}
+              style={globalStyles.ImageContainer}
               source={
                 Platform.OS == "web"
                   ? require("../../assets/defaultAvatar.png")
@@ -191,12 +190,12 @@ export default function ProfilePageScreen({ navigation }) {
         </Text>
 
         {pickedImage !== null ? (
-          <TouchableOpacity onPress={resetImage} style={styles.settingsButton}>
-            <Text style={loginStyles.loginButtonText}>Clear picked image</Text>
+          <TouchableOpacity onPress={resetImage} style={globalStyles.settingsButton}>
+            <Text style={globalStyles.loginButtonText}>Clear picked image</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={pickImage} style={styles.settingsButton}>
-            <Text style={loginStyles.loginButtonText}>Select new photo</Text>
+          <TouchableOpacity onPress={pickImage} style={globalStyles.settingsButton}>
+            <Text style={globalStyles.loginButtonText}>Select new photo</Text>
           </TouchableOpacity>
         )}
 
@@ -230,16 +229,16 @@ export default function ProfilePageScreen({ navigation }) {
                 }
               });
           }}
-          style={styles.settingsButton}
+          style={globalStyles.settingsButton}
         >
-          <Text style={loginStyles.loginButtonText}>
+          <Text style={globalStyles.loginButtonText}>
             Delete Profile Picture
           </Text>
         </TouchableOpacity>
 
         {pickedImage !== null ? (
           <TouchableOpacity
-            style={styles.settingsButton}
+            style={globalStyles.settingsButton}
             onPress={() => {
               // upload the pickedimage to cloudinary
 
@@ -303,28 +302,28 @@ export default function ProfilePageScreen({ navigation }) {
                 .catch((err) => console.log(err));
             }}
           >
-            <Text style={loginStyles.loginButtonText}>
+            <Text style={globalStyles.loginButtonText}>
               Save Profile Picture
             </Text>
           </TouchableOpacity>
         ) : null}
 
         <TouchableOpacity
-          style={styles.settingsButton}
+          style={globalStyles.settingsButton}
           onPress={() => {
             navigation.navigate("Settings");
           }}
         >
-          <Text style={loginStyles.loginButtonText}>Settings</Text>
+          <Text style={globalStyles.loginButtonText}>Settings</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.settingsButton}
+          style={globalStyles.settingsButton}
           onPress={() => {
             alert("Coming soon!");
           }}
         >
-          <Text style={loginStyles.loginButtonText}>My Analytics</Text>
+          <Text style={globalStyles.loginButtonText}>My Analytics</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -350,9 +349,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     elevation: 3,
     backgroundColor: "#2482AA",
-    // minWidth: "90%",
     marginBottom: 10,
-    // width: deviceWidth * 0.9,
     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
     maxWidth: 500,
   },

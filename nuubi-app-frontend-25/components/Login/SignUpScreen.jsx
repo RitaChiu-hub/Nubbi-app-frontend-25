@@ -14,7 +14,6 @@ import { globalStyles } from "../../styles/global";
 const { formSignupSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
-import { signUpStyles } from "../../styles/signUpStyles";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import IconAD from "@expo/vector-icons/AntDesign";
 import alert from "./../alert";
@@ -179,9 +178,9 @@ export default function SignUpScreen({ navigation }) {
                 >
                   {error}
                 </Text>
-                <Text style={signUpStyles.loginLabelText}>Email:</Text>
+                <Text style={globalStyles.loginLabelText}>Email:</Text>
                 <TextInput
-                  style={signUpStyles.loginInput}
+                  style={globalStyles.loginInput}
                   placeholder="School or Personal Email"
                   onChangeText={props.handleChange("email")}
                   value={props.values.email}
@@ -194,11 +193,11 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="email" />
                 </Text>
-                <Text style={signUpStyles.loginLabelText}>Password:</Text>
-                <View style={signUpStyles.passwordInputContainer}>
+                <Text style={globalStyles.loginLabelText}>Password:</Text>
+                <View style={globalStyles.passwordInputContainer}>
                   <TextInput
                     style={[
-                      signUpStyles.passwordInput,
+                      globalStyles.passwordInput,
                       Platform.OS === "web" && {
                         outlineStyle: "none",
                       },
@@ -224,13 +223,13 @@ export default function SignUpScreen({ navigation }) {
                 >
                   <ErrorMessage name="password" />
                 </Text>
-                <Text style={signUpStyles.loginLabelText}>
+                <Text style={globalStyles.loginLabelText}>
                   Repeat Password:
                 </Text>
-                <View style={signUpStyles.passwordInputContainer}>
+                <View style={globalStyles.passwordInputContainer}>
                   <TextInput
                     style={[
-                      signUpStyles.passwordInput,
+                      globalStyles.passwordInput,
                       Platform.OS === "web" && {
                         outlineStyle: "none",
                       },
@@ -396,11 +395,11 @@ export default function SignUpScreen({ navigation }) {
                   <View>
                     <TouchableOpacity
                       style={[
-                        signUpStyles.signUpButton,
+                        globalStyles.signUpButton,
                         {
                           backgroundColor: areAllFieldsEmpty(props.values)
                             ? "#EBEBEB"
-                            : signUpStyles.signUpButton.backgroundColor,
+                            : globalStyles.signUpButton.backgroundColor,
                         },
                       ]}
                       accessibilityRole="button"
@@ -409,11 +408,11 @@ export default function SignUpScreen({ navigation }) {
                     >
                       <Text
                         style={[
-                          signUpStyles.signUpButtonText,
+                          globalStyles.signUpButtonText,
                           {
                             color: areAllFieldsEmpty(props.values)
                               ? "#33333366"
-                              : signUpStyles.signUpButtonText.color,
+                              : globalStyles.signUpButtonText.color,
                           },
                         ]}
                       >
@@ -423,7 +422,7 @@ export default function SignUpScreen({ navigation }) {
                   </View>
                 </View>
                 <View style={{ marginTop: 16 }}>
-                  <Text style={signUpStyles.acknowledgmentText}>
+                  <Text style={globalStyles.acknowledgmentText}>
                     By signing up, I agree to NUUBI’s{" "}
                     <Text
                       style={globalStyles.captionLinkBlue}
@@ -445,18 +444,18 @@ export default function SignUpScreen({ navigation }) {
                     .
                   </Text>
 
-                  <View style={signUpStyles.dividerContainer}>
-                    <View style={signUpStyles.halfDivider}></View>
-                    <Text style={signUpStyles.orContinueWithText}>
+                  <View style={globalStyles.dividerContainer}>
+                    <View style={globalStyles.halfDivider}></View>
+                    <Text style={globalStyles.orContinueWithText}>
                       or continue with
                     </Text>
-                    <View style={signUpStyles.halfDivider}></View>
+                    <View style={globalStyles.halfDivider}></View>
                   </View>
                 </View>
 
-                <View style={signUpStyles.ssoButtonsContainer}>
+                <View style={globalStyles.ssoButtonsContainer}>
                   <TouchableOpacity
-                    style={signUpStyles.ssoButton}
+                    style={globalStyles.ssoButton}
                     accessibilityRole="button"
                     onPress={() => alert("Apple login coming soon!")}
                   >
@@ -464,7 +463,7 @@ export default function SignUpScreen({ navigation }) {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={signUpStyles.ssoButton}
+                    style={globalStyles.ssoButton}
                     accessibilityRole="button"
                     onPress={() => alert("Google login coming soon!")}
                   >
@@ -480,7 +479,7 @@ export default function SignUpScreen({ navigation }) {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={signUpStyles.ssoButton}
+                    style={globalStyles.ssoButton}
                     accessibilityRole="button"
                     onPress={() => alert("Facebook login coming soon!")}
                   >

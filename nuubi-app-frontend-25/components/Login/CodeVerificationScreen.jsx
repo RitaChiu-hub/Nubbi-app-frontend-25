@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
-import { signUpStyles } from "../../styles/signUpStyles";
 import { codeVerificationSchema } from "../validationSchema";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
@@ -164,21 +163,21 @@ export default function CodeVerificationScreen({ navigation, route }) {
           {(props) => (
             <View style={{ marginHorizontal: 30 }}>
               <View>
-                <Text style={signUpStyles.headingText}>
+                <Text style={globalStyles.headingText}>
                   Enter your Passcode
                 </Text>
                 <View style={{ marginVertical: 10 }}></View>
-                <Text style={signUpStyles.acknowledgmentText}>
+                <Text style={globalStyles.acknowledgmentText}>
                   An email containing the verification code was sent to your
                   email address.
                 </Text>
               </View>
               <View style={{ marginVertical: 10 }}></View>
-              <Text style={signUpStyles.loginLabelText}>
+              <Text style={globalStyles.loginLabelText}>
                 Verification Code:
               </Text>
               <TextInput
-                style={[signUpStyles.passcodeInput, { padding: 10 }]}
+                style={[globalStyles.passcodeInput, { padding: 10 }]}
                 placeholder="Enter 6 digit code"
                 onChangeText={props.handleChange("passcode")}
                 value={props.values.passcode}
@@ -198,11 +197,11 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 <View>
                   <TouchableOpacity
                     style={[
-                      signUpStyles.confirmButton,
+                      globalStyles.confirmButton,
                       {
                         backgroundColor: isFieldEmpty(props.values)
                           ? "#EBEBEB"
-                          : signUpStyles.signUpButton.backgroundColor,
+                          : globalStyles.signUpButton.backgroundColor,
                       },
                     ]}
                     accessibilityRole="button"
@@ -211,11 +210,11 @@ export default function CodeVerificationScreen({ navigation, route }) {
                   >
                     <Text
                       style={[
-                        signUpStyles.signUpButtonText,
+                        globalStyles.signUpButtonText,
                         {
                           color: isFieldEmpty(props.values)
                             ? "#33333366"
-                            : signUpStyles.signUpButtonText.color,
+                            : globalStyles.signUpButtonText.color,
                         },
                       ]}
                     >

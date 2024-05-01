@@ -28,8 +28,8 @@ export default function HomeScreenTasks({}) {
   // let assets2 = useAssets([require("../assets/Carousel2.png")]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerTitle}>
+    <View style={globalStyles.container}>
+      <View style={globalStyles.headerTitle}>
         <View style={{ width: "5%", height: "100%" }}></View>
         <View
           style={{

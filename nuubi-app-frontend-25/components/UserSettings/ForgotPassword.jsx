@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
-import { loginStyles } from "../../styles/loginStyles";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
 
@@ -105,10 +104,10 @@ export default function ForgotPasswordScreen({ navigation }) {
           </Text>
           <View>
             <TouchableOpacity
-              style={styles.loginButton}
+              style={globalStyles.loginButton}
               onPress={generatePasscode}
             >
-              <Text style={loginStyles.loginButtonText}>Send passcode</Text>
+              <Text style={globalStyles.loginButtonText}>Send passcode</Text>
             </TouchableOpacity>
           </View>
           <View style={{ marginVertical: 5 }}></View>
@@ -295,10 +294,10 @@ export default function ForgotPasswordScreen({ navigation }) {
                 <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
-                    style={styles.loginButton}
+                    style={globalStyles.loginButton}
                     onPress={props.handleSubmit}
                   >
-                    <Text style={loginStyles.loginButtonText}>
+                    <Text style={globalStyles.loginButtonText}>
                       Reset password
                     </Text>
                   </TouchableOpacity>

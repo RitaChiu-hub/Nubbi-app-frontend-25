@@ -1,7 +1,6 @@
 import * as React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { globalStyles } from "../../styles/global";
-import { loginStyles } from "../../styles/loginStyles";
 
 export default function AddGroupScreen({ navigation }) {
 
@@ -27,23 +26,23 @@ export default function AddGroupScreen({ navigation }) {
         }}
       >
         <TouchableOpacity
-          style={loginStyles.loginButton}
+          style={globalStyles.loginButton}
           onPress={() => {
             navigation.navigate("JoinGroup");
           }}
         >
-          <Text style={loginStyles.loginButtonText}>
+          <Text style={globalStyles.loginButtonText}>
             Join Private Group
           </Text>
         </TouchableOpacity>
         <View style={{ padding: 10 }}></View>
         <TouchableOpacity
-          style={loginStyles.loginButton}
+          style={globalStyles.loginButton}
           onPress={() => {
             navigation.navigate("CreateGroup");
           }}
         >
-          <Text style={loginStyles.loginButtonText}>Create New Group</Text>
+          <Text style={globalStyles.loginButtonText}>Create New Group</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
-import { loginStyles } from "../../styles/loginStyles";
 const { formSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
@@ -107,9 +106,9 @@ export default function LoginScreen({ navigation }) {
               >
                 {error}
               </Text>
-              <Text style={loginStyles.loginLabelText}>Email or Username:</Text>
+              <Text style={globalStyles.loginLabelText}>Email or Username:</Text>
               <TextInput
-                style={styles.loginInput}
+                style={globalStyles.loginInput}
                 placeholder="Email or Username"
                 onChangeText={props.handleChange("username")}
                 value={props.values.username}
@@ -122,11 +121,11 @@ export default function LoginScreen({ navigation }) {
               >
                 <ErrorMessage name="username" />
               </Text>
-              <Text style={loginStyles.loginLabelText}>Password:</Text>
-              <View style={styles.passwordInputContainer}>
+              <Text style={globalStyles.loginLabelText}>Password:</Text>
+              <View style={globalStyles.passwordInputContainer}>
                 <TextInput
                   style={[
-                    loginStyles.passwordInput,
+                    globalStyles.passwordInput,
                     Platform.OS === "web" && {
                       outlineStyle: "none",
                     },
@@ -156,11 +155,11 @@ export default function LoginScreen({ navigation }) {
               <View>
                 <TouchableOpacity
                   style={[
-                    loginStyles.loginButton,
+                    globalStyles.loginButton,
                     {
                       backgroundColor: areAllFieldsEmpty(props.values)
                         ? "#EBEBEB"
-                        : loginStyles.loginButton.backgroundColor,
+                        : globalStyles.loginButton.backgroundColor,
                     },
                   ]}
                   accessibilityRole="button"
@@ -169,11 +168,11 @@ export default function LoginScreen({ navigation }) {
                 >
                   <Text
                     style={[
-                      loginStyles.loginButtonText,
+                      globalStyles.loginButtonText,
                       {
                         color: areAllFieldsEmpty(props.values)
                           ? "#33333366"
-                          : loginStyles.loginButtonText.color,
+                          : globalStyles.loginButtonText.color,
                       },
                     ]}
                   >
@@ -182,28 +181,28 @@ export default function LoginScreen({ navigation }) {
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
-                style={loginStyles.secondaryButton}
+                style={globalStyles.secondaryButton}
                 accessibilityRole="button"
                 onPress={() => navigation.navigate("ForgotPasswordLoggedOut")}
               >
-                <Text style={loginStyles.forgotPasswordText}>
+                <Text style={globalStyles.forgotPasswordText}>
                   Forgot password?
                 </Text>
               </TouchableOpacity>
               <View>
                 <View style={{ marginTop: 10 }}>
-                  <View style={loginStyles.dividerContainer}>
-                    <View style={loginStyles.halfDivider}></View>
-                    <Text style={loginStyles.orContinueWithText}>
+                  <View style={globalStyles.dividerContainer}>
+                    <View style={globalStyles.halfDivider}></View>
+                    <Text style={globalStyles.orContinueWithText}>
                       or continue with
                     </Text>
-                    <View style={loginStyles.halfDivider}></View>
+                    <View style={globalStyles.halfDivider}></View>
                   </View>
                 </View>
 
-                <View style={loginStyles.ssoButtonsContainer}>
+                <View style={globalStyles.ssoButtonsContainer}>
                   <TouchableOpacity
-                    style={loginStyles.ssoButton}
+                    style={globalStyles.ssoButton}
                     accessibilityRole="button"
                     onPress={() => alert("Apple login coming soon!")}
                   >
@@ -215,7 +214,7 @@ export default function LoginScreen({ navigation }) {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={loginStyles.ssoButton}
+                    style={globalStyles.ssoButton}
                     accessibilityRole="button"
                     onPress={() => alert("Google login coming soon!")}
                   >
@@ -231,7 +230,7 @@ export default function LoginScreen({ navigation }) {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={loginStyles.ssoButton}
+                    style={globalStyles.ssoButton}
                     accessibilityRole="button"
                     onPress={() => alert("Facebook login coming soon!")}
                   >

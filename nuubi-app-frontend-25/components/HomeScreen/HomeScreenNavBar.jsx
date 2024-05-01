@@ -3,11 +3,11 @@ import React from "react";
 
 export default function HomeScreenNavBar({ forYouScreen, setForYouScreen }) {
   return (
-    <View style={styles.container}>
-      <View style={styles.topSpacing}>
+    <View style={globalStyles.container}>
+      <View style={globalStyles.topSpacing}>
         {/** empty div, 0.07 of the whole screen */}
       </View>
-      <View style={styles.twoOptions}>
+      <View style={globalStyles.twoOptions}>
         <View style={{ flex: 0.2 }}></View>
         <TouchableOpacity
           onPress={() => {
@@ -17,7 +17,7 @@ export default function HomeScreenNavBar({ forYouScreen, setForYouScreen }) {
           <View style={{ alignItems: "center" }}>
             <Text
               style={[
-                styles.navBarText,
+                globalStyles.navBarText,
                 { color: forYouScreen ? "blue" : "gray" },
               ]}
             >
@@ -43,7 +43,7 @@ export default function HomeScreenNavBar({ forYouScreen, setForYouScreen }) {
           <View style={{ alignItems: "center" }}>
             <Text
               style={[
-                styles.navBarText,
+                globalStyles.navBarText,
                 { color: !forYouScreen ? "blue" : "gray" },
               ]}
             >

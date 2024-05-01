@@ -63,28 +63,28 @@ export default function NotificationSettings({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
-      <View style={styles.container}>
+      <View style={globalStyles.container}>
 
-        <ScrollView contentContainerStyle={styles.content}>
-            <Text style={styles.sectionTitle}>Productivity</Text>
-            <View style={[styles.section, { paddingTop: 4 }]}>
-                <View style={styles.sectionBody}>
+        <ScrollView contentContainerStyle={globalStyles.content}>
+            <Text style={globalStyles.sectionTitle}>Productivity</Text>
+            <View style={[globalStyles.section, { paddingTop: 4 }]}>
+                <View style={globalStyles.sectionBody}>
                   <TouchableOpacity
                     onPress={() =>
                       setForm({ ...form, pauseNotifications: !form.pauseNotifications })
                     }
-                    style={styles.card}>
+                    style={globalStyles.card}>
                     <FeatherIcon
                       color="black"
                       name="pause-circle"
-                      style={styles.rowIcon}
+                      style={globalStyles.rowIcon}
                       size={22}
                     />
 
-                    <View style={styles.cardBody}>
-                      <Text style={styles.cardName}>Pause All</Text>
+                    <View style={globalStyles.cardBody}>
+                      <Text style={globalStyles.cardName}>Pause All</Text>
 
-                      <Text style={styles.cardHandle}>
+                      <Text style={globalStyles.cardHandle}>
                         Temporarily pause all notifications.
                       </Text>
                     </View>
@@ -99,25 +99,25 @@ export default function NotificationSettings({ navigation }) {
                 </View>
             </View>
 
-            <View style={[styles.section, { paddingTop: 4 }]}>
-                <View style={styles.sectionBody}>
+            <View style={[globalStyles.section, { paddingTop: 4 }]}>
+                <View style={globalStyles.sectionBody}>
                     <TouchableOpacity
                         onPress={() => {
                           // handle onPress
                           navigation.navigate("StudyModeScreen");
                         }}
-                        style={styles.card}>
+                        style={globalStyles.card}>
 
                         <FeatherIcon
                             color="black"
                             name="book-open"
-                            style={styles.rowIcon}
+                            style={globalStyles.rowIcon}
                             size={22} />
 
-                        <View style={styles.cardBody}>
-                        <Text style={styles.cardName}>Study Mode</Text>
+                        <View style={globalStyles.cardBody}>
+                        <Text style={globalStyles.cardName}>Study Mode</Text>
 
-                        <Text style={styles.cardHandle}>
+                        <Text style={globalStyles.cardHandle}>
                             Automatically mute notifications at night or whenever you need to focus.
                         </Text>
                         </View>
@@ -130,15 +130,15 @@ export default function NotificationSettings({ navigation }) {
                 </View>
             </View>
 
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Notification Preferences</Text>
-                <View style={styles.sectionBody}>
-                    <View style={[styles.rowWrapper, styles.rowFirst]}>
+            <View style={globalStyles.section}>
+                <Text style={globalStyles.sectionTitle}>Notification Preferences</Text>
+                <View style={globalStyles.sectionBody}>
+                    <View style={[globalStyles.rowWrapper, globalStyles.rowFirst]}>
 
-                        <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Discussion Activity</Text>
+                        <View style={globalStyles.row}>
+                        <Text style={globalStyles.rowLabel}>Discussion Activity</Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         <Switch
                             onValueChange={discussionNotifications =>
@@ -149,11 +149,11 @@ export default function NotificationSettings({ navigation }) {
                         </View>
                     </View>
 
-                    <View style={styles.rowWrapper}>
-                        <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Course Posts</Text>
+                    <View style={globalStyles.rowWrapper}>
+                        <View style={globalStyles.row}>
+                        <Text style={globalStyles.rowLabel}>Course Posts</Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         <Switch
                             onValueChange={coursePostNotifications =>
@@ -164,11 +164,11 @@ export default function NotificationSettings({ navigation }) {
                         </View>
                     </View>
 
-                    <View style={styles.rowWrapper}>
-                        <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Post Activity</Text>
+                    <View style={globalStyles.rowWrapper}>
+                        <View style={globalStyles.row}>
+                        <Text style={globalStyles.rowLabel}>Post Activity</Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         <Switch
                             onValueChange={postActivityNotifications =>
@@ -180,11 +180,11 @@ export default function NotificationSettings({ navigation }) {
                     </View>
 
 
-                    <View style={styles.rowWrapper}>
-                        <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Likes Received</Text>
+                    <View style={globalStyles.rowWrapper}>
+                        <View style={globalStyles.row}>
+                        <Text style={globalStyles.rowLabel}>Likes Received</Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         <Switch
                             onValueChange={likesReceivedNotifications =>
@@ -196,11 +196,11 @@ export default function NotificationSettings({ navigation }) {
                     </View>
 
 
-                    <View style={styles.rowWrapper}>
-                        <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Milestone Reached</Text>
+                    <View style={globalStyles.rowWrapper}>
+                        <View style={globalStyles.row}>
+                        <Text style={globalStyles.rowLabel}>Milestone Reached</Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         <Switch
                             onValueChange={milestonesNotifications =>
@@ -211,11 +211,11 @@ export default function NotificationSettings({ navigation }) {
                         </View>
                     </View>
 
-                    <View style={styles.rowWrapper}>
-                        <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Badge Earned</Text>
+                    <View style={globalStyles.rowWrapper}>
+                        <View style={globalStyles.row}>
+                        <Text style={globalStyles.rowLabel}>Badge Earned</Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         <Switch
                             onValueChange={badgeNotifications =>
@@ -226,11 +226,11 @@ export default function NotificationSettings({ navigation }) {
                         </View>
                     </View>
 
-                    <View style={styles.rowWrapper}>
-                        <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Messages</Text>
+                    <View style={globalStyles.rowWrapper}>
+                        <View style={globalStyles.row}>
+                        <Text style={globalStyles.rowLabel}>Messages</Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         <Switch
                             onValueChange={messageNotifications =>
@@ -241,11 +241,11 @@ export default function NotificationSettings({ navigation }) {
                         </View>
                     </View>
 
-                    <View style={[styles.rowWrapper, styles.rowLast]}>
-                        <View style={styles.row}>
-                        <Text style={styles.rowLabel}>Announcements</Text>
+                    <View style={[globalStyles.rowWrapper, globalStyles.rowLast]}>
+                        <View style={globalStyles.row}>
+                        <Text style={globalStyles.rowLabel}>Announcements</Text>
 
-                        <View style={styles.rowSpacer} />
+                        <View style={globalStyles.rowSpacer} />
 
                         <Switch
                             onValueChange={announcementNotifications =>
@@ -257,24 +257,24 @@ export default function NotificationSettings({ navigation }) {
                    </View>
                 </View>
             </View>
-            <View style={styles.section}>
-              <View style={styles.buttonContainer}>
+            <View style={globalStyles.section}>
+              <View style={globalStyles.buttonContainer}>
                  <TouchableOpacity
-                    style={ styles.saveButton }
+                    style={ globalStyles.saveButton }
                     accessibilityRole="button"
                   >
                     <Text
-                      style={styles.saveButtonText}
+                      style={globalStyles.saveButtonText}
                     >
                       Save
                     </Text>
                  </TouchableOpacity>
                  <TouchableOpacity
-                    style={ styles.cancelButton }
+                    style={ globalStyles.cancelButton }
                     accessibilityRole="button"
                   >
                     <Text
-                      style={styles.cancelButtonText}
+                      style={globalStyles.cancelButtonText}
                     >
                       Cancel
                     </Text>

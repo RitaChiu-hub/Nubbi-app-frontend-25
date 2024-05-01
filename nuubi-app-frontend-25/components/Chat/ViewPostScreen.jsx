@@ -237,9 +237,9 @@ export default function ViewPostScreen({ navigation }) {
           visible={modalVisible}
           onRequestClose={() => setModalVisible(false)}
         >
-          <View style={styles.centeredView}>
+          <View style={globalStyles.centeredView}>
             <View
-              //style={styles.modalView}
+              //style={globalStyles.modalView}
               style={{
                 backgroundColor: "#fdfdfd",
                 maxWidth: Dimensions.get("window").width * 0.8,

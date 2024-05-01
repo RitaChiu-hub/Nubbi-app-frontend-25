@@ -12,7 +12,6 @@ import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
-import { loginStyles } from "../../styles/loginStyles";
 
 export default function ForgotPasswordLoggedOut({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -123,9 +122,9 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           >
             {(props) => (
               <View>
-                <Text style={loginStyles.loginLabelText}>Email:</Text>
+                <Text style={globalStyles.loginLabelText}>Email:</Text>
                 <TextInput
-                  style={styles.loginInput}
+                  style={globalStyles.loginInput}
                   placeholder="School or Personal Email"
                   onChangeText={props.handleChange("email")}
                   value={props.values.email}
@@ -133,11 +132,11 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
-                    style={styles.loginButton}
+                    style={globalStyles.loginButton}
                     accessibilityRole="button"
                     onPress={props.handleSubmit}
                   >
-                    <Text style={loginStyles.loginButtonText}>
+                    <Text style={globalStyles.loginButtonText}>
                       Send passcode
                     </Text>
                   </TouchableOpacity>
@@ -192,9 +191,9 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           >
             {(props) => (
               <View>
-                <Text style={loginStyles.loginLabelText}>Passcode:</Text>
+                <Text style={globalStyles.loginLabelText}>Passcode:</Text>
                 <TextInput
-                  style={styles.loginInput}
+                  style={globalStyles.loginInput}
                   placeholder="Enter 6 Digit Passcode"
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
@@ -207,9 +206,9 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 >
                   <ErrorMessage name="passcode" />
                 </Text>
-                <Text style={loginStyles.loginLabelText}>New Password:</Text>
+                <Text style={globalStyles.loginLabelText}>New Password:</Text>
                 <TextInput
-                  style={styles.loginInput}
+                  style={globalStyles.loginInput}
                   placeholder="Enter New Password"
                   secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt1")}
@@ -223,11 +222,11 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 >
                   <ErrorMessage name="passattempt1" />
                 </Text>
-                <Text style={loginStyles.loginLabelText}>
+                <Text style={globalStyles.loginLabelText}>
                   Repeat New Password:
                 </Text>
                 <TextInput
-                  style={styles.loginInput}
+                  style={globalStyles.loginInput}
                   placeholder="Repeat New Password"
                   secureTextEntry={true}
                   onChangeText={props.handleChange("passattempt2")}
@@ -244,11 +243,11 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <TouchableOpacity
-                    style={styles.loginButton}
+                    style={globalStyles.loginButton}
                     accessibilityRole="button"
                     onPress={props.handleSubmit}
                   >
-                    <Text style={loginStyles.loginButtonText}>
+                    <Text style={globalStyles.loginButtonText}>
                       Reset password
                     </Text>
                   </TouchableOpacity>
