@@ -273,7 +273,7 @@ export default function PostScreen({ navigation }) {
       />
       <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
-          style={globalStyles.loginButton}
+          style={globalStyles.loginButtonLong}
           accessibilityRole="button"
           onPress={() => {
             navigation.navigate("CreatePost");

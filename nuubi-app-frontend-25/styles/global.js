@@ -439,6 +439,16 @@ export const globalStyles = StyleSheet.create({
     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
     maxWidth: 500,
   },
+  loginButtonLong: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 60,
+    elevation: 3,
+    backgroundColor: "#2482AA",
+    width: "100%",
+  },
   forgotPasswordText: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 14,
