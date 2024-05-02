@@ -361,9 +361,6 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
   },
-  altBody: {
-    backgroundColor: nuubiColors["white"],
-  },
   altWrapper: {
     paddingLeft: 16,
     position: "relative",
@@ -459,9 +456,6 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 10,
     elevation: 2,
     marginBottom: 10,
-  },
-  content: {
-    paddingHorizontal: 16,
   },
   rowSingle: {
     borderTopLeftRadius: 12,

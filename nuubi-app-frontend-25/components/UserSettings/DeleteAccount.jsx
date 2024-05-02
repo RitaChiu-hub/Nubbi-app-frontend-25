@@ -83,32 +83,17 @@ export default function DeleteAccountScreen({ navigation }) {
                   if (data.status) {
                     setError(data.status);
                   }
-                  // else if (data.loggedIn) {
-                  //   if (Platform.OS === "web") {
-                  //     localStorage.removeItem("token");
-                  //   } else {
-                  //     SecureStore.deleteItemAsync("token");
-                  //   }
-                  //   socket.disconnect();
-                  // }
                 });
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
               <View>
                 <Text style={globalStyles.captionError}>{error}</Text>
-                <Text>Please enter your password to verify your identity</Text>
+                <Text style={globalStyles.textInputLabel}>
+                  Enter your password:
+                </Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                    marginVertical: 5,
-                  }}
+                  style={globalStyles.textInput}
                   placeholder="Enter password"
                   onChangeText={handleChange("passattempt")}
                   onBlur={handleBlur("passattempt")}
@@ -122,7 +107,7 @@ export default function DeleteAccountScreen({ navigation }) {
                     onPress={handleSubmit}
                   >
                     <Text style={globalStyles.primaryButtonText}>
-                      Delete account permanently {"&"} sign out
+                      Delete Account Permanently
                     </Text>
                   </TouchableOpacity>
                 </View>

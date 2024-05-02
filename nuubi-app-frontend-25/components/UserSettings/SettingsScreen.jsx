@@ -115,77 +115,79 @@ export default function SettingsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      {SECTIONS.map(({ header, items }) => (
-        <View style={globalStyles.section} key={header}>
-          <View style={globalStyles.sectionHeader}>
-            <Text style={globalStyles.caption}>{header}</Text>
-          </View>
-          <View style={globalStyles.sectionBody}>
-            {items.map(
-              (
-                { icon, label, type, value, color, navRoute, onPress },
-                index
-              ) => {
-                const isFirst = index === 0;
-                const isLast = index === items.length - 1;
-                return (
-                  <View
-                    key={label}
-                    style={[
-                      globalStyles.rowWrapper,
-                      index === 0 && { borderTopWidth: 0 },
-                      isFirst && globalStyles.rowFirst,
-                      isLast && globalStyles.rowLast,
-                    ]}
-                  >
-                    <TouchableOpacity
-                      onPress={
-                        onPress
-                          ? () => onPress(setUser, navigation)
-                          : () => handleNavigation(navRoute, label)
-                      }
+      <View style={globalStyles.widthContainer}>
+        {SECTIONS.map(({ header, items }) => (
+          <View style={globalStyles.section} key={header}>
+            <View style={globalStyles.sectionHeader}>
+              <Text style={globalStyles.caption}>{header}</Text>
+            </View>
+            <View style={globalStyles.sectionBody}>
+              {items.map(
+                (
+                  { icon, label, type, value, color, navRoute, onPress },
+                  index
+                ) => {
+                  const isFirst = index === 0;
+                  const isLast = index === items.length - 1;
+                  return (
+                    <View
+                      key={label}
+                      style={[
+                        globalStyles.rowWrapper,
+                        index === 0 && { borderTopWidth: 0 },
+                        isFirst && globalStyles.rowFirst,
+                        isLast && globalStyles.rowLast,
+                      ]}
                     >
-                      <View style={globalStyles.row}>
-                        <FeatherIcon
-                          color="#616161"
-                          name={icon}
-                          style={globalStyles.rowIcon}
-                          size={22}
-                        />
-
-                        <Text
-                          style={[
-                            globalStyles.headingText,
-                            { color: color ? color : "#000" }, // Dynamic color based on provided color attribute
-                          ]}
-                        >
-                          {label}
-                        </Text>
-
-                        <View style={globalStyles.rowSpacer} />
-
-                        {type === "input" && (
-                          <Text style={globalStyles.rowValue}>{value}</Text>
-                        )}
-
-                        {type === "boolean" && <Switch value={value} />}
-
-                        {(type === "input" || type === "link") && (
+                      <TouchableOpacity
+                        onPress={
+                          onPress
+                            ? () => onPress(setUser, navigation)
+                            : () => handleNavigation(navRoute, label)
+                        }
+                      >
+                        <View style={globalStyles.row}>
                           <FeatherIcon
-                            color="#ababab"
-                            name="chevron-right"
+                            color="#616161"
+                            name={icon}
+                            style={globalStyles.rowIcon}
                             size={22}
                           />
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                );
-              }
-            )}
+
+                          <Text
+                            style={[
+                              globalStyles.headingText,
+                              { color: color ? color : "#000" }, // Dynamic color based on provided color attribute
+                            ]}
+                          >
+                            {label}
+                          </Text>
+
+                          <View style={globalStyles.rowSpacer} />
+
+                          {type === "input" && (
+                            <Text style={globalStyles.rowValue}>{value}</Text>
+                          )}
+
+                          {type === "boolean" && <Switch value={value} />}
+
+                          {(type === "input" || type === "link") && (
+                            <FeatherIcon
+                              color="#ababab"
+                              name="chevron-right"
+                              size={22}
+                            />
+                          )}
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                }
+              )}
+            </View>
           </View>
-        </View>
-      ))}
+        ))}
+      </View>
     </SafeAreaView>
   );
 }

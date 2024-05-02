@@ -132,9 +132,6 @@ export default function ChangePasswordScreen({ navigation }) {
                 if (data.status) {
                   setError(data.status);
                 }
-                // else if (data.loggedIn) {
-                //   SecureStore.setItemAsync("token", data.token);
-                // }
               });
           }}
         >
@@ -144,37 +141,12 @@ export default function ChangePasswordScreen({ navigation }) {
                 flex: 1,
               }}
             >
-              <Text
-                style={[
-                  globalStyles.h2HeadingMedium,
-                  {
-                    fontSize: 22,
-                    marginTop: 40,
-                    color: "#606060",
-                  },
-                ]}
-              >
+              <Text style={[globalStyles.textInputLabel, { marginTop: 24 }]}>
                 Enter your old password
               </Text>
               <Text style={globalStyles.captionError}>{error}</Text>
               <TextInput
-                style={[
-                  {
-                    borderWidth: 1,
-                    borderColor: "#C0C0C0",
-                    backgroundColor: "#EBEBEB",
-                    fontFamily: "Poppins_400Regular",
-                    fontSize: 14,
-                    color: "#767676",
-                    padding: 14,
-                    borderRadius: 10,
-                    width: "100%",
-                    alignItems: "stretch",
-                  },
-                  Platform.OS === "web" && {
-                    outlineStyle: "none",
-                  },
-                ]}
+                style={globalStyles.textInput}
                 placeholder="Enter your old password"
                 secureTextEntry={true}
                 onChangeText={props.handleChange("password")}
@@ -184,20 +156,10 @@ export default function ChangePasswordScreen({ navigation }) {
                 <ErrorMessage name="password" />
               </Text>
 
-              <Text
-                style={[
-                  globalStyles.h2HeadingMedium,
-                  {
-                    fontSize: 22,
-                    marginTop: 10,
-                    color: "#606060",
-                  },
-                ]}
-              >
+              <Text style={globalStyles.textInputLabel}>
                 Enter new password
               </Text>
 
-              {/*New Password inputbox */}
               <View style={[globalStyles.textInput, { flexDirection: "row" }]}>
                 <TextInput
                   style={{
@@ -231,18 +193,7 @@ export default function ChangePasswordScreen({ navigation }) {
               <Text style={globalStyles.captionError}>
                 <ErrorMessage name="passattempt1" />
               </Text>
-
-              {/* Confirm password text */}
-              <Text
-                style={[
-                  globalStyles.h2HeadingMedium,
-                  {
-                    fontSize: 22,
-                    marginTop: 10,
-                    color: "#606060",
-                  },
-                ]}
-              >
+              <Text style={globalStyles.textInputLabel}>
                 Confirm new password
               </Text>
 
@@ -391,7 +342,7 @@ export default function ChangePasswordScreen({ navigation }) {
               )}
 
               {/* View element gives the button an align bottom view to all mobile */}
-              <View style={{ marginTop: "auto" }}>
+              <View style={{ marginTop: 24 }}>
                 {/* Save button, onpress passed to onSubmit with conditional statement on button color change. */}
                 <TouchableOpacity
                   style={[

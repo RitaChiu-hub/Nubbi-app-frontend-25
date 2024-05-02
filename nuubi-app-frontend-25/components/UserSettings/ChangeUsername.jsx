@@ -123,8 +123,6 @@ export default function ChangeUsernameScreen({ navigation }) {
           Your current username is {myUsername}.
         </Text>
         <Text style={globalStyles.textInputLabel}>Enter your new username</Text>
-
-        {/* Form update or upload */}
         <Formik
           initialValues={{ username: "", password: "" }}
           validationSchema={changeUsernameSchema}
@@ -162,9 +160,6 @@ export default function ChangeUsernameScreen({ navigation }) {
                 if (data.status) {
                   setError(data.status);
                 }
-                // else if (data.loggedIn) {
-                //   SecureStore.setItemAsync("token", data.token);
-                // }
               });
           }}
         >
@@ -205,7 +200,6 @@ export default function ChangeUsernameScreen({ navigation }) {
               <Text style={globalStyles.captionError}>
                 <ErrorMessage name="password" />
               </Text>
-              {/* Text style */}
               <Text
                 style={{
                   fontFamily: "Poppins_500Medium",
@@ -269,7 +263,7 @@ export default function ChangeUsernameScreen({ navigation }) {
               )}
 
               {/* View element gives the button an align bottom view to all mobile */}
-              <View style={{ marginTop: "auto" }}>
+              <View style={{ marginTop: 24 }}>
                 {/* Save button, onpress passed to onSubmit with conditional statement on button color change. */}
                 <TouchableOpacity
                   style={[

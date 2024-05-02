@@ -42,7 +42,7 @@ export default function FeedbackScreen({ navigation }) {
           <Text style={[globalStyles.h2HeadingMedium]}>
             Share Your Feedback
           </Text>
-          <Text style={[globalStyles.bodyRegular, { color: "#888888" }]}>
+          <Text style={[globalStyles.bodyRegular, { color: "#888888", marginVertical: 12 }]}>
             Enter in your feedback in the text field below and submit. We
             appreciate and value all feedback provided!
           </Text>
@@ -129,7 +129,6 @@ export default function FeedbackScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
 
-          {/* goBack function for the Cancel button  */}
           <TouchableOpacity
             style={{
               backgroundColor: "#fdfdfd",
@@ -147,7 +146,7 @@ export default function FeedbackScreen({ navigation }) {
             accessibilityRole="button"
             onPress={() => goBack()}
           >
-            <Text style={globalStyles.primaryButtonText}>Cancel</Text>
+            <Text style={globalStyles.secondaryButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

@@ -151,16 +151,7 @@ export default function ForgotPasswordScreen({ navigation }) {
             {(props) => (
               <View>
                 <Text style={globalStyles.captionError}>{error}</Text>
-                <Text
-                  style={[
-                    globalStyles.h2HeadingMedium,
-                    {
-                      fontSize: 22,
-                      marginTop: 10,
-                      color: "#606060",
-                    },
-                  ]}
-                >
+                <Text style={globalStyles.textInputLabel}>
                   Enter the 6 digit passcode
                 </Text>
                 <TextInput
@@ -189,16 +180,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                 <Text style={globalStyles.captionError}>
                   <ErrorMessage name="passcode" />
                 </Text>
-                <Text
-                  style={[
-                    globalStyles.h2HeadingMedium,
-                    {
-                      fontSize: 22,
-                      marginTop: 10,
-                      color: "#606060",
-                    },
-                  ]}
-                >
+                <Text style={globalStyles.textInputLabel}>
                   Enter new password
                 </Text>
                 <TextInput
@@ -228,16 +210,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                 <Text style={globalStyles.captionError}>
                   <ErrorMessage name="passattempt1" />
                 </Text>
-                <Text
-                  style={[
-                    globalStyles.h2HeadingMedium,
-                    {
-                      fontSize: 22,
-                      marginTop: 10,
-                      color: "#606060",
-                    },
-                  ]}
-                >
+                <Text style={globalStyles.textInputLabel}>
                   Confirm new password
                 </Text>
                 <TextInput

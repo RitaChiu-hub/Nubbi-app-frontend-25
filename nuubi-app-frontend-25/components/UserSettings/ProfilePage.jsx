@@ -182,22 +182,22 @@ export default function ProfilePageScreen({ navigation }) {
         <Text style={{ marginBottom: 20 }}>
           You have {userPoints} total points 🎉
         </Text>
-
+        <View style={globalStyles.widthContainer}>
         {pickedImage !== null ? (
           <TouchableOpacity
             onPress={resetImage}
-            style={globalStyles.primaryButton}
+            style={globalStyles.secondaryButton}
           >
-            <Text style={globalStyles.primaryButtonText}>
+            <Text style={globalStyles.secondaryButtonText}>
               Clear picked image
             </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={pickImage}
-            style={globalStyles.primaryButton}
+            style={globalStyles.secondaryButton}
           >
-            <Text style={globalStyles.primaryButtonText}>Select new photo</Text>
+            <Text style={globalStyles.secondaryButtonText}>Select New Photo</Text>
           </TouchableOpacity>
         )}
 
@@ -231,16 +231,16 @@ export default function ProfilePageScreen({ navigation }) {
                 }
               });
           }}
-          style={globalStyles.primaryButton}
+          style={globalStyles.secondaryButton}
         >
-          <Text style={globalStyles.primaryButtonText}>
+          <Text style={globalStyles.secondaryButtonText}>
             Delete Profile Picture
           </Text>
         </TouchableOpacity>
 
         {pickedImage !== null ? (
           <TouchableOpacity
-            style={globalStyles.primaryButton}
+            style={globalStyles.secondaryButton}
             onPress={() => {
               // upload the pickedimage to cloudinary
 
@@ -304,30 +304,31 @@ export default function ProfilePageScreen({ navigation }) {
                 .catch((err) => console.log(err));
             }}
           >
-            <Text style={globalStyles.primaryButtonText}>
+            <Text style={globalStyles.secondaryButtonText}>
               Save Profile Picture
             </Text>
           </TouchableOpacity>
         ) : null}
 
         <TouchableOpacity
-          style={globalStyles.primaryButton}
+          style={globalStyles.secondaryButton}
           onPress={() => {
             navigation.navigate("Settings");
           }}
         >
-          <Text style={globalStyles.primaryButtonText}>Settings</Text>
+          <Text style={globalStyles.secondaryButtonText}>Settings</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={globalStyles.primaryButton}
+          style={globalStyles.secondaryButton}
           onPress={() => {
             alert("Coming soon!");
           }}
         >
-          <Text style={globalStyles.primaryButtonText}>My Analytics</Text>
+          <Text style={globalStyles.secondaryButtonText}>My Analytics</Text>
         </TouchableOpacity>
       </View>
+  </View>
     </ScrollView>
   );
 }
