@@ -41,6 +41,7 @@ export default function ViewPostScreen({ navigation }) {
   const height = useHeaderHeight();
   const [modalVisible, setModalVisible] = React.useState(false);
   const [previewUrls, setPreviewUrls] = React.useState([]);
+  const [myUsername, setMyUsername] = React.useState("");
 
   const getPostLiked = async () => {
     try {
@@ -177,10 +178,27 @@ export default function ViewPostScreen({ navigation }) {
     }
   };
 
-  const isAuthor = user.username === user.post_author ? true : false;
-  // console.log(isAuthor)
-  // console.log("username is: " + user.username);
-  // console.log("post author is " + user.post_author)
+  const getUserPoints = async () => {
+    try {
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+      // setUserPoints(jsonData.userPoints);
+      setMyUsername(jsonData.username);
+      // console.log(myUsername)
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   React.useEffect(() => {
     getPostInfo();
@@ -188,7 +206,10 @@ export default function ViewPostScreen({ navigation }) {
     getPostPoints();
     getLikes();
     getPostLiked();
+    getUserPoints();
   }, [user]);
+
+  const isAuthor = myUsername === user.post_author ? true : false;
 
   React.useEffect(() => {
     socket.on("insert comment return updated list", (jsonData) => {
@@ -396,16 +417,7 @@ export default function ViewPostScreen({ navigation }) {
             </View>
 
             <View>
-              <Text
-                style={{
-                  paddingHorizontal: 10,
-                  paddingBottom: 5,
-                  color: "#111111",
-                  fontFamily: "Poppins_500Medium",
-                  fontSize: 12,
-                  letterSpacing: 0.4,
-                }}
-              >
+              <Text style={[globalStyles.bodyRegular, { padding: 14 }]}>
                 {postInfo.post_author}: {postInfo.body_text}
               </Text>
               <View style={{ justifyContent: "center", alignItems: "center" }}>
