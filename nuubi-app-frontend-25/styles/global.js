@@ -215,6 +215,7 @@ export const globalStyles = StyleSheet.create({
     marginVertical: 5,
     width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
     maxWidth: 500,
+    maxHeight: 48,
   },
   textInputLarge: {
     flex: 0.5,

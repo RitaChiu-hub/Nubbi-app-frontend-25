@@ -104,9 +104,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   if (data.status) {
                     setError(data.status);
                   }
-                  // else if (data.loggedIn) {
-                  //   SecureStore.setItemAsync("token", data.token);
-                  // }
                 });
             }}
           >
@@ -173,9 +170,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   if (data.status) {
                     setError(data.status);
                   }
-                  // else if (data.loggedIn) {
-                  //   SecureStore.setItemAsync("token", data.token);
-                  // }
                 });
             }}
           >

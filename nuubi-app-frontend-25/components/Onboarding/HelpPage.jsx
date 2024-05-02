@@ -21,21 +21,22 @@ export default function HelpScreen({ navigation }) {
       <View
         style={{
           flex: 1,
-          //  alignItems: "center",
           justifyContent: "space-between",
           backgroundColor: "#fdfdfd",
-          paddingBottom: 100,
+          margin: 16,
         }}
       >
-        <Text style={globalStyles.header}>0. Where can I find Nuubi? </Text>
+        <Text style={globalStyles.headingText}>0. Where can I find Nuubi?</Text>
         <Text style={globalStyles.bodyRegular}>
           Nuubi is available at www.nuubi.app on the web, as well as iOS and
           Android app stores.
         </Text>
 
-        <Text style={globalStyles.header}>1. How do I create an account? </Text>
+        <Text style={globalStyles.headingText}>
+          1. How do I create an account?{" "}
+        </Text>
         <Text style={globalStyles.bodyRegular}>
-          1. Click on “Sign up” on your browser or smart device{" "}
+          1. Click on “Sign up” on your browser or smart device
         </Text>
         <Text style={globalStyles.bodyRegular}>
           2. Enter your school/personal email address
@@ -67,17 +68,17 @@ export default function HelpScreen({ navigation }) {
             resizeMode="contain"
           />
         </View>
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           2. How do I join a private group?{" "}
         </Text>
         <Text style={globalStyles.bodyRegular}>
           1. Before you begin, you will need:
         </Text>
-        <Text style={globalStyles.h3HeadingRegular}>
-          1. Find out the username of the admin of the group
+        <Text style={[globalStyles.bodyRegular, { marginLeft: 18 }]}>
+          A. Find out the username of the admin of the group
         </Text>
-        <Text style={globalStyles.h3HeadingRegular}>
-          2. The 6 digit passcode assigned to the group
+        <Text style={[globalStyles.bodyRegular, { marginLeft: 18 }]}>
+          B. The 6 digit passcode assigned to the group
         </Text>
         <Text style={globalStyles.bodyRegular}>
           2. On the home page press the “+” sign in the middle on the bottom
@@ -132,7 +133,7 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           3. How do I invite someone to my private group?
         </Text>
         <Text style={globalStyles.bodyRegular}>
@@ -140,7 +141,7 @@ export default function HelpScreen({ navigation }) {
           steps from #2.
         </Text>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           4. How do I find my group invite passcode & admin username?
         </Text>
         <Text style={globalStyles.bodyRegular}>
@@ -186,7 +187,7 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           5. How do I see the points of each member in a group?
         </Text>
         <Text style={globalStyles.bodyRegular}>
@@ -195,7 +196,7 @@ export default function HelpScreen({ navigation }) {
           in that group.
         </Text>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           6. How do I edit my group information, where I'm the admin?
         </Text>
         <Text style={globalStyles.bodyRegular}>
@@ -205,7 +206,7 @@ export default function HelpScreen({ navigation }) {
           group to private or public under visibility.
         </Text>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           7. How do I create my own group?{" "}
         </Text>
         <Text style={globalStyles.bodyRegular}>
@@ -257,7 +258,7 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           8. How do I find the Posts Screen {"("}for posts and discussion
           questions?{")"}
         </Text>
@@ -299,7 +300,7 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           9. How do I add a discussion post?{" "}
         </Text>
         <Text style={globalStyles.bodyRegular}>1. Repeat steps from #8.</Text>
@@ -348,7 +349,7 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           10. How do I answer a discussion post?
         </Text>
         <Text style={globalStyles.bodyRegular}>1. Repeat steps from #8.</Text>
@@ -379,7 +380,7 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           11. How do I change my settings?
         </Text>
         <Text style={globalStyles.bodyRegular}>
@@ -411,7 +412,7 @@ export default function HelpScreen({ navigation }) {
           />
         </View>
 
-        <Text style={globalStyles.header}>
+        <Text style={globalStyles.headingText}>
           12. How do I get help if I have more questions?
         </Text>
         <Text style={globalStyles.bodyRegular}>
