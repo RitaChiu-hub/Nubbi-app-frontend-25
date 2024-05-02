@@ -92,12 +92,7 @@ export default function CreateGroupScreen({ navigation }) {
               <View>
                 <View style={{ marginVertical: 5 }}></View>
                 <View style={{ marginHorizontal: 30 }}>
-                  <Text
-                    style={{
-                      color: "red",
-                      textAlign: "center",
-                    }}
-                  >
+                <Text style={globalStyles.captionError}>
                     {error}
                   </Text>
                   <View>
@@ -110,12 +105,7 @@ export default function CreateGroupScreen({ navigation }) {
                       onBlur={Keyboard.dismiss}
                     />
                     <View style={{ marginVertical: 5 }}></View>
-                    <Text
-                      style={{
-                        color: "red",
-                        textAlign: "center",
-                      }}
-                    >
+                    <Text style={globalStyles.captionError}>
                       <ErrorMessage name="groupname" />
                     </Text>
                     <Text style={globalStyles.textInputLabel}>Description</Text>
@@ -129,12 +119,7 @@ export default function CreateGroupScreen({ navigation }) {
                       onBlur={Keyboard.dismiss}
                     />
                     <View style={{ marginVertical: 5 }}></View>
-                    <Text
-                      style={{
-                        color: "red",
-                        textAlign: "center",
-                      }}
-                    >
+                    <Text style={globalStyles.captionError}>
                       <ErrorMessage name="description" />
                     </Text>
                     <Text style={globalStyles.textInputLabel}>Visibility</Text>

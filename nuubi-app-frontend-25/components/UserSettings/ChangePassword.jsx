@@ -156,17 +156,7 @@ export default function ChangePasswordScreen({ navigation }) {
               >
                 Enter your old password
               </Text>
-              {/*  error */}
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                {error}
-              </Text>
-
-              {/* Old password input */}
+              <Text style={globalStyles.captionError}>{error}</Text>
               <TextInput
                 style={[
                   {
@@ -190,14 +180,7 @@ export default function ChangePasswordScreen({ navigation }) {
                 onChangeText={props.handleChange("password")}
                 value={props.values.password}
               />
-
-              {/* old password error */}
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="password" />
               </Text>
 
@@ -215,9 +198,7 @@ export default function ChangePasswordScreen({ navigation }) {
               </Text>
 
               {/*New Password inputbox */}
-              <View
-                style={[globalStyles.textInput, { flexDirection: "row" }]}
-              >
+              <View style={[globalStyles.textInput, { flexDirection: "row" }]}>
                 <TextInput
                   style={{
                     flex: 1,
@@ -247,13 +228,7 @@ export default function ChangePasswordScreen({ navigation }) {
                   <IconMC name={rightIcon} size={22} color="#2482AA" />
                 </Pressable>
               </View>
-              {/* New Password erorr */}
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="passattempt1" />
               </Text>
 
@@ -272,9 +247,7 @@ export default function ChangePasswordScreen({ navigation }) {
               </Text>
 
               {/* Confirm password inputbox */}
-              <View
-                style={[globalStyles.textInput, { flexDirection: "row" }]}
-              >
+              <View style={[globalStyles.textInput, { flexDirection: "row" }]}>
                 <TextInput
                   style={{
                     flex: 1,
@@ -300,13 +273,7 @@ export default function ChangePasswordScreen({ navigation }) {
                   <IconMC name={rightIcon} size={22} color="#2482AA" />
                 </Pressable>
               </View>
-              {/* Confirm password error */}
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="passattempt2" />
               </Text>
 

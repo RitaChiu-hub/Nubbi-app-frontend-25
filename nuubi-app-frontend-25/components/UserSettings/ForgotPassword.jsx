@@ -150,14 +150,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           >
             {(props) => (
               <View>
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  {error}
-                </Text>
+                <Text style={globalStyles.captionError}>{error}</Text>
                 <Text
                   style={[
                     globalStyles.h2HeadingMedium,
@@ -193,12 +186,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                   onChangeText={props.handleChange("passcode")}
                   value={props.values.passcode}
                 />
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
+                <Text style={globalStyles.captionError}>
                   <ErrorMessage name="passcode" />
                 </Text>
                 <Text
@@ -237,12 +225,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                   onChangeText={props.handleChange("passattempt1")}
                   value={props.values.passattempt1}
                 />
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
+                <Text style={globalStyles.captionError}>
                   <ErrorMessage name="passattempt1" />
                 </Text>
                 <Text
@@ -281,12 +264,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                   onChangeText={props.handleChange("passattempt2")}
                   value={props.values.passattempt2}
                 />
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
+                <Text style={globalStyles.captionError}>
                   <ErrorMessage name="passattempt2" />
                 </Text>
                 <View style={{ marginVertical: 5 }}></View>
@@ -308,5 +286,3 @@ export default function ForgotPasswordScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-

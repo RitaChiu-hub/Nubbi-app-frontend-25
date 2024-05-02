@@ -92,14 +92,7 @@ export default function EditGroupScreen({ navigation }) {
               <View>
                 <View style={{ marginVertical: 5 }}></View>
                 <View style={{ marginHorizontal: 30 }}>
-                  <Text
-                    style={{
-                      color: "red",
-                      textAlign: "center",
-                    }}
-                  >
-                    {error}
-                  </Text>
+                  <Text style={globalStyles.captionError}>{error}</Text>
                   <View>
                     <Text style={globalStyles.textInputLabel}>Group Name</Text>
                     <TextInput
@@ -111,12 +104,7 @@ export default function EditGroupScreen({ navigation }) {
                       onBlur={Keyboard.dismiss}
                     />
                     <View style={{ marginVertical: 5 }}></View>
-                    <Text
-                      style={{
-                        color: "red",
-                        textAlign: "center",
-                      }}
-                    >
+                    <Text style={globalStyles.captionError}>
                       <ErrorMessage name="groupname" />
                     </Text>
                     <Text style={globalStyles.textInputLabel}>Description</Text>
@@ -131,12 +119,7 @@ export default function EditGroupScreen({ navigation }) {
                       onBlur={Keyboard.dismiss}
                     />
                     <View style={{ marginVertical: 5 }}></View>
-                    <Text
-                      style={{
-                        color: "red",
-                        textAlign: "center",
-                      }}
-                    >
+                    <Text style={globalStyles.captionError}>
                       <ErrorMessage name="description" />
                     </Text>
                     <Text style={globalStyles.textInputLabel}>Visibility</Text>
@@ -153,7 +136,9 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Private");
                           }}
                         >
-                          <Text style={globalStyles.textInputLabel}>Private</Text>
+                          <Text style={globalStyles.textInputLabel}>
+                            Private
+                          </Text>
                         </TouchableOpacity>
                       </View>
                       <View>
@@ -167,7 +152,9 @@ export default function EditGroupScreen({ navigation }) {
                             setPrivacySelection("Public");
                           }}
                         >
-                          <Text style={globalStyles.textInputLabel}>Public</Text>
+                          <Text style={globalStyles.textInputLabel}>
+                            Public
+                          </Text>
                         </TouchableOpacity>
                       </View>
                     </View>

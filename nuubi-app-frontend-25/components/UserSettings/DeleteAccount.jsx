@@ -96,14 +96,7 @@ export default function DeleteAccountScreen({ navigation }) {
           >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
               <View>
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  {error}
-                </Text>
+                <Text style={globalStyles.captionError}>{error}</Text>
                 <Text>Please enter your password to verify your identity</Text>
                 <TextInput
                   style={{

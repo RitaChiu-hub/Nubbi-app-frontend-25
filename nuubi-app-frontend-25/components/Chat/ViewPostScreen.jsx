@@ -664,7 +664,7 @@ export default function ViewPostScreen({ navigation }) {
               }}
             >
               {/* <Text>{error}</Text>
-              <Text style={{ textAlign: "center", color: "red" }}>
+            <Text style={globalStyles.captionError}>
                 <ErrorMessage name="mycomment" />
               </Text> */}
               <View

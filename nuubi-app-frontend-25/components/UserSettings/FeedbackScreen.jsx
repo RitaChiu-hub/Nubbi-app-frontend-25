@@ -37,16 +37,11 @@ export default function FeedbackScreen({ navigation }) {
             paddingTop: 30,
           }}
         >
-          <Text
-            style={{
-              color: "red",
-              textAlign: "center",
-            }}
-          >
-            {error}
-          </Text>
+          <Text style={globalStyles.captionError}>{error}</Text>
           {/* Style addition syntax */}
-          <Text style={[globalStyles.h2HeadingMedium]}>Share Your Feedback</Text>
+          <Text style={[globalStyles.h2HeadingMedium]}>
+            Share Your Feedback
+          </Text>
           <Text style={[globalStyles.bodyRegular, { color: "#888888" }]}>
             Enter in your feedback in the text field below and submit. We
             appreciate and value all feedback provided!

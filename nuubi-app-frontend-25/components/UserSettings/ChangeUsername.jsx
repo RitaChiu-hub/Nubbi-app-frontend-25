@@ -116,17 +116,13 @@ export default function ChangeUsernameScreen({ navigation }) {
               fontSize: 22,
               marginTop: 40,
               color: "#606060",
-              marginBottom: 20
+              marginBottom: 20,
             },
           ]}
         >
           Your current username is {myUsername}.
         </Text>
-        <Text
-          style={globalStyles.textInputLabel}
-        >
-          Enter your new username
-        </Text>
+        <Text style={globalStyles.textInputLabel}>Enter your new username</Text>
 
         {/* Form update or upload */}
         <Formik
@@ -178,15 +174,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                 flex: 1,
               }}
             >
-              {/* Wrong password, or username taken error */}
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
-                {error}
-              </Text>
+              <Text style={globalStyles.captionError}>{error}</Text>
 
               {/* Username inputbox props.handleChange.. errormessage */}
               <TextInput
@@ -199,19 +187,11 @@ export default function ChangeUsernameScreen({ navigation }) {
                 }}
                 value={username}
               />
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                  marginBottom: 10,
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="username" />
               </Text>
 
-              <Text
-                style={globalStyles.textInputLabel}
-              >
+              <Text style={globalStyles.textInputLabel}>
                 Enter your password
               </Text>
               {/* Password inputbox */}
@@ -222,12 +202,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                 value={props.values.password}
                 secureTextEntry={true}
               />
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="password" />
               </Text>
               {/* Text style */}

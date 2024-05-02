@@ -565,14 +565,7 @@ export default function CreatePostScreen({ navigation }) {
           >
             {(props) => (
               <View>
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  {error}
-                </Text>
+                <Text style={globalStyles.captionError}>{error}</Text>
                 <Text>Post Title</Text>
                 <TextInput
                   style={{
@@ -590,12 +583,7 @@ export default function CreatePostScreen({ navigation }) {
                   onBlur={Keyboard.dismiss}
                 />
                 <View style={{ marginVertical: 5 }}></View>
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
+                <Text style={globalStyles.captionError}>
                   <ErrorMessage name="title" />
                 </Text>
                 <Text>Post</Text>
@@ -631,23 +619,13 @@ export default function CreatePostScreen({ navigation }) {
                       />
                     )}
                     {pickedFile === null ? null : (
-                      <Text
-                        style={{
-                          color: "red",
-                          textAlign: "center",
-                        }}
-                      >
+                      <Text style={globalStyles.captionError}>
                         {pickedFile.name}
                       </Text>
                     )}
                   </View>
                 </View>
-                <Text
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
+                <Text style={globalStyles.captionError}>
                   <ErrorMessage name="body_text" />
                 </Text>
 

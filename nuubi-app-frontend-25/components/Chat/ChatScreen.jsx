@@ -435,12 +435,7 @@ export default function ChatScreen({ navigation }) {
         >
           {(props) => (
             <View>
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                }}
-              >
+              <Text style={globalStyles.captionError}>
                 <ErrorMessage name="mymessage" />
               </Text>
               <View

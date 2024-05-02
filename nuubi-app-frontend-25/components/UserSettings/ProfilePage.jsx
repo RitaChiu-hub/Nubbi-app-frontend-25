@@ -137,14 +137,7 @@ export default function ProfilePageScreen({ navigation }) {
           marginTop: 40,
         }}
       >
-        <Text
-          style={{
-            color: "red",
-            textAlign: "center",
-          }}
-        >
-          {error}
-        </Text>
+        <Text style={globalStyles.captionError}>{error}</Text>
         <View>
           {avatarInfo !== null && pickedImage === null ? (
             <Image
@@ -195,7 +188,9 @@ export default function ProfilePageScreen({ navigation }) {
             onPress={resetImage}
             style={globalStyles.primaryButton}
           >
-            <Text style={globalStyles.primaryButtonText}>Clear picked image</Text>
+            <Text style={globalStyles.primaryButtonText}>
+              Clear picked image
+            </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
