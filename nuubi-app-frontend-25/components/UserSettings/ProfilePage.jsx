@@ -148,11 +148,7 @@ export default function ProfilePageScreen({ navigation }) {
             <Image
               style={globalStyles.roundImageContainer}
               source={{ uri: pickedImage.uri }}
-              // source={
-              //   Platform.OS == "web"
-              //     ? require("../../assets/defaultAvatar.png")
-              //     : assets2[0]
-              // }
+  
             />
           ) : (
             <Image
@@ -197,7 +193,7 @@ export default function ProfilePageScreen({ navigation }) {
             onPress={pickImage}
             style={globalStyles.secondaryButton}
           >
-            <Text style={globalStyles.secondaryButtonText}>Select New Photo</Text>
+            <Text style={globalStyles.secondaryButtonText}>Select New Avatar</Text>
           </TouchableOpacity>
         )}
 
@@ -234,7 +230,7 @@ export default function ProfilePageScreen({ navigation }) {
           style={globalStyles.secondaryButton}
         >
           <Text style={globalStyles.secondaryButtonText}>
-            Delete Profile Picture
+            Delete Avatar
           </Text>
         </TouchableOpacity>
 

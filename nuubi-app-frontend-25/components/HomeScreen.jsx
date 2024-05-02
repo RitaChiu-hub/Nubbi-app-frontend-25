@@ -72,10 +72,10 @@ export default function HomeScreen({ navigation }) {
     }
   };
   // change onboarding to true when ready to demo
-  const [performOnboarding, setPerformOnboarding] = React.useState(
-    user.firstSignIn == true ? true : false
-  );
-  // const [performOnboarding, setPerformOnboarding] = React.useState(true);
+  // const [performOnboarding, setPerformOnboarding] = React.useState(
+  //   user.firstSignIn == true ? true : false
+  // );
+  const [performOnboarding, setPerformOnboarding] = React.useState(true);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
   const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];
@@ -238,7 +238,6 @@ export default function HomeScreen({ navigation }) {
           >
             <HomeScreenTasks />
           </View>
-          <View style={{ height: 5, backgroundColor: "lightgray" }}></View>
           <View
             style={{
               height: screenHeight * 0.33,
@@ -311,6 +310,7 @@ export default function HomeScreen({ navigation }) {
                   height: "20%",
                   width: "100%",
                   justifyContent: "flex-end",
+                  marginTop: 8,
                 }}
               >
                 <View style={{ width: "50%", height: "100%" }}></View>
@@ -354,7 +354,7 @@ export default function HomeScreen({ navigation }) {
                   fontSize: 18,
                   fontFamily: "Poppins_600SemiBold",
                   textAlign: "center",
-                  paddingHorizontal: 8,
+                  paddingHorizontal: 14,
                   paddingBottom: 8,
                 }}
               >
@@ -363,11 +363,13 @@ export default function HomeScreen({ navigation }) {
               <View
                 style={{
                   alignSelf: "center",
-                  paddingHorizontal: 8,
+                  paddingHorizontal: 14,
                   paddingBottom: onboardingState != 4 ? 24 : 6,
                 }}
               >
-                <Text style={globalStyles.bodyRegular}>
+                <Text
+                  style={[globalStyles.bodyRegular, { textAlign: "center" }]}
+                >
                   {secondaryMessage[onboardingState]}
                 </Text>
               </View>
