@@ -178,6 +178,9 @@ export default function ViewPostScreen({ navigation }) {
   };
 
   const isAuthor = user.username === user.post_author ? true : false;
+  // console.log(isAuthor)
+  // console.log("username is: " + user.username);
+  // console.log("post author is " + user.post_author)
 
   React.useEffect(() => {
     getPostInfo();

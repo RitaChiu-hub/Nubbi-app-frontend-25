@@ -254,141 +254,149 @@ export default function GroupInfoScreen({ navigation }) {
 
   const renderSettings = () => (
     <ScrollView>
-      {myIsAdmin == "true" && (
+      <View style={[globalStyles.widthContainer, {paddingHorizontal: 24}]}>
+        {myIsAdmin == "true" && (
+          <TouchableOpacity
+            style={globalStyles.row}
+            onPress={() => navigation.navigate("EditGroup")}
+          >
+            <Text style={globalStyles.headingText}>Edit Group</Text>
+            <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={globalStyles.row}
-          onPress={() => navigation.navigate("EditGroup")}
+          onPress={() => Alert.alert("Copied to Clipboard!")}
         >
-          <Text style={globalStyles.headingText}>Edit Group</Text>
+          <Text style={globalStyles.headingText}>
+            Invitation Passcode:{" "}
+            <Text
+              style={[
+                globalStyles.textInputLabel,
+                { fontWeight: "bold", color: "#242424" },
+              ]}
+            >
+              {invitePasscode}
+            </Text>
+          </Text>
+          <FeatherIcon name="copy" color="#242424" size={20} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={globalStyles.row}
+          onPress={() => navigation.navigate("GroupAnalytics")}
+        >
+          <Text style={globalStyles.headingText}>
+            Group Analytics Dashboard
+          </Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
-      )}
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => Alert.alert("Copied to Clipboard!")}
-      >
-        <Text style={globalStyles.headingText}>
-          Invitation Passcode:{" "}
-          <Text
-            style={[
-              globalStyles.textInputLabel,
-              { fontWeight: "bold", color: "#242424" },
-            ]}
+        <TouchableOpacity
+          style={globalStyles.row}
+          onPress={() => triggerComingSoonAlert()}
+        >
+          <Text style={globalStyles.headingText}>Moderation Dashboard</Text>
+          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={globalStyles.row}
+          onPress={() => triggerComingSoonAlert()}
+        >
+          <Text style={globalStyles.headingText}>Manage Discussions</Text>
+          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={globalStyles.row}
+          onPress={() => triggerComingSoonAlert()}
+        >
+          <Text style={globalStyles.headingText}>Community Roles</Text>
+          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={globalStyles.row}
+          onPress={() => triggerComingSoonAlert()}
+        >
+          <Text style={globalStyles.headingText}>Group Files</Text>
+          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={globalStyles.row}
+          onPress={() => triggerComingSoonAlert()}
+        >
+          <Text style={globalStyles.headingText}>Group Images</Text>
+          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={globalStyles.row}
+          onPress={() => navigation.navigate("HelpLoggedIn")}
+        >
+          <Text style={globalStyles.headingText}>Help</Text>
+          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+        </TouchableOpacity>
+        {myIsAdmin == "true" && (
+          <TouchableOpacity
+            style={globalStyles.row}
+            onPress={() => setModalVisible(true)}
           >
-            {invitePasscode}
-          </Text>
-        </Text>
-        <FeatherIcon name="copy" color="#242424" size={20} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => navigation.navigate("GroupAnalytics")}
-      >
-        <Text style={globalStyles.headingText}>Group Analytics Dashboard</Text>
-        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => triggerComingSoonAlert()}
-      >
-        <Text style={globalStyles.headingText}>Moderation Dashboard</Text>
-        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => triggerComingSoonAlert()}
-      >
-        <Text style={globalStyles.headingText}>Manage Discussions</Text>
-        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => triggerComingSoonAlert()}
-      >
-        <Text style={globalStyles.headingText}>Community Roles</Text>
-        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => triggerComingSoonAlert()}
-      >
-        <Text style={globalStyles.headingText}>Group Files</Text>
-        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => triggerComingSoonAlert()}
-      >
-        <Text style={globalStyles.headingText}>Group Images</Text>
-        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={globalStyles.row}
-        onPress={() => navigation.navigate("HelpLoggedIn")}
-      >
-        <Text style={globalStyles.headingText}>Help</Text>
-        <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-      </TouchableOpacity>
-      {myIsAdmin == "true" && (
-        <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={[globalStyles.headingText, { color: "red" }]}>
-            Delete Group
-          </Text>
-        </TouchableOpacity>
-      )}
-      {myIsAdmin != "true" && (
-        <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={[globalStyles.headingText, { color: "red" }]}>
-            Leave Group
-          </Text>
-        </TouchableOpacity>
-      )}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={globalStyles.centeredView}>
-          <View style={globalStyles.modalView}>
-            <Text style={globalStyles.modalText}>
-              Are you sure you want to PERMANENTLY delete this group? This
-              action cannot be undone.
+            <Text style={[globalStyles.headingText, { color: "#E70808" }]}>
+              Delete Group
             </Text>
-            <View style={globalStyles.modalButtons}>
-              <TouchableOpacity
-                style={[
-                  globalStyles.modalButton,
-                  { backgroundColor: "#1aa7ec" },
-                ]}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={globalStyles.primaryButtonText}>No, go back</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[globalStyles.modalButton, { backgroundColor: "red" }]}
-                onPress={() => {
-                  setModalVisible(false);
-                  navigation.navigate("DeleteGroup");
-                }}
-              >
-                <Text style={globalStyles.primaryButtonText}>
-                  Yes, I want to delete this group.
-                </Text>
-              </TouchableOpacity>
+          </TouchableOpacity>
+        )}
+        {myIsAdmin != "true" && (
+          <TouchableOpacity
+            style={globalStyles.row}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={[globalStyles.headingText, { color: "#E70808" }]}>
+              Leave Group
+            </Text>
+          </TouchableOpacity>
+        )}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={globalStyles.centeredView}>
+            <View style={globalStyles.modalView}>
+              <Text style={globalStyles.modalText}>
+                Are you sure you want to PERMANENTLY delete this group? This
+                action cannot be undone.
+              </Text>
+              <View style={globalStyles.modalButtons}>
+                <TouchableOpacity
+                  style={[
+                    globalStyles.modalButton,
+                    { backgroundColor: "#2482AA" },
+                  ]}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={globalStyles.primaryButtonText}>Cancel</Text>
+                </TouchableOpacity>
+                <View style={{ marginHorizontal: 10 }}></View>
+                <TouchableOpacity
+                  style={[
+                    globalStyles.modalButton,
+                    { backgroundColor: "#E70808" },
+                  ]}
+                  onPress={() => {
+                    setModalVisible(false);
+                    navigation.navigate("DeleteGroup");
+                  }}
+                >
+                  <Text style={globalStyles.primaryButtonText}>
+                    Delete Group
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      </View>
     </ScrollView>
   );
 
@@ -411,7 +419,7 @@ export default function GroupInfoScreen({ navigation }) {
   );
 
   const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
-    <View style={{ paddingTop: 6 }}>
+    <View style={[globalStyles.widthContainer, {paddingHorizontal: 24}]}>
       <View style={globalStyles.row}>
         <Text style={globalStyles.headingText}>{groupTotalPoints}</Text>
         <Text style={globalStyles.headingText}>{username}</Text>
@@ -434,7 +442,9 @@ export default function GroupInfoScreen({ navigation }) {
 
   const renderLeaderboard = () => (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.caption}>{memberCount} members</Text>
+      <Text style={[globalStyles.caption, { paddingTop: 12 }]}>
+        {memberCount} members
+      </Text>
       <FlatList
         data={members}
         renderItem={renderItem}
@@ -449,7 +459,10 @@ export default function GroupInfoScreen({ navigation }) {
         <View style={globalStyles.header}>
           <Image
             source={{ uri: "https://via.placeholder.com/140" }}
-            style={[globalStyles.roundImageContainer, {maxWidth: 180, maxHeight: 180}]}
+            style={[
+              globalStyles.roundImageContainer,
+              { maxWidth: 180, maxHeight: 180 },
+            ]}
           />
         </View>
         <View style={globalStyles.tabs}>

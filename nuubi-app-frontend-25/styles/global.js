@@ -198,7 +198,7 @@ export const globalStyles = StyleSheet.create({
   },
   topNavTabSelected: {
     borderBottomWidth: 2,
-    borderColor: nuubiColors["primary-blue"],
+    borderColor: nuubiColors["primaryBlue"],
   },
   textInput: {
     flex: 0.5,
@@ -422,6 +422,7 @@ export const globalStyles = StyleSheet.create({
   },
   tabIcon: {
     color: nuubiColors["lighterGray"],
+    paddingRight: 6,
   },
   activeTabIcon: {
     color: nuubiColors["primaryBlue"],
@@ -444,6 +445,12 @@ export const globalStyles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+    color: nuubiColors["black"],
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    letterSpacing: 0.5,
+    justifyContent: "center",
+    alignItems: "center"
   },
   modalButtons: {
     flexDirection: "row",
@@ -451,11 +458,10 @@ export const globalStyles = StyleSheet.create({
     width: "100%",
   },
   modalButton: {
-    borderRadius: 12,
+    borderRadius: 60,
     paddingVertical: 14,
-    paddingHorizontal: 10,
+    paddingHorizontal: 16,
     elevation: 2,
-    marginBottom: 10,
   },
   rowSingle: {
     borderTopLeftRadius: 12,

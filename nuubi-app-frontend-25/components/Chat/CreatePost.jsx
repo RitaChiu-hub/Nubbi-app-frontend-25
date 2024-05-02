@@ -573,7 +573,7 @@ export default function CreatePostScreen({ navigation }) {
                     borderColor: "#ddd",
                     padding: 10,
                     fontSize: 18,
-                    borderRadius: 6,
+                    borderRadius: 20,
                     width: "100%",
                     alignItems: "stretch",
                   }}
@@ -589,7 +589,7 @@ export default function CreatePostScreen({ navigation }) {
                 <Text>Post</Text>
                 <View
                   style={{
-                    borderRadius: 6,
+                    borderRadius: 20,
                     borderWidth: 1,
                     borderColor: "#ddd",
                     alignItems: "center",
@@ -644,9 +644,9 @@ export default function CreatePostScreen({ navigation }) {
                         justifyContent: "center",
                         paddingVertical: 10,
                         paddingHorizontal: 12,
-                        borderRadius: 12,
+                        borderRadius: 20,
                         elevation: 3,
-                        backgroundColor: "#1aa7ec",
+                        backgroundColor: "#2482AA",
                       }}
                     >
                       <MaterialIcon
@@ -663,9 +663,9 @@ export default function CreatePostScreen({ navigation }) {
                         justifyContent: "center",
                         paddingVertical: 10,
                         paddingHorizontal: 12,
-                        borderRadius: 12,
+                        borderRadius: 20,
                         elevation: 3,
-                        backgroundColor: "#1aa7ec",
+                        backgroundColor: "#2482AA",
                       }}
                     >
                       <MaterialIcon
@@ -683,9 +683,9 @@ export default function CreatePostScreen({ navigation }) {
                         justifyContent: "center",
                         paddingVertical: 10,
                         paddingHorizontal: 12,
-                        borderRadius: 12,
+                        borderRadius: 20,
                         elevation: 3,
-                        backgroundColor: "#1aa7ec",
+                        backgroundColor: "#2482AA",
                       }}
                     >
                       <MaterialIcon
@@ -702,9 +702,9 @@ export default function CreatePostScreen({ navigation }) {
                         justifyContent: "center",
                         paddingVertical: 10,
                         paddingHorizontal: 12,
-                        borderRadius: 12,
+                        borderRadius: 20,
                         elevation: 3,
-                        backgroundColor: "#1aa7ec",
+                        backgroundColor: "#2482AA",
                       }}
                     >
                       <IonIcon
@@ -721,9 +721,9 @@ export default function CreatePostScreen({ navigation }) {
                       justifyContent: "center",
                       paddingVertical: 14,
                       paddingHorizontal: 12,
-                      borderRadius: 12,
+                      borderRadius: 20,
                       elevation: 3,
-                      backgroundColor: "#1aa7ec",
+                      backgroundColor: "#2482AA",
                       width: "65%",
                     }}
                     onPress={props.handleSubmit}
