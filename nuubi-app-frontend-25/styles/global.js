@@ -369,7 +369,7 @@ export const globalStyles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     paddingTop: 12,
     paddingRight: 12,
     paddingBottom: 12,

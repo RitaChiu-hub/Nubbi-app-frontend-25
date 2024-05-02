@@ -449,7 +449,7 @@ export default function GroupInfoScreen({ navigation }) {
         <View style={globalStyles.header}>
           <Image
             source={{ uri: "https://via.placeholder.com/140" }}
-            style={globalStyles.roundImageContainer}
+            style={[globalStyles.roundImageContainer, {maxWidth: 180, maxHeight: 180}]}
           />
         </View>
         <View style={globalStyles.tabs}>

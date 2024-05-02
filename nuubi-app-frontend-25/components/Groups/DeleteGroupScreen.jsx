@@ -17,11 +17,12 @@ export default function DeleteGroupScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Delete Group",
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingRegular}>Delete Group</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
-
   return (
     <View
       style={{
@@ -83,19 +84,12 @@ export default function DeleteGroupScreen({ navigation }) {
           {({ handleChange, handleBlur, handleSubmit, values }) => (
             <View>
               <Text style={globalStyles.captionError}>{error}</Text>
-              <Text>Please enter your password to verify your identity</Text>
+              <Text style={globalStyles.textInputLabel}>
+                Enter Password for Verification:
+              </Text>
               <TextInput
-                style={{
-                  borderWidth: 1,
-                  borderColor: "#ddd",
-                  padding: 10,
-                  fontSize: 18,
-                  borderRadius: 6,
-                  width: "100%",
-                  alignItems: "stretch",
-                  marginVertical: 5,
-                }}
-                placeholder="Enter password"
+                style={[globalStyles.textInput, { minHeight: 48 }]}
+                placeholder="Enter Password"
                 onChangeText={handleChange("passattempt")}
                 onBlur={handleBlur("passattempt")}
                 value={values.passattempt}
