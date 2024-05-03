@@ -13,7 +13,6 @@ import { useAssets } from "expo-asset";
 
 const screenWidth = Dimensions.get("window").width;
 
-
 export default function HomeScreenBadges() {
   let assets1 = useAssets([require("../../assets/badgeIcon.png")]);
 
@@ -39,7 +38,7 @@ export default function HomeScreenBadges() {
             justifyContent: "space-between",
           }}
         >
-          <Text style={globalStyles.h2HeadingMedium}>Badges</Text>
+          <Text style={globalStyles.h2HeadingMedium}>Achievements</Text>
           <Entypo name="chevron-small-right" color="#2482AA" size={36} />
         </View>
         <View style={{ width: "5%" }}></View>

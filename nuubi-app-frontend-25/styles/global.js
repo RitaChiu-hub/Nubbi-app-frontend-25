@@ -347,8 +347,8 @@ export const globalStyles = StyleSheet.create({
   },
   roundImageContainer: {
     borderRadius: 200,
-    width: 250,
-    height: 250,
+    width: 150,
+    height: 150,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
