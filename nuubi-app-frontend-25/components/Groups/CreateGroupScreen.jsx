@@ -110,7 +110,6 @@ export default function CreateGroupScreen({ navigation }) {
                     </Text>
                     <Text style={globalStyles.textInputLabel}>Description</Text>
                     <TextInput
-                      // make the text box larger? Make sure it's maximum 255 characters.
                       style={globalStyles.textInputLarge}
                       multiline={true}
                       placeholder="Enter description"

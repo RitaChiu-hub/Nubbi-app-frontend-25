@@ -20,6 +20,7 @@ import moment from "moment";
 import { useHeaderHeight } from "@react-navigation/elements";
 import FeatherIcon from "@expo/vector-icons/Feather";
 import alert from "./../alert";
+import FAIcon from "@expo/vector-icons/FontAwesome";
 
 export default function ViewPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -42,6 +43,8 @@ export default function ViewPostScreen({ navigation }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [previewUrls, setPreviewUrls] = React.useState([]);
   const [myUsername, setMyUsername] = React.useState("");
+
+  const deviceWidth = Dimensions.get("window").width;
 
   const getPostLiked = async () => {
     try {
@@ -251,6 +254,7 @@ export default function ViewPostScreen({ navigation }) {
         flex: 1,
         backgroundColor: "#fdfdfd",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <ScrollView>
@@ -323,14 +327,13 @@ export default function ViewPostScreen({ navigation }) {
         <View
           style={{
             padding: 10,
-            width: "100%",
           }}
         >
           <View
             style={{
               borderWidth: 1,
               borderColor: "#ddd",
-              width: "100%",
+              alignContent: "center",
               borderRadius: 16,
               borderColor: "#ddd",
               backgroundColor: "#fdfdfd",
@@ -343,11 +346,13 @@ export default function ViewPostScreen({ navigation }) {
                 height: 0.8,
               },
               overflow: "visible",
+              width: deviceWidth > 500 ? deviceWidth * 0.75 : deviceWidth * 0.9,
             }}
           >
             <View
               style={{
                 width: "100%",
+                alignContent: "center",
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 alignItems: "center",
@@ -388,16 +393,6 @@ export default function ViewPostScreen({ navigation }) {
                     );
                   }}
                 >
-                  {/* <Text
-                    style={{ */}
-                  {/* // color: postLiked ? "#2482AA" : "#bbb",
-                      // fontSize: 16,
-                      // fontWeight: "bold",
-                      // paddingBottom: 2, */}
-
-                  {/* }} */}
-                  {/* > */}
-
                   <Text
                     style={[
                       globalStyles.h3HeadingRegular,
@@ -435,37 +430,21 @@ export default function ViewPostScreen({ navigation }) {
                 )}
               </View>
 
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 {postInfo.file_url === null ? null : (
                   <View>
-                    <View>
-                      <Text
-                        style={{
-                          color: "#111111",
-                          fontFamily: "Poppins_500Medium",
-                          fontSize: 12,
-                          letterSpacing: 0.4,
-                          paddingHorizontal: 7,
-                          paddingTop: 5,
-                        }}
-                      >
-                        Attached file:{" "}
-                      </Text>
+                    <View style={{ padding: 14 }}>
+                      <Text style={globalStyles.caption}>Attached file: </Text>
                       <TouchableOpacity
-                        style={{ paddingHorizontal: 7 }}
                         accessibilityRole="button"
                         onPress={() => setModalVisible(true)}
-                        //  onPress={() => alert("Show modal with file Preview")}
                       >
-                        <Text
-                          style={{
-                            color: "#2482AA",
-                            fontFamily: "Poppins_500Medium",
-                            fontSize: 12,
-                            letterSpacing: 0.4,
-                            textDecorationLine: "underline",
-                          }}
-                        >
+                        <Text style={globalStyles.captionLinkBlue}>
                           {postInfo.file_url}
                         </Text>
                       </TouchableOpacity>
@@ -486,7 +465,9 @@ export default function ViewPostScreen({ navigation }) {
                 {moment(postInfo.iso_time_sent).calendar()}
               </Text>
               <View
-                style={{ paddingHorizontal: 6, backgroundColor: "red" }}
+                style={{
+                  paddingHorizontal: 6,
+                }}
               ></View>
               {isAuthor == true ? (
                 <View>
@@ -516,7 +497,9 @@ export default function ViewPostScreen({ navigation }) {
         </View>
         <View
           style={{
-            width: "100%",
+            //  width: "100%",
+            width: deviceWidth > 500 ? deviceWidth * 0.75 : "100%",
+            alignContent: "center",
             padding: 10,
             paddingLeft: 10,
           }}
@@ -556,6 +539,10 @@ export default function ViewPostScreen({ navigation }) {
                       height: 0.8,
                     },
                     overflow: "visible",
+                    width:
+                      deviceWidth > 500
+                        ? deviceWidth * 0.75
+                        : deviceWidth * 0.9,
                   }}
                 >
                   <View
@@ -643,8 +630,9 @@ export default function ViewPostScreen({ navigation }) {
       </ScrollView>
       <View
         style={{
-          width: "100%",
+          alignContent: "center",
           paddingBottom: 20,
+          width: deviceWidth > 500 ? deviceWidth * 0.75 : deviceWidth * 0.9,
         }}
       >
         <Formik
@@ -662,24 +650,18 @@ export default function ViewPostScreen({ navigation }) {
             <View
               style={{
                 width: "100%",
+                marginBottom: deviceWidth > 500 ? 0 : "-4%",
               }}
             >
-              {/* <Text>{error}</Text>
-            <Text style={globalStyles.captionError}>
-                <ErrorMessage name="mycomment" />
-              </Text> */}
               <View
                 style={{
                   flexDirection: "row",
-                  borderRadius: 16,
-                  minWidth: "90%",
-                  maxWidth: "90%",
-                  alignItems: "center",
                   justifyContent: "space-between",
+                  borderColor: "#ddd",
+                  borderRadius: 16,
+                  borderWidth: 1,
                   backgroundColor: "#fdfdfd",
                   elevation: 15,
-                  borderWidth: 1,
-                  borderColor: "#ddd",
                   shadowColor: "#333333",
                   shadowOpacity: 0.5,
                   shadowRadius: 2,
@@ -688,42 +670,47 @@ export default function ViewPostScreen({ navigation }) {
                     height: 0.8,
                   },
                   overflow: "visible",
-                  alignSelf: "center",
                 }}
               >
                 <TextInput
                   style={{
                     padding: 10,
                     fontSize: 18,
-                    minWidth: "77%",
-                    maxWidth: "77%",
+                    fontFamily: "Poppins_400Regular",
+                    fontSize: 18,
+                    letterSpacing: 0.5,
+                    alignContent: "center",
+                    color: "#767676",
+                    width:
+                      deviceWidth > 500
+                        ? deviceWidth * 0.75 - 56
+                        : deviceWidth * 0.9 - 56,
                   }}
                   placeholder="Add comment..."
                   onChangeText={props.handleChange("mycomment")}
                   value={props.values.mycomment}
                 />
                 <TouchableOpacity
-                  style={[globalStyles.smallRightButton, {paddingHorizontal: 24}]}
-                  // style={{
-                  //   paddingVertical: 14,
-                  //   paddingHorizontal: 20,
-                  //   borderRadius: 16,
-                  //   elevation: 3,
-                  //   backgroundColor: "#2482AA",
-                  //   alignSelf: "center",
-                  //   elevation: 15,
-                  //   shadowColor: "#333333",
-                  //   shadowOpacity: 0.5,
-                  //   shadowRadius: 2,
-                  //   shadowOffset: {
-                  //     width: 0.8,
-                  //     height: 0.8,
-                  //   },
-                  //   overflow: "visible",
-                  // }}
+                  style={{
+                    paddingVertical: 10,
+                    paddingHorizontal: 14,
+                    borderRadius: 16,
+                    elevation: 3,
+                    backgroundColor: "#2482AA",
+                    alignSelf: "center",
+                    elevation: 15,
+                    shadowColor: "#333333",
+                    shadowOpacity: 0.5,
+                    shadowRadius: 2,
+                    shadowOffset: {
+                      width: 0.8,
+                      height: 0.8,
+                    },
+                    overflow: "visible",
+                  }}
                   onPress={props.handleSubmit}
                 >
-                  <Text style={globalStyles.primaryButtonText}>Send</Text>
+                  <FAIcon name="arrow-up" size={30} color="#fdfdfd" />
                 </TouchableOpacity>
               </View>
             </View>

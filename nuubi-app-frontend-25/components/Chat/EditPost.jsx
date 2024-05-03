@@ -240,6 +240,7 @@ export default function EditPostScreen({ navigation }) {
                       flexDirection: "row",
                       justifyContent: "space-around",
                       alignItems: "center",
+                      marginTop: 10,
                     },
                   ]}
                 >

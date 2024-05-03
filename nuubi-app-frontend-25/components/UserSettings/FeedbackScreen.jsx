@@ -18,40 +18,30 @@ export default function FeedbackScreen({ navigation }) {
   const { goBack, navigate } = navigation;
   const [userFeedback, setUserFeedback] = useState("");
 
-  // This effect sets the navigation options when the component mounts or when the navigation prop changes
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Feedback</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Share Your Feedback</Text>
       ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
 
   return (
-    <SafeAreaView style={globalStyles.container}>
-      <ScrollView>
-        <View
-          style={{
-            height: 590,
-            paddingTop: 30,
-          }}
-        >
+    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+      <View style={globalStyles.container}>
+        <View style={[globalStyles.widthContainer]}>
           <Text style={globalStyles.captionError}>{error}</Text>
-          {/* Style addition syntax */}
-          <Text style={[globalStyles.h2HeadingMedium]}>
-            Share Your Feedback
-          </Text>
-          <Text style={[globalStyles.bodyRegular, { color: "#888888", marginVertical: 12 }]}>
+          <Text style={[globalStyles.bodyRegular, { marginVertical: 12 }]}>
             Enter in your feedback in the text field below and submit. We
             appreciate and value all feedback provided!
           </Text>
 
           {/* Input box */}
           <TextInput
-            style={[globalStyles.textInputLarge]}
+            style={globalStyles.textInputLarge}
             multiline={true}
-            placeholder=""
+            placeholder="Input your message here... "
             onChangeText={(e) => setUserFeedback(e)}
             maxLength={500}
             onBlur={Keyboard.dismiss}
@@ -61,30 +51,15 @@ export default function FeedbackScreen({ navigation }) {
           {/* Align text count and max length text */}
           <Text
             style={[
-              globalStyles.headingText,
-              { textAlign: "right" },
-              { fontSize: 17 },
-              { color: "#888" },
+              globalStyles.bodyRegular,
+              { textAlign: "right", margin: 10, marginBottom: 14 },
             ]}
           >
             {userFeedback.length} of {500} characters used
           </Text>
 
-          {/* "Save" button, condition for active and inactive functiionality*/}
           <TouchableOpacity
-            style={{
-              backgroundColor: userFeedback.length <= 0 ? "#fdfdfd" : "#2482aa",
-              borderColor: userFeedback.length <= 0 ? "#123234" : "",
-              borderWidth: userFeedback.length <= 0 ? 2 : 0,
-              alignItems: "center",
-              justifyContent: "center",
-              textAlign: "center",
-              paddingVertical: 14,
-              width: "94%",
-              marginTop: "auto",
-              borderRadius: 60,
-              alignSelf: "center",
-            }}
+            style={globalStyles.primaryButton}
             accessibilityRole="button"
             onPress={() => {
               fetch(
@@ -119,37 +94,18 @@ export default function FeedbackScreen({ navigation }) {
             }}
             disabled={userFeedback.length <= 0}
           >
-            <Text
-              style={[
-                globalStyles.primaryButtonText,
-                { color: userFeedback.length <= 0 ? "#123234" : "#fdfdfd" },
-              ]}
-            >
-              Send
-            </Text>
+            <Text style={globalStyles.primaryButtonText}>Send</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{
-              backgroundColor: "#fdfdfd",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingVertical: 14,
-              marginTop: 10,
-              borderRadius: 60,
-              width: "94%",
-              elevation: 3,
-              borderWidth: 2,
-              borderColor: "#123234",
-              alignSelf: "center",
-            }}
+            style={globalStyles.secondaryButton}
             accessibilityRole="button"
             onPress={() => goBack()}
           >
             <Text style={globalStyles.secondaryButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </ScrollView>
   );
 }
