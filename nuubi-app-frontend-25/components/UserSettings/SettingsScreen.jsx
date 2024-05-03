@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Switch,
-  Alert,
   Platform,
   SafeAreaView,
 } from "react-native";
@@ -13,6 +12,7 @@ import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import socket from "../../socket";
 import * as SecureStore from "expo-secure-store";
+import alert from "./../alert";
 
 //Dynamically create setting items
 // The optional attributes for each item: icon, label, type, color, navRoute or onPress
@@ -103,11 +103,7 @@ export default function SettingsScreen({ navigation }) {
   const handleNavigation = (navRoute, label) => {
     if (navRoute === "" || !navRoute) {
     } else if (navRoute == "comingSoonAlert") {
-      if (Platform.OS === "web") {
-        window.alert("Feature coming soon!");
-      } else {
-        Alert.alert("Feature coming soon!");
-      }
+      alert("Feature coming soon!");
     } else {
       navigation.navigate(navRoute);
     }

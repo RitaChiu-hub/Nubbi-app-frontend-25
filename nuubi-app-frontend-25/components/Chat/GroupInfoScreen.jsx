@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   FlatList,
   Modal,
-  Alert,
   SafeAreaView,
   ScrollView,
   Platform,
@@ -16,6 +15,7 @@ import { AccountContext } from "../AccountContext";
 import FeatherIcon from "@expo/vector-icons/Feather";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
+import alert from "./../alert";
 
 const tabs = [
   { name: "Options", icon: "settings" },
@@ -245,16 +245,12 @@ export default function GroupInfoScreen({ navigation }) {
 
   //Used to trigger a Web or iOS alert for features that are not yet implemented.
   const triggerComingSoonAlert = () => {
-    if (Platform.OS === "web") {
-      window.alert("Feature coming soon!");
-    } else {
-      Alert.alert("Feature coming soon!");
-    }
+    alert("Feature coming soon!");
   };
 
   const renderSettings = () => (
     <ScrollView>
-      <View style={[globalStyles.widthContainer, {paddingHorizontal: 24}]}>
+      <View style={[globalStyles.widthContainer, { paddingHorizontal: 24 }]}>
         {myIsAdmin == "true" && (
           <TouchableOpacity
             style={globalStyles.row}
@@ -266,7 +262,7 @@ export default function GroupInfoScreen({ navigation }) {
         )}
         <TouchableOpacity
           style={globalStyles.row}
-          onPress={() => Alert.alert("Copied to Clipboard!")}
+          onPress={() => alert("Copied to Clipboard!")}
         >
           <Text style={globalStyles.headingText}>
             Invitation Passcode:{" "}
@@ -419,7 +415,7 @@ export default function GroupInfoScreen({ navigation }) {
   );
 
   const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
-    <View style={[globalStyles.widthContainer, {paddingHorizontal: 24}]}>
+    <View style={[globalStyles.widthContainer, { paddingHorizontal: 24 }]}>
       <View style={globalStyles.row}>
         <Text style={globalStyles.headingText}>{groupTotalPoints}</Text>
         <Text style={globalStyles.headingText}>{username}</Text>

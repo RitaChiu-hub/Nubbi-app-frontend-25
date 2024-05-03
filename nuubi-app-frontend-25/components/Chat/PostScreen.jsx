@@ -1,10 +1,7 @@
 import * as React from "react";
 import {
-  Button,
-  TextInput,
   View,
   Text,
-  Alert,
   FlatList,
   TouchableOpacity,
   Dimensions,

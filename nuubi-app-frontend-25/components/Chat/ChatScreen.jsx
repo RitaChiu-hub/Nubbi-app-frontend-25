@@ -419,7 +419,7 @@ export default function ChatScreen({ navigation }) {
       <View
         style={{
           width: "100%",
-          paddingBottom: 20,
+          paddingVertical: 20,
           backgroundColor: "#fdfdfd",
         }}
       >
@@ -468,6 +468,8 @@ export default function ChatScreen({ navigation }) {
                     fontFamily: "Poppins_400Regular",
                     fontSize: 18,
                     letterSpacing: 0.5,
+                    alignContent: "center",
+                    color: "#767676",
                   }}
                   placeholder="   Send message... "
                   onChangeText={props.handleChange("mymessage")}

@@ -5,12 +5,12 @@ import {
   Text,
   TouchableOpacity,
   Switch,
-  Alert,
   Platform,
 } from "react-native";
 import FeatherIcon from "@expo/vector-icons/Feather";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
+import alert from "./../alert";
 
 //Dynamically create setting items
 // The optional attributes for each item: label, type, color, navRoute
@@ -55,12 +55,7 @@ export default function AccountScreen({ navigation }) {
   const handleNavigation = (navRoute, label) => {
     if (navRoute === "" || !navRoute) {
     } else if (navRoute == "comingSoonAlert") {
-      if (Platform.OS === "web") {
-        window.alert("Feature coming soon!");
-        console.log("Web alert!");
-      } else {
-        Alert.alert("Feature coming soon!");
-      }
+      alert("Feature coming soon!");
     } else {
       navigation.navigate(navRoute);
     }
