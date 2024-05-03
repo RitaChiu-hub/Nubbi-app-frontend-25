@@ -19,6 +19,7 @@ export default function PostScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [selectedTab, setSelectedTab] = React.useState("Posts");
   const screenWidth = Dimensions.get("window").width;
+  const deviceWidth = Dimensions.get("window").width;
 
   const groupTitle = user.groupName;
 
