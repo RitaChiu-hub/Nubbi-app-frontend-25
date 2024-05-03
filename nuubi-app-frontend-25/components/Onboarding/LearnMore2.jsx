@@ -45,6 +45,7 @@ export default function LearnMore2Screen({ navigation }) {
               participation
             </Text>
           </View>
+          <View style={{ marginVertical: 7 }}></View>
           <TouchableOpacity
             style={globalStyles.smallRightButton}
             accessibilityRole="button"

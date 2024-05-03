@@ -26,6 +26,7 @@ export default function LearnMore4Screen({ navigation }) {
             empowerment and career-readiness. We adhere to the industry leading
             WCAG accessability and HECVAT security standards.
           </Text>
+          <View style={{ marginVertical: 7 }}></View>
           <TouchableOpacity
             style={globalStyles.smallRightButton}
             accessibilityRole="button"

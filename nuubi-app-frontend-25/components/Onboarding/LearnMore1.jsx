@@ -30,7 +30,7 @@ export default function LearnMore1Screen({ navigation }) {
             Research by Stanford shows that peer learning can boost retention by
             16X and engagement by 5X in online learning.
           </Text>
-
+          <View style={{ marginVertical: 7 }}></View>
           <TouchableOpacity
             style={globalStyles.smallRightButton}
             accessibilityRole="button"
