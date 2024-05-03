@@ -361,9 +361,7 @@ export default function ViewPostScreen({ navigation }) {
                   alignItems: "center",
                 }}
               >
-                <Text style={{ fontWeight: "bold", color: "#333" }}>
-                  {postPoints}
-                </Text>
+                <Text style={globalStyles.h3HeadingRegular}>{postPoints}</Text>
 
                 <TouchableOpacity
                   onPress={() => {
@@ -390,13 +388,21 @@ export default function ViewPostScreen({ navigation }) {
                     );
                   }}
                 >
+                  {/* <Text
+                    style={{ */}
+                  {/* // color: postLiked ? "#2482AA" : "#bbb",
+                      // fontSize: 16,
+                      // fontWeight: "bold",
+                      // paddingBottom: 2, */}
+
+                  {/* }} */}
+                  {/* > */}
+
                   <Text
-                    style={{
-                      color: postLiked ? "#2482AA" : "#bbb",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      paddingBottom: 2,
-                    }}
+                    style={[
+                      globalStyles.h3HeadingRegular,
+                      { color: postLiked ? "#2482AA" : "#bbb" },
+                    ]}
                   >
                     +
                   </Text>
@@ -404,14 +410,7 @@ export default function ViewPostScreen({ navigation }) {
               </View>
               <View style={{ marginLeft: 10 }}></View>
 
-              <Text
-                style={{
-                  color: "#111111",
-                  fontSize: 18,
-                  fontFamily: "Poppins_600SemiBold",
-                }}
-              >
-                {/* {user.post_title} */}
+              <Text style={globalStyles.h3HeadingRegular}>
                 {postInfo.post_title}
               </Text>
             </View>
@@ -479,33 +478,20 @@ export default function ViewPostScreen({ navigation }) {
               style={{
                 flexDirection: "row",
                 justifyContent: "flex-end",
-                alignItems: "flex-end",
+                alignItems: "center",
+                margin: 12,
               }}
             >
-              <Text
-                style={{
-                  paddingHorizontal: 10,
-                  fontSize: 12,
-                  color: "#333",
-                  paddingBottom: 10,
-                }}
-              >
+              <Text style={globalStyles.bodyRegular}>
                 {moment(postInfo.iso_time_sent).calendar()}
               </Text>
-
+              <View
+                style={{ paddingHorizontal: 6, backgroundColor: "red" }}
+              ></View>
               {isAuthor == true ? (
-                <View style={{ paddingRight: 10 }}>
+                <View>
                   <TouchableOpacity
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      paddingHorizontal: 8,
-                      paddingVertical: 4,
-                      marginBottom: 10,
-                      //  backgroundColor: "#1aa7ec",
-                      backgroundColor: "#2482AA",
-                      borderRadius: 5,
-                    }}
+                    style={globalStyles.smallRightButton}
                     onPress={() => {
                       setUser({
                         ...user,
@@ -519,7 +505,7 @@ export default function ViewPostScreen({ navigation }) {
 
                     //  onPress={() => navigation.navigate("EditPost")}
                   >
-                    <Text style={{ color: "#fdfdfd", fontSize: 14 }}>Edit</Text>
+                    <Text style={globalStyles.primaryButtonText}>Edit</Text>
                   </TouchableOpacity>
                 </View>
               ) : (
@@ -717,23 +703,24 @@ export default function ViewPostScreen({ navigation }) {
                   value={props.values.mycomment}
                 />
                 <TouchableOpacity
-                  style={{
-                    paddingVertical: 14,
-                    paddingHorizontal: 20,
-                    borderRadius: 16,
-                    elevation: 3,
-                    backgroundColor: "#2482AA",
-                    alignSelf: "center",
-                    elevation: 15,
-                    shadowColor: "#333333",
-                    shadowOpacity: 0.5,
-                    shadowRadius: 2,
-                    shadowOffset: {
-                      width: 0.8,
-                      height: 0.8,
-                    },
-                    overflow: "visible",
-                  }}
+                  style={[globalStyles.smallRightButton, {paddingHorizontal: 24}]}
+                  // style={{
+                  //   paddingVertical: 14,
+                  //   paddingHorizontal: 20,
+                  //   borderRadius: 16,
+                  //   elevation: 3,
+                  //   backgroundColor: "#2482AA",
+                  //   alignSelf: "center",
+                  //   elevation: 15,
+                  //   shadowColor: "#333333",
+                  //   shadowOpacity: 0.5,
+                  //   shadowRadius: 2,
+                  //   shadowOffset: {
+                  //     width: 0.8,
+                  //     height: 0.8,
+                  //   },
+                  //   overflow: "visible",
+                  // }}
                   onPress={props.handleSubmit}
                 >
                   <Text style={globalStyles.primaryButtonText}>Send</Text>

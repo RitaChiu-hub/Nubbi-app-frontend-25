@@ -566,17 +566,9 @@ export default function CreatePostScreen({ navigation }) {
             {(props) => (
               <View>
                 <Text style={globalStyles.captionError}>{error}</Text>
-                <Text>Post Title</Text>
+                <Text style={globalStyles.textInputLabel}>Post Title</Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 20,
-                    width: "100%",
-                    alignItems: "stretch",
-                  }}
+                  style={globalStyles.textInput}
                   placeholder="Enter post title"
                   onChangeText={props.handleChange("title")}
                   value={props.values.title}
@@ -586,32 +578,19 @@ export default function CreatePostScreen({ navigation }) {
                 <Text style={globalStyles.captionError}>
                   <ErrorMessage name="title" />
                 </Text>
-                <Text>Post</Text>
-                <View
-                  style={{
-                    borderRadius: 20,
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    alignItems: "center",
-                  }}
-                >
+                <Text style={globalStyles.textInputLabel}>Post</Text>
+                <View style={globalStyles.postContainer}>
                   <TextInput
-                    style={{
-                      padding: 10,
-                      fontSize: 18,
-                      width: "100%",
-                      height: 200,
-                      alignItems: "stretch",
-                      textAlignVertical: "top",
-                      marginBottom: 5,
-                    }}
+                    style={globalStyles.postTextInput}
                     multiline={true}
                     placeholder="Enter text"
                     onChangeText={props.handleChange("body_text")}
                     value={props.values.body_text}
                     onBlur={Keyboard.dismiss}
                   />
-                  <View>
+                  <View
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                  >
                     {pickedImage === null ? null : (
                       <Image
                         style={globalStyles.squareImageContainer}
@@ -631,6 +610,7 @@ export default function CreatePostScreen({ navigation }) {
 
                 <View
                   style={{
+                    marginTop: 12,
                     flexDirection: "row",
                     justifyContent: "space-around",
                     alignItems: "center",
@@ -728,13 +708,7 @@ export default function CreatePostScreen({ navigation }) {
                     }}
                     onPress={props.handleSubmit}
                   >
-                    <Text
-                      style={{
-                        color: "#fdfdfd",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                      }}
-                    >
+                    <Text style={globalStyles.primaryButtonText}>
                       Create Post
                     </Text>
                   </TouchableOpacity>

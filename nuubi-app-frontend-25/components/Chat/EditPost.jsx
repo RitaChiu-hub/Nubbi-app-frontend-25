@@ -9,6 +9,7 @@ import {
   ScrollView,
   Platform,
   Image,
+  Dimensions,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -25,6 +26,8 @@ export default function EditPostScreen({ navigation }) {
   const [error, setError] = React.useState(null);
   const [pickedImage, setPickedImage] = React.useState(null);
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
+
+  const deviceWidth = Dimensions.get("window").width;
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -58,7 +61,9 @@ export default function EditPostScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Edit Post",
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingRegular}>Edit Post</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -178,9 +183,6 @@ export default function EditPostScreen({ navigation }) {
                     if (data.status) {
                       setError(data.status);
                     }
-                    // else if (data.loggedIn) {
-                    //   SecureStore.setItemAsync("token", data.token);
-                    // }
                   });
               }
             }}
@@ -188,17 +190,9 @@ export default function EditPostScreen({ navigation }) {
             {(props) => (
               <View>
                 <Text style={globalStyles.captionError}>{error}</Text>
-                <Text>Post Title</Text>
+                <Text style={globalStyles.textInputLabel}>Post Title</Text>
                 <TextInput
-                  style={{
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    padding: 10,
-                    fontSize: 18,
-                    borderRadius: 6,
-                    width: "100%",
-                    alignItems: "stretch",
-                  }}
+                  style={globalStyles.textInput}
                   placeholder="Enter post title"
                   onChangeText={props.handleChange("title")}
                   value={props.values.title}
@@ -208,25 +202,10 @@ export default function EditPostScreen({ navigation }) {
                 <Text style={globalStyles.captionError}>
                   <ErrorMessage name="title" />
                 </Text>
-                <Text>Post</Text>
-                <View
-                  style={{
-                    borderRadius: 6,
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    alignItems: "center",
-                  }}
-                >
+                <Text style={globalStyles.textInputLabel}>Post</Text>
+                <View style={globalStyles.postContainer}>
                   <TextInput
-                    style={{
-                      padding: 10,
-                      fontSize: 18,
-                      width: "100%",
-                      height: 200,
-                      alignItems: "stretch",
-                      textAlignVertical: "top",
-                      marginBottom: 5,
-                    }}
+                    style={globalStyles.postTextInput}
                     multiline={true}
                     placeholder="Enter text"
                     onChangeText={props.handleChange("body_text")}
@@ -255,11 +234,14 @@ export default function EditPostScreen({ navigation }) {
                   <ErrorMessage name="body_text" />
                 </Text>
                 <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                    alignItems: "center",
-                  }}
+                  style={[
+                    globalStyles.widthContainer,
+                    {
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                      alignItems: "center",
+                    },
+                  ]}
                 >
                   {user.image_url !== null ? (
                     <TouchableOpacity
@@ -271,7 +253,7 @@ export default function EditPostScreen({ navigation }) {
                         paddingHorizontal: 12,
                         borderRadius: 12,
                         elevation: 3,
-                        backgroundColor: "#1aa7ec",
+                        backgroundColor: "#2482AA",
                       }}
                     >
                       <MaterialIcon
@@ -288,9 +270,9 @@ export default function EditPostScreen({ navigation }) {
                         justifyContent: "center",
                         paddingVertical: 10,
                         paddingHorizontal: 12,
-                        borderRadius: 12,
+                        borderRadius: 20,
                         elevation: 3,
-                        backgroundColor: "#1aa7ec",
+                        backgroundColor: "#2482AA",
                       }}
                     >
                       <MaterialIcon
@@ -306,22 +288,16 @@ export default function EditPostScreen({ navigation }) {
                     style={{
                       alignItems: "center",
                       justifyContent: "center",
-                      paddingVertical: 14,
+                      paddingVertical: 16,
                       paddingHorizontal: 20,
-                      borderRadius: 12,
+                      borderRadius: 20,
                       elevation: 3,
-                      backgroundColor: "#1aa7ec",
+                      backgroundColor: "#2482AA",
                       width: "80%",
                     }}
                     onPress={props.handleSubmit}
                   >
-                    <Text
-                      style={{
-                        color: "#fdfdfd",
-                        fontSize: 18,
-                        fontWeight: "bold",
-                      }}
-                    >
+                    <Text style={globalStyles.primaryButtonText}>
                       Update Post
                     </Text>
                   </TouchableOpacity>
