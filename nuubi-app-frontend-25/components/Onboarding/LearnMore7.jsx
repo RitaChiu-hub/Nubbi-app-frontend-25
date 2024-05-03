@@ -6,7 +6,7 @@ export default function LearnMore7Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Learn More</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Pricing</Text>
       ),
       headerTitleAlign: "center",
     });
@@ -14,11 +14,14 @@ export default function LearnMore7Screen({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <View style={globalStyles.widthContainer}>
+      <View style={[globalStyles.widthContainer, { alignItems: "center" }]}>
         <Text style={globalStyles.bodyRegular}>
-          Time to start learning together, get your questions answered faster{" "}
-          {"& "}
-          get rewarded for being helpful!
+          Nuubi is currently available for free beta testing with select
+          universities.
+        </Text>
+        <View style={{ marginVertical: 8 }}></View>
+        <Text style={globalStyles.bodyRegular}>
+          Test it out now with a free account!
         </Text>
         <View style={{ marginVertical: 8 }}></View>
         <View>

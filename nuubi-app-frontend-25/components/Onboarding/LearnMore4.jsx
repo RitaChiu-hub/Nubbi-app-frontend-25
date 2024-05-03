@@ -6,7 +6,7 @@ export default function LearnMore4Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Learn More</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Values</Text>
       ),
       headerTitleAlign: "center",
     });
@@ -22,10 +22,9 @@ export default function LearnMore4Screen({ navigation }) {
       <View style={globalStyles.container}>
         <View style={globalStyles.widthContainer}>
           <Text style={globalStyles.bodyRegular}>
-            You can see all your groups on the home page. To join your first
-            group, click "New" in the upper right corner. You can create your
-            own group, browse public groups, or enter a passcode to join a
-            private group.
+            Nuubi is committed to accessibility, safety, inclusivity,
+            empowerment and career-readiness. We adhere to the industry leading
+            WCAG accessability and HECVAT security standards.
           </Text>
           <TouchableOpacity
             style={globalStyles.smallRightButton}
@@ -35,13 +34,13 @@ export default function LearnMore4Screen({ navigation }) {
             <Text style={globalStyles.primaryButtonText}>Next</Text>
           </TouchableOpacity>
         </View>
-        <Image
+        {/* <Image
           style={{
             width: 440,
             height: 520,
           }}
           source={require("../../assets/onboarding/homepage2.png")}
-        />
+        /> */}
       </View>
     </ScrollView>
   );

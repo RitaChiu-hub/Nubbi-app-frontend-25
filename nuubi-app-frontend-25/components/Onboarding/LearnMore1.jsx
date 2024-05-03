@@ -6,7 +6,7 @@ export default function LearnMore1Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Learn More</Text>
+        <Text style={globalStyles.h3HeadingRegular}>Mission</Text>
       ),
       headerTitleAlign: "center",
     });
@@ -22,11 +22,15 @@ export default function LearnMore1Screen({ navigation }) {
       <View style={globalStyles.container}>
         <View style={globalStyles.widthContainer}>
           <Text style={globalStyles.bodyRegular}>
-            Nuubi is your home for learning groups. Each group has two main
-            parts: Live chat and posts. Live chat is for general topics and
-            quick questions. Posts are for longer questions and sharing
-            important info.
+            Our mission is to increase university student success through
+            gamified peer-learning.
           </Text>
+          <View style={{ marginVertical: 7 }}></View>
+          <Text style={globalStyles.bodyRegular}>
+            Research by Stanford shows that peer learning can boost retention by
+            16X and engagement by 5X in online learning.
+          </Text>
+
           <TouchableOpacity
             style={globalStyles.smallRightButton}
             accessibilityRole="button"
@@ -36,12 +40,13 @@ export default function LearnMore1Screen({ navigation }) {
           </TouchableOpacity>
         </View>
         <Image
+          source={require("../../assets/onboarding/homepageScreen.png")}
           style={{
+            width: 400,
+            height: 400,
             marginTop: 30,
-            width: 440,
-            height: 500,
           }}
-          source={require("../../assets/onboarding/chatposts.png")}
+          resizeMode="contain"
         />
       </View>
     </ScrollView>
