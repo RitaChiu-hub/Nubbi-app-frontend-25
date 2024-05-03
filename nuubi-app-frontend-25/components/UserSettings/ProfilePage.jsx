@@ -12,6 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import { AccountContext } from "../AccountContext";
 import * as ImageManipulator from "expo-image-manipulator";
 import { useAssets } from "expo-asset";
+import FeatherIcon from "@expo/vector-icons/Feather";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -127,6 +128,15 @@ export default function ProfilePageScreen({ navigation }) {
     });
   }, [navigation]);
 
+  const handleNavigation = (navRoute, label) => {
+    if (navRoute === "" || !navRoute) {
+    } else if (navRoute == "comingSoonAlert") {
+      alert("Feature coming soon!");
+    } else {
+      navigation.navigate(navRoute);
+    }
+  };
+
   return (
     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
       <View
@@ -134,7 +144,7 @@ export default function ProfilePageScreen({ navigation }) {
           flex: 1,
           backgroundColor: "#fdfdfd",
           alignItems: "center",
-          marginTop: 40,
+          marginTop: 12,
         }}
       >
         <Text style={globalStyles.captionError}>{error}</Text>
@@ -178,159 +188,174 @@ export default function ProfilePageScreen({ navigation }) {
           You have {userPoints} total points 🎉
         </Text>
         <View style={globalStyles.widthContainer}>
-          {pickedImage !== null ? (
+          <View style={globalStyles.sectionBody}>
+            <View>
+              <View style={[globalStyles.rowWrapper, globalStyles.rowFirst]}>
+                {pickedImage !== null ? (
+                  <TouchableOpacity
+                    onPress={resetImage}
+                    style={globalStyles.row}
+                  >
+                    <Text
+                      style={[globalStyles.headingText, { color: "#33B7F0" }]}
+                    >
+                      Cancel Update
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={pickImage}
+                    style={globalStyles.row}
+                  >
+                    <Text
+                      style={[globalStyles.headingText, { color: "#33B7F0" }]}
+                    >
+                      Update Avatar
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+              {/* 
             <TouchableOpacity
-              onPress={resetImage}
-              style={globalStyles.secondaryButton}
-            >
-              <Text style={globalStyles.secondaryButtonText}>
-                Clear picked image
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={pickImage}
-              style={globalStyles.secondaryButton}
-            >
-              <Text style={globalStyles.secondaryButtonText}>
-                Update Avatar
-              </Text>
-            </TouchableOpacity>
-          )}
-
-          <TouchableOpacity
-            onPress={() => {
-              fetch(
-                `https://coral-app-n96bn.ondigitalocean.app/settings/deleteavatar`,
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user }),
-                }
-              )
-                .catch((err) => {
-                  return;
-                })
-                .then((res) => {
-                  if (!res || !res.ok || res.status >= 400) {
-                    return;
-                  }
-                  return res.json();
-                })
-                .then((data) => {
-                  if (!data) return;
-                  setUser({ ...data });
-                  if (data.status) {
-                    setError(data.status);
-                  }
-                });
-            }}
-            style={globalStyles.secondaryButton}
-          >
-            <Text style={globalStyles.secondaryButtonText}>Delete Avatar</Text>
-          </TouchableOpacity>
-
-          {pickedImage !== null ? (
-            <TouchableOpacity
-              style={globalStyles.secondaryButton}
               onPress={() => {
-                // upload the pickedimage to cloudinary
-
-                // get the secure_url from cloudinary
-                // send the secure_url and user id to the backend and store in the database
-
-                // upload image to cloudinary
-                let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
-
-                //Add your cloud name
-                let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-                let data = {
-                  file: base64Img,
-                  upload_preset: "ehsnm9es",
-                  api_key: apiKey,
-                };
-
-                fetch(apiUrl, {
-                  body: JSON.stringify(data),
-                  headers: {
-                    "content-type": "application/json",
-                  },
-                  method: "POST",
-                })
-                  .then(async (r) => {
-                    let data = await r.json();
-                    setImageUploadInfo({ ...data });
-                    let uploadUrl = data["secure_url"];
-                    const vals = { imageUrl: uploadUrl };
-                    fetch(
-                      `https://coral-app-n96bn.ondigitalocean.app/settings/updateavatar`,
-                      {
-                        method: "POST",
-                        credentials: "include",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ ...user, ...vals }),
-                      }
-                    )
-                      .catch((err) => {
-                        return;
-                      })
-                      .then((res) => {
-                        if (!res || !res.ok || res.status >= 400) {
-                          return;
-                        }
-                        return res.json();
-                      })
-                      .then((data) => {
-                        if (!data) return;
-                        setUser({ ...data });
-                        setPickedImage(null);
-                        if (data.status) {
-                          setError(data.status);
-                        }
-                      });
-                    return data["secure_url"];
+                fetch(
+                  `https://coral-app-n96bn.ondigitalocean.app/settings/deleteavatar`,
+                  {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ ...user }),
+                  }
+                )
+                  .catch((err) => {
+                    return;
                   })
-                  .catch((err) => console.log(err));
+                  .then((res) => {
+                    if (!res || !res.ok || res.status >= 400) {
+                      return;
+                    }
+                    return res.json();
+                  })
+                  .then((data) => {
+                    if (!data) return;
+                    setUser({ ...data });
+                    if (data.status) {
+                      setError(data.status);
+                    }
+                  });
               }}
+              style={[globalStyles.secondaryButton, {width: "45%"}]}
             >
               <Text style={globalStyles.secondaryButtonText}>
-                Save Profile Picture
+                Delete Avatar
               </Text>
-            </TouchableOpacity>
-          ) : null}
+            </TouchableOpacity> */}
+              <View style={globalStyles.rowWrapper}>
+                {pickedImage !== null ? (
+                  <TouchableOpacity
+                    style={globalStyles.row}
+                    onPress={() => {
+                      // upload the pickedimage to cloudinary
 
-          <TouchableOpacity
-            style={globalStyles.secondaryButton}
-            onPress={() => {
-              navigation.navigate("Settings");
-            }}
-          >
-            <Text style={globalStyles.secondaryButtonText}>Settings</Text>
-          </TouchableOpacity>
+                      // get the secure_url from cloudinary
+                      // send the secure_url and user id to the backend and store in the database
 
-          <TouchableOpacity
-            style={globalStyles.secondaryButton}
-            onPress={() => {
-              alert("Coming soon!");
-            }}
-          >
-            <Text style={globalStyles.secondaryButtonText}>Achievements</Text>
-          </TouchableOpacity>
+                      // upload image to cloudinary
+                      let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
 
-          <TouchableOpacity
-            style={globalStyles.secondaryButton}
-            onPress={() => {
-              alert("Coming soon!");
-            }}
-          >
-            <Text style={globalStyles.secondaryButtonText}>My Analytics</Text>
-          </TouchableOpacity>
+                      //Add your cloud name
+                      let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+
+                      let data = {
+                        file: base64Img,
+                        upload_preset: "ehsnm9es",
+                        api_key: apiKey,
+                      };
+
+                      fetch(apiUrl, {
+                        body: JSON.stringify(data),
+                        headers: {
+                          "content-type": "application/json",
+                        },
+                        method: "POST",
+                      })
+                        .then(async (r) => {
+                          let data = await r.json();
+                          setImageUploadInfo({ ...data });
+                          let uploadUrl = data["secure_url"];
+                          const vals = { imageUrl: uploadUrl };
+                          fetch(
+                            `https://coral-app-n96bn.ondigitalocean.app/settings/updateavatar`,
+                            {
+                              method: "POST",
+                              credentials: "include",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify({ ...user, ...vals }),
+                            }
+                          )
+                            .catch((err) => {
+                              return;
+                            })
+                            .then((res) => {
+                              if (!res || !res.ok || res.status >= 400) {
+                                return;
+                              }
+                              return res.json();
+                            })
+                            .then((data) => {
+                              if (!data) return;
+                              setUser({ ...data });
+                              setPickedImage(null);
+                              if (data.status) {
+                                setError(data.status);
+                              }
+                            });
+                          return data["secure_url"];
+                        })
+                        .catch((err) => console.log(err));
+                    }}
+                  >
+                    <Text
+                      style={[globalStyles.headingText, { color: "#33B7F0" }]}
+                    >
+                      Save Avatar
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </View>
+            <View style={globalStyles.rowWrapper}>
+              <TouchableOpacity
+                style={globalStyles.row}
+                onPress={() => navigation.navigate("Settings")}
+              >
+                <Text style={globalStyles.headingText}>Settings</Text>
+                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+              </TouchableOpacity>
+            </View>
+            <View style={globalStyles.rowWrapper}>
+              <TouchableOpacity
+                style={globalStyles.row}
+                onPress={() => alert("Coming soon!")}
+              >
+                <Text style={globalStyles.headingText}>Achievements</Text>
+                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+              </TouchableOpacity>
+            </View>
+            <View style={[globalStyles.rowWrapper, globalStyles.rowLast]}>
+              <TouchableOpacity
+                style={globalStyles.row}
+                onPress={() => alert("Coming soon!")}
+              >
+                <Text style={globalStyles.headingText}>My Analytics</Text>
+                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
     </ScrollView>
