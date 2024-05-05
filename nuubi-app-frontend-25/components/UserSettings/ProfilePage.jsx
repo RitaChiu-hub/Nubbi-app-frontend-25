@@ -252,8 +252,9 @@ export default function ProfilePageScreen({ navigation }) {
                 Delete Avatar
               </Text>
             </TouchableOpacity> */}
-              <View style={globalStyles.rowWrapper}>
-                {pickedImage !== null ? (
+
+              {pickedImage !== null ? (
+                <View style={globalStyles.rowWrapper}>
                   <TouchableOpacity
                     style={globalStyles.row}
                     onPress={() => {
@@ -325,8 +326,8 @@ export default function ProfilePageScreen({ navigation }) {
                       Save Avatar
                     </Text>
                   </TouchableOpacity>
-                ) : null}
-              </View>
+                </View>
+              ) : null}
             </View>
             <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
