@@ -12,6 +12,7 @@ import { Entypo } from "@expo/vector-icons";
 import "../../assets/nuubiicon.png";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
+import alert from "../alert";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -198,6 +199,7 @@ export default function HomeScreenTasks({}) {
                             backgroundColor: "#2482AA",
                             alignSelf: "center",
                           }}
+                          onPress={() => alert("Tasks are Coming Soon!")}
                         >
                           <Text style={globalStyles.primaryButtonText}>
                             Collect

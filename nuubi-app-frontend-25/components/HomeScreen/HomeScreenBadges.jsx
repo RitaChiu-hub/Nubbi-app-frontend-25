@@ -10,6 +10,7 @@ import React from "react";
 import { Entypo } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
+import alert from "../alert";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -86,7 +87,7 @@ export default function HomeScreenBadges() {
                       >
                         <Image
                           //   source={{ uri: badge.image ||  }}
-                          // source={require("../../assets/badgeIcon.png")}
+                          //  source={require("../../assets/badgeIcon.png")}
                           source={
                             Platform.OS == "web"
                               ? require("../../assets/badgeIcon.png")

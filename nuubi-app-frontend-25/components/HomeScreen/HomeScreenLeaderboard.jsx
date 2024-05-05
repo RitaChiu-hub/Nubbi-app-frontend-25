@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  Dimensions,
-} from "react-native";
+import { View, Text, Image, ScrollView, Dimensions } from "react-native";
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import "../../assets/nuubiicon.png";
@@ -84,14 +78,7 @@ export default function HomeScreenLeaderboard() {
                     }}
                   >
                     <View style={globalStyles.subjectNameView}>
-                      <Text
-                        style={{
-                          color: "#111111",
-                          fontSize: 18,
-                          fontFamily: "Poppins_600SemiBold",
-                          letterSpacing: 0,
-                        }}
-                      >
+                      <Text style={globalStyles.h3HeadingRegular}>
                         {classInfo.className}
                       </Text>
                     </View>
