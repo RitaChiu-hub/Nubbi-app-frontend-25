@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Animated,
   ScrollView,
+  ImageBackground,
 } from "react-native";
 import { useAssets } from "expo-asset";
 import { Helmet } from "react-helmet";
@@ -193,7 +194,123 @@ export default function SplashScreen({ navigation }) {
     },
   ];
 
-  return (
+  return Platform.OS == "web" ? (
+    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: 14,
+        }}
+      >
+        <Image
+          style={{ width: 52, height: 52 }}
+          source={require("../assets/nuubiTransparent.png")}
+        ></Image>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <TouchableOpacity
+            style={{ paddingVertical: 13, paddingHorizontal: 14 }}
+            accessibilityRole="button"
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={globalStyles.h3HeadingRegular}>Sign up</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ paddingVertical: 13, paddingHorizontal: 14 }}
+            accessibilityRole="button"
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={globalStyles.h3HeadingRegular}>Login</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ paddingVertical: 13, paddingHorizontal: 24 }}
+            accessibilityRole="button"
+            onPress={() => alert("Spanish Coming Soon!")}
+          >
+            <MaterialIcons name="language" size={20} color="#111111" />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <ImageBackground
+        style={{
+          width: "100%",
+          maxHeight: 500,
+          height: deviceWidth * 0.35,
+          maxHeight: 300,
+          minHeight: 250,
+          marginTop: 20,
+        }}
+        resizeMode="cover"
+        source={require("../assets/GroupSplash.png")}
+      >
+        <View
+          style={{
+            flex: "1",
+            alignItems: "center",
+            justifyContent: deviceWidth > 1000 ? null : "center",
+            marginTop: deviceWidth > 1200 ? 60 : 20,
+            marginBottom: 30,
+          }}
+        >
+          <Text
+            style={[
+              globalStyles.secondaryButtonText,
+              {
+                width: "50%",
+                fontSize: deviceWidth > 1000 ? 108 : 64,
+                textAlign: "center",
+                color: "#2482AA",
+              },
+            ]}
+          >
+            NUUBI
+          </Text>
+          <Text
+            style={[
+              globalStyles.h2HeadingMedium,
+              {
+                width: "50%",
+                fontFamily: "Poppins_400Regular",
+                fontSize: deviceWidth > 1000 ? 28 : 18,
+                paddingBottom: 40,
+              },
+            ]}
+          >
+            Empowering university student success through gamified
+            peer-learning. 
+          </Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#2482aa",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: 14,
+              marginTop: 5,
+              width: "30%",
+              borderRadius: 60,
+              elevation: 3,
+              maxWidth: 500,
+            }}
+            accessibilityRole="button"
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </ScrollView>
+  ) : (
     <LinearGradient
       colors={["#fdfdfd", "#fdfdfd", "#8bdae8"]}
       style={globalStyles.container}
@@ -382,6 +499,7 @@ export default function SplashScreen({ navigation }) {
 }
 
 const deviceWidth = Dimensions.get("window").width;
+const BannerHeight = deviceWidth * 0.9;
 const platformMarginTop = Platform.OS == "web" ? 0 : "-8%";
 const stylesCarousel = StyleSheet.create({
   container: {
