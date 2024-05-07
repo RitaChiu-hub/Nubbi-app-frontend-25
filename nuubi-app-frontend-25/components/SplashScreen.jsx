@@ -246,10 +246,10 @@ export default function SplashScreen({ navigation }) {
         style={{
           width: "100%",
           maxHeight: 500,
-          height: deviceWidth * 0.35,
-          maxHeight: 300,
+          maxHeight: 500,
           minHeight: 250,
           marginTop: 20,
+          marginBottom: 50,
         }}
         resizeMode="cover"
         source={require("../assets/GroupSplash.png")}
@@ -309,6 +309,19 @@ export default function SplashScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ImageBackground>
+      <View style={{ paddingHorizontal: 20 }}>
+        <Text>Features</Text>
+        <Text>
+          Nuubi provides group chats, forums for discussion and Q&A,
+          gamification, anonymity, and mobile-friendly accessibility.
+          Gamification includes a point system, badges, and leaderboards.
+        </Text>
+        <Text>
+          Nuubi can be used as a standalone app, or we can work with your
+          university to integrate into your existing LMS, such as Canvas or
+          Blackboard.
+        </Text>
+      </View>
     </ScrollView>
   ) : (
     <LinearGradient
