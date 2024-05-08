@@ -322,6 +322,67 @@ export default function SplashScreen({ navigation }) {
         </Text>
         <View style={{ paddingTop: 24 }}></View>
 
+        {/*  linear gradient cards */}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 300,
+            marginTop: 60,
+          }}
+        >
+          <LinearGradient
+            start={[0, 1]}
+            end={[0, 1]}
+            colors={["#24D265", "#33B7F0"]}
+            locations={[0.0, 1.0]}
+            accessibilityRole="none"
+            style={{ width: 270, height: 540, borderRadius: 30 }}
+          >
+            <Text style={globalStyles.webpageCardText}>
+              Group Chat for dynamic, community building conversations
+            </Text>
+          </LinearGradient>
+          <LinearGradient
+            start={[0, 1]}
+            end={[0, 1]}
+            colors={["#24D265", "#33B7F0"]}
+            locations={[0.0, 1.0]}
+            accessibilityRole="none"
+            style={{ width: 270, height: 540, borderRadius: 30 }}
+          >
+            <Text style={globalStyles.webpageCardText}>
+              Forums for discussion posts and homework help
+            </Text>
+          </LinearGradient>
+          <LinearGradient
+            start={[0, 1]}
+            end={[0, 1]}
+            colors={["#24D265", "#33B7F0"]}
+            locations={[0.0, 1.0]}
+            accessibilityRole="none"
+            style={{ width: 270, height: 540, borderRadius: 30 }}
+          >
+            {" "}
+            <Text style={globalStyles.webpageCardText}>
+              Gamification to incentivize positive outcomes
+            </Text>
+          </LinearGradient>
+          <LinearGradient
+            start={[0, 1]}
+            end={[0, 1]}
+            colors={["#24D265", "#33B7F0"]}
+            locations={[0.0, 1.0]}
+            accessibilityRole="none"
+            style={{ width: 270, height: 540, borderRadius: 30 }}
+          >
+            {" "}
+            <Text style={globalStyles.webpageCardText}>
+              Anonymity and mobile friendly design to encourage participation
+            </Text>
+          </LinearGradient>
+        </View>
         <View
           style={{
             flex: 1,
@@ -334,8 +395,7 @@ export default function SplashScreen({ navigation }) {
           <View style={{ width: "60%" }}>
             <Text style={globalStyles.webpageHeader2}>Benefits</Text>
             <Text style={globalStyles.webpageText}>
-              Nuubi boosts student success metrics, enhancing engagement and
-              retention rates through its gamified approach.
+              Anonymity and mobile friendly design to encourage participation
             </Text>
           </View>
           <View>

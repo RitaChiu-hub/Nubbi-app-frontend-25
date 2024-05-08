@@ -96,6 +96,13 @@ export const globalStyles = StyleSheet.create({
     fontSize: 28,
     fontFamily: "Poppins_400Regular",
   },
+  webpageCardText: {
+    color: nuubiColors["white"],
+    fontSize: 28,
+    fontFamily: "Poppins_700Bold",
+    padding: 24,
+    textAlign: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: nuubiColors["white"],
