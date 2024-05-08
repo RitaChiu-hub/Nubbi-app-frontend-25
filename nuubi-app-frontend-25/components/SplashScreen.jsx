@@ -245,6 +245,7 @@ export default function SplashScreen({ navigation }) {
       <ImageBackground
         style={{
           width: "100%",
+          height: deviceWidth / 2.4,
           maxHeight: 600,
           minHeight: 250,
           marginTop: 20,
@@ -255,10 +256,9 @@ export default function SplashScreen({ navigation }) {
       >
         <View
           style={{
-            flex: "1",
+            flex: 1,
             alignItems: "center",
-            justifyContent: deviceWidth > 1000 ? null : "center",
-            marginTop: deviceWidth > 1200 ? 20 : 20,
+            justifyContent: "center",
           }}
         >
           <Text
@@ -269,6 +269,7 @@ export default function SplashScreen({ navigation }) {
                 fontSize: deviceWidth > 1000 ? 108 : 64,
                 textAlign: "center",
                 color: "#2482AA",
+                marginTop: deviceWidth * 0.05,
               },
             ]}
           >
@@ -282,6 +283,7 @@ export default function SplashScreen({ navigation }) {
                 fontFamily: "Poppins_400Regular",
                 fontSize: deviceWidth > 1000 ? 28 : 18,
                 paddingBottom: 24,
+                marginTop: deviceWidth * 0.02,
               },
             ]}
           >
@@ -298,15 +300,16 @@ export default function SplashScreen({ navigation }) {
               borderRadius: 60,
               elevation: 3,
               maxWidth: 500,
+              marginTop: deviceWidth * 0.02,
             }}
             accessibilityRole="button"
             onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
+            <Text style={globalStyles.webButtonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      <View style={{ paddingHorizontal: 144, marginTop: 40 }}>
+      <View style={{ paddingHorizontal: 144, marginTop: deviceWidth * 0.06 }}>
         <Text style={globalStyles.webpageHeader}>Features</Text>
         <View style={{ paddingTop: 12 }}></View>
         <Text style={globalStyles.webpageText}>
@@ -322,7 +325,7 @@ export default function SplashScreen({ navigation }) {
         </Text>
         <View style={{ paddingTop: 24 }}></View>
 
-        {/*  linear gradient cards */}
+        {/*  insert the toggle here when it's ready */}
         <View
           style={{
             flex: 1,
@@ -340,13 +343,21 @@ export default function SplashScreen({ navigation }) {
             accessibilityRole="none"
             style={{ width: 270, height: 540, borderRadius: 30 }}
           >
-            <Text style={globalStyles.webpageCardText}>
-              Group Chat for dynamic, community building conversations
-            </Text>
-            <Image
-              style={{ width: 210, height: 268, justifyContent: "center" }}
-              source={require("../assets/phoneScreen1.png")}
-            />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text style={globalStyles.webpageCardText}>
+                Group Chat for dynamic, community building conversations
+              </Text>
+              <Image
+                style={{ width: 210, height: 268, justifyContent: "center" }}
+                source={require("../assets/phoneScreen1.png")}
+              />
+            </View>
           </LinearGradient>
           <LinearGradient
             start={[0, 1]}
@@ -356,13 +367,21 @@ export default function SplashScreen({ navigation }) {
             accessibilityRole="none"
             style={{ width: 270, height: 540, borderRadius: 30 }}
           >
-            <Text style={globalStyles.webpageCardText}>
-              Forums for discussion posts and homework help
-            </Text>
-            <Image
-              style={{ width: 210, height: 268, justifyContent: "center" }}
-              source={require("../assets/phoneScreen2.png")}
-            />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text style={globalStyles.webpageCardText}>
+                Forums for discussion posts and homework help
+              </Text>
+              <Image
+                style={{ width: 210, height: 268 }}
+                source={require("../assets/phoneScreen2.png")}
+              />
+            </View>
           </LinearGradient>
           <LinearGradient
             start={[0, 1]}
@@ -372,13 +391,21 @@ export default function SplashScreen({ navigation }) {
             accessibilityRole="none"
             style={{ width: 270, height: 540, borderRadius: 30 }}
           >
-            <Text style={globalStyles.webpageCardText}>
-              Gamification to incentivize positive outcomes
-            </Text>
-            <Image
-              style={{ width: 210, height: 268, justifyContent: "center" }}
-              source={require("../assets/phoneScreen3.png")}
-            />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text style={globalStyles.webpageCardText}>
+                Gamification to incentivize positive outcomes
+              </Text>
+              <Image
+                style={{ width: 210, height: 268, justifyContent: "center" }}
+                source={require("../assets/phoneScreen3.png")}
+              />
+            </View>
           </LinearGradient>
           <LinearGradient
             start={[0, 1]}
@@ -388,13 +415,21 @@ export default function SplashScreen({ navigation }) {
             accessibilityRole="none"
             style={{ width: 270, height: 540, borderRadius: 30 }}
           >
-            <Text style={globalStyles.webpageCardText}>
-              Anonymity and mobile friendly design to encourage participation
-            </Text>
-            <Image
-              style={{ width: 210, height: 268, justifyContent: "center" }}
-              source={require("../assets/phoneScreen3.png")}
-            />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text style={globalStyles.webpageCardText}>
+                Anonymity and mobile friendly design to encourage participation
+              </Text>
+              <Image
+                style={{ width: 210, height: 268, justifyContent: "center" }}
+                source={require("../assets/phoneScreen3.png")}
+              />
+            </View>
           </LinearGradient>
         </View>
         <View
@@ -512,7 +547,7 @@ export default function SplashScreen({ navigation }) {
               alignItems: "center",
               justifyContent: "center",
               paddingVertical: 14,
-              marginTop: 5,
+              marginTop: deviceWidth * 0.02,
               width: "30%",
               borderRadius: 60,
               elevation: 3,
@@ -521,7 +556,7 @@ export default function SplashScreen({ navigation }) {
             accessibilityRole="button"
             onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
+            <Text style={globalStyles.webButtonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -73,6 +73,12 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
   },
+  webButtonText: {
+    color: nuubiColors["white"],
+    fontSize: 24,
+    fontFamily: "Poppins_700Bold",
+    letterSpacing: 1.25,
+  },
   secondaryButtonText: {
     color: nuubiColors["black"],
     fontSize: 14,
