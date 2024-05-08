@@ -194,7 +194,7 @@ export default function SplashScreen({ navigation }) {
     },
   ];
 
-  return Platform.OS == "web" ? (
+  return (Platform.OS == "web") & (deviceWidth > 1000) ? (
     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
       <View
         style={{
