@@ -79,6 +79,23 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     letterSpacing: 1.25,
   },
+  webpageHeader: {
+    color: nuubiColors["black"],
+    fontSize: 60,
+    fontFamily: "Poppins_700Bold",
+    letterSpacing: -1.5,
+  },
+  webpageHeader2: {
+    color: nuubiColors["black"],
+    fontSize: 48,
+    fontFamily: "Poppins_700Bold",
+    letterSpacing: -0.5,
+  },
+  webpageText: {
+    color: nuubiColors["black"],
+    fontSize: 28,
+    fontFamily: "Poppins_400Regular",
+  },
   container: {
     flex: 1,
     backgroundColor: nuubiColors["white"],

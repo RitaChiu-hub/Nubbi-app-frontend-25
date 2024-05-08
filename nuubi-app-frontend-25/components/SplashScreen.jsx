@@ -245,8 +245,7 @@ export default function SplashScreen({ navigation }) {
       <ImageBackground
         style={{
           width: "100%",
-          maxHeight: 500,
-          maxHeight: 500,
+          maxHeight: 600,
           minHeight: 250,
           marginTop: 20,
           marginBottom: 50,
@@ -259,8 +258,7 @@ export default function SplashScreen({ navigation }) {
             flex: "1",
             alignItems: "center",
             justifyContent: deviceWidth > 1000 ? null : "center",
-            marginTop: deviceWidth > 1200 ? 60 : 20,
-            marginBottom: 30,
+            marginTop: deviceWidth > 1200 ? 20 : 20,
           }}
         >
           <Text
@@ -283,12 +281,156 @@ export default function SplashScreen({ navigation }) {
                 width: "50%",
                 fontFamily: "Poppins_400Regular",
                 fontSize: deviceWidth > 1000 ? 28 : 18,
-                paddingBottom: 40,
+                paddingBottom: 24,
               },
             ]}
           >
             Empowering university student success through gamified
             peer-learning. 
+          </Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#2482aa",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: 14,
+              width: "30%",
+              borderRadius: 60,
+              elevation: 3,
+              maxWidth: 500,
+            }}
+            accessibilityRole="button"
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+      <View style={{ paddingHorizontal: 144, marginTop: 40 }}>
+        <Text style={globalStyles.webpageHeader}>Features</Text>
+        <View style={{ paddingTop: 12 }}></View>
+        <Text style={globalStyles.webpageText}>
+          Nuubi provides group chats, forums for discussion and Q&A,
+          gamification, anonymity, and mobile-friendly accessibility.
+          Gamification includes a point system, badges, and leaderboards.
+        </Text>
+        <View style={{ paddingTop: 24 }}></View>
+        <Text style={globalStyles.webpageText}>
+          Nuubi can be used as a standalone app, or we can work with your
+          university to integrate into your existing LMS, such as Canvas or
+          Blackboard.
+        </Text>
+        <View style={{ paddingTop: 24 }}></View>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginVertical: 24,
+          }}
+        >
+          <View style={{ width: "60%" }}>
+            <Text style={globalStyles.webpageHeader2}>Benefits</Text>
+            <Text style={globalStyles.webpageText}>
+              Nuubi boosts student success metrics, enhancing engagement and
+              retention rates through its gamified approach.
+            </Text>
+          </View>
+          <View>
+            <Image
+              style={{ width: 251, height: 134 }}
+              resizeMode="center"
+              source={require("../assets/Carousel2.png")}
+            />
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginVertical: 24,
+          }}
+        >
+          <View>
+            <Image
+              style={{ width: 251, height: 134 }}
+              resizeMode="center"
+              source={require("../assets/Carousel4.1.png")}
+            />
+          </View>
+
+          <View style={{ width: "60%" }}>
+            <Text style={globalStyles.webpageHeader2}>Values</Text>
+            <Text style={globalStyles.webpageText}>
+              Nuubi is committed to accessibility, safety, inclusivity,
+              empowerment and career-readiness. We adhere to the industry
+              leading WCAG accessibility and HECVAT security standards.
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginVertical: 24,
+          }}
+        >
+          <View style={{ width: "60%" }}>
+            <Text style={globalStyles.webpageHeader2}>Statistics</Text>
+            <Text style={globalStyles.webpageText}>
+              Studies show that incentivized peer learning can increase
+              retention by 16 times in online learning for college students.
+            </Text>
+          </View>
+          <View>
+            <Image
+              style={{ width: 251, height: 134 }}
+              resizeMode="center"
+              source={require("../assets/Carousel3.png")}
+            />
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginVertical: 24,
+          }}
+        >
+          <View>
+            <Image
+              style={{ width: 251, height: 134 }}
+              resizeMode="center"
+              source={require("../assets/Carousel1.png")}
+            />
+          </View>
+
+          <View style={{ width: "60%" }}>
+            <Text style={globalStyles.webpageHeader2}>Pricing</Text>
+            <Text style={globalStyles.webpageText}>
+              Nuubi is currently available for free beta testing with select
+              universities.
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <View style={{ paddingTop: 24 }}></View>
+          <Text style={globalStyles.webpageHeader2}>
+            Test it out now with a free account!
           </Text>
           <TouchableOpacity
             style={{
@@ -308,20 +450,17 @@ export default function SplashScreen({ navigation }) {
             <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
-      </ImageBackground>
-      <View style={{ paddingHorizontal: 20 }}>
-        <Text>Features</Text>
-        <Text>
-          Nuubi provides group chats, forums for discussion and Q&A,
-          gamification, anonymity, and mobile-friendly accessibility.
-          Gamification includes a point system, badges, and leaderboards.
-        </Text>
-        <Text>
-          Nuubi can be used as a standalone app, or we can work with your
-          university to integrate into your existing LMS, such as Canvas or
-          Blackboard.
-        </Text>
       </View>
+      <Image
+        style={{
+          width: "100%",
+          maxHeight: 500,
+          minHeight: 250,
+          marginTop: 20,
+        }}
+        resizeMode="cover"
+        source={require("../assets/FooterBackground.png")}
+      ></Image>
     </ScrollView>
   ) : (
     <LinearGradient
