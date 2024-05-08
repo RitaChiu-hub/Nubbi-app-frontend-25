@@ -343,6 +343,10 @@ export default function SplashScreen({ navigation }) {
             <Text style={globalStyles.webpageCardText}>
               Group Chat for dynamic, community building conversations
             </Text>
+            <Image
+              style={{ width: 210, height: 268, justifyContent: "center" }}
+              source={require("../assets/phoneScreen1.png")}
+            />
           </LinearGradient>
           <LinearGradient
             start={[0, 1]}
@@ -355,6 +359,10 @@ export default function SplashScreen({ navigation }) {
             <Text style={globalStyles.webpageCardText}>
               Forums for discussion posts and homework help
             </Text>
+            <Image
+              style={{ width: 210, height: 268, justifyContent: "center" }}
+              source={require("../assets/phoneScreen2.png")}
+            />
           </LinearGradient>
           <LinearGradient
             start={[0, 1]}
@@ -364,10 +372,13 @@ export default function SplashScreen({ navigation }) {
             accessibilityRole="none"
             style={{ width: 270, height: 540, borderRadius: 30 }}
           >
-            {" "}
             <Text style={globalStyles.webpageCardText}>
               Gamification to incentivize positive outcomes
             </Text>
+            <Image
+              style={{ width: 210, height: 268, justifyContent: "center" }}
+              source={require("../assets/phoneScreen3.png")}
+            />
           </LinearGradient>
           <LinearGradient
             start={[0, 1]}
@@ -377,10 +388,13 @@ export default function SplashScreen({ navigation }) {
             accessibilityRole="none"
             style={{ width: 270, height: 540, borderRadius: 30 }}
           >
-            {" "}
             <Text style={globalStyles.webpageCardText}>
               Anonymity and mobile friendly design to encourage participation
             </Text>
+            <Image
+              style={{ width: 210, height: 268, justifyContent: "center" }}
+              source={require("../assets/phoneScreen3.png")}
+            />
           </LinearGradient>
         </View>
         <View
