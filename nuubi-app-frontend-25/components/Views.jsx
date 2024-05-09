@@ -3,6 +3,8 @@ import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+
 import { Image, Platform } from "react-native";
 import { useAssets } from "expo-asset";
 
@@ -54,14 +56,135 @@ import TermsScreen from "./Onboarding/Terms";
 
 import ProfilePageScreen from "./UserSettings/ProfilePage";
 
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "transparent",
+    transparentCard: true,
+  },
+};
+
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Profile" component={ProfilePageScreen} />
-      <Drawer.Screen name="Settings" component={SettingsScreen} />
+    <Drawer.Navigator
+      initialRouteName="Home Page"
+      screenOptions={{
+        // headerShown: false,
+
+        tabBarShowLabel: false,
+        headerMode: "none",
+      }}
+    >
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Search" component={SearchStack} />
+      {/* <Drawer.Screen name="Home Page" component={HomeStack} /> */}
+      {/* <Drawer.Screen name="SearchStack" component={SearchStack} />
+      <Drawer.Screen name="AddGroupStack" component={AddGroupStack} />
+      <Drawer.Screen name="NotificationsStack" component={NotificationsStack} />
+    <Drawer.Screen name="SettingsStack" component={SettingsStack} /> */}
     </Drawer.Navigator>
+  );
+}
+
+const HomeDrawer = createDrawerNavigator();
+
+function HomeDrawerNavigator() {
+  return (
+    <HomeDrawer.Navigator>
+      <HomeDrawer.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ animation: "none" }}
+        //    options={{ title: "Home" }}
+      />
+      <HomeDrawer.Screen
+        name="MyGroups"
+        component={MyGroupsScreen}
+        options={{ animation: "none", title: "My Groups" }}
+        //    options={{ title: "My Groups" }}
+      />
+
+      <HomeDrawer.Screen
+        name="EditGroup"
+        component={EditGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="Group Chat"
+        component={ChatScreen}
+        //  options={{ drawerLabel: () => null }}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={{ animation: "none" }}
+      />
+      <HomeDrawer.Screen name="CreatePost" component={CreatePostScreen} />
+      <HomeDrawer.Screen name="EditPost" component={EditPostScreen} />
+      <HomeDrawer.Screen name="ViewPost" component={ViewPostScreen} />
+      <HomeDrawer.Screen
+        name="GroupInfo"
+        component={GroupInfoScreen}
+        options={{ animation: "none" }}
+      />
+      <HomeDrawer.Screen
+        name="GroupAnalytics"
+        component={GroupAnalytics}
+        //   options={{ animation: "none" }}
+      />
+      <HomeDrawer.Screen name="DeleteGroup" component={DeleteGroupScreen} />
+      <HomeDrawer.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{ title: "Nuubi How-To" }}
+      />
+      <HomeDrawer.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
+
+      <HomeDrawer.Screen name="ProfilePage" component={ProfilePageScreen} />
+
+      <HomeDrawer.Screen name="Settings" component={SettingsScreen} />
+
+      <HomeDrawer.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+      />
+      <HomeDrawer.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+      />
+      <HomeDrawer.Screen name="DeleteAccount" component={DeleteAccountScreen} />
+      <HomeDrawer.Screen
+        name="ChangeUsernameScreen"
+        component={ChangeUsernameScreen}
+      />
+      <HomeDrawer.Screen name="AccountScreen" component={AccountScreen} />
+      <HomeDrawer.Screen name="FeedbackScreen" component={FeedbackScreen} />
+      <HomeDrawer.Screen
+        name="NotificationSettings"
+        component={NotificationSettings}
+      />
+      <HomeDrawer.Screen name="StudyModeScreen" component={StudyModeScreen} />
+    </HomeDrawer.Navigator>
+  );
+}
+
+const StackWeb = createNativeStackNavigator();
+
+function WebStack() {
+  return (
+    <StackWeb.Navigator
+      initialRouteName="Home"
+      screenOptions={{ headerShown: false }}
+    >
+      <StackWeb.Screen name="Home" component={HomeDrawerNavigator} />
+      <StackWeb.Screen name="ProfilePage" component={ProfilePageScreen} />
+      <StackWeb.Screen name="Settings" component={SettingsScreen} />
+      <StackWeb.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+    </StackWeb.Navigator>
   );
 }
 
@@ -119,7 +242,9 @@ function HomeStack() {
   return (
     <StackHome.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerBackTitleVisible: false }}
+      screenOptions={{
+        headerBackTitleVisible: false,
+      }}
     >
       <StackHome.Screen
         name="Home"
@@ -393,7 +518,12 @@ export default function Views() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isLoggedIn ? (
         Platform.OS == "web" ? (
-          <Stack.Screen name="DrawerTabs" component={DrawerNavigator} />
+          <Stack.Screen
+            name="DrawerTabs"
+            component={WebStack}
+            //  component={DrawerNavigator}
+            //  screenOptions={{ headerShown: false }}
+          />
         ) : (
           <Stack.Screen name="BottomTabs" component={TabNavigator} />
         )
