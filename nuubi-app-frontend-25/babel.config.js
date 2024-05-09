@@ -3,8 +3,11 @@ module.exports = function (api) {
   return {
     presets: ["babel-preset-expo"],
     plugins: [
-      //  "add-react-displayname",
-      // "./node_modules/@freshpaint/freshpaint-react-native/plugin.js",
+      "react-native-web",
+      ["@babel/plugin-proposal-object-rest-spread", { loose: false }],
+      "@babel/plugin-proposal-export-namespace-from",
+      "react-native-reanimated/plugin",
     ],
+    //  plugins: ["react-native-reanimated/plugin"],
   };
 };

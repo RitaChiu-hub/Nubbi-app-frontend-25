@@ -2,6 +2,7 @@ import "react-native-gesture-handler";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Image, Platform } from "react-native";
 import { useAssets } from "expo-asset";
 
@@ -52,6 +53,17 @@ import PrivacyScreen from "./Onboarding/Privacy";
 import TermsScreen from "./Onboarding/Terms";
 
 import ProfilePageScreen from "./UserSettings/ProfilePage";
+
+const Drawer = createDrawerNavigator();
+
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Profile" component={ProfilePageScreen} />
+      <Drawer.Screen name="Settings" component={SettingsScreen} />
+    </Drawer.Navigator>
+  );
+}
 
 const StackSettings = createNativeStackNavigator();
 
@@ -380,7 +392,11 @@ export default function Views() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isLoggedIn ? (
-        <Stack.Screen name="BottomTabs" component={TabNavigator} />
+        Platform.OS == "web" ? (
+          <Stack.Screen name="DrawerTabs" component={DrawerNavigator} />
+        ) : (
+          <Stack.Screen name="BottomTabs" component={TabNavigator} />
+        )
       ) : (
         <Stack.Screen
           name="Signin"

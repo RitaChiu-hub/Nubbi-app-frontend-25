@@ -1,4 +1,5 @@
 import "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
 import Views from "./components/Views";
 import { NavigationContainer } from "@react-navigation/native";
 import UserContext from "./components/AccountContext";
