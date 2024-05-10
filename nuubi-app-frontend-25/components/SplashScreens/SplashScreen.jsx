@@ -165,7 +165,9 @@ export default function SplashScreen({ navigation }) {
       desc: "Where students and teachers come together and help each other excel academically.",
       //   img: require("../../assets/Carousel1.png"),
       img:
-        Platform.OS == "web" ? require("../../assets/Carousel1.png") : assets2[0],
+        Platform.OS == "web"
+          ? require("../../assets/Carousel1.png")
+          : assets2[0],
     },
     {
       id: "2",
@@ -173,7 +175,9 @@ export default function SplashScreen({ navigation }) {
       desc: "Earn extra credit with simple daily tasks, helping students, and participation.",
       //  img: require("../../assets/Carousel2.png"),
       img:
-        Platform.OS == "web" ? require("../../assets/Carousel2.png") : assets3[0],
+        Platform.OS == "web"
+          ? require("../../assets/Carousel2.png")
+          : assets3[0],
     },
     {
       id: "3",
@@ -181,7 +185,9 @@ export default function SplashScreen({ navigation }) {
       desc: "Collaborate with ease between live chats and group forums. Plus, easily search by tags.",
       // img: require("../../assets/Carousel3.png"),
       img:
-        Platform.OS == "web" ? require("../../assets/Carousel3.png") : assets4[0],
+        Platform.OS == "web"
+          ? require("../../assets/Carousel3.png")
+          : assets4[0],
     },
     {
       id: "4",
@@ -266,13 +272,9 @@ export default function SplashScreen({ navigation }) {
 
         <View
           style={{
-            flexGrow: 0.6,
             width: deviceWidth,
             alignItems: "center",
             justifyContent: "space-evenly",
-            marginTop: platformMarginTop,
-            height: 0,
-            paddingBottom: deviceWidth > 500 ? 40 : 0,
           }}
           accessibilityRole="none"
         >
@@ -309,8 +311,6 @@ export default function SplashScreen({ navigation }) {
           style={{
             alignItems: "center",
             justifyContent: "space-between",
-            //   marginBottom: Platform.OS == "web" ? 0 : "-50%",
-            marginBottom: deviceWidth > 500 ? 0 : "-60%",
           }}
         >
           <TouchableOpacity
@@ -390,16 +390,13 @@ const BannerHeight = deviceWidth * 0.9;
 const platformMarginTop = Platform.OS == "web" ? 0 : "-8%";
 const stylesCarousel = StyleSheet.create({
   container: {
-    flexGrow: 0.6,
     width: deviceWidth,
     alignItems: "center",
   },
   secondaryContainer: {
-    flexGrow: 0.8,
     width: deviceWidth,
   },
   img: {
-    flex: 0.5,
     flexDirection: "row",
     width: deviceWidth * 0.7,
     ...Platform.select({
@@ -415,6 +412,8 @@ const stylesCarousel = StyleSheet.create({
     }),
   },
   dot: {
+    marginTop: 24,
+    marginBottom: 24,
     height: 10,
     borderRadius: 5,
     backgroundColor: "#24D265",

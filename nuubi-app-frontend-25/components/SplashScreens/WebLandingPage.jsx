@@ -5,14 +5,11 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  FlatList,
   Platform,
   StyleSheet,
-  Animated,
   ScrollView,
   ImageBackground,
 } from "react-native";
-import { useAssets } from "expo-asset";
 import { Helmet } from "react-helmet";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
 import {
@@ -41,26 +38,11 @@ import * as SplashScreenExpo from "expo-splash-screen";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import alert from "../alert";
+const deviceWidth = Dimensions.get("window").width;
 
 SplashScreenExpo.preventAutoHideAsync();
 
 export default function WebLandingPage({ navigation }) {
-  const [currCarouselIndex, setCurrCarouselIndex] = useState(0);
-  const scrollX = useRef(new Animated.Value(0)).current;
-  const slidesRef = useRef(null);
-  const viewableItemsChanged = useRef(({ viewableItems }) => {
-    setCurrCarouselIndex(viewableItems[0].index);
-  }).current;
-  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
-
-  let assets1 = useAssets([require("../../assets/nuubiTransparent45.png")]);
-  let assets2 = useAssets([require("../../assets/Carousel1.png")]);
-  let assets3 = useAssets([require("../../assets/Carousel2.png")]);
-  let assets4 = useAssets([require("../../assets/Carousel3.png")]);
-  let assets5 = useAssets([require("../../assets/Carousel4.1.png")]);
-
-  // const { user, setUser } = React.useContext(AccountContext);
-
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
     Poppins_100Thin_Italic,
@@ -100,105 +82,6 @@ export default function WebLandingPage({ navigation }) {
     </h1>
     <br />
 `;
-
-  const CarouselItem = ({ item, scrollX }) => {
-    return (
-      <View style={[stylesCarousel.container]} accessibilityRole="none">
-        <Image
-          source={item.img}
-          alt={"Graphic images of people learning online"}
-          style={[stylesCarousel.img, { resizeMode: "contain" }]}
-        />
-        <View style={{ flex: 0.3 }} accessibilityRole="none">
-          <View style={{ marginTop: 16 }} accessibilityRole="none">
-            <Text style={globalStyles.h2HeadingMedium}>{item.title}</Text>
-          </View>
-          <View
-            style={{ paddingHorizontal: 50, paddingTop: 8 }}
-            accessibilityRole="none"
-          >
-            <Text style={globalStyles.bodyRegular}>{item.desc}</Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
-  const CarouselPaginator = ({ data }) => {
-    return (
-      <View style={{ flexDirection: "row" }} accessibilityRole="none">
-        {data.map((_, i) => {
-          const inputRange = [
-            (i - 1) * deviceWidth,
-            i * deviceWidth,
-            (i + 1) * deviceWidth,
-          ];
-          const dotWidth = scrollX.interpolate({
-            inputRange,
-            outputRange: [10, 20, 10],
-            extrapolate: "clamp",
-          });
-
-          const opacity = scrollX.interpolate({
-            inputRange,
-            outputRange: [0.3, 1, 0.3],
-            extrapolate: "clamp",
-          });
-
-          return (
-            <Animated.View
-              style={[stylesCarousel.dot, { width: dotWidth, opacity }]}
-              accessibilityRole="grid"
-              key={i.toString()}
-            />
-          );
-        })}
-      </View>
-    );
-  };
-
-  const carouselData = [
-    {
-      id: "1",
-      title: "Team Learning.",
-      desc: "Where students and teachers come together and help each other excel academically.",
-      //   img: require("../../assets/Carousel1.png"),
-      img:
-        Platform.OS == "web"
-          ? require("../../assets/Carousel1.png")
-          : assets2[0],
-    },
-    {
-      id: "2",
-      title: "Get Rewarded.",
-      desc: "Earn extra credit with simple daily tasks, helping students, and participation.",
-      //  img: require("../../assets/Carousel2.png"),
-      img:
-        Platform.OS == "web"
-          ? require("../../assets/Carousel2.png")
-          : assets3[0],
-    },
-    {
-      id: "3",
-      title: "More Ways to Chat.",
-      desc: "Collaborate with ease between live chats and group forums. Plus, easily search by tags.",
-      // img: require("../../assets/Carousel3.png"),
-      img:
-        Platform.OS == "web"
-          ? require("../../assets/Carousel3.png")
-          : assets4[0],
-    },
-    {
-      id: "4",
-      title: "Questions Solved.",
-      desc: "Find study groups, mentors, or ask your teacher. Either way, get your questions answered.",
-      //  img: require("../../assets/Carousel4.1.png"),
-      img:
-        Platform.OS == "web"
-          ? require("../../assets/Carousel4.1.png")
-          : assets5[0],
-    },
-  ];
 
   return (
     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
@@ -577,40 +460,3 @@ export default function WebLandingPage({ navigation }) {
     </ScrollView>
   );
 }
-
-const deviceWidth = Dimensions.get("window").width;
-const BannerHeight = deviceWidth * 0.9;
-const platformMarginTop = Platform.OS == "web" ? 0 : "-8%";
-const stylesCarousel = StyleSheet.create({
-  container: {
-    flexGrow: 0.6,
-    width: deviceWidth,
-    alignItems: "center",
-  },
-  secondaryContainer: {
-    flexGrow: 0.8,
-    width: deviceWidth,
-  },
-  img: {
-    flex: 0.5,
-    flexDirection: "row",
-    width: deviceWidth * 0.7,
-    ...Platform.select({
-      ios: {
-        flexBasis: 0,
-      },
-      android: {
-        flexBasis: 0,
-      },
-      default: {
-        flexBasis: 160,
-      },
-    }),
-  },
-  dot: {
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: "#24D265",
-    marginHorizontal: 8,
-  },
-});
