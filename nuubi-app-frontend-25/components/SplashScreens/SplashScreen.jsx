@@ -200,7 +200,7 @@ export default function SplashScreen({ navigation }) {
     },
   ];
 
-  return (Platform.OS == "web") & (deviceWidth > 1000) ? (
+  return Platform.OS == "web" && deviceWidth > 1000 ? (
     <WebLandingPage />
   ) : (
     <LinearGradient
@@ -399,18 +399,18 @@ const stylesCarousel = StyleSheet.create({
   },
   img: {
     flexDirection: "row",
-    width: deviceWidth * 0.7,
-    ...Platform.select({
-      ios: {
-        flexBasis: 0,
-      },
-      android: {
-        flexBasis: 0,
-      },
-      default: {
-        flexBasis: 160,
-      },
-    }),
+    // width: deviceWidth * 0.7,
+    // ...Platform.select({
+    //   ios: {
+    //     flexBasis: 0,
+    //   },
+    //   android: {
+    //     flexBasis: 0,
+    //   },
+    //   default: {
+    //     flexBasis: 160,
+    //   },
+    // }),
   },
   dot: {
     marginTop: 24,

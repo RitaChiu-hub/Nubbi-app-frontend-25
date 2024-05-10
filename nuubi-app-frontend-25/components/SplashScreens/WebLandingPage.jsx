@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { Helmet } from "react-helmet";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
+import { withNavigation } from "@react-navigation/compat";
+
 import {
   useFonts,
   Poppins_100Thin,
@@ -40,7 +42,8 @@ const deviceWidth = Dimensions.get("window").width;
 
 SplashScreenExpo.preventAutoHideAsync();
 
-export default function WebLandingPage({ navigation }) {
+// export default function WebLandingPage({ navigation }) {
+function WebLandingPage({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
     Poppins_100Thin_Italic,
@@ -82,6 +85,19 @@ export default function WebLandingPage({ navigation }) {
 `;
   return (
     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+      <Helmet>
+        <title>Nuubi: The chat platform for incentivized peer learning.</title>
+
+        <meta
+          name="Nuubi"
+          content="EdTech chat app for students and teachers that fosters learning."
+        />
+
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=yes, maximum-scale=2.0001"
+        />
+      </Helmet>
       <View
         style={{
           flex: 1,
@@ -470,3 +486,5 @@ export default function WebLandingPage({ navigation }) {
     </ScrollView>
   );
 }
+
+export default withNavigation(WebLandingPage);
