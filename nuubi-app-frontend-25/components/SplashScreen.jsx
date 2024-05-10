@@ -560,16 +560,14 @@ export default function SplashScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      <Image
-        style={{
-          width: "100%",
-          maxHeight: 500,
-          minHeight: 250,
-          marginTop: 20,
-        }}
-        resizeMode="cover"
-        source={require("../assets/FooterBackground.png")}
-      ></Image>
+      <LinearGradient
+        start={[0, 1]}
+        end={[0, 1]}
+        colors={["#24D265", "#33B7F0"]}
+        locations={[0.0, 1.0]}
+        accessibilityRole="none"
+        style={{ width: "100%", height: 350 }}
+      ></LinearGradient>
     </ScrollView>
   ) : (
     <LinearGradient
