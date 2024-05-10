@@ -97,7 +97,7 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="Home"
         component={HomeScreen}
-        options={{ animation: "none" }}
+        options={{ animation: "none", title: "Home Feed" }}
         //    options={{ title: "Home" }}
       />
       <HomeDrawer.Screen
@@ -106,7 +106,21 @@ function HomeDrawerNavigator() {
         options={{ animation: "none", title: "My Groups" }}
         //    options={{ title: "My Groups" }}
       />
-
+      <HomeDrawer.Screen
+        name="ViewAllGroups"
+        component={GroupListScreen}
+        options={{ title: "Discover" }}
+      />
+      <HomeDrawer.Screen
+        name="AddGroup"
+        component={AddGroupScreen}
+        options={{ title: "Add Group" }}
+      />
+      <HomeDrawer.Screen
+        name="CreateGroup"
+        component={CreateGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
       <HomeDrawer.Screen
         name="EditGroup"
         component={EditGroupScreen}
@@ -121,53 +135,103 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="PostScreen"
         component={PostScreen}
-        options={{ animation: "none" }}
+        options={{ animation: "none", drawerItemStyle: { display: "none" } }}
       />
-      <HomeDrawer.Screen name="CreatePost" component={CreatePostScreen} />
-      <HomeDrawer.Screen name="EditPost" component={EditPostScreen} />
-      <HomeDrawer.Screen name="ViewPost" component={ViewPostScreen} />
+      <HomeDrawer.Screen
+        name="CreatePost"
+        component={CreatePostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="EditPost"
+        component={EditPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="ViewPost"
+        component={ViewPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
       <HomeDrawer.Screen
         name="GroupInfo"
         component={GroupInfoScreen}
-        options={{ animation: "none" }}
+        options={{ animation: "none", drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
         name="GroupAnalytics"
         component={GroupAnalytics}
+        options={{ drawerItemStyle: { display: "none" } }}
         //   options={{ animation: "none" }}
       />
-      <HomeDrawer.Screen name="DeleteGroup" component={DeleteGroupScreen} />
+      <HomeDrawer.Screen
+        name="DeleteGroup"
+        component={DeleteGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="JoinGroup"
+        component={JoinGroupWithPasscode}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen name="Notifications" component={NotificationsScreen} />
+
+      <HomeDrawer.Screen
+        name="ProfilePage"
+        component={ProfilePageScreen}
+        options={{ title: "Profile" }}
+      />
+
+      <HomeDrawer.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
       <HomeDrawer.Screen
         name="HelpLoggedIn"
         component={HelpScreen}
-        options={{ title: "Nuubi How-To" }}
+        options={{ title: "Help" }}
       />
-      <HomeDrawer.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
-
-      <HomeDrawer.Screen name="ProfilePage" component={ProfilePageScreen} />
-
-      <HomeDrawer.Screen name="Settings" component={SettingsScreen} />
 
       <HomeDrawer.Screen
         name="ForgotPassword"
         component={ForgotPasswordScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
         name="ChangePasswordScreen"
         component={ChangePasswordScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
-      <HomeDrawer.Screen name="DeleteAccount" component={DeleteAccountScreen} />
+      <HomeDrawer.Screen
+        name="DeleteAccount"
+        component={DeleteAccountScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
       <HomeDrawer.Screen
         name="ChangeUsernameScreen"
         component={ChangeUsernameScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
-      <HomeDrawer.Screen name="AccountScreen" component={AccountScreen} />
-      <HomeDrawer.Screen name="FeedbackScreen" component={FeedbackScreen} />
+      <HomeDrawer.Screen
+        name="AccountScreen"
+        component={AccountScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="FeedbackScreen"
+        component={FeedbackScreen}
+        options={{ title: "Contact Us" }}
+      />
       <HomeDrawer.Screen
         name="NotificationSettings"
         component={NotificationSettings}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
-      <HomeDrawer.Screen name="StudyModeScreen" component={StudyModeScreen} />
+      <HomeDrawer.Screen
+        name="StudyModeScreen"
+        component={StudyModeScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
     </HomeDrawer.Navigator>
   );
 }
