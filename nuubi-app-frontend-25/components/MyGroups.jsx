@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
@@ -100,98 +101,193 @@ export default function MyGroupsScreen({ navigation }) {
     />
   );
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      // headerBackVisible: false,
-      headerLeft: () => null,
-      headerTitle: () => (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
-            marginTop: 8,
-            width: screenWidth > 500 ? screenWidth : "90%",
-            marginLeft: screenWidth > 500 ? 0 : "-8%",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              setSelectedTab("Home");
-              navigation.navigate("Home");
+  if (Platform.OS !== "web") {
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerLeft: () => null,
+        headerTitle: () => (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent:
+                screenWidth > 500 ? "space-evenly" : "space-around",
+              marginTop: 8,
+              width: screenWidth > 500 ? screenWidth : "90%",
+              marginLeft: screenWidth > 500 ? 0 : "-8%",
             }}
           >
-            <View
-              style={[
-                {
-                  borderBottomWidth: 0,
-                  borderColor: "transparent",
-                  marginBottom: 12,
-                },
-                selectedTab === "Home" && {
-                  borderBottomWidth: 2,
-                  borderColor: "#33B7F0",
-                },
-              ]}
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedTab("Home");
+                navigation.navigate("Home");
+              }}
             >
-              <Text
+              <View
                 style={[
                   {
-                    color: "#767676",
-                    fontSize: 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
+                    borderBottomWidth: 0,
+                    borderColor: "transparent",
+                    marginBottom: 12,
                   },
                   selectedTab === "Home" && {
-                    color: "#33b7f0",
-                    fontSize: 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
+                    borderBottomWidth: 2,
+                    borderColor: "#33B7F0",
                   },
                 ]}
               >
-                For you
-              </Text>
-            </View>
-          </TouchableOpacity>
+                <Text
+                  style={[
+                    {
+                      color: "#767676",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                    selectedTab === "Home" && {
+                      color: "#33b7f0",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                  ]}
+                >
+                  For you
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              //  navigation.navigate("MyGroups");
-              setSelectedTab("Groups");
+            <TouchableOpacity
+              onPress={() => {
+                //  navigation.navigate("MyGroups");
+                setSelectedTab("Groups");
+              }}
+            >
+              <View
+                style={[
+                  globalStyles.topNavTab,
+                  selectedTab === "Groups" && globalStyles.topNavTabSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    {
+                      color: "#767676",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                    selectedTab === "Groups" && {
+                      color: "#33b7f0",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                  ]}
+                >
+                  Your groups
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ),
+        headerBackVisible: false,
+      });
+    }, [navigation, selectedTab]);
+  } else {
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        //  headerLeft: () => null,
+        headerTitle: () => (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent:
+                screenWidth > 500 ? "space-evenly" : "space-around",
+              marginTop: 8,
+              width: screenWidth > 500 ? screenWidth : "90%",
+              marginLeft: screenWidth > 500 ? 0 : "-8%",
             }}
           >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Groups" && globalStyles.topNavTabSelected,
-              ]}
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedTab("Home");
+                navigation.navigate("Home");
+              }}
             >
-              <Text
+              <View
                 style={[
                   {
-                    color: "#767676",
-                    fontSize: 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
+                    borderBottomWidth: 0,
+                    borderColor: "transparent",
+                    marginBottom: 12,
                   },
-                  selectedTab === "Groups" && {
-                    color: "#33b7f0",
-                    fontSize: 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
+                  selectedTab === "Home" && {
+                    borderBottomWidth: 2,
+                    borderColor: "#33B7F0",
                   },
                 ]}
               >
-                Your groups
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      ),
-      headerBackVisible: false,
-    });
-  }, [navigation, selectedTab]);
+                <Text
+                  style={[
+                    {
+                      color: "#767676",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                    selectedTab === "Home" && {
+                      color: "#33b7f0",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                  ]}
+                >
+                  For you
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                //  navigation.navigate("MyGroups");
+                setSelectedTab("Groups");
+              }}
+            >
+              <View
+                style={[
+                  globalStyles.topNavTab,
+                  selectedTab === "Groups" && globalStyles.topNavTabSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    {
+                      color: "#767676",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                    selectedTab === "Groups" && {
+                      color: "#33b7f0",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                  ]}
+                >
+                  Your groups
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ),
+        headerBackVisible: false,
+      });
+    }, [navigation, selectedTab]);
+  }
 
   return (
     <View
