@@ -10,7 +10,7 @@ fs.readFile(filePath, "utf8", (err, data) => {
   }
 
   const exportPattern = /export { _default as default };/g;
-  //åconst insertLine = "export default _default;"; // commented this out when I was getting errors compiling to web
+  const insertLine = ""; //  "export default _default;"; // commented this out when I was getting errors compiling to web
 
   const modifiedData = data.replace(exportPattern, (match) => {
     if (match === "export { _default as default };") {
