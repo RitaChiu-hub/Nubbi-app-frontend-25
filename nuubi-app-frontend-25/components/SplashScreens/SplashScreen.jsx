@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Animated,
   ScrollView,
-  ImageBackground,
 } from "react-native";
 import { useAssets } from "expo-asset";
 import { Helmet } from "react-helmet";
@@ -386,8 +385,6 @@ export default function SplashScreen({ navigation }) {
 }
 
 const deviceWidth = Dimensions.get("window").width;
-const BannerHeight = deviceWidth * 0.9;
-const platformMarginTop = Platform.OS == "web" ? 0 : "-8%";
 const stylesCarousel = StyleSheet.create({
   container: {
     width: deviceWidth,

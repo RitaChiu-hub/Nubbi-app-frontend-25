@@ -1,12 +1,10 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import {
   View,
   Text,
   Image,
   TouchableOpacity,
   Dimensions,
-  Platform,
-  StyleSheet,
   ScrollView,
   ImageBackground,
 } from "react-native";
@@ -77,12 +75,11 @@ export default function WebLandingPage({ navigation }) {
   const systemFonts = [...defaultSystemFonts, "Poppins_400Regular"];
 
   const htmlContent = `
-    <h1 style="font-size: 16px; font-weight: normal; fontFamily: Poppins_400Regular; letterSpacing: 0.5">
-      The chat platform for learning.
+    <h1 style="font-size: 28; font-weight: normal; font-family: Poppins_500Medium; letterSpacing: 0.5; text-align: center">
+    Empowering university student success through gamified peer-learning. 
     </h1>
     <br />
 `;
-
   return (
     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
       <View
@@ -158,13 +155,13 @@ export default function WebLandingPage({ navigation }) {
                 fontSize: deviceWidth > 1000 ? 108 : 64,
                 textAlign: "center",
                 color: "#2482AA",
-                marginTop: deviceWidth * 0.05,
+                marginTop: deviceWidth * 0.03,
               },
             ]}
           >
             NUUBI
           </Text>
-          <Text
+          {/* <Text
             style={[
               globalStyles.h2HeadingMedium,
               {
@@ -178,7 +175,20 @@ export default function WebLandingPage({ navigation }) {
           >
             Empowering university student success through gamified
             peer-learning. 
-          </Text>
+          </Text> */}
+          <View
+            style={{
+              width: "50%",
+              paddingBottom: deviceWidth * 0.015,
+              marginTop: deviceWidth * 0.02,
+            }}
+          >
+            <RenderHTML
+              source={{ html: htmlContent }}
+              contentWidth={deviceWidth}
+              systemFonts={systemFonts}
+            />
+          </View>
           <TouchableOpacity
             style={{
               backgroundColor: "#2482aa",
@@ -189,7 +199,7 @@ export default function WebLandingPage({ navigation }) {
               borderRadius: 60,
               elevation: 3,
               maxWidth: 500,
-              marginTop: deviceWidth * 0.02,
+              marginTop: deviceWidth * 0.015,
             }}
             accessibilityRole="button"
             onPress={() => navigation.navigate("SignUp")}
