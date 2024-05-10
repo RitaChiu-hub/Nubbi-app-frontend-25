@@ -356,6 +356,7 @@ export default function SplashScreen({ navigation }) {
               flexDirection: "row",
               justifyContent: "space-around",
               alignItems: "center",
+              paddingBottom: 40,
             }}
             accessibilityRole="none"
           >
@@ -371,7 +372,10 @@ export default function SplashScreen({ navigation }) {
             <Text style={{ paddingHorizontal: 10, fontSize: 20 }}>|</Text>
             <MaterialIcons name="language" size={20} color="#111111" />
             <TouchableOpacity
-              style={{ paddingVertical: 13, paddingHorizontal: 5 }}
+              style={{
+                paddingVertical: 13,
+                paddingHorizontal: 5,
+              }}
               accessibilityRole="button"
               onPress={() => alert("Spanish Coming Soon!")}
             >
