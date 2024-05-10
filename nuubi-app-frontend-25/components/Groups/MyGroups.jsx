@@ -7,9 +7,9 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import { AccountContext } from "./AccountContext";
-import socket from "../socket";
-import { globalStyles } from "../styles/global";
+import { AccountContext } from "../AccountContext";
+import socket from "../../socket";
+import { globalStyles } from "../../styles/global";
 
 export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);

@@ -36,15 +36,15 @@ import {
   Poppins_900Black,
   Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
-import { globalStyles } from "../styles/global";
+import { globalStyles } from "../../styles/global";
 import * as SplashScreenExpo from "expo-splash-screen";
 import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import alert from "./alert";
+import alert from "../alert";
 
 SplashScreenExpo.preventAutoHideAsync();
 
-export default function SplashScreen({ navigation }) {
+export default function WebLandingPage({ navigation }) {
   const [currCarouselIndex, setCurrCarouselIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = useRef(null);
@@ -53,11 +53,11 @@ export default function SplashScreen({ navigation }) {
   }).current;
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
-  let assets1 = useAssets([require("../assets/nuubiTransparent45.png")]);
-  let assets2 = useAssets([require("../assets/Carousel1.png")]);
-  let assets3 = useAssets([require("../assets/Carousel2.png")]);
-  let assets4 = useAssets([require("../assets/Carousel3.png")]);
-  let assets5 = useAssets([require("../assets/Carousel4.1.png")]);
+  let assets1 = useAssets([require("../../assets/nuubiTransparent45.png")]);
+  let assets2 = useAssets([require("../../assets/Carousel1.png")]);
+  let assets3 = useAssets([require("../../assets/Carousel2.png")]);
+  let assets4 = useAssets([require("../../assets/Carousel3.png")]);
+  let assets5 = useAssets([require("../../assets/Carousel4.1.png")]);
 
   // const { user, setUser } = React.useContext(AccountContext);
 
@@ -162,39 +162,45 @@ export default function SplashScreen({ navigation }) {
       id: "1",
       title: "Team Learning.",
       desc: "Where students and teachers come together and help each other excel academically.",
-      //   img: require("../assets/Carousel1.png"),
+      //   img: require("../../assets/Carousel1.png"),
       img:
-        Platform.OS == "web" ? require("../assets/Carousel1.png") : assets2[0],
+        Platform.OS == "web"
+          ? require("../../assets/Carousel1.png")
+          : assets2[0],
     },
     {
       id: "2",
       title: "Get Rewarded.",
       desc: "Earn extra credit with simple daily tasks, helping students, and participation.",
-      //  img: require("../assets/Carousel2.png"),
+      //  img: require("../../assets/Carousel2.png"),
       img:
-        Platform.OS == "web" ? require("../assets/Carousel2.png") : assets3[0],
+        Platform.OS == "web"
+          ? require("../../assets/Carousel2.png")
+          : assets3[0],
     },
     {
       id: "3",
       title: "More Ways to Chat.",
       desc: "Collaborate with ease between live chats and group forums. Plus, easily search by tags.",
-      // img: require("../assets/Carousel3.png"),
+      // img: require("../../assets/Carousel3.png"),
       img:
-        Platform.OS == "web" ? require("../assets/Carousel3.png") : assets4[0],
+        Platform.OS == "web"
+          ? require("../../assets/Carousel3.png")
+          : assets4[0],
     },
     {
       id: "4",
       title: "Questions Solved.",
       desc: "Find study groups, mentors, or ask your teacher. Either way, get your questions answered.",
-      //  img: require("../assets/Carousel4.1.png"),
+      //  img: require("../../assets/Carousel4.1.png"),
       img:
         Platform.OS == "web"
-          ? require("../assets/Carousel4.1.png")
+          ? require("../../assets/Carousel4.1.png")
           : assets5[0],
     },
   ];
 
-  return (Platform.OS == "web") & (deviceWidth > 1000) ? (
+  return (
     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
       <View
         style={{
@@ -207,7 +213,7 @@ export default function SplashScreen({ navigation }) {
       >
         <Image
           style={{ width: 52, height: 52 }}
-          source={require("../assets/nuubiTransparent.png")}
+          source={require("../../assets/nuubiTransparent.png")}
         ></Image>
 
         <View
@@ -252,7 +258,7 @@ export default function SplashScreen({ navigation }) {
           marginBottom: 50,
         }}
         resizeMode="cover"
-        source={require("../assets/GroupSplash.png")}
+        source={require("../../assets/GroupSplash.png")}
       >
         <View
           style={{
@@ -355,7 +361,7 @@ export default function SplashScreen({ navigation }) {
               </Text>
               <Image
                 style={{ width: 210, height: 268, justifyContent: "center" }}
-                source={require("../assets/phoneScreen1.png")}
+                source={require("../../assets/phoneScreen1.png")}
               />
             </View>
           </LinearGradient>
@@ -379,7 +385,7 @@ export default function SplashScreen({ navigation }) {
               </Text>
               <Image
                 style={{ width: 210, height: 268 }}
-                source={require("../assets/phoneScreen2.png")}
+                source={require("../../assets/phoneScreen2.png")}
               />
             </View>
           </LinearGradient>
@@ -403,7 +409,7 @@ export default function SplashScreen({ navigation }) {
               </Text>
               <Image
                 style={{ width: 210, height: 268, justifyContent: "center" }}
-                source={require("../assets/phoneScreen3.png")}
+                source={require("../../assets/phoneScreen3.png")}
               />
             </View>
           </LinearGradient>
@@ -427,7 +433,7 @@ export default function SplashScreen({ navigation }) {
               </Text>
               <Image
                 style={{ width: 210, height: 268, justifyContent: "center" }}
-                source={require("../assets/phoneScreen3.png")}
+                source={require("../../assets/phoneScreen3.png")}
               />
             </View>
           </LinearGradient>
@@ -451,7 +457,7 @@ export default function SplashScreen({ navigation }) {
             <Image
               style={{ width: 251, height: 134 }}
               resizeMode="center"
-              source={require("../assets/Carousel2.png")}
+              source={require("../../assets/Carousel2.png")}
             />
           </View>
         </View>
@@ -469,7 +475,7 @@ export default function SplashScreen({ navigation }) {
             <Image
               style={{ width: 251, height: 134 }}
               resizeMode="center"
-              source={require("../assets/Carousel4.1.png")}
+              source={require("../../assets/Carousel4.1.png")}
             />
           </View>
 
@@ -503,7 +509,7 @@ export default function SplashScreen({ navigation }) {
             <Image
               style={{ width: 251, height: 134 }}
               resizeMode="center"
-              source={require("../assets/Carousel3.png")}
+              source={require("../../assets/Carousel3.png")}
             />
           </View>
         </View>
@@ -521,7 +527,7 @@ export default function SplashScreen({ navigation }) {
             <Image
               style={{ width: 251, height: 134 }}
               resizeMode="center"
-              source={require("../assets/Carousel1.png")}
+              source={require("../../assets/Carousel1.png")}
             />
           </View>
 
@@ -569,191 +575,6 @@ export default function SplashScreen({ navigation }) {
         style={{ width: "100%", height: 350 }}
       ></LinearGradient>
     </ScrollView>
-  ) : (
-    <LinearGradient
-      colors={["#fdfdfd", "#fdfdfd", "#8bdae8"]}
-      style={globalStyles.container}
-      locations={[0.0, 0.46, 1.0]}
-      accessibilityRole="none"
-    >
-      <ScrollView
-        contentContainerStyle={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "flex-start",
-        }}
-        onLayout={onLayoutRootView}
-        accessibilityRole="none"
-      >
-        <Helmet>
-          <title>
-            Nuubi: The chat platform for incentivized peer learning.
-          </title>
-
-          <meta
-            name="Nuubi"
-            content="EdTech chat app for students and teachers that fosters learning."
-          />
-
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=yes, maximum-scale=2.0001"
-          />
-        </Helmet>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            paddingTop: deviceWidth > 500 ? 60 : "25%",
-          }}
-          accessibilityRole="none"
-        >
-          <Image
-            style={{ width: 45, height: 45 }}
-            source={
-              Platform.OS == "web"
-                ? require("../assets/nuubiTransparent45.png")
-                : assets1[0]
-            }
-            alt="The Nuubi logo, a green and blue chat bubble with an open book at the center."
-          />
-
-          <Text
-            style={{
-              fontSize: 32,
-              fontFamily: "Poppins_600SemiBold",
-              color: "#111111",
-              marginHorizontal: 5,
-            }}
-          >
-            NUUBI
-          </Text>
-        </View>
-        <RenderHTML
-          source={{ html: htmlContent }}
-          contentWidth={deviceWidth}
-          systemFonts={systemFonts}
-        />
-
-        <View
-          style={{
-            flexGrow: 0.6,
-            width: deviceWidth,
-            alignItems: "center",
-            justifyContent: "space-evenly",
-            marginTop: platformMarginTop,
-            height: 0,
-            paddingBottom: deviceWidth > 500 ? 40 : 0,
-          }}
-          accessibilityRole="none"
-        >
-          <View style={[stylesCarousel.secondaryContainer]}>
-            <FlatList
-              style={{
-                width: deviceWidth,
-              }}
-              data={carouselData}
-              renderItem={({ item }) => <CarouselItem item={item} />}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              pagingEnabled
-              bounces={false}
-              keyExtractor={(item) => {
-                return item.id.toString();
-              }}
-              onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                {
-                  useNativeDriver: false,
-                }
-              )}
-              scrollEventThrottle={32}
-              onViewableItemsChanged={viewableItemsChanged}
-              viewabilityConfig={viewConfig}
-              ref={slidesRef}
-            />
-          </View>
-          <CarouselPaginator data={carouselData} scrollX={scrollX} />
-        </View>
-
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "space-between",
-            //   marginBottom: Platform.OS == "web" ? 0 : "-50%",
-            marginBottom: deviceWidth > 500 ? 0 : "-60%",
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#2482aa",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingVertical: 14,
-              marginTop: 5,
-              // width: deviceWidth * 0.9,
-              width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-              borderRadius: 60,
-              elevation: 3,
-              maxWidth: 500,
-            }}
-            accessibilityRole="button"
-            onPress={() => navigation.navigate("SignUp")}
-          >
-            <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-              paddingTop: 16,
-              paddingBottom: 6,
-            }}
-            accessibilityRole="none"
-          >
-            <Text style={globalStyles.caption}>Already have an account? </Text>
-            <TouchableOpacity
-              style={{ paddingHorizontal: 5 }}
-              accessibilityRole="button"
-              onPress={() => navigation.navigate("Login")}
-            >
-              <Text style={globalStyles.captionLink}>Log In</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-            accessibilityRole="none"
-          >
-            <MaterialIcons name="info-outline" size={20} color="#111111" />
-            <TouchableOpacity
-              style={{ paddingVertical: 13, paddingHorizontal: 5 }}
-              accessibilityRole="button"
-              onPress={() => navigation.navigate("LearnMore1")}
-            >
-              <Text style={globalStyles.captionLink}>Learn More</Text>
-            </TouchableOpacity>
-
-            <Text style={{ paddingHorizontal: 10, fontSize: 20 }}>|</Text>
-            <MaterialIcons name="language" size={20} color="#111111" />
-            <TouchableOpacity
-              style={{ paddingVertical: 13, paddingHorizontal: 5 }}
-              accessibilityRole="button"
-              onPress={() => alert("Spanish Coming Soon!")}
-            >
-              <Text style={globalStyles.captionLink}>Language</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
-    </LinearGradient>
   );
 }
 

@@ -15,9 +15,9 @@ import LoginScreen from "./Login/LoginScreen";
 import SignUpScreen from "./Login/SignUpScreen";
 import CodeVerificationScreen from "./Login/CodeVerificationScreen";
 
-import HomeScreen from "./HomeScreen";
-import MyGroupsScreen from "./MyGroups";
-import SplashScreen from "./SplashScreen";
+import HomeScreen from "./HomeScreen/HomeScreen";
+import MyGroupsScreen from "./Groups/MyGroups";
+import SplashScreen from "./SplashScreens/SplashScreen";
 
 import SettingsScreen from "./UserSettings/SettingsScreen";
 import DeleteAccountScreen from "./UserSettings/DeleteAccount";

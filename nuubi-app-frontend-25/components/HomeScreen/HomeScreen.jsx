@@ -9,13 +9,13 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import { AccountContext } from "./AccountContext";
-import socket from "../socket";
-import { globalStyles } from "../styles/global";
+import { AccountContext } from "../AccountContext";
+import socket from "../../socket";
+import { globalStyles } from "../../styles/global";
 import { AntDesign } from "@expo/vector-icons";
-import HomeScreenTasks from "./HomeScreen/HomeScreenTasks";
-import HomeScreenLeaderboard from "./HomeScreen/HomeScreenLeaderboard";
-import HomeScreenBadges from "./HomeScreen/HomeScreenBadges";
+import HomeScreenTasks from "./HomeScreenTasks";
+import HomeScreenLeaderboard from "./HomeScreenLeaderboard";
+import HomeScreenBadges from "./HomeScreenBadges";
 import { Overlay } from "react-native-elements";
 import { useAssets } from "expo-asset";
 
@@ -82,26 +82,26 @@ export default function HomeScreen({ navigation }) {
   const positionLeft = [0.02, 0.25, 0.26, 0.2, 0.1, 0.05];
   const arrowPositionLeft = [0.05, 0.22, 0.61, 0.4, 0.15, 0.1];
 
-  let assets1 = useAssets([require("../assets/tooltips/ToolCelebrate.png")]);
-  let assets2 = useAssets([require("../assets/tooltips/ToolChat.png")]);
-  let assets3 = useAssets([require("../assets/tooltips/ToolClipboard.png")]);
-  let assets4 = useAssets([require("../assets/tooltips/ToolTimer.png")]);
-  let assets5 = useAssets([require("../assets/tooltips/ToolRocket.png")]);
-  let assets6 = useAssets([require("../assets/tooltips/ToolBadge.png")]);
-  let assets7 = useAssets([require("../assets/tooltips/ToolBrain.png")]);
-  let assets8 = useAssets([require("../assets/tooltips/ToolEyes.png")]);
+  let assets1 = useAssets([require("../../assets/tooltips/ToolCelebrate.png")]);
+  let assets2 = useAssets([require("../../assets/tooltips/ToolChat.png")]);
+  let assets3 = useAssets([require("../../assets/tooltips/ToolClipboard.png")]);
+  let assets4 = useAssets([require("../../assets/tooltips/ToolTimer.png")]);
+  let assets5 = useAssets([require("../../assets/tooltips/ToolRocket.png")]);
+  let assets6 = useAssets([require("../../assets/tooltips/ToolBadge.png")]);
+  let assets7 = useAssets([require("../../assets/tooltips/ToolBrain.png")]);
+  let assets8 = useAssets([require("../../assets/tooltips/ToolEyes.png")]);
 
   const cardIcon =
     Platform.OS == "web"
       ? [
-          require("../assets/tooltips/ToolCelebrate.png"),
-          require("../assets/tooltips/ToolChat.png"),
-          require("../assets/tooltips/ToolClipboard.png"),
-          require("../assets/tooltips/ToolTimer.png"),
-          require("../assets/tooltips/ToolRocket.png"),
-          require("../assets/tooltips/ToolBadge.png"),
-          require("../assets/tooltips/ToolBrain.png"),
-          require("../assets/tooltips/ToolEyes.png"),
+          require("../../assets/tooltips/ToolCelebrate.png"),
+          require("../../assets/tooltips/ToolChat.png"),
+          require("../../assets/tooltips/ToolClipboard.png"),
+          require("../../assets/tooltips/ToolTimer.png"),
+          require("../../assets/tooltips/ToolRocket.png"),
+          require("../../assets/tooltips/ToolBadge.png"),
+          require("../../assets/tooltips/ToolBrain.png"),
+          require("../../assets/tooltips/ToolEyes.png"),
         ]
       : [
           assets1[0],
