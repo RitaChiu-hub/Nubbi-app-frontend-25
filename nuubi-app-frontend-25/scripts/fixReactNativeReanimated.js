@@ -10,7 +10,7 @@ fs.readFile(filePath, "utf8", (err, data) => {
   }
 
   const exportPattern = /export { _default as default };/g;
-  const insertLine = "export default _default;";
+  const insertLine = ""; // "export default _default;";
 
   const modifiedData = data.replace(exportPattern, (match) => {
     if (match === "export { _default as default };") {
