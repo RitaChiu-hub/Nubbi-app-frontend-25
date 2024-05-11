@@ -228,6 +228,7 @@ export default function HomeScreen({ navigation }) {
           <View
             style={{
               height: screenHeight * 0.33,
+              minHeight: 320,
               opacity: onboardingState == 3 || onboardingState == 6 ? 1 : 1,
               backgroundColor:
                 (performOnboarding == true && onboardingState != 3) ||
@@ -241,6 +242,7 @@ export default function HomeScreen({ navigation }) {
           <View
             style={{
               height: screenHeight * 0.33,
+              minHeight: 320,
               opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
               backgroundColor:
                 (performOnboarding == true && onboardingState != 4) ||
@@ -254,6 +256,7 @@ export default function HomeScreen({ navigation }) {
           <View
             style={{
               height: screenHeight * 0.33,
+              minHeight: 320,
               opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
               backgroundColor:
                 (performOnboarding == true && onboardingState != 5) ||
