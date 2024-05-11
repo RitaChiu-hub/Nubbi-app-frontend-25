@@ -26,6 +26,15 @@ export default function ProfilePageScreen({ navigation }) {
   const [userPoints, setUserPoints] = React.useState(0);
   const [myUsername, setMyUsername] = React.useState("");
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingRegular}>Profile</Text>
+      ),
+      headerTitleAlign: "center",
+    });
+  }, [navigation]);
+
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
   const getUserPoints = async () => {
@@ -171,20 +180,10 @@ export default function ProfilePageScreen({ navigation }) {
           )}
         </View>
 
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            color: "#333",
-            padding: 20,
-            marginLeft: 25,
-            marginRight: 25,
-            textAlign: "center",
-          }}
-        >
+        <Text style={[globalStyles.h2HeadingMedium, { textAlign: "center" }]}>
           Hi {myUsername}!
         </Text>
-        <Text style={{ marginBottom: 20 }}>
+        <Text style={[globalStyles.bodyRegular, { marginBottom: 20 }]}>
           You have {userPoints} total points 🎉
         </Text>
         <View style={globalStyles.widthContainer}>

@@ -19,7 +19,9 @@ export default function DeleteAccountScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Delete Account",
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingRegular}>Delete Account</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -50,8 +52,8 @@ export default function DeleteAccountScreen({ navigation }) {
               const passattempt = vals.passattempt;
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
-                //  "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
+                // "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
+                "http://localhost:8080/settings/delete",
                 {
                   method: "POST",
                   credentials: "include",
@@ -72,16 +74,19 @@ export default function DeleteAccountScreen({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  setUser({ ...data });
-                  if (Platform.OS === "web") {
-                    localStorage.removeItem("token");
-                  } else {
-                    SecureStore.deleteItemAsync("token");
-                  }
-                  setUser({ token: null });
-                  socket.disconnect();
+
                   if (data.status) {
                     setError(data.status);
+                  }
+                  if (data.status == "Success") {
+                    setUser({ ...data });
+                    if (Platform.OS === "web") {
+                      localStorage.removeItem("token");
+                    } else {
+                      SecureStore.deleteItemAsync("token");
+                    }
+                    setUser({ token: null });
+                    socket.disconnect();
                   }
                 });
             }}

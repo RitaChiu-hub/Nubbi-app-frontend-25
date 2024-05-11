@@ -47,7 +47,9 @@ export default function AccountScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Account",
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingRegular}>Account</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
