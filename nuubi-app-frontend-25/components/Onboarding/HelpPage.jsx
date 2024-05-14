@@ -7,7 +7,7 @@ const dimensions = Dimensions.get("window");
 export default function HelpScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Nuubi How-To",
+      title: "Nuubi Help",
       headerTitleAlign: "center",
     });
   }, [navigation]);

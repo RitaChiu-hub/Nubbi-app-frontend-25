@@ -97,24 +97,48 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="Home"
         component={HomeScreen}
-        options={{ animation: "none", title: "Home Feed" }}
-        //    options={{ title: "Home" }}
+        options={{
+          animation: "none",
+          title: "Home Feed",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
       />
       <HomeDrawer.Screen
         name="MyGroups"
         component={MyGroupsScreen}
-        options={{ animation: "none", title: "My Groups" }}
-        //    options={{ title: "My Groups" }}
+        options={{
+          animation: "none",
+          title: "My Groups",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
       />
       <HomeDrawer.Screen
         name="ViewAllGroups"
         component={GroupListScreen}
-        options={{ title: "Discover" }}
+        options={{
+          title: "Discover",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
       />
       <HomeDrawer.Screen
         name="AddGroup"
         component={AddGroupScreen}
-        options={{ title: "Add Group" }}
+        options={{
+          title: "Add Group",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
       />
       <HomeDrawer.Screen
         name="CreateGroup"
@@ -173,23 +197,27 @@ function HomeDrawerNavigator() {
         component={JoinGroupWithPasscode}
         options={{ drawerItemStyle: { display: "none" } }}
       />
-      <HomeDrawer.Screen name="Notifications" component={NotificationsScreen} />
+      <HomeDrawer.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      />
 
       <HomeDrawer.Screen
         name="ProfilePage"
         component={ProfilePageScreen}
-        options={{ title: "Profile" }}
-      />
-
-      <HomeDrawer.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{ drawerItemStyle: { display: "none" } }}
-      />
-      <HomeDrawer.Screen
-        name="HelpLoggedIn"
-        component={HelpScreen}
-        options={{ title: "Help" }}
+        options={{
+          title: "Profile",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
       />
 
       <HomeDrawer.Screen
@@ -213,14 +241,52 @@ function HomeDrawerNavigator() {
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          title: "General Settings",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+        //   options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
         name="AccountScreen"
         component={AccountScreen}
-        options={{ drawerItemStyle: { display: "none" } }}
+        options={{
+          title: "Account Settings",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+        // options={{ drawerItemStyle: { display: "none" } }}
       />
+
+      <HomeDrawer.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{
+          title: "Help",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      />
+
       <HomeDrawer.Screen
         name="FeedbackScreen"
         component={FeedbackScreen}
-        options={{ title: "Contact Us" }}
+        options={{
+          title: "Contact Us",
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
       />
       <HomeDrawer.Screen
         name="NotificationSettings"

@@ -70,19 +70,12 @@ export default function ForgotPasswordScreen({ navigation }) {
       <View
         style={{
           flex: 1,
-          backgroundColor: "#fdfdfd",
-          alignItems: "center",
           justifyContent: "center",
-          marginTop: 20,
-          marginBottom: 400,
+          alignItems: "center",
+          marginBottom: 40,
         }}
       >
-        <View
-          style={{
-            backgroundColor: "#fdfdfd",
-            paddingHorizontal: 20,
-          }}
-        >
+        <View style={globalStyles.widthContainer}>
           <Text
             style={[
               {

@@ -132,7 +132,7 @@ export default function ProfilePageScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Profile Page",
+      title: "Profile",
       headerTitleAlign: "center",
     });
   }, [navigation]);
