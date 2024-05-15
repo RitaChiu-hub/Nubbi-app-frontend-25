@@ -55,24 +55,47 @@ export default function GroupAchievementsScreen({ navigation }) {
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-evenly",
+              justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Image
-              style={{ width: 45, height: 45 }}
-              source={
-                Platform.OS == "web"
-                  ? require("../../assets/badges/ComposerBadge.png")
-                  : assets1[0]
-              }
-            />
+            <React.Fragment>
+              <Image
+                style={{
+                  width: 45,
+                  height: 45,
+                  tintColor: "gray",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                }}
+                source={
+                  Platform.OS == "web"
+                    ? require("../../assets/badges/ComposerBadge.png")
+                    : assets1[0]
+                }
+              />
+              <Image
+                style={{
+                  width: 45,
+                  height: 45,
+                  opacity: 0.3,
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                }}
+                source={
+                  Platform.OS == "web"
+                    ? require("../../assets/badges/ComposerBadge.png")
+                    : assets1[0]
+                }
+              />
+            </React.Fragment>
             <View
               style={{
                 alignItems: "flex-start",
                 justifyContent: "center",
                 marginLeft: 10,
-                width: "70%",
               }}
             >
               <Text style={[globalStyles.headingText, { marginTop: 0 }]}>
