@@ -46,6 +46,7 @@ import GroupInfoScreen from "./Chat/GroupInfoScreen";
 import GroupAnalytics from "./Chat/GroupAnalytics";
 import DeleteGroupScreen from "./Groups/DeleteGroupScreen";
 import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
+import GroupAchievements from "./Chat/GroupAchievements";
 
 import LearnMore1Screen from "./Onboarding/LearnMore1";
 import LearnMore2Screen from "./Onboarding/LearnMore2";
@@ -55,6 +56,7 @@ import PrivacyScreen from "./Onboarding/Privacy";
 import TermsScreen from "./Onboarding/Terms";
 
 import ProfilePageScreen from "./UserSettings/ProfilePage";
+import OverallAchievements from "./UserSettings/OverallAchievements";
 
 const navTheme = {
   ...DefaultTheme,
@@ -143,6 +145,16 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="CreateGroup"
         component={CreateGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="OverallAchievements"
+        component={OverallAchievements}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="GroupAchievements"
+        component={GroupAchievements}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
@@ -328,6 +340,10 @@ function SettingsStack() {
       // screenOptions={{ headerShown: false }}
     >
       <StackSettings.Screen name="ProfilePage" component={ProfilePageScreen} />
+      <StackSettings.Screen
+        name="OverallAchievements"
+        component={OverallAchievements}
+      />
 
       <StackSettings.Screen name="Settings" component={SettingsScreen} />
 
@@ -405,6 +421,10 @@ function HomeStack() {
         options={{ animation: "none" }}
       />
       <StackHome.Screen
+        name="GroupAchievements"
+        component={GroupAchievements}
+      />
+      <StackHome.Screen
         name="GroupAnalytics"
         component={GroupAnalytics}
         //   options={{ animation: "none" }}
@@ -436,6 +456,15 @@ function SearchStack() {
       <StackSearch.Screen name="EditPost" component={EditPostScreen} />
       <StackSearch.Screen name="ViewPost" component={ViewPostScreen} />
       <StackSearch.Screen name="GroupInfo" component={GroupInfoScreen} />
+      <StackSearch.Screen
+        name="GroupAchievements"
+        component={GroupAchievements}
+      />
+      <StackSearch.Screen
+        name="GroupAnalytics"
+        component={GroupAnalytics}
+        //   options={{ animation: "none" }}
+      />
       <StackSearch.Screen name="DeleteGroup" component={DeleteGroupScreen} />
       <StackSearch.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
     </StackSearch.Navigator>

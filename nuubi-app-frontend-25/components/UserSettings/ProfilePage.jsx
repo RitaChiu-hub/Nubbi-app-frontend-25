@@ -342,7 +342,9 @@ export default function ProfilePageScreen({ navigation }) {
                 style={globalStyles.row}
                 onPress={() => alert("Coming soon!")}
               >
-                <Text style={globalStyles.headingText}>Achievements</Text>
+                <Text style={globalStyles.headingText}>
+                  My Overall Achievements
+                </Text>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>
