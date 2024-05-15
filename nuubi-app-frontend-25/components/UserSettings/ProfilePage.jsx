@@ -340,7 +340,7 @@ export default function ProfilePageScreen({ navigation }) {
             <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
                 style={globalStyles.row}
-                onPress={() => alert("Coming soon!")}
+                onPress={() => navigation.navigate("OverallAchievements")}
               >
                 <Text style={globalStyles.headingText}>
                   My Overall Achievements

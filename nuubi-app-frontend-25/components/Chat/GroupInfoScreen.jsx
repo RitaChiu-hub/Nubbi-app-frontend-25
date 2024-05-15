@@ -288,7 +288,7 @@ export default function GroupInfoScreen({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={globalStyles.row}
-          onPress={() => triggerComingSoonAlert()}
+          onPress={() => navigation.navigate("GroupAchievements")}
         >
           <Text style={globalStyles.headingText}>My Group Achievements</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
