@@ -1,34 +1,135 @@
 import * as React from "react";
-import { View, Text, Image, Platform, ScrollView } from "react-native";
+import { View, Text, Image, Platform, FlatList } from "react-native";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
 
+const badgeData = [
+  {
+    id: "1",
+    asset: require("../../assets/badges/ComposerBadge.png"),
+    title: "Composer Achievement",
+    description: "Awarded for composing music with great skill and creativity.",
+  },
+  {
+    id: "2",
+    asset: require("../../assets/badges/ComposerBadge2.png"),
+    title: "Advanced Composer Achievement",
+    description:
+      "Awarded for advanced music composition and outstanding creativity.",
+  },
+  {
+    id: "3",
+    asset: require("../../assets/badges/ConversationBadge.png"),
+    title: "Conversation Starter",
+    description:
+      "Recognized for starting engaging and meaningful conversations.",
+  },
+  {
+    id: "4",
+    asset: require("../../assets/badges/ExplorerBadge.png"),
+    title: "Explorer Achievement",
+    description:
+      "Given to those who explore new territories and seek adventure.",
+  },
+  {
+    id: "5",
+    asset: require("../../assets/badges/IdeaBadge.png"),
+    title: "Idea Generator",
+    description: "Awarded for generating innovative and groundbreaking ideas.",
+  },
+  {
+    id: "6",
+    asset: require("../../assets/badges/InvestigatorBadge.png"),
+    title: "Investigator",
+    description:
+      "Recognized for exceptional investigative skills and curiosity.",
+  },
+  {
+    id: "7",
+    asset: require("../../assets/badges/leaderboardBadge.png"),
+    title: "Leaderboard Champion",
+    description: "Awarded for achieving top positions on the leaderboard.",
+  },
+  {
+    id: "8",
+    asset: require("../../assets/badges/LighteningBadge.png"),
+    title: "Lightning Speed",
+    description: "Recognized for completing tasks with lightning-fast speed.",
+  },
+  {
+    id: "9",
+    asset: require("../../assets/badges/LightningBadge2.png"),
+    title: "Advanced Lightning Speed",
+    description:
+      "Awarded for exceptional speed and agility in completing challenges.",
+  },
+  {
+    id: "10",
+    asset: require("../../assets/badges/PictureBadge.png"),
+    title: "Picture Perfect",
+    description: "Recognized for taking beautiful and perfect pictures.",
+  },
+  {
+    id: "11",
+    asset: require("../../assets/badges/Picture2Badge.png"),
+    title: "Advanced Photographer",
+    description: "Awarded for exceptional skills in advanced photography.",
+  },
+  {
+    id: "12",
+    asset: require("../../assets/badges/RainBadge.png"),
+    title: "Rain Maker",
+    description:
+      "Recognized for bringing new opportunities and making things happen.",
+  },
+  {
+    id: "13",
+    asset: require("../../assets/badges/RocketeerBadge.png"),
+    title: "Rocketeer",
+    description:
+      "Awarded for reaching new heights and achieving ambitious goals.",
+  },
+  {
+    id: "14",
+    asset: require("../../assets/badges/Sagebadge.png"),
+    title: "Sage",
+    description: "Recognized for wisdom and providing valuable advice.",
+  },
+  {
+    id: "15",
+    asset: require("../../assets/badges/SageBadge2.png"),
+    title: "Advanced Sage",
+    description: "Awarded for advanced wisdom and insightful contributions.",
+  },
+  {
+    id: "16",
+    asset: require("../../assets/badges/ShieldBadge.png"),
+    title: "Protector",
+    description: "Recognized for protecting and defending others with bravery.",
+  },
+  {
+    id: "17",
+    asset: require("../../assets/badges/Streakbadge.png"),
+    title: "Streak Holder",
+    description: "Awarded for maintaining a consistent streak of achievements.",
+  },
+  {
+    id: "18",
+    asset: require("../../assets/badges/Streak2badge.png"),
+    title: "Advanced Streak Holder",
+    description:
+      "Recognized for maintaining an advanced streak of continuous achievements.",
+  },
+  {
+    id: "19",
+    asset: require("../../assets/badges/WinnerBadge.png"),
+    title: "Winner",
+    description: "Awarded for winning competitions and achieving victory.",
+  },
+];
+
 export default function GroupAchievementsScreen({ navigation }) {
-  let assets1 = useAssets([require("../../assets/badges/ComposerBadge.png")]);
-  let assets2 = useAssets([require("../../assets/badges/ComposerBadge2.png")]);
-  let assets3 = useAssets([
-    require("../../assets/badges/ConversationBadge.png"),
-  ]);
-  let assets4 = useAssets([require("../../assets/badges/ExplorerBadge.png")]);
-  let assets5 = useAssets([require("../../assets/badges/IdeaBadge.png")]);
-  let assets6 = useAssets([
-    require("../../assets/badges/InvestigatorBadge.png"),
-  ]);
-  let assets7 = useAssets([
-    require("../../assets/badges/leaderboardBadge.png"),
-  ]);
-  let assets8 = useAssets([require("../../assets/badges/LighteningBadge.png")]);
-  let assets9 = useAssets([require("../../assets/badges/LightningBadge2.png")]);
-  let assets10 = useAssets([require("../../assets/badges/PictureBadge.png")]);
-  let assets11 = useAssets([require("../../assets/badges/Picture2Badge.png")]);
-  let assets12 = useAssets([require("../../assets/badges/RainBadge.png")]);
-  let assets13 = useAssets([require("../../assets/badges/RocketeerBadge.png")]);
-  let assets14 = useAssets([require("../../assets/badges/Sagebadge.png")]);
-  let assets15 = useAssets([require("../../assets/badges/SageBadge2.png")]);
-  let assets16 = useAssets([require("../../assets/badges/ShieldBadge.png")]);
-  let assets17 = useAssets([require("../../assets/badges/Streakbadge.png")]);
-  let assets18 = useAssets([require("../../assets/badges/Streak2badge.png")]);
-  let assets19 = useAssets([require("../../assets/badges/WinnerBadge.png")]);
+  const [assets, error] = useAssets(badgeData.map((item) => item.asset));
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,75 +140,70 @@ export default function GroupAchievementsScreen({ navigation }) {
     });
   }, [navigation]);
 
-  return (
-    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+  if (!assets) {
+    return <Text>Loading...</Text>;
+  }
+
+  const renderItem = ({ item, index }) => (
+    <View style={globalStyles.widthContainer} key={item.id}>
       <View
         style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fdfdfd",
-          padding: 14,
-          paddingTop: 24,
+          flexDirection: "row",
+          marginBottom: 24,
         }}
       >
-        <View style={globalStyles.widthContainer}>
-          <View
+        <React.Fragment>
+          <Image
             style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
+              width: 45,
+              height: 45,
+              tintColor: "gray",
+              position: "absolute",
+              top: 0,
+              left: 0,
             }}
-          >
-            <React.Fragment>
-              <Image
-                style={{
-                  width: 45,
-                  height: 45,
-                  tintColor: "gray",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }}
-                source={
-                  Platform.OS == "web"
-                    ? require("../../assets/badges/ComposerBadge.png")
-                    : assets1[0]
-                }
-              />
-              <Image
-                style={{
-                  width: 45,
-                  height: 45,
-                  opacity: 0.3,
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                }}
-                source={
-                  Platform.OS == "web"
-                    ? require("../../assets/badges/ComposerBadge.png")
-                    : assets1[0]
-                }
-              />
-            </React.Fragment>
-            <View
-              style={{
-                alignItems: "flex-start",
-                justifyContent: "center",
-                marginLeft: 10,
-              }}
-            >
-              <Text style={[globalStyles.headingText, { marginTop: 0 }]}>
-                Achievement 1
-              </Text>
-              <Text style={globalStyles.bodyRegular}>
-                Description of achievement
-              </Text>
-            </View>
-          </View>
+            source={Platform.OS === "web" ? item.asset : assets[index]}
+          />
+          <Image
+            style={{
+              width: 45,
+              height: 45,
+              opacity: 0.3,
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+            source={Platform.OS === "web" ? item.asset : assets[index]}
+          />
+        </React.Fragment>
+        <View
+          style={{
+            alignItems: "flex-start",
+            flex: 1,
+            marginLeft: 45 + 24,
+            flexShrink: 1,
+          }}
+        >
+          <Text style={[globalStyles.headingText, { marginTop: 0 }]}>
+            {item.title}
+          </Text>
+          <Text style={globalStyles.bodyRegular}>{item.description}</Text>
         </View>
       </View>
-    </ScrollView>
+    </View>
+  );
+
+  return (
+    <FlatList
+      data={badgeData}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id}
+      contentContainerStyle={{
+        alignItems: "center",
+        backgroundColor: "#fdfdfd",
+        padding: 14,
+        paddingTop: 24,
+      }}
+    />
   );
 }
