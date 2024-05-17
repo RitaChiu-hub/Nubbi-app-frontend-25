@@ -5,128 +5,113 @@ import { useAssets } from "expo-asset";
 
 const badgeData = [
   {
-    id: "1",
     asset: require("../../assets/badges/ComposerBadge.png"),
-    title: "Composer Achievement",
-    description: "Awarded for composing music with great skill and creativity.",
+    title: "Composer",
+    description: "Create your first Discussion Post in this Nuubi Group.",
   },
   {
-    id: "2",
     asset: require("../../assets/badges/ComposerBadge2.png"),
-    title: "Advanced Composer Achievement",
-    description:
-      "Awarded for advanced music composition and outstanding creativity.",
+    title: "Composer II",
+    description: "Create five discussion posts in this Nuubi Group.",
   },
   {
-    id: "3",
     asset: require("../../assets/badges/ConversationBadge.png"),
-    title: "Conversation Starter",
-    description:
-      "Recognized for starting engaging and meaningful conversations.",
+    title: "Conversationalist",
+    description: "Send five chats in this Nuubi Group.",
   },
   {
-    id: "4",
     asset: require("../../assets/badges/ExplorerBadge.png"),
-    title: "Explorer Achievement",
+    title: "Voyager",
     description:
-      "Given to those who explore new territories and seek adventure.",
+      "Join three Nuubi groups (Hint: you can use the Discover page to find Public Groups to join).",
   },
   {
-    id: "5",
     asset: require("../../assets/badges/IdeaBadge.png"),
-    title: "Idea Generator",
-    description: "Awarded for generating innovative and groundbreaking ideas.",
+    title: "Illuminator",
+    description: "Get the most likes on a Discussion post this Nuubi Group.",
   },
   {
-    id: "6",
     asset: require("../../assets/badges/InvestigatorBadge.png"),
     title: "Investigator",
     description:
-      "Recognized for exceptional investigative skills and curiosity.",
+      "Commented on five different Discussion Posts in this Nuubi Group.",
   },
   {
-    id: "7",
-    asset: require("../../assets/badges/leaderboardBadge.png"),
-    title: "Leaderboard Champion",
-    description: "Awarded for achieving top positions on the leaderboard.",
-  },
-  {
-    id: "8",
     asset: require("../../assets/badges/LighteningBadge.png"),
-    title: "Lightning Speed",
-    description: "Recognized for completing tasks with lightning-fast speed.",
+    title: "Lightning",
+    description: "Be the first person to reply to a post in this Nuubi Group.",
   },
   {
-    id: "9",
     asset: require("../../assets/badges/LightningBadge2.png"),
-    title: "Advanced Lightning Speed",
+    title: "Lightning II",
     description:
-      "Awarded for exceptional speed and agility in completing challenges.",
+      "Be the first person to reply to a post in this Nuubi Group five times.",
   },
   {
-    id: "10",
     asset: require("../../assets/badges/PictureBadge.png"),
-    title: "Picture Perfect",
-    description: "Recognized for taking beautiful and perfect pictures.",
-  },
-  {
-    id: "11",
-    asset: require("../../assets/badges/Picture2Badge.png"),
-    title: "Advanced Photographer",
-    description: "Awarded for exceptional skills in advanced photography.",
-  },
-  {
-    id: "12",
-    asset: require("../../assets/badges/RainBadge.png"),
-    title: "Rain Maker",
+    title: "Photogenic",
     description:
-      "Recognized for bringing new opportunities and making things happen.",
+      "Personalize your Nuubi profile by choosing a new picture for your avatar.",
   },
   {
-    id: "13",
+    asset: require("../../assets/badges/Picture2Badge.png"),
+    title: "Photographer",
+    description:
+      "Post a Discussion Post in this Nuubi Group that contains an uploaded image.",
+  },
+  {
+    asset: require("../../assets/badges/RainBadge.png"),
+    title: "Ice Breaker",
+    description: "Write your first live chat message in this Nuubi Group.",
+  },
+  {
     asset: require("../../assets/badges/RocketeerBadge.png"),
     title: "Rocketeer",
     description:
-      "Awarded for reaching new heights and achieving ambitious goals.",
+      "Most improved leaderboard ranking in the duration of one week.",
   },
   {
-    id: "14",
     asset: require("../../assets/badges/Sagebadge.png"),
     title: "Sage",
-    description: "Recognized for wisdom and providing valuable advice.",
+    description: "Receive a point from the admin of this Nuubi Group.",
   },
   {
-    id: "15",
     asset: require("../../assets/badges/SageBadge2.png"),
-    title: "Advanced Sage",
-    description: "Awarded for advanced wisdom and insightful contributions.",
+    title: "Sage II",
+    description: "Receive five points from the admin of this Nuubi Group.",
   },
   {
-    id: "16",
     asset: require("../../assets/badges/ShieldBadge.png"),
-    title: "Protector",
-    description: "Recognized for protecting and defending others with bravery.",
+    title: "Collector",
+    description: "Earn five badges in this Nuubi Group.",
   },
   {
-    id: "17",
     asset: require("../../assets/badges/Streakbadge.png"),
-    title: "Streak Holder",
-    description: "Awarded for maintaining a consistent streak of achievements.",
+    title: "Streak",
+    description: "Log in to this Nuubi Group five days in a row.",
   },
   {
-    id: "18",
     asset: require("../../assets/badges/Streak2badge.png"),
-    title: "Advanced Streak Holder",
-    description:
-      "Recognized for maintaining an advanced streak of continuous achievements.",
+    title: "Streak II",
+    description: "Log in to this Nuubi Group fifteen days in a row.",
   },
   {
-    id: "19",
     asset: require("../../assets/badges/WinnerBadge.png"),
     title: "Winner",
-    description: "Awarded for winning competitions and achieving victory.",
+    description: "Got the top weekly leaderboard position in this Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/leaderboardBadge.png"),
+    title: "Leaderboard Champion",
+    description:
+      "Got the top monthly leaderboard position in this Nuubi Group.",
   },
 ];
+
+const badgeDataWithIds = badgeData.map((badge, index) => ({
+  id: (index + 1).toString(),
+  ...badge,
+}));
 
 export default function GroupAchievementsScreen({ navigation }) {
   const [assets, error] = useAssets(badgeData.map((item) => item.asset));
@@ -195,7 +180,7 @@ export default function GroupAchievementsScreen({ navigation }) {
 
   return (
     <FlatList
-      data={badgeData}
+      data={badgeDataWithIds}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       contentContainerStyle={{
