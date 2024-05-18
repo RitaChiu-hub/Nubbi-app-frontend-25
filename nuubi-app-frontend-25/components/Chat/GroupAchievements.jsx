@@ -20,12 +20,6 @@ const badgeData = [
     description: "Send five chats in this Nuubi Group.",
   },
   {
-    asset: require("../../assets/badges/ExplorerBadge.png"),
-    title: "Voyager",
-    description:
-      "Join three Nuubi groups (Hint: you can use the Discover page to find Public Groups to join).",
-  },
-  {
     asset: require("../../assets/badges/IdeaBadge.png"),
     title: "Illuminator",
     description: "Get the most likes on a Discussion post this Nuubi Group.",
@@ -46,12 +40,6 @@ const badgeData = [
     title: "Lightning II",
     description:
       "Be the first person to reply to a post in this Nuubi Group five times.",
-  },
-  {
-    asset: require("../../assets/badges/PictureBadge.png"),
-    title: "Photogenic",
-    description:
-      "Personalize your Nuubi profile by choosing a new picture for your avatar.",
   },
   {
     asset: require("../../assets/badges/Picture2Badge.png"),

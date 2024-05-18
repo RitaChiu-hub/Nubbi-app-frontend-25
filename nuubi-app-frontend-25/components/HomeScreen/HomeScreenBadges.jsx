@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   View,
   Text,
@@ -5,8 +6,8 @@ import {
   ScrollView,
   Dimensions,
   Platform,
+  FlatList,
 } from "react-native";
-import React from "react";
 import { Entypo } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
@@ -14,127 +15,200 @@ import alert from "../alert";
 
 const screenWidth = Dimensions.get("window").width;
 
+const badgeData = [
+  {
+    asset: require("../../assets/badges/ComposerBadge.png"),
+    title: "Composer",
+    description: "Create your first Discussion Post in a Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/ComposerBadge2.png"),
+    title: "Composer II",
+    description: "Create five discussion posts in a Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/ConversationBadge.png"),
+    title: "Conversationalist",
+    description: "Send five chats in a Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/ExplorerBadge.png"),
+    title: "Voyager",
+    description:
+      "Join three Nuubi groups (Hint: you can use the Discover page to find Public Groups to join).",
+  },
+  {
+    asset: require("../../assets/badges/IdeaBadge.png"),
+    title: "Illuminator",
+    description: "Get the most likes on a Discussion post this Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/InvestigatorBadge.png"),
+    title: "Investigator",
+    description:
+      "Commented on five different Discussion Posts in a Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/LighteningBadge.png"),
+    title: "Lightning",
+    description: "Be the first person to reply to a post in a Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/LightningBadge2.png"),
+    title: "Lightning II",
+    description:
+      "Be the first person to reply to a post in a Nuubi Group five times.",
+  },
+  {
+    asset: require("../../assets/badges/PictureBadge.png"),
+    title: "Photogenic",
+    description:
+      "Personalize your Nuubi profile by choosing a new picture for your avatar.",
+  },
+  {
+    asset: require("../../assets/badges/Picture2Badge.png"),
+    title: "Photographer",
+    description:
+      "Post a Discussion Post in a Nuubi Group that contains an uploaded image.",
+  },
+  {
+    asset: require("../../assets/badges/RainBadge.png"),
+    title: "Ice Breaker",
+    description: "Write your first live chat message in a Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/RocketeerBadge.png"),
+    title: "Rocketeer",
+    description:
+      "Most improved leaderboard ranking in the duration of one week.",
+  },
+  {
+    asset: require("../../assets/badges/Sagebadge.png"),
+    title: "Sage",
+    description: "Receive a point from the admin of this Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/SageBadge2.png"),
+    title: "Sage II",
+    description: "Receive five points from the admin of this Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/ShieldBadge.png"),
+    title: "Collector",
+    description: "Earn five badges in a Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/Streakbadge.png"),
+    title: "Streak",
+    description: "Log in to this Nuubi Group five days in a row.",
+  },
+  {
+    asset: require("../../assets/badges/Streak2badge.png"),
+    title: "Streak II",
+    description: "Log in to this Nuubi Group fifteen days in a row.",
+  },
+  {
+    asset: require("../../assets/badges/WinnerBadge.png"),
+    title: "Winner",
+    description: "Got the top weekly leaderboard position in a Nuubi Group.",
+  },
+  {
+    asset: require("../../assets/badges/leaderboardBadge.png"),
+    title: "Champion",
+    description: "Got the top monthly leaderboard position in a Nuubi Group.",
+  },
+];
+
+const badgeDataWithIds = badgeData.map((badge, index) => ({
+  id: (index + 1).toString(),
+  ...badge,
+}));
+
 export default function HomeScreenBadges() {
-  let assets1 = useAssets([require("../../assets/badgeIcon.png")]);
+  const [assets, error] = useAssets(badgeData.map((item) => item.asset));
 
   const defaultImage = "../../assets/badgeIcon.png";
 
-  const badges = [
-    { name: "Badge1", image: defaultImage },
-    { name: "Badge1", image: defaultImage },
-    { name: "Badge1", image: defaultImage },
-    { name: "Badge1", image: defaultImage },
-    { name: "Badge1", image: defaultImage },
-    { name: "Badge1", image: defaultImage },
-    { name: "Badge1", image: defaultImage },
-    { name: "Badge1", image: defaultImage },
-  ];
+  if (!assets) {
+    return <Text>Loading...</Text>;
+  }
+
+  const renderItem = ({ item, index }) => (
+    <View style={{ width: 140, marginHorizontal: 5 }} key={item.id}>
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View style={{ position: "relative", width: 45, height: 45 }}>
+          <Image
+            style={{
+              width: 55,
+              height: 55,
+              tintColor: "gray",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+            source={Platform.OS === "web" ? item.asset : assets[index]}
+          />
+          <Image
+            style={{
+              width: 55,
+              height: 55,
+              opacity: 0.3,
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+            source={Platform.OS === "web" ? item.asset : assets[index]}
+          />
+        </View>
+        <Text style={[globalStyles.caption, { marginTop: 24 }]}>
+          {item.title}
+        </Text>
+      </View>
+    </View>
+  );
+
   return (
     <View style={globalStyles.container}>
-      <View style={globalStyles.headingText}>
+      <View
+        style={{
+          width: screenWidth * 0.9,
+          maxWidth: 800,
+          marginBottom: 24,
+        }}
+      >
         <View
           style={{
-            width: "90%",
             flexDirection: "row",
+            alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          <Text style={globalStyles.h2HeadingMedium}>Achievements</Text>
+          <Text style={globalStyles.h2HeadingMedium}>My Achievements</Text>
           <Entypo name="chevron-small-right" color="#2482AA" size={36} />
         </View>
-        <View style={{ width: "5%" }}></View>
-      </View>
-      <View style={{ height: "75%", alignItems: "center" }}>
-        <View style={{ flexDirection: "row", height: "100%" }}>
-          <View
-            style={{
-              width: screenWidth * 0.04,
-              height: "100%",
+        <View
+          style={{
+            borderWidth: 1,
+            borderRadius: 16,
+            borderColor: "#111111",
+            overflow: "hidden",
+            // height: "60%",
+            height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.5,
+          }}
+        >
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={badgeDataWithIds}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{
+              alignItems: "center",
+              backgroundColor: "#fdfdfd",
             }}
-          ></View>
-          <View
-            style={{
-              height: "100%",
-              width: screenWidth * 0.92,
-              borderWidth: 1,
-              borderRadius: 10,
-              borderColor: "black",
-            }}
-          >
-            <View style={{ height: "20%" }}></View>
-
-            <View style={{ height: "55%", width: "100%" }}>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                {badges.map((badge, index) => {
-                  return (
-                    <View
-                      key={index}
-                      style={{
-                        height: "100%",
-                        width: (screenWidth * 0.92) / 3,
-                      }}
-                    >
-                      <View
-                        style={{
-                          height: "74%",
-                          width: "100%",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Image
-                          //   source={{ uri: badge.image ||  }}
-                          //  source={require("../../assets/badgeIcon.png")}
-                          source={
-                            Platform.OS == "web"
-                              ? require("../../assets/badgeIcon.png")
-                              : assets1[0]
-                          }
-                          resizeMode="contain"
-                          alt="Badge Image"
-                          style={{
-                            height: "100%",
-                            aspectRatio: 1,
-                            borderWidth: 0.5,
-                            borderColor: "black",
-                            borderRadius: screenWidth / 8,
-                            resizeMode: "cover",
-                          }}
-                        />
-                      </View>
-                      <View style={{ height: "4%" }}></View>
-                      <View style={{ height: "22%" }}>
-                        <Text
-                          style={{
-                            color: "#111111",
-                            fontSize: 18,
-                            fontFamily: "Poppins_600SemiBold",
-                            letterSpacing: 0,
-                            alignSelf: "center",
-                          }}
-                        >
-                          {badge.name}
-                        </Text>
-                      </View>
-                    </View>
-                  );
-                })}
-              </ScrollView>
-            </View>
-            <View style={{ height: "25%" }}></View>
-          </View>
-          <View
-            style={{
-              width: screenWidth * 0.04,
-              height: "100%",
-            }}
-          ></View>
+          />
         </View>
       </View>
-      <View style={{ height: "5%" }}></View>
     </View>
   );
 }

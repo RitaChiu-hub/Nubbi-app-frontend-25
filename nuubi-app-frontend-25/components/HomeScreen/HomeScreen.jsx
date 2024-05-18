@@ -305,7 +305,10 @@ export default function HomeScreen({ navigation }) {
             )}
 
             <View
-              style={{ height: screenHeight * 0.32, width: screenWidth * 0.7 }}
+              style={{
+                height: screenHeight * 0.32,
+                width: screenWidth * 0.7,
+              }}
             >
               <View
                 style={{

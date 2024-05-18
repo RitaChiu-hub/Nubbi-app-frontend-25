@@ -7,17 +7,17 @@ const badgeData = [
   {
     asset: require("../../assets/badges/ComposerBadge.png"),
     title: "Composer",
-    description: "Create your first Discussion Post in this Nuubi Group.",
+    description: "Create your first Discussion Post in a Nuubi Group.",
   },
   {
     asset: require("../../assets/badges/ComposerBadge2.png"),
     title: "Composer II",
-    description: "Create five discussion posts in this Nuubi Group.",
+    description: "Create five discussion posts in a Nuubi Group.",
   },
   {
     asset: require("../../assets/badges/ConversationBadge.png"),
     title: "Conversationalist",
-    description: "Send five chats in this Nuubi Group.",
+    description: "Send five chats in a Nuubi Group.",
   },
   {
     asset: require("../../assets/badges/ExplorerBadge.png"),
@@ -34,18 +34,18 @@ const badgeData = [
     asset: require("../../assets/badges/InvestigatorBadge.png"),
     title: "Investigator",
     description:
-      "Commented on five different Discussion Posts in this Nuubi Group.",
+      "Commented on five different Discussion Posts in a Nuubi Group.",
   },
   {
     asset: require("../../assets/badges/LighteningBadge.png"),
     title: "Lightning",
-    description: "Be the first person to reply to a post in this Nuubi Group.",
+    description: "Be the first person to reply to a post in a Nuubi Group.",
   },
   {
     asset: require("../../assets/badges/LightningBadge2.png"),
     title: "Lightning II",
     description:
-      "Be the first person to reply to a post in this Nuubi Group five times.",
+      "Be the first person to reply to a post in a Nuubi Group five times.",
   },
   {
     asset: require("../../assets/badges/PictureBadge.png"),
@@ -57,12 +57,12 @@ const badgeData = [
     asset: require("../../assets/badges/Picture2Badge.png"),
     title: "Photographer",
     description:
-      "Post a Discussion Post in this Nuubi Group that contains an uploaded image.",
+      "Post a Discussion Post in a Nuubi Group that contains an uploaded image.",
   },
   {
     asset: require("../../assets/badges/RainBadge.png"),
     title: "Ice Breaker",
-    description: "Write your first live chat message in this Nuubi Group.",
+    description: "Write your first live chat message in a Nuubi Group.",
   },
   {
     asset: require("../../assets/badges/RocketeerBadge.png"),
@@ -83,7 +83,7 @@ const badgeData = [
   {
     asset: require("../../assets/badges/ShieldBadge.png"),
     title: "Collector",
-    description: "Earn five badges in this Nuubi Group.",
+    description: "Earn five badges in a Nuubi Group.",
   },
   {
     asset: require("../../assets/badges/Streakbadge.png"),
@@ -98,13 +98,13 @@ const badgeData = [
   {
     asset: require("../../assets/badges/WinnerBadge.png"),
     title: "Winner",
-    description: "Got the top weekly leaderboard position in this Nuubi Group.",
+    description: "Got the top weekly leaderboard position in a Nuubi Group.",
   },
   {
     asset: require("../../assets/badges/leaderboardBadge.png"),
     title: "Leaderboard Champion",
     description:
-      "Got the top monthly leaderboard position in this Nuubi Group.",
+      "Got the top monthly leaderboard position in a Nuubi Group.",
   },
 ];
 
