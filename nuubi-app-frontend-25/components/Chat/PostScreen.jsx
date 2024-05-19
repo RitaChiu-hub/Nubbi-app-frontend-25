@@ -254,7 +254,7 @@ export default function PostScreen({ navigation }) {
         </View>
       ),
     });
-  }, [navigation, selectedTab]);
+  }, [navigation, selectedTab, user]);
 
   return (
     <View

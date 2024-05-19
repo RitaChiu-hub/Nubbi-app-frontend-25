@@ -18,6 +18,7 @@ import HomeScreenLeaderboard from "./HomeScreenLeaderboard";
 import HomeScreenBadges from "./HomeScreenBadges";
 import { Overlay } from "react-native-elements";
 import { useAssets } from "expo-asset";
+import { useIsFocused, useRoute } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -25,6 +26,7 @@ export default function HomeScreen({ navigation }) {
   const [selectedTab, setSelectedTab] = React.useState("Home");
   const [myUsername, setMyUsername] = React.useState("");
   const [modalTheme, setModalTheme] = React.useState("Finished");
+  const route = useRoute();
 
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
@@ -130,95 +132,107 @@ export default function HomeScreen({ navigation }) {
     "Find your earned badges here. You can choose to feature 3 of your choice.",
   ];
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: screenWidth > 500 ? "space-evenly" : "space-around",
-            marginTop: 8,
-            width: screenWidth > 500 ? screenWidth : "90%",
-            marginLeft: screenWidth > 500 ? 0 : "-8%",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              // navigation.navigate("Home");
-              setSelectedTab("Home");
+  if (Platform.OS !== "web") {
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: () => (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent:
+                screenWidth > 500 ? "space-evenly" : "space-around",
+              marginTop: 8,
+              width: screenWidth > 500 ? screenWidth : "90%",
+              marginLeft: screenWidth > 500 ? 0 : "-8%",
             }}
           >
-            <View
-              style={[
-                {
-                  borderBottomWidth: 0,
-                  borderColor: "transparent",
-                  marginBottom: 12,
-                },
-                selectedTab === "Home" && {
-                  borderBottomWidth: 2,
-                  borderColor: "#33B7F0",
-                },
-              ]}
+            <TouchableOpacity
+              onPress={() => {
+                // navigation.navigate("Home");
+                setSelectedTab("Home");
+              }}
             >
-              <Text
+              <View
                 style={[
                   {
-                    color: "#767676",
-                    fontSize: 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
+                    borderBottomWidth: 0,
+                    borderColor: "transparent",
+                    marginBottom: 12,
                   },
                   selectedTab === "Home" && {
-                    color: "#33b7f0",
-                    fontSize: 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
+                    borderBottomWidth: 2,
+                    borderColor: "#33B7F0",
                   },
                 ]}
               >
-                For you
-              </Text>
-            </View>
-          </TouchableOpacity>
+                <Text
+                  style={[
+                    {
+                      color: "#767676",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                    selectedTab === "Home" && {
+                      color: "#33b7f0",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                  ]}
+                >
+                  For you
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              setSelectedTab("Groups");
-              navigation.navigate("MyGroups");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Groups" && globalStyles.topNavTabSelected,
-              ]}
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedTab("Groups");
+                navigation.navigate("MyGroups");
+              }}
             >
-              <Text
+              <View
                 style={[
-                  {
-                    color: "#767676",
-                    fontSize: 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
-                  },
-                  selectedTab === "Groups" && {
-                    color: "#33b7f0",
-                    fontSize: 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
-                  },
+                  globalStyles.topNavTab,
+                  selectedTab === "Groups" && globalStyles.topNavTabSelected,
                 ]}
               >
-                Your groups
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation, selectedTab]);
+                <Text
+                  style={[
+                    {
+                      color: "#767676",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                    selectedTab === "Groups" && {
+                      color: "#33b7f0",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                      letterSpacing: 0,
+                    },
+                  ]}
+                >
+                  Your groups
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ),
+      });
+    }, [navigation, selectedTab]);
+  } else {
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: () => (
+          <Text style={globalStyles.h3HeadingRegular}>Home Feed</Text>
+        ),
+        headerTitleAlign: "center",
+      });
+    }, [navigation]);
+  }
 
   return (
     <View style={globalStyles.container}>

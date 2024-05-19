@@ -163,7 +163,7 @@ export default function GroupInfoScreen({ navigation }) {
         </View>
       ),
     });
-  }, [navigation, selectedTab]);
+  }, [navigation, selectedTab, user]);
 
   const getGroupInfo = async () => {
     try {

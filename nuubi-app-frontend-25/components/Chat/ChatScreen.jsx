@@ -15,13 +15,14 @@ import { AccountContext } from "../AccountContext";
 import socket from "../../socket";
 import moment from "moment";
 import { globalStyles } from "../../styles/global";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useRoute } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/elements";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [chats, setChats] = React.useState([]);
+  // const [groupTitle, setGroupTitle] = React.useState(title);
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [adminId, setAdminId] = React.useState(null);
   const isFocused = useIsFocused();
@@ -70,6 +71,20 @@ export default function ChatScreen({ navigation }) {
       );
       const jsonData = await response.json();
       setAdminId(jsonData.admin_id);
+      const visibilitySetting =
+        jsonData.is_public === false ? "Private" : "Public";
+      const groupInfo = {
+        ...jsonData,
+        visibility: visibilitySetting,
+        is_public: jsonData.is_public,
+      };
+      setUser({
+        ...user,
+        groupName: groupInfo.groupname,
+        groupDescription: groupInfo.description,
+        visibility: visibilitySetting,
+      });
+      setGroupTitle(jsonData.groupname);
     } catch (err) {
       console.error(err.message);
     }
@@ -285,7 +300,7 @@ export default function ChatScreen({ navigation }) {
         </View>
       ),
     });
-  }, [navigation, selectedTab]);
+  }, [navigation, selectedTab, user]);
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 

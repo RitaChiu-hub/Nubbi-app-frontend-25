@@ -32,6 +32,7 @@ import NotificationSettings from "./UserSettings/NotificationSettings";
 import StudyModeScreen from "./UserSettings/StudyModeScreen";
 
 import AddGroupScreen from "./Groups/AddGroup";
+import LoadingChat from "./Groups/LoadingChat";
 import NotificationsScreen from "./Notifications/Notifications";
 
 import CreateGroupScreen from "./Groups/CreateGroupScreen";
@@ -78,6 +79,7 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="MyGroups"
         component={MyGroupsScreen}
+        //  options={{ drawerItemStyle: { display: "none" } }}
         options={{
           animation: "none",
           title: "My Groups",
@@ -108,6 +110,11 @@ function HomeDrawerNavigator() {
           },
           drawerActiveTintColor: "#2482AA",
         }}
+      />
+      <HomeDrawer.Screen
+        name="Loading Chat"
+        component={LoadingChat}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
         name="CreateGroup"
@@ -286,13 +293,13 @@ const StackWeb = createNativeStackNavigator();
 function WebStack() {
   return (
     <StackWeb.Navigator
-      initialRouteName="Home"
+      initialRouteName="Home Page"
       screenOptions={{ headerShown: false }}
     >
-      <StackWeb.Screen name="Home" component={HomeDrawerNavigator} />
-      <StackWeb.Screen name="ProfilePage" component={ProfilePageScreen} />
+      <StackWeb.Screen name="Home Page" component={HomeDrawerNavigator} />
+      {/* <StackWeb.Screen name="ProfilePage" component={ProfilePageScreen} />
       <StackWeb.Screen name="Settings" component={SettingsScreen} />
-      <StackWeb.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+      <StackWeb.Screen name="ForgotPassword" component={ForgotPasswordScreen} /> */}
     </StackWeb.Navigator>
   );
 }

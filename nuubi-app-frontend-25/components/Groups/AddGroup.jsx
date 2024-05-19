@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { globalStyles } from "../../styles/global";
 
 export default function AddGroupScreen({ navigation }) {
-
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -31,9 +30,7 @@ export default function AddGroupScreen({ navigation }) {
             navigation.navigate("JoinGroup");
           }}
         >
-          <Text style={globalStyles.primaryButtonText}>
-            Join Private Group
-          </Text>
+          <Text style={globalStyles.primaryButtonText}>Join Private Group</Text>
         </TouchableOpacity>
         <View style={{ padding: 10 }}></View>
         <TouchableOpacity

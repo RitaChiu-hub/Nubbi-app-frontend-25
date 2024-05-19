@@ -10,9 +10,11 @@ import {
 import { AccountContext } from "../AccountContext";
 import socket from "../../socket";
 import { globalStyles } from "../../styles/global";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
+  const isFocused = useIsFocused();
   const [error, setError] = React.useState(null);
   const [groups, setGroups] = React.useState([]);
   const [selectedTab, setSelectedTab] = React.useState("Groups");
@@ -49,6 +51,9 @@ export default function MyGroupsScreen({ navigation }) {
 
   React.useEffect(() => {
     getGroups();
+  }, [isFocused]);
+
+  React.useEffect(() => {
     setSelectedTab("Groups");
   }, [user]);
 
@@ -159,7 +164,6 @@ export default function MyGroupsScreen({ navigation }) {
 
             <TouchableOpacity
               onPress={() => {
-                //  navigation.navigate("MyGroups");
                 setSelectedTab("Groups");
               }}
             >
@@ -197,96 +201,12 @@ export default function MyGroupsScreen({ navigation }) {
   } else {
     React.useLayoutEffect(() => {
       navigation.setOptions({
-        //  headerLeft: () => null,
         headerTitle: () => (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent:
-                screenWidth > 500 ? "space-evenly" : "space-around",
-              marginTop: 8,
-              width: screenWidth > 500 ? screenWidth : "90%",
-              marginLeft: screenWidth > 500 ? 0 : "-8%",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedTab("Home");
-                navigation.navigate("Home");
-              }}
-            >
-              <View
-                style={[
-                  {
-                    borderBottomWidth: 0,
-                    borderColor: "transparent",
-                    marginBottom: 12,
-                  },
-                  selectedTab === "Home" && {
-                    borderBottomWidth: 2,
-                    borderColor: "#33B7F0",
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    {
-                      color: "#767676",
-                      fontSize: 18,
-                      fontFamily: "Poppins_600SemiBold",
-                      letterSpacing: 0,
-                    },
-                    selectedTab === "Home" && {
-                      color: "#33b7f0",
-                      fontSize: 18,
-                      fontFamily: "Poppins_600SemiBold",
-                      letterSpacing: 0,
-                    },
-                  ]}
-                >
-                  For you
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                //  navigation.navigate("MyGroups");
-                setSelectedTab("Groups");
-              }}
-            >
-              <View
-                style={[
-                  globalStyles.topNavTab,
-                  selectedTab === "Groups" && globalStyles.topNavTabSelected,
-                ]}
-              >
-                <Text
-                  style={[
-                    {
-                      color: "#767676",
-                      fontSize: 18,
-                      fontFamily: "Poppins_600SemiBold",
-                      letterSpacing: 0,
-                    },
-                    selectedTab === "Groups" && {
-                      color: "#33b7f0",
-                      fontSize: 18,
-                      fontFamily: "Poppins_600SemiBold",
-                      letterSpacing: 0,
-                    },
-                  ]}
-                >
-                  Your groups
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          <Text style={globalStyles.h3HeadingRegular}>My Groups</Text>
         ),
-        headerBackVisible: false,
+        headerTitleAlign: "center",
       });
-    }, [navigation, selectedTab]);
+    }, [navigation]);
   }
 
   return (
