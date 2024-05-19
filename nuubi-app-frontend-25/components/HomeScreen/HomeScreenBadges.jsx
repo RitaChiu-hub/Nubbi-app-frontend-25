@@ -127,8 +127,6 @@ const badgeDataWithIds = badgeData.map((badge, index) => ({
 export default function HomeScreenBadges() {
   const [assets, error] = useAssets(badgeData.map((item) => item.asset));
 
-  const defaultImage = "../../assets/badgeIcon.png";
-
   if (!assets) {
     return <Text>Loading...</Text>;
   }
@@ -172,8 +170,7 @@ export default function HomeScreenBadges() {
       <View
         style={{
           width: screenWidth * 0.9,
-          maxWidth: 800,
-          marginBottom: 24,
+          paddingVertical: 24,
         }}
       >
         <View
@@ -192,8 +189,8 @@ export default function HomeScreenBadges() {
             borderRadius: 16,
             borderColor: "#111111",
             overflow: "hidden",
-            // height: "60%",
             height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.5,
+            maxHeight: 200,
           }}
         >
           <FlatList

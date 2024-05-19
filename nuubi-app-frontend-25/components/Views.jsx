@@ -58,39 +58,6 @@ import TermsScreen from "./Onboarding/Terms";
 import ProfilePageScreen from "./UserSettings/ProfilePage";
 import OverallAchievements from "./UserSettings/OverallAchievements";
 
-const navTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: "transparent",
-    transparentCard: true,
-  },
-};
-
-const Drawer = createDrawerNavigator();
-
-function DrawerNavigator() {
-  return (
-    <Drawer.Navigator
-      initialRouteName="Home Page"
-      screenOptions={{
-        // headerShown: false,
-
-        tabBarShowLabel: false,
-        headerMode: "none",
-      }}
-    >
-      <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Search" component={SearchStack} />
-      {/* <Drawer.Screen name="Home Page" component={HomeStack} /> */}
-      {/* <Drawer.Screen name="SearchStack" component={SearchStack} />
-      <Drawer.Screen name="AddGroupStack" component={AddGroupStack} />
-      <Drawer.Screen name="NotificationsStack" component={NotificationsStack} />
-    <Drawer.Screen name="SettingsStack" component={SettingsStack} /> */}
-    </Drawer.Navigator>
-  );
-}
-
 const HomeDrawer = createDrawerNavigator();
 
 function HomeDrawerNavigator() {

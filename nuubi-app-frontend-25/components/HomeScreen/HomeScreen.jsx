@@ -21,7 +21,6 @@ import { useAssets } from "expo-asset";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
-  const [modalVisible, setModalVisible] = React.useState(false);
   const [forYouScreen, setForYouScreen] = React.useState(true);
   const [selectedTab, setSelectedTab] = React.useState("Home");
   const [myUsername, setMyUsername] = React.useState("");

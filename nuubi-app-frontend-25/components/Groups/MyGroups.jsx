@@ -82,8 +82,8 @@ export default function MyGroupsScreen({ navigation }) {
             currentGroup: id,
             groupName: title,
             invitePasscode: invitePasscode,
-          }),
-            navigation.navigate("Group Chat");
+          });
+          navigation.navigate("Group Chat");
         }}
       >
         <Text style={globalStyles.h3HeadingRegular}>{title}</Text>

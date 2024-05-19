@@ -36,8 +36,8 @@ export default function ChatScreen({ navigation }) {
   const getGroupName = async () => {
     try {
       const response = await fetch(
+        //  `http://localhost:8080/groups/getgroupinfo`,
         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -146,10 +146,11 @@ export default function ChatScreen({ navigation }) {
 
   React.useEffect(() => {
     getLikes();
+    getGroupName();
     getChats();
     getIsAdmin();
     getGroupInfo();
-  }, []);
+  }, [isFocused, user.currentGroup]);
 
   React.useEffect(() => {
     socket.on("insert msg return updated list", (jsonData) => {
