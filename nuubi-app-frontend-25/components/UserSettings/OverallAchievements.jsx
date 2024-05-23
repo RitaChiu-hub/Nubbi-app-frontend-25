@@ -2,6 +2,8 @@ import * as React from "react";
 import { View, Text, Image, Platform, FlatList } from "react-native";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
+import { useIsFocused } from "@react-navigation/native";
+import { AccountContext } from "../AccountContext";
 
 const badgeData = [
   {
@@ -103,8 +105,7 @@ const badgeData = [
   {
     asset: require("../../assets/badges/leaderboardBadge.png"),
     title: "Leaderboard Champion",
-    description:
-      "Got the top monthly leaderboard position in a Nuubi Group.",
+    description: "Got the top monthly leaderboard position in a Nuubi Group.",
   },
 ];
 
@@ -114,7 +115,39 @@ const badgeDataWithIds = badgeData.map((badge, index) => ({
 }));
 
 export default function OverallAchievementsScreen({ navigation }) {
-  const [assets, error] = useAssets(badgeData.map((item) => item.asset));
+  const [assets, assetsError] = useAssets(badgeData.map((item) => item.asset));
+  const isFocused = useIsFocused();
+  const { user, setUser } = React.useContext(AccountContext);
+  const [error, setError] = React.useState(null);
+  const [wonBadges, setWonBadges] = React.useState([]);
+
+  const getWonBadges = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/groups/getwonbadges",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+
+      const uniqueBadgeTitles = jsonData
+        .map((userBadge) => userBadge.badge && userBadge.badge.title)
+        .filter((title, index, self) => title && self.indexOf(title) === index);
+      setWonBadges(uniqueBadgeTitles);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getWonBadges();
+  }, [isFocused]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -131,54 +164,59 @@ export default function OverallAchievementsScreen({ navigation }) {
     return <Text>Loading...</Text>;
   }
 
-  const renderItem = ({ item, index }) => (
-    <View style={globalStyles.widthContainer} key={item.id}>
-      <View
-        style={{
-          flexDirection: "row",
-          marginBottom: 24,
-        }}
-      >
-        <React.Fragment>
-          <Image
-            style={{
-              width: 45,
-              height: 45,
-              tintColor: "gray",
-              position: "absolute",
-              top: 0,
-              left: 0,
-            }}
-            source={Platform.OS === "web" ? item.asset : assets[index]}
-          />
-          <Image
-            style={{
-              width: 45,
-              height: 45,
-              opacity: 0.3,
-              position: "absolute",
-              top: 0,
-              left: 0,
-            }}
-            source={Platform.OS === "web" ? item.asset : assets[index]}
-          />
-        </React.Fragment>
+  const renderItem = ({ item, index }) => {
+    const isBadgeWon = wonBadges.includes(item.title);
+
+    return (
+      <View style={globalStyles.widthContainer} key={item.id}>
         <View
           style={{
-            alignItems: "flex-start",
-            flex: 1,
-            marginLeft: 45 + 24,
-            flexShrink: 1,
+            flexDirection: "row",
+            marginBottom: 24,
           }}
         >
-          <Text style={[globalStyles.headingText, { marginTop: 0 }]}>
-            {item.title}
-          </Text>
-          <Text style={globalStyles.bodyRegular}>{item.description}</Text>
+          <React.Fragment>
+            <Image
+              style={{
+                width: 45,
+                height: 45,
+                tintColor: isBadgeWon ? "transparent" : "gray",
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+              source={Platform.OS === "web" ? item.asset : assets[index]}
+            />
+            <Image
+              style={{
+                width: 45,
+                height: 45,
+                // opacity: 0.3,
+                opacity: isBadgeWon ? 1.0 : 0.2,
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+              source={Platform.OS === "web" ? item.asset : assets[index]}
+            />
+          </React.Fragment>
+          <View
+            style={{
+              alignItems: "flex-start",
+              flex: 1,
+              marginLeft: 45 + 24,
+              flexShrink: 1,
+            }}
+          >
+            <Text style={[globalStyles.headingText, { marginTop: 0 }]}>
+              {item.title}
+            </Text>
+            <Text style={globalStyles.bodyRegular}>{item.description}</Text>
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   return (
     <FlatList
