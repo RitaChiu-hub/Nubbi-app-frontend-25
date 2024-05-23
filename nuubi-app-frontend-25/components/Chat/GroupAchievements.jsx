@@ -7,7 +7,7 @@ const badgeData = [
   {
     asset: require("../../assets/badges/ComposerBadge.png"),
     title: "Composer",
-    description: "Create your first Discussion Post in this Nuubi Group.",
+    description: "Create your first Discussion Post in this Nuubi Group. Points: 10",
   },
   {
     asset: require("../../assets/badges/ComposerBadge2.png"),
