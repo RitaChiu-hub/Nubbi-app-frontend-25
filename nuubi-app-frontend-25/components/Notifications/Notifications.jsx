@@ -10,7 +10,6 @@ import {
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
-// import moment from "moment";
 import moment from "moment-timezone";
 
 export default function NotificationsScreen({ navigation }) {
@@ -57,16 +56,67 @@ export default function NotificationsScreen({ navigation }) {
     getNotifications();
   }, [isFocused]);
 
+  const getNotificationsRead = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/groups/getnotificationsread",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+      //  console.log(jsonData);
+      setUser({ ...user, notifications: false });
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      getNotificationsRead();
+    }, 10000); // 10 seconds delay
+
+    return () => clearTimeout(timer); // Clear the timer if component unmounts
+  }, [isFocused]);
+
+  // React.useEffect(() => {
+  //   getNotificationsRead();
+  // }, [isFocused]);
+
   const renderItem = ({ item }) => {
     return (
       <View style={styles.notificationItem}>
-        <Text style={styles.notificationMessage}>{item.message}</Text>
+        <Text
+          style={[
+            styles.notificationMessage,
+            !item.is_read && styles.unreadNotification,
+          ]}
+        >
+          {item.message}
+        </Text>
         <Text style={styles.notificationDate}>
           {moment(item.createdAt).calendar()}
         </Text>
       </View>
     );
   };
+
+  // const renderItem = ({ item }) => {
+  //   return (
+  //     <View style={styles.notificationItem}>
+  //       <Text style={styles.notificationMessage}>{item.message}</Text>
+  //       <Text style={styles.notificationDate}>
+  //         {moment(item.createdAt).calendar()}
+  //       </Text>
+  //     </View>
+  //   );
+  // };
 
   return (
     <View style={styles.container}>
@@ -105,23 +155,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
+  unreadNotification: {
+    fontWeight: "bold",
+    borderColor: "red",
+    borderWidth: 1,
+    padding: 5,
+    borderRadius: 5,
+  },
   notificationDate: {
     fontSize: 12,
     color: "#888",
     marginTop: 5,
   },
 });
-
-//   return (
-//     <View
-//       style={{
-//         flex: 1,
-//         justifyContent: "center",
-//         alignItems: "center",
-//         backgroundColor: "#fdfdfd",
-//       }}
-//     >
-//       <Text style={globalStyles.bodyRegular}>Notifications coming soon!</Text>
-//     </View>
-//   );
-// }

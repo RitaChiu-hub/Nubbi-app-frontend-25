@@ -518,6 +518,34 @@ function NotificationsStack() {
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const [notifications, setNotifications] = React.useState(false);
+  const { user } = useContext(AccountContext);
+
+  const getNotifications = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/groups/getnotificationsunread",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+     // console.log(jsonData);
+      setNotifications(jsonData.hasUnreadNotifications);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getNotifications();
+  }, [user]);
+
   let assets1 = useAssets([require("../assets/icons/HomeFocused.png")]);
   let assets2 = useAssets([require("../assets/icons/Home.png")]);
   let assets3 = useAssets([require("../assets/icons/SearchFocused.png")]);
@@ -528,6 +556,7 @@ const TabNavigator = () => {
   let assets8 = useAssets([require("../assets/icons/Notification.png")]);
   let assets9 = useAssets([require("../assets/icons/ProfileFocused.png")]);
   let assets10 = useAssets([require("../assets/icons/Profile.png")]);
+  let assets11 = useAssets([require("../assets/icons/NotificationsTrue.png")]);
 
   return (
     <Tab.Navigator
@@ -585,17 +614,35 @@ const TabNavigator = () => {
               return (
                 <Image
                   source={
-                    Platform.OS == "web"
+                    Platform.OS === "web"
                       ? focused
                         ? require("../assets/icons/NotificationFocused.png")
+                        : notifications
+                        ? require("../assets/icons/NotificationsTrue.png")
                         : require("../assets/icons/Notification.png")
                       : focused
                       ? assets7[0]
+                      : notifications
+                      ? assets11[0]
                       : assets8[0]
                   }
                   style={{ width: 24, height: 24 }}
                 />
               );
+            // return (
+            //   <Image
+            //     source={
+            //       Platform.OS == "web"
+            //         ? focused
+            //           ? require("../assets/icons/NotificationFocused.png")
+            //           : require("../assets/icons/Notification.png")
+            //         : focused
+            //         ? assets7[0]
+            //         : assets8[0]
+            //     }
+            //     style={{ width: 24, height: 24 }}
+            //   />
+            // );
             case "SettingsStack":
               return (
                 <Image
