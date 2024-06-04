@@ -524,7 +524,7 @@ const TabNavigator = () => {
   const getNotifications = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getnotificationsunread",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
         {
           method: "POST",
           credentials: "include",

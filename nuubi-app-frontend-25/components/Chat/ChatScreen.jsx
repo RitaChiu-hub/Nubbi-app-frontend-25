@@ -37,7 +37,7 @@ export default function ChatScreen({ navigation }) {
   const getGroupName = async () => {
     try {
       const response = await fetch(
-        //  `http://localhost:8080/groups/getgroupinfo`,
+        //  `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",

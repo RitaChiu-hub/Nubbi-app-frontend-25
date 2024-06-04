@@ -53,7 +53,7 @@ export default function DeleteAccountScreen({ navigation }) {
               actions.resetForm();
               fetch(
                 "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
-                // "http://localhost:8080/settings/delete",
+                // "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
                 {
                   method: "POST",
                   credentials: "include",

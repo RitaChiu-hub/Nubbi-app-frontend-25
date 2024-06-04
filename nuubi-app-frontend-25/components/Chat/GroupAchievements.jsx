@@ -114,7 +114,7 @@ export default function GroupAchievementsScreen({ navigation }) {
   const getWonBadges = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getwonbadges",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getwonbadges",
         {
           method: "POST",
           credentials: "include",
