@@ -286,6 +286,7 @@ export default function GroupInfoScreen({ navigation }) {
           </Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
+
         <TouchableOpacity
           style={globalStyles.row}
           onPress={() => navigation.navigate("GroupAchievements")}
@@ -293,6 +294,16 @@ export default function GroupInfoScreen({ navigation }) {
           <Text style={globalStyles.headingText}>My Group Achievements</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
+
+        {myIsAdmin == "true" && (
+          <TouchableOpacity
+            style={globalStyles.row}
+            onPress={() => navigation.navigate("CreateTask")}
+          >
+            <Text style={globalStyles.headingText}>Create Task</Text>
+            <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={globalStyles.row}
           onPress={() => triggerComingSoonAlert()}

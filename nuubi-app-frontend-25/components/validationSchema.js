@@ -105,6 +105,23 @@ const createPostSchema = Yup.object({
     .max(4000, "body text cannot exceed 4000 characters"),
 });
 
+const createTaskSchema = Yup.object({
+  action: Yup.string()
+    .oneOf(['write', 'like'], 'Action must be either "write" or "like"')
+    .required('Action is required'),
+  amount: Yup.number()
+    .required('Amount is required')
+    .min(1, 'Amount must be at least 1')
+    .max(10, 'Amount cannot exceed 10'),
+  item: Yup.string()
+    .oneOf(['comments', 'posts', 'chats'], 'Item must be either "comments", "posts" or "chats"')
+    .required('Item is required'),
+  pointValue: Yup.number()
+    .required('Points are required')
+    .min(1, 'Points must be at least 1')
+    .max(100, 'Points cannot exceed 100'),
+});
+
 module.exports = {
   formSchema,
   newPasswordSchema,
@@ -115,4 +132,5 @@ module.exports = {
   createPostSchema,
   addCommentSchema,
   changeUsernameSchema,
+  createTaskSchema,
 };

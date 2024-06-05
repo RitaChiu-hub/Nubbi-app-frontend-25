@@ -17,6 +17,8 @@ import CodeVerificationScreen from "./Login/CodeVerificationScreen";
 
 import HomeScreen from "./HomeScreen/HomeScreen";
 import MyGroupsScreen from "./Groups/MyGroups";
+import CreateTask from "./Groups/CreateTask";
+
 import SplashScreen from "./SplashScreens/SplashScreen";
 
 import SettingsScreen from "./UserSettings/SettingsScreen";
@@ -119,6 +121,11 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="CreateGroup"
         component={CreateGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="CreateTask"
+        component={CreateTask}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
@@ -387,6 +394,7 @@ function HomeStack() {
         options={{ animation: "none" }}
       />
       <StackHome.Screen name="CreatePost" component={CreatePostScreen} />
+      <StackHome.Screen name="CreateTask" component={CreateTask} />
       <StackHome.Screen name="EditPost" component={EditPostScreen} />
       <StackHome.Screen name="ViewPost" component={ViewPostScreen} />
       <StackHome.Screen
@@ -427,6 +435,7 @@ function SearchStack() {
       <StackSearch.Screen name="Group Chat" component={ChatScreen} />
       <StackSearch.Screen name="PostScreen" component={PostScreen} />
       <StackSearch.Screen name="CreatePost" component={CreatePostScreen} />
+      <StackSearch.Screen name="CreateTask" component={CreateTask} />
       <StackSearch.Screen name="EditPost" component={EditPostScreen} />
       <StackSearch.Screen name="ViewPost" component={ViewPostScreen} />
       <StackSearch.Screen name="GroupInfo" component={GroupInfoScreen} />
@@ -492,9 +501,13 @@ function AddGroupStack() {
       initialRouteName="AddGroup"
       screenOptions={{ headerBackTitleVisible: false }}
     >
-      <StackSearch.Screen name="AddGroup" component={AddGroupScreen} />
-      <StackSearch.Screen name="JoinGroup" component={JoinGroupWithPasscode} />
-      <StackSearch.Screen name="CreateGroup" component={CreateGroupScreen} />
+      <StackAddGroup.Screen name="AddGroup" component={AddGroupScreen} />
+      <StackAddGroup.Screen
+        name="JoinGroup"
+        component={JoinGroupWithPasscode}
+      />
+      <StackAddGroup.Screen name="CreateGroup" component={CreateGroupScreen} />
+      <StackAddGroup.Screen name="CreateTask" component={CreateTask} />
     </StackAddGroup.Navigator>
   );
 }
@@ -535,7 +548,7 @@ const TabNavigator = () => {
         }
       );
       const jsonData = await response.json();
-     // console.log(jsonData);
+      // console.log(jsonData);
       setNotifications(jsonData.hasUnreadNotifications);
     } catch (err) {
       console.error(err.message);
