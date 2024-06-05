@@ -46,44 +46,47 @@ export default function CreateTask({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               console.log(vals);
-              //   actions.resetForm();
-              //   fetch(
-              //     //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-              //     "http://localhost:8080/groups/createtask",
-              //     {
-              //       method: "POST",
-              //       credentials: "include",
-              //       headers: {
-              //         "Content-Type": "application/json",
-              //       },
-              //       body: JSON.stringify({ ...user, ...vals }),
-              //     }
-              //   )
-              //     .catch((err) => {
-              //       return;
-              //     })
-              //     .then((res) => {
-              //       if (!res || !res.ok || res.status >= 400) {
-              //         return;
-              //       }
-              //       return res.json();
-              //     })
-              //     .then((data) => {
-              //       if (!data) return;
-              //       //  console.log(data);
-              //       setUser({ ...data });
-              //       if (data.status) {
-              //         setError(data.status);
-              //       }
-              //     });
+              actions.resetForm();
+              fetch(
+                //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
+                "http://localhost:8080/groups/createtask",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, ...vals }),
+                }
+              )
+                .catch((err) => {
+                  return;
+                })
+                .then((res) => {
+                  if (!res || !res.ok || res.status >= 400) {
+                    return;
+                  }
+                  return res.json();
+                })
+                .then((data) => {
+                  if (!data) return;
+                  //  console.log(data);
+                  setUser({ ...data });
+                  if (data.status) {
+                    setError(data.status);
+                  }
+                });
             }}
           >
             {(props) => (
               <View>
                 <View style={{ marginVertical: 5 }}></View>
-                <Text style={globalStyles.h3HeadingRegular}>
+                <Text
+                  style={[globalStyles.bodyRegular, { textAlign: "center" }]}
+                >
                   Create a task that will be assigned to all group members
                 </Text>
+                <View style={{ marginVertical: 5 }}></View>
                 <View style={{ marginHorizontal: 30 }}>
                   <Text style={globalStyles.captionError}>{error}</Text>
                   <View>
@@ -93,9 +96,8 @@ export default function CreateTask({ navigation }) {
                       style={globalStyles.textInput}
                       placeholder="Enter the task"
                       onChangeText={props.handleChange("task")}
-                      value={props.values.pointValue}
+                      value={props.values.task}
                       onBlur={Keyboard.dismiss}
-                      keyboardType="string"
                     />
                     <View style={{ marginVertical: 5 }}></View>
                     <Text style={globalStyles.captionError}>
