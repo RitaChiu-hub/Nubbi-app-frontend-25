@@ -49,7 +49,7 @@ export default function CreateTask({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               //  console.log(vals);
-              //   actions.resetForm();
+              actions.resetForm();
               fetch(
                 //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
                 "http://localhost:8080/groups/createtask",
