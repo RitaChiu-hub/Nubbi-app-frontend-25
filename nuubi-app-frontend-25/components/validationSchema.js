@@ -86,40 +86,34 @@ const addCommentSchema = Yup.object({
 const createGroupSchema = Yup.object({
   groupname: Yup.string()
     .required("Name is required")
-    .min(1, "name must be at least one character")
-    .max(35, "name cannot exceed 35 characters"),
+    .min(1, "Name must be at least one character")
+    .max(35, "Name cannot exceed 35 characters"),
   description: Yup.string()
     .required("Description is required")
-    .min(1, "description must be at least 1 character")
-    .max(400, "description cannot exceed 400 characters"),
+    .min(1, "Description must be at least 1 character")
+    .max(400, "Description cannot exceed 400 characters"),
 });
 
 const createPostSchema = Yup.object({
   title: Yup.string()
     .required("Title is required")
-    .min(1, "title must be at least one character")
-    .max(80, "title cannot exceed 80 characters"),
+    .min(1, "Title must be at least one character")
+    .max(80, "Title cannot exceed 80 characters"),
   body_text: Yup.string()
     .required("Body text is required")
-    .min(1, "body text must be at least 1 character")
-    .max(4000, "body text cannot exceed 4000 characters"),
+    .min(1, "Body text must be at least 1 character")
+    .max(4000, "Body text cannot exceed 4000 characters"),
 });
 
 const createTaskSchema = Yup.object({
-  action: Yup.string()
-    .oneOf(['write', 'like'], 'Action must be either "write" or "like"')
-    .required('Action is required'),
-  amount: Yup.number()
-    .required('Amount is required')
-    .min(1, 'Amount must be at least 1')
-    .max(10, 'Amount cannot exceed 10'),
-  item: Yup.string()
-    .oneOf(['comments', 'posts', 'chats'], 'Item must be either "comments", "posts" or "chats"')
-    .required('Item is required'),
+  task: Yup.string()
+    .required("Task is required")
+    .min(1, "Task must be at least one character")
+    .max(80, "Task cannot exceed 80 characters"),
   pointValue: Yup.number()
-    .required('Points are required')
-    .min(1, 'Points must be at least 1')
-    .max(100, 'Points cannot exceed 100'),
+    .required("Points are required")
+    .min(1, "Points must be at least 1")
+    .max(100, "Points cannot exceed 100"),
 });
 
 module.exports = {

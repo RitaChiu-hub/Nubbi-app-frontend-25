@@ -7,7 +7,6 @@ import {
   ScrollView,
   Keyboard,
   Platform,
-  Picker,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -40,96 +39,67 @@ export default function CreateTask({ navigation }) {
         >
           <Formik
             initialValues={{
-              action: "",
-              amount: "",
-              item: "",
+              task: "",
               pointValue: "",
             }}
             validationSchema={createTaskSchema}
             onSubmit={(values, actions) => {
               const vals = { ...values };
-              //  console.log(vals);
-              actions.resetForm();
-              fetch(
-                //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-                "http://localhost:8080/groups/createtask",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
-                .catch((err) => {
-                  return;
-                })
-                .then((res) => {
-                  if (!res || !res.ok || res.status >= 400) {
-                    return;
-                  }
-                  return res.json();
-                })
-                .then((data) => {
-                  if (!data) return;
-                  //  console.log(data);
-                  setUser({ ...data });
-                  if (data.status) {
-                    setError(data.status);
-                  }
-                });
+              console.log(vals);
+              //   actions.resetForm();
+              //   fetch(
+              //     //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
+              //     "http://localhost:8080/groups/createtask",
+              //     {
+              //       method: "POST",
+              //       credentials: "include",
+              //       headers: {
+              //         "Content-Type": "application/json",
+              //       },
+              //       body: JSON.stringify({ ...user, ...vals }),
+              //     }
+              //   )
+              //     .catch((err) => {
+              //       return;
+              //     })
+              //     .then((res) => {
+              //       if (!res || !res.ok || res.status >= 400) {
+              //         return;
+              //       }
+              //       return res.json();
+              //     })
+              //     .then((data) => {
+              //       if (!data) return;
+              //       //  console.log(data);
+              //       setUser({ ...data });
+              //       if (data.status) {
+              //         setError(data.status);
+              //       }
+              //     });
             }}
           >
             {(props) => (
               <View>
                 <View style={{ marginVertical: 5 }}></View>
+                <Text style={globalStyles.h3HeadingRegular}>
+                  Create a task that will be assigned to all group members
+                </Text>
                 <View style={{ marginHorizontal: 30 }}>
                   <Text style={globalStyles.captionError}>{error}</Text>
                   <View>
-                    <Text style={globalStyles.textInputLabel}>Action</Text>
-                    <Picker
-                      selectedValue={props.values.action}
-                      onValueChange={props.handleChange("action")}
-                      style={globalStyles.picker}
-                    >
-                      <Picker.Item label="Select action" value="" />
-                      <Picker.Item label="Write" value="write" />
-                      <Picker.Item label="Like" value="like" />
-                    </Picker>
-                    <View style={{ marginVertical: 5 }}></View>
-                    <Text style={globalStyles.captionError}>
-                      <ErrorMessage name="action" />
-                    </Text>
+                    <Text style={globalStyles.textInputLabel}>Task</Text>
 
-                    <Text style={globalStyles.textInputLabel}>Amount</Text>
                     <TextInput
                       style={globalStyles.textInput}
-                      placeholder="Enter amount (1-10)"
-                      onChangeText={props.handleChange("amount")}
-                      value={props.values.amount}
+                      placeholder="Enter the task"
+                      onChangeText={props.handleChange("task")}
+                      value={props.values.pointValue}
                       onBlur={Keyboard.dismiss}
-                      keyboardType="numeric"
+                      keyboardType="string"
                     />
                     <View style={{ marginVertical: 5 }}></View>
                     <Text style={globalStyles.captionError}>
-                      <ErrorMessage name="amount" />
-                    </Text>
-
-                    <Text style={globalStyles.textInputLabel}>Item</Text>
-                    <Picker
-                      selectedValue={props.values.item}
-                      onValueChange={props.handleChange("item")}
-                      style={globalStyles.picker}
-                    >
-                      <Picker.Item label="Select item" value="" />
-                      <Picker.Item label="Comments" value="comments" />
-                      <Picker.Item label="Posts" value="posts" />
-                      <Picker.Item label="Chats" value="chats" />
-                    </Picker>
-                    <View style={{ marginVertical: 5 }}></View>
-                    <Text style={globalStyles.captionError}>
-                      <ErrorMessage name="item" />
+                      <ErrorMessage name="task" />
                     </Text>
 
                     <Text style={globalStyles.textInputLabel}>Point Value</Text>
