@@ -18,6 +18,7 @@ import CodeVerificationScreen from "./Login/CodeVerificationScreen";
 import HomeScreen from "./HomeScreen/HomeScreen";
 import MyGroupsScreen from "./Groups/MyGroups";
 import CreateTask from "./Groups/CreateTask";
+import MyGroupTasks from "./Groups/MyGroupTasks";
 
 import SplashScreen from "./SplashScreens/SplashScreen";
 
@@ -126,6 +127,11 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="CreateTask"
         component={CreateTask}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="MyGroupTasks"
+        component={MyGroupTasks}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
@@ -395,6 +401,7 @@ function HomeStack() {
       />
       <StackHome.Screen name="CreatePost" component={CreatePostScreen} />
       <StackHome.Screen name="CreateTask" component={CreateTask} />
+      <StackHome.Screen name="MyGroupTasks" component={MyGroupTasks} />
       <StackHome.Screen name="EditPost" component={EditPostScreen} />
       <StackHome.Screen name="ViewPost" component={ViewPostScreen} />
       <StackHome.Screen
@@ -436,6 +443,7 @@ function SearchStack() {
       <StackSearch.Screen name="PostScreen" component={PostScreen} />
       <StackSearch.Screen name="CreatePost" component={CreatePostScreen} />
       <StackSearch.Screen name="CreateTask" component={CreateTask} />
+      <StackSearch.Screen name="MyGroupTasks" component={MyGroupTasks} />
       <StackSearch.Screen name="EditPost" component={EditPostScreen} />
       <StackSearch.Screen name="ViewPost" component={ViewPostScreen} />
       <StackSearch.Screen name="GroupInfo" component={GroupInfoScreen} />
@@ -508,6 +516,7 @@ function AddGroupStack() {
       />
       <StackAddGroup.Screen name="CreateGroup" component={CreateGroupScreen} />
       <StackAddGroup.Screen name="CreateTask" component={CreateTask} />
+      <StackAddGroup.Screen name="MyGroupTasks" component={MyGroupTasks} />
     </StackAddGroup.Navigator>
   );
 }

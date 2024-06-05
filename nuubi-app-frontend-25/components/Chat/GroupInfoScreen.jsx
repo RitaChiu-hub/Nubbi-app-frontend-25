@@ -289,6 +289,14 @@ export default function GroupInfoScreen({ navigation }) {
 
         <TouchableOpacity
           style={globalStyles.row}
+          onPress={() => navigation.navigate("MyGroupTasks")}
+        >
+          <Text style={globalStyles.headingText}>My Group Tasks</Text>
+          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={globalStyles.row}
           onPress={() => navigation.navigate("GroupAchievements")}
         >
           <Text style={globalStyles.headingText}>My Group Achievements</Text>
