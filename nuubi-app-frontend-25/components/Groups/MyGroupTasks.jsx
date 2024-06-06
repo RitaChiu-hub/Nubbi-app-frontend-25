@@ -62,7 +62,6 @@ export default function MyGroupTasks({ navigation }) {
         ...prevCompletedTasks,
         [taskId]: true,
       }));
-      console.log("completed!");
 
       fetch(
         //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
@@ -121,7 +120,7 @@ export default function MyGroupTasks({ navigation }) {
         overflow: "visible",
       }}
     >
-      <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>{item.task}</Text>
+      <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>{item.task}{" ("}{item.point_value}{" Points)"}</Text>
       <TouchableOpacity onPress={() => handleCompleteTask(item.id)}>
         {completedTasks[item.id] || item.is_completed ? (
           <FontAwesome name="check-circle" size={24} color="green" />
