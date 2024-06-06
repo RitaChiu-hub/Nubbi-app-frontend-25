@@ -21,6 +21,8 @@ export default function MyGroupTasks({ navigation }) {
   const [completedTasks, setCompletedTasks] = React.useState({}); // State to track completed tasks
 
   const screenWidth = Dimensions.get("window").width;
+  const myIsAdmin = user ? user.isAdmin : false;
+
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -54,6 +56,7 @@ export default function MyGroupTasks({ navigation }) {
 
   React.useEffect(() => {
     getGroupTasks();
+    console.log(myIsAdmin);
   }, []);
 
   const handleCompleteTask = (taskId) => {
@@ -120,14 +123,40 @@ export default function MyGroupTasks({ navigation }) {
         overflow: "visible",
       }}
     >
-      <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>{item.task}{" ("}{item.point_value}{" Points)"}</Text>
-      <TouchableOpacity onPress={() => handleCompleteTask(item.id)}>
-        {completedTasks[item.id] || item.is_completed ? (
-          <FontAwesome name="check-circle" size={24} color="green" />
-        ) : (
-          <FontAwesome name="circle-thin" size={24} color="black" />
-        )}
-      </TouchableOpacity>
+      {myIsAdmin != "true" && (
+        <View>
+          <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>
+            {item.task}
+            {" ("}
+            {item.point_value}
+            {" Points)"}
+          </Text>
+          <TouchableOpacity onPress={() => handleCompleteTask(item.id)}>
+            {completedTasks[item.id] || item.is_completed ? (
+              <FontAwesome name="check-circle" size={24} color="green" />
+            ) : (
+              <FontAwesome name="circle-thin" size={24} color="black" />
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
+      {myIsAdmin == "true" && (
+        <View>
+          <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>
+            {item.task}
+            {" ("}
+            {item.point_value}
+            {" Points)"}
+          </Text>
+          <TouchableOpacity onPress={() => handleCompleteTask(item.id)}>
+            {completedTasks[item.id] || item.is_completed ? (
+              <FontAwesome name="check-circle" size={24} color="red" />
+            ) : (
+              <FontAwesome name="circle-thin" size={24} color="black" />
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 
