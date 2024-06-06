@@ -8,7 +8,6 @@ import {
   Platform,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
-import socket from "../../socket";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons"; // Assuming you're using Expo and have installed @expo/vector-icons
@@ -19,6 +18,7 @@ export default function MyGroupTasks({ navigation }) {
   const [error, setError] = React.useState(null);
   const [groupTasks, setGroupTasks] = React.useState({});
   const [selectedTab, setSelectedTab] = React.useState("Groups");
+  const [completedTasks, setCompletedTasks] = React.useState({}); // State to track completed tasks
 
   const screenWidth = Dimensions.get("window").width;
 
@@ -56,6 +56,47 @@ export default function MyGroupTasks({ navigation }) {
     getGroupTasks();
   }, []);
 
+  const handleCompleteTask = (taskId) => {
+    if (!completedTasks[taskId]) {
+      setCompletedTasks((prevCompletedTasks) => ({
+        ...prevCompletedTasks,
+        [taskId]: true,
+      }));
+      console.log("completed!");
+
+      fetch(
+        //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
+        "http://localhost:8080/groups/taskcompleted",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user, taskId }),
+        }
+      )
+        .catch((err) => {
+          return;
+        })
+        .then((res) => {
+          if (!res || !res.ok || res.status >= 400) {
+            return;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (!data) return;
+          //  console.log(data);
+          //  setUser({ ...data });
+          if (data.status) {
+            setError(data.status);
+          }
+        });
+      // mark as completed in the backend database
+    }
+  };
+
   const renderItem = ({ item }) => (
     <View
       style={{
@@ -81,11 +122,13 @@ export default function MyGroupTasks({ navigation }) {
       }}
     >
       <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>{item.task}</Text>
-      {item.is_completed ? (
-        <FontAwesome name="check-circle" size={24} color="green" />
-      ) : (
-        <FontAwesome name="circle-thin" size={24} color="black" />
-      )}
+      <TouchableOpacity onPress={() => handleCompleteTask(item.id)}>
+        {completedTasks[item.id] || item.is_completed ? (
+          <FontAwesome name="check-circle" size={24} color="green" />
+        ) : (
+          <FontAwesome name="circle-thin" size={24} color="black" />
+        )}
+      </TouchableOpacity>
     </View>
   );
 
@@ -100,7 +143,7 @@ export default function MyGroupTasks({ navigation }) {
       <FlatList
         data={groupTasks}
         renderItem={renderItem}
-        keyExtractor={(item) => item.groupTasks_id}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );
