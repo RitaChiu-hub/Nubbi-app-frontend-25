@@ -16,6 +16,8 @@ const { createTaskSchema } = require("../validationSchema");
 export default function CreateTask({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
+  const [assignToAdmin, setAssignToAdmin] = React.useState(false);
+  const [assignToParticipants, setAssignToParticipants] = React.useState(true);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -25,6 +27,14 @@ export default function CreateTask({ navigation }) {
       headerTitleAlign: "center",
     });
   }, [navigation]);
+
+  const handleAssignToAdmin = () => {
+    setAssignToAdmin(!assignToAdmin);
+  };
+
+  const handleAssignToParticipants = () => {
+    setAssignToParticipants(!assignToParticipants);
+  };
 
   return (
     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
@@ -44,8 +54,8 @@ export default function CreateTask({ navigation }) {
             }}
             validationSchema={createTaskSchema}
             onSubmit={(values, actions) => {
-              const vals = { ...values };
-              console.log(vals);
+              const vals = { ...values, assignToAdmin, assignToParticipants };
+              //  console.log(vals);
               actions.resetForm();
               fetch(
                 //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
@@ -118,10 +128,75 @@ export default function CreateTask({ navigation }) {
                       <ErrorMessage name="pointValue" />
                     </Text>
                   </View>
+
+                  <View style={{ marginVertical: 10 }}>
+                    <TouchableOpacity
+                      onPress={handleAssignToAdmin}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 24,
+                          height: 24,
+                          borderRadius: 4,
+                          borderWidth: 1,
+                          marginRight: 10,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: assignToAdmin ? "green" : "white",
+                        }}
+                      >
+                        {assignToAdmin && (
+                          <Text style={{ color: "white" }}>✓</Text>
+                        )}
+                      </View>
+                      <Text style={globalStyles.textInputLabel}>
+                        Assign to Admin {"("}Yourself{")"} 
+                      </Text>
+                    </TouchableOpacity>
+                    <View style={{ marginVertical: 10 }}></View>
+                    <TouchableOpacity
+                      onPress={handleAssignToParticipants}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: 24,
+                          height: 24,
+                          borderRadius: 4,
+                          borderWidth: 1,
+                          marginRight: 10,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: assignToParticipants
+                            ? "green"
+                            : "white",
+                        }}
+                      >
+                        {assignToParticipants && (
+                          <Text style={{ color: "white" }}>✓</Text>
+                        )}
+                      </View>
+                      <Text style={globalStyles.textInputLabel}>
+                        Assign to Participants
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                   <View style={{ marginVertical: 10 }}></View>
                   <TouchableOpacity
-                    style={globalStyles.primaryButton}
+                    style={[
+                      globalStyles.primaryButton,
+                      !assignToAdmin &&
+                        !assignToParticipants && { opacity: 0.5 },
+                    ]}
                     onPress={props.handleSubmit}
+                    disabled={!assignToAdmin && !assignToParticipants}
                   >
                     <Text style={globalStyles.primaryButtonText}>
                       Create Task
