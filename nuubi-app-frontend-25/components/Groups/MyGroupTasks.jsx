@@ -76,8 +76,18 @@ export default function MyGroupTasks({ navigation }) {
     }
   };
 
+  // React.useEffect(() => {
+  //   myIsAdmin != "true" ? getGroupTasks() : getAllGroupTasks();
+  // }, []);
+
   React.useEffect(() => {
-    myIsAdmin != "true" ? getGroupTasks() : getAllGroupTasks();
+    // Call getGroupTasks unconditionally
+    getGroupTasks();
+
+    // Conditionally call getAllGroupTasks if the user is an admin
+    if (myIsAdmin == "true") {
+      getAllGroupTasks();
+    }
   }, []);
 
   const handleCompleteTask = (taskId) => {
@@ -120,7 +130,6 @@ export default function MyGroupTasks({ navigation }) {
     }
   };
 
-
   const handleApproveTask = (taskId) => {
     if (!approvedTasks[taskId]) {
       setApprovedTasks((prevApprovedTasks) => ({
@@ -128,7 +137,7 @@ export default function MyGroupTasks({ navigation }) {
         [taskId]: true,
       }));
 
-    //   console.log("Approved!")
+      //   console.log("Approved!")
 
       fetch(
         //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
@@ -163,7 +172,6 @@ export default function MyGroupTasks({ navigation }) {
     }
   };
 
-
   const completedTasksList = myIsAdmin
     ? allGroupTasks.filter((task) => task.is_completed)
     : groupTasks.filter((task) => task.is_completed);
@@ -178,110 +186,117 @@ export default function MyGroupTasks({ navigation }) {
   //     : groupTasks.filter((task) => !task.is_completed)
   // );
 
-  const renderItem = ({ item }) => (
-    <View>
-      {myIsAdmin != "true" && (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            padding: 16,
-            minWidth: 300,
-            borderWidth: 1,
-            borderRadius: 16,
-            marginHorizontal: 16,
-            marginVertical: 8,
-            borderColor: "#ddd",
-            backgroundColor: "#fdfdfd",
-            elevation: 15,
-            shadowColor: "#333333",
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            shadowOffset: {
-              width: 0.8,
-              height: 0.8,
-            },
-            overflow: "visible",
-          }}
-        >
-          <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>
-            {item.task}
-            {" ("}
-            {item.point_value}
-            {" Points)"}
-          </Text>
-          <TouchableOpacity onPress={() => handleCompleteTask(item.id)}>
-            {completedTasks[item.id] || item.is_completed ? (
-              <FontAwesome name="check-circle" size={24} color="green" />
-            ) : (
-              <FontAwesome name="circle-thin" size={24} color="black" />
-            )}
-          </TouchableOpacity>
-        </View>
-      )}
-      {myIsAdmin == "true" && (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            padding: 16,
-            minWidth: 300,
-            borderWidth: 1,
-            borderRadius: 16,
-            marginHorizontal: 16,
-            marginVertical: 8,
-            borderColor: "#ddd",
-            backgroundColor: "#fdfdfd",
-            elevation: 15,
-            shadowColor: "#333333",
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            shadowOffset: {
-              width: 0.8,
-              height: 0.8,
-            },
-            overflow: "visible",
-          }}
-        >
-          <View style={{ flex: 1 }}>
-            <Text style={[globalStyles.bodyRegular]}>
-              {item.task} ({item.point_value} Points)
-            </Text>
-            <Text style={[globalStyles.bodyRegular]}>{item.username}</Text>
-          </View>
-          {/* Change the is_approved to true for the approved tasks in the database (backend api)  */}
-          {/* in the same api, add the points to the user points database and send the user a notification  */}
-          <TouchableOpacity onPress={() => handleApproveTask(item.id)}>
-            {approvedTasks[item.id] || item.is_approved ? (
-              <FontAwesome name="check-circle" size={24} color="purple" />
-            ) : (
-              <FontAwesome name="circle-thin" size={24} color="black" />
-            )}
-          </TouchableOpacity>
-        </View>
-      )}
+  const renderCompletionItem = ({ item }) => (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 16,
+        minWidth: 300,
+        borderWidth: 1,
+        borderRadius: 16,
+        marginHorizontal: 16,
+        marginVertical: 8,
+        borderColor: "#ddd",
+        backgroundColor: "#fdfdfd",
+        elevation: 15,
+        shadowColor: "#333333",
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        shadowOffset: {
+          width: 0.8,
+          height: 0.8,
+        },
+        overflow: "visible",
+      }}
+    >
+      <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>
+        {item.task}
+        {" ("}
+        {item.point_value}
+        {" Points)"}
+      </Text>
+      <TouchableOpacity onPress={() => handleCompleteTask(item.id)}>
+        {completedTasks[item.id] || item.is_completed ? (
+          <FontAwesome name="check-circle" size={24} color="green" />
+        ) : (
+          <FontAwesome name="circle-thin" size={24} color="black" />
+        )}
+      </TouchableOpacity>
     </View>
   );
 
-  return (
+  const renderApprovalItem = ({ item }) => (
     <View
       style={{
-        flex: 1,
-        paddingTop: 8,
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 16,
+        minWidth: 300,
+        borderWidth: 1,
+        borderRadius: 16,
+        marginHorizontal: 16,
+        marginVertical: 8,
+        borderColor: "#ddd",
         backgroundColor: "#fdfdfd",
+        elevation: 15,
+        shadowColor: "#333333",
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        shadowOffset: {
+          width: 0.8,
+          height: 0.8,
+        },
+        overflow: "visible",
       }}
     >
-      {/* Conditionally render the data depending on whether the user is the admin or not  */}
+      <View style={{ flex: 1 }}>
+        <Text style={[globalStyles.bodyRegular]}>
+          {item.task} ({item.point_value} Points)
+        </Text>
+        <Text style={[globalStyles.bodyRegular]}>{item.username}</Text>
+      </View>
+      <TouchableOpacity onPress={() => handleApproveTask(item.id)}>
+        {approvedTasks[item.id] || item.is_approved ? (
+          <FontAwesome name="check-circle" size={24} color="purple" />
+        ) : (
+          <FontAwesome name="circle-thin" size={24} color="black" />
+        )}
+      </TouchableOpacity>
+    </View>
+  );
 
-      {myIsAdmin != "true" && (
+    return (
+      <View
+        style={{
+          flex: 1,
+          paddingTop: 8,
+          backgroundColor: "#fdfdfd",
+        }}
+      >
         <FlatList
+          ListHeaderComponent={() => (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={[globalStyles.h3HeadingRegular, { marginLeft: 24 }]}>
+                My Tasks
+              </Text>
+              <Text style={[globalStyles.h3HeadingRegular, { marginRight: 24 }]}>
+                Completed?
+              </Text>
+            </View>
+          )}
           data={groupTasks}
-          renderItem={renderItem}
+          renderItem={renderCompletionItem}
           keyExtractor={(item) => item.id}
+          style={{ height: Dimensions.get("window").height * 0.3 }} 
         />
-      )}
-      {myIsAdmin == "true" && (
-        <View>
+        {myIsAdmin == "true" && (
           <FlatList
             ListHeaderComponent={() => (
               <View>
@@ -291,21 +306,16 @@ export default function MyGroupTasks({ navigation }) {
                       flexDirection: "row",
                       alignItems: "center",
                       justifyContent: "space-between",
+                      paddingTop: "3%"
                     }}
                   >
                     <Text
-                      style={[
-                        globalStyles.h3HeadingRegular,
-                        { marginLeft: 24 },
-                      ]}
+                      style={[globalStyles.h3HeadingRegular, { marginLeft: 24 }]}
                     >
                       Completed
                     </Text>
                     <Text
-                      style={[
-                        globalStyles.h3HeadingRegular,
-                        { marginRight: 24 },
-                      ]}
+                      style={[globalStyles.h3HeadingRegular, { marginRight: 24 }]}
                     >
                       Approved?
                     </Text>
@@ -314,9 +324,12 @@ export default function MyGroupTasks({ navigation }) {
               </View>
             )}
             data={completedTasksList}
-            renderItem={renderItem}
+            renderItem={renderApprovalItem}
             keyExtractor={(item) => item.id}
+            style={{ height: Dimensions.get("window").height * 0.3 }} 
           />
+        )}
+        {myIsAdmin == "true" && (
           <FlatList
             ListHeaderComponent={() => (
               <View>
@@ -326,21 +339,16 @@ export default function MyGroupTasks({ navigation }) {
                       flexDirection: "row",
                       alignItems: "center",
                       justifyContent: "space-between",
+                      paddingTop: "3%"
                     }}
                   >
                     <Text
-                      style={[
-                        globalStyles.h3HeadingRegular,
-                        { marginLeft: 24 },
-                      ]}
+                      style={[globalStyles.h3HeadingRegular, { marginLeft: 24 }]}
                     >
                       Not Completed
                     </Text>
                     <Text
-                      style={[
-                        globalStyles.h3HeadingRegular,
-                        { marginRight: 24 },
-                      ]}
+                      style={[globalStyles.h3HeadingRegular, { marginRight: 24 }]}
                     >
                       Approved?
                     </Text>
@@ -349,11 +357,11 @@ export default function MyGroupTasks({ navigation }) {
               </View>
             )}
             data={notCompletedTasksList}
-            renderItem={renderItem}
+            renderItem={renderApprovalItem}
             keyExtractor={(item) => item.id}
+            style={{ height: Dimensions.get("window").height * 0.3 }} 
           />
-        </View>
-      )}
-    </View>
-  );
-}
+        )}
+      </View>
+    );
+  }
