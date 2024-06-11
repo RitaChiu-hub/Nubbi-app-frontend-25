@@ -56,72 +56,70 @@ export default function HomeScreenTasks({}) {
 
   const MemoizedItem = React.memo(({ item }) => {
     return (
-      <View>
-        <View style={{ flexDirection: "row", height: "100%" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          height: screenWidth > 500 ? "300%" : "100%",
+          width: screenWidth * 0.9,
+        }}
+      >
+        <View style={{ flex: 1, overflow: "hidden", maxHeight: 200 }}>
           <View
             style={{
-              height: screenWidth > 500 ? "300%" : "100%",
-              width: screenWidth * 0.92,
-              overflow: "hidden",
-              maxHeight: 200,
+              flex: 1,
+              width: "100%",
+              paddingVertical: "5%",
+              paddingHorizontal: "5%",
+              justifyContent: "space-between",
             }}
           >
             <View
               style={{
-                height: "50%",
-                width: "80%",
-                alignSelf: "center",
-                flexDirection: "row",
+                flex: 1,
                 justifyContent: "space-between",
-                paddingTop: "10%",
+                padding: 10,
               }}
             >
-              <View>
-                <Text
-                  style={{ height: "40%", fontSize: 17, fontWeight: "600" }}
-                >
-                  {item.task}
-                </Text>
-                <Text style={{ fontSize: 14, color: "gray" }}>
-                  Group: {item.group_name}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    height: "30%",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View
-                    style={{
-                      width: "56%",
-                      height: "45%",
-                      backgroundColor: item.is_completed ? "#24D265" : "gray",
-                      borderRadius: 20,
-                    }}
-                  ></View>
-                  <Text style={{ width: "40%" }}>
-                    {item.is_completed ? "Completed" : "Not completed"}
-                  </Text>
-                </View>
-              </View>
-            </View>
-            <View style={{ height: "5%" }}></View>
-            <View style={{ flexDirection: "row", height: "20%" }}>
+              <Text style={{ fontSize: 17, fontWeight: "600" }}>
+                {item.task}
+              </Text>
+              <Text style={{ fontSize: 14, color: "gray" }}>
+                Group: {item.group_name}
+              </Text>
               <View
                 style={{
-                  justifyContent: "center",
+                  flexDirection: "row",
                   alignItems: "center",
+                  justifyContent: "space-between",
                 }}
               >
+                <View
+                  style={{
+                    width: "56%",
+                    height: "45%",
+                    backgroundColor: item.is_completed ? "#24D265" : "gray",
+                    borderRadius: 20,
+                  }}
+                ></View>
+                <Text style={{ width: "40%" }}>
+                  {item.is_completed ? "Completed" : "Not completed"}
+                </Text>
+              </View>
+            </View>
+            <View style={{ height: 20 }}></View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <View style={{ width: "30%", paddingLeft: "5%" }}>
                 <Text
                   style={{
-                    paddingHorizontal: "10%",
                     fontSize: 18,
                     fontWeight: "600",
-                    textAlign: "right",
-                    width: "100%",
+                    textAlign: "left",
                   }}
                 >
                   +{item.point_value} pts
@@ -129,7 +127,6 @@ export default function HomeScreenTasks({}) {
               </View>
               <View
                 style={{
-                  height: "100%",
                   width: "60%",
                   justifyContent: "center",
                   alignItems: "center",
@@ -205,7 +202,8 @@ export default function HomeScreenTasks({}) {
             keyExtractor={(item, index) => index.toString()}
             horizontal
             pagingEnabled
-            snapToInterval={screenWidth}
+            // snapToInterval={screenWidth}
+            snapToInterval={screenWidth * 0.9}
             decelerationRate="normal"
             showsHorizontalScrollIndicator={false}
           />
