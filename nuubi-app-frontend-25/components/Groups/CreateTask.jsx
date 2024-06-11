@@ -59,7 +59,7 @@ export default function CreateTask({ navigation }) {
               actions.resetForm();
               fetch(
                 //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-                "http://localhost:8080/groups/createtask",
+                "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
                 {
                   method: "POST",
                   credentials: "include",

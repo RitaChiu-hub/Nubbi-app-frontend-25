@@ -221,7 +221,7 @@ export default function GroupInfoScreen({ navigation }) {
   const getMembers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getleaderboard",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
         //   "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
         {
           method: "POST",

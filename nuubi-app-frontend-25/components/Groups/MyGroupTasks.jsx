@@ -38,7 +38,7 @@ export default function MyGroupTasks({ navigation }) {
     try {
       const response = await fetch(
         // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        `http://localhost:8080/groups/mygrouptasks`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
         {
           method: "POST",
           credentials: "include",
@@ -59,7 +59,7 @@ export default function MyGroupTasks({ navigation }) {
     try {
       const response = await fetch(
         // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        `http://localhost:8080/groups/allgrouptasks`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/allgrouptasks`,
         {
           method: "POST",
           credentials: "include",
@@ -99,7 +99,7 @@ export default function MyGroupTasks({ navigation }) {
 
       fetch(
         //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-        "http://localhost:8080/groups/taskcompleted",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/taskcompleted",
         {
           method: "POST",
           credentials: "include",
@@ -141,7 +141,7 @@ export default function MyGroupTasks({ navigation }) {
 
       fetch(
         //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-        "http://localhost:8080/groups/taskapproved",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/taskapproved",
         {
           method: "POST",
           credentials: "include",
