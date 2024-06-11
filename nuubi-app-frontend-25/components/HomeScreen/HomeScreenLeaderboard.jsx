@@ -142,7 +142,6 @@ export default function HomeScreenLeaderboard() {
       <View
         style={{
           width: screenWidth * 0.9,
-          paddingVertical: 24,
         }}
       >
         <View

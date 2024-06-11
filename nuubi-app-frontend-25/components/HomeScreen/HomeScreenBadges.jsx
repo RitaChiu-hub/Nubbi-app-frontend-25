@@ -207,7 +207,7 @@ export default function HomeScreenBadges() {
       <View
         style={{
           width: screenWidth * 0.9,
-          paddingVertical: 24,
+       //   paddingVertical: 24,
         }}
       >
         <View

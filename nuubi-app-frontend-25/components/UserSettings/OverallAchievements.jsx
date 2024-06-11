@@ -124,7 +124,7 @@ export default function OverallAchievementsScreen({ navigation }) {
   const getWonBadges = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getwonbadges",
+        "http://localhost:8080/groups/getwonbadges",
         {
           method: "POST",
           credentials: "include",
@@ -191,7 +191,6 @@ export default function OverallAchievementsScreen({ navigation }) {
               style={{
                 width: 45,
                 height: 45,
-                // opacity: 0.3,
                 opacity: isBadgeWon ? 1.0 : 0.2,
                 position: "absolute",
                 top: 0,

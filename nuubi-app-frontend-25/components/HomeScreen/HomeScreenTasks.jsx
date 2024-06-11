@@ -292,7 +292,6 @@ export default function HomeScreenTasks({}) {
       <View
         style={{
           width: screenWidth * 0.9,
-          paddingVertical: 24,
         }}
       >
         <View
