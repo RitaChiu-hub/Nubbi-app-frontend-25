@@ -11,7 +11,8 @@ import {
 import { Entypo } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
-import alert from "../alert";
+import { useIsFocused } from "@react-navigation/native";
+import { AccountContext } from "../AccountContext";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -125,45 +126,81 @@ const badgeDataWithIds = badgeData.map((badge, index) => ({
 }));
 
 export default function HomeScreenBadges() {
-  const [assets, error] = useAssets(badgeData.map((item) => item.asset));
+  const [assets, assetsError] = useAssets(badgeData.map((item) => item.asset));
+  const isFocused = useIsFocused();
+  const { user, setUser } = React.useContext(AccountContext);
+  const [error, setError] = React.useState(null);
+  const [wonBadges, setWonBadges] = React.useState([]);
+
+  const getWonBadges = async () => {
+    try {
+      const response = await fetch(
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getwonbadges",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+
+      const uniqueBadgeTitles = jsonData
+        .map((userBadge) => userBadge.badge && userBadge.badge.title)
+        .filter((title, index, self) => title && self.indexOf(title) === index);
+      setWonBadges(uniqueBadgeTitles);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getWonBadges();
+  }, []);
 
   if (!assets) {
     return <Text>Loading...</Text>;
   }
 
-  const renderItem = ({ item, index }) => (
-    <View style={{ width: 140, marginHorizontal: 5 }} key={item.id}>
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <View style={{ position: "relative", width: 45, height: 45 }}>
-          <Image
-            style={{
-              width: 55,
-              height: 55,
-              tintColor: "gray",
-              position: "absolute",
-              top: 0,
-              left: 0,
-            }}
-            source={Platform.OS === "web" ? item.asset : assets[index]}
-          />
-          <Image
-            style={{
-              width: 55,
-              height: 55,
-              opacity: 0.3,
-              position: "absolute",
-              top: 0,
-              left: 0,
-            }}
-            source={Platform.OS === "web" ? item.asset : assets[index]}
-          />
+  const renderItem = ({ item, index }) => {
+    const isBadgeWon = wonBadges.includes(item.title);
+
+    return (
+      <View style={{ width: 140, marginHorizontal: 5 }} key={item.id}>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <View style={{ position: "relative", width: 45, height: 45 }}>
+            <Image
+              style={{
+                width: 55,
+                height: 55,
+                tintColor: isBadgeWon ? "transparent" : "gray",
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+              source={Platform.OS === "web" ? item.asset : assets[index]}
+            />
+            <Image
+              style={{
+                width: 55,
+                height: 55,
+                opacity: isBadgeWon ? 1.0 : 0.2,
+                position: "absolute",
+                top: 0,
+                left: 0,
+              }}
+              source={Platform.OS === "web" ? item.asset : assets[index]}
+            />
+          </View>
+          <Text style={[globalStyles.caption, { marginTop: 24 }]}>
+            {item.title}
+          </Text>
         </View>
-        <Text style={[globalStyles.caption, { marginTop: 24 }]}>
-          {item.title}
-        </Text>
       </View>
-    </View>
-  );
+    );
+  };
 
   return (
     <View style={globalStyles.container}>
