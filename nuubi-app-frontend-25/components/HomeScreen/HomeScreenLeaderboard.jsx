@@ -5,15 +5,21 @@ import {
   ScrollView,
   Dimensions,
   FlatList,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import "../../assets/nuubiicon.png";
 import { globalStyles } from "../../styles/global";
+import { useIsFocused } from "@react-navigation/native";
+import { AccountContext } from "../AccountContext";
+import { useAssets } from "expo-asset";
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function HomeScreenLeaderboard() {
+  const { user, setUser } = React.useContext(AccountContext);
+  const isFocused = useIsFocused();
   const [leaderboardStats, setLeaderboardStats] = useState([
     {
       className: "MA 227",
@@ -41,9 +47,36 @@ export default function HomeScreenLeaderboard() {
     },
   ]);
 
-  const renderItem = ({ item }) => {
+  let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
+
+  const getMyLeaderboards = async () => {
+    try {
+      const response = await fetch(
+        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
+        `http://localhost:8080/groups/myleaderboards`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+      setLeaderboardStats(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getMyLeaderboards();
+  }, [user]);
+
+  const MemoizedItem = React.memo(({ item }) => {
     return (
-      <View key={item.className}>
+      <View key={item.group_id}>
         <View style={{ flexDirection: "row", height: "100%" }}>
           <View
             style={{
@@ -62,7 +95,7 @@ export default function HomeScreenLeaderboard() {
           >
             <View style={globalStyles.subjectNameView}>
               <Text style={globalStyles.h3HeadingRegular}>
-                {item.className}
+                {item.classname}
               </Text>
             </View>
             <View
@@ -75,66 +108,48 @@ export default function HomeScreenLeaderboard() {
                 justifyContent: "center",
               }}
             >
-              <View
-                style={{
-                  width: "30%",
-                  height: "85%",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                <Image
+              {item.leaders.map((leader, index) => (
+                <View
+                  key={index}
                   style={{
-                    height: "70%",
-                    aspectRatio: 1,
-                    borderRadius: 50,
-                    borderWidth: 1,
-                    borderColor: "black",
+                    width: "32%",
+                    height: "100%",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    marginTop: 20,
                   }}
-                />
-              </View>
-              <View
-                style={{
-                  width: "30%",
-                  height: "100%",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  marginTop: 20,
-                }}
-              >
-                <Image
-                  style={{
-                    height: "70%",
-                    aspectRatio: 1,
-                    borderRadius: 50,
-                    borderWidth: 1,
-                    borderColor: "black",
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  width: "30%",
-                  height: "85%",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <Image
-                  style={{
-                    height: "70%",
-                    aspectRatio: 1,
-                    borderRadius: 50,
-                    borderWidth: 1,
-                    borderColor: "black",
-                  }}
-                />
-              </View>
+                >
+                  <Image
+                    style={{
+                      height: "70%",
+                      aspectRatio: 1,
+                      borderRadius: 50,
+                      borderWidth: 1,
+                      borderColor: "black",
+                    }}
+                    source={
+                      leader.profilePicture == null
+                        ? Platform.OS == "web"
+                          ? require("../../assets/defaultAvatar.png")
+                          : assets1[0]
+                        : { uri: leader.profilePicture }
+                    }
+                    //   source={{ uri: leader.profilePicture }}
+                  />
+                  <Text style={{ marginTop: 5 }}>
+                    {leader.placement}: {leader.name}
+                  </Text>
+                </View>
+              ))}
             </View>
           </View>
         </View>
       </View>
     );
+  });
+
+  const renderItem = ({ item }) => {
+    return <MemoizedItem item={item} />;
   };
 
   return (

@@ -538,7 +538,7 @@ export const globalStyles = StyleSheet.create({
   subjectNameView: {
     height: "20%",
     justifyContent: "flex-end",
-    width: deviceWidth * 0.4,
-    alignItems: "center",
+    alignItems: "flex-start",
+    paddingLeft: 28,
   },
 });
