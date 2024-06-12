@@ -96,8 +96,8 @@ const badgeData = [
       "Most improved leaderboard ranking in the duration of one week.",
   },
   {
-    asset: require("../../assets/badges/Sagebadge.png"),
-    unwonAsset: require("../../assets/unwonbadges//Sagebadge.png"),
+    asset: require("../../assets/badges/SageBadge.png"),
+    unwonAsset: require("../../assets/unwonbadges/SageBadge.png"),
     title: "Sage",
     description: "Receive a point from the admin of this Nuubi Group.",
   },
@@ -148,7 +148,7 @@ export default function HomeScreenBadges() {
   // const [assets, assetsError] = useAssets(badgeData.map((item) => item.asset));
   const assetsToLoad = badgeData.flatMap((item) => [
     item.asset,
-    item.unwonAsset || item.asset,
+    item.unwonAsset,
   ]);
   const [assets, assetsError] = useAssets(assetsToLoad);
   const isFocused = useIsFocused();
@@ -193,32 +193,15 @@ export default function HomeScreenBadges() {
     const badgeAsset = isBadgeWon
       ? item.asset
       : item.unwonAsset || item.unwonAsset;
-    const assetIndex = assetsToLoad.findIndex(
-      (asset) =>
-        asset ===
-        (isBadgeWon ? item.wonAsset : item.unwonAsset || item.wonAsset)
-    );
 
     return (
       <View style={{ width: 140, marginHorizontal: 5 }} key={item.id}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <View style={{ position: "relative", width: 45, height: 45 }}>
-            {/* <Image
-              style={{
-                width: 55,
-                height: 55,
-                tintColor: isBadgeWon ? "transparent" : "gray",
-                position: "absolute",
-                top: 0,
-                left: 0,
-              }}
-              source={Platform.OS === "web" ? item.asset : assets[index]}
-            /> */}
             <Image
               style={{
                 width: 55,
                 height: 55,
-                //  opacity: isBadgeWon ? 1.0 : 0.2,
                 position: "absolute",
                 top: 0,
                 left: 0,
@@ -227,7 +210,7 @@ export default function HomeScreenBadges() {
               source={
                 Platform.OS === "web"
                   ? badgeAsset
-                  : assets[isBadgeWon ? assetIndex : assetIndex + 1]
+                  : assets[index * 2 + (isBadgeWon ? 0 : 1)]
               }
             />
           </View>

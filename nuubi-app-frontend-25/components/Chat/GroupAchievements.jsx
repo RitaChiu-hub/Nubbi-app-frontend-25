@@ -62,7 +62,7 @@ const badgeData = [
       "Most improved leaderboard ranking in the duration of one week.",
   },
   {
-    asset: require("../../assets/badges/Sagebadge.png"),
+    asset: require("../../assets/badges/SageBadge.png"),
     title: "Sage",
     description: "Receive a point from the admin of this Nuubi Group.",
   },
