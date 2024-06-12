@@ -59,31 +59,39 @@ export default function HomeScreenTasks({}) {
       <View
         style={{
           flexDirection: "row",
-          height: screenWidth > 500 ? "300%" : "100%",
+          height: screenWidth > 500 ? "100%" : "100%",
           width: screenWidth * 0.9,
         }}
       >
-        <View style={{ flex: 1, overflow: "hidden", maxHeight: 200 }}>
+        <View
+          style={{
+            flex: 1,
+            overflow: "hidden",
+            //   maxHeight: screenWidth > 500 ? 250 : 200,
+          }}
+        >
           <View
             style={{
               flex: 1,
               width: "100%",
-              paddingVertical: "5%",
+              paddingVertical: screenWidth > 500 ? "2%" : "5%",
               paddingHorizontal: "5%",
-              justifyContent: "space-between",
+              justifyContent: "center",
             }}
           >
             <View
               style={{
                 flex: 1,
                 justifyContent: "space-between",
-                padding: 10,
+                paddingVertical: 5,
               }}
             >
               <Text style={{ fontSize: 17, fontWeight: "600" }}>
                 {item.task}
               </Text>
-              <Text style={{ fontSize: 14, color: "gray" }}>
+              <Text
+                style={{ fontSize: 14, color: "gray", paddingVertical: 5 }}
+              >
                 Group: {item.group_name}
               </Text>
               <View
@@ -91,6 +99,7 @@ export default function HomeScreenTasks({}) {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  paddingVertical: 5,
                 }}
               >
                 <View
@@ -105,58 +114,57 @@ export default function HomeScreenTasks({}) {
                   {item.is_completed ? "Completed" : "Not completed"}
                 </Text>
               </View>
-            </View>
-            <View style={{ height: 20 }}></View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <View style={{ width: "30%", paddingLeft: "5%" }}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "600",
-                    textAlign: "left",
-                  }}
-                >
-                  +{item.point_value} pts
-                </Text>
-              </View>
               <View
                 style={{
-                  width: "60%",
-                  justifyContent: "center",
+                  flexDirection: "row",
                   alignItems: "center",
+                  justifyContent: "space-between",
                 }}
               >
-                {!item.is_completed && (
-                  <TouchableOpacity
+                <View style={{ width: "30%" }}>
+                  <Text
                     style={{
-                      paddingVertical: 12,
-                      paddingHorizontal: 50,
-                      borderRadius: 60,
-                      elevation: 3,
-                      backgroundColor: "#2482AA",
-                      alignSelf: "center",
-                    }}
-                    onPress={() => {
-                      setUser({
-                        ...user,
-                        currentGroup: item.group_id,
-                        groupName: item.group_name,
-                        invitePasscode: item.invite_passcode,
-                      });
-                      navigation.navigate("Group Chat");
+                      fontSize: 18,
+                      fontWeight: "600",
+                      textAlign: "left",
                     }}
                   >
-                    <Text style={{ color: "white", fontWeight: "600" }}>
-                      Complete
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                    +{item.point_value} pts
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: "60%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {!item.is_completed && (
+                    <TouchableOpacity
+                      style={{
+                        paddingVertical: 12,
+                        paddingHorizontal: 50,
+                        borderRadius: 60,
+                        elevation: 3,
+                        backgroundColor: "#2482AA",
+                        alignSelf: "center",
+                      }}
+                      onPress={() => {
+                        setUser({
+                          ...user,
+                          currentGroup: item.group_id,
+                          groupName: item.group_name,
+                          invitePasscode: item.invite_passcode,
+                        });
+                        navigation.navigate("Group Chat");
+                      }}
+                    >
+                      <Text style={{ color: "white", fontWeight: "600" }}>
+                        Complete
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
               </View>
             </View>
           </View>
