@@ -206,7 +206,6 @@ export default function HomeScreenBadges() {
                 top: 0,
                 left: 0,
               }}
-              //    source={Platform.OS === "web" ? item.asset : assets[index]}
               source={
                 Platform.OS === "web"
                   ? badgeAsset
@@ -227,7 +226,6 @@ export default function HomeScreenBadges() {
       <View
         style={{
           width: screenWidth * 0.9,
-          //   paddingVertical: 24,
         }}
       >
         <View
