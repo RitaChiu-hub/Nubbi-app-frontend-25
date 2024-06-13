@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "932854914153",
+    "project_id": "nuubi-f3c25",
+    "storage_bucket": "nuubi-f3c25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932854914153:android:255df4cc744da684c596f8",
+        "android_client_info": {
+          "package_name": "com.kittykat.nuubiapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN1kEuvvJ-QCf9K6RzQF_GST-LRvkDpgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -68,7 +68,10 @@
     "react-native-webview": "13.6.4",
     "socket.io-client": "^4.6.1",
     "yup": "^1.0.2",
-    "yup-password": "^0.2.2"
+    "yup-password": "^0.2.2",
+    "expo-notifications": "~0.27.7",
+    "expo-device": "~5.9.4",
+    "expo-constants": "~15.4.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
