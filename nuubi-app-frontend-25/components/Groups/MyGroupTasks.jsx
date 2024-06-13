@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Platform,
+  Button,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
@@ -139,6 +140,8 @@ export default function MyGroupTasks({ navigation }) {
     registerForPushNotificationsAsync()
       .then((token) => setExpoPushToken(token ?? ""))
       .catch((error) => setExpoPushToken(`${error}`));
+
+    console.log(expoPushToken);
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
@@ -439,7 +442,7 @@ export default function MyGroupTasks({ navigation }) {
           }}
         />
       </View>
-      <FlatList
+      {/* <FlatList
         ListHeaderComponent={() => (
           <View
             style={{
@@ -525,8 +528,8 @@ export default function MyGroupTasks({ navigation }) {
           renderItem={renderApprovalItem}
           keyExtractor={(item) => item.id}
           style={{ height: Dimensions.get("window").height * 0.3 }}
-        />
-      )}
+        /> */}
+      {/* )} */}
     </View>
   );
 }
