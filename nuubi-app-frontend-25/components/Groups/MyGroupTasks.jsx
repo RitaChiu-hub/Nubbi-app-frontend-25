@@ -86,7 +86,7 @@ async function registerForPushNotificationsAsync() {
           projectId,
         })
       ).data;
-      console.log(pushTokenString);
+      // console.log(pushTokenString);
       return pushTokenString;
     } catch (error) {
       handleRegistrationError(`${error}`);
@@ -142,7 +142,6 @@ export default function MyGroupTasks({ navigation }) {
       .catch((error) => setExpoPushToken(`${error}`));
 
     console.log(expoPushToken);
-
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
@@ -427,7 +426,7 @@ export default function MyGroupTasks({ navigation }) {
         <Text>Your Expo push token: {expoPushToken}</Text>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text>
-            Title: {notification && notification.request.content.title}{" "}
+         Title: {notification && notification.request.content.title}{" "}
           </Text>
           <Text>Body: {notification && notification.request.content.body}</Text>
           <Text>
@@ -438,6 +437,7 @@ export default function MyGroupTasks({ navigation }) {
         <Button
           title="Press to Send Notification"
           onPress={async () => {
+            console.log("Sending notification");
             await sendPushNotification(expoPushToken);
           }}
         />
