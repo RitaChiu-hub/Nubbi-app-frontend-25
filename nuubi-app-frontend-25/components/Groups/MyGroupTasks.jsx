@@ -218,10 +218,6 @@ export default function MyGroupTasks({ navigation }) {
     }
   };
 
-  // React.useEffect(() => {
-  //   myIsAdmin != "true" ? getGroupTasks() : getAllGroupTasks();
-  // }, []);
-
   React.useEffect(() => {
     // Call getGroupTasks unconditionally
     getGroupTasks();
@@ -272,7 +268,8 @@ export default function MyGroupTasks({ navigation }) {
     }
   };
 
-  const handleApproveTask = (taskId) => {
+  const handleApproveTask = (taskId, expoPushToken) => {
+    console.log("handle approve task expo push token: " + expoPushToken);
     if (!approvedTasks[taskId]) {
       setApprovedTasks((prevApprovedTasks) => ({
         ...prevApprovedTasks,
@@ -283,14 +280,14 @@ export default function MyGroupTasks({ navigation }) {
 
       fetch(
         //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-        "https://coral-app-n96bn.ondigitalocean.app/groups/taskapproved",
+        "http://localhost:8080/groups/taskapproved",
         {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...user, taskId }),
+          body: JSON.stringify({ ...user, taskId, expoPushToken }),
         }
       )
         .catch((err) => {
@@ -398,7 +395,9 @@ export default function MyGroupTasks({ navigation }) {
         </Text>
         <Text style={[globalStyles.bodyRegular]}>{item.username}</Text>
       </View>
-      <TouchableOpacity onPress={() => handleApproveTask(item.id)}>
+      <TouchableOpacity
+        onPress={() => handleApproveTask(item.id, expoPushToken)}
+      >
         {approvedTasks[item.id] || item.is_approved ? (
           <FontAwesome name="check-circle" size={24} color="purple" />
         ) : (
@@ -426,7 +425,7 @@ export default function MyGroupTasks({ navigation }) {
         <Text>Your Expo push token: {expoPushToken}</Text>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text>
-         Title: {notification && notification.request.content.title}{" "}
+            Title: {notification && notification.request.content.title}{" "}
           </Text>
           <Text>Body: {notification && notification.request.content.body}</Text>
           <Text>
@@ -442,7 +441,7 @@ export default function MyGroupTasks({ navigation }) {
           }}
         />
       </View>
-      {/* <FlatList
+      <FlatList
         ListHeaderComponent={() => (
           <View
             style={{
@@ -528,8 +527,8 @@ export default function MyGroupTasks({ navigation }) {
           renderItem={renderApprovalItem}
           keyExtractor={(item) => item.id}
           style={{ height: Dimensions.get("window").height * 0.3 }}
-        /> */}
-      {/* )} */}
+        />
+      )}
     </View>
   );
 }
