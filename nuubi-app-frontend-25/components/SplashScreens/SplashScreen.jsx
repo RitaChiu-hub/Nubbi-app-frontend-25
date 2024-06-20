@@ -668,6 +668,13 @@ Empowering university student success through gamified peer-learning. 
           >
             NUUBI
           </Text>
+          {/* <TouchableOpacity
+            style={{ paddingHorizontal: 5 }}
+            accessibilityRole="button"
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={globalStyles.captionLink}>Log In</Text>
+          </TouchableOpacity> */}
         </View>
         <RenderHTML
           source={{ html: htmlContent }}
