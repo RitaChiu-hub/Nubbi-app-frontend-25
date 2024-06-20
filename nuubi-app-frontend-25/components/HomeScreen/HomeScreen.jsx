@@ -64,7 +64,7 @@ export default function HomeScreen({ navigation }) {
       }
 
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token); // Log the token
+      // console.log(token); // Log the token
 
       // Send the token to the backend API to save it in the user's table
       await fetch(
@@ -90,12 +90,12 @@ export default function HomeScreen({ navigation }) {
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        console.log(notification);
+        //  console.log(notification);
       });
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
+        //    console.log(response);
       });
 
     return () => {

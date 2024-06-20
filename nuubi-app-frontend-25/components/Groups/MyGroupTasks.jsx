@@ -141,7 +141,7 @@ export default function MyGroupTasks({ navigation }) {
       .then((token) => setExpoPushToken(token ?? ""))
       .catch((error) => setExpoPushToken(`${error}`));
 
-    console.log(expoPushToken);
+    // console.log(expoPushToken);
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
@@ -149,7 +149,7 @@ export default function MyGroupTasks({ navigation }) {
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
+        //   console.log(response);
       });
 
     return () => {
@@ -269,7 +269,7 @@ export default function MyGroupTasks({ navigation }) {
   };
 
   const handleApproveTask = (taskId, expoPushToken) => {
-    console.log("handle approve task expo push token: " + expoPushToken);
+    // console.log("handle approve task expo push token: " + expoPushToken);
     if (!approvedTasks[taskId]) {
       setApprovedTasks((prevApprovedTasks) => ({
         ...prevApprovedTasks,
@@ -436,7 +436,7 @@ export default function MyGroupTasks({ navigation }) {
         <Button
           title="Press to Send Notification"
           onPress={async () => {
-            console.log("Sending notification");
+            //  console.log("Sending notification");
             await sendPushNotification(expoPushToken);
           }}
         />
