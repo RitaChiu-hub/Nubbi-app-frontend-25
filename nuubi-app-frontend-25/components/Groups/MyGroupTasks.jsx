@@ -415,7 +415,7 @@ export default function MyGroupTasks({ navigation }) {
         backgroundColor: "#fdfdfd",
       }}
     >
-      <View
+      {/* <View
         style={{
           flex: 1,
           alignItems: "center",
@@ -440,7 +440,7 @@ export default function MyGroupTasks({ navigation }) {
             await sendPushNotification(expoPushToken);
           }}
         />
-      </View>
+      </View> */}
       <FlatList
         ListHeaderComponent={() => (
           <View
