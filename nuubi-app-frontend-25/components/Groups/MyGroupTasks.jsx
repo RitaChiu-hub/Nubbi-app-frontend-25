@@ -280,7 +280,7 @@ export default function MyGroupTasks({ navigation }) {
 
       fetch(
         //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-        "http://localhost:8080/groups/taskapproved",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/taskapproved",
         {
           method: "POST",
           credentials: "include",

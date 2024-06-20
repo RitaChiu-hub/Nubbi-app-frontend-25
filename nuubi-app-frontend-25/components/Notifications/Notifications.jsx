@@ -157,10 +157,7 @@ const styles = StyleSheet.create({
   },
   unreadNotification: {
     fontWeight: "bold",
-    borderColor: "red",
-    borderWidth: 1,
     padding: 5,
-    borderRadius: 5,
   },
   notificationDate: {
     fontSize: 12,
