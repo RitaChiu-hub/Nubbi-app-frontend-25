@@ -277,16 +277,18 @@ export default function GroupInfoScreen({ navigation }) {
           </Text>
           <FeatherIcon name="copy" color="#242424" size={20} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => navigation.navigate("GroupAnalytics")}
-        >
-          <Text style={globalStyles.headingText}>
-            Group Analytics Dashboard
-          </Text>
-          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity>
 
+        {myIsAdmin == "true" && (
+          <TouchableOpacity
+            style={globalStyles.row}
+            onPress={() => navigation.navigate("GroupAnalytics")}
+          >
+            <Text style={globalStyles.headingText}>
+              Group Analytics Dashboard
+            </Text>
+            <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
           style={globalStyles.row}
           onPress={() => navigation.navigate("MyGroupTasks")}

@@ -163,7 +163,42 @@ export default function SignUpScreen({ navigation }) {
         >
           {(props) => (
             <View style={{ marginHorizontal: 30 }}>
-              <Text style={globalStyles.captionError}>{error}</Text>
+              {error != null && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    paddingTop: 16,
+                    paddingBottom: 6,
+                  }}
+                  accessibilityRole="none"
+                >
+                  <Text style={globalStyles.captionError}>
+                    Oops! {error} Would you like to:{" "}
+                  </Text>
+                  <TouchableOpacity
+                    style={{ paddingHorizontal: 5 }}
+                    accessibilityRole="button"
+                    onPress={() => navigation.navigate("Login")}
+                  >
+                    <Text style={globalStyles.captionLink}>Log In</Text>
+                  </TouchableOpacity>
+                  <Text style={globalStyles.captionError}> or </Text>
+                  <TouchableOpacity
+                    style={{ paddingHorizontal: 5 }}
+                    accessibilityRole="button"
+                    onPress={() =>
+                      navigation.navigate("ForgotPasswordLoggedOut")
+                    }
+                  >
+                    <Text style={globalStyles.captionLink}>
+                      Forgot Password?
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
               <Text style={globalStyles.textInputLabel}>Email:</Text>
               <TextInput
                 style={globalStyles.textInput}
