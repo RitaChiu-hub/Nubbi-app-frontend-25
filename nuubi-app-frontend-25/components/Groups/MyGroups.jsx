@@ -157,7 +157,7 @@ export default function MyGroupsScreen({ navigation }) {
                     },
                   ]}
                 >
-                  For you
+                  For me
                 </Text>
               </View>
             </TouchableOpacity>
@@ -189,7 +189,7 @@ export default function MyGroupsScreen({ navigation }) {
                     },
                   ]}
                 >
-                  Your groups
+                  My groups
                 </Text>
               </View>
             </TouchableOpacity>

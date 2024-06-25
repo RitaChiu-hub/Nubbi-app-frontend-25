@@ -248,7 +248,7 @@ Empowering university student success through gamified peer-learning. 
             accessibilityRole="button"
             onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={globalStyles.h3HeadingRegular}>Sign up</Text>
+            <Text style={globalStyles.h3HeadingRegular}>Sign Up</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
