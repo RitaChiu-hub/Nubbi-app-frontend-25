@@ -58,18 +58,19 @@ export default function GroupAnalytics({ navigation }) {
   React.useEffect(() => {
     const getMembers = async () => {
       try {
-        const response = await fetch(
-          //  "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
-          "http://localhost:8080/groups/getmembers",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ ...user }),
-          }
-        );
+        const apiUrl = user.isAdmin
+          ? "http://localhost:8080/groups/getmembers"
+          : "http://localhost:8080/groups/mygroupanalytics";
+
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        });
+
         const jsonData = await response.json();
         setMembers(jsonData);
       } catch (err) {
@@ -79,8 +80,6 @@ export default function GroupAnalytics({ navigation }) {
 
     getMembers();
   }, [isFocused]);
-
-  const myIsAdmin = user.isAdmin;
 
   // Calculate the maximum widths outside of the renderItem function
   const maxUsernameWidth = React.useMemo(
