@@ -195,8 +195,18 @@ export default function HomeScreenBadges() {
       : item.unwonAsset || item.unwonAsset;
 
     return (
-      <View style={{ width: 140, marginHorizontal: 5 }} key={item.id}>
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
+      <View
+        style={{
+          marginHorizontal: 5,
+        }}
+        key={item.id}
+      >
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <View style={{ position: "relative", width: 45, height: 45 }}>
             <Image
               style={{
@@ -244,7 +254,7 @@ export default function HomeScreenBadges() {
             borderRadius: 16,
             borderColor: "#111111",
             overflow: "hidden",
-            height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.5,
+            height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.35,
             maxHeight: 200,
           }}
         >

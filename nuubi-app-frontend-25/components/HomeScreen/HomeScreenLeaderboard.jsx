@@ -77,7 +77,13 @@ export default function HomeScreenLeaderboard() {
   const MemoizedItem = React.memo(({ item }) => {
     return (
       <View key={item.group_id}>
-        <View style={{ flexDirection: "row", height: "100%" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            height: "100%",
+            width: screenWidth * 0.9,
+          }}
+        >
           <View
             style={{
               width: screenWidth * 0.04,
@@ -87,7 +93,7 @@ export default function HomeScreenLeaderboard() {
           <View
             style={{
               height: screenWidth > 500 ? "300%" : "100%",
-              width: screenWidth * 0.92,
+              width: screenWidth * 0.9,
               overflow: "hidden",
               //  height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.5,
               maxHeight: 200,
@@ -101,7 +107,7 @@ export default function HomeScreenLeaderboard() {
             <View
               style={{
                 height: "60%",
-                width: "80%",
+                //   width: "92%",
                 flexDirection: "row",
                 alignSelf: "center",
                 alignItems: "center",
@@ -112,10 +118,10 @@ export default function HomeScreenLeaderboard() {
                 <View
                   key={index}
                   style={{
-                    width: "32%",
+                    //  width: "32%",
                     height: "100%",
                     alignItems: "center",
-                    justifyContent: "flex-start",
+                    //   justifyContent: "flex-start",
                     marginTop: 20,
                   }}
                 >
@@ -185,7 +191,7 @@ export default function HomeScreenLeaderboard() {
             keyExtractor={(item, index) => index.toString()}
             horizontal
             pagingEnabled
-            snapToInterval={screenWidth}
+              snapToInterval={screenWidth * 0.9}
             decelerationRate="normal"
             showsHorizontalScrollIndicator={false}
           />

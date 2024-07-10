@@ -311,8 +311,8 @@ export default function HomeScreen({ navigation }) {
         <ScrollView ref={scrollViewRef}>
           <View
             style={{
-              height: screenHeight * 0.33,
-              minHeight: 260,
+              height: screenHeight * 0.28,
+              minHeight: 200,
               opacity: onboardingState == 3 || onboardingState == 6 ? 1 : 1,
               backgroundColor:
                 (performOnboarding == true && onboardingState != 3) ||
@@ -325,8 +325,8 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View
             style={{
-              height: screenHeight * 0.33,
-              minHeight: 260,
+              height: screenHeight * 0.29,
+              minHeight: 200,
               opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
               backgroundColor:
                 (performOnboarding == true && onboardingState != 4) ||
@@ -339,8 +339,8 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View
             style={{
-              height: screenHeight * 0.33,
-              minHeight: 260,
+              height: screenHeight * 0.24,
+              minHeight: 180,
               opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
               backgroundColor:
                 (performOnboarding == true && onboardingState != 5) ||
