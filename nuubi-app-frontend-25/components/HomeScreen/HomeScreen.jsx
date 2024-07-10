@@ -233,20 +233,20 @@ export default function HomeScreen({ navigation }) {
                   },
                   selectedTab === "Home" && {
                     borderBottomWidth: 2,
-                    borderColor: "#33B7F0",
+                    borderColor: "#FDFDFD",
                   },
                 ]}
               >
                 <Text
                   style={[
                     {
-                      color: "#767676",
+                      color: "#EBEBEB",
                       fontSize: 18,
                       fontFamily: "Poppins_600SemiBold",
                       letterSpacing: 0,
                     },
                     selectedTab === "Home" && {
-                      color: "#33b7f0",
+                      color: "#FDFDFD",
                       fontSize: 18,
                       fontFamily: "Poppins_600SemiBold",
                       letterSpacing: 0,
@@ -273,13 +273,13 @@ export default function HomeScreen({ navigation }) {
                 <Text
                   style={[
                     {
-                      color: "#767676",
+                      color: "#EBEBEB",
                       fontSize: 18,
                       fontFamily: "Poppins_600SemiBold",
                       letterSpacing: 0,
                     },
                     selectedTab === "Groups" && {
-                      color: "#33b7f0",
+                      color: "#FDFDFD",
                       fontSize: 18,
                       fontFamily: "Poppins_600SemiBold",
                       letterSpacing: 0,

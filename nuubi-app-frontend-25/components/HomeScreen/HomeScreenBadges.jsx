@@ -197,7 +197,7 @@ export default function HomeScreenBadges() {
     return (
       <View
         style={{
-          marginHorizontal: 5,
+          marginHorizontal: 15,
         }}
         key={item.id}
       >
@@ -207,11 +207,11 @@ export default function HomeScreenBadges() {
             justifyContent: "center",
           }}
         >
-          <View style={{ position: "relative", width: 45, height: 45 }}>
+          <View style={{ position: "relative", width: 65, height: 65 }}>
             <Image
               style={{
-                width: 55,
-                height: 55,
+                width: 75,
+                height: 75,
                 position: "absolute",
                 top: 0,
                 left: 0,
@@ -223,7 +223,7 @@ export default function HomeScreenBadges() {
               }
             />
           </View>
-          <Text style={[globalStyles.caption, { marginTop: 24 }]}>
+          <Text style={[globalStyles.caption, { marginTop: 14 }]}>
             {item.title}
           </Text>
         </View>

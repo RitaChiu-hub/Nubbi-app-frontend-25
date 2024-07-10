@@ -386,7 +386,7 @@ function HomeStack() {
         options={{
           animation: "none",
           headerStyle: {
-            backgroundColor: "#f4511e",
+            backgroundColor: "#2482AA",
           },
         }}
         //    options={{ title: "Home" }}
@@ -394,7 +394,12 @@ function HomeStack() {
       <StackHome.Screen
         name="MyGroups"
         component={MyGroupsScreen}
-        options={{ animation: "none" }}
+        options={{
+          animation: "none",
+          headerStyle: {
+            backgroundColor: "#2482AA",
+          },
+        }}
         //    options={{ title: "My Groups" }}
       />
 

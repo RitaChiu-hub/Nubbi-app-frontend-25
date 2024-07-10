@@ -228,7 +228,7 @@ export const globalStyles = StyleSheet.create({
   },
   topNavTabSelected: {
     borderBottomWidth: 2,
-    borderColor: nuubiColors["primaryBlue"],
+    borderColor: "#FDFDFD",
   },
   textInput: {
     flex: 0.5,
