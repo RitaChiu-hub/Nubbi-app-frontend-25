@@ -47,7 +47,43 @@ export default function HomeScreenLeaderboard() {
     },
   ]);
 
-  let assets1 = useAssets([require("../../assets/avatars/avatar1.png")]);
+  // let assets1 = useAssets([require("../../assets/avatars/avatar1.png")]);
+  // let assets2 = useAssets([require("../../assets/avatars/avatar2.png")]);
+  // let assets3 = useAssets([require("../../assets/avatars/avatar3.png")]);
+  // let assets4 = useAssets([require("../../assets/avatars/avatar4.png")]);
+  // let assets5 = useAssets([require("../../assets/avatars/avatar5.png")]);
+  // let assets6 = useAssets([require("../../assets/avatars/avatar6.png")]);
+  // let assets7 = useAssets([require("../../assets/avatars/avatar7.png")]);
+  // let assets8 = useAssets([require("../../assets/avatars/avatar8.png")]);
+  // let assets9 = useAssets([require("../../assets/avatars/avatar9.png")]);
+
+  // Load all avatar assets
+  let [assets1] = useAssets([require("../../assets/avatars/avatar1.png")]);
+  let [assets2] = useAssets([require("../../assets/avatars/avatar2.png")]);
+  let [assets3] = useAssets([require("../../assets/avatars/avatar3.png")]);
+  let [assets4] = useAssets([require("../../assets/avatars/avatar4.png")]);
+  let [assets5] = useAssets([require("../../assets/avatars/avatar5.png")]);
+  let [assets6] = useAssets([require("../../assets/avatars/avatar6.png")]);
+  let [assets7] = useAssets([require("../../assets/avatars/avatar7.png")]);
+  let [assets8] = useAssets([require("../../assets/avatars/avatar8.png")]);
+  let [assets9] = useAssets([require("../../assets/avatars/avatar9.png")]);
+
+  const assets = [
+    require("../../assets/avatars/avatar1.png"),
+    require("../../assets/avatars/avatar2.png"),
+    require("../../assets/avatars/avatar3.png"),
+    require("../../assets/avatars/avatar4.png"),
+    require("../../assets/avatars/avatar5.png"),
+    require("../../assets/avatars/avatar6.png"),
+    require("../../assets/avatars/avatar7.png"),
+    require("../../assets/avatars/avatar8.png"),
+    require("../../assets/avatars/avatar9.png"),
+  ];
+
+  const getRandomAvatar = () => {
+    const randomIndex = Math.floor(Math.random() * assets.length);
+    return assets[randomIndex];
+  };
 
   const getMyLeaderboards = async () => {
     try {
@@ -75,6 +111,8 @@ export default function HomeScreenLeaderboard() {
   }, [user]);
 
   const MemoizedItem = React.memo(({ item }) => {
+    const randomAvatar = getRandomAvatar();
+
     return (
       <View key={item.group_id}>
         <View
@@ -95,7 +133,6 @@ export default function HomeScreenLeaderboard() {
               height: screenWidth > 500 ? "300%" : "100%",
               width: screenWidth * 0.9,
               overflow: "hidden",
-              //  height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.5,
               maxHeight: 200,
             }}
           >
@@ -114,42 +151,30 @@ export default function HomeScreenLeaderboard() {
             <View
               style={{
                 height: "60%",
-                //  marginHorizontal: 5,
-                //   width: "92%",
                 flexDirection: "row",
-                //  alignSelf: "center",
-                // alignItems: "center",
-                // justifyContent: "center",
               }}
             >
               {item.leaders.map((leader, index) => (
                 <View
                   key={index}
                   style={{
-                    //  width: "32%",
                     height: "100%",
                     alignItems: "center",
-                    //  justifyContent: "flex-start",
                     marginTop: 20,
                     marginHorizontal: 5,
                   }}
                 >
                   <Image
                     style={{
-                      height: "70%",
-                      aspectRatio: 1,
-                      borderRadius: 50,
-                      borderWidth: 1,
-                      borderColor: "black",
+                      width: screenWidth > 500 ? 75 : "70%", // Adjust width for larger screens
+                      height: screenWidth > 500 ? 75 : "70%", // Ensure height matches width
+                      borderRadius: screenWidth > 500 ? 37.5 : 35, // Make sure the borderRadius is half of the width/height to make it circular
                     }}
                     source={
                       leader.profilePicture == null
-                        ? Platform.OS == "web"
-                          ? require("../../assets/avatars/avatar1.png")
-                          : assets1[0]
+                        ? getRandomAvatar()
                         : { uri: leader.profilePicture }
                     }
-                    //   source={{ uri: leader.profilePicture }}
                   />
                   <Text style={[globalStyles.caption, { marginTop: 5 }]}>
                     {leader.placement}: {leader.name}
@@ -162,6 +187,95 @@ export default function HomeScreenLeaderboard() {
       </View>
     );
   });
+
+
+
+  // const MemoizedItem = React.memo(({ item }) => {
+  //   const randomAvatar = getRandomAvatar();
+
+  //   return (
+  //     <View key={item.group_id}>
+  //       <View
+  //         style={{
+  //           flexDirection: "row",
+  //           height: "100%",
+  //           width: screenWidth * 0.9,
+  //         }}
+  //       >
+  //         <View
+  //           style={{
+  //             width: screenWidth * 0.04,
+  //             height: "100%",
+  //           }}
+  //         ></View>
+  //         <View
+  //           style={{
+  //             height: screenWidth > 500 ? "300%" : "100%",
+  //             width: screenWidth * 0.9,
+  //             overflow: "hidden",
+  //             maxHeight: 200,
+  //           }}
+  //         >
+  //           <View
+  //             style={{
+  //               height: "20%",
+  //               justifyContent: "flex-end",
+  //               alignItems: "flex-start",
+  //               paddingLeft: 5,
+  //             }}
+  //           >
+  //             <Text style={globalStyles.h3HeadingRegular}>
+  //               {item.classname}
+  //             </Text>
+  //           </View>
+  //           <View
+  //             style={{
+  //               height: "60%",
+  //               flexDirection: "row",
+  //             }}
+  //           >
+  //             {item.leaders.map((leader, index) => (
+  //               <View
+  //                 key={index}
+  //                 style={{
+  //                   height: "100%",
+  //                   alignItems: "center",
+  //                   marginTop: 20,
+  //                   marginHorizontal: 5,
+  //                 }}
+  //               >
+  //                 <Image
+  //                   style={{
+  //                     height: "70%",
+  //                     aspectRatio: 1,
+  //                     borderRadius: 50,
+  //                   }}
+  //                   // source={
+  //                   //   leader.profilePicture == null
+  //                   //     ? Platform.OS == "web"
+  //                   //       ? require("../../assets/avatars/avatar1.png")
+  //                   //       : assets1[0]
+  //                   //     : { uri: leader.profilePicture }
+  //                   // }
+  //                   source={
+  //                     leader.profilePicture == null
+  //                       ? Platform.OS == "web"
+  //                         ? getRandomAvatar()
+  //                         : getRandomAvatar()
+  //                       : { uri: leader.profilePicture }
+  //                   }
+  //                 />
+  //                 <Text style={[globalStyles.caption, { marginTop: 5 }]}>
+  //                   {leader.placement}: {leader.name}
+  //                 </Text>
+  //               </View>
+  //             ))}
+  //           </View>
+  //         </View>
+  //       </View>
+  //     </View>
+  //   );
+  // });
 
   const renderItem = ({ item }) => {
     return <MemoizedItem item={item} />;
