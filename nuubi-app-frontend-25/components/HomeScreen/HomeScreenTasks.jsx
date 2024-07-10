@@ -27,7 +27,7 @@ export default function HomeScreenTasks({}) {
   const navigation = useNavigation();
   const deviceWidth = Dimensions.get("window").width;
 
-  let assets1 = useAssets([require("../../assets/HomeCalendar.png")]);
+  let assets1 = useAssets([require("../../assets/task.png")]);
   // let assets2 = useAssets([require("../assets/Carousel2.png")]);
 
   const getMyTasks = async () => {
@@ -84,15 +84,68 @@ export default function HomeScreenTasks({}) {
               style={{
                 flex: 1,
                 justifyContent: "space-between",
-                paddingVertical: 5,
+              //  paddingVertical: 5,
               }}
             >
-              <Text
-                style={[globalStyles.h3HeadingRegular, { textAlign: "left" }]}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                  width: "90%",
+                  paddingLeft: "5%"
+                }}
               >
-                {item.task}
-              </Text>
-              <Text style={globalStyles.caption}>Group: {item.group_name}</Text>
+                <View>
+                  <Text
+                    style={[
+                      globalStyles.h3HeadingRegular,
+                      { textAlign: "left" },
+                    ]}
+                  >
+                    {item.task}
+                  </Text>
+                  <Text style={globalStyles.caption}>
+                    Group: {item.group_name}
+                  </Text>
+                </View>
+                <Image
+                  style={{
+                    width: 75,
+                    height: 75,
+                  }}
+                  source={
+                    Platform.OS == "web"
+                      ? require("../../assets/task.png")
+                      : assets1[0]
+                  }
+                />
+              </View>
+              {/* <View>
+                <Text
+                  style={[globalStyles.h3HeadingRegular, { textAlign: "left" }]}
+                >
+                  {item.task}
+                </Text>
+                <Text style={globalStyles.caption}>
+                  Group: {item.group_name}
+                </Text>
+              </View>
+              <Image
+                style={{
+                  width: 75,
+                  height: 75,
+                  //  position: "absolute",
+                  //  top: 0,
+                  //    left: 0,
+                }}
+                source={
+                  Platform.OS == "web"
+                    ? require("../../assets/task.png")
+                    : assets1[0]
+                }
+              /> */}
+
               <View
                 style={{
                   flexDirection: "row",
@@ -102,36 +155,10 @@ export default function HomeScreenTasks({}) {
               >
                 <View
                   style={{
-                    //   width: "100%",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  {/* {!item.is_completed && (
-                    <TouchableOpacity
-                      style={{
-                        paddingVertical: 12,
-                        paddingHorizontal: 50,
-                        borderRadius: 60,
-                        elevation: 3,
-                        backgroundColor: "#2482AA",
-                        alignSelf: "center",
-                      }}
-                      onPress={() => {
-                        setUser({
-                          ...user,
-                          currentGroup: item.group_id,
-                          groupName: item.group_name,
-                          invitePasscode: item.invite_passcode,
-                        });
-                        navigation.navigate("Group Chat");
-                      }}
-                    >
-                      <Text style={globalStyles.primaryButtonText}>
-                        Complete for +{item.point_value} pts!
-                      </Text>
-                    </TouchableOpacity>
-                  )} */}
                   {item.is_completed ? (
                     <TouchableOpacity
                       style={{
