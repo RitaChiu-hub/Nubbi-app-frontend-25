@@ -25,6 +25,7 @@ export default function HomeScreenTasks({}) {
   const [myTasks, setMyTasks] = React.useState([]);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const deviceWidth = Dimensions.get("window").width;
 
   let assets1 = useAssets([require("../../assets/HomeCalendar.png")]);
   // let assets2 = useAssets([require("../assets/Carousel2.png")]);
@@ -86,60 +87,27 @@ export default function HomeScreenTasks({}) {
                 paddingVertical: 5,
               }}
             >
-              <Text style={{ fontSize: 17, fontWeight: "600" }}>
+              <Text
+                style={[globalStyles.h3HeadingRegular, { textAlign: "left" }]}
+              >
                 {item.task}
               </Text>
-              <Text
-                style={{ fontSize: 14, color: "gray", paddingVertical: 5 }}
-              >
-                Group: {item.group_name}
-              </Text>
+              <Text style={globalStyles.caption}>Group: {item.group_name}</Text>
               <View
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingVertical: 5,
+                  justifyContent: "center",
                 }}
               >
                 <View
                   style={{
-                    width: "56%",
-                    height: "45%",
-                    backgroundColor: item.is_completed ? "#24D265" : "gray",
-                    borderRadius: 20,
-                  }}
-                ></View>
-                <Text style={{ width: "40%" }}>
-                  {item.is_completed ? "Completed" : "Not completed"}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View style={{ width: "30%" }}>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: "600",
-                      textAlign: "left",
-                    }}
-                  >
-                    +{item.point_value} pts
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    width: "60%",
+                    //   width: "100%",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  {!item.is_completed && (
+                  {/* {!item.is_completed && (
                     <TouchableOpacity
                       style={{
                         paddingVertical: 12,
@@ -159,8 +127,59 @@ export default function HomeScreenTasks({}) {
                         navigation.navigate("Group Chat");
                       }}
                     >
-                      <Text style={{ color: "white", fontWeight: "600" }}>
-                        Complete
+                      <Text style={globalStyles.primaryButtonText}>
+                        Complete for +{item.point_value} pts!
+                      </Text>
+                    </TouchableOpacity>
+                  )} */}
+                  {item.is_completed ? (
+                    <TouchableOpacity
+                      style={{
+                        paddingVertical: 12,
+                        paddingHorizontal: 50,
+                        borderRadius: 60,
+                        elevation: 3,
+                        backgroundColor: "green", // Change the button color to green
+                        alignItems: "center",
+                        width:
+                          deviceWidth > 500
+                            ? deviceWidth * 0.5
+                            : deviceWidth * 0.7,
+                        maxWidth: 500,
+                      }}
+                      activeOpacity={1} // Make sure the button doesn't react to clicks
+                    >
+                      <Text style={globalStyles.primaryButtonText}>
+                        Completed!
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={{
+                        paddingVertical: 12,
+                        paddingHorizontal: 50,
+                        borderRadius: 60,
+                        elevation: 3,
+                        backgroundColor: "#2482AA",
+                        alignItems: "center",
+                        width:
+                          deviceWidth > 500
+                            ? deviceWidth * 0.5
+                            : deviceWidth * 0.7,
+                        maxWidth: 500,
+                      }}
+                      onPress={() => {
+                        setUser({
+                          ...user,
+                          currentGroup: item.group_id,
+                          groupName: item.group_name,
+                          invitePasscode: item.invite_passcode,
+                        });
+                        navigation.navigate("Group Chat");
+                      }}
+                    >
+                      <Text style={globalStyles.primaryButtonText}>
+                        Complete for +{item.point_value} pts!
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -200,7 +219,7 @@ export default function HomeScreenTasks({}) {
             borderRadius: 16,
             borderColor: "#111111",
             overflow: "hidden",
-            height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.5,
+            height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.4,
             maxHeight: 200,
           }}
         >

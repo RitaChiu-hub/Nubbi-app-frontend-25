@@ -166,9 +166,9 @@ export default function HomeScreenLeaderboard() {
                 >
                   <Image
                     style={{
-                      width: screenWidth > 500 ? 75 : "70%", // Adjust width for larger screens
-                      height: screenWidth > 500 ? 75 : "70%", // Ensure height matches width
-                      borderRadius: screenWidth > 500 ? 37.5 : 35, // Make sure the borderRadius is half of the width/height to make it circular
+                      width: 75, // Adjust width for larger screens
+                      height: 75, // Ensure height matches width
+                      borderRadius: 50, // Make sure the borderRadius is half of the width/height to make it circular
                     }}
                     source={
                       leader.profilePicture == null
@@ -187,8 +187,6 @@ export default function HomeScreenLeaderboard() {
       </View>
     );
   });
-
-
 
   // const MemoizedItem = React.memo(({ item }) => {
   //   const randomAvatar = getRandomAvatar();
