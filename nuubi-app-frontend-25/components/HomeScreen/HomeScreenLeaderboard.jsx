@@ -47,7 +47,7 @@ export default function HomeScreenLeaderboard() {
     },
   ]);
 
-  let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
+  let assets1 = useAssets([require("../../assets/avatars/avatar1.png")]);
 
   const getMyLeaderboards = async () => {
     try {
@@ -99,7 +99,14 @@ export default function HomeScreenLeaderboard() {
               maxHeight: 200,
             }}
           >
-            <View style={globalStyles.subjectNameView}>
+            <View
+              style={{
+                height: "20%",
+                justifyContent: "flex-end",
+                alignItems: "flex-start",
+                paddingLeft: 5,
+              }}
+            >
               <Text style={globalStyles.h3HeadingRegular}>
                 {item.classname}
               </Text>
@@ -107,11 +114,12 @@ export default function HomeScreenLeaderboard() {
             <View
               style={{
                 height: "60%",
+                //  marginHorizontal: 5,
                 //   width: "92%",
                 flexDirection: "row",
-                alignSelf: "center",
-                alignItems: "center",
-                justifyContent: "center",
+                //  alignSelf: "center",
+                // alignItems: "center",
+                // justifyContent: "center",
               }}
             >
               {item.leaders.map((leader, index) => (
@@ -121,8 +129,9 @@ export default function HomeScreenLeaderboard() {
                     //  width: "32%",
                     height: "100%",
                     alignItems: "center",
-                    //   justifyContent: "flex-start",
+                    //  justifyContent: "flex-start",
                     marginTop: 20,
+                    marginHorizontal: 5,
                   }}
                 >
                   <Image
@@ -136,13 +145,13 @@ export default function HomeScreenLeaderboard() {
                     source={
                       leader.profilePicture == null
                         ? Platform.OS == "web"
-                          ? require("../../assets/defaultAvatar.png")
+                          ? require("../../assets/avatars/avatar1.png")
                           : assets1[0]
                         : { uri: leader.profilePicture }
                     }
                     //   source={{ uri: leader.profilePicture }}
                   />
-                  <Text style={{ marginTop: 5 }}>
+                  <Text style={[globalStyles.caption, { marginTop: 5 }]}>
                     {leader.placement}: {leader.name}
                   </Text>
                 </View>
@@ -191,7 +200,7 @@ export default function HomeScreenLeaderboard() {
             keyExtractor={(item, index) => index.toString()}
             horizontal
             pagingEnabled
-              snapToInterval={screenWidth * 0.9}
+            snapToInterval={screenWidth * 0.9}
             decelerationRate="normal"
             showsHorizontalScrollIndicator={false}
           />
