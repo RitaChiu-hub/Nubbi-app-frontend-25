@@ -382,7 +382,13 @@ function HomeStack() {
       <StackHome.Screen
         name="Home"
         component={HomeScreen}
-        options={{ animation: "none" }}
+        // options={{ animation: "none" }}
+        options={{
+          animation: "none",
+          headerStyle: {
+            backgroundColor: "#f4511e",
+          },
+        }}
         //    options={{ title: "Home" }}
       />
       <StackHome.Screen
