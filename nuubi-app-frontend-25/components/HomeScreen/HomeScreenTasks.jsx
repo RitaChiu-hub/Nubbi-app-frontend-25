@@ -243,6 +243,83 @@ export default function HomeScreenTasks({}) {
             snapToInterval={screenWidth * 0.9}
             decelerationRate="normal"
             showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                }}
+              >
+                <View
+                  style={{
+                    width: "50%",
+                    alignItems: "left",
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "#111111",
+                      textAlign: "left",
+                      fontSize: 18,
+                      fontFamily: "Poppins_600SemiBold",
+                    }}
+                  >
+                    Stay tuned!
+                  </Text>
+                  <Text style={[globalStyles.caption, { textAlign: "left" }]}>
+                    Your tasks will appear in this section once assigned.
+                  </Text>
+                </View>
+                <Image
+                  style={{
+                    width: 75,
+                    height: 75,
+                    marginLeft: 20, // Adjust for spacing between text and image
+                  }}
+                  source={
+                    Platform.OS == "web"
+                      ? require("../../assets/task.png")
+                      : assets1[0]
+                  }
+                />
+              </View>
+              // <View
+              //   style={{
+              //     justifyContent: "center",
+              //     alignItems: "center",
+              //     flex: 1,
+              //     flexDirection: "row",
+              //   }}
+              // >
+              //   <View style={{ width: "50%" }}>
+              //     <Text
+              //       style={[
+              //         globalStyles.h3HeadingRegular,
+              //         {
+              //           textAlign: "left",
+              //         },
+              //       ]}
+              //     >
+              //       Stay tuned!
+              //     </Text>
+              //     <Text style={globalStyles.caption}>
+              //       Your tasks will appear in this section once assigned.
+              //     </Text>
+              //   </View>
+              //   <Image
+              //     style={{
+              //       width: 75,
+              //       height: 75,
+              //     }}
+              //     source={
+              //       Platform.OS == "web"
+              //         ? require("../../assets/task.png")
+              //         : assets1[0]
+              //     }
+              //   />
+              // </View>
+            )}
           />
         </View>
       </View>
