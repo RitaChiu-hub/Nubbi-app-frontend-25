@@ -496,7 +496,13 @@ function AuthStack() {
   return (
     <StackAuth.Navigator
       initialRouteName="Welcome"
-      screenOptions={{ headerBackTitleVisible: false }}
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#FDFDFD",
+      }}
     >
       <StackAuth.Screen
         name="Welcome"
