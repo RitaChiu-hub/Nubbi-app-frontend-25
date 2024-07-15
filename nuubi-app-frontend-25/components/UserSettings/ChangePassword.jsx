@@ -69,7 +69,7 @@ export default function ChangePasswordScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Update Password</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Update Password</Text>
       ),
       headerTitleAlign: "center",
     });

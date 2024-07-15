@@ -22,7 +22,7 @@ export default function CreateTask({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Create New Task</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Create New Task</Text>
       ),
       headerTitleAlign: "center",
     });

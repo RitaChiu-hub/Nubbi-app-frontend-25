@@ -62,7 +62,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Verification</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Verification</Text>
       ),
       headerTitleAlign: "center",
     });

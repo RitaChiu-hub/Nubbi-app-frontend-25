@@ -170,7 +170,7 @@ export default function MyGroupTasks({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>My Group Tasks</Text>
+        <Text style={globalStyles.h3HeadingWhite}>My Group Tasks</Text>
       ),
       headerTitleAlign: "center",
     });

@@ -6,7 +6,7 @@ export default function AddGroupScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Add Group</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Add Group</Text>
       ),
       headerTitleAlign: "center",
     });

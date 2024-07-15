@@ -219,7 +219,7 @@ export default function GroupAnalytics({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Group Analytics</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Group Analytics</Text>
       ),
       headerTitleAlign: "center",
     });

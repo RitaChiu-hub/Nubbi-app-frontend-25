@@ -62,7 +62,7 @@ export default function EditPostScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Edit Post</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Edit Post</Text>
       ),
       headerTitleAlign: "center",
     });

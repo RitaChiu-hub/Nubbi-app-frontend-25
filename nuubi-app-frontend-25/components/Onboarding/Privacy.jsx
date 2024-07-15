@@ -10,7 +10,7 @@ export default function PrivacyScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Privacy Policy</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Privacy Policy</Text>
       ),
       headerTitleAlign: "center",
     });

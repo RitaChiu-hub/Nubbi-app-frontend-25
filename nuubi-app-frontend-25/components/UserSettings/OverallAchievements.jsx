@@ -176,7 +176,7 @@ export default function OverallAchievementsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>
+        <Text style={globalStyles.h3HeadingWhite}>
           My Overall Achievements
         </Text>
       ),

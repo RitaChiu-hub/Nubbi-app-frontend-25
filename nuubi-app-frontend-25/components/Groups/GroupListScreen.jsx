@@ -21,7 +21,7 @@ export default function GroupListScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Discover Public Groups</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Discover Public Groups</Text>
       ),
       headerTitleAlign: "center",
     });

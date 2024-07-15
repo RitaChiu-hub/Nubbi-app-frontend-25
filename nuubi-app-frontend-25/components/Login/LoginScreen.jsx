@@ -36,7 +36,7 @@ export default function LoginScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Login</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Login</Text>
       ),
       headerTitleAlign: "center",
     });

@@ -46,7 +46,7 @@ export default function ChangeUsernameScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Update Username</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Update Username</Text>
       ),
       headerTitleAlign: "center",
     });

@@ -173,7 +173,7 @@ export default function GroupAchievementsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>My Group Achievements</Text>
+        <Text style={globalStyles.h3HeadingWhite}>My Group Achievements</Text>
       ),
       headerTitleAlign: "center",
     });

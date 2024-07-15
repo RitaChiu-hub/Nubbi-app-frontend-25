@@ -20,6 +20,7 @@ export default function MyGroupsScreen({ navigation }) {
   const [selectedTab, setSelectedTab] = React.useState("Groups");
 
   const screenWidth = Dimensions.get("window").width;
+  const deviceWidth = Dimensions.get("window").width;
 
   if (user.token != null && user.token != "undefined") {
     React.useEffect(() => {
@@ -115,97 +116,6 @@ export default function MyGroupsScreen({ navigation }) {
         headerTitleAlign: "center",
       });
     }, [navigation]);
-    // React.useLayoutEffect(() => {
-    //   navigation.setOptions({
-    //     headerLeft: () => null,
-    //     headerTitle: () => (
-    //       <View
-    //         style={{
-    //           flexDirection: "row",
-    //           alignItems: "center",
-    //           justifyContent:
-    //             screenWidth > 500 ? "space-evenly" : "space-around",
-    //           marginTop: 8,
-    //           width: screenWidth > 500 ? screenWidth : "90%",
-    //           marginLeft: screenWidth > 500 ? 0 : "-8%",
-    //         }}
-    //       >
-    //         <TouchableOpacity
-    //           onPress={() => {
-    //             setSelectedTab("Home");
-    //             navigation.navigate("Home");
-    //           }}
-    //         >
-    //           <View
-    //             style={[
-    //               {
-    //                 borderBottomWidth: 0,
-    //                 borderColor: "transparent",
-    //                 marginBottom: 12,
-    //               },
-    //               selectedTab === "Home" && {
-    //                 borderBottomWidth: 2,
-    //                 borderColor: "#FDFDFD",
-    //               },
-    //             ]}
-    //           >
-    //             <Text
-    //               style={[
-    //                 {
-    //                   color: "#EBEBEB",
-    //                   fontSize: 18,
-    //                   fontFamily: "Poppins_600SemiBold",
-    //                   letterSpacing: 0,
-    //                 },
-    //                 selectedTab === "Home" && {
-    //                   color: "#FDFDFD",
-    //                   fontSize: 18,
-    //                   fontFamily: "Poppins_600SemiBold",
-    //                   letterSpacing: 0,
-    //                 },
-    //               ]}
-    //             >
-    //               For me
-    //             </Text>
-    //           </View>
-    //         </TouchableOpacity>
-
-    //         <TouchableOpacity
-    //           onPress={() => {
-    //             setSelectedTab("Groups");
-    //           }}
-    //         >
-    //           <View
-    //             style={[
-    //               globalStyles.topNavTab,
-    //               selectedTab === "Groups" && globalStyles.topNavTabSelected,
-    //             ]}
-    //           >
-    //             <Text
-    //               style={[
-    //                 {
-    //                   color: "#EBEBEB",
-    //                   fontSize: 18,
-    //                   fontFamily: "Poppins_600SemiBold",
-    //                   letterSpacing: 0,
-    //                 },
-    //                 selectedTab === "Groups" && {
-    //                   color: "#FDFDFD",
-    //                   fontSize: 18,
-    //                   fontFamily: "Poppins_600SemiBold",
-    //                   letterSpacing: 0,
-    //                 },
-    //               ]}
-    //             >
-    //               My groups
-    //             </Text>
-    //           </View>
-    //         </TouchableOpacity>
-    //       </View>
-    //     ),
-    //     headerBackVisible: false,
-    //   });
-    // }, [navigation, selectedTab]);
   } else {
     React.useLayoutEffect(() => {
       navigation.setOptions({
@@ -229,7 +139,25 @@ export default function MyGroupsScreen({ navigation }) {
         data={groups}
         renderItem={renderItem}
         keyExtractor={(item) => item.group_id}
+        style={{ flex: 1 }}
       />
+      <View
+        style={{
+          backgroundColor: "#fdfdfd",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 10,
+        }}
+      >
+        <TouchableOpacity
+          style={globalStyles.primaryButton}
+          onPress={() => {
+            navigation.navigate("AddGroup");
+          }}
+        >
+          <Text style={globalStyles.primaryButtonText}>Add New or Private Group</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

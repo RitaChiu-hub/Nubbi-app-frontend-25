@@ -18,7 +18,7 @@ export default function DeleteGroupScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Delete Group</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Delete Group</Text>
       ),
       headerTitleAlign: "center",
     });

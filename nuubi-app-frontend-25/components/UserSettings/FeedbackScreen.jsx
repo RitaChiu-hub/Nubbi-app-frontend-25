@@ -21,7 +21,7 @@ export default function FeedbackScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Share Your Feedback</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Share Your Feedback</Text>
       ),
       headerTitleAlign: "center",
     });

@@ -20,7 +20,7 @@ export default function DeleteAccountScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Delete Account</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Delete Account</Text>
       ),
       headerTitleAlign: "center",
     });

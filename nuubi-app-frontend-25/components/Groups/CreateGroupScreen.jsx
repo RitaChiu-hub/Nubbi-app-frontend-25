@@ -29,7 +29,7 @@ export default function CreateGroupScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Create New Group</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Create New Group</Text>
       ),
       headerTitleAlign: "center",
     });

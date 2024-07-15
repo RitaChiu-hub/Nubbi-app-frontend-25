@@ -29,7 +29,7 @@ export default function ProfilePageScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Profile</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Profile</Text>
       ),
       headerTitleAlign: "center",
     });

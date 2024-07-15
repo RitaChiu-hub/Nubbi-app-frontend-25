@@ -6,7 +6,7 @@ export default function LearnMore1Screen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Mission</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Mission</Text>
       ),
       headerTitleAlign: "center",
     });

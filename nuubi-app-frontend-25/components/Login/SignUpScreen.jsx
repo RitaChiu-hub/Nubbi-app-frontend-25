@@ -89,7 +89,7 @@ export default function SignUpScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingRegular}>Sign Up</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Sign Up</Text>
       ),
       headerTitleAlign: "center",
     });

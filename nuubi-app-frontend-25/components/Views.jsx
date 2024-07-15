@@ -79,6 +79,7 @@ function HomeDrawerNavigator() {
           },
           drawerActiveTintColor: "#2482AA",
         }}
+   
       />
       <HomeDrawer.Screen
         name="MyGroups"
@@ -324,7 +325,13 @@ function SettingsStack() {
   return (
     <StackSettings.Navigator
       initialRouteName="ProfilePage"
-      screenOptions={{ headerBackTitleVisible: false }}
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#FDFDFD",
+      }}
       // screenOptions={{ headerShown: false }}
     >
       <StackSettings.Screen name="ProfilePage" component={ProfilePageScreen} />
@@ -378,6 +385,10 @@ function HomeStack() {
       initialRouteName="Home"
       screenOptions={{
         headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#FDFDFD",
       }}
     >
       <StackHome.Screen
@@ -447,7 +458,13 @@ function SearchStack() {
   return (
     <StackSearch.Navigator
       initialRouteName="ViewAllGroups"
-      screenOptions={{ headerBackTitleVisible: false }}
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#FDFDFD",
+      }}
     >
       <StackSearch.Screen name="ViewAllGroups" component={GroupListScreen} />
       <StackSearch.Screen name="EditGroup" component={EditGroupScreen} />
@@ -539,7 +556,13 @@ function MyGroupsStack() {
   return (
     <StackMyGroups.Navigator
       initialRouteName="MyGroups"
-      screenOptions={{ headerBackTitleVisible: false }}
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#FDFDFD",
+      }}
     >
       <StackMyGroups.Screen
         name="MyGroups"
@@ -601,7 +624,13 @@ function NotificationsStack() {
   return (
     <StackNotifications.Navigator
       initialRouteName="Notifications"
-      screenOptions={{ headerBackTitleVisible: false }}
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#FDFDFD",
+      }}
     >
       <StackNotifications.Screen
         name="Notifications"
