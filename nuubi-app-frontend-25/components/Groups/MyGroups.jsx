@@ -107,7 +107,6 @@ export default function MyGroupsScreen({ navigation }) {
     />
   );
 
-  if (Platform.OS !== "web") {
     React.useLayoutEffect(() => {
       navigation.setOptions({
         headerTitle: () => (
@@ -116,16 +115,6 @@ export default function MyGroupsScreen({ navigation }) {
         headerTitleAlign: "center",
       });
     }, [navigation]);
-  } else {
-    React.useLayoutEffect(() => {
-      navigation.setOptions({
-        headerTitle: () => (
-          <Text style={globalStyles.h3HeadingRegular}>My Groups</Text>
-        ),
-        headerTitleAlign: "center",
-      });
-    }, [navigation]);
-  }
 
   return (
     <View
