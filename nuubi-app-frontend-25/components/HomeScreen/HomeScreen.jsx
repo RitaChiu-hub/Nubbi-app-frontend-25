@@ -207,7 +207,7 @@ export default function HomeScreen({ navigation }) {
     React.useLayoutEffect(() => {
       navigation.setOptions({
         headerTitle: () => (
-          <Text style={globalStyles.h3HeadingRegular}>My Feed</Text>
+          <Text style={globalStyles.h3HeadingWhite}>My Feed</Text>
         ),
         headerTitleAlign: "center",
       });

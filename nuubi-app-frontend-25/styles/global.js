@@ -29,6 +29,12 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
   },
+  h3HeadingWhite: {
+    color: nuubiColors["white"],
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Poppins_600SemiBold",
+  },
   bodyRegular: {
     color: nuubiColors["black"],
     fontFamily: "Poppins_400Regular",
