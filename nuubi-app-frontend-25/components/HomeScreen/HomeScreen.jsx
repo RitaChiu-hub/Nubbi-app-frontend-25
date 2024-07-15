@@ -19,9 +19,7 @@ import HomeScreenBadges from "./HomeScreenBadges";
 import { Overlay } from "react-native-elements";
 import { useAssets } from "expo-asset";
 import { useIsFocused, useRoute } from "@react-navigation/native";
-import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import Constants from "expo-constants";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -144,13 +142,13 @@ export default function HomeScreen({ navigation }) {
     }
   };
   // change onboarding to true when ready to demo
-  const [performOnboarding, setPerformOnboarding] = React.useState(
-    user.firstSignIn == true ? true : false
-  );
-  // const [performOnboarding, setPerformOnboarding] = React.useState(true);
+  // const [performOnboarding, setPerformOnboarding] = React.useState(
+  //   user.firstSignIn == true ? true : false
+  // );
+  const [performOnboarding, setPerformOnboarding] = React.useState(true);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
-  const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.41];
+  const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.32];
   const positionLeft = [0.02, 0.25, 0.26, 0.2, 0.1, 0.05];
   const arrowPositionLeft = [0.05, 0.22, 0.61, 0.4, 0.15, 0.1];
 
@@ -212,96 +210,6 @@ export default function HomeScreen({ navigation }) {
         headerTitleAlign: "center",
       });
     }, [navigation]);
-    // React.useLayoutEffect(() => {
-    //   navigation.setOptions({
-    //     headerTitle: () => (
-    //       <View
-    //         style={{
-    //           flexDirection: "row",
-    //           alignItems: "center",
-    //           justifyContent:
-    //             screenWidth > 500 ? "space-evenly" : "space-around",
-    //           marginTop: 8,
-    //           width: screenWidth > 500 ? screenWidth : "90%",
-    //           marginLeft: screenWidth > 500 ? 0 : "-8%",
-    //         }}
-    //       >
-    //         <TouchableOpacity
-    //           onPress={() => {
-    //             // navigation.navigate("Home");
-    //             setSelectedTab("Home");
-    //           }}
-    //         >
-    //           <View
-    //             style={[
-    //               {
-    //                 borderBottomWidth: 0,
-    //                 borderColor: "transparent",
-    //                 marginBottom: 12,
-    //               },
-    //               selectedTab === "Home" && {
-    //                 borderBottomWidth: 2,
-    //                 borderColor: "#FDFDFD",
-    //               },
-    //             ]}
-    //           >
-    //             <Text
-    //               style={[
-    //                 {
-    //                   color: "#EBEBEB",
-    //                   fontSize: 18,
-    //                   fontFamily: "Poppins_600SemiBold",
-    //                   letterSpacing: 0,
-    //                 },
-    //                 selectedTab === "Home" && {
-    //                   color: "#FDFDFD",
-    //                   fontSize: 18,
-    //                   fontFamily: "Poppins_600SemiBold",
-    //                   letterSpacing: 0,
-    //                 },
-    //               ]}
-    //             >
-    //               For me
-    //             </Text>
-    //           </View>
-    //         </TouchableOpacity>
-
-    //         <TouchableOpacity
-    //           onPress={() => {
-    //             setSelectedTab("Groups");
-    //             navigation.navigate("MyGroups");
-    //           }}
-    //         >
-    //           <View
-    //             style={[
-    //               globalStyles.topNavTab,
-    //               selectedTab === "Groups" && globalStyles.topNavTabSelected,
-    //             ]}
-    //           >
-    //             <Text
-    //               style={[
-    //                 {
-    //                   color: "#EBEBEB",
-    //                   fontSize: 18,
-    //                   fontFamily: "Poppins_600SemiBold",
-    //                   letterSpacing: 0,
-    //                 },
-    //                 selectedTab === "Groups" && {
-    //                   color: "#FDFDFD",
-    //                   fontSize: 18,
-    //                   fontFamily: "Poppins_600SemiBold",
-    //                   letterSpacing: 0,
-    //                 },
-    //               ]}
-    //             >
-    //               My groups
-    //             </Text>
-    //           </View>
-    //         </TouchableOpacity>
-    //       </View>
-    //     ),
-    //   });
-    // }, [navigation, selectedTab]);
   } else {
     React.useLayoutEffect(() => {
       navigation.setOptions({
@@ -493,15 +401,13 @@ export default function HomeScreen({ navigation }) {
                     alignSelf: "center",
                   }}
                   onPress={() => {
-                    if (onboardingState == 4) {
-                      scrollToBottom();
-                    }
-                    if (onboardingState == 5) {
-                      setPerformOnboarding(false);
-                      setShowFinishedPopup(true);
-                      setOnboardingState(onboardingState + 1);
+                    if (onboardingState < 5) {
+                      setOnboardingState(
+                        (onboardingState) => onboardingState + 1
+                      ); // Advance to the next state
                     } else {
-                      setOnboardingState(onboardingState + 1);
+                      setPerformOnboarding(false); // End onboarding
+                      setShowFinishedPopup(true); // Show finished popup
                     }
                   }}
                 >

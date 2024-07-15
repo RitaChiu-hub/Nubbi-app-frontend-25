@@ -17,12 +17,14 @@ export default function CodeVerificationScreen({ navigation, route }) {
   const { setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [verificationData, setVerificationData] = React.useState(null);
+  const [codeResent, setCodeResent] = React.useState(0); // State to track code resends
   const { formVals } = route.params || {};
 
   React.useEffect(() => {
     const generateSignUpCode = async () => {
       try {
         const email = formVals.email;
+        console.log(formVals.email)
         const response = await fetch(
           "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
           {
@@ -37,7 +39,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
         );
 
         if (!response.ok || response.status >= 400) {
-          throw new Error("Failed to generate sign-up code");
+          throw new Error("Failed to generate sign-up code. Please try again!");
         }
 
         const data = await response.json();
@@ -52,12 +54,18 @@ export default function CodeVerificationScreen({ navigation, route }) {
 
     // Call the function when the component mounts
     generateSignUpCode();
-  }, [formVals]);
+  }, [formVals, codeResent]);
 
   // Log the generated hashedOTP
   React.useEffect(() => {
     console.log("hashedOTP:", verificationData);
   }, [verificationData]);
+
+  const handlePress = () => {
+    // Increment codeResent state to log how many times it's been resent
+    console.log("resend code")
+    setCodeResent((prevCount) => prevCount + 1);
+  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -168,8 +176,13 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 </Text>
                 <View style={[globalStyles.widthContainer, { marginTop: 16 }]}>
                   <Text style={globalStyles.bodyRegular}>
-                    An email containing the verification code was sent to your
-                    email address.
+                    An email containing the verification code was sent to the
+                    email address you provided.
+                  </Text>
+                  <View style={{ padding: 4 }}></View>
+                  <Text style={globalStyles.bodyRegular}>
+                    Please allow a few minutes for it to arrive. You may need to
+                    check your Spam folder.
                   </Text>
                 </View>
               </View>
@@ -216,7 +229,19 @@ export default function CodeVerificationScreen({ navigation, route }) {
                         },
                       ]}
                     >
-                      Confirm
+                      {isFieldEmpty(props.values)
+                        ? "Enter Code to Confirm"
+                        : "Confirm"}
+                    </Text>
+                  </TouchableOpacity>
+                  <View style={{ paddingVertical: 8 }}></View>
+                  <TouchableOpacity
+                    style={globalStyles.primaryButton}
+                    accessibilityRole="button"
+                    onPress={handlePress}
+                  >
+                    <Text style={globalStyles.primaryButtonText}>
+                      Re-Send Verification Code
                     </Text>
                   </TouchableOpacity>
                 </View>

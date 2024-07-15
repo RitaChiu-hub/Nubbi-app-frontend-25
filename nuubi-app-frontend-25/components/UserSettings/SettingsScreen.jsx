@@ -52,7 +52,7 @@ const SECTIONS = [
         navRoute: "comingSoonAlert",
       },
       {
-        label: "Send us your feedback",
+        label: "Contact Us",
         icon: "mail",
         type: "link",
         navRoute: "FeedbackScreen",
@@ -64,9 +64,9 @@ const SECTIONS = [
         navRoute: "HelpLoggedIn",
       },
       {
-        label: "Sign out",
+        label: "Sign Out",
         icon: "log-out",
-        color: "#33B7F0",
+        color: "#2482AA",
         onPress: (setUser, navigation) => handleSignOut(setUser, navigation),
       },
     ],
@@ -152,7 +152,7 @@ export default function SettingsScreen({ navigation }) {
 
                           <Text
                             style={[
-                              globalStyles.headingText,
+                              globalStyles.headingTextRows,
                               { color: color ? color : "#000" }, // Dynamic color based on provided color attribute
                             ]}
                           >

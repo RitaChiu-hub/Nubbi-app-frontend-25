@@ -336,6 +336,13 @@ export const globalStyles = StyleSheet.create({
     letterSpacing: 1.25,
     marginTop: 8,
   },
+  headingTextRows: {
+    color: nuubiColors["primaryGray"],
+    fontSize: 16,
+    fontFamily: "Poppins_600SemiBold",
+    letterSpacing: 1.25,
+    marginVertical: 6,
+  },
   passwordInput: {
     flex: 1,
     fontFamily: "Poppins_400Regular",

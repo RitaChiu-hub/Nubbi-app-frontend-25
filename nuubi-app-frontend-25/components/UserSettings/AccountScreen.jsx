@@ -99,7 +99,7 @@ export default function AccountScreen({ navigation }) {
 
                           <Text
                             style={[
-                              globalStyles.headingText,
+                              globalStyles.headingTextRows,
                               { color: color ? color : "#000" }, // Dynamic color based on provided color attribute
                             ]}
                           >
