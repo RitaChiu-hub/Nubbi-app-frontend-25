@@ -4,8 +4,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { FontAwesome6 } from "@expo/vector-icons";
 
-import { Image, Platform } from "react-native";
+import { Image, Platform, StyleSheet, View } from "react-native";
 import { useAssets } from "expo-asset";
 
 import { useContext } from "react";
@@ -532,6 +533,68 @@ function AddGroupStack() {
   );
 }
 
+const StackMyGroups = createNativeStackNavigator();
+
+function MyGroupsStack() {
+  return (
+    <StackMyGroups.Navigator
+      initialRouteName="MyGroups"
+      screenOptions={{ headerBackTitleVisible: false }}
+    >
+      <StackMyGroups.Screen
+        name="MyGroups"
+        component={MyGroupsScreen}
+        options={{
+          animation: "none",
+          headerStyle: {
+            backgroundColor: "#2482AA",
+          },
+        }}
+        //    options={{ title: "My Groups" }}
+      />
+
+      <StackMyGroups.Screen name="EditGroup" component={EditGroupScreen} />
+      <StackMyGroups.Screen name="Group Chat" component={ChatScreen} />
+      <StackMyGroups.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={{ animation: "none" }}
+      />
+      <StackMyGroups.Screen name="CreatePost" component={CreatePostScreen} />
+      <StackMyGroups.Screen name="CreateTask" component={CreateTask} />
+      <StackMyGroups.Screen name="MyGroupTasks" component={MyGroupTasks} />
+      <StackMyGroups.Screen name="EditPost" component={EditPostScreen} />
+      <StackMyGroups.Screen name="ViewPost" component={ViewPostScreen} />
+      <StackMyGroups.Screen
+        name="GroupInfo"
+        component={GroupInfoScreen}
+        options={{ animation: "none" }}
+      />
+      <StackMyGroups.Screen
+        name="GroupAchievements"
+        component={GroupAchievements}
+      />
+      <StackMyGroups.Screen
+        name="GroupAnalytics"
+        component={GroupAnalytics}
+        //   options={{ animation: "none" }}
+      />
+      <StackMyGroups.Screen name="DeleteGroup" component={DeleteGroupScreen} />
+      <StackMyGroups.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{ title: "Nuubi How-To" }}
+      />
+      <StackMyGroups.Screen
+        name="JoinGroup"
+        component={JoinGroupWithPasscode}
+      />
+      <StackMyGroups.Screen name="AddGroup" component={AddGroupScreen} />
+      <StackMyGroups.Screen name="CreateGroup" component={CreateGroupScreen} />
+    </StackMyGroups.Navigator>
+  );
+}
+
 const StackNotifications = createNativeStackNavigator();
 
 function NotificationsStack() {
@@ -600,95 +663,55 @@ const TabNavigator = () => {
           switch (route.name) {
             case "HomeStack":
               return (
-                <Image
-                  source={
-                    Platform.OS == "web"
-                      ? focused
-                        ? require("../assets/icons/HomeFocused.png")
-                        : require("../assets/icons/Home.png")
-                      : focused
-                      ? assets1[0]
-                      : assets2[0]
-                  }
-                  style={{ width: 24, height: 24 }}
+                <FontAwesome6
+                  name="house"
+                  style={{
+                    color: focused ? "#2482AA" : "#767676",
+                  }}
+                  size={24}
                 />
               );
             case "SearchStack":
               return (
-                <Image
-                  source={
-                    Platform.OS == "web"
-                      ? focused
-                        ? require("../assets/icons/SearchFocused.png")
-                        : require("../assets/icons/Search.png")
-                      : focused
-                      ? assets3[0]
-                      : assets4[0]
-                  }
-                  style={{ width: 24, height: 24 }}
+                <FontAwesome6
+                  name="magnifying-glass"
+                  style={{
+                    color: focused ? "#2482AA" : "#767676",
+                  }}
+                  size={24}
                 />
               );
-            case "AddGroupStack":
+            case "MyGroupsStack":
               return (
-                <Image
-                  source={
-                    Platform.OS == "web"
-                      ? focused
-                        ? require("../assets/icons/AddFocused.png")
-                        : require("../assets/icons/Add.png")
-                      : focused
-                      ? assets5[0]
-                      : assets6[0]
-                  }
-                  style={{ width: 24, height: 24 }}
+                <FontAwesome6
+                  name="user-group"
+                  style={{
+                    color: focused ? "#2482AA" : "#767676",
+                  }}
+                  size={24}
                 />
               );
             case "NotificationsStack":
               return (
-                <Image
-                  source={
-                    Platform.OS === "web"
-                      ? focused
-                        ? require("../assets/icons/NotificationFocused.png")
-                        : notifications
-                        ? require("../assets/icons/NotificationsTrue.png")
-                        : require("../assets/icons/Notification.png")
-                      : focused
-                      ? assets7[0]
-                      : notifications
-                      ? assets11[0]
-                      : assets8[0]
-                  }
-                  style={{ width: 24, height: 24 }}
-                />
+                <View style={styles.iconContainer}>
+                  <FontAwesome6
+                    name="bell"
+                    style={{
+                      color: focused ? "#2482AA" : "#767676",
+                    }}
+                    size={24}
+                  />
+                  {notifications && <View style={styles.redDot} />}
+                </View>
               );
-            // return (
-            //   <Image
-            //     source={
-            //       Platform.OS == "web"
-            //         ? focused
-            //           ? require("../assets/icons/NotificationFocused.png")
-            //           : require("../assets/icons/Notification.png")
-            //         : focused
-            //         ? assets7[0]
-            //         : assets8[0]
-            //     }
-            //     style={{ width: 24, height: 24 }}
-            //   />
-            // );
             case "SettingsStack":
               return (
-                <Image
-                  source={
-                    Platform.OS == "web"
-                      ? focused
-                        ? require("../assets/icons/ProfileFocused.png")
-                        : require("../assets/icons/Profile.png")
-                      : focused
-                      ? assets9[0]
-                      : assets10[0]
-                  }
-                  style={{ width: 24, height: 24 }}
+                <FontAwesome6
+                  name="user"
+                  style={{
+                    color: focused ? "#2482AA" : "#767676",
+                  }}
+                  size={24}
                 />
               );
             default:
@@ -698,13 +721,12 @@ const TabNavigator = () => {
                   : assets1[0];
           }
           return (
-            <Image
-              source={
-                Platform.OS == "web"
-                  ? require("../assets/icons/HomeFocused.png")
-                  : assets1[0]
-              }
-              style={{ width: 24, height: 24 }}
+            <FontAwesome6
+              name="house"
+              style={{
+                color: "#2482AA",
+              }}
+              size={24}
             />
           );
         },
@@ -714,7 +736,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="HomeStack" component={HomeStack} />
       <Tab.Screen name="SearchStack" component={SearchStack} />
-      <Tab.Screen name="AddGroupStack" component={AddGroupStack} />
+      <Tab.Screen name="MyGroupsStack" component={MyGroupsStack} />
       <Tab.Screen name="NotificationsStack" component={NotificationsStack} />
       <Tab.Screen name="SettingsStack" component={SettingsStack} />
     </Tab.Navigator>
@@ -752,3 +774,20 @@ export default function Views() {
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    position: "relative",
+    width: 24,
+    height: 24,
+  },
+  redDot: {
+    position: "absolute",
+    top: -2,
+    right: -2,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "red",
+  },
+});
