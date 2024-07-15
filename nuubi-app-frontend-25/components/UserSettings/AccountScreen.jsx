@@ -36,7 +36,7 @@ const SECTIONS = [
         type: "link",
         navRoute: "comingSoonAlert",
       },
-      { label: "Delete account", color: "#FF6060", navRoute: "DeleteAccount" },
+      { label: "Delete account", color: "#E70808", navRoute: "DeleteAccount" },
     ],
   },
 ];
