@@ -8,7 +8,7 @@ import {
   Platform,
   FlatList,
 } from "react-native";
-import { Entypo } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
 import { useIsFocused } from "@react-navigation/native";
@@ -246,7 +246,7 @@ export default function HomeScreenBadges() {
           }}
         >
           <Text style={globalStyles.h2HeadingMedium}>My Achievements</Text>
-          <Entypo name="chevron-small-right" color="#2482AA" size={36} />
+          <FontAwesome6 name="chevron-right" color="#2482AA" size={24} style={{paddingRight: 4}} />
         </View>
         <View
           style={{

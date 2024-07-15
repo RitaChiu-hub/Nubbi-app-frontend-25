@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import React, { useState } from "react";
-import { Entypo } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import "../../assets/nuubiicon.png";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
@@ -46,16 +46,6 @@ export default function HomeScreenLeaderboard() {
       ],
     },
   ]);
-
-  // let assets1 = useAssets([require("../../assets/avatars/avatar1.png")]);
-  // let assets2 = useAssets([require("../../assets/avatars/avatar2.png")]);
-  // let assets3 = useAssets([require("../../assets/avatars/avatar3.png")]);
-  // let assets4 = useAssets([require("../../assets/avatars/avatar4.png")]);
-  // let assets5 = useAssets([require("../../assets/avatars/avatar5.png")]);
-  // let assets6 = useAssets([require("../../assets/avatars/avatar6.png")]);
-  // let assets7 = useAssets([require("../../assets/avatars/avatar7.png")]);
-  // let assets8 = useAssets([require("../../assets/avatars/avatar8.png")]);
-  // let assets9 = useAssets([require("../../assets/avatars/avatar9.png")]);
 
   // Load all avatar assets
   let [assets1] = useAssets([require("../../assets/avatars/avatar1.png")]);
@@ -294,7 +284,7 @@ export default function HomeScreenLeaderboard() {
           }}
         >
           <Text style={globalStyles.h2HeadingMedium}>My Leaderboards</Text>
-          <Entypo name="chevron-small-right" color="#2482AA" size={36} />
+          <FontAwesome6 name="chevron-right" color="#2482AA" size={24} style={{paddingRight: 4}} />
         </View>
         <View
           style={{

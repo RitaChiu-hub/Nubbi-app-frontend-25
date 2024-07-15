@@ -9,7 +9,7 @@ import {
   FlatList,
 } from "react-native";
 import React, { useState } from "react";
-import { Entypo } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import "../../assets/nuubiicon.png";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
@@ -28,7 +28,6 @@ export default function HomeScreenTasks({}) {
   const deviceWidth = Dimensions.get("window").width;
 
   let assets1 = useAssets([require("../../assets/task.png")]);
-  // let assets2 = useAssets([require("../assets/Carousel2.png")]);
 
   const getMyTasks = async () => {
     try {
@@ -84,7 +83,7 @@ export default function HomeScreenTasks({}) {
               style={{
                 flex: 1,
                 justifyContent: "space-between",
-              //  paddingVertical: 5,
+                //  paddingVertical: 5,
               }}
             >
               <View
@@ -93,15 +92,19 @@ export default function HomeScreenTasks({}) {
                   alignItems: "flex-start",
                   justifyContent: "space-between",
                   width: "90%",
-                  paddingLeft: "5%"
+                  paddingLeft: "5%",
                 }}
               >
-                <View>
+                <View style={{ width: "70%" }}>
                   <Text
                     style={[
                       globalStyles.h3HeadingRegular,
-                      { textAlign: "left" },
+                      {
+                        textAlign: "left",
+                      },
                     ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
                   >
                     {item.task}
                   </Text>
@@ -111,8 +114,8 @@ export default function HomeScreenTasks({}) {
                 </View>
                 <Image
                   style={{
-                    width: 75,
-                    height: 75,
+                    width: 65,
+                    height: 65,
                   }}
                   source={
                     Platform.OS == "web"
@@ -121,31 +124,6 @@ export default function HomeScreenTasks({}) {
                   }
                 />
               </View>
-              {/* <View>
-                <Text
-                  style={[globalStyles.h3HeadingRegular, { textAlign: "left" }]}
-                >
-                  {item.task}
-                </Text>
-                <Text style={globalStyles.caption}>
-                  Group: {item.group_name}
-                </Text>
-              </View>
-              <Image
-                style={{
-                  width: 75,
-                  height: 75,
-                  //  position: "absolute",
-                  //  top: 0,
-                  //    left: 0,
-                }}
-                source={
-                  Platform.OS == "web"
-                    ? require("../../assets/task.png")
-                    : assets1[0]
-                }
-              /> */}
-
               <View
                 style={{
                   flexDirection: "row",
@@ -163,7 +141,7 @@ export default function HomeScreenTasks({}) {
                     <TouchableOpacity
                       style={{
                         paddingVertical: 12,
-                        paddingHorizontal: 50,
+                        paddingHorizontal: 40,
                         borderRadius: 60,
                         elevation: 3,
                         backgroundColor: "green", // Change the button color to green
@@ -184,7 +162,7 @@ export default function HomeScreenTasks({}) {
                     <TouchableOpacity
                       style={{
                         paddingVertical: 12,
-                        paddingHorizontal: 50,
+                        paddingHorizontal: 40,
                         borderRadius: 60,
                         elevation: 3,
                         backgroundColor: "#2482AA",
@@ -206,7 +184,7 @@ export default function HomeScreenTasks({}) {
                       }}
                     >
                       <Text style={globalStyles.primaryButtonText}>
-                        Complete for +{item.point_value} pts!
+                        Complete for {item.point_value} points!
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -238,7 +216,12 @@ export default function HomeScreenTasks({}) {
           }}
         >
           <Text style={globalStyles.h2HeadingMedium}>My Tasks</Text>
-          <Entypo name="chevron-small-right" color="#2482AA" size={36} />
+          <FontAwesome6
+            name="chevron-right"
+            color="#2482AA"
+            size={24}
+            style={{ paddingRight: 4 }}
+          />
         </View>
         <View
           style={{

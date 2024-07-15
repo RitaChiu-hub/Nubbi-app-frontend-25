@@ -39,7 +39,7 @@ import {
 import { globalStyles } from "../../styles/global";
 import * as SplashScreenExpo from "expo-splash-screen";
 import { LinearGradient } from "expo-linear-gradient";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import alert from "../alert";
 
 SplashScreenExpo.preventAutoHideAsync();
@@ -264,7 +264,7 @@ Empowering university student success through gamified peer-learning. 
             accessibilityRole="button"
             onPress={() => alert("Spanish Coming Soon!")}
           >
-            <MaterialIcons name="language" size={20} color="#111111" />
+            <FontAwesome6 name="globe" color="#111111" size={20} />
           </TouchableOpacity>
         </View>
       </View>
@@ -773,7 +773,12 @@ Empowering university student success through gamified peer-learning. 
             }}
             accessibilityRole="none"
           >
-            <MaterialIcons name="info-outline" size={20} color="#111111" />
+            <FontAwesome6
+              name="circle-info"
+              color="#111111"
+              size={20}
+              style={{ paddingTop: 2 }}
+            />
             <TouchableOpacity
               style={{ paddingVertical: 13, paddingHorizontal: 5 }}
               accessibilityRole="button"
@@ -783,7 +788,12 @@ Empowering university student success through gamified peer-learning. 
             </TouchableOpacity>
 
             <Text style={{ paddingHorizontal: 10, fontSize: 20 }}>|</Text>
-            <MaterialIcons name="language" size={20} color="#111111" />
+            <FontAwesome6
+              name="globe"
+              color="#111111"
+              size={20}
+              style={{ paddingTop: 2 }}
+            />
             <TouchableOpacity
               style={{
                 paddingVertical: 13,
