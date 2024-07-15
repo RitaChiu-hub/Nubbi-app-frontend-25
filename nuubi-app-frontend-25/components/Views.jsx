@@ -67,7 +67,15 @@ const HomeDrawer = createDrawerNavigator();
 
 function HomeDrawerNavigator() {
   return (
-    <HomeDrawer.Navigator>
+    <HomeDrawer.Navigator
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#FDFDFD",
+      }}
+    >
       <HomeDrawer.Screen
         name="Home"
         component={HomeScreen}

@@ -21,7 +21,7 @@ export default function FeedbackScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>Share Your Feedback</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Contact Us</Text>
       ),
       headerTitleAlign: "center",
     });
@@ -33,8 +33,8 @@ export default function FeedbackScreen({ navigation }) {
         <View style={[globalStyles.widthContainer]}>
           <Text style={globalStyles.captionError}>{error}</Text>
           <Text style={[globalStyles.bodyRegular, { marginVertical: 12 }]}>
-            Enter in your feedback in the text field below and submit. We
-            appreciate and value all feedback provided!
+            Enter in your message in the text field below and submit. We
+            we will respond to your message as quickly as possible!
           </Text>
 
           {/* Input box */}

@@ -201,25 +201,14 @@ export default function HomeScreen({ navigation }) {
     "Find your earned badges here. You can choose to feature 3 of your choice.",
   ];
 
-  if (Platform.OS !== "web") {
-    React.useLayoutEffect(() => {
-      navigation.setOptions({
-        headerTitle: () => (
-          <Text style={globalStyles.h3HeadingWhite}>My Feed</Text>
-        ),
-        headerTitleAlign: "center",
-      });
-    }, [navigation]);
-  } else {
-    React.useLayoutEffect(() => {
-      navigation.setOptions({
-        headerTitle: () => (
-          <Text style={globalStyles.h3HeadingRegular}>Home Feed</Text>
-        ),
-        headerTitleAlign: "center",
-      });
-    }, [navigation]);
-  }
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingWhite}>My Feed</Text>
+      ),
+      headerTitleAlign: "center",
+    });
+  }, [navigation]);
 
   return (
     <View style={globalStyles.container}>
