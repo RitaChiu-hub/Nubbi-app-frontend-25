@@ -79,7 +79,6 @@ function HomeDrawerNavigator() {
           },
           drawerActiveTintColor: "#2482AA",
         }}
-   
       />
       <HomeDrawer.Screen
         name="MyGroups"
@@ -645,6 +644,7 @@ const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   const [notifications, setNotifications] = React.useState(false);
   const { user } = useContext(AccountContext);
+  const [avatarInfo, setAvatarInfo] = React.useState(null);
 
   const getNotifications = async () => {
     try {
@@ -667,21 +667,32 @@ const TabNavigator = () => {
     }
   };
 
+  const getUserAvatar = async () => {
+    try {
+      const response = await fetch(
+        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+      setAvatarInfo(jsonData.avatar_url.avatar_url);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   React.useEffect(() => {
     getNotifications();
+    getUserAvatar();
   }, [user]);
 
   let assets1 = useAssets([require("../assets/icons/HomeFocused.png")]);
-  let assets2 = useAssets([require("../assets/icons/Home.png")]);
-  let assets3 = useAssets([require("../assets/icons/SearchFocused.png")]);
-  let assets4 = useAssets([require("../assets/icons/Search.png")]);
-  let assets5 = useAssets([require("../assets/icons/AddFocused.png")]);
-  let assets6 = useAssets([require("../assets/icons/Add.png")]);
-  let assets7 = useAssets([require("../assets/icons/NotificationFocused.png")]);
-  let assets8 = useAssets([require("../assets/icons/Notification.png")]);
-  let assets9 = useAssets([require("../assets/icons/ProfileFocused.png")]);
-  let assets10 = useAssets([require("../assets/icons/Profile.png")]);
-  let assets11 = useAssets([require("../assets/icons/NotificationsTrue.png")]);
 
   return (
     <Tab.Navigator
@@ -734,7 +745,16 @@ const TabNavigator = () => {
                 </View>
               );
             case "SettingsStack":
-              return (
+              return avatarInfo ? (
+                <View
+                  style={[
+                    styles.avatarContainer,
+                    focused && styles.avatarContainerFocused,
+                  ]}
+                >
+                  <Image source={{ uri: avatarInfo }} style={styles.avatar} />
+                </View>
+              ) : (
                 <FontAwesome6
                   name="user"
                   style={{
@@ -818,5 +838,20 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     backgroundColor: "red",
+  },
+  avatarContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 24,
+    overflow: "hidden",
+  },
+  avatarContainerFocused: {
+    borderColor: "#2482AA",
+    borderWidth: 2,
+  },
+  avatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
   },
 });

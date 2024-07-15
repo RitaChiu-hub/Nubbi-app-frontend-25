@@ -151,7 +151,6 @@ export default function HomeScreenLeaderboard() {
                     height: "100%",
                     alignItems: "center",
                     marginTop: 20,
-                    marginHorizontal: 5,
                   }}
                 >
                   <Image
@@ -166,7 +165,14 @@ export default function HomeScreenLeaderboard() {
                         : { uri: leader.profilePicture }
                     }
                   />
-                  <Text style={[globalStyles.caption, { marginTop: 5 }]}>
+                  <Text
+                    style={[
+                      globalStyles.caption,
+                      { marginTop: 5, width: "90%" },
+                    ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
                     {leader.placement}: {leader.name}
                   </Text>
                 </View>
@@ -284,7 +290,12 @@ export default function HomeScreenLeaderboard() {
           }}
         >
           <Text style={globalStyles.h2HeadingMedium}>My Leaderboards</Text>
-          <FontAwesome6 name="chevron-right" color="#2482AA" size={24} style={{paddingRight: 4}} />
+          <FontAwesome6
+            name="chevron-right"
+            color="#2482AA"
+            size={24}
+            style={{ paddingRight: 4 }}
+          />
         </View>
         <View
           style={{

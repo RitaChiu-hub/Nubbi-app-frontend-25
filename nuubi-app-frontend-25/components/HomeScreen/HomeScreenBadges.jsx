@@ -223,7 +223,11 @@ export default function HomeScreenBadges() {
               }
             />
           </View>
-          <Text style={[globalStyles.caption, { marginTop: 14 }]}>
+          <Text
+            style={[globalStyles.caption, { marginTop: 14, maxWidth: screenWidth*0.25 }]}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
             {item.title}
           </Text>
         </View>
@@ -246,7 +250,12 @@ export default function HomeScreenBadges() {
           }}
         >
           <Text style={globalStyles.h2HeadingMedium}>My Achievements</Text>
-          <FontAwesome6 name="chevron-right" color="#2482AA" size={24} style={{paddingRight: 4}} />
+          <FontAwesome6
+            name="chevron-right"
+            color="#2482AA"
+            size={24}
+            style={{ paddingRight: 4 }}
+          />
         </View>
         <View
           style={{

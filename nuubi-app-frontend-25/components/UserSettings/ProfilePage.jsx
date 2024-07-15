@@ -196,7 +196,7 @@ export default function ProfilePageScreen({ navigation }) {
                     style={globalStyles.row}
                   >
                     <Text
-                      style={[globalStyles.headingText, { color: "#33B7F0" }]}
+                      style={[globalStyles.headingText, { color: "#2482AA" }]}
                     >
                       Cancel Update
                     </Text>
@@ -207,7 +207,7 @@ export default function ProfilePageScreen({ navigation }) {
                     style={globalStyles.row}
                   >
                     <Text
-                      style={[globalStyles.headingText, { color: "#33B7F0" }]}
+                      style={[globalStyles.headingText, { color: "#2482AA" }]}
                     >
                       Update Avatar
                     </Text>
