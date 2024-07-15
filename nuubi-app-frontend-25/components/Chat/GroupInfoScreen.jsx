@@ -70,22 +70,13 @@ export default function GroupInfoScreen({ navigation }) {
               ]}
             >
               <Text
-                style={[
-                  {
-                    color: "#767676",
-                    fontSize:
-                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
-                  },
-                  selectedTab === "Chat" && {
-                    color: "#33b7f0",
-                    fontSize:
-                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
-                  },
-                ]}
+                style={{
+                  color: "#FDFDFD",
+                  fontSize:
+                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                  fontFamily: "Poppins_600SemiBold",
+                  letterSpacing: 0,
+                }}
               >
                 Chat
               </Text>
@@ -104,22 +95,13 @@ export default function GroupInfoScreen({ navigation }) {
               ]}
             >
               <Text
-                style={[
-                  {
-                    color: "#767676",
-                    fontSize:
-                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
-                  },
-                  selectedTab === "Group" && {
-                    color: "#33b7f0",
-                    fontSize:
-                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
-                  },
-                ]}
+                style={{
+                  color: "#FDFDFD",
+                  fontSize:
+                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                  fontFamily: "Poppins_600SemiBold",
+                  letterSpacing: 0,
+                }}
               >
                 {groupTitle + ">"}
               </Text>
@@ -139,22 +121,13 @@ export default function GroupInfoScreen({ navigation }) {
               ]}
             >
               <Text
-                style={[
-                  {
-                    color: "#767676",
-                    fontSize:
-                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
-                  },
-                  selectedTab === "Posts" && {
-                    color: "#33b7f0",
-                    fontSize:
-                      (groupTitle.length >= 12) & (screenWidth < 500) ? 14 : 18,
-                    fontFamily: "Poppins_600SemiBold",
-                    letterSpacing: 0,
-                  },
-                ]}
+                style={{
+                  color: "#FDFDFD",
+                  fontSize:
+                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                  fontFamily: "Poppins_600SemiBold",
+                  letterSpacing: 0,
+                }}
               >
                 Posts
               </Text>
