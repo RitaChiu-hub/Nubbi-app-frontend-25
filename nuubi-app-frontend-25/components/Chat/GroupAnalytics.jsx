@@ -59,8 +59,8 @@ export default function GroupAnalytics({ navigation }) {
     const getMembers = async () => {
       try {
         const apiUrl = user.isAdmin
-          ? "http://localhost:8080/groups/getmembers"
-          : "http://localhost:8080/groups/mygroupanalytics";
+          ? "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers"
+          : "https://coral-app-n96bn.ondigitalocean.app/groups/mygroupanalytics";
 
         const response = await fetch(apiUrl, {
           method: "POST",
@@ -376,7 +376,7 @@ export default function GroupAnalytics({ navigation }) {
 //     try {
 //       const response = await fetch(
 //         //  "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
-//         "http://localhost:8080/groups/getmembers",
+//         "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers",
 //         {
 //           method: "POST",
 //           credentials: "include",
