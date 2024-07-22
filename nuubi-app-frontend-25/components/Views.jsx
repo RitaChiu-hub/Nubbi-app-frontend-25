@@ -812,8 +812,13 @@ export default function Views() {
   const { user } = useContext(AccountContext);
 
   const isLoggedIn = user.token != null && user.token != "undefined";
-  return (
+ // const ismobilelogggedin = retrieve async storage loggedin boolean value
+
+  return (//
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* // add conditional here that takes the ismobileloggedin boolean and decideds
+      what screens to render (should ernder bottomtabs when logged in, and
+      auth stack hwen logged out ) */}
       {isLoggedIn ? (
         Platform.OS == "web" ? (
           <Stack.Screen
