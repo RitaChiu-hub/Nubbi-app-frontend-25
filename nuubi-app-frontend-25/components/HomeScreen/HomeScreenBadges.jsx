@@ -224,7 +224,10 @@ export default function HomeScreenBadges() {
             />
           </View>
           <Text
-            style={[globalStyles.caption, { marginTop: 14, maxWidth: screenWidth*0.25 }]}
+            style={[
+              globalStyles.caption,
+              { marginTop: 14, maxWidth: screenWidth * 0.25 },
+            ]}
             numberOfLines={1}
             ellipsizeMode="tail"
           >
@@ -265,6 +268,7 @@ export default function HomeScreenBadges() {
             overflow: "hidden",
             height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.35,
             maxHeight: 200,
+            //   paddingLeft: Platform.OS === "web" ? "10%" : 0,
           }}
         >
           <FlatList

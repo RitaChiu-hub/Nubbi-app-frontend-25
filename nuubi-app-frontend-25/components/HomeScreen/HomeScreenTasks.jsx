@@ -7,6 +7,7 @@ import {
   ScrollView,
   Platform,
   FlatList,
+  StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -244,81 +245,22 @@ export default function HomeScreenTasks({}) {
             decelerationRate="normal"
             showsHorizontalScrollIndicator={false}
             ListEmptyComponent={() => (
-              <View
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "row",
-                }}
-              >
-                <View
-                  style={{
-                    width: "50%",
-                    alignItems: "left",
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "#111111",
-                      textAlign: "left",
-                      fontSize: 18,
-                      fontFamily: "Poppins_600SemiBold",
-                    }}
-                  >
-                    Stay tuned!
-                  </Text>
-                  <Text style={[globalStyles.caption, { textAlign: "left" }]}>
+              <View style={styles.container}>
+                <View style={styles.textContainer}>
+                  <Text style={styles.titleText}>Stay tuned!</Text>
+                  <Text style={styles.captionText}>
                     Your tasks will appear in this section once assigned.
                   </Text>
                 </View>
                 <Image
-                  style={{
-                    width: 75,
-                    height: 75,
-                    marginLeft: 20, // Adjust for spacing between text and image
-                  }}
+                  style={styles.image}
                   source={
-                    Platform.OS == "web"
+                    Platform.OS === "web"
                       ? require("../../assets/task.png")
                       : assets1[0]
                   }
                 />
               </View>
-              // <View
-              //   style={{
-              //     justifyContent: "center",
-              //     alignItems: "center",
-              //     flex: 1,
-              //     flexDirection: "row",
-              //   }}
-              // >
-              //   <View style={{ width: "50%" }}>
-              //     <Text
-              //       style={[
-              //         globalStyles.h3HeadingRegular,
-              //         {
-              //           textAlign: "left",
-              //         },
-              //       ]}
-              //     >
-              //       Stay tuned!
-              //     </Text>
-              //     <Text style={globalStyles.caption}>
-              //       Your tasks will appear in this section once assigned.
-              //     </Text>
-              //   </View>
-              //   <Image
-              //     style={{
-              //       width: 75,
-              //       height: 75,
-              //     }}
-              //     source={
-              //       Platform.OS == "web"
-              //         ? require("../../assets/task.png")
-              //         : assets1[0]
-              //     }
-              //   />
-              // </View>
             )}
           />
         </View>
@@ -326,3 +268,33 @@ export default function HomeScreenTasks({}) {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    flex: 1, // Ensure it takes up full available space
+    paddingHorizontal: Platform.OS === "web" ? "20%" : 10,
+    width: screenWidth * 0.9,
+  },
+  textContainer: {
+    width: Platform.OS === "web" ? "90%" : "50%",
+    alignItems: "flex-start", // Align items to the start (left)
+    flexShrink: 1, // Allow the container to shrink if necessary
+  },
+  titleText: {
+    color: "#111111",
+    textAlign: "left",
+    fontSize: 18,
+    fontFamily: "Poppins_600SemiBold",
+  },
+  captionText: {
+    ...globalStyles.caption,
+    textAlign: "left",
+  },
+  image: {
+    width: 75,
+    height: 75,
+    marginLeft: 20, // Adjust for spacing between text and image
+  },
+});

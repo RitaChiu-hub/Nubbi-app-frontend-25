@@ -138,10 +138,14 @@ export default function HomeScreenLeaderboard() {
                 {item.classname}
               </Text>
             </View>
+
             <View
               style={{
                 height: "60%",
                 flexDirection: "row",
+                width: Platform.OS === "web" ? screenWidth * 0.9 : "90%",
+                alignItems: "center", // Center vertically
+                justifyContent: "center", // Center horizontally
               }}
             >
               {item.leaders.map((leader, index) => (
@@ -151,6 +155,54 @@ export default function HomeScreenLeaderboard() {
                     height: "100%",
                     alignItems: "center",
                     marginTop: 20,
+                    width: Platform.OS === "web" ? screenWidth * 0.20 : "30%",
+                    justifyContent: "center", // Center items vertically within each leader view
+                  //  paddingHorizontal: Platform.OS === "web" ? "10%" : 10,
+                  }}
+                >
+                  <Image
+                    style={{
+                      width: 75,
+                      height: 75,
+                      borderRadius: 50,
+                    }}
+                    source={
+                      leader.profilePicture == null
+                        ? getRandomAvatar()
+                        : { uri: leader.profilePicture }
+                    }
+                  />
+                  <Text
+                    style={[
+                      globalStyles.caption,
+                      { marginTop: 5, width: "90%", textAlign: "center" }, // Center text horizontally
+                    ]}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {leader.placement}: {leader.name}
+                  </Text>
+                </View>
+              ))}
+            </View>
+
+            {/* <View
+              style={{
+                height: "60%",
+                flexDirection: "row",
+                width: "100%",
+                backgroundColor: "blue",
+              }}
+            >
+              {item.leaders.map((leader, index) => (
+                <View
+                  key={index}
+                  style={{
+                    height: "100%",
+                    alignItems: "center",
+                    marginTop: 20,
+                    width: Platform.OS == "web" ? screenWidth * 0.3 : "100%",
+                    backgroundColor: "red",
                   }}
                 >
                   <Image
@@ -177,99 +229,12 @@ export default function HomeScreenLeaderboard() {
                   </Text>
                 </View>
               ))}
-            </View>
+            </View> */}
           </View>
         </View>
       </View>
     );
   });
-
-  // const MemoizedItem = React.memo(({ item }) => {
-  //   const randomAvatar = getRandomAvatar();
-
-  //   return (
-  //     <View key={item.group_id}>
-  //       <View
-  //         style={{
-  //           flexDirection: "row",
-  //           height: "100%",
-  //           width: screenWidth * 0.9,
-  //         }}
-  //       >
-  //         <View
-  //           style={{
-  //             width: screenWidth * 0.04,
-  //             height: "100%",
-  //           }}
-  //         ></View>
-  //         <View
-  //           style={{
-  //             height: screenWidth > 500 ? "300%" : "100%",
-  //             width: screenWidth * 0.9,
-  //             overflow: "hidden",
-  //             maxHeight: 200,
-  //           }}
-  //         >
-  //           <View
-  //             style={{
-  //               height: "20%",
-  //               justifyContent: "flex-end",
-  //               alignItems: "flex-start",
-  //               paddingLeft: 5,
-  //             }}
-  //           >
-  //             <Text style={globalStyles.h3HeadingRegular}>
-  //               {item.classname}
-  //             </Text>
-  //           </View>
-  //           <View
-  //             style={{
-  //               height: "60%",
-  //               flexDirection: "row",
-  //             }}
-  //           >
-  //             {item.leaders.map((leader, index) => (
-  //               <View
-  //                 key={index}
-  //                 style={{
-  //                   height: "100%",
-  //                   alignItems: "center",
-  //                   marginTop: 20,
-  //                   marginHorizontal: 5,
-  //                 }}
-  //               >
-  //                 <Image
-  //                   style={{
-  //                     height: "70%",
-  //                     aspectRatio: 1,
-  //                     borderRadius: 50,
-  //                   }}
-  //                   // source={
-  //                   //   leader.profilePicture == null
-  //                   //     ? Platform.OS == "web"
-  //                   //       ? require("../../assets/avatars/avatar1.png")
-  //                   //       : assets1[0]
-  //                   //     : { uri: leader.profilePicture }
-  //                   // }
-  //                   source={
-  //                     leader.profilePicture == null
-  //                       ? Platform.OS == "web"
-  //                         ? getRandomAvatar()
-  //                         : getRandomAvatar()
-  //                       : { uri: leader.profilePicture }
-  //                   }
-  //                 />
-  //                 <Text style={[globalStyles.caption, { marginTop: 5 }]}>
-  //                   {leader.placement}: {leader.name}
-  //                 </Text>
-  //               </View>
-  //             ))}
-  //           </View>
-  //         </View>
-  //       </View>
-  //     </View>
-  //   );
-  // });
 
   const renderItem = ({ item }) => {
     return <MemoizedItem item={item} />;
