@@ -20,6 +20,7 @@ import { Overlay } from "react-native-elements";
 import { useAssets } from "expo-asset";
 import { useIsFocused, useRoute } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -142,14 +143,20 @@ export default function HomeScreen({ navigation }) {
     }
   };
   // change onboarding to true when ready to demo
-  const [performOnboarding, setPerformOnboarding] = React.useState(
-    user.firstSignIn == true ? true : false
-  );
-  // const [performOnboarding, setPerformOnboarding] = React.useState(true);
+  // const [performOnboarding, setPerformOnboarding] = React.useState(
+  //   user.firstSignIn == true ? true : false
+  // );
+  const [performOnboarding, setPerformOnboarding] = React.useState(true);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
-  const positionBottom = [0.1, 0.1, 0.1, 0.25, 0.56, 0.32];
-  const positionLeft = [0.02, 0.25, 0.26, 0.2, 0.1, 0.05];
+  const positionBottom =
+    Platform.OS === "web"
+      ? [0.4, 0.65, 0.65, 0.35, 0.56, 0.32]
+      : [0.1, 0.1, 0.1, 0.25, 0.56, 0.32];
+  const positionLeft =
+    Platform.OS === "web"
+      ? [0.15, 0.04, 0.04, 0.2, 0.1, 0.05]
+      : [0.02, 0.25, 0.26, 0.2, 0.1, 0.05];
   const arrowPositionLeft = [0.05, 0.22, 0.61, 0.4, 0.15, 0.1];
 
   let assets1 = useAssets([require("../../assets/tooltips/ToolCelebrate.png")]);
@@ -186,20 +193,31 @@ export default function HomeScreen({ navigation }) {
 
   const titleMessage = [
     "Welcome To Nuubi, " + myUsername + "!",
-    "Create Posts, Chats, or Join Groups here!",
+    // `Welcome To Nuubi, ${myUsername}! Platform: ${Platform.OS}, Onboarding State: ${onboardingState}`,
+    "This is the home for your learning groups!",
     "Accounts & Settings",
     "Earn Points with Tasks!",
     "Leaderboard Stats!",
     "Badges Earned!",
   ];
-  const secondaryMessage = [
-    "Take a tour of the app so you can see how Nuubi works.",
-    "Tap the plus icon to add or join a group; Or create a new post.",
-    "Update your profile, username, notifications, and more here.",
-    "Get rewarded by asking questions, chatting and learning with peers. Swipe to see all your daily tasks.",
-    "Every group has a leaderboard. Swipe to view each group's stats. Increase your chances at leading, the more points you earn!",
-    "Find your earned badges here. You can choose to feature 3 of your choice.",
-  ];
+  const secondaryMessage =
+    Platform.OS === "web"
+      ? [
+          "Take a tour of the app so you can see how Nuubi works.",
+          "Tap the menu icon in the upper left corner to view your groups for chats and discussions.",
+          "You can also update your profile, username, notifications, and more in this side menu.",
+          "Get rewarded by asking questions, chatting and learning with peers. Swipe to see all your daily tasks.",
+          "Every group has a leaderboard. Swipe to view each group's stats. Increase your chances at leading, the more points you earn!",
+          "Find your earned badges here. Earning badges gets you more points!",
+        ]
+      : [
+          "Take a tour of the app so you can see how Nuubi works.",
+          "Tap this icon to start group chats and discussions.",
+          "Update your profile, username, notifications, and more here.",
+          "Get rewarded by asking questions, chatting and learning with peers. Swipe to see all your daily tasks.",
+          "Every group has a leaderboard. Swipe to view each group's stats. Increase your chances at leading, the more points you earn!",
+          "Find your earned badges here. Earning badges gets you more points!",
+        ];
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -406,28 +424,33 @@ export default function HomeScreen({ navigation }) {
                 </TouchableOpacity>
               </View>
             </View>
-            {onboardingState != 3 && (
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: -10,
-                  left: screenWidth * arrowPositionLeft[onboardingState],
-                }}
-              >
+            {onboardingState != 3 &&
+              !(
+                (Platform.OS == "web" && [0, 1, 2].includes(onboardingState))
+                //  (onboardingState == 0 || onboardingState == 1)
+              ) && (
+                //  onboardingState != 3
                 <View
                   style={{
-                    width: 0,
-                    height: 0,
-                    borderLeftWidth: 10,
-                    borderLeftColor: "transparent",
-                    borderRightWidth: 10,
-                    borderRightColor: "transparent",
-                    borderTopWidth: 15,
-                    borderTopColor: "white",
+                    position: "absolute",
+                    bottom: -10,
+                    left: screenWidth * arrowPositionLeft[onboardingState],
                   }}
-                />
-              </View>
-            )}
+                >
+                  <View
+                    style={{
+                      width: 0,
+                      height: 0,
+                      borderLeftWidth: 10,
+                      borderLeftColor: "transparent",
+                      borderRightWidth: 10,
+                      borderRightColor: "transparent",
+                      borderTopWidth: 15,
+                      borderTopColor: "white",
+                    }}
+                  />
+                </View>
+              )}
           </Overlay>
         </ScrollView>
       ) : (
