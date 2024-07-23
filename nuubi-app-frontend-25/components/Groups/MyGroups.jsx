@@ -210,14 +210,6 @@ export default function MyGroupsScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
         )}
-        {/* <TouchableOpacity
-          style={globalStyles.primaryButton}
-          onPress={() => {
-            navigation.navigate("AddGroup");
-          }}
-        >
-          <Text style={globalStyles.primaryButtonText}>Add New or Private Group</Text>
-        </TouchableOpacity> */}
       </View>
     </View>
   );
