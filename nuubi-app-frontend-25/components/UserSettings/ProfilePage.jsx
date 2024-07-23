@@ -331,9 +331,18 @@ export default function ProfilePageScreen({ navigation }) {
             <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
                 style={globalStyles.row}
+                onPress={() => navigation.navigate("AccountScreen")}
+              >
+                <Text style={globalStyles.headingText}>Account Settings</Text>
+                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+              </TouchableOpacity>
+            </View>
+            <View style={globalStyles.rowWrapper}>
+              <TouchableOpacity
+                style={globalStyles.row}
                 onPress={() => navigation.navigate("Settings")}
               >
-                <Text style={globalStyles.headingText}>Settings</Text>
+                <Text style={globalStyles.headingText}>General Settings</Text>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>

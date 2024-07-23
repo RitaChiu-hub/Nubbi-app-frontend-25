@@ -22,12 +22,6 @@ const SECTIONS = [
     header: "",
     items: [
       {
-        label: "Account",
-        icon: "user",
-        type: "link",
-        navRoute: "AccountScreen",
-      },
-      {
         label: "Accessibility",
         icon: "shield",
         type: "link",
