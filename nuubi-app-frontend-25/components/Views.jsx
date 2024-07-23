@@ -812,7 +812,41 @@ const TabNavigator = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
+        tabBarLabel: ({ focused, color }) => {
+          let label;
+          switch (route.name) {
+            case "HomeStack":
+              label = "Feed";
+              break;
+            case "SearchStack":
+              label = "Discover";
+              break;
+            case "MyGroupsStack":
+              label = "Groups";
+              break;
+            case "NotificationsStack":
+              label = "Activity";
+              break;
+            case "SettingsStack":
+              label = "Profile";
+              break;
+            default:
+              label = route.name;
+              break;
+          }
+          return (
+            <Text
+              style={{
+                fontFamily: "Poppins_500Medium",
+                color: focused ? "#2482AA" : "#767676",
+                fontSize: 14,
+              }}
+            >
+              {label}
+            </Text>
+          );
+        },
         tabBarIcon: ({ focused }) => {
           switch (route.name) {
             case "HomeStack":
@@ -850,6 +884,7 @@ const TabNavigator = () => {
                 <View style={styles.iconContainer}>
                   <FontAwesome6
                     name="bell"
+                    solid
                     style={{
                       color: focused ? "#2482AA" : "#767676",
                     }}
@@ -870,7 +905,8 @@ const TabNavigator = () => {
                 </View>
               ) : (
                 <FontAwesome6
-                  name="user"
+                  name="circle-user"
+                  solid
                   style={{
                     color: focused ? "#2482AA" : "#767676",
                   }}
@@ -894,17 +930,38 @@ const TabNavigator = () => {
           );
         },
         tabBarInactiveTintColor: "#767676",
-        tabBarActiveTintColor: "#33b7f0",
+        tabBarActiveTintColor: "#2482AA",
       })}
     >
-      <Tab.Screen name="HomeStack" component={HomeStack} />
-      <Tab.Screen name="SearchStack" component={SearchStack} />
-      <Tab.Screen name="MyGroupsStack" component={MyGroupsStack} />
-      <Tab.Screen name="NotificationsStack" component={NotificationsStack} />
-      <Tab.Screen name="SettingsStack" component={SettingsStack} />
+      <Tab.Screen
+        name="HomeStack"
+        component={HomeStack}
+        options={{ tabBarLabel: "Feed" }}
+      />
+      <Tab.Screen
+        name="SearchStack"
+        component={SearchStack}
+        options={{ tabBarLabel: "Discover" }}
+      />
+      <Tab.Screen
+        name="MyGroupsStack"
+        component={MyGroupsStack}
+        options={{ tabBarLabel: "Groups" }}
+      />
+      <Tab.Screen
+        name="NotificationsStack"
+        component={NotificationsStack}
+        options={{ tabBarLabel: "Activity" }}
+      />
+      <Tab.Screen
+        name="SettingsStack"
+        component={SettingsStack}
+        options={{ tabBarLabel: "Profile" }}
+      />
     </Tab.Navigator>
   );
 };
+
 
 const Stack = createNativeStackNavigator();
 
@@ -968,6 +1025,8 @@ const styles = StyleSheet.create({
   avatarContainerFocused: {
     borderColor: "#2482AA",
     borderWidth: 2,
+    backgroundColor: "#FFFFFF",
+    padding: 1, 
   },
   avatar: {
     width: 24,
