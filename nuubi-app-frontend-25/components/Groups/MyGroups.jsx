@@ -107,14 +107,14 @@ export default function MyGroupsScreen({ navigation }) {
     />
   );
 
-    React.useLayoutEffect(() => {
-      navigation.setOptions({
-        headerTitle: () => (
-          <Text style={globalStyles.h3HeadingWhite}>My Groups</Text>
-        ),
-        headerTitleAlign: "center",
-      });
-    }, [navigation]);
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingWhite}>My Groups</Text>
+      ),
+      headerTitleAlign: "center",
+    });
+  }, [navigation]);
 
   return (
     <View
@@ -138,14 +138,86 @@ export default function MyGroupsScreen({ navigation }) {
           padding: 10,
         }}
       >
-        <TouchableOpacity
+        {Platform.OS === "web" ? (
+          <View style={globalStyles.buttonContainer}>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 18,
+                paddingHorizontal: 30,
+                borderRadius: 60,
+                elevation: 3,
+                backgroundColor: "#2482AA",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "30%",
+              }}
+              onPress={() => {
+                navigation.navigate("CreateGroup");
+              }}
+            >
+              <Text style={globalStyles.primaryButtonText}>
+                Create New Group
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 18,
+                paddingHorizontal: 30,
+                borderRadius: 60,
+                elevation: 3,
+                backgroundColor: "#2482AA",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "30%",
+              }}
+              onPress={() => {
+                navigation.navigate("JoinGroup");
+              }}
+            >
+              <Text style={globalStyles.primaryButtonText}>
+                Join Private Group
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 18,
+                paddingHorizontal: 30,
+                borderRadius: 60,
+                elevation: 3,
+                backgroundColor: "#2482AA",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "30%",
+              }}
+              onPress={() => {
+                navigation.navigate("ViewAllGroups");
+              }}
+            >
+              <Text style={globalStyles.primaryButtonText}>
+                Join Public Group
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={globalStyles.primaryButton}
+            onPress={() => {
+              navigation.navigate("AddGroup");
+            }}
+          >
+            <Text style={globalStyles.primaryButtonText}>
+              Add New or Private Group
+            </Text>
+          </TouchableOpacity>
+        )}
+        {/* <TouchableOpacity
           style={globalStyles.primaryButton}
           onPress={() => {
             navigation.navigate("AddGroup");
           }}
         >
           <Text style={globalStyles.primaryButtonText}>Add New or Private Group</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
