@@ -835,17 +835,7 @@ const TabNavigator = () => {
               label = route.name;
               break;
           }
-          return (
-            <Text
-              style={{
-                fontFamily: "Poppins_500Medium",
-                color: focused ? "#2482AA" : "#767676",
-                fontSize: 14,
-              }}
-            >
-              {label}
-            </Text>
-          );
+          return <Text>{label}</Text>;
         },
         tabBarIcon: ({ focused }) => {
           switch (route.name) {
@@ -931,6 +921,10 @@ const TabNavigator = () => {
         },
         tabBarInactiveTintColor: "#767676",
         tabBarActiveTintColor: "#2482AA",
+        tabBarLabelStyle: {
+          fontFamily: "Poppins_500Medium",
+          fontSize: 12,
+        },
       })}
     >
       <Tab.Screen
@@ -961,7 +955,6 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
 
 const Stack = createNativeStackNavigator();
 
@@ -1026,7 +1019,7 @@ const styles = StyleSheet.create({
     borderColor: "#2482AA",
     borderWidth: 2,
     backgroundColor: "#FFFFFF",
-    padding: 1, 
+    padding: 1,
   },
   avatar: {
     width: 24,
