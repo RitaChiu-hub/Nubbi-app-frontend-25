@@ -6,7 +6,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-import { Image, Platform, StyleSheet, View } from "react-native";
+import { Image, Platform, StyleSheet, View, Text } from "react-native";
 import { useAssets } from "expo-asset";
 
 import { useContext } from "react";
@@ -81,7 +81,21 @@ function HomeDrawerNavigator() {
         component={HomeScreen}
         options={{
           animation: "none",
-          title: "Home Feed",
+          title: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="house"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+              <Text style={{ fontFamily: "Poppins_500Medium", marginLeft: 8, fontSize: 18, color: "#292929" }}>
+                My Feed
+              </Text>
+            </View>
+          ),
           drawerLabelStyle: {
             fontFamily: "Poppins_500Medium",
           },
@@ -91,10 +105,23 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="MyGroups"
         component={MyGroupsScreen}
-        //  options={{ drawerItemStyle: { display: "none" } }}
         options={{
           animation: "none",
-          title: "My Groups",
+          title: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="user-group"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+          <Text style={{ fontFamily: "Poppins_500Medium", marginLeft: 8, fontSize: 18, color: "#292929" }}>
+                My Groups
+              </Text>
+            </View>
+          ),
           drawerLabelStyle: {
             fontFamily: "Poppins_500Medium",
           },
@@ -104,24 +131,12 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="ViewAllGroups"
         component={GroupListScreen}
-        options={{
-          title: "Discover",
-          drawerLabelStyle: {
-            fontFamily: "Poppins_500Medium",
-          },
-          drawerActiveTintColor: "#2482AA",
-        }}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
         name="AddGroup"
         component={AddGroupScreen}
-        options={{
-          title: "Add Group",
-          drawerLabelStyle: {
-            fontFamily: "Poppins_500Medium",
-          },
-          drawerActiveTintColor: "#2482AA",
-        }}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
         name="Loading Chat"
@@ -209,6 +224,21 @@ function HomeDrawerNavigator() {
         name="Notifications"
         component={NotificationsScreen}
         options={{
+          title: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="bell"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+          <Text style={{ fontFamily: "Poppins_500Medium", marginLeft: 8, fontSize: 18, color: "#292929" }}>
+                Activity Center
+              </Text>
+            </View>
+          ),
           drawerLabelStyle: {
             fontFamily: "Poppins_500Medium",
           },
@@ -220,7 +250,21 @@ function HomeDrawerNavigator() {
         name="ProfilePage"
         component={ProfilePageScreen}
         options={{
-          title: "Profile",
+          title: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="circle-user"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+          <Text style={{ fontFamily: "Poppins_500Medium", marginLeft: 8, fontSize: 18, color: "#292929" }}>
+                My Profile
+              </Text>
+            </View>
+          ),
           drawerLabelStyle: {
             fontFamily: "Poppins_500Medium",
           },
@@ -252,7 +296,20 @@ function HomeDrawerNavigator() {
         name="Settings"
         component={SettingsScreen}
         options={{
-          title: "General Settings",
+          title: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="gear"
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+          <Text style={{ fontFamily: "Poppins_500Medium", marginLeft: 8, fontSize: 18, color: "#292929" }}>
+                General Settings
+              </Text>
+            </View>
+          ),
           drawerLabelStyle: {
             fontFamily: "Poppins_500Medium",
           },
@@ -263,21 +320,28 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="AccountScreen"
         component={AccountScreen}
-        options={{
-          title: "Account Settings",
-          drawerLabelStyle: {
-            fontFamily: "Poppins_500Medium",
-          },
-          drawerActiveTintColor: "#2482AA",
-        }}
-        // options={{ drawerItemStyle: { display: "none" } }}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
 
       <HomeDrawer.Screen
         name="HelpLoggedIn"
         component={HelpScreen}
         options={{
-          title: "Help",
+          title: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="circle-question"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+          <Text style={{ fontFamily: "Poppins_500Medium", marginLeft: 8, fontSize: 18, color: "#292929" }}>
+                Help Center
+              </Text>
+            </View>
+          ),
           drawerLabelStyle: {
             fontFamily: "Poppins_500Medium",
           },
@@ -288,13 +352,7 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="FeedbackScreen"
         component={FeedbackScreen}
-        options={{
-          title: "Contact Us",
-          drawerLabelStyle: {
-            fontFamily: "Poppins_500Medium",
-          },
-          drawerActiveTintColor: "#2482AA",
-        }}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
         name="NotificationSettings"
@@ -812,9 +870,10 @@ export default function Views() {
   const { user } = useContext(AccountContext);
 
   const isLoggedIn = user.token != null && user.token != "undefined";
- // const ismobilelogggedin = retrieve async storage loggedin boolean value
+  // const ismobilelogggedin = retrieve async storage loggedin boolean value
 
-  return (//
+  return (
+    //
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* // add conditional here that takes the ismobileloggedin boolean and decideds
       what screens to render (should ernder bottomtabs when logged in, and
