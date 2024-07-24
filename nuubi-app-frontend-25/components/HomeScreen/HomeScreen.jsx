@@ -143,10 +143,10 @@ export default function HomeScreen({ navigation }) {
     }
   };
   // change onboarding to true when ready to demo
-  // const [performOnboarding, setPerformOnboarding] = React.useState(
-  //   user.firstSignIn == true ? true : false
-  // );
-  const [performOnboarding, setPerformOnboarding] = React.useState(true);
+  const [performOnboarding, setPerformOnboarding] = React.useState(
+    user.firstSignIn == true ? true : false
+  );
+  // const [performOnboarding, setPerformOnboarding] = React.useState(true);
   const [onboardingState, setOnboardingState] = React.useState(0);
   const [showFinishedPopup, setShowFinishedPopup] = React.useState(false);
   const positionBottom =

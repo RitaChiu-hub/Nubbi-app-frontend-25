@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import UserContext from "./components/AccountContext";
 import { Fragment } from "react";
 import { StatusBar } from "expo-status-bar";
+import { Linking } from "react-native";
 // import * as Linking from "expo-linking";
 
 import {
