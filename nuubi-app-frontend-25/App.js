@@ -56,11 +56,47 @@ export default function App() {
     Poppins_900Black_Italic,
   });
 
+  const linking = {
+    config: {
+      screens: {
+        DrawerTabs: {
+          screens: {
+            HomePage: {
+              screens: {
+                Home: "home",
+                MyGroups: "mygroups",
+                GroupChat: "chat",
+                PostScreen: "posts",
+                GroupInfo: "group",
+                GroupAnalytics: "analytics",
+                GroupAchievements: "achievements",
+                ViewAllGroups: "allgroups",
+                AddGroup: "addgroup",
+                JoinGroup: "join",
+                Creategroup: "create",
+                Notifications: "notfications",
+                ProfilePage: "profile",
+                Settings: "settings",
+                AccountScreen: "me",
+                HelpLoggedIn: "help",
+                FeedbackScreen: "contact",
+                ChangeUsernameScreen: "update-username",
+                ChangePasswordScreen: "update-password",
+                ForgotPassword: "forgot-password",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
   return (
     <Fragment>
       <StatusBar style="dark" />
       <UserContext>
-        <NavigationContainer>
+        {/* <NavigationContainer> */}
+        <NavigationContainer linking={linking}>
           <Views />
         </NavigationContainer>
       </UserContext>
