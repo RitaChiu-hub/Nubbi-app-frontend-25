@@ -68,6 +68,7 @@ const HomeDrawer = createDrawerNavigator();
 function HomeDrawerNavigator() {
   return (
     <HomeDrawer.Navigator
+      backBehavior="history"
       screenOptions={{
         headerBackTitleVisible: false,
         headerStyle: {

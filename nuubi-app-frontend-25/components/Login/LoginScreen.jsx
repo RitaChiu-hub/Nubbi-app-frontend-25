@@ -55,8 +55,8 @@ export default function LoginScreen({ navigation }) {
         }}
       >
         <Formik
-          initialValues={{ username: "", password: "" }}
-          //  initialValues={{ username: "Testuser", password: "Testpass!23" }}
+          // initialValues={{ username: "", password: "" }}
+          initialValues={{ username: "Testuser", password: "Testpass!23" }}
           validationSchema={formSchema}
           onSubmit={(values, actions) => {
             values.username = values.username.trim();
