@@ -635,6 +635,7 @@ function AuthStack() {
       <StackAuth.Screen name="LearnMore7" component={LearnMore7Screen} />
       <StackAuth.Screen name="PrivacyScreen" component={PrivacyScreen} />
       <StackAuth.Screen name="TermsScreen" component={TermsScreen} />
+      <StackAuth.Screen name="FeedbackScreen" component={FeedbackScreen} />
       <StackAuth.Screen
         name="HelpLoggedOut"
         component={HelpScreen}

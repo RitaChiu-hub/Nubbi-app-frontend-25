@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { useAssets } from "expo-asset";
 import { Helmet } from "react-helmet";
+import { FontAwesome6 } from "@expo/vector-icons";
 import RenderHTML, { defaultSystemFonts } from "react-native-render-html";
 import {
   useFonts,
@@ -38,7 +39,6 @@ import {
 import { globalStyles } from "../../styles/global";
 import * as SplashScreenExpo from "expo-splash-screen";
 import { LinearGradient } from "expo-linear-gradient";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import alert from "../alert";
 import InformationSection from "./InformationSection";
 import Footer from "./Footer";
@@ -400,7 +400,7 @@ Empowering university student success through gamified peer-learning 
             accessibilityRole="button"
             onPress={() => alert("Spanish Coming Soon!")}
           >
-            <MaterialIcons name="language" size={20} color="#111111" />
+            <FontAwesome6 name="globe" color="#111111" size={20} />
           </TouchableOpacity>
         </View>
       </View>
@@ -514,7 +514,7 @@ Empowering university student success through gamified peer-learning 
                   minWidth: 200,
                 }}
                 accessibilityRole="button"
-                onPress={() => navigation.navigate("SignUp")}
+                onPress={() => navigation.navigate("LearnMore1")}
               >
                 <Text style={[globalStyles.webButtonText, { color: "black" }]}>
                   Learn More
@@ -829,7 +829,13 @@ Empowering university student success through gamified peer-learning 
             }}
             accessibilityRole="none"
           >
-            <MaterialIcons name="info-outline" size={20} color="#111111" />
+            <FontAwesome6
+              name="circle-info"
+              color="#111111"
+              size={20}
+              style={{ paddingTop: 2 }}
+            />
+
             <TouchableOpacity
               style={{ paddingVertical: 13, paddingHorizontal: 5 }}
               accessibilityRole="button"
@@ -839,7 +845,14 @@ Empowering university student success through gamified peer-learning 
             </TouchableOpacity>
 
             <Text style={{ paddingHorizontal: 10, fontSize: 20 }}>|</Text>
-            <MaterialIcons name="language" size={20} color="#111111" />
+
+            <FontAwesome6
+              name="globe"
+              color="#111111"
+              size={20}
+              style={{ paddingTop: 2 }}
+            />
+
             <TouchableOpacity
               style={{
                 paddingVertical: 13,
