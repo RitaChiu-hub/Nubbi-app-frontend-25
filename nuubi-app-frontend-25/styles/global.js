@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -88,7 +89,8 @@ export const globalStyles = StyleSheet.create({
   secondaryButtonText: {
     color: nuubiColors["black"],
     fontSize: 14,
-    fontFamily: "Poppins_700Bold",
+    // fontFamily: "Poppins_700Bold",
+    fontFamily: "Poppins_500Medium",
     letterSpacing: 1.25,
   },
   webpageHeader: {
@@ -109,10 +111,13 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
   },
   webpageCardText: {
-    color: nuubiColors["white"],
-    fontSize: 28,
-    fontFamily: "Poppins_700Bold",
+    // color: nuubiColors["white"],
+    // fontSize: 28,
+    // fontFamily: "Poppins_700Bold",
     padding: 24,
+    color: nuubiColors["black"],
+    fontSize: 24,
+    fontFamily: "Poppins_500Medium",
     textAlign: "center",
   },
   container: {
