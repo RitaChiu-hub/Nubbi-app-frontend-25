@@ -188,7 +188,8 @@ export default function CreatePostScreen({ navigation }) {
           }}
         >
           <Formik
-            initialValues={{ title: "Testing", body_text: "Test" }}
+            initialValues={{ title: "", body_text: "" }}
+            //  initialValues={{ title: "Testing", body_text: "Test" }}
             validationSchema={createPostSchema}
             onSubmit={(values, actions) => {
               if (pickedImage !== null && pickedFile == null) {
