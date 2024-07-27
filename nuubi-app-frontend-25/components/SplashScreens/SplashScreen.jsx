@@ -332,7 +332,7 @@ Empowering university student success through gamified peer-learning 
     },
   ];
 
-  return Platform.OS === "web" ? (
+  return Platform.OS === "web" && deviceWidth >= 800 ? (
     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
       <Helmet>
         <title>Nuubi: The chat platform for incentivized peer learning.</title>
