@@ -90,6 +90,7 @@ export default function DeleteAccountScreen({ navigation }) {
                       localStorage.removeItem("token");
                     } else {
                       SecureStore.deleteItemAsync("token");
+                      setUser({ ...data, loggedIn: false });
                     }
                     setUser({ token: null });
                     socket.disconnect();

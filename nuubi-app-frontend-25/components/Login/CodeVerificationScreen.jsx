@@ -24,7 +24,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
     const generateSignUpCode = async () => {
       try {
         const email = formVals.email;
-        console.log(formVals.email)
+        console.log(formVals.email);
         const response = await fetch(
           "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
           {
@@ -63,7 +63,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
 
   const handlePress = () => {
     // Increment codeResent state to log how many times it's been resent
-    console.log("resend code")
+    console.log("resend code");
     setCodeResent((prevCount) => prevCount + 1);
   };
 
@@ -155,6 +155,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
                     localStorage.setItem("token", data.token);
                   } else {
                     SecureStore.setItemAsync("token", data.token);
+                    setUser({ ...data, loggedIn: true });
                   }
                   if (data.status) {
                     setError(data.status);
