@@ -970,7 +970,7 @@ export default function Views() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isLoggedIn && Platform.OS == "web" ? (
         <Stack.Screen name="DrawerTabs" component={WebStack} />
-      ) : isMobileLoggedIn && Platform.OS != "web" ? (
+      ) : (isMobileLoggedIn || isLoggedIn) && Platform.OS != "web" ? (
         <Stack.Screen name="BottomTabs" component={TabNavigator} />
       ) : (
         <Stack.Screen

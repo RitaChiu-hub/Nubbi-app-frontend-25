@@ -74,7 +74,7 @@ const handleSignOut = (setUser, navigation) => {
     localStorage.removeItem("token");
   } else {
     SecureStore.deleteItemAsync("token");
-    setUser({ ...data, loggedIn: false });
+    setUser({ loggedIn: false });
   }
   socket.disconnect();
   // navigation.navigate(Splash);
