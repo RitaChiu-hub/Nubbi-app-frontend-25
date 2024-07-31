@@ -460,8 +460,9 @@ export default function ChatScreen({ navigation }) {
                     letterSpacing: 0.5,
                     alignContent: "center",
                     color: "#767676",
+                    paddingLeft: 18,
                   }}
-                  placeholder="   Send message... "
+                  placeholder="Send message... "
                   onChangeText={props.handleChange("mymessage")}
                   value={props.values.mymessage}
                   multiline={true}
