@@ -252,7 +252,7 @@ export default function ViewPostScreen({ navigation }) {
       keyboardVerticalOffset={height}
       style={{
         flex: 1,
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -318,7 +318,7 @@ export default function ViewPostScreen({ navigation }) {
                   }}
                   onPress={() => alert("File Downloads are coming soon!")}
                 >
-                  <FeatherIcon name="download" color="#fdfdfd" size={20} />
+                  <FeatherIcon name="download" color="#fbfbfb" size={20} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -336,7 +336,7 @@ export default function ViewPostScreen({ navigation }) {
               alignContent: "center",
               borderRadius: 16,
               borderColor: "#ddd",
-              backgroundColor: "#fdfdfd",
+              backgroundColor: "#fbfbfb",
               elevation: 15,
               shadowColor: "#333333",
               shadowOpacity: 0.5,
@@ -506,7 +506,7 @@ export default function ViewPostScreen({ navigation }) {
         >
           <Text
             style={{
-              color: "#111111",
+              color: "#050505",
               fontSize: 18,
               fontFamily: "Poppins_600SemiBold",
               paddingBottom: 10,
@@ -528,7 +528,7 @@ export default function ViewPostScreen({ navigation }) {
                     marginBottom: 10,
                     padding: 5,
                     paddingBottom: 10,
-                    backgroundColor: "#fdfdfd",
+                    backgroundColor: "#fbfbfb",
                     borderColor: "#ddd",
                     elevation: 15,
                     shadowColor: "#333333",
@@ -660,7 +660,7 @@ export default function ViewPostScreen({ navigation }) {
                   borderColor: "#ddd",
                   borderRadius: 16,
                   borderWidth: 1,
-                  backgroundColor: "#fdfdfd",
+                  backgroundColor: "#fbfbfb",
                   elevation: 15,
                   shadowColor: "#333333",
                   shadowOpacity: 0.5,
@@ -710,7 +710,7 @@ export default function ViewPostScreen({ navigation }) {
                   }}
                   onPress={props.handleSubmit}
                 >
-                  <FAIcon name="arrow-up" size={30} color="#fdfdfd" />
+                  <FAIcon name="arrow-up" size={30} color="#fbfbfb" />
                 </TouchableOpacity>
               </View>
             </View>

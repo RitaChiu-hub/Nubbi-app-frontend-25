@@ -88,7 +88,7 @@
 //     <br />
 // `;
 //   return (
-//     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+//     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
 //       <Helmet>
 //         <title>Nuubi: The chat platform for incentivized peer learning.</title>
 
@@ -144,7 +144,7 @@
 //             accessibilityRole="button"
 //             onPress={() => alert("Spanish Coming Soon!")}
 //           >
-//             <MaterialIcons name="language" size={20} color="#111111" />
+//             <MaterialIcons name="language" size={20} color="#050505" />
 //           </TouchableOpacity>
 //         </View>
 //       </View>

@@ -71,7 +71,7 @@ export default function MyGroupsScreen({ navigation }) {
           marginHorizontal: 16,
           marginVertical: 8,
           borderColor: "#ddd",
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#fbfbfb",
           elevation: 15,
           shadowColor: "#333333",
           shadowOpacity: 0.5,
@@ -121,7 +121,7 @@ export default function MyGroupsScreen({ navigation }) {
       style={{
         flex: 1,
         paddingTop: 8,
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       <FlatList
@@ -132,7 +132,7 @@ export default function MyGroupsScreen({ navigation }) {
       />
       <View
         style={{
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#fbfbfb",
           alignItems: "center",
           justifyContent: "center",
           padding: 10,

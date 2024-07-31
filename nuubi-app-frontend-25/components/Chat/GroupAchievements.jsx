@@ -238,7 +238,7 @@ export default function GroupAchievementsScreen({ navigation }) {
       keyExtractor={(item) => item.id}
       contentContainerStyle={{
         alignItems: "center",
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
         padding: 14,
         paddingTop: 24,
       }}

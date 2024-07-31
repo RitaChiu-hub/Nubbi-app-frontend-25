@@ -17,14 +17,14 @@ export default function HelpScreen({ navigation }) {
   return (
     <ScrollView
       style={{
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       <View
         style={{
           flex: 1,
           justifyContent: "space-between",
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#fbfbfb",
           margin: 16,
         }}
       >

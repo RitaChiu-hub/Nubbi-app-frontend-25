@@ -80,7 +80,7 @@ export default function ChangeUsernameScreen({ navigation }) {
   return (
     <ScrollView
       style={{
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
       onLayout={(event) => {
         if (!layoutHeight) {
@@ -98,7 +98,7 @@ export default function ChangeUsernameScreen({ navigation }) {
             style={[globalStyles.primaryButton, globalStyles.secondaryButton]}
             onPress={() => goBack()}
           >
-            <Text style={[globalStyles.primaryButtonText, { color: "#111111", fontSize: 15 }]}>Back</Text>
+            <Text style={[globalStyles.primaryButtonText, { color: "#050505", fontSize: 15 }]}>Back</Text>
           </TouchableOpacity>
         </View>
 ):( */}
@@ -270,7 +270,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                         backgroundColor:
                           username.length <= 0 ||
                           props.values.password.length <= 0
-                            ? "#fdfdfd"
+                            ? "#fbfbfb"
                             : "#2482aa",
                       },
                       {
@@ -298,7 +298,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                             username.length <= 0 ||
                             props.values.password.length <= 0
                               ? "#123234"
-                              : "#fdfdfd",
+                              : "#fbfbfb",
                         },
                       ]}
                     >
@@ -316,7 +316,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                     <Text
                       style={[
                         globalStyles.primaryButtonText,
-                        { color: "#111111" },
+                        { color: "#050505" },
                       ]}
                     >
                       Cancel

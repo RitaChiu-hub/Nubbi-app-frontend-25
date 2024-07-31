@@ -28,7 +28,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
   return (
     <ScrollView
       style={{
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
         flex: 1,
       }}
     >
@@ -52,7 +52,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             style={{
               fontSize: 25,
               fontWeight: "500",
-              color: enteredEmail ? "#006400" : "#111111",
+              color: enteredEmail ? "#006400" : "#050505",
             }}
           >
             {enteredEmail ? "Check Your Email" : "Enter Your Email"}

@@ -98,7 +98,7 @@ export default function SignUpScreen({ navigation }) {
   return (
     <ScrollView
       style={{
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       <View

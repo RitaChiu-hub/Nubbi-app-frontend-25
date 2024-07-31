@@ -64,7 +64,7 @@ export default function ForgotPasswordScreen({ navigation }) {
   return (
     <ScrollView
       style={{
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       <View

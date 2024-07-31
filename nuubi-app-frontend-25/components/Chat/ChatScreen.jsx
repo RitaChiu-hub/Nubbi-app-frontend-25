@@ -202,13 +202,13 @@ export default function ChatScreen({ navigation }) {
                 },
                 selectedTab === "Chat" && {
                   borderBottomWidth: 2,
-                  borderColor: "#FDFDFD",
+                  borderColor: "#fbfbfb",
                 },
               ]}
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -234,7 +234,7 @@ export default function ChatScreen({ navigation }) {
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -260,7 +260,7 @@ export default function ChatScreen({ navigation }) {
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -284,7 +284,7 @@ export default function ChatScreen({ navigation }) {
       keyboardVerticalOffset={height}
       style={{
         flex: 1,
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
         alignItems: "center",
         justifyContent: "space-between",
       }}
@@ -380,7 +380,7 @@ export default function ChatScreen({ navigation }) {
                       textAlign: "center",
                       fontSize: 14,
                       fontFamily: "Poppins_600SemiBold",
-                      color: chats.user_id === adminId ? "#111111" : "#333",
+                      color: chats.user_id === adminId ? "#050505" : "#333",
                     }}
                   >
                     {chats.sender_username}
@@ -393,7 +393,7 @@ export default function ChatScreen({ navigation }) {
                 <Text
                   style={{
                     paddingLeft: 4,
-                    color: "#111111",
+                    color: "#050505",
                     fontFamily: "Poppins_400Regular",
                     fontSize: 14,
                     letterSpacing: 0.5,
@@ -410,7 +410,7 @@ export default function ChatScreen({ navigation }) {
         style={{
           width: "100%",
           paddingVertical: 20,
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#fbfbfb",
         }}
       >
         <Formik
@@ -436,7 +436,7 @@ export default function ChatScreen({ navigation }) {
                   maxWidth: "90%",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  backgroundColor: "#fdfdfd",
+                  backgroundColor: "#fbfbfb",
                   elevation: 15,
                   borderWidth: 1,
                   borderColor: "#ddd",
@@ -487,7 +487,7 @@ export default function ChatScreen({ navigation }) {
                   }}
                   onPress={props.handleSubmit}
                 >
-                  <FAIcon name="arrow-up" size={30} color="#fdfdfd" />
+                  <FAIcon name="arrow-up" size={30} color="#fbfbfb" />
                 </TouchableOpacity>
               </View>
             </View>

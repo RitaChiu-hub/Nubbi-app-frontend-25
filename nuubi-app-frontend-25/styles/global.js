@@ -4,8 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 const deviceWidth = Dimensions.get("window").width;
 
 export const nuubiColors = {
-  white: "#FDFDFD",
-  black: "#111111",
+  white: "#fbfbfb", // "#fdfdfd",
+  black: "#050505", // "#111111",
   darkerBlue: "#2482AA",
   primaryBlue: "#33B7F0",
   darkerGray: "#292929",
@@ -250,7 +250,7 @@ export const globalStyles = StyleSheet.create({
   },
   topNavTabSelected: {
     borderBottomWidth: 2,
-    borderColor: "#FDFDFD",
+    borderColor: "#fbfbfb",
   },
   textInput: {
     flex: 0.5,

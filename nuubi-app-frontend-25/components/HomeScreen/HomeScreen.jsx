@@ -241,7 +241,7 @@ export default function HomeScreen({ navigation }) {
                 (performOnboarding == true && onboardingState != 3) ||
                 showFinishedPopup == true
                   ? "#BBBBBB"
-                  : "#fdfdfd",
+                  : "#fbfbfb",
             }}
           >
             <HomeScreenTasks />
@@ -255,7 +255,7 @@ export default function HomeScreen({ navigation }) {
                 (performOnboarding == true && onboardingState != 4) ||
                 showFinishedPopup == true
                   ? "#BBBBBB"
-                  : "#fdfdfd",
+                  : "#fbfbfb",
             }}
           >
             <HomeScreenLeaderboard />
@@ -269,7 +269,7 @@ export default function HomeScreen({ navigation }) {
                 (performOnboarding == true && onboardingState != 5) ||
                 showFinishedPopup == true
                   ? "#BBBBBB"
-                  : "#fdfdfd",
+                  : "#fbfbfb",
             }}
           >
             <HomeScreenBadges />
@@ -282,7 +282,7 @@ export default function HomeScreen({ navigation }) {
               left: screenWidth * positionLeft[onboardingState],
               padding: 0,
               borderRadius: 14,
-              shadowColor: "#111111",
+              shadowColor: "#050505",
               shadowOpacity: 0.8,
               shadowRadius: 2,
             }}
@@ -362,7 +362,7 @@ export default function HomeScreen({ navigation }) {
               </View>
               <Text
                 style={{
-                  color: "#111111",
+                  color: "#050505",
                   textAlign: "center",
                   fontSize: 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -485,7 +485,7 @@ export default function HomeScreen({ navigation }) {
             />
             <Text
               style={{
-                color: "#111111",
+                color: "#050505",
                 textAlign: "center",
                 fontSize: 18,
                 fontFamily: "Poppins_600SemiBold",
@@ -497,7 +497,7 @@ export default function HomeScreen({ navigation }) {
             </Text>
             <Text
               style={{
-                color: "#111111",
+                color: "#050505",
                 fontFamily: "Poppins_400Regular",
                 fontSize: 16,
                 letterSpacing: 0.5,

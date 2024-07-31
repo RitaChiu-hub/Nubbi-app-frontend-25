@@ -27,7 +27,7 @@ export default function DeleteGroupScreen({ navigation }) {
     <View
       style={{
         flex: 1,
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
         alignItems: "center",
       }}
     >

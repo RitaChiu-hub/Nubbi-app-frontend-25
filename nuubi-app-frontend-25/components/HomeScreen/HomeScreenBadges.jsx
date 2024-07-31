@@ -264,7 +264,7 @@ export default function HomeScreenBadges() {
           style={{
             borderWidth: 1,
             borderRadius: 16,
-            borderColor: "#111111",
+            borderColor: "#050505",
             overflow: "hidden",
             height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.35,
             maxHeight: 200,
@@ -279,7 +279,7 @@ export default function HomeScreenBadges() {
             keyExtractor={(item) => item.id}
             contentContainerStyle={{
               alignItems: "center",
-              backgroundColor: "#fdfdfd",
+              backgroundColor: "#fbfbfb",
             }}
           />
         </View>

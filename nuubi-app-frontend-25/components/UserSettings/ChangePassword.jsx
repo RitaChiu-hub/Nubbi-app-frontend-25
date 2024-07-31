@@ -77,7 +77,7 @@ export default function ChangePasswordScreen({ navigation }) {
 
   return (
     <ScrollView
-      style={{ backgroundColor: "#fdfdfd" }}
+      style={{ backgroundColor: "#fbfbfb" }}
       onLayout={(event) => {
         if (initialLayoutHeight === 0) {
           setInitialLayoutHeight(event.nativeEvent.layout.height);
@@ -367,7 +367,7 @@ export default function ChangePasswordScreen({ navigation }) {
                           props.values.passattempt1.length <= 0 ||
                           props.values.passattempt2.length <= 0 ||
                           props.values.password.length
-                            ? "#fdfdfd"
+                            ? "#fbfbfb"
                             : "#2482aa",
                       },
                       {
@@ -398,7 +398,7 @@ export default function ChangePasswordScreen({ navigation }) {
                             props.values.passattempt2.length <= 0 ||
                             props.values.password.length
                               ? "#123234"
-                              : "#fdfdfd",
+                              : "#fbfbfb",
                         },
                       ]}
                     >
@@ -416,7 +416,7 @@ export default function ChangePasswordScreen({ navigation }) {
                     <Text
                       style={[
                         globalStyles.primaryButtonText,
-                        { color: "#111111" },
+                        { color: "#050505" },
                       ]}
                     >
                       Cancel

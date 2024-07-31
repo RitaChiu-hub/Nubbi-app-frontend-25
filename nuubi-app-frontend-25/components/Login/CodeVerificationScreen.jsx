@@ -83,7 +83,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
   return (
     <ScrollView
       style={{
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       <View

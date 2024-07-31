@@ -333,7 +333,7 @@ Empowering university student success through gamified peer-learning 
   ];
 
   return Platform.OS === "web" && deviceWidth >= 800 ? (
-    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+    <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
       <Helmet>
         <title>Nuubi: The chat platform for incentivized peer learning.</title>
 
@@ -400,7 +400,7 @@ Empowering university student success through gamified peer-learning 
             accessibilityRole="button"
             onPress={() => alert("Spanish Coming Soon!")}
           >
-            <FontAwesome6 name="globe" color="#111111" size={20} />
+            <FontAwesome6 name="globe" color="#050505" size={20} />
           </TouchableOpacity>
         </View>
       </View>
@@ -673,7 +673,7 @@ Empowering university student success through gamified peer-learning 
     </ScrollView>
   ) : (
     <LinearGradient
-      colors={["#fdfdfd", "#fdfdfd", "#8bdae8"]}
+      colors={["#fbfbfb", "#fbfbfb", "#8bdae8"]}
       style={globalStyles.container}
       locations={[0.0, 0.46, 1.0]}
       accessibilityRole="none"
@@ -725,7 +725,7 @@ Empowering university student success through gamified peer-learning 
             style={{
               fontSize: 32,
               fontFamily: "Poppins_600SemiBold",
-              color: "#111111",
+              color: "#050505",
               marginHorizontal: 5,
             }}
           >
@@ -831,7 +831,7 @@ Empowering university student success through gamified peer-learning 
           >
             <FontAwesome6
               name="circle-info"
-              color="#111111"
+              color="#050505"
               size={20}
               style={{ paddingTop: 2 }}
             />
@@ -848,7 +848,7 @@ Empowering university student success through gamified peer-learning 
 
             <FontAwesome6
               name="globe"
-              color="#111111"
+              color="#050505"
               size={20}
               style={{ paddingTop: 2 }}
             />
@@ -1106,7 +1106,7 @@ const stylesCarousel = StyleSheet.create({
 //   ];
 
 //   return Platform.OS == "web" && deviceWidth > 1000 ? (
-//     <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+//     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
 //       <Helmet>
 //         <title>Nuubi: The chat platform for incentivized peer learning.</title>
 
@@ -1162,7 +1162,7 @@ const stylesCarousel = StyleSheet.create({
 //             accessibilityRole="button"
 //             onPress={() => alert("Spanish Coming Soon!")}
 //           >
-//             <FontAwesome6 name="globe" color="#111111" size={20} />
+//             <FontAwesome6 name="globe" color="#050505" size={20} />
 //           </TouchableOpacity>
 //         </View>
 //       </View>
@@ -1508,7 +1508,7 @@ const stylesCarousel = StyleSheet.create({
 //     </ScrollView>
 //   ) : (
 //     <LinearGradient
-//       colors={["#fdfdfd", "#fdfdfd", "#8bdae8"]}
+//       colors={["#fbfbfb", "#fbfbfb", "#8bdae8"]}
 //       style={globalStyles.container}
 //       locations={[0.0, 0.46, 1.0]}
 //       accessibilityRole="none"
@@ -1560,7 +1560,7 @@ const stylesCarousel = StyleSheet.create({
 //             style={{
 //               fontSize: 32,
 //               fontFamily: "Poppins_600SemiBold",
-//               color: "#111111",
+//               color: "#050505",
 //               marginHorizontal: 5,
 //             }}
 //           >
@@ -1673,7 +1673,7 @@ const stylesCarousel = StyleSheet.create({
 //           >
 //             <FontAwesome6
 //               name="circle-info"
-//               color="#111111"
+//               color="#050505"
 //               size={20}
 //               style={{ paddingTop: 2 }}
 //             />
@@ -1688,7 +1688,7 @@ const stylesCarousel = StyleSheet.create({
 //             <Text style={{ paddingHorizontal: 10, fontSize: 20 }}>|</Text>
 //             <FontAwesome6
 //               name="globe"
-//               color="#111111"
+//               color="#050505"
 //               size={20}
 //               style={{ paddingTop: 2 }}
 //             />

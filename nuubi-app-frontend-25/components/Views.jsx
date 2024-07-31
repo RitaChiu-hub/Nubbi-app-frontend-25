@@ -74,7 +74,7 @@ function HomeDrawerNavigator() {
         headerStyle: {
           backgroundColor: "#2482AA",
         },
-        headerTintColor: "#FDFDFD",
+        headerTintColor: "#fbfbfb",
       }}
     >
       <HomeDrawer.Screen
@@ -438,7 +438,7 @@ function SettingsStack() {
         headerStyle: {
           backgroundColor: "#2482AA",
         },
-        headerTintColor: "#FDFDFD",
+        headerTintColor: "#fbfbfb",
       }}
       // screenOptions={{ headerShown: false }}
     >
@@ -496,7 +496,7 @@ function HomeStack() {
         headerStyle: {
           backgroundColor: "#2482AA",
         },
-        headerTintColor: "#FDFDFD",
+        headerTintColor: "#fbfbfb",
       }}
     >
       <StackHome.Screen
@@ -571,7 +571,7 @@ function SearchStack() {
         headerStyle: {
           backgroundColor: "#2482AA",
         },
-        headerTintColor: "#FDFDFD",
+        headerTintColor: "#fbfbfb",
       }}
     >
       <StackSearch.Screen name="ViewAllGroups" component={GroupListScreen} />
@@ -610,7 +610,7 @@ function AuthStack() {
         headerStyle: {
           backgroundColor: "#2482AA",
         },
-        headerTintColor: "#FDFDFD",
+        headerTintColor: "#fbfbfb",
       }}
     >
       <StackAuth.Screen
@@ -676,7 +676,7 @@ function MyGroupsStack() {
         headerStyle: {
           backgroundColor: "#2482AA",
         },
-        headerTintColor: "#FDFDFD",
+        headerTintColor: "#fbfbfb",
       }}
     >
       <StackMyGroups.Screen
@@ -744,7 +744,7 @@ function NotificationsStack() {
         headerStyle: {
           backgroundColor: "#2482AA",
         },
-        headerTintColor: "#FDFDFD",
+        headerTintColor: "#fbfbfb",
       }}
     >
       <StackNotifications.Screen

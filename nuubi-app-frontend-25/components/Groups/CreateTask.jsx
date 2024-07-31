@@ -37,7 +37,7 @@ export default function CreateTask({ navigation }) {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+    <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
       <View style={globalStyles.container}>
         <View
           style={{

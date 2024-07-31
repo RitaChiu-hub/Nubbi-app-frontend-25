@@ -337,7 +337,7 @@ export default function MyGroupTasks({ navigation }) {
         marginHorizontal: 16,
         marginVertical: 8,
         borderColor: "#ddd",
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
         elevation: 15,
         shadowColor: "#333333",
         shadowOpacity: 0.5,
@@ -377,7 +377,7 @@ export default function MyGroupTasks({ navigation }) {
         marginHorizontal: 16,
         marginVertical: 8,
         borderColor: "#ddd",
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
         elevation: 15,
         shadowColor: "#333333",
         shadowOpacity: 0.5,
@@ -412,7 +412,7 @@ export default function MyGroupTasks({ navigation }) {
       style={{
         flex: 1,
         paddingTop: 8,
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       {/* <View

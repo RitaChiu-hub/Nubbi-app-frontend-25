@@ -264,7 +264,7 @@ export default function Footer({}) {
             <Link url="https://www.instagram.com/nuubi.app/">
               <FontAwesome6
                 name="instagram"
-                color="#111111"
+                color="#050505"
                 size={50}
                 style={{ marginRight: 40 }}
               />
@@ -272,7 +272,7 @@ export default function Footer({}) {
             <Link url="https://www.facebook.com/nuubiapp/">
               <FontAwesome6
                 name="facebook"
-                color="#111111"
+                color="#050505"
                 size={50}
                 style={{ marginRight: 40 }}
               />
@@ -280,7 +280,7 @@ export default function Footer({}) {
             <Link url="https://www.linkedin.com/company/nuubi-app/">
               <FontAwesome6
                 name="linkedin"
-                color="#111111"
+                color="#050505"
                 size={50}
                 style={{ marginRight: 40 }}
               />
@@ -288,7 +288,7 @@ export default function Footer({}) {
             <Link url="https://www.tiktok.com/@nuubi.app">
               <FontAwesome6
                 name="tiktok"
-                color="#111111"
+                color="#050505"
                 size={50}
                 style={{ marginRight: 40 }}
               />

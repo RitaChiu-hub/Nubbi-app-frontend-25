@@ -69,11 +69,11 @@ export default function EditPostScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+    <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
       <View
         style={{
           flex: 1,
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#fbfbfb",
           alignItems: "center",
           paddingTop: 20,
         }}
@@ -260,7 +260,7 @@ export default function EditPostScreen({ navigation }) {
                       <MaterialIcon
                         name="no-photography"
                         size={30}
-                        color="#fdfdfd"
+                        color="#fbfbfb"
                       />
                     </TouchableOpacity>
                   ) : (
@@ -279,7 +279,7 @@ export default function EditPostScreen({ navigation }) {
                       <MaterialIcon
                         name="add-a-photo"
                         size={30}
-                        color="#fdfdfd"
+                        color="#fbfbfb"
                       />
                     </TouchableOpacity>
                   )}

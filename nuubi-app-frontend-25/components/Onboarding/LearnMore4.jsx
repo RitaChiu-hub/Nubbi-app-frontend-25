@@ -16,7 +16,7 @@ export default function LearnMore4Screen({ navigation }) {
     <ScrollView
       style={{
         padding: 12,
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       <View style={globalStyles.container}>

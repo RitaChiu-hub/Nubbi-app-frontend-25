@@ -24,11 +24,11 @@ export default function JoinGroupWithPasscode({ navigation }) {
   }, [navigation]);
 
   return (
-    <ScrollView style={{ backgroundColor: "#fdfdfd" }}>
+    <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
       <View
         style={{
           flex: 1,
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#fbfbfb",
           alignItems: "center",
         }}
       >

@@ -35,13 +35,13 @@ export default function DeleteAccountScreen({ navigation }) {
   return (
     <ScrollView
       style={{
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       <View
         style={{
           flex: 1,
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#fbfbfb",
           alignItems: "center",
           justifyContent: "center",
         }}

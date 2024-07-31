@@ -266,7 +266,7 @@ export default function HomeScreenLeaderboard() {
           style={{
             borderWidth: 1,
             borderRadius: 16,
-            borderColor: "#111111",
+            borderColor: "#050505",
             overflow: "hidden",
             height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.5,
             maxHeight: 200,

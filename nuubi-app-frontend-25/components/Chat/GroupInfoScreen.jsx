@@ -71,7 +71,7 @@ export default function GroupInfoScreen({ navigation }) {
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -96,7 +96,7 @@ export default function GroupInfoScreen({ navigation }) {
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -122,7 +122,7 @@ export default function GroupInfoScreen({ navigation }) {
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -451,13 +451,13 @@ export default function GroupInfoScreen({ navigation }) {
     <SafeAreaView style={globalStyles.container}>
       <View style={globalStyles.container}>
         <View style={globalStyles.header}>
-          <Image
+          {/* <Image
             source={{ uri: "https://via.placeholder.com/140" }}
             style={[
               globalStyles.roundImageContainer,
               { maxWidth: 180, maxHeight: 180 },
             ]}
-          />
+          /> */}
         </View>
         <View style={globalStyles.tabs}>
           {tabs.map((tab, index) => (

@@ -228,7 +228,7 @@ export default function HomeScreenTasks({}) {
           style={{
             borderWidth: 1,
             borderRadius: 16,
-            borderColor: "#111111",
+            borderColor: "#050505",
             overflow: "hidden",
             height: screenWidth > 500 ? screenWidth * 0.25 : screenWidth * 0.4,
             maxHeight: 200,
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     flexShrink: 1, // Allow the container to shrink if necessary
   },
   titleText: {
-    color: "#111111",
+    color: "#050505",
     textAlign: "left",
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",

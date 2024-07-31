@@ -227,7 +227,7 @@ export default function GroupAnalytics({ navigation }) {
 
   return (
     <ScrollView
-      style={{ backgroundColor: "#fdfdfd" }}
+      style={{ backgroundColor: "#fbfbfb" }}
       horizontal={true}
       vertical={true}
     >
@@ -517,7 +517,7 @@ export default function GroupAnalytics({ navigation }) {
 
 //   return (
 //     <ScrollView
-//       style={{ backgroundColor: "#fdfdfd" }}
+//       style={{ backgroundColor: "#fbfbfb" }}
 //       horizontal={true}
 //       vertical={true}
 //     >

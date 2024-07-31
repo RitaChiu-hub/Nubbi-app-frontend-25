@@ -70,7 +70,7 @@ export default function PostScreen({ navigation }) {
           marginHorizontal: 16,
           marginVertical: 8,
           borderColor: "#ddd",
-          backgroundColor: "#fdfdfd",
+          backgroundColor: "#fbfbfb",
           elevation: 15,
           shadowColor: "#333333",
           shadowOpacity: 0.5,
@@ -97,7 +97,7 @@ export default function PostScreen({ navigation }) {
         <View style={{ paddingHorizontal: 1 }}>
           <Text
             style={{
-              color: "#111111",
+              color: "#050505",
               fontSize: 18,
               fontFamily: "Poppins_600SemiBold",
             }}
@@ -161,7 +161,7 @@ export default function PostScreen({ navigation }) {
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -187,7 +187,7 @@ export default function PostScreen({ navigation }) {
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -213,7 +213,7 @@ export default function PostScreen({ navigation }) {
             >
               <Text
                 style={{
-                  color: "#FDFDFD",
+                  color: "#fbfbfb",
                   fontSize:
                     groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
@@ -234,7 +234,7 @@ export default function PostScreen({ navigation }) {
       style={{
         flex: 1,
         paddingTop: 8,
-        backgroundColor: "#fdfdfd",
+        backgroundColor: "#fbfbfb",
       }}
     >
       <FlatList
