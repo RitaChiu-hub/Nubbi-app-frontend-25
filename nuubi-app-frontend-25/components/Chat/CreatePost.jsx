@@ -26,7 +26,11 @@ const apiKey = "971765162862783";
 
 export default function CreatePostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
-  const [error, setError] = React.useState(null);
+  // const [error, setError] = React.useState(null);
+  const [status, setStatus] = React.useState(null);
+  const [statusColor, setStatusColor] = React.useState(
+    globalStyles.captionError
+  );
   const [pickedImage, setPickedImage] = React.useState(null);
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [pickedFile, setPickedFile] = React.useState(null);
@@ -246,7 +250,13 @@ export default function CreatePostScreen({ navigation }) {
                         if (!data) return;
                         setUser({ ...data });
                         if (data.status) {
-                          setError(data.status);
+                          //  setError(data.status);
+                          if (data.status.includes("successfully")) {
+                            setStatusColor(globalStyles.captionErrorSuccess);
+                          } else {
+                            setStatusColor(globalStyles.captionError);
+                          }
+                          setStatus(data.status);
                         }
                       });
                     return data["secure_url"];
@@ -328,7 +338,15 @@ export default function CreatePostScreen({ navigation }) {
                             if (!data) return;
                             setUser({ ...data });
                             if (data.status) {
-                              setError(data.status);
+                              //  setError(data.status);
+                              if (data.status.includes("successfully")) {
+                                setStatusColor(
+                                  globalStyles.captionErrorSuccess
+                                );
+                              } else {
+                                setStatusColor(globalStyles.captionError);
+                              }
+                              setStatus(data.status);
                             }
                           });
                         return data["secure_url"];
@@ -407,7 +425,15 @@ export default function CreatePostScreen({ navigation }) {
                             if (!data) return;
                             setUser({ ...data });
                             if (data.status) {
-                              setError(data.status);
+                              //  setError(data.status);
+                              if (data.status.includes("successfully")) {
+                                setStatusColor(
+                                  globalStyles.captionErrorSuccess
+                                );
+                              } else {
+                                setStatusColor(globalStyles.captionError);
+                              }
+                              setStatus(data.status);
                             }
                           });
                         return data["secure_url"];
@@ -468,7 +494,13 @@ export default function CreatePostScreen({ navigation }) {
                           if (!data) return;
                           setUser({ ...data });
                           if (data.status) {
-                            setError(data.status);
+                            //   setError(data.status);
+                            if (data.status.includes("successfully")) {
+                              setStatusColor(globalStyles.captionErrorSuccess);
+                            } else {
+                              setStatusColor(globalStyles.captionError);
+                            }
+                            setStatus(data.status);
                           }
                         });
                       return data["secure_url"];
@@ -523,7 +555,13 @@ export default function CreatePostScreen({ navigation }) {
                           if (!data) return;
                           setUser({ ...data });
                           if (data.status) {
-                            setError(data.status);
+                            //   setError(data.status);
+                            if (data.status.includes("successfully")) {
+                              setStatusColor(globalStyles.captionErrorSuccess);
+                            } else {
+                              setStatusColor(globalStyles.captionError);
+                            }
+                            setStatus(data.status);
                           }
                         });
                       return data["secure_url"];
@@ -558,7 +596,13 @@ export default function CreatePostScreen({ navigation }) {
                     if (!data) return;
                     setUser({ ...data });
                     if (data.status) {
-                      setError(data.status);
+                      //  setError(data.status);
+                      if (data.status.includes("successfully")) {
+                        setStatusColor(globalStyles.captionErrorSuccess);
+                      } else {
+                        setStatusColor(globalStyles.captionError);
+                      }
+                      setStatus(data.status);
                     }
                   });
               }
@@ -566,7 +610,8 @@ export default function CreatePostScreen({ navigation }) {
           >
             {(props) => (
               <View>
-                <Text style={globalStyles.captionError}>{error}</Text>
+                {/* <Text style={globalStyles.captionError}>{error}</Text> */}
+                <Text style={statusColor}>{status}</Text>
                 <Text style={globalStyles.textInputLabel}>Post Title</Text>
                 <TextInput
                   style={globalStyles.textInput}
