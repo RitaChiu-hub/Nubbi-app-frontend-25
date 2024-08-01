@@ -15,7 +15,11 @@ const { createGroupSchema } = require("../validationSchema");
 
 export default function CreateGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
-  const [error, setError] = React.useState(null);
+  // const [error, setError] = React.useState(null);
+  const [status, setStatus] = React.useState(null);
+  const [statusColor, setStatusColor] = React.useState(
+    globalStyles.captionError
+  );
 
   const [option, setOption] = React.useState(null);
   const [privacySelection, setPrivacySelection] = React.useState("Private");
@@ -80,10 +84,16 @@ export default function CreateGroupScreen({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                //  console.log(data);
+                  //  console.log(data);
                   setUser({ ...data });
                   if (data.status) {
-                    setError(data.status);
+                    //   setError(data.status);
+                    if (data.status.includes("successfully")) {
+                      setStatusColor(globalStyles.captionErrorSuccess);
+                    } else {
+                      setStatusColor(globalStyles.captionError);
+                    }
+                    setStatus(data.status);
                   }
                 });
             }}
@@ -92,9 +102,8 @@ export default function CreateGroupScreen({ navigation }) {
               <View>
                 <View style={{ marginVertical: 5 }}></View>
                 <View style={{ marginHorizontal: 30 }}>
-                <Text style={globalStyles.captionError}>
-                    {error}
-                  </Text>
+                  {/* <Text style={globalStyles.captionError}>{error}</Text> */}
+                  <Text style={statusColor}>{status} </Text>
                   <View>
                     <Text style={globalStyles.textInputLabel}>Group Name</Text>
                     <TextInput
@@ -135,7 +144,9 @@ export default function CreateGroupScreen({ navigation }) {
                             setPrivacySelection("Private");
                           }}
                         >
-                          <Text style={globalStyles.textInputLabel}>Private</Text>
+                          <Text style={globalStyles.textInputLabel}>
+                            Private
+                          </Text>
                         </TouchableOpacity>
                       </View>
                       <View>
@@ -149,7 +160,9 @@ export default function CreateGroupScreen({ navigation }) {
                             setPrivacySelection("Public");
                           }}
                         >
-                          <Text style={globalStyles.textInputLabel}>Public</Text>
+                          <Text style={globalStyles.textInputLabel}>
+                            Public
+                          </Text>
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -172,4 +185,3 @@ export default function CreateGroupScreen({ navigation }) {
     </ScrollView>
   );
 }
-
