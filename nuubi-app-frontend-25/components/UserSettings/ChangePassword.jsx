@@ -87,22 +87,6 @@ export default function ChangePasswordScreen({ navigation }) {
     >
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <View style={globalStyles.widthContainer}>
-          {/* <View
-            onLayout={(event) => {
-              if (initialScrollHeight === 0) {
-                setInitialScrollHeight(event.nativeEvent.layout.height);
-              }
-            }}
-            style={{
-              marginHorizontal: 20,
-              height:
-                initialScrollHeight < initialLayoutHeight
-                  ? layoutHeight
-                  : "100%",
-            }}
-            ref={scrollViewRef}
-          > */}
-          {/* Form update or upload */}
           <Formik
             initialValues={{
               password: "",

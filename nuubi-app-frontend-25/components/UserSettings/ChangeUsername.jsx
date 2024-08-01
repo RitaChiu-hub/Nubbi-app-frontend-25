@@ -15,7 +15,11 @@ const { changeUsernameSchema } = require("../validationSchema");
 export default function ChangeUsernameScreen({ navigation }) {
   const { goBack, navigate } = navigation;
   const { user, setUser } = React.useContext(AccountContext);
-  const [error, setError] = React.useState(null);
+  // const [error, setError] = React.useState(null);
+  const [status, setStatus] = React.useState(null);
+  const [statusColor, setStatusColor] = React.useState(
+    globalStyles.captionError
+  );
   const [username, setUsername] = React.useState("");
   const [myUsername, setMyUsername] = React.useState("");
 
@@ -155,7 +159,13 @@ export default function ChangeUsernameScreen({ navigation }) {
                   console.log(data);
                   setUser({ ...data });
                   if (data.status) {
-                    setError(data.status);
+                    //  setError(data.status);
+                    if (data.status.includes("successfully")) {
+                      setStatusColor(globalStyles.captionErrorSuccess);
+                    } else {
+                      setStatusColor(globalStyles.captionError);
+                    }
+                    setStatus(data.status);
                   }
                 });
             }}
@@ -166,8 +176,8 @@ export default function ChangeUsernameScreen({ navigation }) {
                   flex: 1,
                 }}
               >
-                <Text style={globalStyles.captionError}>{error}</Text>
-
+                {/* <Text style={globalStyles.captionError}>{error}</Text> */}
+                <Text style={statusColor}>{status}</Text>
                 {/* Username inputbox props.handleChange.. errormessage */}
                 <TextInput
                   style={[globalStyles.textInput]}
