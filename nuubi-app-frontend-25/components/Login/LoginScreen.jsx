@@ -56,7 +56,16 @@ export default function LoginScreen({ navigation }) {
       >
         <Formik
           // initialValues={{ username: "", password: "" }}
-          initialValues={{ username: "Testuser", password: "Testpass!23" }}
+          // initialValues={{ username: "Testuser", password: "Testpass!23" }}
+          //  initialValues={{ username: "MysteryBagel", password: "Palomino!2" }}
+          // initialValues={{
+          //   username: "TestInstructor",
+          //   password: "TestNuubi!23",
+          // }}
+          initialValues={{
+            username: "TestStudent",
+            password: "!2MemberTest",
+          }}
           validationSchema={formSchema}
           onSubmit={(values, actions) => {
             values.username = values.username.trim();
@@ -87,7 +96,7 @@ export default function LoginScreen({ navigation }) {
                   localStorage.setItem("token", data.token);
                 } else {
                   SecureStore.setItemAsync("token", JSON.stringify(data.token));
-                  setUser({ ...data, loggedIn: true });
+                  //  setUser({ ...data, loggedIn: true });
                 }
                 if (data.status) {
                   setError(data.status);

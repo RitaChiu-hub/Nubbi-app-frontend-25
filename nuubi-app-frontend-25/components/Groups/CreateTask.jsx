@@ -58,8 +58,8 @@ export default function CreateTask({ navigation }) {
               //  console.log(vals);
               actions.resetForm();
               fetch(
-                //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
                 "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
+                // "http://localhost:8080/groups/createtask",
                 {
                   method: "POST",
                   credentials: "include",
@@ -154,7 +154,7 @@ export default function CreateTask({ navigation }) {
                         )}
                       </View>
                       <Text style={globalStyles.textInputLabel}>
-                        Assign to Admin {"("}Yourself{")"} 
+                        Assign to Admin {"("}Yourself{")"}
                       </Text>
                     </TouchableOpacity>
                     <View style={{ marginVertical: 10 }}></View>
