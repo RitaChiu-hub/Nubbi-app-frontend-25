@@ -62,6 +62,9 @@ import TermsScreen from "./Onboarding/Terms";
 
 import ProfilePageScreen from "./UserSettings/ProfilePage";
 import OverallAchievements from "./UserSettings/OverallAchievements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
+import * as SplashScreenExpo from "expo-splash-screen";
 
 const HomeDrawer = createDrawerNavigator();
 
@@ -759,8 +762,49 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   const [notifications, setNotifications] = React.useState(false);
-  const { user } = useContext(AccountContext);
+  // const { user } = useContext(AccountContext);
+  const { user, setUser } = React.useContext(AccountContext);
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
+  //const isLoggedIn = user.token != null && user.token != "undefined";
   const [avatarInfo, setAvatarInfo] = React.useState(null);
+
+  // getLoginStatus and user data when the app loads
+  const getLoginStatus = async () => {
+    try {
+      const data = await AsyncStorage.getItem("isLoggedIn");
+      setIsLoggedIn(data === "true");
+    } catch (error) {
+      console.error("Error retrieving login status from Async Storage", error);
+      setIsLoggedIn(false);
+    }
+  };
+
+  // Checking if the user is successfully retrieved from SecureStore, if not then there is no user or not able to fetch the user. If get we parse it and then set the parsed data to the user variable
+  const getUser = async () => {
+    try {
+      const userData = await SecureStore.getItemAsync("user");
+
+      if (!userData) {
+        setUser({ token: null });
+        return null;
+      }
+      const user = JSON.parse(userData);
+      setUser(user);
+    } catch (error) {
+      console.error("Error retrieving user from SecureStore", error);
+    }
+  };
+
+  React.useEffect(() => {
+    getLoginStatus();
+    if (!user || user.token === null || user.token === undefined) {
+      getUser();
+    }
+
+    setTimeout(() => {
+      SplashScreenExpo.hideAsync();
+    }, 900);
+  }, []);
 
   const getNotifications = async () => {
     try {
@@ -968,10 +1012,17 @@ export default function Views() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isLoggedIn && Platform.OS == "web" ? (
-        <Stack.Screen name="DrawerTabs" component={WebStack} />
-      ) : (isMobileLoggedIn || isLoggedIn) && Platform.OS != "web" ? (
-        <Stack.Screen name="BottomTabs" component={TabNavigator} />
+      {isLoggedIn && user && user.token ? (
+        Platform.OS == "web" ? (
+          <Stack.Screen
+            name="DrawerTabs"
+            component={WebStack}
+            //  component={DrawerNavigator}
+            //  screenOptions={{ headerShown: false }}
+          />
+        ) : (
+          <Stack.Screen name="BottomTabs" component={TabNavigator} />
+        )
       ) : (
         <Stack.Screen
           name="Signin"
@@ -984,6 +1035,35 @@ export default function Views() {
     </Stack.Navigator>
   );
 }
+
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//  {isLoggedIn && user && user.token ? (
+//   Platform.OS == "web" ? (
+//     <Stack.Screen
+//       name="DrawerTabs"
+//       component={WebStack}
+
+//       />
+//     ) : (
+//       <Stack.Screen name="BottomTabs" component={TabNavigator} />
+//     )
+//       </Stack.Navigator>
+//     );
+//   }
+// {/* {isLoggedIn && Platform.OS == "web" ? (
+//   <Stack.Screen name="DrawerTabs" component={WebStack} />
+// ) : (isMobileLoggedIn || isLoggedIn) && Platform.OS != "web" ? (
+//   <Stack.Screen name="BottomTabs" component={TabNavigator} />
+// ) : (
+//   <Stack.Screen
+//     name="Signin"
+//     component={AuthStack}
+//     options={{
+//       title: "Log in",
+//     }}
+//   />
+// )} */}
 
 const styles = StyleSheet.create({
   iconContainer: {

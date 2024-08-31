@@ -23,6 +23,9 @@ const UserContext = ({ children }) => {
     // userId: null,
     // currentGroup: null,
   });
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
       credentials: "include",
@@ -32,11 +35,13 @@ const UserContext = ({ children }) => {
     })
       .catch((err) => {
         setUser({ token: null });
+        setIsLoggedIn(false);
         return;
       })
       .then((r) => {
         if (!r || !r.ok || r.status >= 400) {
           setUser({ token: null });
+          setIsLoggedIn(false);
           return;
         }
         return r.json();
@@ -52,7 +57,10 @@ const UserContext = ({ children }) => {
     // });
   }, []);
   return (
-    <AccountContext.Provider value={{ user, setUser }}>
+    // <AccountContext.Provider value={{ user, setUser }}>
+    <AccountContext.Provider
+      value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
+    >
       {children}
     </AccountContext.Provider>
   );

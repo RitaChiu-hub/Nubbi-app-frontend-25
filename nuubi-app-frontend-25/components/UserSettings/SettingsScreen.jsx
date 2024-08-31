@@ -13,6 +13,7 @@ import { globalStyles } from "../../styles/global";
 import socket from "../../socket";
 import * as SecureStore from "expo-secure-store";
 import alert from "./../alert";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //Dynamically create setting items
 // The optional attributes for each item: icon, label, type, color, navRoute or onPress
@@ -68,13 +69,14 @@ const SECTIONS = [
 ];
 
 //External functions defined here
-const handleSignOut = (setUser, navigation) => {
+const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null });
   if (Platform.OS === "web") {
     localStorage.removeItem("token");
   } else {
     SecureStore.deleteItemAsync("token");
-    setUser({ loggedIn: false });
+    SecureStore.deleteItemAsync("user");
+    AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
   }
   socket.disconnect();
   // navigation.navigate(Splash);

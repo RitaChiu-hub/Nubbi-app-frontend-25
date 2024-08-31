@@ -18,10 +18,12 @@ import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import alert from "./../alert";
 import { useAssets } from "expo-asset";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
 
   let assets = useAssets([require("../../assets/google-logo.png")]);
   let assets2 = useAssets([require("../../assets/facebook-logo.png")]);
@@ -57,7 +59,6 @@ export default function LoginScreen({ navigation }) {
         <Formik
           // initialValues={{ username: "", password: "" }}
           // initialValues={{ username: "Testuser", password: "Testpass!23" }}
-          //  initialValues={{ username: "MysteryBagel", password: "Palomino!2" }}
           // initialValues={{
           //   username: "TestInstructor",
           //   password: "TestNuubi!23",
@@ -89,13 +90,17 @@ export default function LoginScreen({ navigation }) {
                 }
                 return res.json();
               })
-              .then((data) => {
+              .then(async (data) => {
                 if (!data) return;
                 setUser({ ...data });
+                setIsLoggedIn(true);
                 if (Platform.OS === "web") {
                   localStorage.setItem("token", data.token);
+                  localStorage.setItem("isLoggedIn", JSON.stringify(true));
                 } else {
                   SecureStore.setItemAsync("token", JSON.stringify(data.token));
+                  SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
+                  AsyncStorage.setItem("isLoggedIn", JSON.stringify(true)); // storing the iLoggedIn state in AsyncStorage
                   //  setUser({ ...data, loggedIn: true });
                 }
                 if (data.status) {
