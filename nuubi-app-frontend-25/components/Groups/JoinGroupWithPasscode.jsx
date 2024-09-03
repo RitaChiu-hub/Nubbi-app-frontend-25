@@ -78,16 +78,7 @@ export default function JoinGroupWithPasscode({ navigation }) {
             {(props) => (
               <View style={{ flex: 1, justifyContent: "flex-start" }}>
                 <Text style={globalStyles.captionError}>{error}</Text>
-                <Text style={globalStyles.textInputLabel}>Passcode</Text>
-                <TextInput
-                  style={globalStyles.textInput}
-                  placeholder="Enter Passcode"
-                  onChangeText={props.handleChange("passcode")}
-                  value={props.values.passcode}
-                />
-                <Text style={globalStyles.captionError}>
-                  <ErrorMessage name="passcode" />
-                </Text>
+
                 <Text style={globalStyles.textInputLabel}>Admin Username</Text>
                 <TextInput
                   style={globalStyles.textInput}
@@ -98,6 +89,18 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 <Text style={globalStyles.captionError}>
                   <ErrorMessage name="admin" />
                 </Text>
+
+                <Text style={globalStyles.textInputLabel}>Passcode</Text>
+                <TextInput
+                  style={globalStyles.textInput}
+                  placeholder="Enter Passcode"
+                  onChangeText={props.handleChange("passcode")}
+                  value={props.values.passcode}
+                />
+                <Text style={globalStyles.captionError}>
+                  <ErrorMessage name="passcode" />
+                </Text>
+
                 <View style={{ marginVertical: 5 }}></View>
                 <TouchableOpacity
                   style={globalStyles.primaryButton}

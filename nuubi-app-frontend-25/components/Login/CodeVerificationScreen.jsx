@@ -12,6 +12,7 @@ import { globalStyles } from "../../styles/global";
 import { codeVerificationSchema } from "../validationSchema";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CodeVerificationScreen({ navigation, route }) {
   const { setUser } = React.useContext(AccountContext);
@@ -19,6 +20,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
   const [verificationData, setVerificationData] = React.useState(null);
   const [codeResent, setCodeResent] = React.useState(0); // State to track code resends
   const { formVals } = route.params || {};
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
 
   React.useEffect(() => {
     const generateSignUpCode = async () => {
@@ -148,19 +150,39 @@ export default function CodeVerificationScreen({ navigation, route }) {
                   }
                   return res.json();
                 })
-                .then((data) => {
+                .then(async (data) => {
                   if (!data) return;
-                  setUser({ ...data, firstSignIn: true });
+                  setUser({ ...data });
+                  setIsLoggedIn(true);
                   if (Platform.OS === "web") {
                     localStorage.setItem("token", data.token);
+                    localStorage.setItem("isLoggedIn", JSON.stringify(true));
                   } else {
-                    SecureStore.setItemAsync("token", data.token);
-                    setUser({ ...data, loggedIn: true });
+                    SecureStore.setItemAsync(
+                      "token",
+                      JSON.stringify(data.token)
+                    );
+                    SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
+                    AsyncStorage.setItem("isLoggedIn", JSON.stringify(true)); // storing the iLoggedIn state in AsyncStorage
+                    //  setUser({ ...data, loggedIn: true });
                   }
                   if (data.status) {
                     setError(data.status);
                   }
                 });
+              // .then((data) => {
+              //   if (!data) return;
+              //   setUser({ ...data, firstSignIn: true });
+              //   if (Platform.OS === "web") {
+              //     localStorage.setItem("token", data.token);
+              //   } else {
+              //     SecureStore.setItemAsync("token", data.token);
+              //     setUser({ ...data, loggedIn: true });
+              //   }
+              //   if (data.status) {
+              //     setError(data.status);
+              //   }
+              // });
 
               // Reset form after successful validation
               actions.resetForm();
