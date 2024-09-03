@@ -205,7 +205,12 @@ export default function Footer({}) {
               <Text
                 style={[
                   globalStyles.webpageHeader2,
-                  { fontSize: 35 * fontSize, alignSelf: "flex-start" },
+                  {
+                    fontSize: 35 * fontSize,
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  },
                 ]}
               >
                 NUUBI
