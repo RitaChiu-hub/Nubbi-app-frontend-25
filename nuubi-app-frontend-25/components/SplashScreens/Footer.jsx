@@ -20,9 +20,8 @@ export default function Footer({}) {
   const [bottomFooterMargin, setBottomFooterMargin] = useState(
     getBottomFooterMargin()
   );
-  const [footerTextMargin, setFooterTextMargin] = useState(
-    getFooterTextMargin()
-  );
+  const [fontSize, setFontSize] = useState(getFontSize());
+  const [margin, setMargin] = useState(getMargin());
   const [bottomFormat, setBottomFormat] = useState(getBottomFormat());
   const [size, setSize] = useState(getSize());
 
@@ -32,7 +31,8 @@ export default function Footer({}) {
       setFormat(getFormat(width));
       setAllignment(getAllignment(width));
       setBottomFooterMargin(getBottomFooterMargin(width));
-      setFooterTextMargin(getFooterTextMargin(width));
+      setFontSize(getFontSize(width));
+      setMargin(getMargin(width));
       setBottomFormat(getBottomFormat(width));
       setSize(getSize(width));
     };
@@ -80,6 +80,19 @@ export default function Footer({}) {
     return windowWidth > 1260 ? 350 : 600;
   }
 
+  function getMargin() {
+    const windowWidth = Dimensions.get("window").width;
+    if (windowWidth <= 600) {
+      return 10;
+    }
+    return windowWidth > 1260 ? 10 : -20;
+  }
+
+  function getFontSize() {
+    const windowWidth = Dimensions.get("window").width;
+    return windowWidth > 600 ? 1 : 0.75;
+  }
+
   return (
     <View style={{ marginTop: 150 }}>
       <LinearGradient
@@ -118,23 +131,6 @@ export default function Footer({}) {
             }}
           >
             <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-              {/* <TouchableOpacity
-                style={{
-                  paddingVertical: 13,
-                  paddingHorizontal: 14,
-                }}
-                accessibilityRole="button"
-                onPress={() => navigation.navigate("FeedbackScreen")}
-              >
-                <Text
-                  style={[
-                    globalStyles.h3HeadingRegular,
-                    { marginRight: 80, fontSize: 22, marginTop: 80 },
-                  ]}
-                >
-                  Contact Us
-                </Text>
-              </TouchableOpacity> */}
               <TouchableOpacity
                 style={{
                   paddingVertical: 13,
@@ -146,7 +142,7 @@ export default function Footer({}) {
                 <Text
                   style={[
                     globalStyles.h3HeadingRegular,
-                    { fontSize: 22, marginTop: 80 },
+                    { fontSize: 22 * fontSize, marginTop: 80 },
                   ]}
                 >
                   Help
@@ -160,8 +156,8 @@ export default function Footer({}) {
               >
                 <Image
                   style={{
-                    width: 200,
-                    height: 64,
+                    width: 200 * fontSize,
+                    height: 64 * fontSize,
                     marginTop: 70,
                     marginRight: 60,
                   }}
@@ -199,13 +195,17 @@ export default function Footer({}) {
           >
             <View style={{ flexDirection: "row", marginRight: 40 }}>
               <Image
-                style={{ width: 60, height: 60, marginRight: 12 }}
+                style={{
+                  width: 70 * fontSize,
+                  height: 70 * fontSize,
+                  marginRight: 12,
+                }}
                 source={require("../../assets/nuubi_Logo_BW.png")}
               />
               <Text
                 style={[
                   globalStyles.webpageHeader2,
-                  { fontSize: 35, alignSelf: "flex-start" },
+                  { fontSize: 35 * fontSize, alignSelf: "flex-start" },
                 ]}
               >
                 NUUBI
@@ -229,7 +229,7 @@ export default function Footer({}) {
                 <Text
                   style={[
                     globalStyles.caption,
-                    { fontSize: 20, marginRight: 40 },
+                    { fontSize: 22 * fontSize, marginRight: 40 },
                   ]}
                 >
                   Privacy
@@ -246,7 +246,7 @@ export default function Footer({}) {
                 <Text
                   style={[
                     globalStyles.caption,
-                    { fontSize: 20, paddingRight: 40 },
+                    { fontSize: 22 * fontSize, paddingRight: 40 },
                   ]}
                 >
                   Terms Of Service
@@ -265,7 +265,7 @@ export default function Footer({}) {
               <FontAwesome6
                 name="instagram"
                 color="#050505"
-                size={50}
+                size={50 * fontSize}
                 style={{ marginRight: 40 }}
               />
             </Link>
@@ -273,7 +273,7 @@ export default function Footer({}) {
               <FontAwesome6
                 name="facebook"
                 color="#050505"
-                size={50}
+                size={50 * fontSize}
                 style={{ marginRight: 40 }}
               />
             </Link>
@@ -281,7 +281,7 @@ export default function Footer({}) {
               <FontAwesome6
                 name="linkedin"
                 color="#050505"
-                size={50}
+                size={50 * fontSize}
                 style={{ marginRight: 40 }}
               />
             </Link>
@@ -289,7 +289,7 @@ export default function Footer({}) {
               <FontAwesome6
                 name="tiktok"
                 color="#050505"
-                size={50}
+                size={50 * fontSize}
                 style={{ marginRight: 40 }}
               />
             </Link>

@@ -249,7 +249,9 @@ Empowering university student success through gamified peer-learning 
             style={{ paddingHorizontal: 50, paddingTop: 8 }}
             accessibilityRole="none"
           >
-            <Text style={[globalStyles.bodyRegular]}>{item.desc}</Text>
+            <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>
+              {item.desc}
+            </Text>
           </View>
         </View>
       </View>
@@ -674,13 +676,14 @@ Empowering university student success through gamified peer-learning 
   ) : (
     <LinearGradient
       colors={["#fbfbfb", "#fbfbfb", "#8bdae8"]}
-      style={globalStyles.container}
+      style={[globalStyles.container, { width: "100%", height: "100%" }]}
       locations={[0.0, 0.46, 1.0]}
       accessibilityRole="none"
     >
       <ScrollView
+        style={{ width: "100%", height: "100%" }}
         contentContainerStyle={{
-          flex: 1,
+          flexGrow: 1,
           alignItems: "center",
           justifyContent: "flex-start",
         }}
@@ -707,7 +710,10 @@ Empowering university student success through gamified peer-learning 
           style={{
             flexDirection: "row",
             alignItems: "center",
+            //  paddingTop: deviceWidth > 500 ? 60 : "25%",
             paddingTop: deviceWidth > 500 ? 60 : "25%",
+            paddingTop: 100,
+            marginTop: -50,
           }}
           accessibilityRole="none"
         >
@@ -743,6 +749,7 @@ Empowering university student success through gamified peer-learning 
             width: deviceWidth,
             alignItems: "center",
             justifyContent: "space-evenly",
+            flex: 1,
           }}
           accessibilityRole="none"
         >
@@ -775,31 +782,37 @@ Empowering university student success through gamified peer-learning 
           <CarouselPaginator data={carouselData} scrollX={scrollX} />
         </View>
 
+        {/* <View
+          style={{
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        > */}
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#2482aa",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingVertical: 14,
+            marginTop: 5,
+            // width: deviceWidth * 0.9,
+            width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
+            borderRadius: 60,
+            elevation: 3,
+            maxWidth: 800,
+          }}
+          accessibilityRole="button"
+          onPress={() => navigation.navigate("SignUp")}
+        >
+          <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
+        </TouchableOpacity>
+
         <View
           style={{
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#2482aa",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingVertical: 14,
-              marginTop: 5,
-              // width: deviceWidth * 0.9,
-              width: deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.9,
-              borderRadius: 60,
-              elevation: 3,
-              maxWidth: 500,
-            }}
-            accessibilityRole="button"
-            onPress={() => navigation.navigate("SignUp")}
-          >
-            <Text style={globalStyles.primaryButtonText}>Sign Up</Text>
-          </TouchableOpacity>
-
           <View
             style={{
               flexDirection: "row",
@@ -826,6 +839,7 @@ Empowering university student success through gamified peer-learning 
               justifyContent: "space-around",
               alignItems: "center",
               paddingBottom: 40,
+              marginBottom: -100,
             }}
             accessibilityRole="none"
           >
@@ -864,6 +878,9 @@ Empowering university student success through gamified peer-learning 
               <Text style={globalStyles.captionLink}>Language</Text>
             </TouchableOpacity>
           </View>
+        </View>
+        <View style={{ width: "100%", alignSelf: "stretch" }}>
+          {Platform.OS === "web" && <Footer style={{ width: "100%" }} />}
         </View>
       </ScrollView>
     </LinearGradient>

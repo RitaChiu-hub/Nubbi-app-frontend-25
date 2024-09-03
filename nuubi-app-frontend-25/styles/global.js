@@ -89,7 +89,6 @@ export const globalStyles = StyleSheet.create({
   secondaryButtonText: {
     color: nuubiColors["black"],
     fontSize: 14,
-    // fontFamily: "Poppins_700Bold",
     fontFamily: "Poppins_500Medium",
     letterSpacing: 1.25,
   },
@@ -111,9 +110,6 @@ export const globalStyles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
   },
   webpageCardText: {
-    // color: nuubiColors["white"],
-    // fontSize: 28,
-    // fontFamily: "Poppins_700Bold",
     padding: 24,
     color: nuubiColors["black"],
     fontSize: 24,
@@ -569,5 +565,29 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "flex-start",
     paddingLeft: 28,
+  },
+  shadow: {
+    borderRadius: 30,
+    shadowColor: "#000",
+    borderWidth: 1.5,
+    borderColor: "#C0C0C0",
+    borderStyle: "solid",
+    shadowOffset: {
+      width: 7,
+      height: 7,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 3,
+    overflow: "visible",
+  },
+  fullScreenContainer: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: "100vw",
+    height: "100vh",
   },
 });
