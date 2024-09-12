@@ -8,6 +8,7 @@ import {
   Platform,
   Pressable,
   Image,
+  Dimensions,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -30,6 +31,7 @@ export default function SignUpScreen({ navigation }) {
   const [comfirmPasswardStatus, setComfirmPasswardStatus] = React.useState("");
   let assets = useAssets([require("../../assets/google-logo.png")]);
   let assets2 = useAssets([require("../../assets/facebook-logo.png")]);
+  const deviceWidth = Dimensions.get("window").width;
 
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
@@ -99,6 +101,7 @@ export default function SignUpScreen({ navigation }) {
     <ScrollView
       style={{
         backgroundColor: "#fbfbfb",
+        maxWidth: deviceWidth,
       }}
     >
       <View
@@ -166,8 +169,6 @@ export default function SignUpScreen({ navigation }) {
               {error != null && (
                 <View
                   style={{
-                    flexDirection: "row",
-                    justifyContent: "space-around",
                     alignItems: "center",
                     paddingTop: 16,
                     paddingBottom: 6,
@@ -175,27 +176,47 @@ export default function SignUpScreen({ navigation }) {
                   accessibilityRole="none"
                 >
                   <Text style={globalStyles.captionError}>
-                    Oops! {error} Would you like to:{" "}
+                    Oops! {error} Would you like to:
+                    <TouchableOpacity
+                      style={{ paddingHorizontal: 5 }}
+                      accessibilityRole="button"
+                      onPress={() => navigation.navigate("Login")}
+                    >
+                      <Text
+                        style={{
+                          color: "#050505",
+                          fontFamily: "Poppins_500Medium",
+                          fontSize: 14,
+                          letterSpacing: 0.4,
+                          textDecorationLine: "underline",
+                          marginBottom: -2,
+                        }}
+                      >
+                        Log In
+                      </Text>
+                    </TouchableOpacity>
+                    or
+                    <TouchableOpacity
+                      style={{ paddingHorizontal: 5 }}
+                      accessibilityRole="button"
+                      onPress={() =>
+                        navigation.navigate("ForgotPasswordLoggedOut")
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: "#050505",
+                          fontFamily: "Poppins_500Medium",
+                          fontSize: 14,
+                          letterSpacing: 0.4,
+                          textDecorationLine: "underline",
+                          marginBottom: -2,
+                        }}
+                      >
+                        Forgot Password?
+                      </Text>
+                    </TouchableOpacity>
                   </Text>
-                  <TouchableOpacity
-                    style={{ paddingHorizontal: 5 }}
-                    accessibilityRole="button"
-                    onPress={() => navigation.navigate("Login")}
-                  >
-                    <Text style={globalStyles.captionLink}>Log In</Text>
-                  </TouchableOpacity>
-                  <Text style={globalStyles.captionError}> or </Text>
-                  <TouchableOpacity
-                    style={{ paddingHorizontal: 5 }}
-                    accessibilityRole="button"
-                    onPress={() =>
-                      navigation.navigate("ForgotPasswordLoggedOut")
-                    }
-                  >
-                    <Text style={globalStyles.captionLink}>
-                      Forgot Password?
-                    </Text>
-                  </TouchableOpacity>
                 </View>
               )}
 
