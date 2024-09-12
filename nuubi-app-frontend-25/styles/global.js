@@ -1,5 +1,4 @@
 import { StyleSheet, Dimensions } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
 
 const deviceWidth = Dimensions.get("window").width;
 
