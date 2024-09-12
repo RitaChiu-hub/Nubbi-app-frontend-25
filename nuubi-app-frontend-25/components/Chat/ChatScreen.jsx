@@ -18,12 +18,16 @@ import { globalStyles } from "../../styles/global";
 import { useIsFocused, useRoute } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/elements";
 import FAIcon from "@expo/vector-icons/FontAwesome";
+import { useLocalStorage } from "@uidotdev/usehooks";
+
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [chats, setChats] = React.useState([]);
-  // const [groupTitle, setGroupTitle] = React.useState(title);
-  const [groupTitle, setGroupTitle] = React.useState(user.groupName);
+
+  //const [groupTitle, setGroupTitle] = React.useState(user.groupName);
+  const context = sessionStorage.getItem('context');
+  const [groupTitle, setGroupTitle] = React.useState(JSON.parse(context).groupName);
   const [adminId, setAdminId] = React.useState(null);
   const isFocused = useIsFocused();
   const [likes, setLikes] = React.useState([]);
@@ -100,7 +104,8 @@ export default function ChatScreen({ navigation }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...user }),
+         // body: JSON.stringify({ ...user }),
+         body: context,
         }
       );
       const jsonData = await response.json();
@@ -149,7 +154,8 @@ export default function ChatScreen({ navigation }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...user }),
+        //  body: JSON.stringify({ ...user }),
+        body: context,
         }
       );
       const jsonData = await response.json();
@@ -210,7 +216,8 @@ export default function ChatScreen({ navigation }) {
                 style={{
                   color: "#fbfbfb",
                   fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                 //   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                 (JSON.parse(context).groupName.length >= 12) & (screenWidth < 500) ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
                   letterSpacing: 0,
                 }}
@@ -236,7 +243,8 @@ export default function ChatScreen({ navigation }) {
                 style={{
                   color: "#fbfbfb",
                   fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                 //   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                 (JSON.parse(context).groupName.length >= 12) & (screenWidth < 500) ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
                   letterSpacing: 0,
                 }}
@@ -262,7 +270,8 @@ export default function ChatScreen({ navigation }) {
                 style={{
                   color: "#fbfbfb",
                   fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                //    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+                (JSON.parse(context).groupName.length >= 12) & (screenWidth < 500) ? 14 : 18,
                   fontFamily: "Poppins_600SemiBold",
                   letterSpacing: 0,
                 }}
