@@ -249,7 +249,12 @@ Empowering university student success through gamified peer-learning 
             style={{ paddingHorizontal: 50, paddingTop: 8 }}
             accessibilityRole="none"
           >
-            <Text style={[globalStyles.bodyRegular, { flex: 1 }]}>
+            <Text
+              style={[
+                globalStyles.bodyRegular,
+                // { flex: 1 }
+              ]}
+            >
               {item.desc}
             </Text>
           </View>
@@ -358,7 +363,11 @@ Empowering university student success through gamified peer-learning 
           padding: 14,
         }}
       >
-        <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            flexDirection: "row",
+          }}
+        >
           <Image
             style={{ width: 52, height: 52 }}
             source={require("../../assets/nuubiTransparent.png")}
@@ -432,7 +441,7 @@ Empowering university student success through gamified peer-learning 
         >
           <View
             style={{
-              flex: 2,
+              //    flex: 2,
               alignItems: "flex-start",
               justifyContent: "flex-start",
               paddingLeft: 150,
@@ -713,7 +722,6 @@ Empowering university student success through gamified peer-learning 
             //  paddingTop: deviceWidth > 500 ? 60 : "25%",
             paddingTop: deviceWidth > 500 ? 60 : "25%",
             paddingTop: 100,
-            marginTop: -50,
           }}
           accessibilityRole="none"
         >
@@ -749,7 +757,7 @@ Empowering university student success through gamified peer-learning 
             width: deviceWidth,
             alignItems: "center",
             justifyContent: "space-evenly",
-            flex: 1,
+            //  flex: 1,
           }}
           accessibilityRole="none"
         >
@@ -811,6 +819,7 @@ Empowering university student success through gamified peer-learning 
           style={{
             alignItems: "center",
             justifyContent: "space-between",
+            minHeight: 50,
           }}
         >
           <View
