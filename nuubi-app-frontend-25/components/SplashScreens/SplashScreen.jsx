@@ -834,7 +834,10 @@ Empowering university student success through gamified peer-learning 
           >
             <Text style={globalStyles.caption}>Already have an account? </Text>
             <TouchableOpacity
-              style={{ paddingHorizontal: 5 }}
+              style={{
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              }}
               accessibilityRole="button"
               onPress={() => navigation.navigate("Login")}
             >
@@ -848,7 +851,8 @@ Empowering university student success through gamified peer-learning 
               justifyContent: "space-around",
               alignItems: "center",
               paddingBottom: 40,
-              marginBottom: -100,
+              //  backgroundColor: 100,
+              //   marginBottom: -100,
             }}
             accessibilityRole="none"
           >

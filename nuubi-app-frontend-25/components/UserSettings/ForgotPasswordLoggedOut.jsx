@@ -222,7 +222,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={globalStyles.linkButton}
-                    onPress={() => navigation.goBack()}
+                    onPress={() => navigation.navigate("Login")}
                   >
                     <Text style={globalStyles.captionLinkBlue}>
                       Return to Sign In

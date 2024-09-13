@@ -25,8 +25,8 @@ export default function SignUpScreen({ navigation }) {
   const [error, setError] = React.useState(null);
   const [suggestions, setSuggestions] = React.useState([]);
   const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [comfirmPassword, setComfirmPassword] = React.useState("");
+  const [password, setPassword] = React.useState(""); //take this out after testing
+  const [comfirmPassword, setComfirmPassword] = React.useState(""); //take this out after testing
   const [showComfirmPWDStatus, setShowComfirmPWDStatus] = React.useState("");
   const [comfirmPasswardStatus, setComfirmPasswardStatus] = React.useState("");
   let assets = useAssets([require("../../assets/google-logo.png")]);
@@ -114,11 +114,9 @@ export default function SignUpScreen({ navigation }) {
       >
         <Formik
           initialValues={{
-            email: "",
-            //  password: "",
+            email: "kwifvat@yahoo.com",
             password: password,
             password2: comfirmPassword,
-            //   password2: "",
           }}
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
@@ -175,12 +173,12 @@ export default function SignUpScreen({ navigation }) {
                   }}
                   accessibilityRole="none"
                 >
-                  <Text style={globalStyles.captionError}>
-                    Oops! {error} Would you like to:
+                  <Text style={[globalStyles.captionError]}>
+                    Oops! {error} Would you like to:{" "}
                     <TouchableOpacity
-                      style={{ paddingHorizontal: 5 }}
-                      accessibilityRole="button"
                       onPress={() => navigation.navigate("Login")}
+                      accessibilityRole="button"
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
                     >
                       <Text
                         style={{
@@ -189,19 +187,19 @@ export default function SignUpScreen({ navigation }) {
                           fontSize: 14,
                           letterSpacing: 0.4,
                           textDecorationLine: "underline",
-                          marginBottom: -2,
                         }}
                       >
+                        {" "}
                         Log In
                       </Text>
-                    </TouchableOpacity>
-                    or
+                    </TouchableOpacity>{" "}
+                    or{" "}
                     <TouchableOpacity
-                      style={{ paddingHorizontal: 5 }}
-                      accessibilityRole="button"
                       onPress={() =>
                         navigation.navigate("ForgotPasswordLoggedOut")
                       }
+                      accessibilityRole="button"
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
                     >
                       <Text
                         style={{
@@ -210,14 +208,77 @@ export default function SignUpScreen({ navigation }) {
                           fontSize: 14,
                           letterSpacing: 0.4,
                           textDecorationLine: "underline",
-                          marginBottom: -2,
                         }}
                       >
+                        {" "}
                         Forgot Password?
                       </Text>
                     </TouchableOpacity>
                   </Text>
                 </View>
+
+                // <View
+                //   style={{
+                //     alignItems: "center",
+                //     paddingTop: 16,
+                //     paddingBottom: 6,
+                //   }}
+                //   accessibilityRole="none"
+                // >
+                //   <Text
+                //     style={[
+                //       globalStyles.captionError,
+                //       { paddingVertical: 10, paddingHorizontal: 10 },
+                //     ]}
+                //   >
+                //     Oops! {error} Would you like to:
+                //     <TouchableOpacity
+                //       style={{
+                //         paddingVertical: 10,
+                //         paddingHorizontal: 10,
+                //         backgroundColor: "red",
+                //       }}
+                //       accessibilityRole="button"
+                //       onPress={() => navigation.navigate("Login")}
+                //     >
+                //       <Text
+                //         style={{
+                //           color: "#050505",
+                //           fontFamily: "Poppins_500Medium",
+                //           fontSize: 14,
+                //           letterSpacing: 0.4,
+                //           textDecorationLine: "underline",
+                //         }}
+                //       >
+                //         Log In
+                //       </Text>
+                //     </TouchableOpacity>
+                //     or
+                //     <TouchableOpacity
+                //       style={{
+                //         paddingVertical: 10,
+                //         paddingHorizontal: 10,
+                //         backgroundColor: "red",
+                //       }}
+                //       accessibilityRole="button"
+                //       onPress={() =>
+                //         navigation.navigate("ForgotPasswordLoggedOut")
+                //       }
+                //     >
+                //       <Text
+                //         style={{
+                //           color: "#050505",
+                //           fontFamily: "Poppins_500Medium",
+                //           fontSize: 14,
+                //           letterSpacing: 0.4,
+                //           textDecorationLine: "underline",
+                //         }}
+                //       >
+                //         Forgot Password?
+                //       </Text>
+                //     </TouchableOpacity>
+                //   </Text>
+                // </View>
               )}
 
               <Text style={globalStyles.textInputLabel}>Email:</Text>
@@ -449,36 +510,45 @@ export default function SignUpScreen({ navigation }) {
                 </View>
               </View>
               <View style={[globalStyles.widthContainer, { marginTop: 16 }]}>
-                <Text style={globalStyles.bodyRegular}>
-                  By signing up, I agree to NUUBI’s{" "}
-                  <Text
-                    style={globalStyles.captionLinkBlue}
-                    onPress={() => {
-                      navigation.navigate("TermsScreen");
-                    }}
-                  >
-                    Terms of Service
-                  </Text>{" "}
-                  and{" "}
-                  <Text
-                    style={globalStyles.captionLinkBlue}
-                    onPress={() => {
-                      navigation.navigate("PrivacyScreen");
-                    }}
-                  >
-                    Privacy Policy
+                <View style={[globalStyles.widthContainer, { marginTop: 16 }]}>
+                  <Text style={globalStyles.bodyRegular}>
+                    By signing up, I agree to Nuubi’s{" "}
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("TermsScreen")}
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
+                    >
+                      <Text style={globalStyles.captionLinkBlue}>
+                        Terms of Service
+                      </Text>
+                    </TouchableOpacity>{" "}
+                    and{" "}
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("PrivacyScreen")}
+                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
+                    >
+                      <Text style={globalStyles.captionLinkBlue}>
+                        Privacy Policy
+                      </Text>
+                    </TouchableOpacity>
+                    .
                   </Text>
-                  .
-                </Text>
 
-                <View style={globalStyles.dividerContainer}>
-                  <View style={globalStyles.halfDivider}></View>
-                  <Text style={globalStyles.bodyRegular}>or continue with</Text>
-                  <View style={globalStyles.halfDivider}></View>
+                  <View style={globalStyles.dividerContainer}>
+                    <View style={globalStyles.halfDivider}></View>
+                    <Text style={globalStyles.bodyRegular}>
+                      or continue with
+                    </Text>
+                    <View style={globalStyles.halfDivider}></View>
+                  </View>
                 </View>
               </View>
 
-              <View style={globalStyles.ssoButtonsContainer}>
+              <View
+                style={[
+                  globalStyles.ssoButtonsContainer,
+                  { marginBottom: 100 },
+                ]}
+              >
                 <TouchableOpacity
                   style={globalStyles.ssoButton}
                   accessibilityRole="button"
