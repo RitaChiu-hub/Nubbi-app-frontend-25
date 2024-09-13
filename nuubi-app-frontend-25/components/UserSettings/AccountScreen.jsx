@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Switch,
-  Platform,
+  ScrollView,
 } from "react-native";
 import FeatherIcon from "@expo/vector-icons/Feather";
 import { AccountContext } from "../AccountContext";
@@ -64,73 +64,86 @@ export default function AccountScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={globalStyles.container}>
-      <View style={globalStyles.widthContainer}>
-        {SECTIONS.map(({ header, items }) => (
-          <View style={globalStyles.section} key={header}>
-            <View style={globalStyles.sectionHeader}>
-              <Text style={globalStyles.caption}>{header}</Text>
-            </View>
-            <View style={globalStyles.sectionBody}>
-              {items.map(
-                ({ icon, label, type, value, color, navRoute }, index) => {
-                  const isFirst = index === 0;
-                  const isLast = index === items.length - 1;
-                  return (
-                    <View
-                      key={label}
-                      style={[
-                        globalStyles.rowWrapper,
-                        index === 0 && { borderTopWidth: 0 },
-                        isFirst && globalStyles.rowFirst,
-                        isLast && globalStyles.rowLast,
-                      ]}
-                    >
-                      <TouchableOpacity
-                        onPress={() => handleNavigation(navRoute, label)}
+    <ScrollView
+      style={{
+        backgroundColor: "#fbfbfb",
+      }}
+    >
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 20,
+          marginBottom: 20,
+        }}
+      >
+        <View style={globalStyles.widthContainer}>
+          {SECTIONS.map(({ header, items }) => (
+            <View style={globalStyles.section} key={header}>
+              <View style={globalStyles.sectionHeader}>
+                <Text style={globalStyles.caption}>{header}</Text>
+              </View>
+              <View style={globalStyles.sectionBody}>
+                {items.map(
+                  ({ icon, label, type, value, color, navRoute }, index) => {
+                    const isFirst = index === 0;
+                    const isLast = index === items.length - 1;
+                    return (
+                      <View
+                        key={label}
+                        style={[
+                          globalStyles.rowWrapper,
+                          index === 0 && { borderTopWidth: 0 },
+                          isFirst && globalStyles.rowFirst,
+                          isLast && globalStyles.rowLast,
+                        ]}
                       >
-                        <View style={globalStyles.row}>
-                          <FeatherIcon
-                            color="#616161"
-                            name={icon}
-                            style={globalStyles.rowIcon}
-                            size={22}
-                          />
-
-                          <Text
-                            style={[
-                              globalStyles.headingTextRows,
-                              { color: color ? color : "#000" }, // Dynamic color based on provided color attribute
-                            ]}
-                          >
-                            {label}
-                          </Text>
-
-                          <View style={globalStyles.rowSpacer} />
-
-                          {type === "input" && (
-                            <Text style={globalStyles.rowValue}>{value}</Text>
-                          )}
-
-                          {type === "boolean" && <Switch value={value} />}
-
-                          {(type === "input" || type === "link") && (
+                        <TouchableOpacity
+                          onPress={() => handleNavigation(navRoute, label)}
+                        >
+                          <View style={globalStyles.row}>
                             <FeatherIcon
-                              color="#ababab"
-                              name="chevron-right"
+                              color="#616161"
+                              name={icon}
+                              style={globalStyles.rowIcon}
                               size={22}
                             />
-                          )}
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  );
-                }
-              )}
+
+                            <Text
+                              style={[
+                                globalStyles.headingTextRows,
+                                { color: color ? color : "#000" }, // Dynamic color based on provided color attribute
+                              ]}
+                            >
+                              {label}
+                            </Text>
+
+                            <View style={globalStyles.rowSpacer} />
+
+                            {type === "input" && (
+                              <Text style={globalStyles.rowValue}>{value}</Text>
+                            )}
+
+                            {type === "boolean" && <Switch value={value} />}
+
+                            {(type === "input" || type === "link") && (
+                              <FeatherIcon
+                                color="#ababab"
+                                name="chevron-right"
+                                size={22}
+                              />
+                            )}
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    );
+                  }
+                )}
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
