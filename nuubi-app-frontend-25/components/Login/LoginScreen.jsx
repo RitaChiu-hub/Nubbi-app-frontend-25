@@ -19,6 +19,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import alert from "./../alert";
 import { useAssets } from "expo-asset";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Cookies from 'js-cookie';
 
 export default function LoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -95,7 +96,9 @@ export default function LoginScreen({ navigation }) {
                 setUser({ ...data });
                 setIsLoggedIn(true);
                 if (Platform.OS === "web") {
-                  localStorage.setItem("token", data.token);
+                //  Cookies.set('userToken', token, { expires: 365, secure: true, sameSite: 'Strict' });
+                  Cookies.set('token', data.token, { expires: 7, secure: true });
+                //  localStorage.setItem("token", data.token);
                   localStorage.setItem("isLoggedIn", JSON.stringify(true));
                 } else {
                   SecureStore.setItemAsync("token", JSON.stringify(data.token));
