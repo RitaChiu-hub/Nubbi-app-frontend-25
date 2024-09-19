@@ -78,7 +78,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               actions.resetForm();
               const email = vals.email;
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+                "http://localhost:8080/settings/generatepasscode",
                 {
                   method: "POST",
                   credentials: "include",
@@ -144,7 +144,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               const vals = { ...values };
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                "http://localhost:8080/settings/forgotpassword",
                 {
                   method: "POST",
                   credentials: "include",

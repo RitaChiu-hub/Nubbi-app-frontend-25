@@ -100,7 +100,7 @@ export default function HomeScreen({ navigation }) {
 
         // Send the token to the backend API to save it in the user's table
         await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          "http://localhost:8080/settings/savepushtoken",
           {
             method: "POST",
             headers: {
@@ -146,7 +146,7 @@ export default function HomeScreen({ navigation }) {
   const getUserPoints = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `http://localhost:8080/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",

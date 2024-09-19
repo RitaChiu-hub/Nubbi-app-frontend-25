@@ -141,7 +141,7 @@ export default function GroupInfoScreen({ navigation }) {
   const getGroupInfo = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -174,7 +174,7 @@ export default function GroupInfoScreen({ navigation }) {
   const getMemberCount = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
+        `http://localhost:8080/groups/getmembercount`,
         {
           method: "POST",
           credentials: "include",
@@ -194,8 +194,8 @@ export default function GroupInfoScreen({ navigation }) {
   const getMembers = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
-        //   "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
+        "http://localhost:8080/groups/getleaderboard",
+        //   "http://localhost:8080/groups/getleaderboard",
         {
           method: "POST",
           credentials: "include",

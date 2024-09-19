@@ -79,7 +79,7 @@ export default function HomeScreenLeaderboard() {
   const getMyLeaderboards = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/myleaderboards`,
+        `http://localhost:8080/groups/myleaderboards`,
         {
           method: "POST",
           credentials: "include",
@@ -331,8 +331,8 @@ export default function HomeScreenLeaderboard() {
 //   const getMyLeaderboards = async () => {
 //     try {
 //       const response = await fetch(
-//         // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-//         `https://coral-app-n96bn.ondigitalocean.app/groups/myleaderboards`,
+//         // `http://localhost:8080/groups/mygrouptasks`,
+//         `http://localhost:8080/groups/myleaderboards`,
 //         {
 //           method: "POST",
 //           credentials: "include",

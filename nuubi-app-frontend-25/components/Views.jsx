@@ -809,7 +809,7 @@ const TabNavigator = () => {
   const getNotifications = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
+        "http://localhost:8080/groups/getnotificationsunread",
         {
           method: "POST",
           credentials: "include",
@@ -830,7 +830,7 @@ const TabNavigator = () => {
   const getUserAvatar = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+        "http://localhost:8080/settings/getuseravatar",
         {
           method: "POST",
           credentials: "include",
