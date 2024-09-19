@@ -1,16 +1,14 @@
 import * as SecureStore from "expo-secure-store";
 const { createContext, useState, useEffect } = require("react");
 import { Platform } from "react-native";
-import Cookies from 'js-cookie'; // For web platform
+import Cookies from "js-cookie"; // For web platform
 
 export const AccountContext = createContext();
 
 const UserContext = ({ children }) => {
   let myToken;
   if (Platform.OS === "web") {
-
-     
-   // myToken = localStorage.getItem("token");
+    myToken = Cookies.get("token"); // localStorage.getItem("token");
   } else {
     getToken = SecureStore.getItemAsync("token");
     if (getToken._j != null) {

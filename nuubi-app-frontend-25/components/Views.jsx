@@ -1010,6 +1010,9 @@ export default function Views() {
   const isLoggedIn = user.token != null && user.token != "undefined";
   const isMobileLoggedIn = user.loggedIn === true ? true : false;
 
+  console.log("isLoggedIn: " + isLoggedIn);
+  console.log("User: " + user);
+  console.log("user.token: " + user.token);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isLoggedIn && user && user.token ? (

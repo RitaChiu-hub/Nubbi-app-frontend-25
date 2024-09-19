@@ -13,6 +13,7 @@ import { codeVerificationSchema } from "../validationSchema";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Cookies from "js-cookie";
 
 export default function CodeVerificationScreen({ navigation, route }) {
   const { setUser } = React.useContext(AccountContext);
@@ -155,7 +156,11 @@ export default function CodeVerificationScreen({ navigation, route }) {
                   setUser({ ...data });
                   setIsLoggedIn(true);
                   if (Platform.OS === "web") {
-                    localStorage.setItem("token", data.token);
+                    //  localStorage.setItem("token", data.token);
+                    Cookies.set("token", data.token, {
+                      expires: 365,
+                      secure: true,
+                    });
                     localStorage.setItem("isLoggedIn", JSON.stringify(true));
                   } else {
                     SecureStore.setItemAsync(

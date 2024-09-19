@@ -18,9 +18,14 @@ import HomeScreenLeaderboard from "./HomeScreenLeaderboard";
 import HomeScreenBadges from "./HomeScreenBadges";
 import { Overlay } from "react-native-elements";
 import { useAssets } from "expo-asset";
-import { useIsFocused, useRoute } from "@react-navigation/native";
+import {
+  useIsFocused,
+  useRoute,
+  useNavigation,
+} from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
 import { FontAwesome6 } from "@expo/vector-icons";
+import Cookies from "js-cookie";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -33,53 +38,82 @@ export default function HomeScreen({ navigation }) {
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
 
-  if (user.token != null && user.token != "undefined") {
-    React.useEffect(() => {
+  React.useEffect(() => {
+    if (
+      user.token &&
+      user.token !== "undefined" &&
+      user.token !== "null" &&
+      user.token !== null
+    ) {
       socket.connect();
-    }, []);
-  } else {
-    socket.disconnect();
-  }
+    } else {
+      setUser({ token: null });
+      if (Platform.OS === "web") {
+        // localStorage.removeItem("token");
+        Cookies.remove("token");
+      } else {
+        SecureStore.deleteItemAsync("token");
+        SecureStore.deleteItemAsync("user");
+        AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
+      }
+      navigation.navigate("Login");
+      socket.disconnect();
+    }
+  }, [user.token, navigation]); // Depend on token state
+
+  // // if (user.token != null && user.token != "undefined") {
+  // if (user.token) {
+  //   console.log("helloooooo");
+  //   React.useEffect(() => {
+  //     socket.connect();
+  //   }, []);
+  // } else {
+  //   console.log("no token on homepage...");
+  //   socket.disconnect();
+  //   navigation.navigate("Login");
+  // }
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const notificationListener = useRef();
   const responseListener = useRef();
 
   async function registerForPushNotificationsAsync() {
-    let token;
-    try {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
+    if (Platform.OS !== "web") {
+      let token;
+      try {
+        const { status: existingStatus } =
+          await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
 
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-
-      if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
-        return;
-      }
-
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      // console.log(token); // Log the token
-
-      // Send the token to the backend API to save it in the user's table
-      await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user, pushToken: token }),
+        if (existingStatus !== "granted") {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
         }
-      );
-    } catch (error) {
-      console.error(error);
+
+        if (finalStatus !== "granted") {
+          alert("Failed to get push token for push notification!");
+          return;
+        }
+
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+        // console.log(token); // Log the token
+
+        // Send the token to the backend API to save it in the user's table
+        await fetch(
+          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...user, pushToken: token }),
+          }
+        );
+      } catch (error) {
+        console.error(error);
+      }
+      return token;
     }
-    return token;
   }
 
   useEffect(() => {

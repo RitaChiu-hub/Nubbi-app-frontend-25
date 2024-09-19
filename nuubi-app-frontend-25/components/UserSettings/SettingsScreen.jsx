@@ -14,6 +14,7 @@ import socket from "../../socket";
 import * as SecureStore from "expo-secure-store";
 import alert from "./../alert";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Cookies from "js-cookie";
 
 //Dynamically create setting items
 // The optional attributes for each item: icon, label, type, color, navRoute or onPress
@@ -72,7 +73,8 @@ const SECTIONS = [
 const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null });
   if (Platform.OS === "web") {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
+    Cookies.remove("token");
   } else {
     SecureStore.deleteItemAsync("token");
     SecureStore.deleteItemAsync("user");

@@ -15,6 +15,7 @@ import { Formik, ErrorMessage } from "formik";
 import socket from "../../socket";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
+import Cookies from "js-cookie";
 
 export default function DeleteAccountScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -87,10 +88,13 @@ export default function DeleteAccountScreen({ navigation }) {
                   if (data.status == "Success") {
                     setUser({ ...data });
                     if (Platform.OS === "web") {
-                      localStorage.removeItem("token");
+                      //  localStorage.removeItem("token");
+                      Cookies.remove("token");
                     } else {
                       SecureStore.deleteItemAsync("token");
-                      setUser({ loggedIn: false });
+                      SecureStore.deleteItemAsync("user");
+                      AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
+                      //   setUser({ loggedIn: false });
                     }
                     setUser({ token: null });
                     socket.disconnect();

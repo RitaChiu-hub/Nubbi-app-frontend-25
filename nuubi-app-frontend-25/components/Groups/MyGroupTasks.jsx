@@ -112,28 +112,30 @@ export default function MyGroupTasks({ navigation }) {
   const responseListener = useRef();
 
   async function registerForPushNotificationsAsync() {
-    let token;
-    try {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
+    if (Platform.OS !== "web") {
+      let token;
+      try {
+        const { status: existingStatus } =
+          await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== "granted") {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
+        }
+        if (finalStatus !== "granted") {
+          alert("Failed to get push token for push notification!");
+          return;
+        }
+        token = (
+          await Notifications.getExpoPushTokenAsync({
+            projectId: Constants.expoConfig.extra.eas.projectId,
+          })
+        ).data;
+      } catch (error) {
+        console.error(error);
       }
-      if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
-        return;
-      }
-      token = (
-        await Notifications.getExpoPushTokenAsync({
-          projectId: Constants.expoConfig.extra.eas.projectId,
-        })
-      ).data;
-    } catch (error) {
-      console.error(error);
+      return token;
     }
-    return token;
   }
 
   useEffect(() => {
