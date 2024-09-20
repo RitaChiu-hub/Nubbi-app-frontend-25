@@ -46,6 +46,10 @@ export default function HomeScreen({ navigation }) {
       user.token !== null
     ) {
       socket.connect();
+
+      const Cookietoken = Cookies.get("token");
+      console.log("Cookie Token: " + Cookietoken);
+      console.log("Token:", user.token);
     } else {
       setUser({ token: null });
       if (Platform.OS === "web") {
@@ -99,16 +103,13 @@ export default function HomeScreen({ navigation }) {
         // console.log(token); // Log the token
 
         // Send the token to the backend API to save it in the user's table
-        await fetch(
-          "http://localhost:8080/settings/savepushtoken",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ ...user, pushToken: token }),
-          }
-        );
+        await fetch("http://localhost:8080/settings/savepushtoken", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user, pushToken: token }),
+        });
       } catch (error) {
         console.error(error);
       }

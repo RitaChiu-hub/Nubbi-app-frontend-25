@@ -96,7 +96,9 @@ export default function LoginScreen({ navigation }) {
                 if (Platform.OS === "web") {
                   Cookies.set("token", data.token, {
                     expires: 365,
+                    path: "/",
                     secure: true,
+                    sameSite: "Strict",
                   });
                   //  localStorage.setItem("token", data.token);
                   //   localStorage.setItem("isLoggedIn", JSON.stringify(true));

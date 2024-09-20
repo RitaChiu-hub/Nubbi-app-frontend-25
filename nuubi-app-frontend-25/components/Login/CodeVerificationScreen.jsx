@@ -159,7 +159,9 @@ export default function CodeVerificationScreen({ navigation, route }) {
                     //  localStorage.setItem("token", data.token);
                     Cookies.set("token", data.token, {
                       expires: 365,
+                      path: "/",
                       secure: true,
+                      sameSite: "Strict",
                     });
                     localStorage.setItem("isLoggedIn", JSON.stringify(true));
                   } else {
