@@ -72,6 +72,7 @@ export default function LoginScreen({ navigation }) {
             values.username = values.username.trim();
             const vals = { ...values };
             actions.resetForm();
+            console.log("going to do the auth/login now");
             //    fetch(`http://localhost:8080/auth/login`, {
             fetch(`http://localhost:8080/auth/login`, {
               method: "POST",
@@ -93,13 +94,15 @@ export default function LoginScreen({ navigation }) {
               .then(async (data) => {
                 if (!data) return;
                 setUser({ ...data });
+                console.log({ ...data });
                 if (Platform.OS === "web") {
-                  Cookies.set("token", data.token, {
-                    expires: 365,
-                    path: "/",
-                    secure: true,
-                    sameSite: "Strict",
-                  });
+                  console.log("web cookie in backend http only");
+                  // Cookies.set("token", data.token, {
+                  //   expires: 365,
+                  //   path: "/",
+                  //   secure: true,
+                  //   sameSite: "Strict",
+                  // });
                   //  localStorage.setItem("token", data.token);
                   //   localStorage.setItem("isLoggedIn", JSON.stringify(true));
                 } else {

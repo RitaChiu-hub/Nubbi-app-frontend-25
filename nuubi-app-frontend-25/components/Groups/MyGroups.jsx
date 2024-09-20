@@ -11,6 +11,7 @@ import { AccountContext } from "../AccountContext";
 import socket from "../../socket";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
+import Cookies from "js-cookie";
 
 export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -32,17 +33,25 @@ export default function MyGroupsScreen({ navigation }) {
 
   const getGroups = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/groups/mygroups`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      let token;
+
+      // For web, get the token from cookies
+      if (Platform.OS === "web") {
+        token = Cookies.get("token"); // Retrieve token from cookies
+      } else {
+        // For mobile (iOS/Android), use SecureStore
+        token = await SecureStore.getItemAsync("token");
+      }
+      console.log("token is... " + token);
+      const response = await fetch(`http://localhost:8080/groups/mygroups`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `${token}` : "",
+        },
+        body: JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setGroups(jsonData);
     } catch (err) {
@@ -90,7 +99,7 @@ export default function MyGroupsScreen({ navigation }) {
             invitePasscode: invitePasscode,
           });
           navigation.navigate("Group Chat");
-          if (Platform.OS === 'web') {
+          if (Platform.OS === "web") {
             sessionStorage.setItem(
               "context",
               JSON.stringify({

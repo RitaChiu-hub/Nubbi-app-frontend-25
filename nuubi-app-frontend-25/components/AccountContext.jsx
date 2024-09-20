@@ -8,7 +8,8 @@ export const AccountContext = createContext();
 const UserContext = ({ children }) => {
   let myToken;
   if (Platform.OS === "web") {
-    myToken = Cookies.get("token"); // localStorage.getItem("token");
+    console.log("User context cookie");
+    // myToken = Cookies.get("token"); // localStorage.getItem("token");
   } else {
     getToken = SecureStore.getItemAsync("token");
     if (getToken._j != null) {
@@ -28,11 +29,17 @@ const UserContext = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    console.log("attempting login from account context");
+    console.log(" user context token: " + user.token);
     fetch(`http://localhost:8080/auth/login`, {
       credentials: "include",
       headers: {
-        authorization: `Bearer ${user.token}`,
+        "Content-Type": "application/json",
+        authorization: `${user.token}`,
       },
+      // headers: {
+      //   authorization: `${user.token}`,
+      // },
     })
       .catch((err) => {
         setUser({ token: null });
