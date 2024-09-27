@@ -19,7 +19,6 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import alert from "./../alert";
 import { useAssets } from "expo-asset";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Cookies from "js-cookie";
 
 export default function LoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -94,7 +93,7 @@ export default function LoginScreen({ navigation }) {
               .then(async (data) => {
                 if (!data) return;
                 setUser({ ...data });
-                console.log({ ...data });
+                console.log("user data from login page" + { ...data });
                 if (Platform.OS === "web") {
                   console.log("web cookie in backend http only");
                   // Cookies.set("token", data.token, {

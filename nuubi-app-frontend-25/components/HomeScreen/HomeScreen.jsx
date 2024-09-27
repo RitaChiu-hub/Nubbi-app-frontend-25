@@ -24,8 +24,6 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
-import { FontAwesome6 } from "@expo/vector-icons";
-import Cookies from "js-cookie";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -46,16 +44,9 @@ export default function HomeScreen({ navigation }) {
       user.token !== null
     ) {
       socket.connect();
-
-      const Cookietoken = Cookies.get("token");
-      console.log("Cookie Token: " + Cookietoken);
-      console.log("Token:", user.token);
     } else {
       setUser({ token: null });
-      if (Platform.OS === "web") {
-        // localStorage.removeItem("token");
-        Cookies.remove("token");
-      } else {
+      if (Platform.OS !== "web") {
         SecureStore.deleteItemAsync("token");
         SecureStore.deleteItemAsync("user");
         AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
@@ -63,19 +54,7 @@ export default function HomeScreen({ navigation }) {
       navigation.navigate("Login");
       socket.disconnect();
     }
-  }, [user.token, navigation]); // Depend on token state
-
-  // // if (user.token != null && user.token != "undefined") {
-  // if (user.token) {
-  //   console.log("helloooooo");
-  //   React.useEffect(() => {
-  //     socket.connect();
-  //   }, []);
-  // } else {
-  //   console.log("no token on homepage...");
-  //   socket.disconnect();
-  //   navigation.navigate("Login");
-  // }
+  }, [user.token, navigation]);
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const notificationListener = useRef();
@@ -100,7 +79,6 @@ export default function HomeScreen({ navigation }) {
         }
 
         token = (await Notifications.getExpoPushTokenAsync()).data;
-        // console.log(token); // Log the token
 
         // Send the token to the backend API to save it in the user's table
         await fetch("http://localhost:8080/settings/savepushtoken", {

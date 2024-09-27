@@ -30,6 +30,7 @@ const UserContext = ({ children }) => {
 
   useEffect(() => {
     console.log("attempting login from account context");
+    console.log(" user context mytoken: " + myToken);
     console.log(" user context token: " + user.token);
     fetch(`http://localhost:8080/auth/login`, {
       credentials: "include",
