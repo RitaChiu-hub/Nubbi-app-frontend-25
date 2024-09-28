@@ -6,7 +6,14 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-import { Image, Platform, StyleSheet, View, Text } from "react-native";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import { useAssets } from "expo-asset";
 
 import { useContext } from "react";
@@ -1006,13 +1013,77 @@ const Stack = createNativeStackNavigator();
 
 export default function Views() {
   const { user } = useContext(AccountContext);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [loading, setLoading] = React.useState(true); // To handle async loading
 
-  const isLoggedIn = user.token != null && user.token != "undefined";
-  const isMobileLoggedIn = user.loggedIn === true ? true : false;
+  console.log("Hello from the Views file");
+  console.log("user in views file: " + JSON.stringify(user, null, 2));
+
+  // For Web
+  function getTokenFromCookies() {
+    const cookies = document.cookie.split("; ");
+    const tokenCookie = cookies.find((row) => row.startsWith("token="));
+    return tokenCookie ? tokenCookie.split("=")[1] : null;
+  }
+
+  // For Mobile
+  async function getTokenFromSecureStore() {
+    try {
+      const user = await SecureStore.getItemAsync("user");
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        return parsedUser.token || null;
+      }
+    } catch (error) {
+      console.error("Error retrieving token from SecureStore", error);
+      return null;
+    }
+  }
+
+  // Check if user is logged in (cross-platform)
+  async function checkIsLoggedIn() {
+    if (Platform.OS === "web") {
+      // Web: Check the cookies
+      console.log("web is logged in? From views");
+      const token = getTokenFromCookies();
+      console.log("cookies?? " + token);
+      return !!token;
+    } else {
+      // Mobile: Check SecureStore
+      console.log("mobile is logged in? From views");
+      const token = await getTokenFromSecureStore();
+      console.log("secure store token?? " + token);
+      return !!token;
+    }
+  }
+
+  //const isLoggedIn = user.token != null && user.token != "undefined";
+  // const isMobileLoggedIn = user.loggedIn === true ? true : false;
+
+  React.useEffect(() => {
+    const checkLoginStatus = async () => {
+      const loggedIn = await checkIsLoggedIn(); // Call the async login check
+      console.log("Views loggedIn value: " + loggedIn);
+      setIsLoggedIn(loggedIn);
+      setLoading(false); // Loading is done
+    };
+
+    checkLoginStatus(); // Run the check when the component mounts
+  }, [user.loggedIn]); // Empty dependency array means this only runs once on component mount
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Checking login status...</Text>
+      </View>
+    );
+  }
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isLoggedIn && user && user.token ? (
+      {/* // {isLoggedIn && user && user.token ? ( */}
+      {user.loggedIn || isLoggedIn ? (
         Platform.OS == "web" ? (
           <Stack.Screen
             name="DrawerTabs"

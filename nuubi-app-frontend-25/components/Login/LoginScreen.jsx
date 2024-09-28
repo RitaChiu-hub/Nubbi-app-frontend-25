@@ -93,17 +93,27 @@ export default function LoginScreen({ navigation }) {
               .then(async (data) => {
                 if (!data) return;
                 setUser({ ...data });
-                console.log("user data from login page" + { ...data });
+
                 if (Platform.OS === "web") {
                   console.log("web cookie in backend http only");
-                  // Cookies.set("token", data.token, {
-                  //   expires: 365,
-                  //   path: "/",
-                  //   secure: true,
-                  //   sameSite: "Strict",
-                  // });
-                  //  localStorage.setItem("token", data.token);
-                  //   localStorage.setItem("isLoggedIn", JSON.stringify(true));
+                  setUser({
+                    loggedIn: true,
+                    token: (
+                      document.cookie
+                        .split("; ")
+                        .find((row) => row.startsWith("token=")) || ""
+                    ).split("=")[1],
+                  });
+                  console.log(
+                    "cookie????? " +
+                      document.cookie
+                        .split("; ")
+                        .find((row) => row.startsWith("token="))
+                  );
+                  console.log(
+                    "User data from login page: " +
+                      JSON.stringify(user, null, 2)
+                  );
                 } else {
                   SecureStore.setItemAsync("token", JSON.stringify(data.token));
                   SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
