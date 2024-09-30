@@ -1022,6 +1022,7 @@ export default function Views() {
   // For Web
   function getTokenFromCookies() {
     const cookies = document.cookie.split("; ");
+    console.log("cookies from views: " + document.cookie.split("; "));
     const tokenCookie = cookies.find((row) => row.startsWith("token="));
     return tokenCookie ? tokenCookie.split("=")[1] : null;
   }

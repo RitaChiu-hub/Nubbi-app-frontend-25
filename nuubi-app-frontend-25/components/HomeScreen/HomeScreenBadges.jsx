@@ -158,6 +158,9 @@ export default function HomeScreenBadges() {
 
   const getWonBadges = async () => {
     try {
+      const token =
+        Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+
       const response = await fetch(
         "http://localhost:8080/groups/getwonbadges",
         {
@@ -165,6 +168,7 @@ export default function HomeScreenBadges() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }

@@ -52,7 +52,7 @@ export default function HomeScreenTasks({}) {
   };
 
   React.useEffect(() => {
-    getMyTasks();
+    // getMyTasks();
   }, [isFocused]);
 
   const MemoizedItem = React.memo(({ item }) => {

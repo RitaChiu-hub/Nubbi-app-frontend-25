@@ -72,7 +72,7 @@ export default function LoginScreen({ navigation }) {
             const vals = { ...values };
             actions.resetForm();
             console.log("going to do the auth/login now");
-            //    fetch(`http://localhost:8080/auth/login`, {
+
             fetch(`http://localhost:8080/auth/login`, {
               method: "POST",
               credentials: "include",
@@ -81,16 +81,23 @@ export default function LoginScreen({ navigation }) {
               },
               body: JSON.stringify(vals),
             })
-              .catch((err) => {
-                return;
-              })
               .then((res) => {
-                if (!res || !res.ok || res.status >= 400) {
-                  return;
+                // Check for HTTP errors
+                if (!res.ok) {
+                  return res.json().then((data) => {
+                    // Handle error messages here
+                    if (data.message) {
+                      setError(data.message); // Set error message from the server
+                    } else {
+                      setError("An unknown error occurred"); // Fallback error message
+                    }
+                    throw new Error(data.message || "Error"); // Throw error to skip the next .then
+                  });
                 }
                 return res.json();
               })
               .then(async (data) => {
+                // Handle successful login
                 if (!data) return;
                 setUser({ ...data });
 
@@ -118,14 +125,72 @@ export default function LoginScreen({ navigation }) {
                   SecureStore.setItemAsync("token", JSON.stringify(data.token));
                   SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
                   AsyncStorage.setItem("isLoggedIn", JSON.stringify(true)); // storing the iLoggedIn state in AsyncStorage
-                  //  setUser({ ...data, loggedIn: true });
                 }
-                if (data.status) {
-                  setError(data.status);
-                }
+              })
+              .catch((err) => {
+                console.error(err); // Handle error logging if necessary
               });
           }}
         >
+          {/* //   onSubmit={(values, actions) => { */}
+          {/* //     values.username = values.username.trim();
+        //     const vals = { ...values };
+        //     actions.resetForm();
+        //     console.log("going to do the auth/login now");
+        //     //    fetch(`http://localhost:8080/auth/login`, { */}
+          {/* //     fetch(`http://localhost:8080/auth/login`, {
+        //       method: "POST",
+        //       credentials: "include",
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //       },
+        //       body: JSON.stringify(vals),
+        //     })
+        //       .catch((err) => {
+        //         return;
+        //       })
+        //       .then((res) => {
+        //         if (!res || !res.ok || res.status >= 400) {
+        //           return;
+        //         }
+        //         return res.json();
+        //       })
+        //       .then(async (data) => {
+        //         if (!data) return;
+        //         setUser({ ...data });
+
+        //         if (Platform.OS === "web") {
+        //           console.log("web cookie in backend http only");
+        //           setUser({
+        //             loggedIn: true,
+        //             token: (
+        //               document.cookie
+        //                 .split("; ")
+        //                 .find((row) => row.startsWith("token=")) || ""
+        //             ).split("=")[1],
+        //           });
+        //           console.log(
+        //             "cookie????? " +
+        //               document.cookie
+        //                 .split("; ")
+        //                 .find((row) => row.startsWith("token="))
+        //           );
+        //           console.log(
+        //             "User data from login page: " +
+        //               JSON.stringify(user, null, 2)
+        //           );
+        //         } else {
+        //           SecureStore.setItemAsync("token", JSON.stringify(data.token));
+        //           SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
+        //           AsyncStorage.setItem("isLoggedIn", JSON.stringify(true)); // storing the iLoggedIn state in AsyncStorage
+        //           //  setUser({ ...data, loggedIn: true });
+        //         }
+        //         if (data.status) {
+        //           setError(data.status);
+        //         }
+        //       });
+        //   }}
+        // > */}
           {(props) => (
             <View style={{ marginHorizontal: 30 }}>
               <Text style={globalStyles.captionError}>{error}</Text>
