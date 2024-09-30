@@ -81,7 +81,7 @@ export default function LoginScreen({ navigation }) {
               },
               body: JSON.stringify(vals),
             })
-              .then((res) => {
+              .then(async (res) => {
                 // Check for HTTP errors
                 if (!res.ok) {
                   return res.json().then((data) => {
