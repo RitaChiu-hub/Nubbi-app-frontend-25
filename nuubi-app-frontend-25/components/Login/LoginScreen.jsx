@@ -115,11 +115,6 @@ export default function LoginScreen({ navigation }) {
                   console.log("web cookie in backend http only");
                   setUser({
                     loggedIn: true,
-                    token: (
-                      document.cookie
-                        .split("; ")
-                        .find((row) => row.startsWith("token=")) || ""
-                    ).split("=")[1],
                   });
                 } else {
                   SecureStore.setItemAsync("token", data.token)
@@ -128,6 +123,7 @@ export default function LoginScreen({ navigation }) {
                       return SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
                     })
                     .then(() => {
+                      setUser({ ...data, loggedIn: true });
                       return AsyncStorage.setItem(
                         "isLoggedIn",
                         JSON.stringify(true)

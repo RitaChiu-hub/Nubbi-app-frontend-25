@@ -1012,14 +1012,72 @@ const TabNavigator = () => {
 const Stack = createNativeStackNavigator();
 
 export default function Views() {
-  const { user } = useContext(AccountContext);
+  const { user, setUser } = useContext(AccountContext);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [loading, setLoading] = React.useState(true); // To handle async loading
 
   console.log("Hello from the Views file");
   console.log("user in views file: " + JSON.stringify(user, null, 2));
 
-  // For Web
+  // // For Web
+  // function getTokenFromCookies() {
+  //   const cookies = document.cookie.split("; ");
+  //   console.log("cookies from views: " + document.cookie.split("; "));
+  //   const tokenCookie = cookies.find((row) => row.startsWith("token="));
+  //   return tokenCookie ? tokenCookie.split("=")[1] : null;
+  // }
+
+  // // For Mobile
+  // async function getTokenFromSecureStore2() {
+  //   const token =
+  //     Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+  //   console.log(token);
+  // }
+
+  // async function getTokenFromSecureStore() {
+  //   try {
+  //     const user = await SecureStore.getItemAsync("user");
+  //     if (user) {
+  //       const parsedUser = JSON.parse(user);
+  //       return parsedUser.token || null;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error retrieving token from SecureStore", error);
+  //     return null;
+  //   }
+  // }
+
+  // // Check if user is logged in (cross-platform)
+  // async function checkIsLoggedIn() {
+  //   if (Platform.OS === "web") {
+  //     // Web: Check the cookies
+  //     console.log("web is logged in? From views");
+  //     const token = getTokenFromCookies();
+  //     console.log("cookies?? " + token);
+  //     return !!token;
+  //   } else {
+  //     // Mobile: Check SecureStore
+  //     console.log("mobile is logged in? From views");
+  //     const token = await getTokenFromSecureStore2();
+  //     console.log("secure store token?? " + token);
+  //     return !!token;
+  //   }
+  // }
+
+  // //const isLoggedIn = user.token != null && user.token != "undefined";
+  // // const isMobileLoggedIn = user.loggedIn === true ? true : false;
+
+  // React.useEffect(() => {
+  //   const checkLoginStatus = async () => {
+  //     const loggedIn = await checkIsLoggedIn(); // Call the async login check
+  //     console.log("Views loggedIn value: " + loggedIn);
+  //     setIsLoggedIn(loggedIn);
+  //     setLoading(false); // Loading is done
+  //   };
+
+  //   checkLoginStatus(); // Run the check when the component mounts
+  // }, [user.loggedIn]); // Empty dependency array means this only runs once on component mount
+
+  // For Web: Retrieve token from cookies
   function getTokenFromCookies() {
     const cookies = document.cookie.split("; ");
     console.log("cookies from views: " + document.cookie.split("; "));
@@ -1027,64 +1085,92 @@ export default function Views() {
     return tokenCookie ? tokenCookie.split("=")[1] : null;
   }
 
-  // For Mobile
+  // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
     try {
-      const user = await SecureStore.getItemAsync("user");
-      if (user) {
-        const parsedUser = JSON.parse(user);
-        return parsedUser.token || null;
-      }
+      const token = await SecureStore.getItemAsync("token");
+      console.log("Token retrieved from SecureStore:", token);
+      return token || null;
     } catch (error) {
       console.error("Error retrieving token from SecureStore", error);
       return null;
     }
   }
 
-  // Check if user is logged in (cross-platform)
-  async function checkIsLoggedIn() {
-    if (Platform.OS === "web") {
-      // Web: Check the cookies
-      console.log("web is logged in? From views");
-      const token = getTokenFromCookies();
-      console.log("cookies?? " + token);
-      return !!token;
-    } else {
-      // Mobile: Check SecureStore
-      console.log("mobile is logged in? From views");
-      const token = await getTokenFromSecureStore();
-      console.log("secure store token?? " + token);
-      return !!token;
+  // // Check if user is logged in (cross-platform)
+  // async function checkIsLoggedIn() {
+  //   if (Platform.OS === "web") {
+  //     if (user.loggedIn) {
+  //       return true;
+  //     }
+  //     return false;
+  //   } else {
+  //     // Mobile: Check SecureStore
+  //     console.log("mobile is logged in? From views");
+  //     const token = await getTokenFromSecureStore();
+  //     console.log("Token from SecureStore:", token);
+  //     if (token) {
+  //       setUser({ ...user, token, loggedIn: true }); // Update context with token
+  //       return true;
+  //     }
+  //     return false;
+  //   }
+  // }
+
+  // For Web
+  async function checkWebLogin() {
+    try {
+      const response = await fetch(`http://localhost:8080/auth/checkweblogin`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...user }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("Check login response: ", data);
+
+      return data.isLoggedIn; // Assuming the backend returns { isLoggedIn: true/false }
+    } catch (error) {
+      console.error("Error checking login status:", error);
+      return false; // Default to false if there's an error
     }
   }
 
-  //const isLoggedIn = user.token != null && user.token != "undefined";
-  // const isMobileLoggedIn = user.loggedIn === true ? true : false;
+  // Check if user is logged in (cross-platform)
+  async function checkIsLoggedIn() {
+    if (Platform.OS === "web") {
+      // Web: Use the new checkWebLogin function
+      console.log("Checking if user is logged in on web");
+      return await checkWebLogin();
+    } else {
+      // Mobile: Check SecureStore
+      console.log("Checking if user is logged in on mobile");
+      const token = await getTokenFromSecureStore();
+      return !!token; // Check if token exists
+    }
+  }
 
   React.useEffect(() => {
     const checkLoginStatus = async () => {
       const loggedIn = await checkIsLoggedIn(); // Call the async login check
-      console.log("Views loggedIn value: " + loggedIn);
+      console.log("Views loggedIn value:", loggedIn);
       setIsLoggedIn(loggedIn);
-      setLoading(false); // Loading is done
     };
 
     checkLoginStatus(); // Run the check when the component mounts
-  }, [user.loggedIn]); // Empty dependency array means this only runs once on component mount
-
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Checking login status...</Text>
-      </View>
-    );
-  }
+  }, [user.loggedIn]); // Monitor user.loggedIn to trigger re-checks
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* // {isLoggedIn && user && user.token ? ( */}
-      {user.loggedIn || user.token ? (
+      {isLoggedIn ? (
         Platform.OS == "web" ? (
           <Stack.Screen
             name="DrawerTabs"
