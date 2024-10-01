@@ -69,13 +69,21 @@ const SECTIONS = [
   },
 ];
 
+const clearTokenCookie = () => {
+  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+};
+
 //External functions defined here
 const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null });
   if (Platform.OS === "web") {
+    // Function to clear cookies on web
+    clearTokenCookie();
+    setUser({ loggedIn: false, token: null });
     // localStorage.removeItem("token");
     Cookies.remove("token");
   } else {
+    console.log("LOGGING OUT OF MOBILE!!!!");
     SecureStore.deleteItemAsync("token");
     SecureStore.deleteItemAsync("user");
     AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));

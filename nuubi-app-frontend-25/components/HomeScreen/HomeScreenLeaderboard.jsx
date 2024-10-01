@@ -13,6 +13,7 @@ import { useAssets } from "expo-asset";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
+import * as SecureStore from "expo-secure-store";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -77,6 +78,9 @@ export default function HomeScreenLeaderboard() {
   ]);
 
   const getMyLeaderboards = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+    console.log(" token from getmyleaderboards " + token);
     try {
       const response = await fetch(
         `http://localhost:8080/groups/myleaderboards`,
@@ -85,6 +89,7 @@ export default function HomeScreenLeaderboard() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -166,7 +171,7 @@ export default function HomeScreenLeaderboard() {
                     height: "100%",
                     alignItems: "center",
                     marginTop: 20,
-                    width: Platform.OS === "web" ? screenWidth * 0.20 : "30%",
+                    width: Platform.OS === "web" ? screenWidth * 0.2 : "30%",
                     justifyContent: "center",
                   }}
                 >
@@ -248,8 +253,6 @@ export default function HomeScreenLeaderboard() {
     </View>
   );
 }
-
-
 
 // import {
 //   View,

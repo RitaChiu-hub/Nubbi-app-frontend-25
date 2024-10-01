@@ -73,7 +73,15 @@ export default function LoginScreen({ navigation }) {
             actions.resetForm();
             console.log("going to do the auth/login now");
 
-            fetch(`http://localhost:8080/auth/login`, {
+            // Check platform and determine which fetch request to make
+            let url = "";
+            if (Platform.OS === "web") {
+              url = `http://localhost:8080/auth/login`; // Web endpoint
+            } else {
+              url = `http://localhost:8080/auth/mobilelogin`; // Mobile endpoint
+            }
+
+            fetch(url, {
               method: "POST",
               credentials: "include",
               headers: {
@@ -96,11 +104,13 @@ export default function LoginScreen({ navigation }) {
                 }
                 return res.json();
               })
-              .then(async (data) => {
+              .then((data) => {
+                console.log("Login data received:", data);
                 // Handle successful login
                 if (!data) return;
                 setUser({ ...data });
-
+                console.log("Login data received:", data);
+                console.log("Storing token:", data.token);
                 if (Platform.OS === "web") {
                   console.log("web cookie in backend http only");
                   setUser({
@@ -111,35 +121,45 @@ export default function LoginScreen({ navigation }) {
                         .find((row) => row.startsWith("token=")) || ""
                     ).split("=")[1],
                   });
-                  console.log(
-                    "cookie????? " +
-                      document.cookie
-                        .split("; ")
-                        .find((row) => row.startsWith("token="))
-                  );
-                  console.log(
-                    "User data from login page: " +
-                      JSON.stringify(user, null, 2)
-                  );
                 } else {
-                  SecureStore.setItemAsync("token", JSON.stringify(data.token));
-                  SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
-                  AsyncStorage.setItem("isLoggedIn", JSON.stringify(true)); // storing the iLoggedIn state in AsyncStorage
+                  SecureStore.setItemAsync("token", data.token)
+                    .then(() => {
+                      console.log("Token successfully stored in SecureStore");
+                      return SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
+                    })
+                    .then(() => {
+                      return AsyncStorage.setItem(
+                        "isLoggedIn",
+                        JSON.stringify(true)
+                      );
+                    })
+                    .catch((err) => {
+                      console.error("Error setting token or navigating", err);
+                    });
                 }
-              })
-              .catch((err) => {
-                console.error(err); // Handle error logging if necessary
               });
           }}
         >
-          {/* //   onSubmit={(values, actions) => { */}
+          {/* //       //     console.log("mobile platform logging in ");
+        //       //     console.log("login token is set: " + data.token);
+        //       //     //   SecureStore.setItemAsync("token", JSON.stringify(data.token));
+        //       //     SecureStore.setItemAsync("token", data.token);
+        //       //     SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
+        //       //     AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
+        //       //   }
+        //       // })
+        //       // .catch((err) => { */}
+          {/* //       //   console.error(err); // Handle error logging if necessary
+        //       // }); */}
+
+          {/* //   //   onSubmit={(values, actions) => { */}
           {/* //     values.username = values.username.trim();
-        //     const vals = { ...values };
-        //     actions.resetForm();
-        //     console.log("going to do the auth/login now");
-        //     //    fetch(`http://localhost:8080/auth/login`, { */}
+        // //     const vals = { ...values };
+        // //     actions.resetForm();
+        // //     console.log("going to do the auth/login now");
+        // //     //    fetch(`http://localhost:8080/auth/login`, { */}
           {/* //     fetch(`http://localhost:8080/auth/login`, {
-        //       method: "POST",
+        // //       method: "POST",
         //       credentials: "include",
         //       headers: {
         //         "Content-Type": "application/json",

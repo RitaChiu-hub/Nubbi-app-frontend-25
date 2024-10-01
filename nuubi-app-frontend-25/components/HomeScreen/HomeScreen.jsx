@@ -24,6 +24,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
+import * as SecureStore from "expo-secure-store";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -137,15 +138,21 @@ export default function HomeScreen({ navigation }) {
           return;
         }
 
-        token = (await Notifications.getExpoPushTokenAsync()).data;
+        pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+
+        const token =
+          Platform.OS !== "web"
+            ? await SecureStore.getItemAsync("token")
+            : null; // Get token only on mobile
 
         // Send the token to the backend API to save it in the user's table
         await fetch("http://localhost:8080/settings/savepushtoken", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify({ ...user, pushToken: token }),
+          body: JSON.stringify({ ...user, pushToken: pushToken }),
         });
       } catch (error) {
         console.error(error);

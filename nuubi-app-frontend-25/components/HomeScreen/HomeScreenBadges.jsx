@@ -13,6 +13,7 @@ import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
 import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
+import * as SecureStore from "expo-secure-store";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -157,10 +158,10 @@ export default function HomeScreenBadges() {
   const [wonBadges, setWonBadges] = React.useState([]);
 
   const getWonBadges = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+    console.log(" token from getwonbadges " + token);
     try {
-      const token =
-        Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
-
       const response = await fetch(
         "http://localhost:8080/groups/getwonbadges",
         {
@@ -186,7 +187,7 @@ export default function HomeScreenBadges() {
 
   React.useEffect(() => {
     getWonBadges();
-  }, []);
+  }, [user]);
 
   if (!assets) {
     return <Text>Loading...</Text>;

@@ -11,7 +11,7 @@ import { AccountContext } from "../AccountContext";
 import socket from "../../socket";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
-import Cookies from "js-cookie";
+import * as SecureStore from "expo-secure-store";
 
 export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -32,23 +32,16 @@ export default function MyGroupsScreen({ navigation }) {
   }
 
   const getGroups = async () => {
-    try {
-      let token;
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
 
-      // For web, get the token from cookies
-      if (Platform.OS === "web") {
-        token = Cookies.get("token"); // Retrieve token from cookies
-      } else {
-        // For mobile (iOS/Android), use SecureStore
-        token = await SecureStore.getItemAsync("token");
-      }
-      console.log("token is... " + token);
+    try {
       const response = await fetch(`http://localhost:8080/groups/mygroups`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token ? `${token}` : "",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ ...user }),
       });

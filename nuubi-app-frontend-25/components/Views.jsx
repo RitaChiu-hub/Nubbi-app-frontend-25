@@ -1084,7 +1084,7 @@ export default function Views() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* // {isLoggedIn && user && user.token ? ( */}
-      {user.loggedIn || isLoggedIn ? (
+      {user.loggedIn || user.token ? (
         Platform.OS == "web" ? (
           <Stack.Screen
             name="DrawerTabs"
