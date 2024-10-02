@@ -1160,8 +1160,11 @@ export default function Views() {
   React.useEffect(() => {
     const checkLoginStatus = async () => {
       const loggedIn = await checkIsLoggedIn(); // Call the async login check
+      console.log("-------------------------------------");
       console.log("Views loggedIn value:", loggedIn);
       setIsLoggedIn(loggedIn);
+      console.log("-------------------------------------");
+      console.log("Views isloggedIn value:", isLoggedIn);
     };
 
     checkLoginStatus(); // Run the check when the component mounts
@@ -1170,7 +1173,7 @@ export default function Views() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* // {isLoggedIn && user && user.token ? ( */}
-      {isLoggedIn ? (
+      {isLoggedIn && user && user.loggedIn ? (
         Platform.OS == "web" ? (
           <Stack.Screen
             name="DrawerTabs"

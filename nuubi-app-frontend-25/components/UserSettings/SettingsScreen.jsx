@@ -69,19 +69,12 @@ const SECTIONS = [
   },
 ];
 
-const clearTokenCookie = () => {
-  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-};
-
-//External functions defined here
+// External functions defined here
 const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null });
   if (Platform.OS === "web") {
-    // Function to clear cookies on web
-    clearTokenCookie();
-    setUser({ loggedIn: false, token: null });
-    // localStorage.removeItem("token");
-    Cookies.remove("token");
+    console.log("logging out on the web in handlesignout");
+    await logoutUser(setUser); // Pass setUser directly
   } else {
     console.log("LOGGING OUT OF MOBILE!!!!");
     SecureStore.deleteItemAsync("token");
@@ -89,7 +82,25 @@ const handleSignOut = async (setUser, navigation) => {
     AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
   }
   socket.disconnect();
-  // navigation.navigate(Splash);
+};
+
+const logoutUser = async (setUser) => {
+  try {
+    const response = await fetch("http://localhost:8080/auth/logout", {
+      method: "POST",
+      credentials: "include", // Include the HttpOnly cookie in the request
+    });
+
+    const result = await response.json();
+    console.log("Logout response:", result);
+
+    if (!result.isLoggedIn) {
+      // Clear the frontend user state after logout
+      setUser({ loggedIn: false });
+    }
+  } catch (err) {
+    console.error("Error during logout:", err);
+  }
 };
 
 export default function SettingsScreen({ navigation }) {
@@ -106,6 +117,14 @@ export default function SettingsScreen({ navigation }) {
       headerTitleAlign: "center",
     });
   }, [navigation]);
+
+  // Handle null user (logged out state)
+  // if (!user) {
+  //   // Redirect or show login screen if user is not logged in
+  //   console.log("User is logged out, navigating to Splash or Login");
+  //   navigation.navigate("Splash"); // Or whatever screen is for logged-out users
+  //   return null;
+  // }
 
   const handleNavigation = (navRoute, label) => {
     if (navRoute === "" || !navRoute) {
