@@ -13,6 +13,7 @@ import { AccountContext } from "../AccountContext";
 import * as ImageManipulator from "expo-image-manipulator";
 import { useAssets } from "expo-asset";
 import FeatherIcon from "@expo/vector-icons/Feather";
+import * as SecureStore from "expo-secure-store";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -63,6 +64,9 @@ export default function ProfilePageScreen({ navigation }) {
   }, []);
 
   const getUserAvatar = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+
     try {
       const response = await fetch(
         "http://localhost:8080/settings/getuseravatar",
@@ -71,12 +75,13 @@ export default function ProfilePageScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
       );
       const jsonData = await response.json();
-      setAvatarInfo(jsonData.avatar_url.avatar_url);
+      setAvatarInfo(jsonData.avatar_url);
     } catch (err) {
       console.error(err.message);
     }
@@ -286,17 +291,14 @@ export default function ProfilePageScreen({ navigation }) {
                           setImageUploadInfo({ ...data });
                           let uploadUrl = data["secure_url"];
                           const vals = { imageUrl: uploadUrl };
-                          fetch(
-                            `http://localhost:8080/settings/updateavatar`,
-                            {
-                              method: "POST",
-                              credentials: "include",
-                              headers: {
-                                "Content-Type": "application/json",
-                              },
-                              body: JSON.stringify({ ...user, ...vals }),
-                            }
-                          )
+                          fetch(`http://localhost:8080/settings/updateavatar`, {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ ...user, ...vals }),
+                          })
                             .catch((err) => {
                               return;
                             })

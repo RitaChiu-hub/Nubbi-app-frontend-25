@@ -64,15 +64,11 @@ export default function HomeScreen({ navigation }) {
   async function checkIsLoggedIn() {
     if (Platform.OS === "web") {
       // Web: Check the cookies
-      console.log("web is logged in? From home");
       const token = getTokenFromCookies();
-      console.log("cookies?? " + token);
       return !!token;
     } else {
       // Mobile: Check SecureStore
-      console.log("mobile is logged in? From home");
       const token = await getTokenFromSecureStore();
-      console.log("secure store token?? " + token);
       return !!token;
     }
   }
@@ -80,41 +76,17 @@ export default function HomeScreen({ navigation }) {
   React.useEffect(() => {
     const checkLoginStatus = async () => {
       const loggedIn = await checkIsLoggedIn(); // Call the async login check
-      console.log("loggedIn from home screen: " + loggedIn);
       if (loggedIn === true) {
         socket.connect();
       } else {
         socket.disconnect();
       }
-
-      console.log("Views loggedIn value: " + loggedIn);
       setIsLoggedIn(loggedIn);
       setLoading(false); // Loading is done
     };
 
     checkLoginStatus(); // Run the check when the component mounts
   }, [user.loggedIn]);
-
-  // React.useEffect(() => {
-  //   if (
-  //     user.token &&
-  //     user.token !== "undefined" &&
-  //     user.token !== "null" &&
-  //     user.token !== null
-  //   ) {
-  //     socket.connect();
-  //   } else {
-  //     setUser({ token: null });
-  //     if (Platform.OS !== "web") {
-  //       SecureStore.deleteItemAsync("token");
-  //       SecureStore.deleteItemAsync("user");
-  //       AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
-  //     }
-  //     console.log("no user token in homepage... should log out");
-  //     //  navigation.navigate("Login");
-  //     socket.disconnect();
-  //   }
-  // }, [user.token, navigation]);
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const notificationListener = useRef();
@@ -167,14 +139,10 @@ export default function HomeScreen({ navigation }) {
       .catch((error) => setExpoPushToken(`${error}`));
 
     notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        //  console.log(notification);
-      });
+      Notifications.addNotificationReceivedListener((notification) => {});
 
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        //    console.log(response);
-      });
+      Notifications.addNotificationResponseReceivedListener((response) => {});
 
     return () => {
       if (notificationListener.current) {

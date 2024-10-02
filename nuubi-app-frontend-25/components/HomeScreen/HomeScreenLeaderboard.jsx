@@ -80,7 +80,6 @@ export default function HomeScreenLeaderboard() {
   const getMyLeaderboards = async () => {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
-    console.log(" token from getmyleaderboards " + token);
     try {
       const response = await fetch(
         `http://localhost:8080/groups/myleaderboards`,

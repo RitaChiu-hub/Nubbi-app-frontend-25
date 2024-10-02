@@ -86,7 +86,6 @@ async function registerForPushNotificationsAsync() {
           projectId,
         })
       ).data;
-      // console.log(pushTokenString);
       return pushTokenString;
     } catch (error) {
       handleRegistrationError(`${error}`);
@@ -143,16 +142,13 @@ export default function MyGroupTasks({ navigation }) {
       .then((token) => setExpoPushToken(token ?? ""))
       .catch((error) => setExpoPushToken(`${error}`));
 
-    // console.log(expoPushToken);
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
       });
 
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        //   console.log(response);
-      });
+      Notifications.addNotificationResponseReceivedListener((response) => {});
 
     return () => {
       if (notificationListener.current) {
@@ -260,38 +256,28 @@ export default function MyGroupTasks({ navigation }) {
         })
         .then((data) => {
           if (!data) return;
-          //  console.log(data);
-          //  setUser({ ...data });
           if (data.status) {
             setError(data.status);
           }
         });
-      // mark as completed in the backend database
     }
   };
 
   const handleApproveTask = (taskId, expoPushToken) => {
-    // console.log("handle approve task expo push token: " + expoPushToken);
     if (!approvedTasks[taskId]) {
       setApprovedTasks((prevApprovedTasks) => ({
         ...prevApprovedTasks,
         [taskId]: true,
       }));
 
-      //   console.log("Approved!")
-
-      fetch(
-        //  "http://localhost:8080/groups/createtask",
-        "http://localhost:8080/groups/taskapproved",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user, taskId, expoPushToken }),
-        }
-      )
+      fetch("http://localhost:8080/groups/taskapproved", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...user, taskId, expoPushToken }),
+      })
         .catch((err) => {
           return;
         })
@@ -303,13 +289,10 @@ export default function MyGroupTasks({ navigation }) {
         })
         .then((data) => {
           if (!data) return;
-          //  console.log(data);
-          //  setUser({ ...data });
           if (data.status) {
             setError(data.status);
           }
         });
-      // mark as approved in the backend database
     }
   };
 
@@ -320,12 +303,6 @@ export default function MyGroupTasks({ navigation }) {
   const notCompletedTasksList = myIsAdmin
     ? allGroupTasks.filter((task) => !task.is_completed)
     : groupTasks.filter((task) => !task.is_completed);
-
-  // console.log(
-  //   myIsAdmin
-  //     ? allGroupTasks.filter((task) => !task.is_completed)
-  //     : groupTasks.filter((task) => !task.is_completed)
-  // );
 
   const renderCompletionItem = ({ item }) => (
     <View
@@ -417,32 +394,6 @@ export default function MyGroupTasks({ navigation }) {
         backgroundColor: "#fbfbfb",
       }}
     >
-      {/* <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "space-around",
-        }}
-      >
-        <Text>Your Expo push token: {expoPushToken}</Text>
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Text>
-            Title: {notification && notification.request.content.title}{" "}
-          </Text>
-          <Text>Body: {notification && notification.request.content.body}</Text>
-          <Text>
-            Data:{" "}
-            {notification && JSON.stringify(notification.request.content.data)}
-          </Text>
-        </View>
-        <Button
-          title="Press to Send Notification"
-          onPress={async () => {
-            //  console.log("Sending notification");
-            await sendPushNotification(expoPushToken);
-          }}
-        />
-      </View> */}
       <FlatList
         ListHeaderComponent={() => (
           <View

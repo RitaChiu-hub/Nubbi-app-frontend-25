@@ -69,7 +69,6 @@ export default function CreateGroupScreen({ navigation }) {
                   headers: {
                     "Content-Type": "application/json",
                   },
-                  //body: JSON.stringify({ ...user, ...vals }),
                   body: JSON.stringify({ ...user, ...allvals }),
                 }
               )
@@ -84,10 +83,8 @@ export default function CreateGroupScreen({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  //  console.log(data);
                   setUser({ ...data });
                   if (data.status) {
-                    //   setError(data.status);
                     if (data.status.includes("successfully")) {
                       setStatusColor(globalStyles.captionErrorSuccess);
                     } else {

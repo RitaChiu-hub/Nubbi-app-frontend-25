@@ -23,13 +23,13 @@ export default function MyGroupsScreen({ navigation }) {
   const screenWidth = Dimensions.get("window").width;
   const deviceWidth = Dimensions.get("window").width;
 
-  if (user.token != null && user.token != "undefined") {
-    React.useEffect(() => {
-      socket.connect();
-    }, []);
-  } else {
-    socket.disconnect();
-  }
+  // if (user.token != null && user.token != "undefined") {
+  //   React.useEffect(() => {
+  //     socket.connect();
+  //   }, []);
+  // } else {
+  //   socket.disconnect();
+  // }
 
   const getGroups = async () => {
     const token =

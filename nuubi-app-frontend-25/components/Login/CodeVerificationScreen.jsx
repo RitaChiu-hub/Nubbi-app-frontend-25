@@ -27,11 +27,9 @@ export default function CodeVerificationScreen({ navigation, route }) {
     const generateSignUpCode = async () => {
       try {
         const email = formVals.email;
-        console.log(formVals.email);
         const response = await fetch(
           "http://localhost:8080/settings/generatesignupcode",
           {
-            // fetch("http://localhost:8080/settings/generatesignupcode", {
             method: "POST",
             credentials: "include",
             headers: {
@@ -59,14 +57,13 @@ export default function CodeVerificationScreen({ navigation, route }) {
     generateSignUpCode();
   }, [formVals, codeResent]);
 
-  // Log the generated hashedOTP
-  React.useEffect(() => {
-    console.log("hashedOTP:", verificationData);
-  }, [verificationData]);
+  // // Log the generated hashedOTP
+  // React.useEffect(() => {
+  //   console.log("hashedOTP:", verificationData);
+  // }, [verificationData]);
 
   const handlePress = () => {
     // Increment codeResent state to log how many times it's been resent
-    console.log("resend code");
     setCodeResent((prevCount) => prevCount + 1);
   };
 

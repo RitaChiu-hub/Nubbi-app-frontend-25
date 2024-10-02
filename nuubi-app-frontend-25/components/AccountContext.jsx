@@ -7,12 +7,10 @@ export const AccountContext = createContext();
 const UserContext = ({ children }) => {
   let myToken;
   if (Platform.OS === "web") {
-    console.log("User context cookie");
     const cookies = document.cookie.split("; ");
     const tokenCookie = cookies.find((row) => row.startsWith("token="));
 
     myToken = tokenCookie ? tokenCookie.split("=")[1] : null;
-    console.log("my token from account context: " + myToken);
   } else {
     getToken = SecureStore.getItemAsync("token");
     if (getToken._j != null) {
@@ -49,15 +47,6 @@ const UserContext = ({ children }) => {
         }
         return r.json();
       });
-    //   .then((data) => {
-    //     if (!data) {
-    //       console.log("C happened to set it to false");
-    //       setUser({ loggedIn: false, message3: "C" });
-    //       return;
-    //     }
-    //     setUser({ ...data, message: "Hi from account context" });
-    //     console.log("D happened to set it to false");
-    // });
   }, []);
   return (
     // <AccountContext.Provider value={{ user, setUser }}>

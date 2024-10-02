@@ -24,8 +24,6 @@ export default function LoadingGroup({ route, navigation }) {
   const screenWidth = Dimensions.get("window").width;
   const groupTitle = user.groupName;
 
-  console.log(title);
-
   React.useEffect(() => {
     setUser({ ...user, groupName: title });
     navigation.navigate("Group Chat", { title: title });

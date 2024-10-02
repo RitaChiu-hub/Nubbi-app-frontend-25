@@ -71,7 +71,6 @@ export default function LoginScreen({ navigation }) {
             values.username = values.username.trim();
             const vals = { ...values };
             actions.resetForm();
-            console.log("going to do the auth/login now");
 
             // Check platform and determine which fetch request to make
             let url = "";
@@ -105,25 +104,23 @@ export default function LoginScreen({ navigation }) {
                 return res.json();
               })
               .then((data) => {
-                console.log("Login data received:", data);
                 // Handle successful login
                 if (!data) return;
                 setUser({ ...data });
-                console.log("Login data received:", data);
-                console.log("Storing token:", data.token);
                 if (Platform.OS === "web") {
-                  console.log("web cookie in backend http only");
                   setUser({
                     loggedIn: true,
                   });
                 } else {
                   SecureStore.setItemAsync("token", data.token)
                     .then(() => {
-                      console.log("Token successfully stored in SecureStore");
                       return SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
                     })
                     .then(() => {
-                      setUser({ ...data, loggedIn: true });
+                      setUser({
+                        ...data,
+                        loggedIn: true,
+                      });
                       return AsyncStorage.setItem(
                         "isLoggedIn",
                         JSON.stringify(true)

@@ -99,7 +99,6 @@ export default function GroupListScreen({ navigation }) {
             })
             .then((data) => {
               if (!data) return;
-              console.log(data);
               setUser({ ...data });
               if (data.status) {
                 setError(data.status);

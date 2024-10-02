@@ -1,5 +1,5 @@
-import React from 'react';
-import { TouchableOpacity, Linking } from 'react-native';
+import React from "react";
+import { TouchableOpacity, Linking } from "react-native";
 
 export default function ({ url, children }) {
   const handlePress = async () => {
@@ -11,9 +11,5 @@ export default function ({ url, children }) {
     }
   };
 
-  return (
-    <TouchableOpacity onPress={handlePress}>
-      {children}
-    </TouchableOpacity>
-  );
-};
+  return <TouchableOpacity onPress={handlePress}>{children}</TouchableOpacity>;
+}

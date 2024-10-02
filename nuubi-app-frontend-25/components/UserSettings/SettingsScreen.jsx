@@ -73,10 +73,8 @@ const SECTIONS = [
 const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null });
   if (Platform.OS === "web") {
-    console.log("logging out on the web in handlesignout");
     await logoutUser(setUser); // Pass setUser directly
   } else {
-    console.log("LOGGING OUT OF MOBILE!!!!");
     SecureStore.deleteItemAsync("token");
     SecureStore.deleteItemAsync("user");
     AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
@@ -92,7 +90,6 @@ const logoutUser = async (setUser) => {
     });
 
     const result = await response.json();
-    console.log("Logout response:", result);
 
     if (!result.isLoggedIn) {
       // Clear the frontend user state after logout
@@ -117,14 +114,6 @@ export default function SettingsScreen({ navigation }) {
       headerTitleAlign: "center",
     });
   }, [navigation]);
-
-  // Handle null user (logged out state)
-  // if (!user) {
-  //   // Redirect or show login screen if user is not logged in
-  //   console.log("User is logged out, navigating to Splash or Login");
-  //   navigation.navigate("Splash"); // Or whatever screen is for logged-out users
-  //   return null;
-  // }
 
   const handleNavigation = (navRoute, label) => {
     if (navRoute === "" || !navRoute) {

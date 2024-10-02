@@ -132,7 +132,6 @@ export default function ViewPostScreen({ navigation }) {
           );
         }
         setPreviewUrls(urls);
-        //   console.log(jsonData.filePages);
       } else {
         null;
       }
@@ -195,9 +194,7 @@ export default function ViewPostScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      // setUserPoints(jsonData.userPoints);
       setMyUsername(jsonData.username);
-      // console.log(myUsername)
     } catch (err) {
       console.error(err.message);
     }
@@ -228,11 +225,6 @@ export default function ViewPostScreen({ navigation }) {
     });
   }, [socket]);
 
-  const addPostPoint = () => {
-    socket.emit("add post point return updated sum", { ...user });
-    setPostLiked(!postLiked);
-  };
-
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -244,7 +236,6 @@ export default function ViewPostScreen({ navigation }) {
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
-  // console.log("the url has this many pages: " + pdfPages);
 
   return (
     <KeyboardAvoidingView

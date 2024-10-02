@@ -64,14 +64,10 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  console.log(data);
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);
                   }
-                  // else if (data.loggedIn) {
-                  //   SecureStore.setItemAsync("token", data.token);
-                  // }
                 });
             }}
           >

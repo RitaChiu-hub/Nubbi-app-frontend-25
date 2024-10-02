@@ -97,17 +97,14 @@ export default function ChangePasswordScreen({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch(
-                "http://localhost:8080/settings/updatepassword",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
+              fetch("http://localhost:8080/settings/updatepassword", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user, ...vals }),
+              })
                 .catch((err) => {
                   return;
                 })
@@ -119,7 +116,6 @@ export default function ChangePasswordScreen({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  console.log(data);
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);

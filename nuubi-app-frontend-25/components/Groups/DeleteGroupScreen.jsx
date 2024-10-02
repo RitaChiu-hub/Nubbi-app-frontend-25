@@ -67,7 +67,6 @@ export default function DeleteGroupScreen({ navigation }) {
               })
               .then((data) => {
                 if (!data) return;
-                console.log(data);
                 setUser({ ...data });
                 if (data.status) {
                   setError(data.status);
@@ -75,9 +74,6 @@ export default function DeleteGroupScreen({ navigation }) {
                     navigation.navigate("Home");
                   }
                 }
-                // else if (data.loggedIn) {
-                //   SecureStore.setItemAsync("token", data.token);
-                // }
               });
           }}
         >

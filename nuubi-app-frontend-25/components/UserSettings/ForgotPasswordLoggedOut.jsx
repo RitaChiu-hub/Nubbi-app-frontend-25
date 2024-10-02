@@ -77,17 +77,14 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               const vals = { ...values };
               actions.resetForm();
               const email = vals.email;
-              fetch(
-                "http://localhost:8080/settings/generatepasscode",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, email }),
-                }
-              )
+              fetch("http://localhost:8080/settings/generatepasscode", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user, email }),
+              })
                 .catch((err) => {
                   return;
                 })
@@ -99,7 +96,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  console.log(data);
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);
@@ -143,17 +139,14 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch(
-                "http://localhost:8080/settings/forgotpassword",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
+              fetch("http://localhost:8080/settings/forgotpassword", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user, ...vals }),
+              })
                 .catch((err) => {
                   return;
                 })
@@ -165,7 +158,6 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  console.log(data);
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);

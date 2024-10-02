@@ -141,14 +141,10 @@ export default function EditPostScreen({ navigation }) {
                       })
                       .then((data) => {
                         if (!data) return;
-                        //   console.log(data);
                         setUser({ ...data });
                         if (data.status) {
                           setError(data.status);
                         }
-                        // else if (data.loggedIn) {
-                        //   SecureStore.setItemAsync("token", data.token);
-                        // }
                       });
                     return data["secure_url"];
                   })
@@ -156,17 +152,14 @@ export default function EditPostScreen({ navigation }) {
               } else {
                 const vals = { ...values, imageUrl: null };
                 actions.resetForm();
-                fetch(
-                  `http://localhost:8080/groups/editpost`,
-                  {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ ...user, ...vals }),
-                  }
-                )
+                fetch(`http://localhost:8080/groups/editpost`, {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, ...vals }),
+                })
                   .catch((err) => {
                     return;
                   })
@@ -178,7 +171,6 @@ export default function EditPostScreen({ navigation }) {
                   })
                   .then((data) => {
                     if (!data) return;
-                    //   console.log(data);
                     setUser({ ...data });
                     if (data.status) {
                       setError(data.status);

@@ -70,7 +70,6 @@ export default function NotificationsScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      //  console.log(jsonData);
       setUser({ ...user, notifications: false });
     } catch (err) {
       console.error(err.message);

@@ -80,7 +80,6 @@ export default function EditGroupScreen({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  console.log(data);
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);

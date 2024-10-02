@@ -55,11 +55,9 @@ export default function CreateTask({ navigation }) {
             validationSchema={createTaskSchema}
             onSubmit={(values, actions) => {
               const vals = { ...values, assignToAdmin, assignToParticipants };
-              //  console.log(vals);
               actions.resetForm();
               fetch(
                 "http://localhost:8080/groups/createtask",
-                // "http://localhost:8080/groups/createtask",
                 {
                   method: "POST",
                   credentials: "include",
@@ -80,7 +78,6 @@ export default function CreateTask({ navigation }) {
                 })
                 .then((data) => {
                   if (!data) return;
-                  //  console.log(data);
                   setUser({ ...data });
                   if (data.status) {
                     setError(data.status);
