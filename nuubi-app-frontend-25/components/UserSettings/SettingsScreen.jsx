@@ -14,9 +14,9 @@ import socket from "../../socket";
 import * as SecureStore from "expo-secure-store";
 import alert from "./../alert";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Cookies from "js-cookie";
 
-//Dynamically create setting items
+
+// Dynamically create setting items
 // The optional attributes for each item: icon, label, type, color, navRoute or onPress
 // type can be: input, link, or boolean
 const SECTIONS = [

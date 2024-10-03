@@ -39,54 +39,110 @@ export default function HomeScreen({ navigation }) {
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
 
-  // For Web
-  function getTokenFromCookies() {
-    const cookies = document.cookie.split("; ");
-    const tokenCookie = cookies.find((row) => row.startsWith("token="));
-    return tokenCookie ? tokenCookie.split("=")[1] : null;
-  }
-
-  // For Mobile
+  // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
     try {
-      const user = await SecureStore.getItemAsync("user");
-      if (user) {
-        const parsedUser = JSON.parse(user);
-        return parsedUser.token || null;
-      }
+      const token = await SecureStore.getItemAsync("token");
+      return token || null;
     } catch (error) {
-      console.error("Error retrieving token from SecureStore", error);
       return null;
+    }
+  }
+
+  // For Web
+  async function checkWebLogin() {
+    try {
+      const response = await fetch(`http://localhost:8080/auth/checkweblogin`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...user }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      return data.isLoggedIn; // Assuming the backend returns { isLoggedIn: true/false }
+    } catch (error) {
+      console.error("Error checking login status:", error);
+      return false; // Default to false if there's an error
     }
   }
 
   // Check if user is logged in (cross-platform)
   async function checkIsLoggedIn() {
     if (Platform.OS === "web") {
-      // Web: Check the cookies
-      const token = getTokenFromCookies();
-      return !!token;
+      // Web: Use the new checkWebLogin function
+      return await checkWebLogin();
     } else {
       // Mobile: Check SecureStore
       const token = await getTokenFromSecureStore();
-      return !!token;
+      return !!token; // Check if token exists
     }
   }
 
   React.useEffect(() => {
     const checkLoginStatus = async () => {
       const loggedIn = await checkIsLoggedIn(); // Call the async login check
-      if (loggedIn === true) {
-        socket.connect();
-      } else {
-        socket.disconnect();
-      }
       setIsLoggedIn(loggedIn);
-      setLoading(false); // Loading is done
     };
 
     checkLoginStatus(); // Run the check when the component mounts
   }, [user.loggedIn]);
+
+  // // For Web
+  // function getTokenFromCookies() {
+  //   const cookies = document.cookie.split("; ");
+  //   const tokenCookie = cookies.find((row) => row.startsWith("token="));
+  //   return tokenCookie ? tokenCookie.split("=")[1] : null;
+  // }
+
+  // // For Mobile
+  // async function getTokenFromSecureStore() {
+  //   try {
+  //     const user = await SecureStore.getItemAsync("user");
+  //     if (user) {
+  //       const parsedUser = JSON.parse(user);
+  //       return parsedUser.token || null;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error retrieving token from SecureStore", error);
+  //     return null;
+  //   }
+  // }
+
+  // // Check if user is logged in (cross-platform)
+  // async function checkIsLoggedIn() {
+  //   if (Platform.OS === "web") {
+  //     // Web: Check the cookies
+  //     const token = getTokenFromCookies();
+  //     return !!token;
+  //   } else {
+  //     // Mobile: Check SecureStore
+  //     const token = await getTokenFromSecureStore();
+  //     return !!token;
+  //   }
+  // }
+
+  // React.useEffect(() => {
+  //   const checkLoginStatus = async () => {
+  //     const loggedIn = await checkIsLoggedIn(); // Call the async login check
+  //     if (loggedIn === true) {
+  //       socket.connect();
+  //     } else {
+  //       socket.disconnect();
+  //     }
+  //     setIsLoggedIn(loggedIn);
+  //     setLoading(false); // Loading is done
+  //   };
+
+  //   checkLoginStatus(); // Run the check when the component mounts
+  // }, [user.loggedIn]);
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const notificationListener = useRef();

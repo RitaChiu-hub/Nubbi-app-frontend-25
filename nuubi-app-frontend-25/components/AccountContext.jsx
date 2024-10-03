@@ -7,10 +7,7 @@ export const AccountContext = createContext();
 const UserContext = ({ children }) => {
   let myToken;
   if (Platform.OS === "web") {
-    const cookies = document.cookie.split("; ");
-    const tokenCookie = cookies.find((row) => row.startsWith("token="));
-
-    myToken = tokenCookie ? tokenCookie.split("=")[1] : null;
+    myToken = null;
   } else {
     getToken = SecureStore.getItemAsync("token");
     if (getToken._j != null) {

@@ -39,6 +39,9 @@ export default function ProfilePageScreen({ navigation }) {
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
   const getUserPoints = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getuserpoints`,
@@ -47,6 +50,7 @@ export default function ProfilePageScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -291,11 +295,19 @@ export default function ProfilePageScreen({ navigation }) {
                           setImageUploadInfo({ ...data });
                           let uploadUrl = data["secure_url"];
                           const vals = { imageUrl: uploadUrl };
+                          const token =
+                            Platform.OS !== "web"
+                              ? await SecureStore.getItemAsync("token")
+                              : null; // Get token only on mobile
+
                           fetch(`http://localhost:8080/settings/updateavatar`, {
                             method: "POST",
                             credentials: "include",
                             headers: {
                               "Content-Type": "application/json",
+                              ...(token
+                                ? { Authorization: `Bearer ${token}` }
+                                : {}),
                             },
                             body: JSON.stringify({ ...user, ...vals }),
                           })
