@@ -24,35 +24,28 @@ const UserContext = ({ children }) => {
     token: myToken,
   });
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    fetch(`http://localhost:8080/auth/login`, {
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `${user.token}`,
-      },
-    })
-      .catch((err) => {
-        setUser({ token: null });
-        setIsLoggedIn(false);
-        return;
-      })
-      .then((r) => {
-        if (!r || !r.ok || r.status >= 400) {
-          setUser({ token: null });
-          setIsLoggedIn(false);
-          return;
-        }
-        return r.json();
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`http://localhost:8080/auth/login`, {
+  //     credentials: "include",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       authorization: `${user.token}`,
+  //     },
+  //   })
+  //     .catch((err) => {
+  //       setUser({ token: null });
+  //       return;
+  //     })
+  //     .then((r) => {
+  //       if (!r || !r.ok || r.status >= 400) {
+  //         setUser({ token: null });
+  //         return;
+  //       }
+  //       return r.json();
+  //     });
+  // }, []);
   return (
-    // <AccountContext.Provider value={{ user, setUser }}>
-    <AccountContext.Provider
-      value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
-    >
+    <AccountContext.Provider value={{ user, setUser }}>
       {children}
     </AccountContext.Provider>
   );

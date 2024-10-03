@@ -15,7 +15,6 @@ import { Formik, ErrorMessage } from "formik";
 import socket from "../../socket";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
-import Cookies from "js-cookie";
 
 export default function DeleteAccountScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -58,18 +57,14 @@ export default function DeleteAccountScreen({ navigation }) {
               const vals = { ...values };
               const passattempt = vals.passattempt;
               actions.resetForm();
-              fetch(
-                "http://localhost:8080/settings/delete",
-                // "http://localhost:8080/settings/delete",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, passattempt }),
-                }
-              )
+              fetch("http://localhost:8080/settings/delete", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ ...user, passattempt }),
+              })
                 .catch((err) => {
                   return;
                 })
@@ -88,13 +83,11 @@ export default function DeleteAccountScreen({ navigation }) {
                   if (data.status == "Success") {
                     setUser({ ...data });
                     if (Platform.OS === "web") {
-                      //  localStorage.removeItem("token");
-                      Cookies.remove("token");
+                      setUser({ loggedIn: false });
                     } else {
                       SecureStore.deleteItemAsync("token");
                       SecureStore.deleteItemAsync("user");
                       AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
-                      //   setUser({ loggedIn: false });
                     }
                     setUser({ token: null });
                     socket.disconnect();
