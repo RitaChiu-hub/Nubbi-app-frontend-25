@@ -21,6 +21,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import FeatherIcon from "@expo/vector-icons/Feather";
 import alert from "./../alert";
 import FAIcon from "@expo/vector-icons/FontAwesome";
+import * as SecureStore from "expo-secure-store";
 
 export default function ViewPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -47,6 +48,8 @@ export default function ViewPostScreen({ navigation }) {
   const deviceWidth = Dimensions.get("window").width;
 
   const getPostLiked = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getpostliked`,
@@ -55,6 +58,7 @@ export default function ViewPostScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -67,6 +71,8 @@ export default function ViewPostScreen({ navigation }) {
   };
 
   const getLikes = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getcommentlikes`,
@@ -75,6 +81,7 @@ export default function ViewPostScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -91,19 +98,18 @@ export default function ViewPostScreen({ navigation }) {
   };
 
   const getPostInfo = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(
-        `http://localhost:8080/groups/getpostinfo`,
-        // `http://localhost:8080/groups/getpostinfo`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`http://localhost:8080/groups/getpostinfo`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setPostInfo(jsonData);
       if (jsonData.file_url !== null) {
@@ -141,6 +147,8 @@ export default function ViewPostScreen({ navigation }) {
   };
 
   const getPostPoints = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getpostpoints`,
@@ -149,6 +157,7 @@ export default function ViewPostScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -161,6 +170,8 @@ export default function ViewPostScreen({ navigation }) {
   };
 
   const getComments = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/${user.currentGroup}/posts/${user.currentPost}/getcomments`,
@@ -169,6 +180,7 @@ export default function ViewPostScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -181,6 +193,8 @@ export default function ViewPostScreen({ navigation }) {
   };
 
   const getUserPoints = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getuserpoints`,
@@ -189,6 +203,7 @@ export default function ViewPostScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -235,7 +250,6 @@ export default function ViewPostScreen({ navigation }) {
   }, [navigation]);
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
-
 
   return (
     <KeyboardAvoidingView
@@ -360,7 +374,7 @@ export default function ViewPostScreen({ navigation }) {
                 <Text style={globalStyles.h3HeadingRegular}>{postPoints}</Text>
 
                 <TouchableOpacity
-                  onPress={() => {
+                  onPress={async () => {
                     if (postLiked != true) {
                       setPostPoints(postPoints + 1);
                       setPostLiked(!postLiked);
@@ -368,20 +382,22 @@ export default function ViewPostScreen({ navigation }) {
                       setPostPoints(postPoints - 1);
                       setPostLiked(!postLiked);
                     }
+                    const token =
+                      Platform.OS !== "web"
+                        ? await SecureStore.getItemAsync("token")
+                        : null; // Get token only on mobile
 
-                    fetch(
-                      `http://localhost:8080/groups/addpostpoint`,
-                      {
-                        method: "POST",
-                        credentials: "include",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          ...user,
-                        }),
-                      }
-                    );
+                    fetch(`http://localhost:8080/groups/addpostpoint`, {
+                      method: "POST",
+                      credentials: "include",
+                      headers: {
+                        "Content-Type": "application/json",
+                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                      },
+                      body: JSON.stringify({
+                        ...user,
+                      }),
+                    });
                   }}
                 >
                   <Text
@@ -552,7 +568,7 @@ export default function ViewPostScreen({ navigation }) {
                       {comments.comment_points}
                     </Text>
                     <TouchableOpacity
-                      onPress={() => {
+                      onPress={async () => {
                         if (!likes.includes(comments.post_comment_id)) {
                           likes.push(comments.post_comment_id);
                           setLikes(likes);
@@ -565,21 +581,25 @@ export default function ViewPostScreen({ navigation }) {
                           comments.comment_points--;
                           setIsChanged(!isChanged);
                         }
+                        const token =
+                          Platform.OS !== "web"
+                            ? await SecureStore.getItemAsync("token")
+                            : null; // Get token only on mobile
 
-                        fetch(
-                          `http://localhost:8080/groups/addcommentpoint`,
-                          {
-                            method: "POST",
-                            credentials: "include",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                              ...user,
-                              comment_id: comments.post_comment_id,
-                            }),
-                          }
-                        );
+                        fetch(`http://localhost:8080/groups/addcommentpoint`, {
+                          method: "POST",
+                          credentials: "include",
+                          headers: {
+                            "Content-Type": "application/json",
+                            ...(token
+                              ? { Authorization: `Bearer ${token}` }
+                              : {}),
+                          },
+                          body: JSON.stringify({
+                            ...user,
+                            comment_id: comments.post_comment_id,
+                          }),
+                        });
                       }}
                     >
                       <Text

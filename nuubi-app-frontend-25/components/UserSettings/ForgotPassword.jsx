@@ -11,6 +11,7 @@ import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
+import * as SecureStore from "expo-secure-store";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);

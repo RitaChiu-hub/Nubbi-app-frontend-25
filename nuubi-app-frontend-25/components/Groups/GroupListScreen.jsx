@@ -71,15 +71,20 @@ export default function GroupListScreen({ navigation }) {
           },
           overflow: "visible",
         }}
-        onPress={() => {
+        onPress={async () => {
           setUser({ ...user, currentGroup: id, groupName: title }),
             navigation.navigate("Group Chat");
           const joinGroupId = id;
+          const token =
+            Platform.OS !== "web"
+              ? await SecureStore.getItemAsync("token")
+              : null; // Get token only on mobile
           fetch("http://localhost:8080/groups/joingroup", {
             method: "POST",
             credentials: "include",
             headers: {
               "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
             },
             body: JSON.stringify({
               ...user,

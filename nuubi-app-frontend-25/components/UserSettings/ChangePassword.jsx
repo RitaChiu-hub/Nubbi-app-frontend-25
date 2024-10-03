@@ -16,6 +16,7 @@ import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 const { formSchema, newPasswordSchema } = require("../validationSchema");
+import * as SecureStore from "expo-secure-store";
 
 export default function ChangePasswordScreen({ navigation }) {
   const { goBack, navigate } = navigation;

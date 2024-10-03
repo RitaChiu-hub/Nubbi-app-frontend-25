@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
+import * as SecureStore from "expo-secure-store";
 
 export default function FeedbackScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);

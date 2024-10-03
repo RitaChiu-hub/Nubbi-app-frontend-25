@@ -11,6 +11,7 @@ const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -24,6 +25,8 @@ export default function PostScreen({ navigation }) {
   const groupTitle = user.groupName;
 
   const getPosts = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/${user.currentGroup}/posts`,
@@ -32,6 +35,7 @@ export default function PostScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }

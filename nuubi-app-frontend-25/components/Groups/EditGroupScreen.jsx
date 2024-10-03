@@ -12,6 +12,7 @@ import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 const { createGroupSchema } = require("../validationSchema");
+import * as SecureStore from "expo-secure-store";
 
 export default function EditGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -55,20 +56,21 @@ export default function EditGroupScreen({ navigation }) {
               visibility: user.visibility,
             }}
             validationSchema={createGroupSchema}
-            onSubmit={(values, actions) => {
-              const vals = { ...values };
+            onSubmit={async (values, actions) => {
               const allvals = { ...values, privacySelection };
-              fetch(
-                "http://localhost:8080/groups/editgroup",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, ...allvals }),
-                }
-              )
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null; // Get token only on mobile
+              fetch("http://localhost:8080/groups/editgroup", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({ ...user, ...allvals }),
+              })
                 .catch((err) => {
                   return;
                 })

@@ -10,6 +10,7 @@ import {
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 export default function GroupAnalytics({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -20,6 +21,8 @@ export default function GroupAnalytics({ navigation }) {
 
   React.useEffect(() => {
     const getGroupInfo = async () => {
+      const token =
+        Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
       try {
         const response = await fetch(
           `http://localhost:8080/groups/getgroupinfo`,
@@ -28,6 +31,7 @@ export default function GroupAnalytics({ navigation }) {
             credentials: "include",
             headers: {
               "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
             },
             body: JSON.stringify({ ...user }),
           }
@@ -57,6 +61,8 @@ export default function GroupAnalytics({ navigation }) {
 
   React.useEffect(() => {
     const getMembers = async () => {
+      const token =
+        Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
       try {
         const apiUrl = user.isAdmin
           ? "http://localhost:8080/groups/getmembers"
@@ -67,6 +73,7 @@ export default function GroupAnalytics({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         });

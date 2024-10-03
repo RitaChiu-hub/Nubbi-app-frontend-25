@@ -4,6 +4,7 @@ import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
 import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
+import * as SecureStore from "expo-secure-store";
 
 const badgeData = [
   {

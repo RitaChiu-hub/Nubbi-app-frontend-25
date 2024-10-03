@@ -19,6 +19,7 @@ import { useIsFocused, useRoute } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/elements";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import * as SecureStore from "expo-secure-store";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -50,15 +51,17 @@ export default function ChatScreen({ navigation }) {
   const scrollViewRef = React.useRef();
 
   const getGroupName = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        //  `http://localhost:8080/groups/getgroupinfo`,
         `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -71,15 +74,17 @@ export default function ChatScreen({ navigation }) {
   };
 
   const getGroupInfo = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getgroupinfo`,
-        // `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -106,20 +111,18 @@ export default function ChatScreen({ navigation }) {
   };
 
   const getLikes = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(
-        `http://localhost:8080/groupchat/getlikes`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // body: JSON.stringify({ ...user }),
-          // body: context,
-          body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`http://localhost:8080/groupchat/getlikes`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       const myLikes =
         jsonData.length > 0
@@ -137,6 +140,8 @@ export default function ChatScreen({ navigation }) {
   }, [isFocused]);
 
   const getChats = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         "http://localhost:8080/groupchat/getmessages",
@@ -145,6 +150,7 @@ export default function ChatScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -157,20 +163,20 @@ export default function ChatScreen({ navigation }) {
   };
 
   const getIsAdmin = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(
-        `http://localhost:8080/groups/isadmin`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          //  body: JSON.stringify({ ...user }),
-          //  body: context,
-          body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`http://localhost:8080/groups/isadmin`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        //  body: JSON.stringify({ ...user }),
+        //  body: context,
+        body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setUser(jsonData);
     } catch (err) {
@@ -383,7 +389,7 @@ export default function ChatScreen({ navigation }) {
                     {chats.message_points}
                   </Text>
                   <TouchableOpacity
-                    onPress={() => {
+                    onPress={async () => {
                       if (!likes.includes(chats.messages_id)) {
                         likes.push(chats.messages_id);
                         setLikes(likes);
@@ -397,20 +403,25 @@ export default function ChatScreen({ navigation }) {
                         setIsChanged(!isChanged);
                       }
 
-                      fetch(
-                        `http://localhost:8080/groups/addmessagepoint`,
-                        {
-                          method: "POST",
-                          credentials: "include",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            ...user,
-                            message_id: chats.messages_id,
-                          }),
-                        }
-                      );
+                      const token =
+                        Platform.OS !== "web"
+                          ? await SecureStore.getItemAsync("token")
+                          : null; // Get token only on mobile
+
+                      fetch(`http://localhost:8080/groups/addmessagepoint`, {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                          "Content-Type": "application/json",
+                          ...(token
+                            ? { Authorization: `Bearer ${token}` }
+                            : {}),
+                        },
+                        body: JSON.stringify({
+                          ...user,
+                          message_id: chats.messages_id,
+                        }),
+                      });
                     }}
                   >
                     <Text

@@ -16,6 +16,7 @@ import FeatherIcon from "@expo/vector-icons/Feather";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import alert from "./../alert";
+import * as SecureStore from "expo-secure-store";
 
 const tabs = [
   { name: "Options", icon: "settings" },
@@ -139,6 +140,8 @@ export default function GroupInfoScreen({ navigation }) {
   }, [navigation, selectedTab, user]);
 
   const getGroupInfo = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getgroupinfo`,
@@ -147,6 +150,7 @@ export default function GroupInfoScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -172,6 +176,8 @@ export default function GroupInfoScreen({ navigation }) {
   };
 
   const getMemberCount = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getmembercount`,
@@ -180,6 +186,7 @@ export default function GroupInfoScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -192,15 +199,17 @@ export default function GroupInfoScreen({ navigation }) {
   };
 
   const getMembers = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         "http://localhost:8080/groups/getleaderboard",
-        //   "http://localhost:8080/groups/getleaderboard",
         {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }

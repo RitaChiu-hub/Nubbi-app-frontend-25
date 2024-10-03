@@ -4,6 +4,7 @@ import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
 import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
+import * as SecureStore from "expo-secure-store";
 
 const badgeData = [
   {
@@ -133,6 +134,8 @@ export default function GroupAchievementsScreen({ navigation }) {
   const [wonBadges, setWonBadges] = React.useState([]);
 
   const getWonBadges = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         "http://localhost:8080/groups/getwonbadges",
@@ -141,6 +144,7 @@ export default function GroupAchievementsScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }

@@ -9,6 +9,7 @@ import {
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
+import * as SecureStore from "expo-secure-store";
 
 export default function JoinGroupWithPasscode({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -39,20 +40,22 @@ export default function JoinGroupWithPasscode({ navigation }) {
         >
           <Formik
             initialValues={{ passcode: "", admin: "" }}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch(
-                `http://localhost:8080/groups/joingroupwithpasscode`,
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null; // Get token only on mobile
+              fetch(`http://localhost:8080/groups/joingroupwithpasscode`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({ ...user, ...vals }),
+              })
                 .catch((err) => {
                   return;
                 })

@@ -17,6 +17,7 @@ import { AccountContext } from "../AccountContext";
 const { createPostSchema } = require("../validationSchema");
 import * as ImagePicker from "expo-image-picker";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import * as SecureStore from "expo-secure-store";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -92,7 +93,7 @@ export default function EditPostScreen({ navigation }) {
               body_text: user.post_body,
             }}
             validationSchema={createPostSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               if (pickedImage !== null) {
                 // upload image to cloudinary
                 let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
@@ -114,6 +115,10 @@ export default function EditPostScreen({ navigation }) {
                   method: "POST",
                 })
                   .then(async (r) => {
+                    const token =
+                      Platform.OS !== "web"
+                        ? await SecureStore.getItemAsync("token")
+                        : null; // Get token only on mobile
                     let data = await r.json();
                     setImageUploadInfo({ ...data });
                     let uploadUrl = data["secure_url"];
@@ -126,6 +131,9 @@ export default function EditPostScreen({ navigation }) {
                         credentials: "include",
                         headers: {
                           "Content-Type": "application/json",
+                          ...(token
+                            ? { Authorization: `Bearer ${token}` }
+                            : {}),
                         },
                         body: JSON.stringify({ ...user, ...vals }),
                       }
@@ -152,11 +160,16 @@ export default function EditPostScreen({ navigation }) {
               } else {
                 const vals = { ...values, imageUrl: null };
                 actions.resetForm();
+                const token =
+                  Platform.OS !== "web"
+                    ? await SecureStore.getItemAsync("token")
+                    : null; // Get token only on mobile
                 fetch(`http://localhost:8080/groups/editpost`, {
                   method: "POST",
                   credentials: "include",
                   headers: {
                     "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
                   },
                   body: JSON.stringify({ ...user, ...vals }),
                 })

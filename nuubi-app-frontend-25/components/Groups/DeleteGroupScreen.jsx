@@ -10,6 +10,7 @@ import * as SecureStore from "expo-secure-store";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import { Formik, ErrorMessage } from "formik";
+import * as SecureStore from "expo-secure-store";
 
 export default function DeleteGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -38,24 +39,26 @@ export default function DeleteGroupScreen({ navigation }) {
       >
         <Formik
           initialValues={{ passattempt: "" }}
-          onSubmit={(values, actions) => {
+          onSubmit={async (values, actions) => {
             const vals = { ...values };
             const passattempt = vals.passattempt;
             actions.resetForm();
-            fetch(
-              "http://localhost:8080/groups/deletegroup",
-              {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  ...user,
-                  ...vals,
-                }),
-              }
-            )
+            const token =
+              Platform.OS !== "web"
+                ? await SecureStore.getItemAsync("token")
+                : null; // Get token only on mobile
+            fetch("http://localhost:8080/groups/deletegroup", {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              },
+              body: JSON.stringify({
+                ...user,
+                ...vals,
+              }),
+            })
               .catch((err) => {
                 return;
               })

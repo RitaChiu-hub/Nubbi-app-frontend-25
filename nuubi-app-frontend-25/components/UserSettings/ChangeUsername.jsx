@@ -11,6 +11,7 @@ import IconAD from "@expo/vector-icons/AntDesign";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 const { changeUsernameSchema } = require("../validationSchema");
+import * as SecureStore from "expo-secure-store";
 
 export default function ChangeUsernameScreen({ navigation }) {
   const { goBack, navigate } = navigation;

@@ -20,6 +20,7 @@ import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import IonIcon from "@expo/vector-icons/Ionicons";
 import * as ImageManipulator from "expo-image-manipulator";
 import alert from "./../alert";
+import * as SecureStore from "expo-secure-store";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -195,7 +196,7 @@ export default function CreatePostScreen({ navigation }) {
             initialValues={{ title: "", body_text: "" }}
             //  initialValues={{ title: "Testing", body_text: "Test" }}
             validationSchema={createPostSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               if (pickedImage !== null && pickedFile == null) {
                 // post submission with image but with no file attachment
                 // upload image to cloudinary
@@ -226,6 +227,11 @@ export default function CreatePostScreen({ navigation }) {
                       imageUrl: uploadUrl,
                       fileUrl: null,
                     };
+
+                    const token =
+                      Platform.OS !== "web"
+                        ? await SecureStore.getItemAsync("token")
+                        : null; // Get token only on mobile
                     fetch(
                       `http://localhost:8080/groups/${user.currentGroup}/createpost`,
                       {
@@ -233,6 +239,9 @@ export default function CreatePostScreen({ navigation }) {
                         credentials: "include",
                         headers: {
                           "Content-Type": "application/json",
+                          ...(token
+                            ? { Authorization: `Bearer ${token}` }
+                            : {}),
                         },
                         body: JSON.stringify({ ...user, ...vals }),
                       }
@@ -313,7 +322,10 @@ export default function CreatePostScreen({ navigation }) {
                           imageUrl: uploadUrl,
                           fileUrl: fileUploadUrl,
                         };
-
+                        const token =
+                          Platform.OS !== "web"
+                            ? await SecureStore.getItemAsync("token")
+                            : null; // Get token only on mobile
                         fetch(
                           `http://localhost:8080/groups/${user.currentGroup}/createpost`,
                           {
@@ -321,6 +333,9 @@ export default function CreatePostScreen({ navigation }) {
                             credentials: "include",
                             headers: {
                               "Content-Type": "application/json",
+                              ...(token
+                                ? { Authorization: `Bearer ${token}` }
+                                : {}),
                             },
                             body: JSON.stringify({ ...user, ...vals }),
                           }
@@ -401,6 +416,10 @@ export default function CreatePostScreen({ navigation }) {
                           imageUrl: uploadUrl,
                           fileUrl: fileUploadUrl,
                         };
+                        const token =
+                          Platform.OS !== "web"
+                            ? await SecureStore.getItemAsync("token")
+                            : null; // Get token only on mobile
                         fetch(
                           `http://localhost:8080/groups/${user.currentGroup}/createpost`,
                           {
@@ -408,6 +427,9 @@ export default function CreatePostScreen({ navigation }) {
                             credentials: "include",
                             headers: {
                               "Content-Type": "application/json",
+                              ...(token
+                                ? { Authorization: `Bearer ${token}` }
+                                : {}),
                             },
                             body: JSON.stringify({ ...user, ...vals }),
                           }
@@ -469,6 +491,10 @@ export default function CreatePostScreen({ navigation }) {
                         imageUrl: null,
                         fileUrl: fileUploadUrl,
                       };
+                      const token =
+                        Platform.OS !== "web"
+                          ? await SecureStore.getItemAsync("token")
+                          : null; // Get token only on mobile
 
                       fetch(
                         `http://localhost:8080/groups/${user.currentGroup}/createpost`,
@@ -477,6 +503,9 @@ export default function CreatePostScreen({ navigation }) {
                           credentials: "include",
                           headers: {
                             "Content-Type": "application/json",
+                            ...(token
+                              ? { Authorization: `Bearer ${token}` }
+                              : {}),
                           },
                           body: JSON.stringify({ ...user, ...vals }),
                         }
@@ -531,6 +560,11 @@ export default function CreatePostScreen({ navigation }) {
                         imageUrl: null,
                         fileUrl: fileUploadUrl,
                       };
+                      const token =
+                        Platform.OS !== "web"
+                          ? await SecureStore.getItemAsync("token")
+                          : null; // Get token only on mobile
+
                       fetch(
                         `http://localhost:8080/groups/${user.currentGroup}/createpost`,
                         {
@@ -538,6 +572,9 @@ export default function CreatePostScreen({ navigation }) {
                           credentials: "include",
                           headers: {
                             "Content-Type": "application/json",
+                            ...(token
+                              ? { Authorization: `Bearer ${token}` }
+                              : {}),
                           },
                           body: JSON.stringify({ ...user, ...vals }),
                         }
@@ -572,6 +609,10 @@ export default function CreatePostScreen({ navigation }) {
                 // regular post with no image and no file attachment
                 const vals = { ...values, imageUrl: null, fileUrl: null };
                 actions.resetForm();
+                const token =
+                  Platform.OS !== "web"
+                    ? await SecureStore.getItemAsync("token")
+                    : null; // Get token only on mobile
                 fetch(
                   `http://localhost:8080/groups/${user.currentGroup}/createpost`,
                   {
@@ -579,6 +620,7 @@ export default function CreatePostScreen({ navigation }) {
                     credentials: "include",
                     headers: {
                       "Content-Type": "application/json",
+                      ...(token ? { Authorization: `Bearer ${token}` } : {}),
                     },
                     body: JSON.stringify({ ...user, ...vals }),
                   }
