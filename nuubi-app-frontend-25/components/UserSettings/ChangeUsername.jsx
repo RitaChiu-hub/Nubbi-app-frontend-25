@@ -24,6 +24,8 @@ export default function ChangeUsernameScreen({ navigation }) {
   const [myUsername, setMyUsername] = React.useState("");
 
   const getUserPoints = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getuserpoints`,
@@ -32,6 +34,7 @@ export default function ChangeUsernameScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -127,24 +130,25 @@ export default function ChangeUsernameScreen({ navigation }) {
           <Formik
             initialValues={{ username: "", password: "" }}
             validationSchema={changeUsernameSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               const vals = { ...values };
               // const newusername = username;
               const newusername = username;
               const passattempt = vals.password;
               actions.resetForm();
-              fetch(
-                "http://localhost:8080/settings/updateusername",
-                //  "http://localhost:8080/settings/updateusername",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, newusername, passattempt }),
-                }
-              )
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null; // Get token only on mobile
+              fetch("http://localhost:8080/settings/updateusername", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({ ...user, newusername, passattempt }),
+              })
                 .catch((err) => {
                   return;
                 })

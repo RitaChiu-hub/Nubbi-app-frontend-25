@@ -33,8 +33,8 @@ export default function FeedbackScreen({ navigation }) {
         <View style={[globalStyles.widthContainer]}>
           <Text style={globalStyles.captionError}>{error}</Text>
           <Text style={[globalStyles.bodyRegular, { marginVertical: 12 }]}>
-            Enter in your message in the text field below and submit. We
-            we will respond to your message as quickly as possible!
+            Enter in your message in the text field below and submit. We we will
+            respond to your message as quickly as possible!
           </Text>
 
           {/* Input box */}
@@ -61,18 +61,20 @@ export default function FeedbackScreen({ navigation }) {
           <TouchableOpacity
             style={globalStyles.primaryButton}
             accessibilityRole="button"
-            onPress={() => {
-              fetch(
-                "http://localhost:8080/settings/sendfeedback",
-                {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ ...user, userFeedback }),
-                }
-              )
+            onPress={async () => {
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null; // Get token only on mobile
+              fetch("http://localhost:8080/settings/sendfeedback", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({ ...user, userFeedback }),
+              })
                 .catch((err) => {
                   return;
                 })

@@ -53,15 +53,20 @@ export default function DeleteAccountScreen({ navigation }) {
         >
           <Formik
             initialValues={{ passattempt: "" }}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               const vals = { ...values };
               const passattempt = vals.passattempt;
               actions.resetForm();
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null; // Get token only on mobile
               fetch("http://localhost:8080/settings/delete", {
                 method: "POST",
                 credentials: "include",
                 headers: {
                   "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({ ...user, passattempt }),
               })

@@ -146,6 +146,8 @@ export default function OverallAchievementsScreen({ navigation }) {
   const [wonBadges, setWonBadges] = React.useState([]);
 
   const getWonBadges = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         "http://localhost:8080/groups/getwonbadges",
@@ -154,6 +156,7 @@ export default function OverallAchievementsScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -176,9 +179,7 @@ export default function OverallAchievementsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>
-          My Overall Achievements
-        </Text>
+        <Text style={globalStyles.h3HeadingWhite}>My Overall Achievements</Text>
       ),
       headerTitleAlign: "center",
     });

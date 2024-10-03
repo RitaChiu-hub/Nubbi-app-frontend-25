@@ -16,14 +16,17 @@ export default function ForgotPasswordScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
 
-  const generatePasscode = () => {
+  const generatePasscode = async () => {
     const myNumber = Math.random().toString(10).substring(2, 8);
     const mypasscode = myNumber;
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     fetch("http://localhost:8080/settings/generatepasscode", {
       method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify({ ...user, mypasscode }),
     })
@@ -98,14 +101,19 @@ export default function ForgotPasswordScreen({ navigation }) {
           <Formik
             initialValues={{ passcode: "", passattempt1: "", passattempt2: "" }}
             validationSchema={forgotPasswordSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               const vals = { ...values };
               actions.resetForm();
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null; // Get token only on mobile
               fetch("http://localhost:8080/settings/forgotpassword", {
                 method: "POST",
                 credentials: "include",
                 headers: {
                   "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({ ...user, ...vals }),
               })

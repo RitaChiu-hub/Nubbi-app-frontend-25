@@ -814,6 +814,8 @@ const TabNavigator = () => {
   }, []);
 
   const getNotifications = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         "http://localhost:8080/groups/getnotificationsunread",
@@ -822,6 +824,7 @@ const TabNavigator = () => {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -1076,12 +1079,9 @@ export default function Views() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isLoggedIn && user ? ( 
+      {isLoggedIn && user ? (
         Platform.OS == "web" ? (
-          <Stack.Screen
-            name="DrawerTabs"
-            component={WebStack}
-          />
+          <Stack.Screen name="DrawerTabs" component={WebStack} />
         ) : (
           <Stack.Screen name="BottomTabs" component={TabNavigator} />
         )

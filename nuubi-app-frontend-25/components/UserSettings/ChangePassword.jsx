@@ -94,14 +94,20 @@ export default function ChangePasswordScreen({ navigation }) {
               passattempt2: "",
             }}
             validationSchema={newPasswordSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               const vals = { ...values };
               actions.resetForm();
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null; // Get token only on mobile
+
               fetch("http://localhost:8080/settings/updatepassword", {
                 method: "POST",
                 credentials: "include",
                 headers: {
                   "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
                 },
                 body: JSON.stringify({ ...user, ...vals }),
               })

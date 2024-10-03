@@ -31,6 +31,8 @@ export default function NotificationsScreen({ navigation }) {
   }, [navigation]);
 
   const getNotifications = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         "http://localhost:8080/groups/getnotifications",
@@ -39,6 +41,7 @@ export default function NotificationsScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
@@ -57,6 +60,8 @@ export default function NotificationsScreen({ navigation }) {
   }, [isFocused]);
 
   const getNotificationsRead = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         "http://localhost:8080/groups/getnotificationsread",
@@ -65,6 +70,7 @@ export default function NotificationsScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }

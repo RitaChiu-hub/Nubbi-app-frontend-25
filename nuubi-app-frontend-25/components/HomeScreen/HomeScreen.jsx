@@ -213,6 +213,8 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   const getUserPoints = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
         `http://localhost:8080/groups/getuserpoints`,
@@ -221,6 +223,7 @@ export default function HomeScreen({ navigation }) {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
         }
