@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 const { addMessageSchema } = require("../validationSchema");

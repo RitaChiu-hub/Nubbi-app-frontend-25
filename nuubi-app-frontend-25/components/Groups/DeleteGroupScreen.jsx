@@ -10,7 +10,6 @@ import * as SecureStore from "expo-secure-store";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import { Formik, ErrorMessage } from "formik";
-import * as SecureStore from "expo-secure-store";
 
 export default function DeleteGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);

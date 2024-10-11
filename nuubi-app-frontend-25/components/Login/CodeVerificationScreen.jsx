@@ -156,7 +156,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 .then(async (data) => {
                   if (!data) return;
                   setUser({ ...data });
-                  //  setIsLoggedIn(true);
+                  setIsLoggedIn(true);
                   if (Platform.OS === "web") {
                     setUser({
                       loggedIn: true,

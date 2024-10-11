@@ -21,6 +21,8 @@ const UserContext = ({ children }) => {
     token: myToken,
   });
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   // useEffect(() => {
   //   fetch(`http://localhost:8080/auth/login`, {
   //     credentials: "include",
@@ -42,7 +44,9 @@ const UserContext = ({ children }) => {
   //     });
   // }, []);
   return (
-    <AccountContext.Provider value={{ user, setUser }}>
+    <AccountContext.Provider
+      value={{ user, setUser, isLoggedIn, setIsLoggedIn }}
+    >
       {children}
     </AccountContext.Provider>
   );
