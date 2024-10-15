@@ -479,12 +479,6 @@ export default function ChatScreen({ navigation }) {
         <Formik
           initialValues={{ mymessage: "" }}
           validationSchema={addMessageSchema}
-          // onSubmit={(values, actions) => {
-          //   const vals = { ...values };
-          //   const uservals = { ...user, ...values };
-          //   actions.resetForm();
-          //   socket.emit("insert msg return updated list", uservals);
-          // }}
           onSubmit={async (values, actions) => {
             const token =
               Platform.OS !== "web"

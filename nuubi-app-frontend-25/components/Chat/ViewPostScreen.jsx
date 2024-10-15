@@ -657,7 +657,6 @@ export default function ViewPostScreen({ navigation }) {
             const uservals = { ...user, ...values, token };
             actions.resetForm();
             socket.emit("insert comment return updated list", uservals);
-            // router.post("/:group_id/posts/:post_id/createcomment", handleCreateComment);
           }}
         >
           {(props) => (
