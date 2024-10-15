@@ -649,9 +649,12 @@ export default function ViewPostScreen({ navigation }) {
         <Formik
           initialValues={{ mycomment: "" }}
           validationSchema={addCommentSchema}
-          onSubmit={(values, actions) => {
-            const vals = { ...values };
-            const uservals = { ...user, ...values };
+          onSubmit={async (values, actions) => {
+            const token =
+              Platform.OS !== "web"
+                ? await SecureStore.getItemAsync("token")
+                : null; // Get token only on mobile
+            const uservals = { ...user, ...values, token };
             actions.resetForm();
             socket.emit("insert comment return updated list", uservals);
             // router.post("/:group_id/posts/:post_id/createcomment", handleCreateComment);

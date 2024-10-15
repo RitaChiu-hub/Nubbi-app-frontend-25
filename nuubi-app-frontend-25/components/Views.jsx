@@ -1079,7 +1079,7 @@ export default function Views() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isLoggedIn && user ? (
+      {user.loggedIn ? ( //isLoggedIn && user ? (
         Platform.OS == "web" ? (
           <Stack.Screen name="DrawerTabs" component={WebStack} />
         ) : (

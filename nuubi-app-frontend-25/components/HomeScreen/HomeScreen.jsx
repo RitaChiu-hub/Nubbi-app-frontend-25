@@ -116,7 +116,7 @@ export default function HomeScreen({ navigation }) {
   //   }
   // }
 
-  // // Check if user is logged in (cross-platform)
+  // Check if user is logged in (cross-platform)
   // async function checkIsLoggedIn() {
   //   if (Platform.OS === "web") {
   //     // Web: Check the cookies
@@ -130,19 +130,21 @@ export default function HomeScreen({ navigation }) {
   // }
 
   // React.useEffect(() => {
-  //   const checkLoginStatus = async () => {
-  //     const loggedIn = await checkIsLoggedIn(); // Call the async login check
   //     if (loggedIn === true) {
   //       socket.connect();
   //     } else {
   //       socket.disconnect();
   //     }
-  //     setIsLoggedIn(loggedIn);
-  //     setLoading(false); // Loading is done
   //   };
-
-  //   checkLoginStatus(); // Run the check when the component mounts
   // }, [user.loggedIn]);
+
+  React.useEffect(() => {
+    if (isLoggedIn === true) {
+      socket.connect();
+    } else {
+      socket.disconnect();
+    }
+  }, [isLoggedIn]);
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const notificationListener = useRef();

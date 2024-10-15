@@ -479,11 +479,22 @@ export default function ChatScreen({ navigation }) {
         <Formik
           initialValues={{ mymessage: "" }}
           validationSchema={addMessageSchema}
-          onSubmit={(values, actions) => {
-            const vals = { ...values };
-            const uservals = { ...user, ...values };
+          // onSubmit={(values, actions) => {
+          //   const vals = { ...values };
+          //   const uservals = { ...user, ...values };
+          //   actions.resetForm();
+          //   socket.emit("insert msg return updated list", uservals);
+          // }}
+          onSubmit={async (values, actions) => {
+            const token =
+              Platform.OS !== "web"
+                ? await SecureStore.getItemAsync("token")
+                : null; // Get token only on mobile
+            const vals = { ...values, token }; // Include the token
+            const uservals = { ...user, ...vals };
+
             actions.resetForm();
-            socket.emit("insert msg return updated list", uservals);
+            socket.emit("insert msg return updated list", uservals); // Emit uservals including token
           }}
         >
           {(props) => (
