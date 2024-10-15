@@ -22,7 +22,7 @@ export default function ForgotPasswordScreen({ navigation }) {
     const mypasscode = myNumber;
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
-    fetch("http://localhost:8080/settings/generatepasscode", {
+    fetch("https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -109,7 +109,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                 Platform.OS !== "web"
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
-              fetch("http://localhost:8080/settings/forgotpassword", {
+              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword", {
                 method: "POST",
                 credentials: "include",
                 headers: {

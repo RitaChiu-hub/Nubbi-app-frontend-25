@@ -35,7 +35,7 @@ export default function NotificationsScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getnotifications",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotifications",
         {
           method: "POST",
           credentials: "include",
@@ -64,7 +64,7 @@ export default function NotificationsScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getnotificationsread",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsread",
         {
           method: "POST",
           credentials: "include",

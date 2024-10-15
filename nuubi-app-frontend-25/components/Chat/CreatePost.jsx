@@ -233,7 +233,7 @@ export default function CreatePostScreen({ navigation }) {
                         ? await SecureStore.getItemAsync("token")
                         : null; // Get token only on mobile
                     fetch(
-                      `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                       {
                         method: "POST",
                         credentials: "include",
@@ -327,7 +327,7 @@ export default function CreatePostScreen({ navigation }) {
                             ? await SecureStore.getItemAsync("token")
                             : null; // Get token only on mobile
                         fetch(
-                          `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                          `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                           {
                             method: "POST",
                             credentials: "include",
@@ -421,7 +421,7 @@ export default function CreatePostScreen({ navigation }) {
                             ? await SecureStore.getItemAsync("token")
                             : null; // Get token only on mobile
                         fetch(
-                          `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                          `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                           {
                             method: "POST",
                             credentials: "include",
@@ -497,7 +497,7 @@ export default function CreatePostScreen({ navigation }) {
                           : null; // Get token only on mobile
 
                       fetch(
-                        `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                         {
                           method: "POST",
                           credentials: "include",
@@ -566,7 +566,7 @@ export default function CreatePostScreen({ navigation }) {
                           : null; // Get token only on mobile
 
                       fetch(
-                        `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                         {
                           method: "POST",
                           credentials: "include",
@@ -614,7 +614,7 @@ export default function CreatePostScreen({ navigation }) {
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
                 fetch(
-                  `http://localhost:8080/groups/${user.currentGroup}/createpost`,
+                  `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                   {
                     method: "POST",
                     credentials: "include",

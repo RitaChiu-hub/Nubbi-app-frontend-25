@@ -52,7 +52,7 @@ export default function HomeScreen({ navigation }) {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(`http://localhost:8080/auth/checkweblogin`, {
+      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -176,7 +176,7 @@ export default function HomeScreen({ navigation }) {
             : null; // Get token only on mobile
 
         // Send the token to the backend API to save it in the user's table
-        await fetch("http://localhost:8080/settings/savepushtoken", {
+        await fetch("https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -219,7 +219,7 @@ export default function HomeScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getuserpoints`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",

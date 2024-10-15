@@ -818,7 +818,7 @@ const TabNavigator = () => {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getnotificationsunread",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
         {
           method: "POST",
           credentials: "include",
@@ -842,7 +842,7 @@ const TabNavigator = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/settings/getuseravatar",
+        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
         {
           method: "POST",
           credentials: "include",
@@ -1034,7 +1034,7 @@ export default function Views() {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(`http://localhost:8080/auth/checkweblogin`, {
+      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`, {
         method: "POST",
         credentials: "include",
         headers: {

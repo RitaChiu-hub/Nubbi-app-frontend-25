@@ -30,7 +30,7 @@ export default function GroupListScreen({ navigation }) {
   const getGroups = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getpublicgroups",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getpublicgroups",
         {
           credentials: "include",
         }
@@ -79,7 +79,7 @@ export default function GroupListScreen({ navigation }) {
             Platform.OS !== "web"
               ? await SecureStore.getItemAsync("token")
               : null; // Get token only on mobile
-          fetch("http://localhost:8080/groups/joingroup", {
+          fetch("https://coral-app-n96bn.ondigitalocean.app/groups/joingroup", {
             method: "POST",
             credentials: "include",
             headers: {

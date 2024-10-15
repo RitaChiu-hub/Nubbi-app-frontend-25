@@ -36,7 +36,7 @@ export default function MyGroupsScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
 
     try {
-      const response = await fetch(`http://localhost:8080/groups/mygroups`, {
+      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`, {
         method: "POST",
         credentials: "include",
         headers: {
