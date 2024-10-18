@@ -30,13 +30,13 @@ const SECTIONS = [
       },
       {
         label: "Update password",
-        icon: "lock",
+        icon: "key",
         type: "link",
         navRoute: "ChangePasswordScreen",
       },
       {
         label: "Forgot password",
-        icon: "lock",
+        icon: "unlock",
         type: "link",
         navRoute: "ForgotPassword",
       },
@@ -55,13 +55,13 @@ const SECTIONS = [
       },
       {
         label: "Contact us",
-        icon: "envelope",
+        icon: "paper-plane",
         type: "link",
         navRoute: "FeedbackScreen",
       },
       {
         label: "Sign out",
-        icon: "arrow-right-from-bracket",
+        icon: "right-from-bracket",
         color: "#2482AA",
         onPress: (setUser, navigation) => handleSignOut(setUser, navigation),
       },
@@ -181,6 +181,7 @@ export default function SettingsScreen({ navigation }) {
                           <View style={globalStyles.row}>
                             <FeatherIcon
                               color="#616161"
+                              solid
                               name={icon}
                               style={globalStyles.rowIcon}
                               size={22}

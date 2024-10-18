@@ -35,11 +35,6 @@ export default function HomeScreen({ navigation }) {
   const [myUsername, setMyUsername] = React.useState("");
   const [modalTheme, setModalTheme] = React.useState("Finished");
   const route = useRoute();
-  const [showOverlay, setShowOverlay] = useState(false); // For managing Overlay visibility
-
-  const toggleOverlay = () => {
-    setShowOverlay(!showOverlay);
-  };
 
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
