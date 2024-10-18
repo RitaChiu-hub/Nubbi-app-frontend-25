@@ -46,7 +46,7 @@ export default function DeleteGroupScreen({ navigation }) {
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
                 : null; // Get token only on mobile
-            fetch("http://localhost:8080/groups/deletegroup", {
+            fetch("https://coral-app-n96bn.ondigitalocean.app/groups/deletegroup", {
               method: "POST",
               credentials: "include",
               headers: {

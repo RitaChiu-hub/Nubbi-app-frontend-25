@@ -441,7 +441,14 @@ function WebStack() {
 
 const GroupTab = createMaterialTopTabNavigator();
 
-function GroupTabs() {
+function GroupTabs({ navigation, route }) {
+  const { groupName } = route.params;
+
+  React.useEffect(() => {
+    // Set the header title to the group name
+    navigation.setOptions({ title: groupName });
+  }, [groupName, navigation]);
+
   return (
     <GroupTab.Navigator>
       <GroupTab.Screen name="Chats" component={ChatScreen} />
@@ -719,7 +726,6 @@ function MyGroupsStack() {
       />
 
       <StackMyGroups.Screen name="EditGroup" component={EditGroupScreen} />
-      {/* <StackMyGroups.Screen name="Group Chat" component={ChatScreen} /> */}
       <StackMyGroups.Screen name="Group Tabs" component={GroupTabs} />
       <StackMyGroups.Screen
         name="PostScreen"
@@ -837,7 +843,7 @@ const TabNavigator = () => {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getnotificationsunread",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
         {
           method: "POST",
           credentials: "include",
@@ -861,7 +867,7 @@ const TabNavigator = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/settings/getuseravatar",
+        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
         {
           method: "POST",
           credentials: "include",
@@ -1053,7 +1059,7 @@ export default function Views() {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(`http://localhost:8080/auth/checkweblogin`, {
+      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`, {
         method: "POST",
         credentials: "include",
         headers: {

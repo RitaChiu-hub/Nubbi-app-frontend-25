@@ -30,7 +30,7 @@ export default function MyGroupsScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null;
 
     try {
-      const response = await fetch(`http://localhost:8080/groups/mygroups`, {
+      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -66,7 +66,8 @@ export default function MyGroupsScreen({ navigation }) {
             invitePasscode: invitePasscode,
           });
           // navigation.navigate("Group Chat");
-          navigation.navigate("Group Tabs");
+          // navigation.navigate("Group Tabs");
+          navigation.navigate("Group Tabs", { groupName: title });
           if (Platform.OS === "web") {
             sessionStorage.setItem(
               "context",
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
 
 //     try {
 //       const response = await fetch(
-//         `http://localhost:8080/groups/mygroups`,
+//         `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
 //         {
 //           method: "POST",
 //           credentials: "include",

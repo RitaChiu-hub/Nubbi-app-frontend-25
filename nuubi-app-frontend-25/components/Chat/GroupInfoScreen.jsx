@@ -45,7 +45,7 @@ export default function GroupInfoScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getgroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -81,7 +81,7 @@ export default function GroupInfoScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getmembercount`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
         {
           method: "POST",
           credentials: "include",
@@ -104,7 +104,7 @@ export default function GroupInfoScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getleaderboard",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
         {
           method: "POST",
           credentials: "include",

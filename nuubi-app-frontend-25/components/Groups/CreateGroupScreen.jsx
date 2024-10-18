@@ -67,7 +67,7 @@ export default function CreateGroupScreen({ navigation }) {
                 : null; // Get token only on mobile
               actions.resetForm();
               fetch(
-                "http://localhost:8080/groups/creategroup",
+                "https://coral-app-n96bn.ondigitalocean.app/groups/creategroup",
                 {
                   method: "POST",
                   credentials: "include",

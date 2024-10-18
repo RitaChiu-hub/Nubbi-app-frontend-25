@@ -177,8 +177,8 @@ export default function MyGroupTasks({ navigation }) {
   const getGroupTasks = async () => {
     try {
       const response = await fetch(
-        // `http://localhost:8080/groups/mygrouptasks`,
-        `http://localhost:8080/groups/mygrouptasks`,
+        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
         {
           method: "POST",
           credentials: "include",
@@ -198,8 +198,8 @@ export default function MyGroupTasks({ navigation }) {
   const getAllGroupTasks = async () => {
     try {
       const response = await fetch(
-        // `http://localhost:8080/groups/mygrouptasks`,
-        `http://localhost:8080/groups/allgrouptasks`,
+        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/allgrouptasks`,
         {
           method: "POST",
           credentials: "include",
@@ -234,8 +234,8 @@ export default function MyGroupTasks({ navigation }) {
       }));
 
       fetch(
-        //  "http://localhost:8080/groups/createtask",
-        "http://localhost:8080/groups/taskcompleted",
+        //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/taskcompleted",
         {
           method: "POST",
           credentials: "include",
@@ -270,7 +270,7 @@ export default function MyGroupTasks({ navigation }) {
         [taskId]: true,
       }));
 
-      fetch("http://localhost:8080/groups/taskapproved", {
+      fetch("https://coral-app-n96bn.ondigitalocean.app/groups/taskapproved", {
         method: "POST",
         credentials: "include",
         headers: {
