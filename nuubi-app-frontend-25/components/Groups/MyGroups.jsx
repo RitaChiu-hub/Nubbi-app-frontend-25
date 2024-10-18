@@ -119,7 +119,7 @@ export default function MyGroupsScreen({ navigation }) {
           onPress={() => setModalVisible(true)}
         >
           <Text style={globalStyles.primaryButtonText}>
-            Join or Create Group
+            Add New Group
           </Text>
         </TouchableOpacity>
       </View>

@@ -6,11 +6,13 @@ import {
   FlatList,
   Dimensions,
   StyleSheet,
+  Platform,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
 import moment from "moment-timezone";
+import * as SecureStore from "expo-secure-store";
 
 export default function NotificationsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
