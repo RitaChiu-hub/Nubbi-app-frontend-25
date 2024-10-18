@@ -31,11 +31,6 @@ const SECTIONS = [
       },
       { label: "Forgot password", type: "link", navRoute: "ForgotPassword" },
       { label: "Update email", type: "link", navRoute: "comingSoonAlert" },
-      {
-        label: "Update phone number",
-        type: "link",
-        navRoute: "comingSoonAlert",
-      },
       { label: "Delete account", color: "#E70808", navRoute: "DeleteAccount" },
     ],
   },

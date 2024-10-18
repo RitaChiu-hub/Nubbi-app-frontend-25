@@ -300,17 +300,20 @@ export default function ProfilePageScreen({ navigation }) {
                               ? await SecureStore.getItemAsync("token")
                               : null; // Get token only on mobile
 
-                          fetch(`https://coral-app-n96bn.ondigitalocean.app/settings/updateavatar`, {
-                            method: "POST",
-                            credentials: "include",
-                            headers: {
-                              "Content-Type": "application/json",
-                              ...(token
-                                ? { Authorization: `Bearer ${token}` }
-                                : {}),
-                            },
-                            body: JSON.stringify({ ...user, ...vals }),
-                          })
+                          fetch(
+                            `https://coral-app-n96bn.ondigitalocean.app/settings/updateavatar`,
+                            {
+                              method: "POST",
+                              credentials: "include",
+                              headers: {
+                                "Content-Type": "application/json",
+                                ...(token
+                                  ? { Authorization: `Bearer ${token}` }
+                                  : {}),
+                              },
+                              body: JSON.stringify({ ...user, ...vals }),
+                            }
+                          )
                             .catch((err) => {
                               return;
                             })
@@ -342,7 +345,7 @@ export default function ProfilePageScreen({ navigation }) {
                 </View>
               ) : null}
             </View>
-            <View style={globalStyles.rowWrapper}>
+            {/* <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
                 style={globalStyles.row}
                 onPress={() => navigation.navigate("AccountScreen")}
@@ -350,33 +353,32 @@ export default function ProfilePageScreen({ navigation }) {
                 <Text style={globalStyles.headingText}>Account Settings</Text>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
-            </View>
-            <View style={globalStyles.rowWrapper}>
-              <TouchableOpacity
-                style={globalStyles.row}
-                onPress={() => navigation.navigate("Settings")}
-              >
-                <Text style={globalStyles.headingText}>General Settings</Text>
-                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-              </TouchableOpacity>
-            </View>
+            </View> */}
+
             <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
                 style={globalStyles.row}
                 onPress={() => navigation.navigate("OverallAchievements")}
               >
-                <Text style={globalStyles.headingText}>
-                  My Overall Achievements
-                </Text>
+                <Text style={globalStyles.headingText}>My Achievements</Text>
+                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+              </TouchableOpacity>
+            </View>
+            <View style={[globalStyles.rowWrapper]}>
+              <TouchableOpacity
+                style={globalStyles.row}
+                onPress={() => alert("Coming soon!")}
+              >
+                <Text style={globalStyles.headingText}>My Analytics</Text>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>
             <View style={[globalStyles.rowWrapper, globalStyles.rowLast]}>
               <TouchableOpacity
                 style={globalStyles.row}
-                onPress={() => alert("Coming soon!")}
+                onPress={() => navigation.navigate("Settings")}
               >
-                <Text style={globalStyles.headingText}>My Analytics</Text>
+                <Text style={globalStyles.headingText}>My Settings</Text>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>

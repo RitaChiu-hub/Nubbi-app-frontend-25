@@ -35,6 +35,11 @@ export default function HomeScreen({ navigation }) {
   const [myUsername, setMyUsername] = React.useState("");
   const [modalTheme, setModalTheme] = React.useState("Finished");
   const route = useRoute();
+  const [showOverlay, setShowOverlay] = useState(false); // For managing Overlay visibility
+
+  const toggleOverlay = () => {
+    setShowOverlay(!showOverlay);
+  };
 
   const screenHeight = Dimensions.get("window").height;
   const screenWidth = Dimensions.get("window").width;
@@ -52,14 +57,17 @@ export default function HomeScreen({ navigation }) {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -176,14 +184,17 @@ export default function HomeScreen({ navigation }) {
             : null; // Get token only on mobile
 
         // Send the token to the backend API to save it in the user's table
-        await fetch("https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user, pushToken: pushToken }),
-        });
+        await fetch(
+          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ ...user, pushToken: pushToken }),
+          }
+        );
       } catch (error) {
         console.error(error);
       }
@@ -335,6 +346,8 @@ export default function HomeScreen({ navigation }) {
       headerTitleAlign: "center",
     });
   }, [navigation]);
+
+
 
   return (
     <View style={globalStyles.container}>

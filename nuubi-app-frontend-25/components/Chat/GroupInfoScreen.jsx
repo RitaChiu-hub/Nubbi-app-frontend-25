@@ -264,17 +264,7 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => navigation.navigate("GroupAnalytics")}
         >
-          <Text style={globalStyles.headingText}>
-            Group Analytics Dashboard
-          </Text>
-          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => navigation.navigate("MyGroupTasks")}
-        >
-          <Text style={globalStyles.headingText}>My Group Tasks</Text>
+          <Text style={globalStyles.headingText}>Analytics Dashboard</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
 
@@ -295,21 +285,21 @@ export default function GroupInfoScreen({ navigation }) {
             <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
           </TouchableOpacity>
         )}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={globalStyles.row}
           onPress={() => triggerComingSoonAlert()}
         >
           <Text style={globalStyles.headingText}>Community Moderation</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           style={globalStyles.row}
           onPress={() => triggerComingSoonAlert()}
         >
           <Text style={globalStyles.headingText}>Manage Discussions</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           style={globalStyles.row}
           onPress={() => triggerComingSoonAlert()}
         >
@@ -323,14 +313,14 @@ export default function GroupInfoScreen({ navigation }) {
         >
           <Text style={globalStyles.headingText}>Group Images</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           style={globalStyles.row}
           onPress={() => triggerComingSoonAlert()}
         >
           <Text style={globalStyles.headingText}>Community Roles</Text>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={globalStyles.row}
           onPress={() => navigation.navigate("HelpLoggedIn")}

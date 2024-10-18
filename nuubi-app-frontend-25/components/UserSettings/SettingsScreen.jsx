@@ -7,14 +7,13 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import FeatherIcon from "@expo/vector-icons/Feather";
+import FeatherIcon from "@expo/vector-icons/FontAwesome6";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import socket from "../../socket";
 import * as SecureStore from "expo-secure-store";
 import alert from "./../alert";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 
 // Dynamically create setting items
 // The optional attributes for each item: icon, label, type, color, navRoute or onPress
@@ -24,46 +23,53 @@ const SECTIONS = [
     header: "",
     items: [
       {
-        label: "Accessibility",
-        icon: "shield",
+        label: "Update username",
+        icon: "user",
         type: "link",
-        navRoute: "comingSoonAlert",
+        navRoute: "ChangeUsernameScreen",
       },
       {
-        label: "Theme",
-        icon: "sun",
-        type: "link",
-        navRoute: "comingSoonAlert",
-      },
-      {
-        label: "Notifications",
-        icon: "bell",
-        type: "link",
-        navRoute: "NotificationSettings",
-      },
-      {
-        label: "Privacy and Security",
+        label: "Update password",
         icon: "lock",
         type: "link",
+        navRoute: "ChangePasswordScreen",
+      },
+      {
+        label: "Forgot password",
+        icon: "lock",
+        type: "link",
+        navRoute: "ForgotPassword",
+      },
+      {
+        label: "Update email",
+        icon: "envelope",
+        type: "link",
         navRoute: "comingSoonAlert",
       },
-      {
-        label: "Contact Us",
-        icon: "mail",
-        type: "link",
-        navRoute: "FeedbackScreen",
-      },
+
       {
         label: "Help",
-        icon: "help-circle",
+        icon: "circle-question",
         type: "link",
         navRoute: "HelpLoggedIn",
       },
       {
-        label: "Sign Out",
-        icon: "log-out",
+        label: "Contact us",
+        icon: "envelope",
+        type: "link",
+        navRoute: "FeedbackScreen",
+      },
+      {
+        label: "Sign out",
+        icon: "arrow-right-from-bracket",
         color: "#2482AA",
         onPress: (setUser, navigation) => handleSignOut(setUser, navigation),
+      },
+      {
+        label: "Delete account",
+        icon: "trash",
+        color: "#E70808",
+        navRoute: "DeleteAccount",
       },
     ],
   },
@@ -84,10 +90,13 @@ const handleSignOut = async (setUser, navigation) => {
 
 const logoutUser = async (setUser) => {
   try {
-    const response = await fetch("https://coral-app-n96bn.ondigitalocean.app/auth/logout", {
-      method: "POST",
-      credentials: "include", // Include the HttpOnly cookie in the request
-    });
+    const response = await fetch(
+      "https://coral-app-n96bn.ondigitalocean.app/auth/logout",
+      {
+        method: "POST",
+        credentials: "include", // Include the HttpOnly cookie in the request
+      }
+    );
 
     const result = await response.json();
 
@@ -109,7 +118,7 @@ export default function SettingsScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>General Settings</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Settings</Text>
       ),
       headerTitleAlign: "center",
     });

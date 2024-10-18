@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Platform,
 } from "react-native";
 import IconAD from "@expo/vector-icons/AntDesign";
 import { globalStyles } from "../../styles/global";
@@ -141,15 +142,18 @@ export default function ChangeUsernameScreen({ navigation }) {
                 Platform.OS !== "web"
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/updateusername", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-                body: JSON.stringify({ ...user, newusername, passattempt }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/updateusername",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                  },
+                  body: JSON.stringify({ ...user, newusername, passattempt }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
