@@ -55,7 +55,7 @@ export default function ChatScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -78,7 +78,7 @@ export default function ChatScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -114,7 +114,7 @@ export default function ChatScreen({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`, {
+      const response = await fetch(`http://localhost:8080/groupchat/getlikes`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -144,7 +144,7 @@ export default function ChatScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+        "http://localhost:8080/groupchat/getmessages",
         {
           method: "POST",
           credentials: "include",
@@ -166,7 +166,7 @@ export default function ChatScreen({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`, {
+      const response = await fetch(`http://localhost:8080/groups/isadmin`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -408,7 +408,7 @@ export default function ChatScreen({ navigation }) {
                           ? await SecureStore.getItemAsync("token")
                           : null; // Get token only on mobile
 
-                      fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`, {
+                      fetch(`http://localhost:8080/groups/addmessagepoint`, {
                         method: "POST",
                         credentials: "include",
                         headers: {

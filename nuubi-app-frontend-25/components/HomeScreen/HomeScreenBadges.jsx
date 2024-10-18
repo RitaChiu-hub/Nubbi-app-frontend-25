@@ -162,7 +162,7 @@ export default function HomeScreenBadges() {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getwonbadges",
+        "http://localhost:8080/groups/getwonbadges",
         {
           method: "POST",
           credentials: "include",

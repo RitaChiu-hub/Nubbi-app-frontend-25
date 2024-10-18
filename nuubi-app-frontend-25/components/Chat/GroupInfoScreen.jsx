@@ -8,7 +8,6 @@ import {
   SafeAreaView,
   ScrollView,
   Platform,
-  Image,
   Dimensions,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
@@ -17,11 +16,6 @@ import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import alert from "./../alert";
 import * as SecureStore from "expo-secure-store";
-
-const tabs = [
-  { name: "Options", icon: "settings" },
-  { name: "Leaderboard", icon: "award" },
-];
 
 export default function GroupInfoScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -45,106 +39,13 @@ export default function GroupInfoScreen({ navigation }) {
 
   const myIsAdmin = user ? user.isAdmin : false;
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: screenWidth > 500 ? "space-evenly" : "space-evenly",
-            marginTop: 8,
-            width: screenWidth > 500 ? screenWidth : "100%",
-            marginLeft: screenWidth > 500 ? 0 : "-10%",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Group Chat");
-              setSelectedTab("Chat");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Chat" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                Chat
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              setSelectedTab("Group");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Group" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                {groupTitle + ">"}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("PostScreen");
-              setSelectedTab("Posts");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Posts" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                Posts
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation, selectedTab, user]);
 
   const getGroupInfo = async () => {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -180,7 +81,7 @@ export default function GroupInfoScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
+        `http://localhost:8080/groups/getmembercount`,
         {
           method: "POST",
           credentials: "include",
@@ -203,7 +104,7 @@ export default function GroupInfoScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
+        "http://localhost:8080/groups/getleaderboard",
         {
           method: "POST",
           credentials: "include",
@@ -276,51 +177,6 @@ export default function GroupInfoScreen({ navigation }) {
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
 
-        {myIsAdmin == "true" && (
-          <TouchableOpacity
-            style={globalStyles.row}
-            onPress={() => navigation.navigate("CreateTask")}
-          >
-            <Text style={globalStyles.headingText}>Create Task</Text>
-            <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-          </TouchableOpacity>
-        )}
-        {/* <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => triggerComingSoonAlert()}
-        >
-          <Text style={globalStyles.headingText}>Community Moderation</Text>
-          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => triggerComingSoonAlert()}
-        >
-          <Text style={globalStyles.headingText}>Manage Discussions</Text>
-          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => triggerComingSoonAlert()}
-        >
-          <Text style={globalStyles.headingText}>Group Files</Text>
-          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => triggerComingSoonAlert()}
-        >
-          <Text style={globalStyles.headingText}>Group Images</Text>
-          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => triggerComingSoonAlert()}
-        >
-          <Text style={globalStyles.headingText}>Community Roles</Text>
-          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity> */}
         <TouchableOpacity
           style={globalStyles.row}
           onPress={() => navigation.navigate("HelpLoggedIn")}
@@ -411,83 +267,11 @@ export default function GroupInfoScreen({ navigation }) {
     </View>
   );
 
-  const Item = ({ username, is_admin, id, groupTotalPoints, email }) => (
-    <View style={[globalStyles.widthContainer, { paddingHorizontal: 24 }]}>
-      <View style={globalStyles.row}>
-        <Text style={globalStyles.headingText}>{groupTotalPoints}</Text>
-        <Text style={globalStyles.headingText}>{username}</Text>
-        <Text style={globalStyles.headingText}>
-          {is_admin ? "Admin" : "Member"}
-        </Text>
-      </View>
-    </View>
-  );
-
-  const renderItem = ({ item }) => (
-    <Item
-      username={item.username}
-      // email={item.email}
-      is_admin={item.is_admin}
-      id={item.user_id}
-      groupTotalPoints={item.group_total_points}
-    />
-  );
-
-  const renderLeaderboard = () => (
-    <View style={globalStyles.container}>
-      <Text style={[globalStyles.caption, { paddingTop: 12 }]}>
-        {memberCount} members
-      </Text>
-      <FlatList
-        data={members}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.user_id}
-      />
-    </View>
-  );
-
   return (
     <SafeAreaView style={globalStyles.container}>
       <View style={globalStyles.container}>
-        <View style={globalStyles.header}>
-          {/* <Image
-            source={{ uri: "https://via.placeholder.com/140" }}
-            style={[
-              globalStyles.roundImageContainer,
-              { maxWidth: 180, maxHeight: 180 },
-            ]}
-          /> */}
-        </View>
-        <View style={globalStyles.tabs}>
-          {tabs.map((tab, index) => (
-            <TouchableOpacity key={index} onPress={() => handleTabPress(index)}>
-              <View
-                style={[
-                  globalStyles.tab,
-                  index === value && globalStyles.activeTab,
-                ]}
-              >
-                <FeatherIcon
-                  name={tab.icon}
-                  size={18}
-                  style={[
-                    globalStyles.tabIcon,
-                    index === value && globalStyles.activeTabIcon,
-                  ]}
-                />
-                <Text
-                  style={[
-                    globalStyles.h3HeadingRegular,
-                    index === value && globalStyles.activeTabText,
-                  ]}
-                >
-                  {tab.name}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-        {value === 0 ? renderSettings() : renderLeaderboard()}
+        <View style={globalStyles.header}></View>
+        {renderSettings()}
       </View>
     </SafeAreaView>
   );

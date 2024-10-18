@@ -56,8 +56,8 @@ export default function LoginScreen({ navigation }) {
         }}
       >
         <Formik
-          //  initialValues={{ username: "", password: "" }}
-          initialValues={{ username: "Testuser", password: "Testpass!23" }}
+          initialValues={{ username: "", password: "" }}
+          // initialValues={{ username: "Testuser", password: "Testpass!23" }}
           // initialValues={{
           //   username: "TestInstructor",
           //   password: "TestNuubi!23",
@@ -75,9 +75,9 @@ export default function LoginScreen({ navigation }) {
             // Check platform and determine which fetch request to make
             let url = "";
             if (Platform.OS === "web") {
-              url = `https://coral-app-n96bn.ondigitalocean.app/auth/login`; // Web endpoint
+              url = `http://localhost:8080/auth/login`; // Web endpoint
             } else {
-              url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilelogin`; // Mobile endpoint
+              url = `http://localhost:8080/auth/mobilelogin`; // Mobile endpoint
             }
 
             fetch(url, {

@@ -52,7 +52,7 @@ export default function ViewPostScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostliked`,
+        `http://localhost:8080/groups/getpostliked`,
         {
           method: "POST",
           credentials: "include",
@@ -75,7 +75,7 @@ export default function ViewPostScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getcommentlikes`,
+        `http://localhost:8080/groups/getcommentlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -101,7 +101,7 @@ export default function ViewPostScreen({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`, {
+      const response = await fetch(`http://localhost:8080/groups/getpostinfo`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -151,7 +151,7 @@ export default function ViewPostScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostpoints`,
+        `http://localhost:8080/groups/getpostpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -174,7 +174,7 @@ export default function ViewPostScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/posts/${user.currentPost}/getcomments`,
+        `http://localhost:8080/groups/${user.currentGroup}/posts/${user.currentPost}/getcomments`,
         {
           method: "POST",
           credentials: "include",
@@ -197,7 +197,7 @@ export default function ViewPostScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `http://localhost:8080/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -387,7 +387,7 @@ export default function ViewPostScreen({ navigation }) {
                         ? await SecureStore.getItemAsync("token")
                         : null; // Get token only on mobile
 
-                    fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/addpostpoint`, {
+                    fetch(`http://localhost:8080/groups/addpostpoint`, {
                       method: "POST",
                       credentials: "include",
                       headers: {
@@ -586,7 +586,7 @@ export default function ViewPostScreen({ navigation }) {
                             ? await SecureStore.getItemAsync("token")
                             : null; // Get token only on mobile
 
-                        fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/addcommentpoint`, {
+                        fetch(`http://localhost:8080/groups/addcommentpoint`, {
                           method: "POST",
                           credentials: "include",
                           headers: {

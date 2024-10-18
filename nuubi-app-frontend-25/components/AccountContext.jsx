@@ -24,7 +24,7 @@ const UserContext = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // useEffect(() => {
-  //   fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/login`, {
+  //   fetch(`http://localhost:8080/auth/login`, {
   //     credentials: "include",
   //     headers: {
   //       "Content-Type": "application/json",

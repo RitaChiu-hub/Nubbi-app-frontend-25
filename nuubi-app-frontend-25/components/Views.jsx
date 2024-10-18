@@ -3,6 +3,7 @@ import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 
@@ -59,6 +60,7 @@ import GroupAnalytics from "./Chat/GroupAnalytics";
 import DeleteGroupScreen from "./Groups/DeleteGroupScreen";
 import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
 import GroupAchievements from "./Chat/GroupAchievements";
+import GroupLeaderboard from "./Chat/GroupLeaderboard";
 
 import LearnMore1Screen from "./Onboarding/LearnMore1";
 import LearnMore2Screen from "./Onboarding/LearnMore2";
@@ -437,6 +439,21 @@ function WebStack() {
   );
 }
 
+const GroupTab = createMaterialTopTabNavigator();
+
+function GroupTabs() {
+  return (
+    <GroupTab.Navigator>
+      <GroupTab.Screen name="Chats" component={ChatScreen} />
+      <GroupTab.Screen name="Posts" component={PostScreen} />
+      <GroupTab.Screen name="Leaders" component={GroupLeaderboard} />
+      <GroupTab.Screen name="More" component={GroupInfoScreen} />
+
+      {/* add settings and leaderboard pages here when created */}
+    </GroupTab.Navigator>
+  );
+}
+
 const StackSettings = createNativeStackNavigator();
 
 function SettingsStack() {
@@ -702,7 +719,8 @@ function MyGroupsStack() {
       />
 
       <StackMyGroups.Screen name="EditGroup" component={EditGroupScreen} />
-      <StackMyGroups.Screen name="Group Chat" component={ChatScreen} />
+      {/* <StackMyGroups.Screen name="Group Chat" component={ChatScreen} /> */}
+      <StackMyGroups.Screen name="Group Tabs" component={GroupTabs} />
       <StackMyGroups.Screen
         name="PostScreen"
         component={PostScreen}
@@ -739,6 +757,7 @@ function MyGroupsStack() {
       />
       <StackMyGroups.Screen name="AddGroup" component={AddGroupScreen} />
       <StackMyGroups.Screen name="CreateGroup" component={CreateGroupScreen} />
+      <StackMyGroups.Screen name="ViewAllGroups" component={GroupListScreen} />
     </StackMyGroups.Navigator>
   );
 }
@@ -818,7 +837,7 @@ const TabNavigator = () => {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
+        "http://localhost:8080/groups/getnotificationsunread",
         {
           method: "POST",
           credentials: "include",
@@ -842,7 +861,7 @@ const TabNavigator = () => {
 
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+        "http://localhost:8080/settings/getuseravatar",
         {
           method: "POST",
           credentials: "include",
@@ -876,11 +895,11 @@ const TabNavigator = () => {
           let label;
           switch (route.name) {
             case "HomeStack":
-              label = "Feed";
+              label = "Progress";
               break;
-            case "SearchStack":
-              label = "Discover";
-              break;
+            // case "SearchStack":
+            //   label = "Discover";
+            //   break;
             case "MyGroupsStack":
               label = "Groups";
               break;
@@ -901,23 +920,23 @@ const TabNavigator = () => {
             case "HomeStack":
               return (
                 <FontAwesome6
-                  name="house"
+                  name="gauge-high"
                   style={{
                     color: focused ? "#2482AA" : "#767676",
                   }}
                   size={24}
                 />
               );
-            case "SearchStack":
-              return (
-                <FontAwesome6
-                  name="magnifying-glass"
-                  style={{
-                    color: focused ? "#2482AA" : "#767676",
-                  }}
-                  size={24}
-                />
-              );
+            // case "SearchStack":
+            //   return (
+            //     <FontAwesome6
+            //       name="magnifying-glass"
+            //       style={{
+            //         color: focused ? "#2482AA" : "#767676",
+            //       }}
+            //       size={24}
+            //     />
+            //   );
             case "MyGroupsStack":
               return (
                 <FontAwesome6
@@ -989,13 +1008,13 @@ const TabNavigator = () => {
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}
-        options={{ tabBarLabel: "Feed" }}
+        options={{ tabBarLabel: "Progress" }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="SearchStack"
         component={SearchStack}
         options={{ tabBarLabel: "Discover" }}
-      />
+      /> */}
       <Tab.Screen
         name="MyGroupsStack"
         component={MyGroupsStack}
@@ -1034,7 +1053,7 @@ export default function Views() {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`, {
+      const response = await fetch(`http://localhost:8080/auth/checkweblogin`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -1079,7 +1098,7 @@ export default function Views() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {user.loggedIn ? ( //isLoggedIn && user ? (
+      {isLoggedIn ? ( // just isLoggedIn works for web //isLoggedIn && user ? (
         Platform.OS == "web" ? (
           <Stack.Screen name="DrawerTabs" component={WebStack} />
         ) : (

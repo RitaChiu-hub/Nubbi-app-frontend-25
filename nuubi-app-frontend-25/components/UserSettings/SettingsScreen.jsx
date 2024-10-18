@@ -91,7 +91,7 @@ const handleSignOut = async (setUser, navigation) => {
 const logoutUser = async (setUser) => {
   try {
     const response = await fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/auth/logout",
+      "http://localhost:8080/auth/logout",
       {
         method: "POST",
         credentials: "include", // Include the HttpOnly cookie in the request

@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `http://localhost:8080/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -180,7 +180,7 @@ export default function HomeScreen({ navigation }) {
 
         // Send the token to the backend API to save it in the user's table
         await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          "http://localhost:8080/settings/savepushtoken",
           {
             method: "POST",
             headers: {
@@ -225,7 +225,7 @@ export default function HomeScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `http://localhost:8080/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -336,7 +336,7 @@ export default function HomeScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>My Feed</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Progress Dashboard</Text>
       ),
       headerTitleAlign: "center",
     });
