@@ -12,109 +12,109 @@ const badgeData = [
     unwonAsset: require("../../assets/unwonbadges/ComposerBadge.png"),
     title: "Composer",
     description:
-      "Create your first Discussion Post in this Nuubi Group. Points: 10",
+      "Create your first Discussion Post in this group. Points: 10",
   },
-  {
-    asset: require("../../assets/badges/ComposerBadge2.png"),
-    unwonAsset: require("../../assets/unwonbadges/ComposerBadge2.png"),
-    title: "Composer II",
-    description: "Create five discussion posts in this Nuubi Group.",
-  },
-  {
-    asset: require("../../assets/badges/ConversationBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/ConversationBadge.png"),
-    title: "Conversationalist",
-    description: "Send five chats in this Nuubi Group.",
-  },
-  {
-    asset: require("../../assets/badges/IdeaBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/IdeaBadge.png"),
-    title: "Illuminator",
-    description: "Get the most likes on a Discussion post this Nuubi Group.",
-  },
-  {
-    asset: require("../../assets/badges/InvestigatorBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/InvestigatorBadge.png"),
-    title: "Investigator",
-    description:
-      "Commented on five different Discussion Posts in this Nuubi Group.",
-  },
-  {
-    asset: require("../../assets/badges/LighteningBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/LighteningBadge.png"),
-    title: "Lightning",
-    description: "Be the first person to reply to a post in this Nuubi Group.",
-  },
-  {
-    asset: require("../../assets/badges/LightningBadge2.png"),
-    unwonAsset: require("../../assets/unwonbadges/LighteningBadge2.png"),
-    title: "Lightning II",
-    description:
-      "Be the first person to reply to a post in this Nuubi Group five times.",
-  },
-  {
-    asset: require("../../assets/badges/Picture2Badge.png"),
-    unwonAsset: require("../../assets/unwonbadges/Picture2Badge.png"),
-    title: "Photographer",
-    description:
-      "Post a Discussion Post in this Nuubi Group that contains an uploaded image.",
-  },
+  // {
+  //   asset: require("../../assets/badges/ComposerBadge2.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/ComposerBadge2.png"),
+  //   title: "Composer II",
+  //   description: "Create five discussion posts in this Nuubi Group.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/ConversationBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/ConversationBadge.png"),
+  //   title: "Conversationalist",
+  //   description: "Send five chats in this Nuubi Group.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/IdeaBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/IdeaBadge.png"),
+  //   title: "Illuminator",
+  //   description: "Get the most likes on a Discussion post this Nuubi Group.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/InvestigatorBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/InvestigatorBadge.png"),
+  //   title: "Investigator",
+  //   description:
+  //     "Commented on five different Discussion Posts in this Nuubi Group.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/LighteningBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/LighteningBadge.png"),
+  //   title: "Lightning",
+  //   description: "Be the first person to reply to a post in this Nuubi Group.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/LightningBadge2.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/LighteningBadge2.png"),
+  //   title: "Lightning II",
+  //   description:
+  //     "Be the first person to reply to a post in this Nuubi Group five times.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/Picture2Badge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/Picture2Badge.png"),
+  //   title: "Photographer",
+  //   description:
+  //     "Post a Discussion Post in this Nuubi Group that contains an uploaded image.",
+  // },
   {
     asset: require("../../assets/badges/RainBadge.png"),
     unwonAsset: require("../../assets/unwonbadges/RainBadge.png"),
     title: "Ice Breaker",
-    description: "Write your first live chat message in this Nuubi Group.",
+    description: "Write your first live chat message in this group.",
   },
-  {
-    asset: require("../../assets/badges/RocketeerBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/RocketeerBadge.png"),
-    title: "Rocketeer",
-    description:
-      "Most improved leaderboard ranking in the duration of one week.",
-  },
-  {
-    asset: require("../../assets/badges/SageBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/SageBadge.png"),
-    title: "Sage",
-    description: "Receive a point from the admin of this Nuubi Group.",
-  },
-  {
-    asset: require("../../assets/badges/SageBadge2.png"),
-    unwonAsset: require("../../assets/unwonbadges/SageBadge2.png"),
-    title: "Sage II",
-    description: "Receive five points from the admin of this Nuubi Group.",
-  },
-  {
-    asset: require("../../assets/badges/ShieldBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/ShieldBadge.png"),
-    title: "Collector",
-    description: "Earn five badges in this Nuubi Group.",
-  },
+  // {
+  //   asset: require("../../assets/badges/RocketeerBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/RocketeerBadge.png"),
+  //   title: "Rocketeer",
+  //   description:
+  //     "Most improved leaderboard ranking in the duration of one week.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/SageBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/SageBadge.png"),
+  //   title: "Sage",
+  //   description: "Receive a point from the admin of this Nuubi Group.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/SageBadge2.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/SageBadge2.png"),
+  //   title: "Sage II",
+  //   description: "Receive five points from the admin of this Nuubi Group.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/ShieldBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/ShieldBadge.png"),
+  //   title: "Collector",
+  //   description: "Earn five badges in this Nuubi Group.",
+  // },
   {
     asset: require("../../assets/badges/Streakbadge.png"),
     unwonAsset: require("../../assets/unwonbadges/Streakbadge.png"),
     title: "Streak",
-    description: "Log in to this Nuubi Group five days in a row.",
+    description: "Log in to this group five days in a row.",
   },
-  {
-    asset: require("../../assets/badges/Streak2badge.png"),
-    unwonAsset: require("../../assets/unwonbadges/Streak2badge.png"),
-    title: "Streak II",
-    description: "Log in to this Nuubi Group fifteen days in a row.",
-  },
-  {
-    asset: require("../../assets/badges/WinnerBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/WinnerBadge.png"),
-    title: "Winner",
-    description: "Got the top weekly leaderboard position in this Nuubi Group.",
-  },
-  {
-    asset: require("../../assets/badges/leaderboardBadge.png"),
-    unwonAsset: require("../../assets/unwonbadges/leaderboardBadge.png"),
-    title: "Leaderboard Champion",
-    description:
-      "Got the top monthly leaderboard position in this Nuubi Group.",
-  },
+  // {
+  //   asset: require("../../assets/badges/Streak2badge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/Streak2badge.png"),
+  //   title: "Streak II",
+  //   description: "Log in to this Nuubi Group fifteen days in a row.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/WinnerBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/WinnerBadge.png"),
+  //   title: "Winner",
+  //   description: "Got the top weekly leaderboard position in this Nuubi Group.",
+  // },
+  // {
+  //   asset: require("../../assets/badges/leaderboardBadge.png"),
+  //   unwonAsset: require("../../assets/unwonbadges/leaderboardBadge.png"),
+  //   title: "Leaderboard Champion",
+  //   description:
+  //     "Got the top monthly leaderboard position in this Nuubi Group.",
+  // },
 ];
 
 const badgeDataWithIds = badgeData.map((badge, index) => ({
