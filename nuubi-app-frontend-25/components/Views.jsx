@@ -44,7 +44,6 @@ import NotificationSettings from "./UserSettings/NotificationSettings";
 import StudyModeScreen from "./UserSettings/StudyModeScreen";
 
 import AddGroupScreen from "./Groups/AddGroup";
-import LoadingChat from "./Groups/LoadingChat";
 import NotificationsScreen from "./Notifications/Notifications";
 
 import CreateGroupScreen from "./Groups/CreateGroupScreen";
@@ -169,11 +168,6 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="AddGroup"
         component={AddGroupScreen}
-        options={{ drawerItemStyle: { display: "none" } }}
-      />
-      <HomeDrawer.Screen
-        name="Loading Chat"
-        component={LoadingChat}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
@@ -394,12 +388,19 @@ function WebStack() {
 const GroupTab = createMaterialTopTabNavigator();
 
 function GroupTabs({ navigation, route }) {
-  const { groupName } = route.params;
-
+  // const { groupName } = route.params;
+  const { groupName = "Group" } = route.params || {};
   React.useEffect(() => {
-    // Set the header title to the group name
-    navigation.setOptions({ title: groupName });
+    if (groupName) {
+      // Set the header title to the group name
+      navigation.setOptions({ title: groupName });
+    }
   }, [groupName, navigation]);
+
+  // React.useEffect(() => {
+  //   // Set the header title to the group name
+  //   navigation.setOptions({ title: groupName });
+  // }, [groupName, navigation]);
 
   return (
     <GroupTab.Navigator

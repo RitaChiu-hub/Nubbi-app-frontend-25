@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -73,7 +74,8 @@ export default function GroupListScreen({ navigation }) {
         }}
         onPress={async () => {
           setUser({ ...user, currentGroup: id, groupName: title }),
-            navigation.navigate("Group Chat");
+            //  navigation.navigate("Group Chat");
+            navigation.navigate("Group Tabs", { groupName: title });
           const joinGroupId = id;
           const token =
             Platform.OS !== "web"
@@ -153,19 +155,22 @@ export default function GroupListScreen({ navigation }) {
         flex: 1,
         paddingTop: 8,
         backgroundColor: "#fbfbfb",
+        overflow: "hidden",
+        width: "100%",
       }}
     >
-      <View
+      {/* <View
         style={{
           width: "100%",
         }}
-      >
-        <FlatList
-          data={groups}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
+      > */}
+      <FlatList
+        data={groups}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        scrollEnabled={true}
+      />
     </View>
+    // </View>
   );
 }

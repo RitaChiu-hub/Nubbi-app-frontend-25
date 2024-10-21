@@ -139,100 +139,100 @@ export default function PostScreen({ navigation }) {
     />
   );
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: screenWidth > 500 ? "space-evenly" : "space-evenly",
-            marginTop: 8,
-            width: screenWidth > 500 ? screenWidth : "100%",
-            marginLeft: screenWidth > 500 ? 0 : "-10%",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Group Chat");
-              setSelectedTab("Chat");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Chat" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                Chat
-              </Text>
-            </View>
-          </TouchableOpacity>
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerTitle: () => (
+  //       <View
+  //         style={{
+  //           flexDirection: "row",
+  //           alignItems: "center",
+  //           justifyContent: screenWidth > 500 ? "space-evenly" : "space-evenly",
+  //           marginTop: 8,
+  //           width: screenWidth > 500 ? screenWidth : "100%",
+  //           marginLeft: screenWidth > 500 ? 0 : "-10%",
+  //         }}
+  //       >
+  //         <TouchableOpacity
+  //           onPress={() => {
+  //             navigation.navigate("Group Chat");
+  //             setSelectedTab("Chat");
+  //           }}
+  //         >
+  //           <View
+  //             style={[
+  //               globalStyles.topNavTab,
+  //               selectedTab === "Chat" && globalStyles.topNavTabSelected,
+  //             ]}
+  //           >
+  //             <Text
+  //               style={{
+  //                 color: "#fbfbfb",
+  //                 fontSize:
+  //                   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+  //                 fontFamily: "Poppins_600SemiBold",
+  //                 letterSpacing: 0,
+  //               }}
+  //             >
+  //               Chat
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("GroupInfo");
-              setSelectedTab("Group");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Group" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                {groupTitle + ">"}
-              </Text>
-            </View>
-          </TouchableOpacity>
+  //         <TouchableOpacity
+  //           onPress={() => {
+  //             navigation.navigate("GroupInfo");
+  //             setSelectedTab("Group");
+  //           }}
+  //         >
+  //           <View
+  //             style={[
+  //               globalStyles.topNavTab,
+  //               selectedTab === "Group" && globalStyles.topNavTabSelected,
+  //             ]}
+  //           >
+  //             <Text
+  //               style={{
+  //                 color: "#fbfbfb",
+  //                 fontSize:
+  //                   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+  //                 fontFamily: "Poppins_600SemiBold",
+  //                 letterSpacing: 0,
+  //               }}
+  //             >
+  //               {groupTitle + ">"}
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              //  navigation.navigate("PostScreen");
-              setSelectedTab("Posts");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Posts" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                Posts
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation, selectedTab, user]);
+  //         <TouchableOpacity
+  //           onPress={() => {
+  //             //  navigation.navigate("PostScreen");
+  //             setSelectedTab("Posts");
+  //           }}
+  //         >
+  //           <View
+  //             style={[
+  //               globalStyles.topNavTab,
+  //               selectedTab === "Posts" && globalStyles.topNavTabSelected,
+  //             ]}
+  //           >
+  //             <Text
+  //               style={{
+  //                 color: "#fbfbfb",
+  //                 fontSize:
+  //                   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
+  //                 fontFamily: "Poppins_600SemiBold",
+  //                 letterSpacing: 0,
+  //               }}
+  //             >
+  //               Posts
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
+  //       </View>
+  //     ),
+  //   });
+  // }, [navigation, selectedTab, user]);
 
   return (
     <View
