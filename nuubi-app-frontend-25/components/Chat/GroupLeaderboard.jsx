@@ -137,7 +137,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
 
   const renderLeaderboard = () => {
     if (loading) {
-      return <ActivityIndicator size="large" color="#0000ff" />; // Show loading indicator
+      return <ActivityIndicator size="large" color="#2482AA" />; // Show loading indicator
     }
 
     return (

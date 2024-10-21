@@ -97,7 +97,7 @@ function HomeDrawerNavigator() {
           drawerLabel: () => (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <FontAwesome6
-                name="house"
+                name="gauge-high"
                 solid
                 style={{
                   color: "#292929", // Default color, adjust if needed
@@ -112,7 +112,7 @@ function HomeDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                My Feed
+                Progress
               </Text>
             </View>
           ),
@@ -145,7 +145,7 @@ function HomeDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                My Groups
+                Groups
               </Text>
             </View>
           ),
@@ -160,6 +160,12 @@ function HomeDrawerNavigator() {
         component={GroupListScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
+      <HomeDrawer.Screen
+        name="Group Tabs"
+        component={GroupTabs}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+
       <HomeDrawer.Screen
         name="AddGroup"
         component={AddGroupScreen}
@@ -269,7 +275,7 @@ function HomeDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                Activity Center
+                Activity
               </Text>
             </View>
           ),
@@ -302,7 +308,7 @@ function HomeDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                My Profile
+                Profile
               </Text>
             </View>
           ),
@@ -336,34 +342,7 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{
-          drawerLabel: () => (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <FontAwesome6
-                name="gear"
-                style={{
-                  color: "#292929", // Default color, adjust if needed
-                }}
-                size={24}
-              />
-              <Text
-                style={{
-                  fontFamily: "Poppins_500Medium",
-                  marginLeft: 8,
-                  fontSize: 18,
-                  color: "#292929",
-                }}
-              >
-                General Settings
-              </Text>
-            </View>
-          ),
-          drawerLabelStyle: {
-            fontFamily: "Poppins_500Medium",
-          },
-          drawerActiveTintColor: "#2482AA",
-        }}
-        //   options={{ drawerItemStyle: { display: "none" } }}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
         name="AccountScreen"
@@ -374,34 +353,7 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="HelpLoggedIn"
         component={HelpScreen}
-        options={{
-          drawerLabel: () => (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <FontAwesome6
-                name="circle-question"
-                solid
-                style={{
-                  color: "#292929", // Default color, adjust if needed
-                }}
-                size={24}
-              />
-              <Text
-                style={{
-                  fontFamily: "Poppins_500Medium",
-                  marginLeft: 8,
-                  fontSize: 18,
-                  color: "#292929",
-                }}
-              >
-                Help Center
-              </Text>
-            </View>
-          ),
-          drawerLabelStyle: {
-            fontFamily: "Poppins_500Medium",
-          },
-          drawerActiveTintColor: "#2482AA",
-        }}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
 
       <HomeDrawer.Screen
@@ -450,7 +402,19 @@ function GroupTabs({ navigation, route }) {
   }, [groupName, navigation]);
 
   return (
-    <GroupTab.Navigator>
+    <GroupTab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: {
+          fontSize: 14,
+          fontFamily: "Poppins_500Medium",
+          color: "#050505",
+        },
+        tabBarStyle: {
+          backgroundColor: "#fbfbfb",
+        },
+        tabBarIndicatorStyle: { backgroundColor: "#33B7F0", height: 2 },
+      }}
+    >
       <GroupTab.Screen name="Chats" component={ChatScreen} />
       <GroupTab.Screen name="Posts" component={PostScreen} />
       <GroupTab.Screen name="Leaders" component={GroupLeaderboard} />
@@ -709,6 +673,7 @@ function MyGroupsStack() {
         headerBackTitleVisible: false,
         headerStyle: {
           backgroundColor: "#2482AA",
+          tabBarLabelStyle: { fontSize: 12, fontFamily: "Poppins_500Medium" },
         },
         headerTintColor: "#fbfbfb",
       }}
@@ -1059,14 +1024,17 @@ export default function Views() {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
