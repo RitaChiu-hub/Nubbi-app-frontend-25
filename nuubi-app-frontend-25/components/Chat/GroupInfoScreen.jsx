@@ -11,7 +11,7 @@ import {
   Dimensions,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
-import FeatherIcon from "@expo/vector-icons/Feather";
+import FeatherIcon from "@expo/vector-icons/FontAwesome6";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import alert from "./../alert";
@@ -38,7 +38,6 @@ export default function GroupInfoScreen({ navigation }) {
   }, [isFocused]);
 
   const myIsAdmin = user ? user.isAdmin : false;
-
 
   const getGroupInfo = async () => {
     const token =
@@ -165,7 +164,16 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => navigation.navigate("GroupAnalytics")}
         >
-          <Text style={globalStyles.headingText}>Analytics Dashboard</Text>
+          <View style={[globalStyles.row]}>
+            <FeatherIcon
+              color="#616161"
+              solid
+              name="chart-simple"
+              style={globalStyles.rowIcon}
+              size={22}
+            />
+            <Text style={globalStyles.headingTextRows}>Analytics</Text>
+          </View>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
 
@@ -173,7 +181,16 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => navigation.navigate("GroupAchievements")}
         >
-          <Text style={globalStyles.headingText}>My Group Achievements</Text>
+          <View style={[globalStyles.row]}>
+            <FeatherIcon
+              color="#616161"
+              solid
+              name="trophy"
+              style={globalStyles.rowIcon}
+              size={22}
+            />
+            <Text style={globalStyles.headingTextRows}>Achievements</Text>
+          </View>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
 
@@ -181,7 +198,16 @@ export default function GroupInfoScreen({ navigation }) {
           style={globalStyles.row}
           onPress={() => navigation.navigate("HelpLoggedIn")}
         >
-          <Text style={globalStyles.headingText}>Help</Text>
+          <View style={[globalStyles.row]}>
+            <FeatherIcon
+              color="#616161"
+              solid
+              name="circle-question"
+              style={globalStyles.rowIcon}
+              size={22}
+            />
+            <Text style={globalStyles.headingTextRows}>Help</Text>
+          </View>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
         {myIsAdmin == "true" && (
@@ -189,9 +215,20 @@ export default function GroupInfoScreen({ navigation }) {
             style={globalStyles.row}
             onPress={() => setModalVisible(true)}
           >
-            <Text style={[globalStyles.headingText, { color: "#E70808" }]}>
-              Delete Group
-            </Text>
+            <View style={[globalStyles.row]}>
+              <FeatherIcon
+                color="#616161"
+                solid
+                name="trash"
+                style={globalStyles.rowIcon}
+                size={22}
+              />
+              <Text
+                style={[globalStyles.headingTextRows, { color: "#E70808" }]}
+              >
+                Delete Group
+              </Text>
+            </View>
           </TouchableOpacity>
         )}
         {myIsAdmin != "true" && (
@@ -199,9 +236,20 @@ export default function GroupInfoScreen({ navigation }) {
             style={globalStyles.row}
             onPress={() => setModalVisible(true)}
           >
-            <Text style={[globalStyles.headingText, { color: "#E70808" }]}>
-              Leave Group
-            </Text>
+            <View style={[globalStyles.row]}>
+              <FeatherIcon
+                color="#616161"
+                solid
+                name="right-from-bracket"
+                style={globalStyles.rowIcon}
+                size={22}
+              />
+              <Text
+                style={[globalStyles.headingTextRows, { color: "#E70808" }]}
+              >
+                Leave Group
+              </Text>
+            </View>
           </TouchableOpacity>
         )}
         <Modal

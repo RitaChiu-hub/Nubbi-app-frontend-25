@@ -12,7 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import { AccountContext } from "../AccountContext";
 import * as ImageManipulator from "expo-image-manipulator";
 import { useAssets } from "expo-asset";
-import FeatherIcon from "@expo/vector-icons/Feather";
+import FeatherIcon from "@expo/vector-icons/FontAwesome6";
 import * as SecureStore from "expo-secure-store";
 
 const cloudName = "dvvdc9evd";
@@ -204,22 +204,36 @@ export default function ProfilePageScreen({ navigation }) {
                     onPress={resetImage}
                     style={globalStyles.row}
                   >
-                    <Text
-                      style={[globalStyles.headingText, { color: "#2482AA" }]}
-                    >
-                      Cancel Update
-                    </Text>
+                    <View style={[globalStyles.row]}>
+                      <FeatherIcon
+                        color="#616161"
+                        solid
+                        name="user-xmark"
+                        style={globalStyles.rowIcon}
+                        size={22}
+                      />
+                      <Text style={globalStyles.headingTextRows}>
+                        Cancel Update
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
                     onPress={pickImage}
                     style={globalStyles.row}
                   >
-                    <Text
-                      style={[globalStyles.headingText, { color: "#2482AA" }]}
-                    >
-                      Update Avatar
-                    </Text>
+                    <View style={[globalStyles.row]}>
+                      <FeatherIcon
+                        color="#616161"
+                        solid
+                        name="user-pen"
+                        style={globalStyles.rowIcon}
+                        size={22}
+                      />
+                      <Text style={globalStyles.headingTextRows}>
+                        Update Avatar
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                 )}
               </View>
@@ -336,11 +350,18 @@ export default function ProfilePageScreen({ navigation }) {
                         .catch((err) => console.log(err));
                     }}
                   >
-                    <Text
-                      style={[globalStyles.headingText, { color: "#33B7F0" }]}
-                    >
-                      Save Avatar
-                    </Text>
+                    <View style={[globalStyles.row]}>
+                      <FeatherIcon
+                        color="#616161"
+                        solid
+                        name="user-lock"
+                        style={globalStyles.rowIcon}
+                        size={22}
+                      />
+                      <Text style={globalStyles.headingTextRows}>
+                        Save Avatar
+                      </Text>{" "}
+                    </View>
                   </TouchableOpacity>
                 </View>
               ) : null}
@@ -360,7 +381,16 @@ export default function ProfilePageScreen({ navigation }) {
                 style={globalStyles.row}
                 onPress={() => navigation.navigate("OverallAchievements")}
               >
-                <Text style={globalStyles.headingText}>My Achievements</Text>
+                <View style={[globalStyles.row]}>
+                  <FeatherIcon
+                    color="#616161"
+                    solid
+                    name="trophy"
+                    style={globalStyles.rowIcon}
+                    size={22}
+                  />
+                  <Text style={globalStyles.headingTextRows}>Achievements</Text>{" "}
+                </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>
@@ -369,7 +399,16 @@ export default function ProfilePageScreen({ navigation }) {
                 style={globalStyles.row}
                 onPress={() => alert("Coming soon!")}
               >
-                <Text style={globalStyles.headingText}>My Analytics</Text>
+                <View style={[globalStyles.row]}>
+                  <FeatherIcon
+                    color="#616161"
+                    solid
+                    name="chart-simple"
+                    style={globalStyles.rowIcon}
+                    size={22}
+                  />
+                  <Text style={globalStyles.headingTextRows}>Analytics</Text>
+                </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>
@@ -378,7 +417,16 @@ export default function ProfilePageScreen({ navigation }) {
                 style={globalStyles.row}
                 onPress={() => navigation.navigate("Settings")}
               >
-                <Text style={globalStyles.headingText}>My Settings</Text>
+                <View style={[globalStyles.row]}>
+                  <FeatherIcon
+                    color="#616161"
+                    solid
+                    name="gear"
+                    style={globalStyles.rowIcon}
+                    size={22}
+                  />
+                  <Text style={globalStyles.headingTextRows}>Settings</Text>{" "}
+                </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>

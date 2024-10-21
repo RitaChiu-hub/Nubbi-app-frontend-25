@@ -30,15 +30,18 @@ export default function MyGroupsScreen({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null;
 
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
       const jsonData = await response.json();
       setGroups(jsonData);
     } catch (err) {
@@ -118,9 +121,7 @@ export default function MyGroupsScreen({ navigation }) {
           style={globalStyles.primaryButton}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={globalStyles.primaryButtonText}>
-            Add New Group
-          </Text>
+          <Text style={globalStyles.primaryButtonText}>Add New Group</Text>
         </TouchableOpacity>
       </View>
 
@@ -205,7 +206,7 @@ export default function MyGroupsScreen({ navigation }) {
             <TouchableOpacity
               style={[
                 globalStyles.modalButton,
-                { backgroundColor: "#f00", width: "100%", minWidth: 240 },
+                { backgroundColor: "#E70808", width: "100%", minWidth: 240 },
               ]}
               onPress={() => setModalVisible(false)}
             >
