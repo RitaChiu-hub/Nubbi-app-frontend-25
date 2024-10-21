@@ -201,7 +201,12 @@ export default function HomeScreenBadges() {
     return (
       <View
         style={{
-          marginHorizontal: 15,
+          flexDirection: "row",
+          height: "100%",
+          width: screenWidth * 0.3,
+          marginHorizontal: "5%",
+          alignItems: "center",
+          justifyContent: "center",
         }}
         key={item.id}
       >
