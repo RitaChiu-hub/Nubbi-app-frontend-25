@@ -25,19 +25,41 @@ export default function GroupInfoScreen({ navigation }) {
   const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [members, setMembers] = React.useState([user.members]);
   const [invitePasscode, setInvitePasscode] = React.useState(user.inviteCode);
-  const [selectedTab, setSelectedTab] = React.useState("Group");
+  const [isAdmin, setIsAdmin] = React.useState(user.isAdmin);
   const screenWidth = Dimensions.get("window").width;
   const isFocused = useIsFocused();
 
+  const getIsAdmin = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+    try {
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
+        }
+      );
+      const jsonData = await response.json();
+      setUser(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   React.useEffect(() => {
+    getIsAdmin();
+    setIsAdmin(user.isAdmin);
     getGroupInfo();
     getMembers();
     getMemberCount();
     setInvitePasscode(user.invitePasscode);
-    setSelectedTab("Group");
   }, [isFocused]);
-
-  const myIsAdmin = user ? user.isAdmin : false;
 
   const getGroupInfo = async () => {
     const token =
@@ -121,6 +143,44 @@ export default function GroupInfoScreen({ navigation }) {
     }
   };
 
+  const leaveGroup = async () => {
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+    try {
+      const response = await fetch(
+        "https://coral-app-n96bn.ondigitalocean.app/groups/leavegroup",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+
+      if (!response || !response.ok || response.status >= 400) {
+        return; // Handle error appropriately
+      }
+
+      const data = await response.json();
+      if (!data) return;
+
+      setUser({ ...data });
+
+      if (data.status) {
+        setError(data.status);
+        if (data.status === "Success") {
+          navigation.navigate("Home");
+        }
+      }
+    } catch (err) {
+      // Handle fetch errors
+      console.error("Error leaving group:", err);
+    }
+  };
+
   const handleTabPress = (index) => {
     setValue(index);
   };
@@ -133,31 +193,10 @@ export default function GroupInfoScreen({ navigation }) {
   const renderSettings = () => (
     <ScrollView>
       <View style={[globalStyles.widthContainer, { paddingHorizontal: 24 }]}>
-        {myIsAdmin == "true" && (
-          <TouchableOpacity
-            style={globalStyles.row}
-            onPress={() => navigation.navigate("EditGroup")}
-          >
-            <Text style={globalStyles.headingText}>Edit Group</Text>
-            <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => alert("Copied to Clipboard!")}
-        >
+        <TouchableOpacity style={globalStyles.row}>
           <Text style={globalStyles.headingText}>
-            Invitation Passcode:{" "}
-            <Text
-              style={[
-                globalStyles.textInputLabel,
-                { fontWeight: "bold", color: "#242424" },
-              ]}
-            >
-              {invitePasscode}
-            </Text>
+            {user.visibilitySetting} Invitation Passcode: {invitePasscode}
           </Text>
-          <FeatherIcon name="copy" color="#242424" size={20} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -210,7 +249,25 @@ export default function GroupInfoScreen({ navigation }) {
           </View>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
-        {myIsAdmin == "true" && (
+        {isAdmin == "true" && (
+          <TouchableOpacity
+            style={globalStyles.row}
+            onPress={() => navigation.navigate("EditGroup")}
+          >
+            <View style={[globalStyles.row]}>
+              <FeatherIcon
+                color="#616161"
+                solid
+                name="pen-to-square"
+                style={globalStyles.rowIcon}
+                size={22}
+              />
+              <Text style={globalStyles.headingTextRows}>Edit Group</Text>
+            </View>
+            <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+          </TouchableOpacity>
+        )}
+        {isAdmin == "true" && (
           <TouchableOpacity
             style={globalStyles.row}
             onPress={() => setModalVisible(true)}
@@ -231,7 +288,7 @@ export default function GroupInfoScreen({ navigation }) {
             </View>
           </TouchableOpacity>
         )}
-        {myIsAdmin != "true" && (
+        {isAdmin != "true" && (
           <TouchableOpacity
             style={globalStyles.row}
             onPress={() => setModalVisible(true)}
@@ -261,8 +318,9 @@ export default function GroupInfoScreen({ navigation }) {
           <View style={globalStyles.centeredView}>
             <View style={globalStyles.modalView}>
               <Text style={globalStyles.modalText}>
-                Are you sure you want to PERMANENTLY delete this group? This
-                action cannot be undone.
+                {isAdmin
+                  ? "Are you sure you want to PERMANENTLY delete this group? This action cannot be undone."
+                  : "Are you sure you want to leave this group?"}
               </Text>
               <View style={globalStyles.modalButtons}>
                 <TouchableOpacity
@@ -278,15 +336,19 @@ export default function GroupInfoScreen({ navigation }) {
                 <TouchableOpacity
                   style={[
                     globalStyles.modalButton,
-                    { backgroundColor: "#E70808" },
+                    { backgroundColor: isAdmin ? "#E70808" : "#2482AA" },
                   ]}
-                  onPress={() => {
+                  onPress={async () => {
                     setModalVisible(false);
-                    navigation.navigate("DeleteGroup");
+                    if (isAdmin) {
+                      navigation.navigate("DeleteGroup");
+                    } else {
+                      await leaveGroup();
+                    }
                   }}
                 >
                   <Text style={globalStyles.primaryButtonText}>
-                    Delete Group
+                    {isAdmin ? "Delete Group" : "Leave Group"}
                   </Text>
                 </TouchableOpacity>
               </View>

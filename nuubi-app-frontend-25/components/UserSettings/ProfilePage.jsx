@@ -360,7 +360,7 @@ export default function ProfilePageScreen({ navigation }) {
                       />
                       <Text style={globalStyles.headingTextRows}>
                         Save Avatar
-                      </Text>{" "}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -389,7 +389,7 @@ export default function ProfilePageScreen({ navigation }) {
                     style={globalStyles.rowIcon}
                     size={22}
                   />
-                  <Text style={globalStyles.headingTextRows}>Achievements</Text>{" "}
+                  <Text style={globalStyles.headingTextRows}>Achievements</Text>
                 </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
@@ -425,7 +425,7 @@ export default function ProfilePageScreen({ navigation }) {
                     style={globalStyles.rowIcon}
                     size={22}
                   />
-                  <Text style={globalStyles.headingTextRows}>Settings</Text>{" "}
+                  <Text style={globalStyles.headingTextRows}>Settings</Text>
                 </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>

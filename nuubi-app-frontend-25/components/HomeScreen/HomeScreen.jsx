@@ -346,7 +346,7 @@ export default function HomeScreen({ navigation }) {
     <View style={globalStyles.container}>
       {forYouScreen ? (
         <ScrollView ref={scrollViewRef}>
-          <View
+          {/* <View
             style={{
               height: screenHeight * 0.28,
               minHeight: 200,
@@ -359,10 +359,11 @@ export default function HomeScreen({ navigation }) {
             }}
           >
             <HomeScreenTasks />
-          </View>
+          </View> */}
           <View
             style={{
-              height: screenHeight * 0.29,
+              //  height: screenHeight * 0.29,
+              height: screenHeight * 0.4,
               minHeight: 200,
               opacity: onboardingState == 4 || onboardingState == 6 ? 1 : 1,
               backgroundColor:
@@ -376,7 +377,8 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View
             style={{
-              height: screenHeight * 0.24,
+              //  height: screenHeight * 0.24,
+              height: screenHeight * 0.35,
               minHeight: 180,
               opacity: onboardingState == 5 || onboardingState == 6 ? 1 : 1,
               backgroundColor:
