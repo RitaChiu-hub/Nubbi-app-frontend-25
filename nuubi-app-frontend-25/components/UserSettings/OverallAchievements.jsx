@@ -76,7 +76,7 @@ const badgeData = [
     asset: require("../../assets/badges/RainBadge.png"),
     unwonAsset: require("../../assets/unwonbadges/RainBadge.png"),
     title: "Ice Breaker",
-    description: "Write your first live chat message in a group.",
+    description: "Write your first live chat message in a group. Coming Soon!",
   },
   // {
   //   asset: require("../../assets/badges/RocketeerBadge.png"),
@@ -107,7 +107,7 @@ const badgeData = [
     asset: require("../../assets/badges/Streakbadge.png"),
     unwonAsset: require("../../assets/unwonbadges/Streakbadge.png"),
     title: "Streak",
-    description: "Log in to a group five days in a row.",
+    description: "Log in to a group five days in a row. Coming Soon!",
   },
   // {
   //   asset: require("../../assets/badges/Streak2badge.png"),
