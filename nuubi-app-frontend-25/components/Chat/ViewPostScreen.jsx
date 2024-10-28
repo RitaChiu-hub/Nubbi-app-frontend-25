@@ -26,7 +26,7 @@ import { useIsFocused } from "@react-navigation/native";
 
 export default function ViewPostScreen({ navigation, route }) {
   const { user, setUser } = React.useContext(AccountContext);
-  const { currentPost = 0 } = route.params || 0;
+  // setUser({ ...user, currentPost: route.params });
   const [comments, setComments] = React.useState([]);
   const [postPoints, setPostPoints] = React.useState(0);
   const [postInfo, setPostInfo] = React.useState({
@@ -103,15 +103,18 @@ export default function ViewPostScreen({ navigation, route }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
       const jsonData = await response.json();
       setPostInfo(jsonData);
       if (jsonData.file_url !== null) {
@@ -174,9 +177,10 @@ export default function ViewPostScreen({ navigation, route }) {
   const getComments = async () => {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+    const vals = { ...user, currentPost: route.params.currentPost };
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/posts/${user.currentPost}/getcomments`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostcomments`,
         {
           method: "POST",
           credentials: "include",
@@ -184,7 +188,7 @@ export default function ViewPostScreen({ navigation, route }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify({ ...user }),
+          body: JSON.stringify(vals),
         }
       );
       const jsonData = await response.json();
@@ -224,7 +228,7 @@ export default function ViewPostScreen({ navigation, route }) {
     getLikes();
     getPostLiked();
     getUserPoints();
-  }, [user, isFocused]);
+  }, [isFocused]);
 
   const isAuthor = myUsername === user.post_author ? true : false;
 
@@ -389,17 +393,22 @@ export default function ViewPostScreen({ navigation, route }) {
                         ? await SecureStore.getItemAsync("token")
                         : null; // Get token only on mobile
 
-                    fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/addpostpoint`, {
-                      method: "POST",
-                      credentials: "include",
-                      headers: {
-                        "Content-Type": "application/json",
-                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                      },
-                      body: JSON.stringify({
-                        ...user,
-                      }),
-                    });
+                    fetch(
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/addpostpoint`,
+                      {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                          "Content-Type": "application/json",
+                          ...(token
+                            ? { Authorization: `Bearer ${token}` }
+                            : {}),
+                        },
+                        body: JSON.stringify({
+                          ...user,
+                        }),
+                      }
+                    );
                   }}
                 >
                   <Text
@@ -588,20 +597,23 @@ export default function ViewPostScreen({ navigation, route }) {
                             ? await SecureStore.getItemAsync("token")
                             : null; // Get token only on mobile
 
-                        fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/addcommentpoint`, {
-                          method: "POST",
-                          credentials: "include",
-                          headers: {
-                            "Content-Type": "application/json",
-                            ...(token
-                              ? { Authorization: `Bearer ${token}` }
-                              : {}),
-                          },
-                          body: JSON.stringify({
-                            ...user,
-                            comment_id: comments.post_comment_id,
-                          }),
-                        });
+                        fetch(
+                          `https://coral-app-n96bn.ondigitalocean.app/groups/addcommentpoint`,
+                          {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                              "Content-Type": "application/json",
+                              ...(token
+                                ? { Authorization: `Bearer ${token}` }
+                                : {}),
+                            },
+                            body: JSON.stringify({
+                              ...user,
+                              comment_id: comments.post_comment_id,
+                            }),
+                          }
+                        );
                       }}
                     >
                       <Text
