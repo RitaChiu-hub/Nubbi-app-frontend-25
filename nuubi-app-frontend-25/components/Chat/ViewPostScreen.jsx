@@ -176,11 +176,12 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const getComments = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null;
     const vals = { ...user, currentPost: route.params.currentPost };
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getpostcomments`,
+        //  `http://localhost:8080/groups/getpostcomments`,
         {
           method: "POST",
           credentials: "include",
@@ -188,7 +189,7 @@ export default function ViewPostScreen({ navigation, route }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify(vals),
+          body: JSON.stringify({ ...vals }),
         }
       );
       const jsonData = await response.json();
