@@ -15,7 +15,7 @@ import * as SecureStore from "expo-secure-store";
 export default function GroupAnalytics({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [members, setMembers] = React.useState([]);
-  const [groupTitle, setGroupTitle] = React.useState(user.groupName);
+ // const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const isFocused = useIsFocused();
   const screenWidth = Dimensions.get("window").width;
 
@@ -50,7 +50,7 @@ export default function GroupAnalytics({ navigation }) {
           groupDescription: groupInfo.description,
           visibility: visibilitySetting,
         });
-        setGroupTitle(jsonData.groupname);
+      //  setGroupTitle(jsonData.groupname);
       } catch (err) {
         console.error(err.message);
       }

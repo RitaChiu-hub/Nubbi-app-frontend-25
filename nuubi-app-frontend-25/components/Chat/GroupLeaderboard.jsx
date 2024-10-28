@@ -17,7 +17,7 @@ import * as SecureStore from "expo-secure-store";
 export default function GroupLeaderboardScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [memberCount, setMemberCount] = useState(0);
-  const [groupTitle, setGroupTitle] = useState(user.groupName);
+  // const [groupTitle, setGroupTitle] = useState(user.groupName);
   const [members, setMembers] = useState([]); // Initialize as empty array
   const [loading, setLoading] = useState(true); // Add loading state
   const [selectedTab, setSelectedTab] = useState("Group");
@@ -60,7 +60,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
         groupDescription: groupInfo.description,
         visibility: visibilitySetting,
       });
-      setGroupTitle(jsonData.groupname);
+      // setGroupTitle(jsonData.groupname);
     } catch (err) {
       console.error(err.message);
     }

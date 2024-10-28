@@ -22,10 +22,11 @@ import FeatherIcon from "@expo/vector-icons/Feather";
 import alert from "./../alert";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import * as SecureStore from "expo-secure-store";
+import { useIsFocused } from "@react-navigation/native";
 
-export default function ViewPostScreen({ navigation }) {
+export default function ViewPostScreen({ navigation, route }) {
   const { user, setUser } = React.useContext(AccountContext);
-  const [error, setError] = React.useState(null);
+  const { currentPost = 0 } = route.params || 0;
   const [comments, setComments] = React.useState([]);
   const [postPoints, setPostPoints] = React.useState(0);
   const [postInfo, setPostInfo] = React.useState({
@@ -44,6 +45,7 @@ export default function ViewPostScreen({ navigation }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [previewUrls, setPreviewUrls] = React.useState([]);
   const [myUsername, setMyUsername] = React.useState("");
+  const isFocused = useIsFocused();
 
   const deviceWidth = Dimensions.get("window").width;
 
@@ -222,7 +224,7 @@ export default function ViewPostScreen({ navigation }) {
     getLikes();
     getPostLiked();
     getUserPoints();
-  }, [user]);
+  }, [user, isFocused]);
 
   const isAuthor = myUsername === user.post_author ? true : false;
 
@@ -653,7 +655,7 @@ export default function ViewPostScreen({ navigation }) {
             const token =
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
-                : null; // Get token only on mobile
+                : null;
             const uservals = { ...user, ...values, token };
             actions.resetForm();
             socket.emit("insert comment return updated list", uservals);

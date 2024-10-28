@@ -13,7 +13,6 @@ import {
   StyleSheet,
   View,
   Text,
-  ActivityIndicator,
 } from "react-native";
 import { useAssets } from "expo-asset";
 
@@ -203,7 +202,6 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="Group Chat"
         component={ChatScreen}
-        //  options={{ drawerLabel: () => null }}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
@@ -235,7 +233,6 @@ function HomeDrawerNavigator() {
         name="GroupAnalytics"
         component={GroupAnalytics}
         options={{ drawerItemStyle: { display: "none" } }}
-        //   options={{ animation: "none" }}
       />
       <HomeDrawer.Screen
         name="DeleteGroup"
@@ -378,9 +375,6 @@ function WebStack() {
       screenOptions={{ headerShown: false }}
     >
       <StackWeb.Screen name="Home Page" component={HomeDrawerNavigator} />
-      {/* <StackWeb.Screen name="ProfilePage" component={ProfilePageScreen} />
-      <StackWeb.Screen name="Settings" component={SettingsScreen} />
-      <StackWeb.Screen name="ForgotPassword" component={ForgotPasswordScreen} /> */}
     </StackWeb.Navigator>
   );
 }
@@ -388,19 +382,20 @@ function WebStack() {
 const GroupTab = createMaterialTopTabNavigator();
 
 function GroupTabs({ navigation, route }) {
-  // const { groupName } = route.params;
   const { groupName = "Group" } = route.params || {};
   React.useEffect(() => {
     if (groupName) {
-      // Set the header title to the group name
       navigation.setOptions({ title: groupName });
     }
   }, [groupName, navigation]);
 
-  // React.useEffect(() => {
-  //   // Set the header title to the group name
-  //   navigation.setOptions({ title: groupName });
-  // }, [groupName, navigation]);
+  const { currentPost = 1 } = route.params || {};
+
+  React.useEffect(() => {
+    if (currentPost) {
+      navigation.setOptions({ currentPost: 1 });
+    }
+  }, [currentPost, navigation]);
 
   return (
     <GroupTab.Navigator
@@ -688,7 +683,6 @@ function MyGroupsStack() {
             backgroundColor: "#2482AA",
           },
         }}
-        //    options={{ title: "My Groups" }}
       />
 
       <StackMyGroups.Screen name="EditGroup" component={EditGroupScreen} />
@@ -760,10 +754,8 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   const [notifications, setNotifications] = React.useState(false);
-  // const { user } = useContext(AccountContext);
   const { user, setUser } = React.useContext(AccountContext);
   const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
-  //const isLoggedIn = user.token != null && user.token != "undefined";
   const [avatarInfo, setAvatarInfo] = React.useState(null);
 
   // getLoginStatus and user data when the app loads

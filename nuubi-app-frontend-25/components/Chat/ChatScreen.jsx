@@ -25,20 +25,17 @@ export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [chats, setChats] = React.useState([]);
 
-  //const [groupTitle, setGroupTitle] = React.useState(user.groupName);
-  // const context = sessionStorage.getItem('context');
+  // let context = null;
 
-  let context = null;
+  // if (Platform.OS === "web") {
+  //   context = sessionStorage.getItem("context");
+  // }
 
-  if (Platform.OS === "web") {
-    context = sessionStorage.getItem("context");
-  }
-
-  const [groupTitle, setGroupTitle] = React.useState(
-    Platform.OS === "web"
-      ? JSON.parse(sessionStorage.getItem("context")).groupName
-      : user.groupName
-  );
+  // const [groupTitle, setGroupTitle] = React.useState(
+  //   Platform.OS === "web"
+  //     ? JSON.parse(sessionStorage.getItem("context")).groupName
+  //     : user.groupName
+  // );
 
   const [adminId, setAdminId] = React.useState(null);
   const isFocused = useIsFocused();
@@ -67,7 +64,7 @@ export default function ChatScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      setGroupTitle(jsonData.groupname);
+      // setGroupTitle(jsonData.groupname);
     } catch (err) {
       console.error(err.message);
     }
@@ -104,7 +101,7 @@ export default function ChatScreen({ navigation }) {
         groupDescription: groupInfo.description,
         visibility: visibilitySetting,
       });
-      setGroupTitle(jsonData.groupname);
+   //   setGroupTitle(jsonData.groupname);
     } catch (err) {
       console.error(err.message);
     }
@@ -114,15 +111,19 @@ export default function ChatScreen({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          //    body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
+          body: JSON.stringify({ ...user }),
+        }
+      );
       const jsonData = await response.json();
       const myLikes =
         jsonData.length > 0
@@ -166,17 +167,19 @@ export default function ChatScreen({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
-      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        //  body: JSON.stringify({ ...user }),
-        //  body: context,
-        body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
-      });
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          //  body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
+          body: JSON.stringify({ ...user }),
+        }
+      );
       const jsonData = await response.json();
       setUser(jsonData);
     } catch (err) {
@@ -198,141 +201,6 @@ export default function ChatScreen({ navigation }) {
       getChats();
     });
   }, [chats]);
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: screenWidth > 500 ? "space-evenly" : "space-evenly",
-            marginTop: 8,
-            width: screenWidth > 500 ? screenWidth : "100%",
-            marginLeft: screenWidth > 500 ? 0 : "-10%",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              // navigation.navigate("Group Chat");
-              setSelectedTab("Chat");
-            }}
-          >
-            <View
-              style={[
-                {
-                  borderBottomWidth: 0,
-                  borderColor: "transparent",
-                  marginBottom: 12,
-                },
-                selectedTab === "Chat" && {
-                  borderBottomWidth: 2,
-                  borderColor: "#fbfbfb",
-                },
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    //   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                    // (JSON.parse(context).groupName.length >= 12) & (screenWidth < 500) ? 14  : 18,
-                    Platform.OS === "web"
-                      ? JSON.parse(context).groupName.length >= 12 &&
-                        screenWidth < 500
-                        ? 14
-                        : 18
-                      : groupTitle.length >= 12 && screenWidth < 500
-                      ? 14
-                      : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                Chat
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("GroupInfo");
-              setSelectedTab("Group");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Group" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    //   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                    // (JSON.parse(context).groupName.length >= 12) &
-                    // (screenWidth < 500)
-                    //   ? 14
-                    //   : 18,
-                    Platform.OS === "web"
-                      ? JSON.parse(context).groupName.length >= 12 &&
-                        screenWidth < 500
-                        ? 14
-                        : 18
-                      : groupTitle.length >= 12 && screenWidth < 500
-                      ? 14
-                      : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                {groupTitle + ">"}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("PostScreen");
-              setSelectedTab("Posts");
-            }}
-          >
-            <View
-              style={[
-                globalStyles.topNavTab,
-                selectedTab === "Posts" && globalStyles.topNavTabSelected,
-              ]}
-            >
-              <Text
-                style={{
-                  color: "#fbfbfb",
-                  fontSize:
-                    //    groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-                    // (JSON.parse(context).groupName.length >= 12) &
-                    // (screenWidth < 500)
-                    //   ? 14
-                    //   : 18,
-                    Platform.OS === "web"
-                      ? JSON.parse(context).groupName.length >= 12 &&
-                        screenWidth < 500
-                        ? 14
-                        : 18
-                      : groupTitle.length >= 12 && screenWidth < 500
-                      ? 14
-                      : 18,
-                  fontFamily: "Poppins_600SemiBold",
-                  letterSpacing: 0,
-                }}
-              >
-                Posts
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      ),
-    });
-  }, [navigation, selectedTab, user]);
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
@@ -408,20 +276,23 @@ export default function ChatScreen({ navigation }) {
                           ? await SecureStore.getItemAsync("token")
                           : null; // Get token only on mobile
 
-                      fetch(`https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`, {
-                        method: "POST",
-                        credentials: "include",
-                        headers: {
-                          "Content-Type": "application/json",
-                          ...(token
-                            ? { Authorization: `Bearer ${token}` }
-                            : {}),
-                        },
-                        body: JSON.stringify({
-                          ...user,
-                          message_id: chats.messages_id,
-                        }),
-                      });
+                      fetch(
+                        `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+                        {
+                          method: "POST",
+                          credentials: "include",
+                          headers: {
+                            "Content-Type": "application/json",
+                            ...(token
+                              ? { Authorization: `Bearer ${token}` }
+                              : {}),
+                          },
+                          body: JSON.stringify({
+                            ...user,
+                            message_id: chats.messages_id,
+                          }),
+                        }
+                      );
                     }}
                   >
                     <Text

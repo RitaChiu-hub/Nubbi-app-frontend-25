@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Dimensions,
-  Platform,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Platform } from "react-native";
 import { globalStyles } from "../../styles/global";
 const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
@@ -16,14 +9,8 @@ import * as SecureStore from "expo-secure-store";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
-  const [error, setError] = React.useState(null);
   const [posts, setPosts] = React.useState([]);
   const isFocused = useIsFocused();
-  const [selectedTab, setSelectedTab] = React.useState("Posts");
-  const screenWidth = Dimensions.get("window").width;
-  const deviceWidth = Dimensions.get("window").width;
-
-  const groupTitle = user.groupName;
 
   const getPosts = async () => {
     const token =
@@ -51,7 +38,6 @@ export default function PostScreen({ navigation }) {
 
   React.useEffect(() => {
     getPosts();
-    setSelectedTab("Posts");
   }, [isFocused]);
 
   const Item = ({
@@ -96,7 +82,8 @@ export default function PostScreen({ navigation }) {
             isoTimeSent: isoTimeSent,
             number_comments: number_comments,
           }),
-            navigation.navigate("ViewPost");
+            //   console.log("Current post title is: " + title);
+            navigation.navigate("ViewPost", { currentPost: id });
         }}
       >
         <View style={{ paddingHorizontal: 1 }}>
@@ -138,101 +125,6 @@ export default function PostScreen({ navigation }) {
       number_comments={item.number_comments}
     />
   );
-
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerTitle: () => (
-  //       <View
-  //         style={{
-  //           flexDirection: "row",
-  //           alignItems: "center",
-  //           justifyContent: screenWidth > 500 ? "space-evenly" : "space-evenly",
-  //           marginTop: 8,
-  //           width: screenWidth > 500 ? screenWidth : "100%",
-  //           marginLeft: screenWidth > 500 ? 0 : "-10%",
-  //         }}
-  //       >
-  //         <TouchableOpacity
-  //           onPress={() => {
-  //             navigation.navigate("Group Chat");
-  //             setSelectedTab("Chat");
-  //           }}
-  //         >
-  //           <View
-  //             style={[
-  //               globalStyles.topNavTab,
-  //               selectedTab === "Chat" && globalStyles.topNavTabSelected,
-  //             ]}
-  //           >
-  //             <Text
-  //               style={{
-  //                 color: "#fbfbfb",
-  //                 fontSize:
-  //                   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-  //                 fontFamily: "Poppins_600SemiBold",
-  //                 letterSpacing: 0,
-  //               }}
-  //             >
-  //               Chat
-  //             </Text>
-  //           </View>
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity
-  //           onPress={() => {
-  //             navigation.navigate("GroupInfo");
-  //             setSelectedTab("Group");
-  //           }}
-  //         >
-  //           <View
-  //             style={[
-  //               globalStyles.topNavTab,
-  //               selectedTab === "Group" && globalStyles.topNavTabSelected,
-  //             ]}
-  //           >
-  //             <Text
-  //               style={{
-  //                 color: "#fbfbfb",
-  //                 fontSize:
-  //                   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-  //                 fontFamily: "Poppins_600SemiBold",
-  //                 letterSpacing: 0,
-  //               }}
-  //             >
-  //               {groupTitle + ">"}
-  //             </Text>
-  //           </View>
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity
-  //           onPress={() => {
-  //             //  navigation.navigate("PostScreen");
-  //             setSelectedTab("Posts");
-  //           }}
-  //         >
-  //           <View
-  //             style={[
-  //               globalStyles.topNavTab,
-  //               selectedTab === "Posts" && globalStyles.topNavTabSelected,
-  //             ]}
-  //           >
-  //             <Text
-  //               style={{
-  //                 color: "#fbfbfb",
-  //                 fontSize:
-  //                   groupTitle.length >= 12 && screenWidth < 500 ? 14 : 18,
-  //                 fontFamily: "Poppins_600SemiBold",
-  //                 letterSpacing: 0,
-  //               }}
-  //             >
-  //               Posts
-  //             </Text>
-  //           </View>
-  //         </TouchableOpacity>
-  //       </View>
-  //     ),
-  //   });
-  // }, [navigation, selectedTab, user]);
 
   return (
     <View

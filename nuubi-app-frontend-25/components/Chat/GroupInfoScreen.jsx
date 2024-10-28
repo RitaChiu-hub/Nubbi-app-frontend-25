@@ -22,12 +22,22 @@ export default function GroupInfoScreen({ navigation }) {
   const [value, setValue] = useState(0);
   const [memberCount, setMemberCount] = React.useState(0);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [groupTitle, setGroupTitle] = React.useState(user.groupName);
   const [members, setMembers] = React.useState([user.members]);
   const [invitePasscode, setInvitePasscode] = React.useState(user.inviteCode);
   const [isAdmin, setIsAdmin] = React.useState(user.isAdmin);
-  const screenWidth = Dimensions.get("window").width;
   const isFocused = useIsFocused();
+
+  // let context = null;
+
+  // if (Platform.OS === "web") {
+  //   context = sessionStorage.getItem("context");
+  // }
+
+  // const [groupTitle, setGroupTitle] = React.useState(
+  //   Platform.OS === "web"
+  //     ? JSON.parse(sessionStorage.getItem("context")).groupName
+  //     : user.groupName
+  // );
 
   const getIsAdmin = async () => {
     const token =
@@ -42,7 +52,8 @@ export default function GroupInfoScreen({ navigation }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
+          //   body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
+          body: JSON.stringify({ ...user }),
         }
       );
       const jsonData = await response.json();
@@ -91,7 +102,7 @@ export default function GroupInfoScreen({ navigation }) {
         groupDescription: groupInfo.description,
         visibility: visibilitySetting,
       });
-      setGroupTitle(jsonData.groupname);
+      //  setGroupTitle(jsonData.groupname);
     } catch (err) {
       console.error(err.message);
     }
