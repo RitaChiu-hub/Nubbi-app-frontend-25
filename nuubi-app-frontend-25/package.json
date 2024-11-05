@@ -18,6 +18,7 @@
     "@expo/prebuild-config": "~7.0.0",
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-community/datetimepicker": "^8.2.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native/js-polyfills": "^0.75.0-main",
     "@react-navigation/bottom-tabs": "^6.5.7",
@@ -65,6 +66,7 @@
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-pager-view": "6.3.0",
     "react-native-paper": "^5.5.2",
     "react-native-reanimated": "~3.10.1",
     "react-native-render-html": "^6.3.4",
@@ -77,8 +79,7 @@
     "react-native-webview": "13.8.6",
     "socket.io-client": "^4.6.1",
     "yup": "^1.0.2",
-    "yup-password": "^0.2.2",
-    "react-native-pager-view": "6.3.0"
+    "yup-password": "^0.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
