@@ -222,24 +222,7 @@ export default function GroupInfoScreen({ navigation }) {
               style={globalStyles.rowIcon}
               size={22}
             />
-            <Text style={globalStyles.headingTextRows}>Analytics</Text>
-          </View>
-          <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={globalStyles.row}
-          onPress={() => navigation.navigate("GroupAchievements")}
-        >
-          <View style={[globalStyles.row]}>
-            <FeatherIcon
-              color="#616161"
-              solid
-              name="trophy"
-              style={globalStyles.rowIcon}
-              size={22}
-            />
-            <Text style={globalStyles.headingTextRows}>Achievements</Text>
+            <Text style={globalStyles.headingTextRows}>Participation</Text>
           </View>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>

@@ -25,24 +25,12 @@ export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [chats, setChats] = React.useState([]);
 
-  // let context = null;
-
-  // if (Platform.OS === "web") {
-  //   context = sessionStorage.getItem("context");
-  // }
-
-  // const [groupTitle, setGroupTitle] = React.useState(
-  //   Platform.OS === "web"
-  //     ? JSON.parse(sessionStorage.getItem("context")).groupName
-  //     : user.groupName
-  // );
-
   const [adminId, setAdminId] = React.useState(null);
   const isFocused = useIsFocused();
   const [likes, setLikes] = React.useState([]);
   const [isChanged, setIsChanged] = React.useState(false);
   const height = useHeaderHeight();
-  const [selectedTab, setSelectedTab] = React.useState("Chat");
+  // const [selectedTab, setSelectedTab] = React.useState("Chat");
   const screenWidth = Dimensions.get("window").width;
 
   const scrollViewRef = React.useRef();
@@ -64,7 +52,6 @@ export default function ChatScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      // setGroupTitle(jsonData.groupname);
     } catch (err) {
       console.error(err.message);
     }
@@ -101,7 +88,6 @@ export default function ChatScreen({ navigation }) {
         groupDescription: groupInfo.description,
         visibility: visibilitySetting,
       });
-   //   setGroupTitle(jsonData.groupname);
     } catch (err) {
       console.error(err.message);
     }
@@ -134,11 +120,6 @@ export default function ChatScreen({ navigation }) {
       console.error(err.message);
     }
   };
-
-  React.useEffect(() => {
-    getGroupName();
-    setSelectedTab("Chat");
-  }, [isFocused]);
 
   const getChats = async () => {
     const token =

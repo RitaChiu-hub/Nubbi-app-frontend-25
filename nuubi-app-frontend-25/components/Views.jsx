@@ -405,7 +405,7 @@ function GroupTabs({ navigation, route }) {
         tabBarIndicatorStyle: { backgroundColor: "#33B7F0", height: 2 },
       }}
     >
-      <GroupTab.Screen name="Posts" component={PostScreen} />
+      <GroupTab.Screen name="Threads" component={PostScreen} />
       <GroupTab.Screen name="Chat" component={ChatScreen} />
       <GroupTab.Screen name="Leaders" component={GroupLeaderboard} />
       <GroupTab.Screen name="More" component={GroupInfoScreen} />

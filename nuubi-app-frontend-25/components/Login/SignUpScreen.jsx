@@ -572,22 +572,6 @@ export default function SignUpScreen({ navigation }) {
                     }
                   />
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={globalStyles.ssoButton}
-                  accessibilityRole="button"
-                  onPress={() => alert("Facebook login coming soon!")}
-                >
-                  <Image
-                    style={{ width: 22, height: 22 }}
-                    alt={"Facebook Logo"}
-                    source={
-                      Platform.OS == "web"
-                        ? require("../../assets/facebook-logo.png")
-                        : assets2[0]
-                    }
-                  />
-                </TouchableOpacity>
               </View>
             </View>
           )}

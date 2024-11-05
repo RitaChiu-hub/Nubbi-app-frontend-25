@@ -248,7 +248,7 @@ export default function LoginScreen({ navigation }) {
                       }
                     />
                   </TouchableOpacity>
-
+                  {/* 
                   <TouchableOpacity
                     style={globalStyles.ssoButton}
                     accessibilityRole="button"
@@ -263,7 +263,7 @@ export default function LoginScreen({ navigation }) {
                           : assets2[0]
                       }
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             </View>
