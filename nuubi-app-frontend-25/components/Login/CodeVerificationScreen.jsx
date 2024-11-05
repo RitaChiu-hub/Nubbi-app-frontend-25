@@ -26,8 +26,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
       try {
         const email = formVals.email;
         const response = await fetch(
-          //  "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
-          "http://localhost:8080/settings/generatesignupcode",
+          "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
+          //   "http://localhost:8080/settings/generatesignupcode",
           {
             method: "POST",
             credentials: "include",
@@ -98,8 +98,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
 
             try {
               const response = await fetch(
-                //   "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
-                "http://localhost:8080/settings/validatesignup",
+                "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
+                // "http://localhost:8080/settings/validatesignup",
                 {
                   method: "POST",
                   credentials: "include",
@@ -130,9 +130,9 @@ export default function CodeVerificationScreen({ navigation, route }) {
               if (Platform.OS === "web") {
                 url = `https://coral-app-n96bn.ondigitalocean.app/auth/signup`; // Web endpoint
               } else {
-                //   url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`; // Mobile endpoint
+                url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`; // Mobile endpoint
 
-                url = `http://localhost:8080/auth/mobilesignup`;
+                //  url = `http://localhost:8080/auth/mobilesignup`;
               }
               fetch(url, {
                 method: "POST",
