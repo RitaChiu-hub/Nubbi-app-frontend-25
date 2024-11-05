@@ -26,7 +26,6 @@ export default function GroupAnalytics({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        //   `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
         `http://localhost:8080/groups/getweeklygroupinfo`,
         {
           method: "POST",
@@ -40,7 +39,6 @@ export default function GroupAnalytics({ navigation }) {
       );
 
       const jsonData = await response.json();
-      // console.log("my json data: " + JSON.stringify(jsonData));
       setMembers(jsonData);
     } catch (err) {
       console.error(err.message);
@@ -107,7 +105,30 @@ export default function GroupAnalytics({ navigation }) {
         });
 
         const jsonData = await response.json();
-        setMembers(jsonData);
+
+        // Format jsonData to the expected structure
+        const formattedMembers = jsonData.map((member) => ({
+          user_id: member.user_id,
+          username: member.username,
+          email: member.email,
+          total: {
+            points: member.group_total_points, // Total points across all time
+            posts: member.total_posts,
+            comments: member.total_comments,
+            messages: member.total_messages,
+          },
+          // Initialize weekly data to zeros (you can adjust this if you have specific data)
+          week_1: { points: 0, posts: 0, comments: 0, messages: 0 },
+          week_2: { points: 0, posts: 0, comments: 0, messages: 0 },
+          week_3: { points: 0, posts: 0, comments: 0, messages: 0 },
+          week_4: { points: 0, posts: 0, comments: 0, messages: 0 },
+          week_5: { points: 0, posts: 0, comments: 0, messages: 0 },
+          week_6: { points: 0, posts: 0, comments: 0, messages: 0 },
+          week_7: { points: 0, posts: 0, comments: 0, messages: 0 },
+          week_8: { points: 0, posts: 0, comments: 0, messages: 0 },
+        }));
+
+        setMembers(formattedMembers);
       } catch (err) {
         console.error(err.message);
       }
@@ -126,149 +147,122 @@ export default function GroupAnalytics({ navigation }) {
     () => Math.max(120, ...members.map((member) => member.email.length * 10)),
     [members]
   );
-  const totalPointsWidth = React.useMemo(
-    () =>
-      Math.max(
-        120,
-        ...members.map(
-          (member) => String(member.group_total_points).length * 10
-        ),
-        "Total Points".length * 10
-      ),
-    [members]
+
+  // This is to handle dynamic widths for each of the week columns and totals
+  const weekColumns = Array.from(
+    { length: 8 },
+    (_, index) => `week_${index + 1}`
   );
-  const totalPostsWidth = React.useMemo(
-    () =>
-      Math.max(
-        120,
-        ...members.map((member) => String(member.total_posts).length * 10),
-        "Total Posts".length * 10
-      ),
-    [members]
-  );
-  const totalPostCommentsWidth = React.useMemo(
-    () =>
-      Math.max(
-        120,
-        ...members.map((member) => String(member.total_comments).length * 10),
-        "Total Post Comments".length * 10
-      ),
-    [members]
-  );
-  const totalMessagesWidth = React.useMemo(
-    () =>
-      Math.max(
-        120,
-        ...members.map((member) => String(member.total_messages).length * 10),
-        "Total Messages".length * 10
-      ),
-    [members]
-  );
-  const maxUnitWidth = React.useMemo(
-    () =>
-      Math.max(
-        120,
-        ...members.map((member) => String(member.unit_1).length * 10),
-        "Week 1".length * 10
-      ),
-    [members]
-  );
+
+  const totalColumnWidth = 210; // Set width for Total columns
+  const weeklyColumnWidth = 230; // Set width for Weekly columns
+  const labelWidth = 60; //
+  const columnSpacing = 20;
 
   const renderItem = ({ item }) => {
     return (
-      <View style={globalStyles.row}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginVertical: 10,
+          paddingHorizontal: 0, // Ensures the row uses full width
+        }}
+      >
+        {/* Username */}
         <View
-          style={[
-            globalStyles.column,
-            Platform.OS == "web"
-              ? {
-                  width: maxUsernameWidth + 40,
-                  marginHorizontal: 20,
-                  paddingHorizontal: 20,
-                }
-              : {
-                  width: maxUsernameWidth,
-                },
-          ]}
+          style={{
+            width: maxUsernameWidth,
+            alignItems: "flex-start",
+            marginHorizontal: columnSpacing,
+          }}
         >
-          <Text style={globalStyles.headingText}>{item.username}</Text>
+          <Text style={{ fontSize: 16, textAlign: "flex-start" }}>
+            {item.username}
+          </Text>
         </View>
+
+        {/* Email */}
         <View
-          style={[
-            globalStyles.column,
-            Platform.OS == "web"
-              ? {
-                  width: maxEmailWidth + 80,
-                  marginHorizontal: 40,
-                  paddingHorizontal: 40,
-                }
-              : {
-                  width: maxEmailWidth,
-                },
-          ]}
+          style={{
+            width: maxEmailWidth,
+            alignItems: "center",
+            marginHorizontal: columnSpacing,
+          }}
         >
-          <Text style={globalStyles.headingText}>{item.email}</Text>
-        </View>
-        <View style={[globalStyles.column, { width: totalPointsWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.group_total_points || 0)}
+          <Text style={{ fontSize: 16, textAlign: "center" }}>
+            {item.email}
           </Text>
         </View>
-        <View style={[globalStyles.column, { width: totalPostsWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.total_posts || 0)}
+
+        {/* Total Data in Row */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            width: totalColumnWidth + 12, // Matches header width
+            marginHorizontal: columnSpacing, // Add spacing between columns
+          }}
+        >
+          <Text
+            style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+          >
+            {item.total.points}
+          </Text>
+          <Text
+            style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+          >
+            {" "}
+            {item.total.posts}
+          </Text>
+          <Text
+            style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+          >
+            {" "}
+            {item.total.comments}
+          </Text>
+          <Text
+            style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+          >
+            {" "}
+            {item.total.messages}{" "}
           </Text>
         </View>
-        <View style={[globalStyles.column, { width: totalPostCommentsWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.total_comments || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: totalMessagesWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.total_messages || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.unit_1 || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.unit_2 || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.unit_3 || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.unit_4 || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.unit_5 || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.unit_6 || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.unit_7 || 0)}
-          </Text>
-        </View>
-        <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-          <Text style={globalStyles.headingText}>
-            {String(item.unit_8 || 0)}
-          </Text>
-        </View>
+
+        {/* Weekly Data */}
+        {weekColumns.map((week) => (
+          <View
+            key={week}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              width: weeklyColumnWidth, // Matches header width for weekly columns
+              marginHorizontal: columnSpacing, // Add spacing between columns
+            }}
+          >
+            <Text
+              style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+            >
+              {item[week].points}
+            </Text>
+            <Text
+              style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+            >
+              {item[week].posts}
+            </Text>
+            <Text
+              style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+            >
+              {item[week].comments}
+            </Text>
+            <Text
+              style={{ fontSize: 14, textAlign: "center", width: labelWidth, paddingRight: 6 }}
+            >
+              {item[week].messages}
+              {" "}
+            </Text>
+          </View>
+        ))}
       </View>
     );
   };
@@ -289,86 +283,146 @@ export default function GroupAnalytics({ navigation }) {
       vertical={true}
     >
       <View style={globalStyles.container}>
-        <View
-          style={{
-            padding: 15,
-            alignSelf: "flex-start",
-          }}
-        >
+        <View style={{ padding: 15, alignSelf: "flex-start" }}>
           <AnalyticsDatePicker onSubmit={getWeeklyGroupInfo} />
         </View>
-        <View style={globalStyles.row}>
+
+        {/* Top Header Row for "Total" and "Week 1", etc. */}
+        <View style={[globalStyles.row, { alignItems: "center" }]}>
           <View
-            style={[
-              globalStyles.column,
-              Platform.OS == "web"
-                ? {
-                    width: maxUsernameWidth + 40,
-                    marginHorizontal: 20,
-                    paddingHorizontal: 20,
-                  }
-                : {
-                    width: maxUsernameWidth,
-                  },
-            ]}
+            style={{
+              width: maxUsernameWidth,
+              alignItems: "center",
+              marginHorizontal: columnSpacing,
+            }}
+          >
+            <Text style={globalStyles.headingText}></Text>
+          </View>
+          <View
+            style={{
+              width: maxEmailWidth,
+              alignItems: "center",
+              marginHorizontal: columnSpacing,
+            }}
+          >
+            <Text style={globalStyles.headingText}></Text>
+          </View>
+          <View
+            style={{
+              width: totalColumnWidth,
+              alignItems: "center",
+              marginHorizontal: columnSpacing,
+            }}
+          >
+            <Text style={globalStyles.headingText}>Total</Text>
+          </View>
+          {weekColumns.map((_, index) => (
+            <View
+              key={index}
+              style={{
+                width: weeklyColumnWidth,
+                alignItems: "center",
+                marginHorizontal: columnSpacing,
+              }}
+            >
+              <Text style={globalStyles.headingText}>Week {index + 1}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Secondary Header Row for Points, Posts, Replies, Chats */}
+        <View style={[globalStyles.row, { alignItems: "center" }]}>
+          <View
+            style={{
+              width: maxUsernameWidth,
+              alignItems: "center",
+              marginHorizontal: columnSpacing,
+              //  paddingLeft: 16
+            }}
           >
             <Text style={globalStyles.headingText}>Username</Text>
           </View>
           <View
-            style={[
-              globalStyles.column,
-              Platform.OS == "web"
-                ? {
-                    width: maxEmailWidth + 80,
-                    marginHorizontal: 40,
-                    paddingHorizontal: 40,
-                  }
-                : {
-                    width: maxEmailWidth,
-                  },
-            ]}
+            style={{
+              width: maxEmailWidth,
+              alignItems: "center",
+              marginHorizontal: columnSpacing,
+            }}
           >
             <Text style={globalStyles.headingText}>Email</Text>
           </View>
-          <View style={[globalStyles.column, { width: totalPointsWidth }]}>
-            <Text style={globalStyles.headingText}>Total Points</Text>
-          </View>
-          <View style={[globalStyles.column, { width: totalPostsWidth }]}>
-            <Text style={globalStyles.headingText}>Total Posts</Text>
-          </View>
           <View
-            style={[globalStyles.column, { width: totalPostCommentsWidth }]}
+            style={{
+              flexDirection: "row",
+              width: totalColumnWidth + 40,
+              justifyContent: "space-evenly",
+              marginHorizontal: columnSpacing,
+            }}
           >
-            <Text style={globalStyles.headingText}>Total Comments</Text>
+            <Text
+              style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+            >
+              Points
+            </Text>
+            <Text
+              style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+            >
+              Posts
+            </Text>
+            <Text
+              style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+            >
+              Replies
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                textAlign: "center",
+                width: labelWidth,
+              }}
+            >
+              Chats
+            </Text>
           </View>
-          <View style={[globalStyles.column, { width: totalMessagesWidth }]}>
-            <Text style={globalStyles.headingText}>Total Messages</Text>
-          </View>
-          <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.headingText}>Week 1</Text>
-          </View>
-          <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.headingText}>Week 2</Text>
-          </View>
-          <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.headingText}>Week 3</Text>
-          </View>
-          <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.headingText}>Week 4</Text>
-          </View>
-          <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.headingText}>Week 5</Text>
-          </View>
-          <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.headingText}>Week 6</Text>
-          </View>
-          <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.headingText}>Week 7</Text>
-          </View>
-          <View style={[globalStyles.column, { width: maxUnitWidth }]}>
-            <Text style={globalStyles.headingText}>Week 8</Text>
-          </View>
+          {weekColumns.map((_, index) => (
+            <View
+              key={index}
+              style={{
+                flexDirection: "row",
+                width: weeklyColumnWidth, //+ 40,
+                justifyContent: "space-evenly",
+                marginHorizontal: columnSpacing,
+              }}
+            >
+              <Text
+                style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+              >
+                Points
+              </Text>
+              <Text
+                style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+              >
+                Posts
+              </Text>
+              <Text
+                style={{ fontSize: 14, textAlign: "center", width: labelWidth }}
+              >
+                Replies
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "center",
+                  width: labelWidth,
+                }}
+              >
+                Chats
+              </Text>
+              <View style={{ paddingHorizontal: 10 }}></View>
+            </View>
+          ))}
         </View>
+
         {loading ? (
           <View style={{ alignSelf: "flex-start", padding: 24 }}>
             <ActivityIndicator size="large" color="#0000ff" />
