@@ -114,7 +114,7 @@ export default function SignUpScreen({ navigation }) {
       >
         <Formik
           initialValues={{
-            email: "kwifvat@yahoo.com",
+            email: email,
             password: password,
             password2: comfirmPassword,
           }}

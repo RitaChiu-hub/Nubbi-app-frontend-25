@@ -26,7 +26,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
       try {
         const email = formVals.email;
         const response = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
+          //  "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
+          "http://localhost:8080/settings/generatesignupcode",
           {
             method: "POST",
             credentials: "include",
@@ -54,11 +55,6 @@ export default function CodeVerificationScreen({ navigation, route }) {
     // Call the function when the component mounts
     generateSignUpCode();
   }, [formVals, codeResent]);
-
-  // // Log the generated hashedOTP
-  // React.useEffect(() => {
-  //   console.log("hashedOTP:", verificationData);
-  // }, [verificationData]);
 
   const handlePress = () => {
     // Increment codeResent state to log how many times it's been resent
@@ -102,7 +98,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
 
             try {
               const response = await fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
+                //   "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
+                "http://localhost:8080/settings/validatesignup",
                 {
                   method: "POST",
                   credentials: "include",
@@ -133,9 +130,10 @@ export default function CodeVerificationScreen({ navigation, route }) {
               if (Platform.OS === "web") {
                 url = `https://coral-app-n96bn.ondigitalocean.app/auth/signup`; // Web endpoint
               } else {
-                url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`; // Mobile endpoint
-              }
+                //   url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`; // Mobile endpoint
 
+                url = `http://localhost:8080/auth/mobilesignup`;
+              }
               fetch(url, {
                 method: "POST",
                 credentials: "include",
@@ -156,7 +154,6 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 .then(async (data) => {
                   if (!data) return;
                   setUser({ ...data });
-                  setIsLoggedIn(true);
                   if (Platform.OS === "web") {
                     setUser({
                       loggedIn: true,
@@ -167,7 +164,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
                         return SecureStore.setItem(
                           "user",
                           JSON.stringify(data)
-                        ); // storing the user in SecureStore
+                        );
                       })
                       .then(() => {
                         setUser({
@@ -206,7 +203,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
                 });
 
               // Reset form after successful validation
-              actions.resetForm();
+              //  actions.resetForm();
             } catch (error) {
               console.error("Error validating sign-up code:", error.message);
             }

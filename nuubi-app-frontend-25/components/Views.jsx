@@ -7,13 +7,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  View,
-  Text,
-} from "react-native";
+import { Image, Platform, StyleSheet, View, Text } from "react-native";
 import { useAssets } from "expo-asset";
 
 import { useContext } from "react";
@@ -756,7 +750,7 @@ const TabNavigator = () => {
   const [notifications, setNotifications] = React.useState(false);
   const { user, setUser } = React.useContext(AccountContext);
   const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
-  const [avatarInfo, setAvatarInfo] = React.useState(null);
+  // const [avatarInfo, setAvatarInfo] = React.useState(null);
 
   // getLoginStatus and user data when the app loads
   const getLoginStatus = async () => {
@@ -819,33 +813,33 @@ const TabNavigator = () => {
     }
   };
 
-  const getUserAvatar = async () => {
-    const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+  // const getUserAvatar = async () => {
+  //   const token =
+  //     Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
 
-    try {
-      const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
-      const jsonData = await response.json();
-      setAvatarInfo(jsonData.avatar_url.avatar_url);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+  //   try {
+  //     const response = await fetch(
+  //       "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+  //       {
+  //         method: "POST",
+  //         credentials: "include",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  //         },
+  //         body: JSON.stringify({ ...user }),
+  //       }
+  //     );
+  //     const jsonData = await response.json();
+  //     setAvatarInfo(jsonData.avatar_url.avatar_url);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // };
 
   React.useEffect(() => {
     getNotifications();
-    getUserAvatar();
+    //  getUserAvatar();
   }, [user]);
 
   let assets1 = useAssets([require("../assets/icons/HomeFocused.png")]);
@@ -926,16 +920,18 @@ const TabNavigator = () => {
                 </View>
               );
             case "SettingsStack":
-              return avatarInfo ? (
-                <View
-                  style={[
-                    styles.avatarContainer,
-                    focused && styles.avatarContainerFocused,
-                  ]}
-                >
-                  <Image source={{ uri: avatarInfo }} style={styles.avatar} />
-                </View>
-              ) : (
+              return (
+                // avatarInfo ? (
+                //   <View
+                //     style={[
+                //       styles.avatarContainer,
+                //       focused && styles.avatarContainerFocused,
+                //     ]}
+                //   >
+                //     <Image source={{ uri: avatarInfo }} style={styles.avatar} />
+                //   </View>
+                // ) :
+
                 <FontAwesome6
                   name="circle-user"
                   solid

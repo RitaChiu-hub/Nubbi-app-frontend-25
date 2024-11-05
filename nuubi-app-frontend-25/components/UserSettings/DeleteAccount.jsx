@@ -61,15 +61,18 @@ export default function DeleteAccountScreen({ navigation }) {
                 Platform.OS !== "web"
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/delete", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-                body: JSON.stringify({ ...user, passattempt }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                  },
+                  body: JSON.stringify({ ...user, passattempt }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
@@ -89,13 +92,16 @@ export default function DeleteAccountScreen({ navigation }) {
                     setUser({ ...data });
                     if (Platform.OS === "web") {
                       setUser({ loggedIn: false });
+                      navigation.navigate("Welcome");
                     } else {
                       SecureStore.deleteItemAsync("token");
                       SecureStore.deleteItemAsync("user");
                       AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
+                      navigation.navigate("Welcome");
                     }
                     setUser({ token: null });
                     socket.disconnect();
+                    navigation.navigate("Welcome");
                   }
                 });
             }}
