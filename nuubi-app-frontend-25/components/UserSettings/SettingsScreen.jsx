@@ -84,6 +84,7 @@ const handleSignOut = async (setUser, navigation) => {
     SecureStore.deleteItemAsync("token");
     SecureStore.deleteItemAsync("user");
     AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
+    setUser({ loggedIn: false });
   }
   socket.disconnect();
 };

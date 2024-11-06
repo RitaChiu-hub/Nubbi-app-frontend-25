@@ -26,7 +26,8 @@ export default function GroupAnalytics({ navigation }) {
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getweeklygroupinfo`,
+        //  `http://localhost:8080/groups/getweeklygroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -256,10 +257,14 @@ export default function GroupAnalytics({ navigation }) {
               {item[week].comments}
             </Text>
             <Text
-              style={{ fontSize: 14, textAlign: "center", width: labelWidth, paddingRight: 6 }}
+              style={{
+                fontSize: 14,
+                textAlign: "center",
+                width: labelWidth,
+                paddingRight: 6,
+              }}
             >
-              {item[week].messages}
-              {" "}
+              {item[week].messages}{" "}
             </Text>
           </View>
         ))}
