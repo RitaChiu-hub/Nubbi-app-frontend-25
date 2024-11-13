@@ -1015,7 +1015,7 @@ export default function Views() {
   // For Web
   async function checkWebLogin() {
     try {
-      if (user.token) {
+      if (user.token || sessionStorage.getItem("token")) {
         return true; // Return true if token is present (user is logged in)
       }
 
