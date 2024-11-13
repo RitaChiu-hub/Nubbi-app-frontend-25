@@ -37,7 +37,9 @@ export default function ChatScreen({ navigation }) {
 
   const getGroupName = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
@@ -59,7 +61,9 @@ export default function ChatScreen({ navigation }) {
 
   const getGroupInfo = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
@@ -95,7 +99,9 @@ export default function ChatScreen({ navigation }) {
 
   const getLikes = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
@@ -123,7 +129,9 @@ export default function ChatScreen({ navigation }) {
 
   const getChats = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
@@ -146,7 +154,9 @@ export default function ChatScreen({ navigation }) {
 
   const getIsAdmin = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
@@ -255,7 +265,7 @@ export default function ChatScreen({ navigation }) {
                       const token =
                         Platform.OS !== "web"
                           ? await SecureStore.getItemAsync("token")
-                          : null; // Get token only on mobile
+                          : sessionStorage.getItem("token"); // Get token only on mobile
 
                       fetch(
                         `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,

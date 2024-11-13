@@ -32,7 +32,9 @@ export default function GroupLeaderboardScreen({ navigation }) {
 
   const getGroupInfo = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
@@ -68,7 +70,9 @@ export default function GroupLeaderboardScreen({ navigation }) {
 
   const getMemberCount = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
@@ -90,8 +94,10 @@ export default function GroupLeaderboardScreen({ navigation }) {
   };
 
   const getMembers = async () => {
-    const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null;
+     const token =
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     setLoading(true); // Start loading
     try {
       const response = await fetch(

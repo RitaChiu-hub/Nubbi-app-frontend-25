@@ -23,7 +23,9 @@ export default function GroupAnalytics({ navigation }) {
   const getWeeklyGroupInfo = async (startDate) => {
     setLoading(true);
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         //  `http://localhost:8080/groups/getweeklygroupinfo`,

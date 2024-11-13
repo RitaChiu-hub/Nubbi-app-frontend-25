@@ -79,7 +79,9 @@ export default function HomeScreenLeaderboard() {
 
   const getMyLeaderboards = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/myleaderboards`,
@@ -125,6 +127,8 @@ export default function HomeScreenLeaderboard() {
             flexDirection: "row",
             height: "100%",
             width: screenWidth * 0.9,
+            minHeight: 200,
+            maxHeight: 300,
           }}
         >
           <View
@@ -138,7 +142,7 @@ export default function HomeScreenLeaderboard() {
               height: screenWidth > 500 ? "300%" : "100%",
               width: screenWidth * 0.9,
               overflow: "hidden",
-              maxHeight: 200,
+              maxHeight: 280,
             }}
           >
             <View
@@ -169,9 +173,9 @@ export default function HomeScreenLeaderboard() {
                   style={{
                     height: "100%",
                     alignItems: "center",
-                    marginTop: 20,
                     width: Platform.OS === "web" ? screenWidth * 0.2 : "30%",
                     justifyContent: "center",
+                    marginBottom: screenWidth * 0.02,
                   }}
                 >
                   <Image

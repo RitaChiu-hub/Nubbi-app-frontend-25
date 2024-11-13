@@ -792,7 +792,9 @@ const TabNavigator = () => {
 
   const getNotifications = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
@@ -1013,6 +1015,10 @@ export default function Views() {
   // For Web
   async function checkWebLogin() {
     try {
+      if (user.token) {
+        return true; // Return true if token is present (user is logged in)
+      }
+
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
         {

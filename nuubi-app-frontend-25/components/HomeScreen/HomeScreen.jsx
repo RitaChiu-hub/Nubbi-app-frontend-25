@@ -222,7 +222,9 @@ export default function HomeScreen({ navigation }) {
 
   const getUserPoints = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,

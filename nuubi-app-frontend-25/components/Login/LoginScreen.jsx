@@ -108,9 +108,13 @@ export default function LoginScreen({ navigation }) {
                 if (!data) return;
                 setUser({ ...data });
                 if (Platform.OS === "web") {
+                  const mytoken = data.token;
                   setUser({
+                    ...user,
                     loggedIn: true,
+                    token: mytoken,
                   });
+                  sessionStorage.setItem("token", mytoken);
                 } else {
                   SecureStore.setItemAsync("token", data.token)
                     .then(() => {

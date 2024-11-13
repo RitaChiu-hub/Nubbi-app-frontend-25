@@ -92,6 +92,7 @@ export default function DeleteAccountScreen({ navigation }) {
                     setUser({ ...data });
                     if (Platform.OS === "web") {
                       setUser({ loggedIn: false });
+                      sessionStorage.removeItem("token");
                       navigation.navigate("Welcome");
                     } else {
                       SecureStore.deleteItemAsync("token");

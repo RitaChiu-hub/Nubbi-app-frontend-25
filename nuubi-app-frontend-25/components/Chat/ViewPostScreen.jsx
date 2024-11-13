@@ -51,7 +51,9 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const getPostLiked = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getpostliked`,
@@ -74,7 +76,9 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const getLikes = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getcommentlikes`,
@@ -101,7 +105,9 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const getPostInfo = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
@@ -153,7 +159,9 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const getPostPoints = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getpostpoints`,
@@ -175,8 +183,10 @@ export default function ViewPostScreen({ navigation, route }) {
   };
 
   const getComments = async () => {
-    const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null;
+     const token =
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     const vals = { ...user, currentPost: route.params.currentPost };
     try {
       const response = await fetch(
@@ -201,7 +211,9 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const getUserPoints = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,

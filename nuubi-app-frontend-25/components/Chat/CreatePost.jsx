@@ -492,9 +492,9 @@ export default function CreatePostScreen({ navigation }) {
                         fileUrl: fileUploadUrl,
                       };
                       const token =
-                        Platform.OS !== "web"
-                          ? await SecureStore.getItemAsync("token")
-                          : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");// Get token only on mobile
 
                       fetch(
                         `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
@@ -561,9 +561,9 @@ export default function CreatePostScreen({ navigation }) {
                         fileUrl: fileUploadUrl,
                       };
                       const token =
-                        Platform.OS !== "web"
-                          ? await SecureStore.getItemAsync("token")
-                          : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");// Get token only on mobile
 
                       fetch(
                         `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,

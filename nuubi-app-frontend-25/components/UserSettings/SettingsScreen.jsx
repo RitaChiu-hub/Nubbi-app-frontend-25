@@ -80,6 +80,7 @@ const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null });
   if (Platform.OS === "web") {
     await logoutUser(setUser); // Pass setUser directly
+    sessionStorage.removeItem("token");
   } else {
     SecureStore.deleteItemAsync("token");
     SecureStore.deleteItemAsync("user");

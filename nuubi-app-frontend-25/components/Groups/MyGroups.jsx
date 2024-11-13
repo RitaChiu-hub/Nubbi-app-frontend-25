@@ -27,7 +27,9 @@ export default function MyGroupsScreen({ navigation }) {
 
   const getGroups = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null;
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
 
     try {
       const response = await fetch(

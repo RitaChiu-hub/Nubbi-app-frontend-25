@@ -40,7 +40,9 @@ export default function ProfilePageScreen({ navigation }) {
 
   const getUserPoints = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
 
     try {
       const response = await fetch(
@@ -69,7 +71,9 @@ export default function ProfilePageScreen({ navigation }) {
 
   const getUserAvatar = async () => {
     const token =
-      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
 
     try {
       const response = await fetch(
