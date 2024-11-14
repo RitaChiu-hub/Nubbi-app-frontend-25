@@ -14,6 +14,22 @@ import { useIsFocused } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import AnalyticsDatePicker from "./AnalyticsDatePicker";
 
+const getFormattedDate = (daysAgo) => {
+  // Get today's date
+  const today = new Date();
+
+  // Subtract the specified number of days (60 in this case)
+  today.setDate(today.getDate() - daysAgo);
+
+  // Get the components for year, month, and day
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Ensure two digits for month
+  const day = today.getDate().toString().padStart(2, "0"); // Ensure two digits for day
+
+  // Format the date as YYYY-MM-DD
+  return `${year}-${month}-${day}`;
+};
+
 export default function GroupAnalytics({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [members, setMembers] = React.useState([]);
@@ -28,8 +44,8 @@ export default function GroupAnalytics({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        //  `http://localhost:8080/groups/getweeklygroupinfo`,
         `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
+        // `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -52,7 +68,9 @@ export default function GroupAnalytics({ navigation }) {
   React.useEffect(() => {
     const getGroupInfo = async () => {
       const token =
-        Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
+        Platform.OS !== "web"
+          ? await SecureStore.getItemAsync("token")
+          : sessionStorage.getItem("token"); // Get token only on mobile
       try {
         const response = await fetch(
           `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
@@ -93,9 +111,12 @@ export default function GroupAnalytics({ navigation }) {
       const token =
         Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
       try {
-        const apiUrl = user.isAdmin
-          ? "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers"
-          : "https://coral-app-n96bn.ondigitalocean.app/groups/mygroupanalytics";
+        const apiUrl = `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`;
+        // const apiUrl = user.isAdmin
+        //   ? "https://coral-app-n96bn.ondigitalocean.app/groups/getmembers"
+        //   : "https://coral-app-n96bn.ondigitalocean.app/groups/mygroupanalytics";
+
+        const startDate = getFormattedDate(60);
 
         const response = await fetch(apiUrl, {
           method: "POST",
@@ -104,7 +125,8 @@ export default function GroupAnalytics({ navigation }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify({ ...user }),
+
+          body: JSON.stringify({ ...user, startDate }),
         });
 
         const jsonData = await response.json();
@@ -115,10 +137,10 @@ export default function GroupAnalytics({ navigation }) {
           username: member.username,
           email: member.email,
           total: {
-            points: member.group_total_points, // Total points across all time
-            posts: member.total_posts,
-            comments: member.total_comments,
-            messages: member.total_messages,
+            points: member.group_total_points || 0, // Ensure 0 if no points data
+            posts: member.total_posts || 0, // Ensure 0 if no posts data
+            comments: member.total_comments || 0, // Ensure 0 if no comments data
+            messages: member.total_messages || 0, // Ensure 0 if no messages data
           },
           // Initialize weekly data to zeros (you can adjust this if you have specific data)
           week_1: { points: 0, posts: 0, comments: 0, messages: 0 },

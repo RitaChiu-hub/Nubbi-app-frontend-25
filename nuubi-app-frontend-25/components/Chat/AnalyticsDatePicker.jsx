@@ -2,7 +2,25 @@ import React, { useState } from "react";
 import { View, Button, Text, Platform } from "react-native";
 import { DatePickerModal } from "react-native-paper-dates"; // Date picker modal
 import { useTheme } from "react-native-paper"; // Optional for theme customization
-
+import { registerTranslation } from "react-native-paper-dates";
+registerTranslation("en", {
+  save: "Save",
+  selectSingle: "Select date",
+  selectMultiple: "Select dates",
+  selectRange: "Select period",
+  notAccordingToDateFormat: (inputFormat) =>
+    `Date format must be ${inputFormat}`,
+  mustBeHigherThan: (date) => `Must be later then ${date}`,
+  mustBeLowerThan: (date) => `Must be earlier then ${date}`,
+  mustBeBetween: (startDate, endDate) =>
+    `Must be between ${startDate} - ${endDate}`,
+  dateIsDisabled: "Day is not allowed",
+  previous: "Previous",
+  next: "Next",
+  typeInDate: "Type in date",
+  pickDateFromCalendar: "Pick date from calendar",
+  close: "Close",
+});
 const AnalyticsDatePicker = ({ onSubmit }) => {
   //const { colors } = useTheme();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -32,6 +50,7 @@ const AnalyticsDatePicker = ({ onSubmit }) => {
         mode="single"
         label="Select Date"
         saveLabel="Save"
+        locale="en"
         visible={visible}
         date={selectedDate}
         onDismiss={() => setVisible(false)} // Dismiss modal without changing date
