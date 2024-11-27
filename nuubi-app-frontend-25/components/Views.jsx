@@ -1015,12 +1015,9 @@ export default function Views() {
   // For Web
   async function checkWebLogin() {
     try {
-      if (user.token || sessionStorage.getItem("token")) {
-        return true; // Return true if token is present (user is logged in)
-      }
-
       const response = await fetch(
         `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        //  `http://localhost:8080/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -1036,8 +1033,26 @@ export default function Views() {
       }
 
       const data = await response.json();
+      // console.log(data);
+      // console.log("is logged in?? " + data.isLoggedIn);
 
-      return data.isLoggedIn; // Assuming the backend returns { isLoggedIn: true/false }
+      if (data.isLoggedIn == true) {
+        // Backend confirms the user is logged in, return true
+        return true;
+      } else {
+        // Backend confirms the user is not logged in, check sessionStorage
+        const token = user.token || sessionStorage.getItem("token");
+
+        if (token) {
+          // If a token is found in sessionStorage, consider the user logged in
+          return true;
+        }
+
+        // If no token is found in sessionStorage, return false
+        return false;
+      }
+
+      // return data.isLoggedIn; // Assuming the backend returns { isLoggedIn: true/false }
     } catch (error) {
       console.error("Error checking login status:", error);
       return false; // Default to false if there's an error
@@ -1063,7 +1078,8 @@ export default function Views() {
     };
 
     checkLoginStatus(); // Run the check when the component mounts
-  }, [user.loggedIn]);
+    //  console.log("user logged in: " + user.loggedIn);
+  }, [user]);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

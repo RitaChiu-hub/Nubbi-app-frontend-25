@@ -27,17 +27,6 @@ export default function GroupInfoScreen({ navigation }) {
   const [isAdmin, setIsAdmin] = React.useState(user.isAdmin);
   const isFocused = useIsFocused();
 
-  // let context = null;
-
-  // if (Platform.OS === "web") {
-  //   context = sessionStorage.getItem("context");
-  // }
-
-  // const [groupTitle, setGroupTitle] = React.useState(
-  //   Platform.OS === "web"
-  //     ? JSON.parse(sessionStorage.getItem("context")).groupName
-  //     : user.groupName
-  // );
 
   const getIsAdmin = async () => {
     const token =
