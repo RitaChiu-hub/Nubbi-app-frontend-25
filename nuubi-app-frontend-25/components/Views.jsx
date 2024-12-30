@@ -23,6 +23,7 @@ import CreateTask from "./Groups/CreateTask";
 import MyGroupTasks from "./Groups/MyGroupTasks";
 
 import SplashScreen from "./SplashScreens/SplashScreen";
+import LandingPage from "./LandingPage";
 
 import SettingsScreen from "./UserSettings/SettingsScreen";
 import DeleteAccountScreen from "./UserSettings/DeleteAccount";
@@ -616,7 +617,7 @@ function AuthStack() {
         name="CodeVerificationScreen"
         component={CodeVerificationScreen}
       />
-
+      <StackAuth.Screen name="LandingPage" component={LandingPage} />
       <StackAuth.Screen name="LearnMore1" component={LearnMore1Screen} />
       <StackAuth.Screen name="LearnMore2" component={LearnMore2Screen} />
       <StackAuth.Screen name="LearnMore4" component={LearnMore4Screen} />

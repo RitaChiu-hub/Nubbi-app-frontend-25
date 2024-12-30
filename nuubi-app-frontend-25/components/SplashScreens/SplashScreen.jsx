@@ -517,7 +517,7 @@ Empowering university student success through gamified peer-learning 
                   minWidth: 200,
                 }}
                 accessibilityRole="button"
-                onPress={() => navigation.navigate("LearnMore1")}
+                onPress={() => navigation.navigate("LandingPage")}
               >
                 <Text style={[globalStyles.webButtonText, { color: "black" }]}>
                   Learn More
