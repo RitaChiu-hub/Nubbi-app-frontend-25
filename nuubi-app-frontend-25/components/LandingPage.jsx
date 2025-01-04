@@ -1,3 +1,326 @@
+// import React from "react";
+// import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+// import ShopifyBuyButton from "./ShopifyBuyButton"; // Ensure the path is correct
+// import { globalStyles } from "../styles/global";
+
+// const LandingPage = ({ navigation }) => {
+//   React.useLayoutEffect(() => {
+//     navigation.setOptions({
+//       headerTitle: () => (
+//         <Text style={globalStyles.h3HeadingWhite}>
+//           10-Week Data Science Program
+//         </Text>
+//       ),
+//       headerTitleAlign: "center",
+//     });
+//   }, [navigation]);
+
+//   return (
+//     <ScrollView contentContainerStyle={styles.container}>
+//       <View style={styles.header}>
+//         <Text style={styles.title}>
+//           Kickstart Your Data Science Career with Our NYE Special!
+//         </Text>
+//         <Text style={styles.subtitle}>
+//           Learn R & Python and gain the skills employers are looking for—perfect
+//           for beginners. Start the new year with a career boost!
+//         </Text>
+//       </View>
+
+//       <View style={styles.section}>
+//         <Text style={styles.sectionTitle}>Why Upskill in Data Science?</Text>
+//         <Text style={styles.sectionText}>
+//           Data Science is one of the fastest-growing fields with endless
+//           opportunities. Learn from an experienced instructor and get ahead in
+//           the tech world.
+//           {"\n\n"}Our 10-week program is designed to help you:
+//         </Text>
+//         <View style={styles.bulletList}>
+//           <Text style={styles.sectionText}>• Master R & Python basics</Text>
+//           <Text style={styles.sectionText}>
+//             • Gain confidence in data analysis & visualization
+//           </Text>
+//           <Text style={styles.sectionText}>
+//             • Boost your resume and career prospects
+//           </Text>
+//         </View>
+//       </View>
+
+//       <View style={styles.section}>
+//         <Text style={styles.sectionTitle}>What You Get:</Text>
+//         <Text style={styles.sectionText}>
+//           - Access to comprehensive course materials and software (free to
+//           download){"\n"}- Study Buddy matching for accountability (optional)
+//           {"\n"}- Group Discussions, Q&A forums, and Networking{"\n"}-
+//           Certificate of Completion and LinkedIn recommendation
+//         </Text>
+//       </View>
+
+//       <View style={styles.section}>
+//         <Text style={styles.sectionTitle}>Learning Objectives</Text>
+//         <Text style={styles.sectionText}>
+//           By the end of the course, you'll be able to:
+//         </Text>
+//         <View style={styles.objectivesList}>
+//           <Text style={styles.objective}>
+//             • Data Manipulation with R & Python
+//           </Text>
+//           <Text style={styles.objective}>
+//             • Data Visualization with ggplot2 and matplotlib
+//           </Text>
+//           <Text style={styles.objective}>
+//             • Problem-Solving with Real-World Projects
+//           </Text>
+//         </View>
+//       </View>
+
+//       <View style={styles.section}>
+//         <Text style={styles.sectionTitle}>
+//           Limited Time Offer - Save Big Before NYE!
+//         </Text>
+//         <Text style={styles.sectionText}>
+//           Unlock exclusive rates and fast-track your career in the new year.
+//           This offer is valid for 24 hours only!
+//         </Text>
+//       </View>
+
+//       {/* Pricing Table */}
+//       <View style={styles.pricingContainer}>
+//         <View style={styles.packageContainer}>
+//           <View style={styles.package}>
+//             <Text style={styles.packageTitle}>Basic</Text>
+//             <Text style={styles.packagePrice}>$85</Text>
+//             <Text style={styles.packageFeatures}>
+//               - Access to course materials{"\n"}- Certificate of Completion
+//             </Text>
+//           </View>
+
+//           <View style={[styles.package, styles.highlightPackage]}>
+//             <Text style={styles.packageTitle}>Standard</Text>
+//             <Text style={styles.packagePrice}>$97</Text>
+//             <Text style={styles.packageFeatures}>
+//               - All Basic Package Features{"\n"}- Study Buddy Matching{"\n"}-
+//               LinkedIn Recommendation
+//             </Text>
+//           </View>
+
+//           <View style={styles.package}>
+//             <Text style={styles.packageTitle}>Premium</Text>
+//             <Text style={styles.packagePrice}>$297</Text>
+//             <Text style={styles.packageFeatures}>
+//               - All Standard Features{"\n"}- 5 Private Coaching Sessions{"\n"}-
+//               Personalized Career Advice
+//             </Text>
+//           </View>
+//         </View>
+//       </View>
+
+//       {/* Buy Buttons */}
+//       <View style={styles.buyButtonContainer}>
+//         <ShopifyBuyButton />
+//       </View>
+
+//       <View style={styles.guaranteeSection}>
+//         <Text style={styles.guaranteeText}>
+//           💸 Money-back guarantee | 🔒 Secure checkout via Shopify & PayPal
+//         </Text>
+//       </View>
+
+//       <View style={styles.testimonialsContainer}>
+//         <Text style={styles.sectionTitle}>What Our Students Say</Text>
+
+//         {/* Testimonials */}
+//         <View style={styles.testimonial}>
+//           <Text style={styles.testimonialText}>
+//             "Dr. Wifvat is an amazing professor! Her support and guidance made
+//             learning data science easy and enjoyable."
+//           </Text>
+//           <Text style={styles.reviewerName}>– Anonymous Student</Text>
+//         </View>
+
+//         <View style={styles.testimonial}>
+//           <Text style={styles.testimonialText}>
+//             "I never thought I'd be able to learn programming, but Dr. Wifvat
+//             made it so approachable. Highly recommend this course!"
+//           </Text>
+//           <Text style={styles.reviewerName}>
+//             – Anonymous Data Science Student
+//           </Text>
+//         </View>
+//       </View>
+
+//       <View style={styles.aboutMeContainer}>
+//         <Image source={{ uri: "YOUR_PHOTO_URL" }} style={styles.profileImage} />
+//         <Text style={styles.aboutMeTitle}>About Me</Text>
+//         <Text style={styles.aboutMeText}>
+//           Hi, I'm Dr. Kathryn Wifvat. I’ve had the privilege of teaching over
+//           2,000 students, and I’m passionate about helping individuals upskill
+//           in data science. With a PhD in Applied Mathematics and years of
+//           experience in education, I understand the challenges learners face and
+//           I'm here to guide you to success.
+//         </Text>
+//       </View>
+
+//       <View style={styles.footer}>
+//         <Text style={styles.footerText}>
+//           Have questions? Email me at kat@nuubi.app, and I’ll respond as soon as
+//           I can!
+//         </Text>
+//       </View>
+//     </ScrollView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flexGrow: 1,
+//     padding: 20,
+//     backgroundColor: "#f5f5f5",
+//   },
+//   header: {
+//     marginBottom: 20,
+//     textAlign: "center",
+//   },
+//   title: {
+//     fontSize: 32,
+//     fontWeight: "bold",
+//     color: "#333",
+//   },
+//   subtitle: {
+//     fontSize: 18,
+//     color: "#666",
+//     marginTop: 10,
+//   },
+//   section: {
+//     marginBottom: 20,
+//   },
+//   sectionTitle: {
+//     fontSize: 24,
+//     fontWeight: "bold",
+//     color: "#333",
+//     marginBottom: 10,
+//   },
+//   sectionText: {
+//     fontSize: 16,
+//     color: "#666",
+//     lineHeight: 24,
+//   },
+//   bulletList: {
+//     paddingLeft: 15,
+//   },
+//   objectivesList: {
+//     paddingLeft: 15,
+//   },
+//   objective: {
+//     fontSize: 16,
+//     color: "#666",
+//     marginBottom: 8,
+//   },
+//   pricingContainer: {
+//     marginTop: 30,
+//   },
+//   packageContainer: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//   },
+//   package: {
+//     width: "30%",
+//     padding: 20,
+//     backgroundColor: "#fff",
+//     marginBottom: 15,
+//     borderRadius: 8,
+//     borderWidth: 1,
+//     borderColor: "#ddd",
+//   },
+//   highlightPackage: {
+//     backgroundColor: "#f7f7f7",
+//     borderColor: "#ff5733",
+//   },
+//   packageTitle: {
+//     fontSize: 22,
+//     fontWeight: "bold",
+//     color: "#333",
+//   },
+//   packagePrice: {
+//     fontSize: 28,
+//     fontWeight: "bold",
+//     color: "#ff5733",
+//     marginVertical: 10,
+//   },
+//   packageFeatures: {
+//     fontSize: 16,
+//     color: "#666",
+//   },
+//   buyButtonContainer: {
+//     marginTop: 30,
+//     alignItems: "center",
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     width: "100%",
+//   },
+//   guaranteeSection: {
+//     marginVertical: 20,
+//     textAlign: "center",
+//   },
+//   guaranteeText: {
+//     fontSize: 16,
+//     color: "#333",
+//   },
+//   testimonialsContainer: {
+//     marginTop: 30,
+//   },
+//   testimonial: {
+//     backgroundColor: "#fff",
+//     padding: 15,
+//     marginBottom: 15,
+//     borderRadius: 8,
+//     borderWidth: 1,
+//     borderColor: "#ddd",
+//   },
+//   testimonialText: {
+//     fontSize: 16,
+//     color: "#666",
+//     fontStyle: "italic",
+//     marginBottom: 5,
+//   },
+//   reviewerName: {
+//     fontSize: 16,
+//     color: "#333",
+//     fontWeight: "bold",
+//   },
+//   aboutMeContainer: {
+//     marginTop: 30,
+//     alignItems: "center",
+//   },
+//   profileImage: {
+//     width: 100,
+//     height: 100,
+//     borderRadius: 50,
+//     marginBottom: 20,
+//   },
+//   aboutMeTitle: {
+//     fontSize: 22,
+//     fontWeight: "bold",
+//     color: "#333",
+//   },
+//   aboutMeText: {
+//     fontSize: 16,
+//     color: "#666",
+//     textAlign: "center",
+//     maxWidth: 600,
+//   },
+//   footer: {
+//     marginTop: 30,
+//     textAlign: "center",
+//   },
+//   footerText: {
+//     fontSize: 16,
+//     color: "#666",
+//   },
+// });
+
+// export default LandingPage;
+
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import ShopifyBuyButton from "./ShopifyBuyButton"; // Make sure the path is correct
