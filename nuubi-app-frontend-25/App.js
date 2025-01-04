@@ -75,7 +75,7 @@ export default function App() {
                 JoinGroup: "join",
                 Creategroup: "create",
                 Notifications: "notfications",
-                ProfilePage: "profile",
+                ProfilePage: "profilepage",
                 Settings: "settings",
                 AccountScreen: "me",
                 HelpLoggedIn: "help",
@@ -87,17 +87,51 @@ export default function App() {
             },
           },
         },
+        AuthStack: {
+          screens: {
+            LandingPage: "signin/landingpage",
+            Welcome: "signin/welcome",
+            Login: "signin/login",
+            SignUp: "signin/signup",
+            ForgotPasswordLoggedOut: "signin/forgot-password",
+            CodeVerificationScreen: "signin/verify-code",
+            LearnMore1: "signin/learn-more-1",
+            LearnMore2: "signin/learn-more-2",
+            LearnMore4: "signin/learn-more-4",
+            LearnMore7: "signin/learn-more-7",
+            PrivacyScreen: "signin/privacy",
+            TermsScreen: "signin/terms",
+            FeedbackScreen: "signin/feedback",
+            HelpLoggedOut: "signin/help",
+          },
+        },
+        LandingStack: {
+          screens: {
+            LandingPage: "landingpage", // Landing page as a separate stack
+            SplashScreen: "splash",
+          },
+        },
       },
     },
+    persist: true,
   };
+
+  const pathname = window.location.pathname;
+  console.log("my path name is: " + pathname);
+
+  // Check if the path includes 'LandingPage'
+  const containsLandingPage = pathname.toLowerCase().includes("landingpage");
+  console.log("Does the path contain 'LandingPage'? " + containsLandingPage);
 
   return (
     <Fragment>
       <StatusBar style="dark" />
       <UserContext>
-        {/* <NavigationContainer> */}
-        <NavigationContainer linking={linking}>
-          <Views />
+        <NavigationContainer
+          linking={linking}
+          landingPage={containsLandingPage}
+        >
+          <Views landingPage={containsLandingPage} />
         </NavigationContainer>
       </UserContext>
     </Fragment>

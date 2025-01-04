@@ -1,5 +1,7 @@
 import "react-native-gesture-handler";
 import * as React from "react";
+import { useEffect, useState } from "react";
+import { useNavigationState } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -617,7 +619,11 @@ function AuthStack() {
         name="CodeVerificationScreen"
         component={CodeVerificationScreen}
       />
-      <StackAuth.Screen name="LandingPage" component={LandingPage} />
+      <StackAuth.Screen
+        name="LandingPage"
+        component={LandingPage}
+        initialParams={{ fromLandingPage2: true }}
+      />
       <StackAuth.Screen name="LearnMore1" component={LearnMore1Screen} />
       <StackAuth.Screen name="LearnMore2" component={LearnMore2Screen} />
       <StackAuth.Screen name="LearnMore4" component={LearnMore4Screen} />
@@ -631,6 +637,25 @@ function AuthStack() {
         options={{ title: "Nuubi How-To" }}
       />
     </StackAuth.Navigator>
+  );
+}
+const StackLanding = createNativeStackNavigator();
+// Landing Stack (Directly accessable)
+function LandingStack() {
+  return (
+    <StackLanding.Navigator
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#fbfbfb",
+      }}
+    >
+      <StackLanding.Screen name="LandingPage2" component={LandingPage} />
+      <StackLanding.Screen name="SplashScreen" component={SplashScreen} />
+      {/* Other landing-related screens */}
+    </StackLanding.Navigator>
   );
 }
 
@@ -999,10 +1024,12 @@ const TabNavigator = () => {
 
 const Stack = createNativeStackNavigator();
 
-export default function Views() {
+export default function Views({ landingPage }) {
   const { user, setUser } = useContext(AccountContext);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [fromLandingPage, setFromLandingPage] = useState(false);
 
+  console.log("contains landing page? " + landingPage || null);
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
     try {
@@ -1080,23 +1107,27 @@ export default function Views() {
 
     checkLoginStatus(); // Run the check when the component mounts
     //  console.log("user logged in: " + user.loggedIn);
-  }, [user]);
+  });
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {isLoggedIn ? ( // just isLoggedIn works for web //isLoggedIn && user ? (
-        Platform.OS == "web" ? (
+      {/* If fromLandingPage2 is true, show LandingPage */}
+      {/* {isOnLandingPage || fromLandingPage || fromLandingPage2 ? ( */}
+      {landingPage ? (
+        <Stack.Screen name="LandingPage" component={LandingStack} />
+      ) : isLoggedIn ? (
+        // If logged in, show either web or mobile homepage
+        Platform.OS === "web" ? (
           <Stack.Screen name="DrawerTabs" component={WebStack} />
         ) : (
           <Stack.Screen name="BottomTabs" component={TabNavigator} />
         )
       ) : (
+        // If not logged in, show SignIn page
         <Stack.Screen
           name="Signin"
           component={AuthStack}
-          options={{
-            title: "Log in",
-          }}
+          options={{ title: "Log in" }}
         />
       )}
     </Stack.Navigator>
