@@ -56,8 +56,8 @@ export default function LoginScreen({ navigation }) {
         }}
       >
         <Formik
-          initialValues={{ username: "", password: "" }}
-          // initialValues={{ username: "Testuser", password: "Testpass!23" }}
+          //  initialValues={{ username: "", password: "" }}
+          initialValues={{ username: "Testuser", password: "Testpass!23" }}
           // initialValues={{
           //   username: "TestInstructor",
           //   password: "TestNuubi!23",
@@ -70,7 +70,7 @@ export default function LoginScreen({ navigation }) {
           onSubmit={(values, actions) => {
             values.username = values.username.trim();
             const vals = { ...values };
-            actions.resetForm();
+            // actions.resetForm();
 
             // Check platform and determine which fetch request to make
             let url = "";

@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import UserContext from "./components/AccountContext";
 import { Fragment } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Linking } from "react-native";
+import { Linking, Platform } from "react-native";
 // import * as Linking from "expo-linking";
 
 import {
@@ -116,10 +116,17 @@ export default function App() {
     persist: true,
   };
 
-  const pathname = window.location.pathname;
+  const isMobile = Platform.OS !== "web";
+
+  // For mobile platforms, set landingPage to false
+  const containsLandingPage = isMobile
+    ? false
+    : window.location.pathname.toLowerCase().includes("landingpage");
+
+  // const pathname = window.location.pathname;
 
   // Check if the path includes 'LandingPage'
-  const containsLandingPage = pathname.toLowerCase().includes("landingpage");
+  // const containsLandingPage = pathname.toLowerCase().includes("landingpage");
 
   return (
     <Fragment>

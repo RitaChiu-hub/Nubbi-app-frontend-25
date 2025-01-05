@@ -1112,7 +1112,7 @@ export default function Views({ landingPage }) {
 
       checkLoginStatus(); // Run the check when the component mounts
     }
-  }, [landingPage]);
+  }, [landingPage, user]);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

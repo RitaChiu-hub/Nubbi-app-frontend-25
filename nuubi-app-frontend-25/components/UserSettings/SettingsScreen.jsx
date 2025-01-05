@@ -76,8 +76,24 @@ const SECTIONS = [
 ];
 
 // External functions defined here
+// const handleSignOut = async (user, setUser, navigation) => {
+//   setUser({ token: null });
+//   if (Platform.OS === "web") {
+//     await logoutUser(setUser); // Pass setUser directly
+//     sessionStorage.removeItem("token");
+//   } else {
+//     console.log("signing out");
+//     setUser({ loggedIn: false });
+//     console.log("user: " + { ...user });
+//     SecureStore.deleteItemAsync("token");
+//     SecureStore.deleteItemAsync("user");
+//     AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
+//     //  setUser({ loggedIn: false });
+//   }
+//   socket.disconnect();
+// };
 const handleSignOut = async (setUser, navigation) => {
-  setUser({ token: null });
+  setUser({ token: null, loggedIn: false }); // Correctly resetting the user state
   if (Platform.OS === "web") {
     await logoutUser(setUser); // Pass setUser directly
     sessionStorage.removeItem("token");
@@ -85,7 +101,6 @@ const handleSignOut = async (setUser, navigation) => {
     SecureStore.deleteItemAsync("token");
     SecureStore.deleteItemAsync("user");
     AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
-    setUser({ loggedIn: false });
   }
   socket.disconnect();
 };
