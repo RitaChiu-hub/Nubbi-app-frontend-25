@@ -619,11 +619,7 @@ function AuthStack() {
         name="CodeVerificationScreen"
         component={CodeVerificationScreen}
       />
-      <StackAuth.Screen
-        name="LandingPage"
-        component={LandingPage}
-        initialParams={{ fromLandingPage2: true }}
-      />
+      <StackAuth.Screen name="LandingPage" component={LandingPage} />
       <StackAuth.Screen name="LearnMore1" component={LearnMore1Screen} />
       <StackAuth.Screen name="LearnMore2" component={LearnMore2Screen} />
       <StackAuth.Screen name="LearnMore4" component={LearnMore4Screen} />
@@ -652,7 +648,7 @@ function LandingStack() {
         headerTintColor: "#fbfbfb",
       }}
     >
-      <StackLanding.Screen name="LandingPage2" component={LandingPage} />
+      <StackLanding.Screen name="Landing Page" component={LandingPage} />
       <StackLanding.Screen name="SplashScreen" component={SplashScreen} />
       {/* Other landing-related screens */}
     </StackLanding.Navigator>
@@ -1029,7 +1025,6 @@ export default function Views({ landingPage }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [fromLandingPage, setFromLandingPage] = useState(false);
 
-  console.log("contains landing page? " + landingPage || null);
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
     try {
@@ -1061,8 +1056,6 @@ export default function Views({ landingPage }) {
       }
 
       const data = await response.json();
-      // console.log(data);
-      // console.log("is logged in?? " + data.isLoggedIn);
 
       if (data.isLoggedIn == true) {
         // Backend confirms the user is logged in, return true
@@ -1099,20 +1092,30 @@ export default function Views({ landingPage }) {
     }
   }
 
-  React.useEffect(() => {
-    const checkLoginStatus = async () => {
-      const loggedIn = await checkIsLoggedIn(); // Call the async login check
-      setIsLoggedIn(loggedIn);
-    };
+  // React.useEffect(() => {
+  //   const checkLoginStatus = async () => {
+  //     const loggedIn = await checkIsLoggedIn(); // Call the async login check
+  //     setIsLoggedIn(loggedIn);
+  //   };
 
-    checkLoginStatus(); // Run the check when the component mounts
-    //  console.log("user logged in: " + user.loggedIn);
-  });
+  //   checkLoginStatus(); // Run the check when the component mounts
+  //   //  console.log("user logged in: " + user.loggedIn);
+  // });
+
+  React.useEffect(() => {
+    if (!landingPage) {
+      // Only run if landingPage is false
+      const checkLoginStatus = async () => {
+        const loggedIn = await checkIsLoggedIn(); // Call the async login check
+        setIsLoggedIn(loggedIn);
+      };
+
+      checkLoginStatus(); // Run the check when the component mounts
+    }
+  }, [landingPage]);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* If fromLandingPage2 is true, show LandingPage */}
-      {/* {isOnLandingPage || fromLandingPage || fromLandingPage2 ? ( */}
       {landingPage ? (
         <Stack.Screen name="LandingPage" component={LandingStack} />
       ) : isLoggedIn ? (

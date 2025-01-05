@@ -117,11 +117,9 @@ export default function App() {
   };
 
   const pathname = window.location.pathname;
-  console.log("my path name is: " + pathname);
 
   // Check if the path includes 'LandingPage'
   const containsLandingPage = pathname.toLowerCase().includes("landingpage");
-  console.log("Does the path contain 'LandingPage'? " + containsLandingPage);
 
   return (
     <Fragment>

@@ -1,450 +1,111 @@
-// import React from "react";
-// import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
-// import ShopifyBuyButton from "./ShopifyBuyButton"; // Ensure the path is correct
-// import { globalStyles } from "../styles/global";
-
-// const LandingPage = ({ navigation }) => {
-//   React.useLayoutEffect(() => {
-//     navigation.setOptions({
-//       headerTitle: () => (
-//         <Text style={globalStyles.h3HeadingWhite}>
-//           10-Week Data Science Program
-//         </Text>
-//       ),
-//       headerTitleAlign: "center",
-//     });
-//   }, [navigation]);
-
-//   return (
-//     <ScrollView contentContainerStyle={styles.container}>
-//       <View style={styles.header}>
-//         <Text style={styles.title}>
-//           Kickstart Your Data Science Career with Our NYE Special!
-//         </Text>
-//         <Text style={styles.subtitle}>
-//           Learn R & Python and gain the skills employers are looking for—perfect
-//           for beginners. Start the new year with a career boost!
-//         </Text>
-//       </View>
-
-//       <View style={styles.section}>
-//         <Text style={styles.sectionTitle}>Why Upskill in Data Science?</Text>
-//         <Text style={styles.sectionText}>
-//           Data Science is one of the fastest-growing fields with endless
-//           opportunities. Learn from an experienced instructor and get ahead in
-//           the tech world.
-//           {"\n\n"}Our 10-week program is designed to help you:
-//         </Text>
-//         <View style={styles.bulletList}>
-//           <Text style={styles.sectionText}>• Master R & Python basics</Text>
-//           <Text style={styles.sectionText}>
-//             • Gain confidence in data analysis & visualization
-//           </Text>
-//           <Text style={styles.sectionText}>
-//             • Boost your resume and career prospects
-//           </Text>
-//         </View>
-//       </View>
-
-//       <View style={styles.section}>
-//         <Text style={styles.sectionTitle}>What You Get:</Text>
-//         <Text style={styles.sectionText}>
-//           - Access to comprehensive course materials and software (free to
-//           download){"\n"}- Study Buddy matching for accountability (optional)
-//           {"\n"}- Group Discussions, Q&A forums, and Networking{"\n"}-
-//           Certificate of Completion and LinkedIn recommendation
-//         </Text>
-//       </View>
-
-//       <View style={styles.section}>
-//         <Text style={styles.sectionTitle}>Learning Objectives</Text>
-//         <Text style={styles.sectionText}>
-//           By the end of the course, you'll be able to:
-//         </Text>
-//         <View style={styles.objectivesList}>
-//           <Text style={styles.objective}>
-//             • Data Manipulation with R & Python
-//           </Text>
-//           <Text style={styles.objective}>
-//             • Data Visualization with ggplot2 and matplotlib
-//           </Text>
-//           <Text style={styles.objective}>
-//             • Problem-Solving with Real-World Projects
-//           </Text>
-//         </View>
-//       </View>
-
-//       <View style={styles.section}>
-//         <Text style={styles.sectionTitle}>
-//           Limited Time Offer - Save Big Before NYE!
-//         </Text>
-//         <Text style={styles.sectionText}>
-//           Unlock exclusive rates and fast-track your career in the new year.
-//           This offer is valid for 24 hours only!
-//         </Text>
-//       </View>
-
-//       {/* Pricing Table */}
-//       <View style={styles.pricingContainer}>
-//         <View style={styles.packageContainer}>
-//           <View style={styles.package}>
-//             <Text style={styles.packageTitle}>Basic</Text>
-//             <Text style={styles.packagePrice}>$85</Text>
-//             <Text style={styles.packageFeatures}>
-//               - Access to course materials{"\n"}- Certificate of Completion
-//             </Text>
-//           </View>
-
-//           <View style={[styles.package, styles.highlightPackage]}>
-//             <Text style={styles.packageTitle}>Standard</Text>
-//             <Text style={styles.packagePrice}>$97</Text>
-//             <Text style={styles.packageFeatures}>
-//               - All Basic Package Features{"\n"}- Study Buddy Matching{"\n"}-
-//               LinkedIn Recommendation
-//             </Text>
-//           </View>
-
-//           <View style={styles.package}>
-//             <Text style={styles.packageTitle}>Premium</Text>
-//             <Text style={styles.packagePrice}>$297</Text>
-//             <Text style={styles.packageFeatures}>
-//               - All Standard Features{"\n"}- 5 Private Coaching Sessions{"\n"}-
-//               Personalized Career Advice
-//             </Text>
-//           </View>
-//         </View>
-//       </View>
-
-//       {/* Buy Buttons */}
-//       <View style={styles.buyButtonContainer}>
-//         <ShopifyBuyButton />
-//       </View>
-
-//       <View style={styles.guaranteeSection}>
-//         <Text style={styles.guaranteeText}>
-//           💸 Money-back guarantee | 🔒 Secure checkout via Shopify & PayPal
-//         </Text>
-//       </View>
-
-//       <View style={styles.testimonialsContainer}>
-//         <Text style={styles.sectionTitle}>What Our Students Say</Text>
-
-//         {/* Testimonials */}
-//         <View style={styles.testimonial}>
-//           <Text style={styles.testimonialText}>
-//             "Dr. Wifvat is an amazing professor! Her support and guidance made
-//             learning data science easy and enjoyable."
-//           </Text>
-//           <Text style={styles.reviewerName}>– Anonymous Student</Text>
-//         </View>
-
-//         <View style={styles.testimonial}>
-//           <Text style={styles.testimonialText}>
-//             "I never thought I'd be able to learn programming, but Dr. Wifvat
-//             made it so approachable. Highly recommend this course!"
-//           </Text>
-//           <Text style={styles.reviewerName}>
-//             – Anonymous Data Science Student
-//           </Text>
-//         </View>
-//       </View>
-
-//       <View style={styles.aboutMeContainer}>
-//         <Image source={{ uri: "YOUR_PHOTO_URL" }} style={styles.profileImage} />
-//         <Text style={styles.aboutMeTitle}>About Me</Text>
-//         <Text style={styles.aboutMeText}>
-//           Hi, I'm Dr. Kathryn Wifvat. I’ve had the privilege of teaching over
-//           2,000 students, and I’m passionate about helping individuals upskill
-//           in data science. With a PhD in Applied Mathematics and years of
-//           experience in education, I understand the challenges learners face and
-//           I'm here to guide you to success.
-//         </Text>
-//       </View>
-
-//       <View style={styles.footer}>
-//         <Text style={styles.footerText}>
-//           Have questions? Email me at kat@nuubi.app, and I’ll respond as soon as
-//           I can!
-//         </Text>
-//       </View>
-//     </ScrollView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexGrow: 1,
-//     padding: 20,
-//     backgroundColor: "#f5f5f5",
-//   },
-//   header: {
-//     marginBottom: 20,
-//     textAlign: "center",
-//   },
-//   title: {
-//     fontSize: 32,
-//     fontWeight: "bold",
-//     color: "#333",
-//   },
-//   subtitle: {
-//     fontSize: 18,
-//     color: "#666",
-//     marginTop: 10,
-//   },
-//   section: {
-//     marginBottom: 20,
-//   },
-//   sectionTitle: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     color: "#333",
-//     marginBottom: 10,
-//   },
-//   sectionText: {
-//     fontSize: 16,
-//     color: "#666",
-//     lineHeight: 24,
-//   },
-//   bulletList: {
-//     paddingLeft: 15,
-//   },
-//   objectivesList: {
-//     paddingLeft: 15,
-//   },
-//   objective: {
-//     fontSize: 16,
-//     color: "#666",
-//     marginBottom: 8,
-//   },
-//   pricingContainer: {
-//     marginTop: 30,
-//   },
-//   packageContainer: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//   },
-//   package: {
-//     width: "30%",
-//     padding: 20,
-//     backgroundColor: "#fff",
-//     marginBottom: 15,
-//     borderRadius: 8,
-//     borderWidth: 1,
-//     borderColor: "#ddd",
-//   },
-//   highlightPackage: {
-//     backgroundColor: "#f7f7f7",
-//     borderColor: "#ff5733",
-//   },
-//   packageTitle: {
-//     fontSize: 22,
-//     fontWeight: "bold",
-//     color: "#333",
-//   },
-//   packagePrice: {
-//     fontSize: 28,
-//     fontWeight: "bold",
-//     color: "#ff5733",
-//     marginVertical: 10,
-//   },
-//   packageFeatures: {
-//     fontSize: 16,
-//     color: "#666",
-//   },
-//   buyButtonContainer: {
-//     marginTop: 30,
-//     alignItems: "center",
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     width: "100%",
-//   },
-//   guaranteeSection: {
-//     marginVertical: 20,
-//     textAlign: "center",
-//   },
-//   guaranteeText: {
-//     fontSize: 16,
-//     color: "#333",
-//   },
-//   testimonialsContainer: {
-//     marginTop: 30,
-//   },
-//   testimonial: {
-//     backgroundColor: "#fff",
-//     padding: 15,
-//     marginBottom: 15,
-//     borderRadius: 8,
-//     borderWidth: 1,
-//     borderColor: "#ddd",
-//   },
-//   testimonialText: {
-//     fontSize: 16,
-//     color: "#666",
-//     fontStyle: "italic",
-//     marginBottom: 5,
-//   },
-//   reviewerName: {
-//     fontSize: 16,
-//     color: "#333",
-//     fontWeight: "bold",
-//   },
-//   aboutMeContainer: {
-//     marginTop: 30,
-//     alignItems: "center",
-//   },
-//   profileImage: {
-//     width: 100,
-//     height: 100,
-//     borderRadius: 50,
-//     marginBottom: 20,
-//   },
-//   aboutMeTitle: {
-//     fontSize: 22,
-//     fontWeight: "bold",
-//     color: "#333",
-//   },
-//   aboutMeText: {
-//     fontSize: 16,
-//     color: "#666",
-//     textAlign: "center",
-//     maxWidth: 600,
-//   },
-//   footer: {
-//     marginTop: 30,
-//     textAlign: "center",
-//   },
-//   footerText: {
-//     fontSize: 16,
-//     color: "#666",
-//   },
-// });
-
-// export default LandingPage;
-
-import React from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import ShopifyBuyButton from "./ShopifyBuyButton"; // Make sure the path is correct
 import { globalStyles } from "../styles/global";
 
 const LandingPage = ({ navigation }) => {
+  const [expanded, setExpanded] = useState(null); // Track the expanded question
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
         <Text style={globalStyles.h3HeadingWhite}>
-          10 Week Data Science Program
+          10 Week Data Science Bootcamp
         </Text>
       ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
 
+  const toggleAnswer = (index) => {
+    setExpanded(expanded === index ? null : index); // Toggle answer visibility
+  };
+
+  const faqData = [
+    {
+      question: "What will I learn in this program?",
+      answer: (
+        <>
+          By the end of this program, you'll gain:
+          {"\n\n"}
+          <Text style={styles.boldText}>1. Data Manipulation:</Text> Skills to
+          clean and wrangle data with tools like `dplyr`, `pandas`, and `tidyr`.
+          {"\n"}
+          <Text style={styles.boldText}>2. Data Visualization:</Text> Expertise
+          in creating impactful visualizations using `ggplot2`, `matplotlib`,
+          and `seaborn`.{"\n"}
+          <Text style={styles.boldText}>3. Programming Fundamentals:</Text> The
+          ability to write reusable functions and automate data workflows.
+          {"\n"}
+          <Text style={styles.boldText}>
+            4. Exploratory Data Analysis:
+          </Text>{" "}
+          Techniques for uncovering insights with summary statistics and
+          visualizations.{"\n"}
+          <Text style={styles.boldText}>
+            5. Problem-Solving with Code:
+          </Text>{" "}
+          Hands-on experience solving real-world data challenges.{"\n"}
+          <Text style={styles.boldText}>
+            6. Software Setup & Importing Data:
+          </Text>{" "}
+          Knowledge of configuring tools (RStudio, Jupyter) and importing data
+          from CSV, Excel, APIs, and databases.
+        </>
+      ),
+    },
+    {
+      question: "Who do I contact with questions?",
+      answer: (
+        <Text>
+          You can reach Dr. Kathryn Wifvat directly at:{" "}
+          <Text style={styles.email}>kat@nuubi.app</Text>
+        </Text>
+      ),
+    },
+  ];
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>
-          Invest in yourself for the New Year, with our Special NYE Offer!
-        </Text>
+        <Text style={styles.title}>Invest in yourself this New Year!</Text>
         <Text style={styles.subtitle}>
-          Upskill and launch your career in data science and data analytics. No
-          technical experience required. Beginner friendly.
+          10x your career with upskilling in data science and data analytics at
+          a tenth of the cost. No technical experience required.
         </Text>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Why Upskill in Data Science?</Text>
-        <Text style={styles.sectionText}>
-          This 10-week Data Science program is designed to give you the skills
-          to succeed in the rapidly growing field of data science. Learn R &
-          Python from an experienced data science professor.
-        </Text>
-
-        <Text style={styles.sectionText}>
-          - **High Demand**: Data science is one of the most in-demand skills in
-          today's job market, with companies across all industries seeking
-          skilled professionals.{"\n"}- **Lucrative Career Opportunities**: Data
-          scientists and analysts often earn competitive salaries, with
-          opportunities to grow into senior and leadership roles.{"\n"}-
-          **Career Versatility**: Skills in data science can be applied in
-          fields like healthcare, finance, marketing, education, and more,
-          opening doors to diverse career paths.{"\n"}- **Future-Proof Your
-          Career**: As technology advances, data literacy is becoming essential
-          for career growth in a variety of roles.{"\n"}- **Make an Impact**:
-          Data science allows you to solve real-world problems, make data-driven
-          decisions, and drive innovation in your industry.{"\n"}- **Boost Your
-          Resume**: Adding data science to your skill set shows employers your
-          commitment to growth and your ability to adapt to emerging trends.
-          {"\n"}- **Learn Problem-Solving**: Gain the ability to analyze data
-          effectively, spot trends, and make decisions that impact business
-          outcomes.
-        </Text>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>What You Get:</Text>
-        <Text style={styles.sectionText}>
-          - Preliminary mastery of R and Python for use in Data Science.{"\n"}-
-          Flexible program that you can complete on your own time, at your own
-          pace, while juggling other commitments.{"\n"}- Expert guidance from an
-          experienced Master's of Data Science Professor with a PhD in Applied
-          Mathematics.{"\n"}- Study Buddy matching for accountability and
-          working together (optional).{"\n"}- Group Discussions, Q&A forums, and
-          networking.{"\n"}- Participation analytics and final report of
-          learning accomplishments.{"\n"}- Certificate of completion,
-          professional reference, and LinkedIn recommendation upon successful
-          completion and participation in the program.{"\n"}- All course
-          materials and software required are included at this price or free to
-          download.{"\n"}- Money-back guarantee if you are not 100% satisfied.
-        </Text>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Learning Objectives</Text>
-        <Text style={styles.sectionText}>
-          In this R/Python for Data Science Bootcamp, you'll learn the
-          fundamentals of both programming languages and their applications in
-          data analysis and visualization. By the end of the course, you'll be
-          able to:
-        </Text>
-
-        <View style={styles.objectivesList}>
-          <Text style={styles.objective}>
-            1. **Data Manipulation with R & Python**: Master the art of data
-            cleaning and wrangling with tools like `dplyr`, `tidyr`, and
-            `pandas`.
+        <Text style={styles.sectionTitle}>What You Receive:</Text>
+        <View style={styles.sectionText}>
+          <Text style={styles.sectionText}>
+            - Learn R and Python from a PhD-educated Data Science professor.
           </Text>
-          <Text style={styles.objective}>
-            2. **Data Visualization**: Create insightful visualizations using
-            `ggplot2` (R) and `matplotlib`/`seaborn` (Python) to communicate
-            your data findings.
+          <Text style={styles.sectionText}>
+            - Complete the program at your own pace, on your own time, while
+            managing other commitments.
           </Text>
-          <Text style={styles.objective}>
-            3. **Functions & Programming**: Write reusable functions and
-            automate tasks to save time and effort in data analysis.
+          <Text style={styles.sectionText}>
+            - Access to group discussions, Q&A forums, and networking
+            opportunities.
           </Text>
-          <Text style={styles.objective}>
-            4. **Exploratory Data Analysis (EDA)**: Learn to explore datasets
-            and extract key insights using summary statistics and basic data
-            visualizations.
+          <Text style={styles.sectionText}>
+            - Certificate of completion, and for Standard or Premium you also
+            receive a professional reference and LinkedIn recommendation.
           </Text>
-          <Text style={styles.objective}>
-            5. **Problem-Solving with Code**: Apply your programming skills to
-            solve real-world data problems and gain hands-on experience with
-            Python and R.
+          <Text style={styles.sectionText}>
+            - All required materials and software are included or free to
+            download.
           </Text>
-          <Text style={styles.objective}>
-            6. **Professional Development**: Earn a certificate of completion,
-            plus a LinkedIn recommendation to enhance your resume and job
-            applications.
-          </Text>
-          <Text style={styles.objective}>
-            7. **Software Setup**: Learn how to set up and configure the
-            required development environments (R, Python, Jupyter, RStudio) for
-            data science tasks.
-          </Text>
-          <Text style={styles.objective}>
-            8. **Importing Data**: Gain proficiency in importing data from
-            various sources (CSV, Excel, APIs, databases) into R and Python for
-            analysis.
+          <Text style={styles.sectionText}>
+            - 100% satisfied or your money back.
           </Text>
         </View>
       </View>
@@ -452,21 +113,20 @@ const LandingPage = ({ navigation }) => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Prerequisites:</Text>
         <Text style={styles.sectionText}>
-          - You are able to dedicate at least 5-10 hours per week.{"\n"}- You
-          have access to a computer and internet.{"\n"}- You are interested in
-          becoming a data scientist or data analyst.{"\n"}- You don't need any
-          previous programming or technical experience—I will help you each step
-          of the way!
+          - You have access to a computer and internet.{"\n"}- You are
+          interested in becoming a data scientist or data analyst.{"\n"}- You
+          don't need any previous programming or technical experience—I will
+          help you each step of the way!
         </Text>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>
-          Limited Time Offer Valid for 24 Hours!
+          Limited Time Offer Valid This Weekend Only
         </Text>
         <Text style={styles.sectionText}>
-          Discounted rates available for NYE. Set yourself up for success in the
-          new year!
+          Secure one of the remaining spots at the discounted price before
+          Monday.
         </Text>
       </View>
 
@@ -506,14 +166,16 @@ const LandingPage = ({ navigation }) => {
       <View style={[styles.buyButtonContainer]}>
         <ShopifyBuyButton />
       </View>
+
       <View style={styles.guaranteeSection}>
         <Text style={styles.guaranteeText}>
-          💸 Money-back guarantee | 🔒 Secure checkout through Shopify & PayPal
+          💸 Money-back guarantee if not 100% satisfied | 🔒 Secure checkout
+          through Shopify & PayPal
         </Text>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>What Real Students Say</Text>
+        <Text style={styles.sectionTitle}>Real Student Testimonials:</Text>
         <View style={styles.testimonial}>
           <Text style={styles.testimonialText}>
             “Dr. Wifvat is an outstanding instructor with high-level knowledge,
@@ -527,18 +189,12 @@ const LandingPage = ({ navigation }) => {
             has my highest recommendation as an instructor. If not for her, I am
             not sure I would have made it through.”
           </Text>
-          <Text style={styles.reviewerName}>
-            – Anonymous Data Science Student
-          </Text>
         </View>
 
         <View style={styles.testimonial}>
           <Text style={styles.testimonialText}>
             “Dr. Wifvat was my professor for Fundamentals of Data Science, and
             she was amazing.”
-          </Text>
-          <Text style={styles.reviewerName}>
-            – Anonymous Data Science Student
           </Text>
         </View>
 
@@ -547,7 +203,6 @@ const LandingPage = ({ navigation }) => {
             “Wifvat was an amazing professor who cares for the students'
             learning experience. She caters the class at their pace, not hers.”
           </Text>
-          <Text style={styles.reviewerName}>– Anonymous Student</Text>
         </View>
 
         <View style={styles.testimonial}>
@@ -555,12 +210,34 @@ const LandingPage = ({ navigation }) => {
             “I just have to say she is 10/10 best professor and truly cares
             about how students are doing.”
           </Text>
-          <Text style={styles.reviewerName}>– Anonymous Student</Text>
         </View>
       </View>
+
+      {/* FAQ Section */}
+      <View style={styles.faqSection}>
+        <Text style={styles.sectionTitle}>Frequently Asked Questions:</Text>
+
+        {faqData.map((item, index) => (
+          <View key={index} style={styles.faqItem}>
+            <TouchableOpacity onPress={() => toggleAnswer(index)}>
+              <Text style={styles.faqQuestion}>{item.question}</Text>
+            </TouchableOpacity>
+
+            {expanded === index && (
+              <View style={styles.faqAnswerContainer}>
+                <Text style={styles.faqAnswer}>{item.answer}</Text>
+              </View>
+            )}
+          </View>
+        ))}
+      </View>
+
       <View style={styles.aboutMeContainer}>
-        <Image source={{ uri: "YOUR_PHOTO_URL" }} style={styles.profileImage} />
-        <Text style={styles.aboutMeTitle}>About Me</Text>
+        <Image
+          source={require("../assets/onboarding/headshotzoom2.png")}
+          style={styles.profileImage}
+        />
+        <Text style={styles.aboutMeTitle}>About Your Instructor</Text>
         <Text style={styles.aboutMeText}>
           Hi, I'm Dr. Kathryn Wifvat, and I've had the privilege of teaching
           over 2,000 students, ranging from introductory R programming to
@@ -571,22 +248,14 @@ const LandingPage = ({ navigation }) => {
           empowering individuals to upskill in technology.
           {"\n\n"}
           My expertise includes Python, R, SQL, data visualization, and machine
-          learning. As the founder and CEO of Nuubi, I lead the development of
-          educational technologies that foster learning and collaboration.
-          Whether you're a beginner or advancing your skills, I'm here to guide
-          you every step of the way.
-          {"\n\n"}I understand that traditional degree programs, with an average
-          annual tuition of over $35,000, are not accessible to everyone. That's
-          why I've created these programs to be affordable, flexible, and
-          tailored to fit into your busy schedule and budget. Education should
-          be a tool for empowerment, not a financial burden.
-        </Text>
-      </View>
-
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>
-          Have questions? Email me at kat@nuubi.app, and I will get back to you
-          as soon as I can!
+          learning. As the founder and CEO of Nuubi, I am working on the
+          developing software that fosters learning and collaboration. Whether
+          you're a beginner or advancing your skills, I'm here to guide you
+          every step of the way.
+          {"\n\n"}I understand that traditional degree programs, with classes
+          costing about $2000, are not accessible to everyone. That's why I've
+          created these programs to be affordable, flexible, and tailored to fit
+          into your busy schedule and budget.
         </Text>
       </View>
     </ScrollView>
@@ -639,6 +308,12 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginBottom: 15,
+  },
+  subheaderText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333", // Optional: Set the color for better contrast
+    marginBottom: 5, // Adds space between the subheader and its description
   },
   aboutMeTitle: {
     fontSize: 24,
@@ -728,7 +403,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   guaranteeSection: {
-    marginTop: 10,
+    marginBottom: 20,
     alignItems: "center",
   },
   guaranteeText: {
@@ -776,7 +451,41 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
+  faqSection: {
+    padding: 20,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 8,
+    marginTop: 20,
+  },
+  faqTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  faqItem: {
+    marginBottom: 15,
+  },
+  faqQuestion: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 8,
+    color: "#2482AA",
+  },
+  faqAnswerContainer: {
+    marginBottom: 10,
+  },
+  faqAnswer: {
+    fontSize: 14,
+    lineHeight: 22,
+    color: "#333",
+  },
+  boldText: {
+    fontWeight: "bold",
+  },
+  email: {
+    color: "#2482AA",
+    fontWeight: "bold",
+  },
 });
 
 export default LandingPage;
- 
