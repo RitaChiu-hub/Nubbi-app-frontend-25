@@ -136,8 +136,9 @@ const LandingPage = ({ navigation }) => {
           <Text style={styles.packageTitle}>Basic</Text>
           <Text style={styles.packagePrice}>$85</Text>
           <Text style={styles.packageFeatures}>
-            - Certificate of Completion{"\n"}- Access to course materials{"\n"}-
-            Self-paced program{"\n"}
+            - Self-paced program{"\n"}- Access to course community{"\n"}-
+            Certificate of Completion{"\n"}- Q&A Forums and group discussions
+            {"\n"}- Premium data science curriculum{"\n"}
           </Text>
         </View>
 
@@ -146,9 +147,9 @@ const LandingPage = ({ navigation }) => {
           <Text style={styles.packageTitle}>Standard</Text>
           <Text style={styles.packagePrice}>$97</Text>
           <Text style={styles.packageFeatures}>
-            - Certificate of Completion{"\n"}- LinkedIn Recommendation{"\n"}-
-            Study Buddy Matching{"\n"}- Q&A Forums & Networking{"\n"}-
-            Money-back Guarantee{"\n"}
+            - All Basic Package Features{"\n"}- LinkedIn Recommendation{"\n"}-
+            Study Buddy Matching{"\n"}- 48 hour support for all your questions
+            {"\n"}
           </Text>
         </View>
 
@@ -157,8 +158,9 @@ const LandingPage = ({ navigation }) => {
           <Text style={styles.packageTitle}>Premium</Text>
           <Text style={styles.packagePrice}>$297</Text>
           <Text style={styles.packageFeatures}>
-            - All Standard Package Features{"\n"}- 5 Private Coaching Sessions
-            {"\n"}- Personalized Career Advice{"\n"}- Exclusive Expert Q&A{"\n"}
+            - All Standard Package Features{"\n"}- Four 30 minute 1-on-1
+            Tutoring Sessions {"("}$200 Value{")"}
+            {"\n"}
           </Text>
         </View>
       </View>
@@ -170,7 +172,7 @@ const LandingPage = ({ navigation }) => {
       <View style={styles.guaranteeSection}>
         <Text style={styles.guaranteeText}>
           💸 Money-back guarantee if not 100% satisfied | 🔒 Secure checkout
-          through Shopify & PayPal
+          through Shopify
         </Text>
       </View>
 
