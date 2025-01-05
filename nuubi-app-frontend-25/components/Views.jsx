@@ -69,6 +69,7 @@ import OverallAchievements from "./UserSettings/OverallAchievements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import * as SplashScreenExpo from "expo-splash-screen";
+import InformationSection from "./SplashScreens/InformationSection";
 
 const HomeDrawer = createDrawerNavigator();
 
