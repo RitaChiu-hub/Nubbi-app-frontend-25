@@ -145,11 +145,37 @@ export default function Footer({}) {
                     { fontSize: 22 * fontSize, marginTop: 80 },
                   ]}
                 >
-                  Help
+                  Nuubi FAQ
                 </Text>
               </TouchableOpacity>
             </View>
             <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+              <Link
+                url="https://play.google.com/store/apps/details?id=com.kittykat.nuubiapp&hl=en"
+                style={{ marginRight: 80 }}
+              >
+                <Image
+                  style={{
+                    width: 200 * fontSize, // Adjust width using fontSize scaling
+                    height: 64 * fontSize, // Adjust height using fontSize scaling
+                    marginTop: 70,
+                    marginRight: 60,
+                  }}
+                  source={require("../../assets/GooglePlay.png")}
+                />
+              </Link>
+              <Link url="https://apps.apple.com/us/app/nuubi/id6447013076">
+                <Image
+                  style={{
+                    width: 200 * fontSize, // Same width as Google Play button
+                    height: 64 * fontSize, // Same height as Google Play button
+                    marginTop: 70,
+                  }}
+                  source={require("../../assets/AppStore.png")}
+                />
+              </Link>
+            </View>
+            {/* <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
               <Link
                 url="https://play.google.com/store/apps/details?id=com.kittykat.nuubiapp&hl=en"
                 style={{ marginRight: 80 }}
@@ -170,53 +196,92 @@ export default function Footer({}) {
                   source={require("../../assets/AppStore.png")}
                 />
               </Link>
-            </View>
+            </View> */}
           </View>
         </View>
 
         <View
           style={{
-            width: "100%",
-            flexDirection: format,
-            marginTop: 60,
-            justifyContent: "space-between",
-            alignItems: allignment,
-            paddingHorizontal: "10%",
+            flex: 1,
+            flexDirection: "column", // Stack vertically for narrow screens
+            alignItems: "center", // Center alignment
+            marginTop: 20, // Adds top margin for better spacing
           }}
         >
+          {/* "NUUBI" logo and text section */}
+          <View style={{ marginBottom: 30 }}>
+            {" "}
+            {/* Increased margin bottom for spacing */}
+            <Image
+              style={{
+                width: 70 * fontSize,
+                height: 70 * fontSize,
+                marginBottom: 10, // Space between logo and text
+              }}
+              source={require("../../assets/nuubi_Logo_BW.png")}
+            />
+            <Text
+              style={[
+                globalStyles.webpageHeader2,
+                {
+                  fontSize: 35 * fontSize,
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            >
+              NUUBI
+            </Text>
+          </View>
+          {/* Vertical space between the logo/text and the links */}
+          <View style={{ marginBottom: 30 }} />{" "}
+          {/* This adds vertical space between sections */}
+          {/* Privacy and Terms section */}
           <View
             style={{
-              flex: 1,
-              alignItems: allignment,
-              flexDirection: bottomFormat,
-              marginBottom: bottomFooterMargin,
-              marginRight: 50,
+              flexDirection: "row",
+              justifyContent: "space-evenly", // Spaced evenly horizontally
+              width: "100%",
+              marginBottom: 20, // Adds margin to the bottom
             }}
           >
-            <View style={{ flexDirection: "row", marginRight: 40 }}>
-              <Image
-                style={{
-                  width: 70 * fontSize,
-                  height: 70 * fontSize,
-                  marginRight: 12,
-                }}
-                source={require("../../assets/nuubi_Logo_BW.png")}
-              />
+            <TouchableOpacity
+              style={{
+                paddingVertical: 13,
+                paddingHorizontal: 14,
+              }}
+              accessibilityRole="button"
+              onPress={() => navigation.navigate("PrivacyScreen")}
+            >
               <Text
                 style={[
-                  globalStyles.webpageHeader2,
-                  {
-                    fontSize: 35 * fontSize,
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  },
+                  globalStyles.caption,
+                  { fontSize: 22 * fontSize, marginRight: 40 },
                 ]}
               >
-                NUUBI
+                Privacy
               </Text>
-            </View>
-            <View
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 13,
+                paddingHorizontal: 14,
+              }}
+              accessibilityRole="button"
+              onPress={() => navigation.navigate("TermsScreen")}
+            >
+              <Text
+                style={[
+                  globalStyles.caption,
+                  { fontSize: 22 * fontSize, paddingRight: 40 },
+                ]}
+              >
+                Terms Of Service
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* <View
               style={{
                 flex: 1,
                 flexDirection: "row",
@@ -257,8 +322,7 @@ export default function Footer({}) {
                   Terms Of Service
                 </Text>
               </TouchableOpacity>
-            </View>
-          </View>
+            </View> */}
           <View
             style={{
               flex: 1,
@@ -298,6 +362,24 @@ export default function Footer({}) {
                 style={{ marginRight: 40 }}
               />
             </Link>
+          </View>
+          {/* Copyright Section */}
+          <View
+            style={{
+              width: "100%",
+              alignItems: "center",
+              marginTop: 20, // Adjust spacing to add a small gap between sections
+              paddingBottom: 10,
+            }}
+          >
+            <Text
+              style={[
+                globalStyles.caption,
+                { fontSize: 14 * fontSize, color: "#050505" },
+              ]}
+            >
+              © {new Date().getFullYear()} Nuubi Inc. All rights reserved.
+            </Text>
           </View>
         </View>
       </View>

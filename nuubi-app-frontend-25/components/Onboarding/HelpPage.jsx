@@ -8,7 +8,7 @@ export default function HelpScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>Nuubi Help</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Nuubi FAQ</Text>
       ),
       headerTitleAlign: "center",
     });

@@ -197,7 +197,7 @@ export default function SplashScreen({ navigation }) {
   return (
     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
       <Helmet>
-        <title>Nuubi: The chat platform for incentivized peer learning.</title>
+        <title>Nuubi: Study groups that keep you motivated.</title>
         <meta
           name="Nuubi"
           content="EdTech chat app for students and teachers that fosters learning."
@@ -270,7 +270,7 @@ export default function SplashScreen({ navigation }) {
         <LinearGradient
           style={[
             styles.mainGradient,
-            { height: 600 * linerGradientMulitplier },
+            { height: 400 * linerGradientMulitplier },
           ]}
           start={[0, 1]}
           end={[0, 1]}
@@ -281,22 +281,28 @@ export default function SplashScreen({ navigation }) {
             <Text
               style={[
                 globalStyles.secondaryButtonText,
-                { fontSize: nuubiFontSize },
+                { fontSize: nuubiFontSize, textAlign: "center" },
               ]}
             >
-              Gamify peer learning for{" "}
-              <Text style={{ fontWeight: "bold" }}>student success</Text>
+              Study groups built for{" "}
+              <Text style={{ fontWeight: "bold" }}>your success</Text>
             </Text>
             <Text
               style={[
                 globalStyles.h2HeadingMedium,
-                { fontSize: webpageTextSize, marginBottom: 24 },
+                {
+                  fontSize: webpageTextSize,
+                  marginBottom: 24,
+                  textAlign: "center",
+                },
               ]}
             >
-              Empowering university student collaboration
+              with features that keep you motivated.
             </Text>
-            <Text style={globalStyles.h3HeadingRegular}>
-              Join a study group today and earn rewards.
+            <Text
+              style={[globalStyles.h3HeadingRegular, { textAlign: "center" }]}
+            >
+              Let's accomplish our goals together!
             </Text>
           </View>
         </LinearGradient>
@@ -313,7 +319,7 @@ const styles = StyleSheet.create({
     top: 100, // Adjust this to the bottom of the header
     right: 0,
     left: 0,
-    height: 10, // Adjusted height for a thin line
+    height: 3, // Adjusted height for a thin line
     zIndex: -1, // Ensure the gradient is below other elements
   },
   headerContainer: {
@@ -351,9 +357,12 @@ const styles = StyleSheet.create({
     marginTop: 20, // Added marginTop to create space between the two gradients
   },
   mainContent: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
+    flex: 1,
+    justifyContent: "center", // Center content vertically
+    alignItems: "center", // Center content horizontally
+    paddingHorizontal: 20, // Add padding on the sides
+    paddingVertical: 30, // Optional: Add padding on the top and bottom
+    textAlign: "center", // Ensure text stays centered
   },
 });
 
