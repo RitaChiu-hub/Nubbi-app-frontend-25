@@ -26,6 +26,7 @@ import MyGroupTasks from "./Groups/MyGroupTasks";
 
 import SplashScreen from "./SplashScreens/SplashScreen";
 import LandingPage from "./LandingPage";
+import HandleInviteScreen from "./HandleInvite";
 
 import SettingsScreen from "./UserSettings/SettingsScreen";
 import DeleteAccountScreen from "./UserSettings/DeleteAccount";
@@ -69,7 +70,6 @@ import OverallAchievements from "./UserSettings/OverallAchievements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import * as SplashScreenExpo from "expo-splash-screen";
-import InformationSection from "./SplashScreens/InformationSection";
 
 const HomeDrawer = createDrawerNavigator();
 
@@ -745,6 +745,51 @@ function MyGroupsStack() {
   );
 }
 
+const StackHandleInvite = createNativeStackNavigator();
+
+function HandleInviteNavigator() {
+  return (
+    <StackHandleInvite.Navigator
+      initialRouteName="HandleInvite"
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#fbfbfb",
+      }}
+    >
+      {/* Screen for handling invite links */}
+      <StackHandleInvite.Screen
+        name="HandleInvite"
+        component={HandleInviteScreen}
+        options={{ title: "Handle Invite" }}
+      />
+
+      {/* 
+      <StackHandleInvite.Screen
+        name="AuthStack"
+        component={AuthStack}
+        options={{ title: "Authentication" }}
+      />
+
+      {Platform.OS === "web" ? (
+        <StackHandleInvite.Screen
+          name="DrawerTabs"
+          component={WebStack}
+          options={{ title: "Home" }}
+        />
+      ) : (
+        <StackHandleInvite.Screen
+          name="BottomTabs"
+          component={TabNavigator}
+          options={{ title: "Home" }}
+        />
+      )}  */}
+    </StackHandleInvite.Navigator>
+  );
+}
+
 const StackNotifications = createNativeStackNavigator();
 
 function NotificationsStack() {
@@ -1021,10 +1066,9 @@ const TabNavigator = () => {
 
 const Stack = createNativeStackNavigator();
 
-export default function Views({ landingPage }) {
+export default function Views({ landingPage, inviteToken }) {
   const { user, setUser } = useContext(AccountContext);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [fromLandingPage, setFromLandingPage] = useState(false);
 
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
@@ -1104,7 +1148,7 @@ export default function Views({ landingPage }) {
   // });
 
   React.useEffect(() => {
-    if (!landingPage) {
+    if (!landingPage & !inviteToken) {
       // Only run if landingPage is false
       const checkLoginStatus = async () => {
         const loggedIn = await checkIsLoggedIn(); // Call the async login check
@@ -1117,7 +1161,13 @@ export default function Views({ landingPage }) {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {landingPage ? (
+      {inviteToken && inviteToken !== "undefined" ? (
+        <Stack.Screen
+          name="HandleInviteNavigator"
+          component={HandleInviteNavigator}
+          initialParams={{ inviteToken: inviteToken }}
+        />
+      ) : landingPage ? (
         <Stack.Screen name="LandingPage" component={LandingStack} />
       ) : isLoggedIn ? (
         // If logged in, show either web or mobile homepage

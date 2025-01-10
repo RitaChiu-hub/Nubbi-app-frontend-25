@@ -230,7 +230,6 @@ export default function SplashScreen({ navigation }) {
           </View>
         </LinearGradient>
 
-        {/* OTHER CONTENT SECTIONS */}
         <InformationSection navigation={navigation} />
         <Footer />
       </View>

@@ -57,6 +57,10 @@ export default function App() {
   });
 
   const linking = {
+    prefixes: [
+      "https://www.nuubi.app",
+      "https://xnlvhxq-kittykat-8081.exp.direct/",
+    ],
     config: {
       screens: {
         DrawerTabs: {
@@ -111,6 +115,13 @@ export default function App() {
             SplashScreen: "splash",
           },
         },
+        HandleInviteNavigator: {
+          path: "groups/invite/:invitetoken",
+          screens: {
+            HandleInvite: "",
+          },
+        },
+        // HandleInvite: "groups/invite/:token",
       },
     },
     persist: true,
@@ -123,10 +134,11 @@ export default function App() {
     ? false
     : window.location.pathname.toLowerCase().includes("landingpage");
 
-  // const pathname = window.location.pathname;
-
-  // Check if the path includes 'LandingPage'
-  // const containsLandingPage = pathname.toLowerCase().includes("landingpage");
+  const inviteToken = isMobile
+    ? null
+    : window.location.pathname.toLowerCase().includes("groups/invite")
+    ? window.location.pathname.split("/groups/invite/")[1]
+    : null;
 
   return (
     <Fragment>
@@ -135,8 +147,9 @@ export default function App() {
         <NavigationContainer
           linking={linking}
           landingPage={containsLandingPage}
+          inviteToken={inviteToken}
         >
-          <Views landingPage={containsLandingPage} />
+          <Views landingPage={containsLandingPage} inviteToken={inviteToken} />
         </NavigationContainer>
       </UserContext>
     </Fragment>
