@@ -89,6 +89,13 @@ export default function App() {
                 ForgotPassword: "forgot-password",
               },
             },
+            GroupTabs: {
+              path: "groups/:groupId",
+              screens: {
+                GroupPosts: "posts",
+              },
+            },
+            //  HandleInvite: "groups/invite/:invitetoken", // Ensure HandleInvite is also defined here
           },
         },
         AuthStack: {
@@ -107,6 +114,7 @@ export default function App() {
             TermsScreen: "signin/terms",
             FeedbackScreen: "signin/feedback",
             HelpLoggedOut: "signin/help",
+            //  HandleInvite: "groups/invite/:token",
           },
         },
         LandingStack: {
@@ -121,7 +129,7 @@ export default function App() {
             HandleInvite: "",
           },
         },
-        // HandleInvite: "groups/invite/:token",
+        //   HandleInvite: "groups/invite/:token",
       },
     },
     persist: true,

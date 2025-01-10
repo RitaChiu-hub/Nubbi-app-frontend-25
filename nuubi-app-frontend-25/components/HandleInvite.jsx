@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { ActivityIndicator, View, Alert, Platform, Text } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { AccountContext } from "./AccountContext";
 
 const HandleInviteScreen = () => {
@@ -8,15 +8,12 @@ const HandleInviteScreen = () => {
   const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
 
   const navigation = useNavigation();
-  const route = useRoute();
 
   const inviteToken = window.location.pathname
     .toLowerCase()
     .includes("groups/invite")
     ? window.location.pathname.split("/groups/invite/")[1]
     : null;
-
-  console.log("HANDLE INVITE TOKEN  22222: " + inviteToken);
 
   // if the token is null, just redirect to some other page...
 
@@ -92,99 +89,79 @@ const HandleInviteScreen = () => {
     // Only run if landingPage is false
     const checkLoginStatus = async () => {
       const loggedIn = await checkIsLoggedIn(); // Call the async login check
-      console.log("user is loggedin: " + loggedIn);
-      //   setIsLoggedIn(loggedIn);
+      setIsLoggedIn(loggedIn);
     };
 
     checkLoginStatus(); // Run the check when the component mounts
   }, []);
 
-  // change token to inviteToken to not get mixed up with user token
+  useEffect(() => {
+    if (!isLoggedIn) {
+      // If the user is not logged in, show a message and stop further execution
+      return;
+    }
 
-  //   useEffect(() => {
-  //     const processInvite = async () => {
-  //       if (!token || token === "null") {
-  //         // If token is invalid, navigate to the default stack
-  //         if (Platform.OS === "web") {
-  //           navigation.navigate("DrawerTabs");
-  //         } else {
-  //           navigation.navigate("BottomTabs");
-  //         }
-  //         return;
-  //       }
+    const handleInvite = async () => {
+      const token =
+        Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
 
-  //       try {
-  //         // Call the backend to validate the token
-  //         const response = await fetch(
-  //           `http://localhost:8080/groups/invite/${token}`,
-  //           //    `https://your-backend.com/invite/${token}`
-  //           {
-  //             method: "GET",
-  //             credentials: "include", // Include cookies for authentication
-  //           }
-  //         );
+      if (!inviteToken || inviteToken == "undefined") {
+        Alert.alert("Error", "Invalid invite token.");
+        navigation.navigate("Home"); // Navigate to a default page
+        return;
+      }
+      try {
+        // Call backend to validate invite and add user to group
+        const response = await fetch(
+          `http://localhost:8080/groups/invite/${inviteToken}`,
+          {
+            method: "POST",
+            credentials: "include", // Include cookies for authentication
+            headers: {
+              "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ ...user }),
+          }
+        );
 
-  //         const data = await response.json();
+        const data = await response.json();
 
-  //         if (response.ok) {
-  //           const { groupId, isAuthenticated } = data;
+        if (response.ok) {
+          const { groupId, groupName, invitePasscode, message } = data;
+          setUser({
+            ...user,
+            currentGroup: groupId,
+            groupName: groupName,
+            invitePasscode: invitePasscode,
+          });
 
-  //           if (isAuthenticated) {
-  //             // Navigate directly to the group if authenticated
-  //             if (Platform.OS === "web") {
-  //               console.log(
-  //                 "Hi! You have an invite token and you're authenticated via web. It is: " +
-  //                   token
-  //               );
-  //               //   navigation.navigate("DrawerTabs", {
-  //               //     screen: "PostScreen", //will need to change this I think to be able to add the groupId
-  //               //     params: { groupId },
-  //               //   });
-  //             } else {
-  //               console.log(
-  //                 "Hi! You have an invite token and you're authenticated via MOBILE. It is: " +
-  //                   token
-  //               );
-  //               //   navigation.navigate("BottomTabs", {
-  //               //     screen: "PostScreen", //will need to change this I think to be able to add the groupId
-  //               //     params: { groupId },
-  //               //   });
-  //             }
-  //           } else {
-  //             console.log("Hi!!!! You got invited to " + token);
-  //             // Redirect to login/signup with the token
-  //             // navigation.navigate("AuthStack", {
-  //             //   screen: "SignUp",
-  //             //   params: { inviteToken: token },
-  //             // });
-  //           }
-  //         } else {
-  //           Alert.alert("Error", data.error || "Invalid invite link.");
-  //           //   if (Platform.OS === "web") {
-  //           //     navigation.navigate("DrawerTabs");
-  //           //   } else {
-  //           //     navigation.navigate("BottomTabs");
-  //           //   }
-  //         }
-  //       } catch (error) {
-  //         console.error("Error processing invite:", error);
-  //         // Alert.alert("Error", "Something went wrong.");
-  //         // if (Platform.OS === "web") {
-  //         //   navigation.navigate("DrawerTabs");
-  //         // } else {
-  //         //   navigation.navigate("BottomTabs");
-  //         // }
-  //       }
-  //     };
+          navigation.navigate("Group Tabs", { groupName: groupName });
 
-  //     processInvite();
-  //   }, [token, navigation]);
+          //   navigation.navigate("DrawerTabs", { handleInvite: true });
+        } else {
+          Alert.alert("Error", data.error || "Could not join the group.");
+          //  navigation.navigate("DrawerTabs"); // Navigate to a fallback screen
+        }
+      } catch (error) {
+        console.error("Error processing invite:", error);
+        Alert.alert("Error", "Something went wrong.");
+        //   navigation.navigate("DrawerTabs"); // Navigate to a fallback screen
+      }
+    };
+
+    handleInvite();
+  }, [inviteToken, navigation, isLoggedIn]);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* <ActivityIndicator size="large" /> */}
-      <Text>Hi! You got an invite to a group! </Text>
-      <Text>Are you logged in? ${isLoggedIn} </Text>
+      {isLoggedIn ? (
+        // Show a loading indicator while processing the invite
+        <ActivityIndicator size="large" />
+      ) : (
+        // Show a message if the user is not logged in
+        <Text>You're not logged in!</Text>
+      )}
     </View>
   );
 };

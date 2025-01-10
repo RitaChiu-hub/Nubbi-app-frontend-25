@@ -367,9 +367,10 @@ function HomeDrawerNavigator() {
 const StackWeb = createNativeStackNavigator();
 
 function WebStack() {
+  const initialRoute = "Home Page";
   return (
     <StackWeb.Navigator
-      initialRouteName="Home Page"
+      initialRouteName={initialRoute}
       screenOptions={{ headerShown: false }}
     >
       <StackWeb.Screen name="Home Page" component={HomeDrawerNavigator} />
@@ -745,12 +746,13 @@ function MyGroupsStack() {
   );
 }
 
-const StackHandleInvite = createNativeStackNavigator();
+const StackHandleInvite = createDrawerNavigator();
 
 function HandleInviteNavigator() {
   return (
     <StackHandleInvite.Navigator
       initialRouteName="HandleInvite"
+      backBehavior="history"
       screenOptions={{
         headerBackTitleVisible: false,
         headerStyle: {
@@ -763,29 +765,273 @@ function HandleInviteNavigator() {
       <StackHandleInvite.Screen
         name="HandleInvite"
         component={HandleInviteScreen}
-        options={{ title: "Handle Invite" }}
+        // options={{ title: "Handle Invite" }}
+        options={{
+          title: "Handle Invite",
+          drawerItemStyle: { display: "none" }, // Ensure this doesn't show in the drawer
+        }}
       />
 
-      {/* 
+      {/* All other screens */}
       <StackHandleInvite.Screen
-        name="AuthStack"
-        component={AuthStack}
-        options={{ title: "Authentication" }}
+        name="Home"
+        component={HomeScreen}
+        options={{
+          animation: "none",
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="gauge-high"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Progress
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
       />
-
-      {Platform.OS === "web" ? (
-        <StackHandleInvite.Screen
-          name="DrawerTabs"
-          component={WebStack}
-          options={{ title: "Home" }}
-        />
-      ) : (
-        <StackHandleInvite.Screen
-          name="BottomTabs"
-          component={TabNavigator}
-          options={{ title: "Home" }}
-        />
-      )}  */}
+      <StackHandleInvite.Screen
+        name="MyGroups"
+        component={MyGroupsScreen}
+        options={{
+          animation: "none",
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="user-group"
+                solid
+                style={{ color: "#292929" }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Groups
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: { fontFamily: "Poppins_500Medium" },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      />
+      <StackHandleInvite.Screen
+        name="ViewAllGroups"
+        component={GroupListScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="Group Tabs"
+        component={GroupTabs}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="AddGroup"
+        component={AddGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="CreateGroup"
+        component={CreateGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="CreateTask"
+        component={CreateTask}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="MyGroupTasks"
+        component={MyGroupTasks}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="OverallAchievements"
+        component={OverallAchievements}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="GroupAchievements"
+        component={GroupAchievements}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="EditGroup"
+        component={EditGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="Group Chat"
+        component={ChatScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={{ animation: "none", drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="CreatePost"
+        component={CreatePostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="EditPost"
+        component={EditPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="ViewPost"
+        component={ViewPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="GroupInfo"
+        component={GroupInfoScreen}
+        options={{ animation: "none", drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="GroupAnalytics"
+        component={GroupAnalytics}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="DeleteGroup"
+        component={DeleteGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="JoinGroup"
+        component={JoinGroupWithPasscode}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="bell"
+                solid
+                style={{ color: "#292929" }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Activity
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: { fontFamily: "Poppins_500Medium" },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      />
+      <StackHandleInvite.Screen
+        name="ProfilePage"
+        component={ProfilePageScreen}
+        options={{
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="circle-user"
+                solid
+                style={{ color: "#292929" }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Profile
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: { fontFamily: "Poppins_500Medium" },
+          drawerActiveTintColor: "#2482AA",
+          headerTitle: "Profile",
+        }}
+      />
+      <StackHandleInvite.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="DeleteAccount"
+        component={DeleteAccountScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="ChangeUsernameScreen"
+        component={ChangeUsernameScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="AccountScreen"
+        component={AccountScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="FeedbackScreen"
+        component={FeedbackScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="NotificationSettings"
+        component={NotificationSettings}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="StudyModeScreen"
+        component={StudyModeScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
     </StackHandleInvite.Navigator>
   );
 }

@@ -84,7 +84,6 @@ export default function PostScreen({ navigation }) {
             isoTimeSent: isoTimeSent,
             number_comments: number_comments,
           }),
-            //   console.log("Current post title is: " + title);
             navigation.navigate("ViewPost", { currentPost: id });
         }}
       >
