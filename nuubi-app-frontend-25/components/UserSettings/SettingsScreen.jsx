@@ -95,8 +95,10 @@ const SECTIONS = [
 const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null, loggedIn: false }); // Correctly resetting the user state
   if (Platform.OS === "web") {
+    console.log("signing out from web");
     await logoutUser(setUser); // Pass setUser directly
     sessionStorage.removeItem("token");
+    navigation.navigate("Welcome");
   } else {
     SecureStore.deleteItemAsync("token");
     SecureStore.deleteItemAsync("user");

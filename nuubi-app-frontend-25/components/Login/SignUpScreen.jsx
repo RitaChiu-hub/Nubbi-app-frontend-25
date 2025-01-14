@@ -536,13 +536,32 @@ export default function SignUpScreen({ navigation }) {
                   <View style={globalStyles.dividerContainer}>
                     <View style={globalStyles.halfDivider}></View>
                     <Text style={globalStyles.bodyRegular}>
-                      or continue with
+                      {"  "}
+                      Already have an account?
                     </Text>
+                    <TouchableOpacity
+                      style={{
+                        paddingVertical: 10,
+                        paddingHorizontal: 10,
+                        //   backgroundColor: "red",
+                      }}
+                      accessibilityRole="button"
+                      onPress={() => navigation.navigate("Login")}
+                    >
+                      <Text style={globalStyles.captionLinkBlue}>
+                        {/* //   color: "#050505",
+                        //   fontFamily: "Poppins_500Medium",
+                        //   fontSize: 14,
+                        //   letterSpacing: 0.4,
+                        //   textDecorationLine: "underline", */}
+                        Log In
+                      </Text>
+                    </TouchableOpacity>
                     <View style={globalStyles.halfDivider}></View>
                   </View>
                 </View>
               </View>
-
+              {/* 
               <View
                 style={[
                   globalStyles.ssoButtonsContainer,
@@ -572,7 +591,7 @@ export default function SignUpScreen({ navigation }) {
                     }
                   />
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
           )}
         </Formik>

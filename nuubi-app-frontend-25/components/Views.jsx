@@ -1032,6 +1032,75 @@ function HandleInviteNavigator() {
         component={StudyModeScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
+      <StackHandleInvite.Screen
+        name="Welcome"
+        component={SplashScreen}
+        options={{ drawerItemStyle: { display: "none" }, headerShown: false }}
+      />
+      <StackHandleInvite.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="ForgotPasswordLoggedOut"
+        component={ForgotPasswordLoggedOut}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="CodeVerificationScreen"
+        component={CodeVerificationScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="LandingPage"
+        component={LandingPage}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="LearnMore1"
+        component={LearnMore1Screen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="LearnMore2"
+        component={LearnMore2Screen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="LearnMore4"
+        component={LearnMore4Screen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="LearnMore7"
+        component={LearnMore7Screen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="PrivacyScreen"
+        component={PrivacyScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="TermsScreen"
+        component={TermsScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+
+      <StackHandleInvite.Screen
+        name="HelpLoggedOut"
+        component={HelpScreen}
+        options={{
+          title: "Nuubi How-To",
+          drawerItemStyle: { display: "none" },
+        }}
+      />
     </StackHandleInvite.Navigator>
   );
 }

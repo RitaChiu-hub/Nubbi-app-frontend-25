@@ -212,7 +212,35 @@ export default function LoginScreen({ navigation }) {
                   Forgot password?
                 </Text>
               </TouchableOpacity>
-              <View>
+
+              <View style={globalStyles.dividerContainer}>
+                <View style={globalStyles.halfDivider}></View>
+                <Text style={globalStyles.bodyRegular}>
+                  {"  "}
+                  Don't have an account?
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 10,
+                    paddingHorizontal: 10,
+                    //   backgroundColor: "red",
+                  }}
+                  accessibilityRole="button"
+                  onPress={() => navigation.navigate("SignUp")}
+                >
+                  <Text style={globalStyles.captionLinkBlue}>
+                    {/* //   color: "#050505",
+                        //   fontFamily: "Poppins_500Medium",
+                        //   fontSize: 14,
+                        //   letterSpacing: 0.4,
+                        //   textDecorationLine: "underline", */}
+                    Sign Up
+                  </Text>
+                </TouchableOpacity>
+                <View style={globalStyles.halfDivider}></View>
+              </View>
+
+              {/* <View>
                 <View style={{ marginTop: 10 }}>
                   <View style={globalStyles.dividerContainer}>
                     <View style={globalStyles.halfDivider}></View>
@@ -253,7 +281,7 @@ export default function LoginScreen({ navigation }) {
                     />
                   </TouchableOpacity>
                 </View>
-              </View>
+              </View> */}
             </View>
           )}
         </Formik>
