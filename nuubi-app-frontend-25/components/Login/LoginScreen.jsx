@@ -61,8 +61,8 @@ export default function LoginScreen({ navigation }) {
         }}
       >
         <Formik
-          //  initialValues={{ username: "", password: "" }}
-          initialValues={{ username: "Testuser", password: "Testpass!23" }}
+          initialValues={{ username: "", password: "" }}
+          // initialValues={{ username: "Testuser", password: "Testpass!23" }}
           // initialValues={{
           //   username: "TestInstructor",
           //   password: "TestNuubi!23",
@@ -114,7 +114,6 @@ export default function LoginScreen({ navigation }) {
                 setUser({ ...data });
                 if (Platform.OS === "web") {
                   const mytoken = data.token;
-                  console.log("my token is: " + mytoken);
                   setUser({
                     ...user,
                     loggedIn: true,

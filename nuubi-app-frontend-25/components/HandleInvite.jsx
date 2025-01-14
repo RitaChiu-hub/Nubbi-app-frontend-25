@@ -76,7 +76,6 @@ const HandleInviteScreen = () => {
   // Check if user is logged in (cross-platform)
   async function checkIsLoggedIn() {
     if (Platform.OS === "web") {
-      console.log("checking web login ... ");
       // Web: Use the new checkWebLogin function
       return await checkWebLogin();
     } else {

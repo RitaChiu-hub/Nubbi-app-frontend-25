@@ -98,11 +98,9 @@ const inviteToken = window.location.pathname
   .includes("groups/invite")
   ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
   : null;
-console.log("invite token from settings: " + inviteToken);
 const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null, loggedIn: false }); // Correctly resetting the user state
   if (Platform.OS === "web") {
-    console.log("signing out from web");
     await logoutUser(setUser); // Pass setUser directly
     sessionStorage.removeItem("token");
     if (inviteToken) {
