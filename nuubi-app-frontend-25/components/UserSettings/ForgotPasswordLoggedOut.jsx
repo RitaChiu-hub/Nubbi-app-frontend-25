@@ -13,6 +13,11 @@ import { Formik, ErrorMessage } from "formik";
 import * as SecureStore from "expo-secure-store";
 
 export default function ForgotPasswordLoggedOut({ navigation }) {
+  const inviteToken = window.location.pathname
+    .toLowerCase()
+    .includes("groups/invite")
+    ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+    : null;
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [enteredEmail, setEnteredEmail] = React.useState(false);
@@ -78,14 +83,17 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
               const vals = { ...values };
               actions.resetForm();
               const email = vals.email;
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, email }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, email }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
@@ -140,14 +148,17 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             onSubmit={(values, actions) => {
               const vals = { ...values };
               actions.resetForm();
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ ...user, ...vals }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ ...user, ...vals }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })
@@ -215,7 +226,15 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={globalStyles.linkButton}
-                    onPress={() => navigation.navigate("Login")}
+                    onPress={() => {
+                      if (inviteToken) {
+                        // Navigate to ForgotPasswordLoggedOut with inviteToken
+                        navigation.navigate("Login", { inviteToken });
+                      } else {
+                        // Regular navigation without inviteToken
+                        navigation.navigate("Login");
+                      }
+                    }}
                   >
                     <Text style={globalStyles.captionLinkBlue}>
                       Return to Sign In

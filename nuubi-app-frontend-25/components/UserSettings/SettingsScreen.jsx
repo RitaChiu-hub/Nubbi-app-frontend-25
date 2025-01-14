@@ -92,13 +92,23 @@ const SECTIONS = [
 //   }
 //   socket.disconnect();
 // };
+
+const inviteToken = window.location.pathname
+  .toLowerCase()
+  .includes("groups/invite")
+  ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+  : null;
+console.log("invite token from settings: " + inviteToken);
 const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null, loggedIn: false }); // Correctly resetting the user state
   if (Platform.OS === "web") {
     console.log("signing out from web");
     await logoutUser(setUser); // Pass setUser directly
     sessionStorage.removeItem("token");
-    navigation.navigate("Welcome");
+    if (inviteToken) {
+      // Navigate to ForgotPasswordLoggedOut with inviteToken
+      navigation.navigate("Login", { inviteToken });
+    }
   } else {
     SecureStore.deleteItemAsync("token");
     SecureStore.deleteItemAsync("user");

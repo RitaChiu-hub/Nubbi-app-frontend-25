@@ -47,6 +47,12 @@ export default function SignUpScreen({ navigation }) {
     );
   };
 
+  const inviteToken = window.location.pathname
+  .toLowerCase()
+  .includes("groups/invite")
+  ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+  : null;
+
   const validatePassword = (input) => {
     let newSuggestions = [];
     if (input.length >= 8) {
@@ -155,7 +161,11 @@ export default function SignUpScreen({ navigation }) {
                 } else {
                   navigation.navigate("CodeVerificationScreen", {
                     formVals: vals,
+                    ...(inviteToken ? { inviteToken } : {}),
                   });
+                  // navigation.navigate("CodeVerificationScreen", {
+                  //   formVals: vals,
+                  // });
                 }
                 if (!data) return;
                 setUser({ ...data });
@@ -176,7 +186,16 @@ export default function SignUpScreen({ navigation }) {
                   <Text style={[globalStyles.captionError]}>
                     Oops! {error} Would you like to:{" "}
                     <TouchableOpacity
-                      onPress={() => navigation.navigate("Login")}
+                      //    onPress={() => navigation.navigate("Login")}
+                      onPress={() => {
+                        if (inviteToken) {
+                          // Navigate to ForgotPasswordLoggedOut with inviteToken
+                          navigation.navigate("Login", { inviteToken });
+                        } else {
+                          // Regular navigation without inviteToken
+                          navigation.navigate("Login");
+                        }
+                      }}
                       accessibilityRole="button"
                       hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
                     >
@@ -195,9 +214,17 @@ export default function SignUpScreen({ navigation }) {
                     </TouchableOpacity>{" "}
                     or{" "}
                     <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate("ForgotPasswordLoggedOut")
-                      }
+                      onPress={() => {
+                        if (inviteToken) {
+                          // Navigate to ForgotPasswordLoggedOut with inviteToken
+                          navigation.navigate("ForgotPasswordLoggedOut", {
+                            inviteToken,
+                          });
+                        } else {
+                          // Regular navigation without inviteToken
+                          navigation.navigate("ForgotPasswordLoggedOut");
+                        }
+                      }}
                       accessibilityRole="button"
                       hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
                     >
@@ -546,7 +573,18 @@ export default function SignUpScreen({ navigation }) {
                         //   backgroundColor: "red",
                       }}
                       accessibilityRole="button"
-                      onPress={() => navigation.navigate("Login")}
+                      // onPress={() =>
+                      //   navigation.navigate("Login", { inviteToken })
+                      // }
+                      onPress={() => {
+                        if (inviteToken) {
+                          // Navigate to ForgotPasswordLoggedOut with inviteToken
+                          navigation.navigate("Login", { inviteToken });
+                        } else {
+                          // Regular navigation without inviteToken
+                          navigation.navigate("Login");
+                        }
+                      }}
                     >
                       <Text style={globalStyles.captionLinkBlue}>
                         {/* //   color: "#050505",

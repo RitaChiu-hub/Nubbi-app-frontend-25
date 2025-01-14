@@ -127,6 +127,10 @@ export default function App() {
           path: "groups/invite/:invitetoken",
           screens: {
             HandleInvite: "",
+            SignUp: "/signup",
+            Login: "/login",
+            //  CodeVerificationScreen: "verify",
+            // Add other nested screens here
           },
         },
         //   HandleInvite: "groups/invite/:token",

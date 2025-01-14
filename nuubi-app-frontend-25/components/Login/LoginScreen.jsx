@@ -23,6 +23,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function LoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
+  const inviteToken = window.location.pathname
+    .toLowerCase()
+    .includes("groups/invite")
+    ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+    : null;
 
   let assets = useAssets([require("../../assets/google-logo.png")]);
   let assets2 = useAssets([require("../../assets/facebook-logo.png")]);
@@ -109,12 +114,23 @@ export default function LoginScreen({ navigation }) {
                 setUser({ ...data });
                 if (Platform.OS === "web") {
                   const mytoken = data.token;
+                  console.log("my token is: " + mytoken);
                   setUser({
                     ...user,
                     loggedIn: true,
                     token: mytoken,
                   });
                   sessionStorage.setItem("token", mytoken);
+
+                  if (inviteToken) {
+                    setUser({
+                      ...user,
+                      loggedIn: true,
+                      token: mytoken,
+                    });
+                    sessionStorage.setItem("token", mytoken);
+                    navigation.navigate("HandleInvite", { inviteToken });
+                  }
                 } else {
                   SecureStore.setItemAsync("token", data.token)
                     .then(() => {
@@ -206,7 +222,17 @@ export default function LoginScreen({ navigation }) {
               <TouchableOpacity
                 style={globalStyles.linkButton}
                 accessibilityRole="button"
-                onPress={() => navigation.navigate("ForgotPasswordLoggedOut")}
+                onPress={() => {
+                  if (inviteToken) {
+                    // Navigate to ForgotPasswordLoggedOut with inviteToken
+                    navigation.navigate("ForgotPasswordLoggedOut", {
+                      inviteToken,
+                    });
+                  } else {
+                    // Regular navigation without inviteToken
+                    navigation.navigate("ForgotPasswordLoggedOut");
+                  }
+                }}
               >
                 <Text style={globalStyles.captionLinkBlue}>
                   Forgot password?
@@ -226,7 +252,15 @@ export default function LoginScreen({ navigation }) {
                     //   backgroundColor: "red",
                   }}
                   accessibilityRole="button"
-                  onPress={() => navigation.navigate("SignUp")}
+                  onPress={() => {
+                    if (inviteToken) {
+                      // Navigate to ForgotPasswordLoggedOut with inviteToken
+                      navigation.navigate("SignUp", { inviteToken });
+                    } else {
+                      // Regular navigation without inviteToken
+                      navigation.navigate("SignUp");
+                    }
+                  }}
                 >
                   <Text style={globalStyles.captionLinkBlue}>
                     {/* //   color: "#050505",
