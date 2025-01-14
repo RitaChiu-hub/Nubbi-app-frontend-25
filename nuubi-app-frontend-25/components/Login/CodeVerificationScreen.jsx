@@ -163,6 +163,13 @@ export default function CodeVerificationScreen({ navigation, route }) {
                     setUser({
                       loggedIn: true,
                     });
+                    if (inviteToken) {
+                      setUser({
+                        ...user,
+                        loggedIn: true,
+                      });
+                      navigation.navigate("HandleInvite", { inviteToken });
+                    }
                   } else {
                     SecureStore.setItemAsync("token", data.token)
                       .then(() => {
