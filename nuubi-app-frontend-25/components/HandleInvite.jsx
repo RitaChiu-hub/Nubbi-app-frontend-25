@@ -111,7 +111,8 @@ const HandleInviteScreen = () => {
 
         try {
           const response = await fetch(
-            `http://localhost:8080/groups/invite/${inviteToken}`,
+            `https://coral-app-n96bn.ondigitalocean.app/groups/invite/${inviteToken}`,
+            // `http://localhost:8080/groups/invite/${inviteToken}`,
             {
               method: "POST",
               credentials: "include",
