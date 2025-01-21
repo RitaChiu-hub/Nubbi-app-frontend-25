@@ -8,7 +8,7 @@ const HandleInviteScreen = () => {
   const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
 
   const navigation = useNavigation();
-
+ 
   const inviteToken = window.location.pathname
     .toLowerCase()
     .includes("groups/invite")
