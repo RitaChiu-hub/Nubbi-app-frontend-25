@@ -15,11 +15,16 @@ import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CodeVerificationScreen({ navigation, route }) {
-  const inviteToken = window.location.pathname
-    .toLowerCase()
-    .includes("groups/invite")
-    ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
-    : null;
+  // const inviteToken = window.location.pathname
+  //   .toLowerCase()
+  //   .includes("groups/invite")
+  //   ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+  //   : null;
+  const inviteToken =
+    Platform.OS == "web" &&
+    window.location.pathname.toLowerCase().includes("groups/invite")
+      ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+      : null;
   const { setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [verificationData, setVerificationData] = React.useState(null);

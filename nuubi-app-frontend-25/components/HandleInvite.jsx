@@ -8,12 +8,16 @@ const HandleInviteScreen = () => {
   const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
 
   const navigation = useNavigation();
- 
-  const inviteToken = window.location.pathname
-    .toLowerCase()
-    .includes("groups/invite")
-    ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
-    : null;
+  const inviteToken =
+    Platform.OS == "web" &&
+    window.location.pathname.toLowerCase().includes("groups/invite")
+      ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+      : null;
+  //   const inviteToken = window.location.pathname
+  //     .toLowerCase()
+  //     .includes("groups/invite")
+  //     ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+  //     : null;
 
   // if the token is null, just redirect to some other page...
 

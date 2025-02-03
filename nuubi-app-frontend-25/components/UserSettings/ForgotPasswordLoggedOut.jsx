@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
@@ -13,11 +14,16 @@ import { Formik, ErrorMessage } from "formik";
 import * as SecureStore from "expo-secure-store";
 
 export default function ForgotPasswordLoggedOut({ navigation }) {
-  const inviteToken = window.location.pathname
-    .toLowerCase()
-    .includes("groups/invite")
-    ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
-    : null;
+  const inviteToken =
+    Platform.OS == "web" &&
+    window.location.pathname.toLowerCase().includes("groups/invite")
+      ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+      : null;
+  // const inviteToken = window.location.pathname
+  //   .toLowerCase()
+  //   .includes("groups/invite")
+  //   ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+  //   : null;
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [enteredEmail, setEnteredEmail] = React.useState(false);

@@ -23,11 +23,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function LoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
-  const inviteToken = window.location.pathname
-    .toLowerCase()
-    .includes("groups/invite")
-    ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
-    : null;
+  const inviteToken =
+    Platform.OS == "web" &&
+    window.location.pathname.toLowerCase().includes("groups/invite")
+      ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+      : null;
+  // const inviteToken = window.location.pathname
+  //   .toLowerCase()
+  //   .includes("groups/invite")
+  //   ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+  //   : null;
 
   let assets = useAssets([require("../../assets/google-logo.png")]);
   let assets2 = useAssets([require("../../assets/facebook-logo.png")]);

@@ -93,11 +93,17 @@ const SECTIONS = [
 //   socket.disconnect();
 // };
 
-const inviteToken = window.location.pathname
-  .toLowerCase()
-  .includes("groups/invite")
-  ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
-  : null;
+const inviteToken =
+  Platform.OS == "web" &&
+  window.location.pathname.toLowerCase().includes("groups/invite")
+    ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+    : null;
+
+// const inviteToken = window.location.pathname
+//   .toLowerCase()
+//   .includes("groups/invite")
+//   ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+//   : null;
 const handleSignOut = async (setUser, navigation) => {
   setUser({ token: null, loggedIn: false }); // Correctly resetting the user state
   if (Platform.OS === "web") {

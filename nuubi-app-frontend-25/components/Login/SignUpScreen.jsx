@@ -47,11 +47,16 @@ export default function SignUpScreen({ navigation }) {
     );
   };
 
-  const inviteToken = window.location.pathname
-  .toLowerCase()
-  .includes("groups/invite")
-  ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
-  : null;
+  const inviteToken =
+    Platform.OS == "web" &&
+    window.location.pathname.toLowerCase().includes("groups/invite")
+      ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+      : null;
+  // const inviteToken = window.location.pathname
+  // .toLowerCase()
+  // .includes("groups/invite")
+  // ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
+  // : null;
 
   const validatePassword = (input) => {
     let newSuggestions = [];
