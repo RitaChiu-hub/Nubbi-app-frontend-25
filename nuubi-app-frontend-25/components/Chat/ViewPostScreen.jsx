@@ -183,7 +183,7 @@ export default function ViewPostScreen({ navigation, route }) {
   };
 
   const getComments = async () => {
-     const token =
+    const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
@@ -203,6 +203,10 @@ export default function ViewPostScreen({ navigation, route }) {
         }
       );
       const jsonData = await response.json();
+      jsonData.sort(
+        (a, b) =>
+          new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
+      );
       setComments(jsonData);
     } catch (err) {
       console.error(err.message);
@@ -247,6 +251,12 @@ export default function ViewPostScreen({ navigation, route }) {
 
   React.useEffect(() => {
     socket.on("insert comment return updated list", (jsonData) => {
+      // Sort the updated list to always display oldest to newest
+      jsonData.sort(
+        (a, b) =>
+          new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
+      );
+
       setComments(jsonData);
       getComments();
     });
@@ -717,7 +727,6 @@ export default function ViewPostScreen({ navigation, route }) {
                     padding: 10,
                     fontSize: 18,
                     fontFamily: "Poppins_400Regular",
-                    fontSize: 18,
                     letterSpacing: 0.5,
                     alignContent: "center",
                     color: "#767676",
@@ -726,6 +735,9 @@ export default function ViewPostScreen({ navigation, route }) {
                         ? deviceWidth * 0.75 - 56
                         : deviceWidth * 0.9 - 56,
                   }}
+                  multiline={true} // Allows new lines
+                  numberOfLines={2} // Keeps it visually small
+                  textAlignVertical="top" // Keeps text aligned properly
                   placeholder="Add comment..."
                   onChangeText={props.handleChange("mycomment")}
                   value={props.values.mycomment}
