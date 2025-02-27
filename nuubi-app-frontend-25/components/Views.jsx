@@ -1452,27 +1452,47 @@ export default function Views({ landingPage, inviteToken }) {
     }
   }
 
-  // React.useEffect(() => {
-  //   const checkLoginStatus = async () => {
-  //     const loggedIn = await checkIsLoggedIn(); // Call the async login check
-  //     setIsLoggedIn(loggedIn);
-  //   };
-
-  //   checkLoginStatus(); // Run the check when the component mounts
-  //   //  console.log("user logged in: " + user.loggedIn);
-  // });
-
+  // 1️⃣ Check login status on mount
   React.useEffect(() => {
-    if (!landingPage & !inviteToken) {
-      // Only run if landingPage is false
+    if (!landingPage && !inviteToken) {
       const checkLoginStatus = async () => {
-        const loggedIn = await checkIsLoggedIn(); // Call the async login check
-        setIsLoggedIn(loggedIn);
+        try {
+          const loggedIn = await checkIsLoggedIn();
+          setIsLoggedIn(Boolean(loggedIn));
+        } catch (error) {
+          console.error("Error checking login status:", error);
+          setIsLoggedIn(false);
+        }
       };
 
-      checkLoginStatus(); // Run the check when the component mounts
+      checkLoginStatus();
     }
-  }, [landingPage, user]);
+  }, [landingPage, inviteToken]); // ✅ Runs on mount or when inviteToken changes
+
+  // 2️⃣ Check login status again when `user` changes
+  React.useEffect(() => {
+    if (user) {
+      const verifyLogin = async () => {
+        const loggedIn = await checkIsLoggedIn();
+        setIsLoggedIn(Boolean(loggedIn)); // ✅ Only update if `checkIsLoggedIn` confirms it
+      };
+
+      verifyLogin();
+    }
+  }, [user]); // ✅ Runs only when `user` changes
+
+  // React.useEffect(() => {
+  //   if (!landingPage && !inviteToken) {
+  //     // Only run if landingPage is false
+  //     const checkLoginStatus = async () => {
+  //       const loggedIn = await checkIsLoggedIn(); // Call the async login check
+  //       console.log(Boolean(loggedIn));
+  //       setIsLoggedIn(Boolean(loggedIn));
+  //     };
+
+  //     checkLoginStatus(); // Run the check when the component mounts
+  //   }
+  // }, [landingPage, user]);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

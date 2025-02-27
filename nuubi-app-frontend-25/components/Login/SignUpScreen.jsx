@@ -125,10 +125,12 @@ export default function SignUpScreen({ navigation }) {
       >
         <Formik
           initialValues={{
-            email: email,
+            //email: email,
+            email: user?.email || "",
             password: password,
             password2: comfirmPassword,
           }}
+          enableReinitialize={true}
           validationSchema={formSignupSchema}
           onSubmit={(values, actions) => {
             values.email = values.email.trim();
@@ -174,6 +176,14 @@ export default function SignUpScreen({ navigation }) {
                 }
                 if (!data) return;
                 setUser({ ...data });
+                // Reset the form after submission
+                actions.resetForm({
+                  values: {
+                    email: "", // Ensure email is blank for new users
+                    password: "",
+                    password2: "",
+                  },
+                });
               });
           }}
         >
@@ -248,69 +258,6 @@ export default function SignUpScreen({ navigation }) {
                     </TouchableOpacity>
                   </Text>
                 </View>
-
-                // <View
-                //   style={{
-                //     alignItems: "center",
-                //     paddingTop: 16,
-                //     paddingBottom: 6,
-                //   }}
-                //   accessibilityRole="none"
-                // >
-                //   <Text
-                //     style={[
-                //       globalStyles.captionError,
-                //       { paddingVertical: 10, paddingHorizontal: 10 },
-                //     ]}
-                //   >
-                //     Oops! {error} Would you like to:
-                //     <TouchableOpacity
-                //       style={{
-                //         paddingVertical: 10,
-                //         paddingHorizontal: 10,
-                //         backgroundColor: "red",
-                //       }}
-                //       accessibilityRole="button"
-                //       onPress={() => navigation.navigate("Login")}
-                //     >
-                //       <Text
-                //         style={{
-                //           color: "#050505",
-                //           fontFamily: "Poppins_500Medium",
-                //           fontSize: 14,
-                //           letterSpacing: 0.4,
-                //           textDecorationLine: "underline",
-                //         }}
-                //       >
-                //         Log In
-                //       </Text>
-                //     </TouchableOpacity>
-                //     or
-                //     <TouchableOpacity
-                //       style={{
-                //         paddingVertical: 10,
-                //         paddingHorizontal: 10,
-                //         backgroundColor: "red",
-                //       }}
-                //       accessibilityRole="button"
-                //       onPress={() =>
-                //         navigation.navigate("ForgotPasswordLoggedOut")
-                //       }
-                //     >
-                //       <Text
-                //         style={{
-                //           color: "#050505",
-                //           fontFamily: "Poppins_500Medium",
-                //           fontSize: 14,
-                //           letterSpacing: 0.4,
-                //           textDecorationLine: "underline",
-                //         }}
-                //       >
-                //         Forgot Password?
-                //       </Text>
-                //     </TouchableOpacity>
-                //   </Text>
-                // </View>
               )}
 
               <Text style={globalStyles.textInputLabel}>Email:</Text>
@@ -591,50 +538,12 @@ export default function SignUpScreen({ navigation }) {
                         }
                       }}
                     >
-                      <Text style={globalStyles.captionLinkBlue}>
-                        {/* //   color: "#050505",
-                        //   fontFamily: "Poppins_500Medium",
-                        //   fontSize: 14,
-                        //   letterSpacing: 0.4,
-                        //   textDecorationLine: "underline", */}
-                        Log In
-                      </Text>
+                      <Text style={globalStyles.captionLinkBlue}>Log In</Text>
                     </TouchableOpacity>
                     <View style={globalStyles.halfDivider}></View>
                   </View>
                 </View>
               </View>
-              {/* 
-              <View
-                style={[
-                  globalStyles.ssoButtonsContainer,
-                  { marginBottom: 100 },
-                ]}
-              >
-                <TouchableOpacity
-                  style={globalStyles.ssoButton}
-                  accessibilityRole="button"
-                  onPress={() => alert("Apple login coming soon!")}
-                >
-                  <IconMC name="apple" size={22} color="black" />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={globalStyles.ssoButton}
-                  accessibilityRole="button"
-                  onPress={() => alert("Google login coming soon!")}
-                >
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                    alt={"Google Logo"}
-                    source={
-                      Platform.OS == "web"
-                        ? require("../../assets/google-logo.png")
-                        : assets[0]
-                    }
-                  />
-                </TouchableOpacity>
-              </View> */}
             </View>
           )}
         </Formik>
