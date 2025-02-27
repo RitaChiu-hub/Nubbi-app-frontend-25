@@ -1,11 +1,13 @@
 import "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
+import { StripeProvider } from "@stripe/stripe-react-native";
 import Views from "./components/Views";
 import { NavigationContainer } from "@react-navigation/native";
 import UserContext from "./components/AccountContext";
 import { Fragment } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Linking, Platform } from "react-native";
+
 // import * as Linking from "expo-linking";
 
 import {
@@ -153,17 +155,22 @@ export default function App() {
     : null;
 
   return (
-    <Fragment>
-      <StatusBar style="dark" />
-      <UserContext>
-        <NavigationContainer
-          linking={linking}
-          landingPage={containsLandingPage}
-          inviteToken={inviteToken}
-        >
-          <Views landingPage={containsLandingPage} inviteToken={inviteToken} />
-        </NavigationContainer>
-      </UserContext>
-    </Fragment>
+    <StripeProvider publishableKey="pk_test_51LJPaMGxdxKNnJqJrQc1DZHLMO0wHS2zmPCNeKQxENFifWl5kfnQnIuzu629Mpk76jvQK2TGAPHIdN3m2a2k5qeQ00MIRhno5P">
+      <Fragment>
+        <StatusBar style="dark" />
+        <UserContext>
+          <NavigationContainer
+            linking={linking}
+            landingPage={containsLandingPage}
+            inviteToken={inviteToken}
+          >
+            <Views
+              landingPage={containsLandingPage}
+              inviteToken={inviteToken}
+            />
+          </NavigationContainer>
+        </UserContext>
+      </Fragment>
+    </StripeProvider>
   );
 }
