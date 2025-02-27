@@ -1,14 +1,28 @@
-import "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
-import { StripeProvider } from "@stripe/stripe-react-native";
-import Views from "./components/Views";
-import { NavigationContainer } from "@react-navigation/native";
-import UserContext from "./components/AccountContext";
-import { Fragment } from "react";
+import React, { Fragment, useEffect, useState, Suspense } from "react";
+import { Platform } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { Linking, Platform } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import Views from "./components/Views";
+import UserContext from "./components/AccountContext";
 
-// import * as Linking from "expo-linking";
+// import "react-native-gesture-handler";
+// import Animated from "react-native-reanimated";
+// import Views from "./components/Views";
+// import { NavigationContainer } from "@react-navigation/native";
+// import UserContext from "./components/AccountContext";
+// import React, { Fragment, useEffect, useState, lazy, Suspense } from "react";
+// import { StatusBar } from "expo-status-bar";
+// import { Linking, Platform } from "react-native";
+
+// Lazy-load Stripe for Web
+const isWeb = Platform.OS === "web";
+const Elements = isWeb
+  ? React.lazy(() =>
+      import("@stripe/react-stripe-js").then((mod) => ({
+        default: mod.Elements,
+      }))
+    )
+  : null;
 
 import {
   useFonts,
@@ -154,23 +168,77 @@ export default function App() {
     ? window.location.pathname.split("/groups/invite/")[1]
     : null;
 
+  const [StripeProvider, setStripeProvider] = useState(null);
+  const [stripePromise, setStripePromise] = useState(null);
+
+  useEffect(() => {
+    if (!isWeb) {
+      import("@stripe/stripe-react-native").then((mod) => {
+        setStripeProvider(() => mod.StripeProvider);
+      });
+    } else {
+      import("@stripe/stripe-js").then((mod) => {
+        setStripePromise(
+          mod.loadStripe(
+            "pk_test_51LJPaMGxdxKNnJqJrQc1DZHLMO0wHS2zmPCNeKQxENFifWl5kfnQnIuzu629Mpk76jvQK2TGAPHIdN3m2a2k5qeQ00MIRhno5P"
+          )
+        );
+      });
+    }
+  }, []);
+
   return (
-    <StripeProvider publishableKey="pk_test_51LJPaMGxdxKNnJqJrQc1DZHLMO0wHS2zmPCNeKQxENFifWl5kfnQnIuzu629Mpk76jvQK2TGAPHIdN3m2a2k5qeQ00MIRhno5P">
-      <Fragment>
-        <StatusBar style="dark" />
-        <UserContext>
-          <NavigationContainer
-            linking={linking}
-            landingPage={containsLandingPage}
-            inviteToken={inviteToken}
+    <Fragment>
+      <StatusBar style="dark" />
+      <UserContext>
+        <NavigationContainer
+          linking={linking}
+          landingPage={containsLandingPage}
+          inviteToken={inviteToken}
+        >
+          <Suspense
+            fallback={
+              <Views
+                landingPage={containsLandingPage}
+                inviteToken={inviteToken}
+              />
+            }
           >
-            <Views
-              landingPage={containsLandingPage}
-              inviteToken={inviteToken}
-            />
-          </NavigationContainer>
-        </UserContext>
-      </Fragment>
-    </StripeProvider>
+            {isWeb && Elements && stripePromise ? (
+              <Elements stripe={stripePromise}>
+                <Views
+                  landingPage={containsLandingPage}
+                  inviteToken={inviteToken}
+                />
+              </Elements>
+            ) : StripeProvider ? (
+              <StripeProvider publishableKey="pk_test_51LJPaMGxdxKNnJqJrQc1DZHLMO0wHS2zmPCNeKQxENFifWl5kfnQnIuzu629Mpk76jvQK2TGAPHIdN3m2a2k5qeQ00MIRhno5P">
+                <Views
+                  landingPage={containsLandingPage}
+                  inviteToken={inviteToken}
+                />
+              </StripeProvider>
+            ) : (
+              <Views
+                landingPage={containsLandingPage}
+                inviteToken={inviteToken}
+              />
+            )}
+          </Suspense>
+        </NavigationContainer>
+      </UserContext>
+    </Fragment>
+    // <Fragment>
+    //   <StatusBar style="dark" />
+    //   <UserContext>
+    //     <NavigationContainer
+    //       linking={linking}
+    //       landingPage={containsLandingPage}
+    //       inviteToken={inviteToken}
+    //     >
+    //       <Views landingPage={containsLandingPage} inviteToken={inviteToken} />
+    //     </NavigationContainer>
+    //   </UserContext>
+    // </Fragment>
   );
 }

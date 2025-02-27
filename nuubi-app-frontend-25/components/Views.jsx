@@ -26,6 +26,7 @@ import MyGroupTasks from "./Groups/MyGroupTasks";
 
 import SplashScreen from "./SplashScreens/SplashScreen";
 import LandingPage from "./LandingPage";
+import FreebieLandingPage from "./FreebieLandingPage";
 import HandleInviteScreen from "./HandleInvite";
 
 import SettingsScreen from "./UserSettings/SettingsScreen";
@@ -622,6 +623,10 @@ function AuthStack() {
         component={CodeVerificationScreen}
       />
       <StackAuth.Screen name="LandingPage" component={LandingPage} />
+      <StackAuth.Screen
+        name="FreebieLandingPage"
+        component={FreebieLandingPage}
+      />
       <StackAuth.Screen name="LearnMore1" component={LearnMore1Screen} />
       <StackAuth.Screen name="LearnMore2" component={LearnMore2Screen} />
       <StackAuth.Screen name="LearnMore4" component={LearnMore4Screen} />
@@ -650,6 +655,7 @@ function LandingStack() {
         headerTintColor: "#fbfbfb",
       }}
     >
+      <StackLanding.Screen name="Free Guide" component={FreebieLandingPage} />
       <StackLanding.Screen name="Landing Page" component={LandingPage} />
       <StackLanding.Screen name="SplashScreen" component={SplashScreen} />
       {/* Other landing-related screens */}
@@ -1060,6 +1066,11 @@ function HandleInviteNavigator() {
       <StackHandleInvite.Screen
         name="LandingPage"
         component={LandingPage}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="FreebieLandingPage"
+        component={FreebieLandingPage}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <StackHandleInvite.Screen
@@ -1503,7 +1514,7 @@ export default function Views({ landingPage, inviteToken }) {
           initialParams={{ inviteToken: inviteToken }}
         />
       ) : landingPage ? (
-        <Stack.Screen name="LandingPage" component={LandingStack} />
+        <Stack.Screen name="FreebieLandingPage" component={LandingStack} />
       ) : isLoggedIn ? (
         // If logged in, show either web or mobile homepage
         Platform.OS === "web" ? (
