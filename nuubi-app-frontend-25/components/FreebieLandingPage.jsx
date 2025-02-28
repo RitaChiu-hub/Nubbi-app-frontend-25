@@ -31,14 +31,11 @@ const FreebieLandingPage = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "https://your-backend.com/api/freebie-signup",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, marketingConsent: true }),
-        }
-      );
+      const response = await fetch("http://localhost:8080/auth/freebiesignup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, marketingConsent: true }),
+      });
 
       const data = await response.json();
 
@@ -123,7 +120,32 @@ const FreebieLandingPage = ({ navigation }) => {
           )}
         </TouchableOpacity>
       </View>
-
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>You're In! 🎉</Text>
+            <Text style={styles.modalText}>
+              Check your email for your freebie! If you don’t see it, check your
+              spam folder.
+            </Text>
+            <Text style={styles.modalText}>
+              Want to take the next step? Get the **full guide for just $9.99**
+              or join our bootcamp waitlist!
+            </Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.modalButtonText}>Got It!</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       {/* ✅ Testimonials & FAQ */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>⭐ Real Student Testimonials</Text>
@@ -181,6 +203,45 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
     textAlign: "center",
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)", // Dark overlay effect
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5, // Adds a shadow for Android
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  modalText: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 15,
+  },
+  modalButton: {
+    backgroundColor: "#007BFF",
+    padding: 10,
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 
   /* ✅ Fix Checkbox Alignment */
