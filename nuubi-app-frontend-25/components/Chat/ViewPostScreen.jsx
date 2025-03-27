@@ -187,6 +187,7 @@ export default function ViewPostScreen({ navigation, route }) {
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
+    console.log(route.params.currentPost);
     const vals = { ...user, currentPost: route.params.currentPost };
     try {
       const response = await fetch(
@@ -255,6 +256,7 @@ export default function ViewPostScreen({ navigation, route }) {
   }, [user.currentPost]);
 
   React.useEffect(() => {
+    console.log(" doing update");
     const handleUpdate = (jsonData) => {
       const sorted = [...jsonData].sort(
         (a, b) =>
@@ -713,7 +715,7 @@ export default function ViewPostScreen({ navigation, route }) {
                 : null;
             const uservals = { ...user, ...values, token };
             actions.resetForm();
-            console.log(JSON.stringify(uservals.currentPost));
+            console.log(uservals);
             socket.emit("insert comment return updated list", uservals);
           }}
         >
