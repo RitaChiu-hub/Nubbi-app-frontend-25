@@ -250,17 +250,37 @@ export default function ViewPostScreen({ navigation, route }) {
   const isAuthor = myUsername === user.post_author ? true : false;
 
   React.useEffect(() => {
-    socket.on("insert comment return updated list", (jsonData) => {
-      // Sort the updated list to always display oldest to newest
-      jsonData.sort(
+    const room = `post-${user.currentPost}`;
+    socket.emit("join", room);
+  }, [user.currentPost]);
+
+  React.useEffect(() => {
+    const handleUpdate = (jsonData) => {
+      const sorted = [...jsonData].sort(
         (a, b) =>
           new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
       );
-
-      setComments(jsonData);
+      setComments(sorted);
       getComments();
-    });
-  }, [socket]);
+    };
+
+    socket.on("insert comment return updated list", handleUpdate);
+
+    // Cleanup to prevent multiple listeners stacking
+    return () => {
+      socket.off("insert comment return updated list", handleUpdate);
+    };
+  }, [user.currentPost, socket]);
+
+  // React.useEffect(() => {
+  //   socket.on("insert comment return updated list", (jsonData) => {
+  //     const sorted = [...jsonData].sort(
+  //       (a, b) =>
+  //         new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
+  //     );
+  //     setComments(sorted);
+  //   });
+  // }, [socket]);
 
   React.useEffect(() => {
     socket.on("add post point return updated sum", (jsonData) => {
@@ -693,6 +713,7 @@ export default function ViewPostScreen({ navigation, route }) {
                 : null;
             const uservals = { ...user, ...values, token };
             actions.resetForm();
+            console.log(JSON.stringify(uservals.currentPost));
             socket.emit("insert comment return updated list", uservals);
           }}
         >
