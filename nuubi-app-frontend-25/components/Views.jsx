@@ -28,6 +28,7 @@ import SplashScreen from "./SplashScreens/SplashScreen";
 import LandingPage from "./LandingPage";
 import FreebieLandingPage from "./FreebieLandingPage";
 import HandleInviteScreen from "./HandleInvite";
+import LtiLoginScreen from "./LtiLoginScreen";
 
 import SettingsScreen from "./UserSettings/SettingsScreen";
 import DeleteAccountScreen from "./UserSettings/DeleteAccount";
@@ -1530,6 +1531,7 @@ export default function Views({ landingPage, inviteToken }) {
           options={{ title: "Log in" }}
         />
       )}
+      <Stack.Screen name="LtiLogin" component={LtiLoginScreen} />
     </Stack.Navigator>
   );
 }
