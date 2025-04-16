@@ -1,73 +1,161 @@
 import React, { useState } from "react";
-import { View, Button, Text, Platform } from "react-native";
-import { DatePickerModal } from "react-native-paper-dates"; // Date picker modal
-import { useTheme } from "react-native-paper"; // Optional for theme customization
-import { registerTranslation } from "react-native-paper-dates";
-registerTranslation("en", {
-  save: "Save",
-  selectSingle: "Select date",
-  selectMultiple: "Select dates",
-  selectRange: "Select period",
-  notAccordingToDateFormat: (inputFormat) =>
-    `Date format must be ${inputFormat}`,
-  mustBeHigherThan: (date) => `Must be later then ${date}`,
-  mustBeLowerThan: (date) => `Must be earlier then ${date}`,
-  mustBeBetween: (startDate, endDate) =>
-    `Must be between ${startDate} - ${endDate}`,
-  dateIsDisabled: "Day is not allowed",
-  previous: "Previous",
-  next: "Next",
-  typeInDate: "Type in date",
-  pickDateFromCalendar: "Pick date from calendar",
-  close: "Close",
-});
-const AnalyticsDatePicker = ({ onSubmit }) => {
-  //const { colors } = useTheme();
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [visible, setVisible] = useState(false); // Show or hide the modal
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  TextInput,
+} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
-  const onDateChange = (date) => {
-    setSelectedDate(date);
-    setVisible(false); // Close the modal after selection
-  };
+export default function AnalyticsDatePicker({ onSubmit }) {
+  const [showForm, setShowForm] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const [showStartPicker, setShowStartPicker] = useState(false);
+  const [showEndPicker, setShowEndPicker] = useState(false);
 
   const handleSubmit = () => {
-    onSubmit(selectedDate);
+    if (!startDate || !endDate) {
+      alert("Please select both a start and end date");
+      return;
+    }
+
+    const formattedStart = new Date(startDate).toISOString().split("T")[0];
+    const formattedEnd = new Date(endDate).toISOString().split("T")[0];
+    onSubmit(formattedStart, formattedEnd);
   };
 
   return (
-    <View
-      style={{
-        alignSelf: "flex-start",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-      }}
-    >
-      <Button title="Select Start Date" onPress={() => setVisible(true)} />
+    <View style={{ padding: 16 }}>
+      {!showForm ? (
+        <TouchableOpacity
+          onPress={() => setShowForm(true)}
+          style={{
+            backgroundColor: "#3B82F6",
+            padding: 12,
+            borderRadius: 8,
+            marginBottom: 16,
+          }}
+        >
+          <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>
+            📊 Click here to generate weekly analytics
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <>
+          {/* Start Date */}
+          {Platform.OS === "web" ? (
+            <>
+              <Text style={{ marginBottom: 4 }}>Start Date:</Text>
+              <input
+                type="date"
+                value={startDate.toISOString().split("T")[0]}
+                onChange={(e) => setStartDate(new Date(e.target.value))}
+                style={{ padding: 8, marginBottom: 12 }}
+              />
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                onPress={() => setShowStartPicker(true)}
+                style={{
+                  backgroundColor: "#3B82F6",
+                  padding: 10,
+                  borderRadius: 6,
+                  marginBottom: 10,
+                }}
+              >
+                <Text style={{ color: "white", textAlign: "center" }}>
+                  Start: {startDate.toDateString()}
+                </Text>
+              </TouchableOpacity>
+              {showStartPicker && (
+                <DateTimePicker
+                  value={startDate}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    setShowStartPicker(false);
+                    if (selectedDate) setStartDate(selectedDate);
+                  }}
+                />
+              )}
+            </>
+          )}
 
-      {/* Date Picker Modal */}
-      <DatePickerModal
-        mode="single"
-        label="Select Date"
-        saveLabel="Save"
-        locale="en"
-        visible={visible}
-        date={selectedDate}
-        onDismiss={() => setVisible(false)} // Dismiss modal without changing date
-        onConfirm={({ date }) => onDateChange(date)} // Confirm date selection
-      />
+          {/* End Date */}
+          {Platform.OS === "web" ? (
+            <>
+              <Text style={{ marginTop: 10, marginBottom: 4 }}>End Date:</Text>
+              <input
+                type="date"
+                value={endDate.toISOString().split("T")[0]}
+                onChange={(e) => setEndDate(new Date(e.target.value))}
+                style={{ padding: 8, marginBottom: 12 }}
+              />
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                onPress={() => setShowEndPicker(true)}
+                style={{
+                  backgroundColor: "#3B82F6",
+                  padding: 10,
+                  borderRadius: 6,
+                  marginBottom: 10,
+                }}
+              >
+                <Text style={{ color: "white", textAlign: "center" }}>
+                  End: {endDate.toDateString()}
+                </Text>
+              </TouchableOpacity>
+              {showEndPicker && (
+                <DateTimePicker
+                  value={endDate}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    setShowEndPicker(false);
+                    if (selectedDate) setEndDate(selectedDate);
+                  }}
+                />
+              )}
+            </>
+          )}
 
-      <Text
-        style={{ marginVertical: 5, marginLeft: Platform.OS !== "web" ? 8 : 0 }}
-      >
-        Selected Start Date: {selectedDate.toDateString()}
-      </Text>
-      <Button title="Get Analytics for 8 Weeks" onPress={handleSubmit} />
+          {/* Info */}
+          <Text style={{ fontSize: 14, marginVertical: 10 }}>
+            📅 Your analytics will be grouped by full weeks (Monday–Sunday).
+            Partial weeks are excluded.
+          </Text>
+
+          {/* Submit */}
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={{
+              backgroundColor: "green",
+              padding: 12,
+              borderRadius: 8,
+              marginTop: 10,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              ✅ Generate Analytics
+            </Text>
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
-};
-
-export default AnalyticsDatePicker;
+}
 
 // import React, { useState } from "react";
 // import { View, Button, Text } from "react-native";
