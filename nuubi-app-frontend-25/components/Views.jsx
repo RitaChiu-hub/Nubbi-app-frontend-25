@@ -341,10 +341,44 @@ function HomeDrawerNavigator() {
         options={{ drawerItemStyle: { display: "none" } }}
       />
 
-      <HomeDrawer.Screen
+      {/* <HomeDrawer.Screen
         name="HelpLoggedIn"
         component={HelpScreen}
         options={{ drawerItemStyle: { display: "none" } }}
+      /> */}
+
+      <HomeDrawer.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="circle-question"
+                solid
+                style={{
+                  color: "#292929",
+                }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Nuubi FAQ
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+          headerTitle: "Profile", // Use a simple title for the header
+        }}
       />
 
       <HomeDrawer.Screen
