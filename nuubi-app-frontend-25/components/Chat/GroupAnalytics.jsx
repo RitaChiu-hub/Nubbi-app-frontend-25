@@ -189,7 +189,11 @@ export default function GroupAnalytics({ navigation }) {
     <ScrollView style={{ backgroundColor: "#fbfbfb" }} horizontal>
       <View style={globalStyles.container}>
         <View style={{ padding: 15, alignSelf: "flex-start" }}>
-          <AnalyticsDatePicker onSubmit={getWeeklyGroupInfo} />
+          <AnalyticsDatePicker
+            onSubmit={getWeeklyGroupInfo}
+            members={members}
+            weekColumns={weekColumns}
+          />
         </View>
 
         <View style={[globalStyles.row, { alignItems: "center" }]}>
