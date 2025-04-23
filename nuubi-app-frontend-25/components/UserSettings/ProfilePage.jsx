@@ -370,15 +370,6 @@ export default function ProfilePageScreen({ navigation }) {
                 </View>
               ) : null}
             </View>
-            {/* <View style={globalStyles.rowWrapper}>
-              <TouchableOpacity
-                style={globalStyles.row}
-                onPress={() => navigation.navigate("AccountScreen")}
-              >
-                <Text style={globalStyles.headingText}>Account Settings</Text>
-                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-              </TouchableOpacity>
-            </View> */}
 
             <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
@@ -398,7 +389,8 @@ export default function ProfilePageScreen({ navigation }) {
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>
-            <View style={[globalStyles.rowWrapper]}>
+
+            {/* <View style={[globalStyles.rowWrapper]}>
               <TouchableOpacity
                 style={globalStyles.row}
                 onPress={() => alert("Coming soon!")}
@@ -415,7 +407,27 @@ export default function ProfilePageScreen({ navigation }) {
                 </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
+            </View> */}
+
+            <View style={globalStyles.rowWrapper}>
+              <TouchableOpacity
+                style={globalStyles.row}
+                onPress={() => navigation.navigate("HelpLoggedIn")}
+              >
+                <View style={[globalStyles.row]}>
+                  <FeatherIcon
+                    color="#616161"
+                    solid
+                    name="circle-question"
+                    style={globalStyles.rowIcon}
+                    size={22}
+                  />
+                  <Text style={globalStyles.headingTextRows}>Nuubi FAQ</Text>
+                </View>
+                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+              </TouchableOpacity>
             </View>
+
             <View style={[globalStyles.rowWrapper, globalStyles.rowLast]}>
               <TouchableOpacity
                 style={globalStyles.row}

@@ -46,13 +46,6 @@ const SECTIONS = [
         type: "link",
         navRoute: "comingSoonAlert",
       },
-
-      {
-        label: "Help",
-        icon: "circle-question",
-        type: "link",
-        navRoute: "HelpLoggedIn",
-      },
       {
         label: "Contact us",
         icon: "paper-plane",
