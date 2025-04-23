@@ -62,6 +62,11 @@ export default function GroupAnalytics({ navigation }) {
     });
   }, [navigation]);
 
+  React.useEffect(() => {
+    // Clear out previous group’s data whenever group changes or screen is focused
+    setMembers([]);
+  }, [user.currentGroup, isFocused]);
+
   const maxUsernameWidth = React.useMemo(
     () =>
       Math.max(120, ...members.map((member) => member.username.length * 10)),
