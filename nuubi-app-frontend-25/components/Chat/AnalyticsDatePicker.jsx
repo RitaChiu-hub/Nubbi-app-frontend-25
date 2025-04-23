@@ -30,11 +30,13 @@ export default function AnalyticsDatePicker({
   };
 
   const handleDownloadCSV = async () => {
-    console.log(" DOWNLOADING CSV!!!! ");
+    console.log("Download button clicked");
     if (!members || members.length === 0) {
       Alert.alert("No data", "There is no analytics data to export.");
       return;
     }
+
+    console.log("Members:", members);
 
     const flattened = members.map((member) => {
       const base = {
@@ -64,13 +66,16 @@ export default function AnalyticsDatePicker({
 
     const csv = Papa.unparse(flattened);
 
-    console.log("  CSV!!!! :  " + csv);
+    console.log("Generated CSV:", csv);
 
     if (Platform.OS === "web") {
-      console.log("  hi from web!!");
+      console.log("Detected platform: Web");
 
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      console.log("Blob created:", blob);
+
       saveAs(blob, "group-analytics.csv");
+      console.log("saveAs called");
     } else {
       const fileUri = FileSystem.documentDirectory + "group-analytics.csv";
       await FileSystem.writeAsStringAsync(fileUri, csv, {
