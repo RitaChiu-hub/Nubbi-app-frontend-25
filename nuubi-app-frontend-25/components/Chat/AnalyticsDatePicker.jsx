@@ -32,6 +32,7 @@ export default function AnalyticsDatePicker({
   const handleDownloadCSV = async () => {
     console.log("Download button clicked");
     if (!members || members.length === 0) {
+      console.log("no members");
       Alert.alert("No data", "There is no analytics data to export.");
       return;
     }
