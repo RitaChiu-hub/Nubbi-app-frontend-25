@@ -30,6 +30,7 @@ export default function AnalyticsDatePicker({
   };
 
   const handleDownloadCSV = async () => {
+    console.log(" DOWNLOADING CSV!!!! ");
     if (!members || members.length === 0) {
       Alert.alert("No data", "There is no analytics data to export.");
       return;
@@ -63,7 +64,11 @@ export default function AnalyticsDatePicker({
 
     const csv = Papa.unparse(flattened);
 
+    console.log("  CSV!!!! :  " + csv);
+
     if (Platform.OS === "web") {
+      console.log("  hi from web!!");
+
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       saveAs(blob, "group-analytics.csv");
     } else {
