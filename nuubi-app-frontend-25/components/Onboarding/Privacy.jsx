@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-} from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { globalStyles } from "../../styles/global";
 
 export default function PrivacyScreen({ navigation }) {
@@ -59,6 +55,20 @@ export default function PrivacyScreen({ navigation }) {
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>- Age</Text>
         <Text style={globalStyles.bodyRegular}>- Gender</Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.headingText}>
+          Device Identifiers and Technical Information
+        </Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={globalStyles.bodyRegular}>
+          Nuubi and its integrated third-party services (such as analytics or
+          crash reporting providers) may collect technical information from your
+          device. This may include unique device identifiers such as your
+          Android ID, MAC address, or advertising ID. These identifiers are used
+          for purposes such as enabling core functionality, monitoring app
+          performance, and improving the overall user experience.
+        </Text>
+
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           We do not collect any personal information about you unless you
@@ -196,9 +206,7 @@ export default function PrivacyScreen({ navigation }) {
           "unsubscribe" button at the bottom of each email.
         </Text>
         <View style={{ margin: 5 }}></View>
-        <Text style={globalStyles.headingText}>
-          Changes to this Statement
-        </Text>
+        <Text style={globalStyles.headingText}>Changes to this Statement</Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
           Nuubi reserves the right to change this Privacy Policy from time to
