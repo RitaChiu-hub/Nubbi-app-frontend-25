@@ -4,26 +4,20 @@
   "devCommand": "expo",
   "cleanUrls": true,
   "framework": null,
-
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
         {
-          "key": "X-Frame-Options",
-          "value": "ALLOW-FROM https://stthomas.beta.instructure.com"
-        },
-        {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://stthomas.beta.instructure.com https://canvas.beta.instructure.com"
+          "value": "frame-ancestors 'self' https://*.instructure.com"
         },
         {
-          "key": "Cross-Origin-Resource-Policy",
-          "value": "cross-origin"
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
         }
       ]
     }
   ],
-
   "rewrites": [{ "source": "/:path*", "destination": "/" }]
 }
