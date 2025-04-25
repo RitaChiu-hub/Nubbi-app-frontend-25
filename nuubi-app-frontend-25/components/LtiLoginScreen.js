@@ -6,17 +6,16 @@ const LtiLoginScreen = () => {
   const navigation = useNavigation(); // ✅ get navigation here
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-
-    if (token) {
-      console.log("LTI id_token received:", token);
-      sessionStorage.setItem("lti_id_token", token);
-      navigation.replace("Home Page"); // or Dashboard
-    } else {
-      console.error("No id_token found in URL");
-    }
+    const handleMessage = (event) => {
+      if (event.data?.type === "LTI_ID_TOKEN") {
+        sessionStorage.setItem("lti_id_token", event.data.token);
+        navigation.replace("Home Page");
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <ActivityIndicator />
