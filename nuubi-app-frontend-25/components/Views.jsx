@@ -1565,7 +1565,11 @@ export default function Views({ landingPage, inviteToken }) {
           options={{ title: "Log in" }}
         />
       )}
-      <Stack.Screen name="LtiLogin" component={LtiLoginScreen} />
+      <Stack.Screen
+        name="lti-login"
+        component={LtiLoginScreen}
+        options={{ path: "lti-login" }}
+      />
     </Stack.Navigator>
   );
 }
