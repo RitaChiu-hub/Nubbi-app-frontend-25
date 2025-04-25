@@ -10,13 +10,16 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://stthomas.beta.instructure.com https://canvas.beta.instructure.com https://*.beta.instructure.com"
-        },
-
-        {
           "key": "X-Frame-Options",
-          "value": ""
+          "value": "ALLOW-FROM https://stthomas.beta.instructure.com"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://stthomas.beta.instructure.com https://canvas.beta.instructure.com"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "cross-origin"
         }
       ]
     }
