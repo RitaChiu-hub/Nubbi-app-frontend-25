@@ -4,6 +4,17 @@
   "devCommand": "expo",
   "cleanUrls": true,
   "framework": null,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://*.instructure.com;"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/:path*",
