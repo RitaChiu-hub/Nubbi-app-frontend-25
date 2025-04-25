@@ -2,26 +2,31 @@ import React, { useEffect } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const LtiLoginScreen = () => {
-  const navigation = useNavigation(); // ✅ get navigation here
+export default function LtiLoginScreen() {
+  const navigation = useNavigation();
 
   useEffect(() => {
-    const handleMessage = (event) => {
-      if (event.data?.type === "LTI_ID_TOKEN") {
-        sessionStorage.setItem("lti_id_token", event.data.token);
-        navigation.replace("Home Page");
-      }
-    };
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
+    /** We land on …/lti-login?token=xxx */
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+
+    if (token) {
+      console.log("[Nuubi] id_token received:", token);
+      sessionStorage.setItem("lti_id_token", token);
+
+      // TODO: hit your /api/lti/session endpoint here if you want
+      // await fetch("/api/lti/session", { … })
+
+      navigation.replace("Home Page"); // or Dashboard, etc.
+    } else {
+      console.error("[Nuubi] No id_token in query-string.");
+    }
   }, []);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <ActivityIndicator />
-      <Text>Logging you in via Canvas...</Text>
+      <Text>Logging you in via Canvas…</Text>
     </View>
   );
-};
-
-export default LtiLoginScreen;
+}
