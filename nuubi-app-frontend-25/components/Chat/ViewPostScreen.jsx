@@ -49,6 +49,8 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const deviceWidth = Dimensions.get("window").width;
 
+  const scrollViewRef = React.useRef();
+
   const getPostLiked = async () => {
     const token =
       Platform.OS !== "web"
@@ -255,22 +257,49 @@ export default function ViewPostScreen({ navigation, route }) {
   }, [user.currentPost]);
 
   React.useEffect(() => {
-    const handleUpdate = (jsonData) => {
-      const sorted = [...jsonData].sort(
-        (a, b) =>
-          new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
-      );
-      setComments(sorted);
-      getComments();
-    };
-
-    socket.on("insert comment return updated list", handleUpdate);
-
-    // Cleanup to prevent multiple listeners stacking
+    socket.on("insert comment return updated list", (newComment) => {
+      setComments((prev) => [
+        ...prev,
+        {
+          ...newComment,
+          comment_points: 0,
+        },
+      ]);
+    });
     return () => {
-      socket.off("insert comment return updated list", handleUpdate);
+      socket.off("insert comment return updated list");
     };
-  }, [user.currentPost, socket]);
+  }, []);
+  // React.useEffect(() => {
+  //   socket.on("insert comment return updated list", (rows) => {
+  //     const sorted = rows.sort(
+  //       (a, b) =>
+  //         new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
+  //     );
+  //     setComments(sorted);
+  //   });
+  //   return () => {
+  //     socket.off("insert comment return updated list");
+  //   };
+  // }, []);
+
+  // React.useEffect(() => {
+  //   const handleUpdate = (jsonData) => {
+  //     const sorted = [...jsonData].sort(
+  //       (a, b) =>
+  //         new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
+  //     );
+  //     setComments(sorted);
+  //     getComments();
+  //   };
+
+  //   socket.on("insert comment return updated list", handleUpdate);
+
+  //   // Cleanup to prevent multiple listeners stacking
+  //   return () => {
+  //     socket.off("insert comment return updated list", handleUpdate);
+  //   };
+  // }, [user.currentPost, socket]);
 
   // React.useEffect(() => {
   //   socket.on("insert comment return updated list", (jsonData) => {
@@ -311,7 +340,12 @@ export default function ViewPostScreen({ navigation, route }) {
         alignItems: "center",
       }}
     >
-      <ScrollView>
+      <ScrollView
+        ref={scrollViewRef}
+        onContentSizeChange={() =>
+          scrollViewRef.current?.scrollToEnd({ animated: true })
+        }
+      >
         <Modal
           animationType="slide"
           transparent={true}
@@ -711,10 +745,28 @@ export default function ViewPostScreen({ navigation, route }) {
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
                 : null;
-            const uservals = { ...user, ...values, token };
+
+            const payload = {
+              ...user,
+              currentPost: route.params.currentPost,
+              mycomment: values.mycomment,
+              token,
+            };
+
+            socket.emit("insert comment return updated list", payload);
             actions.resetForm();
-            socket.emit("insert comment return updated list", uservals);
+            // pull in the fresh list
+            await getComments();
           }}
+          // onSubmit={async (values, actions) => {
+          //   const token =
+          //     Platform.OS !== "web"
+          //       ? await SecureStore.getItemAsync("token")
+          //       : null;
+          //   const uservals = { ...user, ...values, token };
+          //   actions.resetForm();
+          //   socket.emit("insert comment return updated list", uservals);
+          // }}
         >
           {(props) => (
             <View

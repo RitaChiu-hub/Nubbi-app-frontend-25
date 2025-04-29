@@ -1,3 +1,723 @@
+// // Frontend: ChatScreen.js
+// import React from "react";
+// import {
+//   TextInput,
+//   View,
+//   Text,
+//   TouchableOpacity,
+//   ScrollView,
+//   KeyboardAvoidingView,
+//   Platform,
+//   Dimensions,
+// } from "react-native";
+// import { Formik, ErrorMessage } from "formik";
+// const { addMessageSchema } = require("../validationSchema");
+// import { AccountContext } from "../AccountContext";
+// import socket from "../../socket";
+// import moment from "moment";
+// import { globalStyles } from "../../styles/global";
+// import { useIsFocused } from "@react-navigation/native";
+// import { useHeaderHeight } from "@react-navigation/elements";
+// import FAIcon from "@expo/vector-icons/FontAwesome";
+// import * as SecureStore from "expo-secure-store";
+
+// export default function ChatScreen({ navigation }) {
+//   const { user, setUser } = React.useContext(AccountContext);
+//   const [chats, setChats] = React.useState([]);
+//   const [adminId, setAdminId] = React.useState(null);
+//   const [likes, setLikes] = React.useState([]);
+//   const [isChanged, setIsChanged] = React.useState(false);
+//   const isFocused = useIsFocused();
+//   const height = useHeaderHeight();
+//   const scrollViewRef = React.useRef();
+
+//   const getChats = async () => {
+//     const token =
+//       Platform.OS !== "web"
+//         ? await SecureStore.getItemAsync("token")
+//         : sessionStorage.getItem("token");
+//     try {
+//       const response = await fetch(
+//         "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+//         {
+//           method: "POST",
+//           credentials: "include",
+//           headers: {
+//             "Content-Type": "application/json",
+//             ...(token ? { Authorization: `Bearer ${token}` } : {}),
+//           },
+//           body: JSON.stringify({ ...user }),
+//         }
+//       );
+//       const jsonData = await response.json();
+//       setChats(jsonData);
+//     } catch (err) {
+//       console.error(err.message);
+//     }
+//   };
+
+//   React.useEffect(() => {
+//     getChats();
+//     socket.on("insert msg return updated list", (newMsg) => {
+//       setChats((prev) => [...prev, newMsg]);
+//     });
+//     return () => socket.off("insert msg return updated list");
+//   }, [isFocused, user.currentGroup]);
+
+//   const toggleLike = async (messageId) => {
+//     const liked = likes.includes(messageId);
+//     if (liked) {
+//       setLikes((prev) => prev.filter((id) => id !== messageId));
+//     } else {
+//       setLikes((prev) => [...prev, messageId]);
+//     }
+//     setChats((prev) =>
+//       prev.map((msg) =>
+//         msg.messages_id === messageId
+//           ? { ...msg, message_points: msg.message_points + (liked ? -1 : 1) }
+//           : msg
+//       )
+//     );
+//     const token =
+//       Platform.OS !== "web"
+//         ? await SecureStore.getItemAsync("token")
+//         : sessionStorage.getItem("token");
+//     fetch("https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint", {
+//       method: "POST",
+//       credentials: "include",
+//       headers: {
+//         "Content-Type": "application/json",
+//         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+//       },
+//       body: JSON.stringify({ ...user, message_id: messageId }),
+//     });
+//   };
+
+//   return (
+//     <KeyboardAvoidingView
+//       behavior={Platform.OS === "android" ? "height" : "padding"}
+//       keyboardVerticalOffset={height}
+//       style={{
+//         flex: 1,
+//         backgroundColor: "#fbfbfb",
+//         alignItems: "center",
+//         justifyContent: "space-between",
+//       }}
+//     >
+//       <ScrollView
+//         ref={scrollViewRef}
+//         onContentSizeChange={() =>
+//           scrollViewRef.current.scrollToEnd({ animated: true })
+//         }
+//         style={{ width: "90%" }}
+//       >
+//         {chats.map((item) => (
+//           <View
+//             key={item.messages_id}
+//             style={{
+//               backgroundColor: "transparent",
+//               padding: 8,
+//               marginTop: 10,
+//               marginRight: 40,
+//               elevation: 15,
+//               borderWidth: 1,
+//               borderColor: "#ddd",
+//               minWidth: "90%",
+//               borderRadius: 16,
+//               alignSelf: "left",
+//             }}
+//           >
+//             <View
+//               style={{
+//                 flexDirection: "row",
+//                 alignItems: "center",
+//                 paddingLeft: 4,
+//               }}
+//             >
+//               <Text
+//                 style={{
+//                   fontWeight: "bold",
+//                   color: "#2482AA",
+//                   fontSize: 16,
+//                   marginRight: 2,
+//                 }}
+//               >
+//                 {item.message_points}
+//               </Text>
+//               <TouchableOpacity
+//                 onPress={() => toggleLike(item.messages_id)}
+//                 style={{ marginRight: 4 }}
+//               >
+//                 <Text
+//                   style={{
+//                     color: likes.includes(item.messages_id)
+//                       ? "#228ee7"
+//                       : "#bbb",
+//                     fontSize: 16,
+//                     fontWeight: "bold",
+//                   }}
+//                 >
+//                   +
+//                 </Text>
+//               </TouchableOpacity>
+//               <Text
+//                 style={{
+//                   fontSize: 14,
+//                   fontFamily: "Poppins_600SemiBold",
+//                   color: item.user_id === adminId ? "#050505" : "#333",
+//                   marginLeft: 8,
+//                 }}
+//               >
+//                 {item.sender_username}
+//               </Text>
+//               <Text style={{ fontSize: 10, color: "grey", marginLeft: 8 }}>
+//                 {moment(item.iso_time_sent).calendar()}
+//               </Text>
+//             </View>
+//             <Text
+//               style={{
+//                 paddingLeft: 4,
+//                 color: "#050505",
+//                 fontFamily: "Poppins_400Regular",
+//                 fontSize: 14,
+//                 letterSpacing: 0.5,
+//               }}
+//             >
+//               {item.text}
+//             </Text>
+//           </View>
+//         ))}
+//       </ScrollView>
+
+//       <View
+//         style={{
+//           width: "100%",
+//           paddingVertical: 20,
+//           backgroundColor: "#fbfbfb",
+//         }}
+//       >
+//         <Formik
+//           initialValues={{ mymessage: "" }}
+//           validationSchema={addMessageSchema}
+//           onSubmit={async (values, actions) => {
+//             const token =
+//               Platform.OS !== "web"
+//                 ? await SecureStore.getItemAsync("token")
+//                 : null;
+//             const payload = {
+//               currentGroup: user.currentGroup,
+//               mymessage: values.mymessage,
+//               token,
+//             };
+//             actions.resetForm();
+//             socket.emit("insert msg return updated list", payload);
+//             await getChats();
+//           }}
+//         >
+//           {(props) => (
+//             <>
+//               <Text style={globalStyles.captionError}>
+//                 <ErrorMessage name="mymessage" />
+//               </Text>
+//               <View
+//                 style={{
+//                   flexDirection: "row",
+//                   borderRadius: 16,
+//                   minWidth: "90%",
+//                   maxWidth: "90%",
+//                   alignItems: "center",
+//                   justifyContent: "space-between",
+//                   backgroundColor: "#fbfbfb",
+//                   elevation: 15,
+//                   borderWidth: 1,
+//                   borderColor: "#ddd",
+//                   shadowColor: "#333333",
+//                   shadowOpacity: 0.5,
+//                   shadowRadius: 2,
+//                   shadowOffset: { width: 0.8, height: 0.8 },
+//                   alignSelf: "center",
+//                 }}
+//               >
+//                 <TextInput
+//                   style={{
+//                     minWidth: "85%",
+//                     maxWidth: "85%",
+//                     fontFamily: "Poppins_400Regular",
+//                     fontSize: 18,
+//                     letterSpacing: 0.5,
+//                     color: "#767676",
+//                     paddingLeft: 18,
+//                   }}
+//                   placeholder="Send message..."
+//                   onChangeText={props.handleChange("mymessage")}
+//                   value={props.values.mymessage}
+//                   multiline
+//                 />
+//                 <TouchableOpacity
+//                   onPress={props.handleSubmit}
+//                   style={{
+//                     paddingVertical: 10,
+//                     paddingHorizontal: 14,
+//                     borderRadius: 16,
+//                     elevation: 15,
+//                     backgroundColor: "#2482AA",
+//                     shadowColor: "#333333",
+//                     shadowOpacity: 0.5,
+//                     shadowRadius: 2,
+//                     shadowOffset: { width: 0.8, height: 0.8 },
+//                   }}
+//                 >
+//                   <FAIcon name="arrow-up" size={30} color="#fbfbfb" />
+//                 </TouchableOpacity>
+//               </View>
+//             </>
+//           )}
+//         </Formik>
+//       </View>
+//     </KeyboardAvoidingView>
+//   );
+// }
+
+// // Frontend: ChatScreen.js
+// import React, { useState, useEffect, useContext, useRef } from "react";
+// import {
+//   TextInput,
+//   View,
+//   Text,
+//   TouchableOpacity,
+//   ScrollView,
+//   KeyboardAvoidingView,
+//   Platform,
+//   Dimensions,
+// } from "react-native";
+// import { Formik, ErrorMessage } from "formik";
+// import moment from "moment";
+// import * as SecureStore from "expo-secure-store";
+// import FAIcon from "@expo/vector-icons/FontAwesome";
+// import socket from "../../socket";
+// import { AccountContext } from "../AccountContext";
+// import { useHeaderHeight } from "@react-navigation/elements";
+// import { globalStyles } from "../../styles/global";
+// import { addMessageSchema } from "../validationSchema";
+
+// export default function ChatScreen({ navigation }) {
+//   const { user } = useContext(AccountContext);
+//   const [chats, setChats] = useState([]);
+//   const [likes, setLikes] = useState([]);
+//   const [adminId, setAdminId] = useState(null);
+//   const height = useHeaderHeight();
+//   const scrollViewRef = useRef();
+
+//   // Load existing messages once
+//   useEffect(() => {
+//     const loadChats = async () => {
+//       const token =
+//         Platform.OS !== "web"
+//           ? await SecureStore.getItemAsync("token")
+//           : sessionStorage.getItem("token");
+//       const res = await fetch(
+//         "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+//         {
+//           method: "POST",
+//           credentials: "include",
+//           headers: {
+//             "Content-Type": "application/json",
+//             ...(token ? { Authorization: `Bearer ${token}` } : {}),
+//           },
+//           body: JSON.stringify({ ...user }),
+//         }
+//       );
+//       const data = await res.json();
+//       setChats(data.reverse()); // reverse so oldest first
+//     };
+//     loadChats();
+//   }, [user.currentGroup]);
+
+//   // Subscribe to single-item updates
+//   useEffect(() => {
+//     const handler = (newMsg) => {
+//       setChats((prev) => [...prev, newMsg]);
+//     };
+//     socket.on("insert msg return updated list", handler);
+//     return () => socket.off("insert msg return updated list", handler);
+//   }, []);
+
+//   return (
+//     <KeyboardAvoidingView
+//       behavior={Platform.OS === "android" ? "height" : "padding"}
+//       keyboardVerticalOffset={height}
+//       style={{
+//         flex: 1,
+//         backgroundColor: "#fbfbfb",
+//         alignItems: "center",
+//         justifyContent: "space-between",
+//       }}
+//     >
+//       <ScrollView
+//         ref={scrollViewRef}
+//         onContentSizeChange={() =>
+//           scrollViewRef.current.scrollToEnd({ animated: true })
+//         }
+//         style={{ width: "90%" }}
+//       >
+//         {chats.map((item) => (
+//           <View
+//             key={item.messages_id}
+//             style={{
+//               backgroundColor: "transparent",
+//               padding: 8,
+//               marginTop: 10,
+//               marginRight: 40,
+//               elevation: 15,
+//               borderWidth: 1,
+//               borderColor: "#ddd",
+//               minWidth: "90%",
+//               borderRadius: 16,
+//               alignSelf: "left",
+//             }}
+//           >
+//             <View
+//               style={{
+//                 flexDirection: "row",
+//                 alignItems: "center",
+//                 paddingLeft: 4,
+//               }}
+//             >
+//               <Text
+//                 style={{ fontWeight: "bold", color: "#2482AA", fontSize: 16 }}
+//               >
+//                 {item.message_points}
+//               </Text>
+//               <TouchableOpacity
+//                 onPress={async () => {
+//                   const updatedLikes = likes.includes(item.messages_id)
+//                     ? likes.filter((id) => id !== item.messages_id)
+//                     : [...likes, item.messages_id];
+//                   setLikes(updatedLikes);
+//                   item.message_points += likes.includes(item.messages_id)
+//                     ? -1
+//                     : 1;
+
+//                   const token =
+//                     Platform.OS !== "web"
+//                       ? await SecureStore.getItemAsync("token")
+//                       : sessionStorage.getItem("token");
+//                   fetch(
+//                     "https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint",
+//                     {
+//                       method: "POST",
+//                       credentials: "include",
+//                       headers: {
+//                         "Content-Type": "application/json",
+//                         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+//                       },
+//                       body: JSON.stringify({
+//                         ...user,
+//                         message_id: item.messages_id,
+//                       }),
+//                     }
+//                   );
+//                 }}
+//               >
+//                 <Text
+//                   style={{
+//                     color: likes.includes(item.messages_id)
+//                       ? "#228ee7"
+//                       : "#bbb",
+//                     fontSize: 16,
+//                     fontWeight: "bold",
+//                     paddingBottom: 2,
+//                     paddingRight: 2,
+//                   }}
+//                 >
+//                   +
+//                 </Text>
+//               </TouchableOpacity>
+//               <Text
+//                 style={{
+//                   fontSize: 14,
+//                   fontFamily: "Poppins_600SemiBold",
+//                   color: item.user_id === adminId ? "#050505" : "#333",
+//                 }}
+//               >
+//                 {item.sender_username}
+//               </Text>
+//               <View style={{ marginHorizontal: 2 }} />
+//               <Text style={{ fontSize: 10, color: "grey" }}>
+//                 {moment(item.iso_time_sent).calendar()}
+//               </Text>
+//             </View>
+//             <Text
+//               style={{
+//                 paddingLeft: 4,
+//                 color: "#050505",
+//                 fontFamily: "Poppins_400Regular",
+//                 fontSize: 14,
+//                 letterSpacing: 0.5,
+//               }}
+//             >
+//               {item.text}
+//             </Text>
+//           </View>
+//         ))}
+//       </ScrollView>
+
+//       <View
+//         style={{
+//           width: "100%",
+//           paddingVertical: 20,
+//           backgroundColor: "#fbfbfb",
+//         }}
+//       >
+//         <Formik
+//           initialValues={{ mymessage: "" }}
+//           validationSchema={addMessageSchema}
+//           onSubmit={async (values, actions) => {
+//             const token =
+//               Platform.OS !== "web"
+//                 ? await SecureStore.getItemAsync("token")
+//                 : null;
+//             const payload = {
+//               currentGroup: user.currentGroup,
+//               mymessage: values.mymessage,
+//               token,
+//             };
+//             actions.resetForm();
+//             socket.emit("insert msg return updated list", payload);
+//           }}
+//         >
+//           {(props) => (
+//             <>
+//               <Text style={globalStyles.captionError}>
+//                 <ErrorMessage name="mymessage" />
+//               </Text>
+//               <View
+//                 style={{
+//                   flexDirection: "row",
+//                   borderRadius: 16,
+//                   minWidth: "90%",
+//                   maxWidth: "90%",
+//                   alignItems: "center",
+//                   justifyContent: "space-between",
+//                   backgroundColor: "#fbfbfb",
+//                   elevation: 15,
+//                   borderWidth: 1,
+//                   borderColor: "#ddd",
+//                   shadowColor: "#333333",
+//                   shadowOpacity: 0.5,
+//                   shadowRadius: 2,
+//                   shadowOffset: { width: 0.8, height: 0.8 },
+//                   alignSelf: "center",
+//                 }}
+//               >
+//                 <TextInput
+//                   style={{
+//                     minWidth: "85%",
+//                     maxWidth: "85%",
+//                     fontFamily: "Poppins_400Regular",
+//                     fontSize: 18,
+//                     letterSpacing: 0.5,
+//                     color: "#767676",
+//                     paddingLeft: 18,
+//                   }}
+//                   placeholder="Send message..."
+//                   onChangeText={props.handleChange("mymessage")}
+//                   value={props.values.mymessage}
+//                   multiline
+//                 />
+//                 <TouchableOpacity
+//                   onPress={props.handleSubmit}
+//                   style={{
+//                     paddingVertical: 10,
+//                     paddingHorizontal: 14,
+//                     borderRadius: 16,
+//                     elevation: 15,
+//                     backgroundColor: "#2482AA",
+//                     shadowColor: "#333333",
+//                     shadowOpacity: 0.5,
+//                     shadowRadius: 2,
+//                     shadowOffset: { width: 0.8, height: 0.8 },
+//                   }}
+//                 >
+//                   <FAIcon name="arrow-up" size={30} color="#fbfbfb" />
+//                 </TouchableOpacity>
+//               </View>
+//             </>
+//           )}
+//         </Formik>
+//       </View>
+//     </KeyboardAvoidingView>
+//   );
+// }
+
+// // Frontend: ChatScreen.js
+// import React, { useState, useEffect, useContext, useRef } from "react";
+// import {
+//   View,
+//   TextInput,
+//   Text,
+//   TouchableOpacity,
+//   FlatList,
+//   KeyboardAvoidingView,
+//   Platform,
+//   Dimensions,
+// } from "react-native";
+// import { Formik, ErrorMessage } from "formik";
+// import moment from "moment";
+// import * as SecureStore from "expo-secure-store";
+// import FAIcon from "@expo/vector-icons/FontAwesome";
+// import socket from "../../socket";
+// import { AccountContext } from "../AccountContext";
+// import { useHeaderHeight } from "@react-navigation/elements";
+// import { globalStyles } from "../../styles/global";
+// import { addMessageSchema } from "../validationSchema";
+
+// export default function ChatScreen({ navigation }) {
+//   const { user, setUser } = useContext(AccountContext);
+//   const [chats, setChats] = useState([]);
+//   const [likes, setLikes] = useState([]);
+//   const [adminId, setAdminId] = useState(null);
+//   const isFocused = !!navigation;
+//   const height = useHeaderHeight();
+//   const screenWidth = Dimensions.get("window").width;
+//   const flatListRef = useRef();
+
+//   // Fetch existing messages on group change
+//   const fetchChats = async () => {
+//     const token =
+//       Platform.OS !== "web"
+//         ? await SecureStore.getItemAsync("token")
+//         : sessionStorage.getItem("token");
+//     const res = await fetch(
+//       "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+//       {
+//         method: "POST",
+//         credentials: "include",
+//         headers: {
+//           "Content-Type": "application/json",
+//           ...(token ? { Authorization: `Bearer ${token}` } : {}),
+//         },
+//         body: JSON.stringify({ ...user }),
+//       }
+//     );
+//     const data = await res.json();
+//     setChats(data);
+//   };
+
+//   // Initial REST load
+//   useEffect(() => {
+//     fetchChats();
+//     // other initial fetches if needed (getLikes, getGroupInfo...)
+//   }, [user.currentGroup]);
+
+//   // Real-time subscription for new messages
+//   useEffect(() => {
+//     const handleNew = (newMsg) => {
+//       setChats((prev) => [newMsg, ...prev]);
+//     };
+//     socket.on("new_message", handleNew);
+//     return () => socket.off("new_message", handleNew);
+//   }, []);
+
+//   return (
+//     <KeyboardAvoidingView
+//       behavior={Platform.OS === "android" ? "height" : "padding"}
+//       keyboardVerticalOffset={height}
+//       style={{ flex: 1, backgroundColor: "#fbfbfb" }}
+//     >
+//       <FlatList
+//         ref={flatListRef}
+//         data={chats}
+//         inverted
+//         keyExtractor={(item) => item.messages_id.toString()}
+//         contentContainerStyle={{ padding: 10 }}
+//         renderItem={({ item }) => (
+//           <View
+//             style={{
+//               backgroundColor: "transparent",
+//               padding: 8,
+//               marginVertical: 5,
+//               borderWidth: 1,
+//               borderColor: "#ddd",
+//               borderRadius: 16,
+//               alignSelf: item.sender_id === user.id ? "flex-end" : "flex-start",
+//               maxWidth: "80%",
+//             }}
+//           >
+//             <View style={{ flexDirection: "row", alignItems: "center" }}>
+//               <Text
+//                 style={{ fontWeight: "bold", color: "#2482AA", marginRight: 5 }}
+//               >
+//                 {item.message_points}
+//               </Text>
+//               <Text style={{ fontWeight: "600" }}>{item.sender_username}</Text>
+//               <Text style={{ fontSize: 10, color: "grey", marginLeft: 5 }}>
+//                 {moment(item.iso_time_sent).calendar()}
+//               </Text>
+//             </View>
+//             <Text style={{ marginTop: 4, fontSize: 14 }}>{item.text}</Text>
+//           </View>
+//         )}
+//       />
+
+//       <View style={{ padding: 10, backgroundColor: "#fbfbfb" }}>
+//         <Formik
+//           initialValues={{ mymessage: "" }}
+//           validationSchema={addMessageSchema}
+//           onSubmit={async (values, actions) => {
+//             const token =
+//               Platform.OS !== "web"
+//                 ? await SecureStore.getItemAsync("token")
+//                 : null;
+//             const payload = {
+//               text: values.mymessage,
+//               currentGroup: user.currentGroup,
+//               token,
+//             };
+//             actions.resetForm();
+//             socket.emit("create_message", payload);
+//           }}
+//         >
+//           {(props) => (
+//             <>
+//               <Text style={globalStyles.captionError}>
+//                 <ErrorMessage name="mymessage" />
+//               </Text>
+//               <View style={{ flexDirection: "row", alignItems: "center" }}>
+//                 <TextInput
+//                   style={{
+//                     flex: 1,
+//                     fontSize: 18,
+//                     padding: 10,
+//                     borderRadius: 16,
+//                     borderWidth: 1,
+//                     borderColor: "#ddd",
+//                   }}
+//                   placeholder="Send message..."
+//                   onChangeText={props.handleChange("mymessage")}
+//                   value={props.values.mymessage}
+//                   multiline
+//                 />
+//                 <TouchableOpacity
+//                   onPress={props.handleSubmit}
+//                   style={{
+//                     marginLeft: 10,
+//                     padding: 10,
+//                     backgroundColor: "#2482AA",
+//                     borderRadius: 16,
+//                   }}
+//                 >
+//                   <FAIcon name="arrow-up" size={24} color="#fbfbfb" />
+//                 </TouchableOpacity>
+//               </View>
+//             </>
+//           )}
+//         </Formik>
+//       </View>
+//     </KeyboardAvoidingView>
+//   );
+// }
+
 import * as React from "react";
 import {
   TextInput,
@@ -178,6 +898,17 @@ export default function ChatScreen({ navigation }) {
     }
   };
 
+  // 1) Register socket listener on mount only
+  React.useEffect(() => {
+    socket.on("insert msg return updated list", (newMsg) => {
+      setChats((prev) => [...prev, newMsg]);
+    });
+    return () => {
+      socket.off("insert msg return updated list");
+    };
+  }, []);
+
+  // 2) Fetch all the metadata + history whenever you focus or switch groups
   React.useEffect(() => {
     getLikes();
     getGroupName();
@@ -186,12 +917,39 @@ export default function ChatScreen({ navigation }) {
     getGroupInfo();
   }, [isFocused, user.currentGroup]);
 
-  React.useEffect(() => {
-    socket.on("insert msg return updated list", (jsonData) => {
-      setChats(jsonData);
-      getChats();
-    });
-  }, [chats]);
+  // React.useEffect(() => {
+  //   // still load likes, admin, group info, etc
+  //   getLikes();
+  //   getGroupName();
+  //   getChats();
+  //   getIsAdmin();
+  //   getGroupInfo();
+
+  //   // now append only the new message
+  //   socket.on("insert msg return updated list", (newMsg) => {
+  //     setChats((prev) => [...prev, newMsg]);
+  //   });
+
+  //   // cleanup listener
+  //   return () => {
+  //     socket.off("insert msg return updated list");
+  //   };
+  // }, [isFocused, user.currentGroup]);
+
+  // React.useEffect(() => {
+  //   getLikes();
+  //   getGroupName();
+  //   getChats();
+  //   getIsAdmin();
+  //   getGroupInfo();
+  // }, [isFocused, user.currentGroup]);
+
+  // React.useEffect(() => {
+  //   socket.on("insert msg return updated list", (jsonData) => {
+  //     setChats(jsonData);
+  //     getChats();
+  //   });
+  // }, [chats]);
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
@@ -345,13 +1103,28 @@ export default function ChatScreen({ navigation }) {
             const token =
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
-                : null; // Get token only on mobile
-            const vals = { ...values, token }; // Include the token
-            const uservals = { ...user, ...vals };
-
+                : null;
+            const payload = {
+              ...user, // spread in user.id, user.currentGroup, etc
+              mymessage: values.mymessage,
+              token,
+            };
+            socket.emit("insert msg return updated list", payload);
             actions.resetForm();
-            socket.emit("insert msg return updated list", uservals); // Emit uservals including token
+            await getChats();
           }}
+
+          // onSubmit={async (values, actions) => {
+          //   const token =
+          //     Platform.OS !== "web"
+          //       ? await SecureStore.getItemAsync("token")
+          //       : null; // Get token only on mobile
+          //   const vals = { ...values, token }; // Include the token
+          //   const uservals = { ...user, ...vals };
+
+          //   actions.resetForm();
+          //   socket.emit("insert msg return updated list", uservals); // Emit uservals including token
+          // }}
         >
           {(props) => (
             <View>
