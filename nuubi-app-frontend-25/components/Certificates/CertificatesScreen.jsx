@@ -50,48 +50,48 @@ export default function CertificatesScreen({ navigation }) {
   const assetsToLoad = certificateData.flatMap((c) => [c.asset, c.unwonAsset]);
   const [assets] = useAssets(assetsToLoad);
 
-  React.useEffect(() => {
-    async function fetchEarned() {
-      const token =
-        Platform.OS === "web"
-          ? sessionStorage.getItem("token")
-          : await SecureStore.getItemAsync("token");
-      try {
-        const res = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/groups/getwoncertificates",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            },
-            body: JSON.stringify({
-              userId: user.id,
-              groupId: user.currentGroup,
-            }),
-          }
-        );
-        const data = await res.json();
-        setEarned(data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    if (isFocused) fetchEarned();
-  }, [isFocused]);
+  //   React.useEffect(() => {
+  //     async function fetchEarned() {
+  //       const token =
+  //         Platform.OS === "web"
+  //           ? sessionStorage.getItem("token")
+  //           : await SecureStore.getItemAsync("token");
+  //       try {
+  //         const res = await fetch(
+  //           "https://coral-app-n96bn.ondigitalocean.app/groups/getwoncertificates",
+  //           {
+  //             method: "POST",
+  //             credentials: "include",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //               ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  //             },
+  //             body: JSON.stringify({
+  //               userId: user.id,
+  //               groupId: user.currentGroup,
+  //             }),
+  //           }
+  //         );
+  //         const data = await res.json();
+  //         setEarned(data);
+  //       } catch (err) {
+  //         console.error(err);
+  //       }
+  //     }
+  //     if (isFocused) fetchEarned();
+  //   }, [isFocused]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>My Certificates</Text>
+        <Text style={globalStyles.h3HeadingWhite}>My Awards</Text>
       ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
 
   if (!assets) {
-    return <Text>Loading certificates...</Text>;
+    return <Text>Loading awards...</Text>;
   }
 
   const renderItem = ({ item, index }) => {
@@ -101,32 +101,46 @@ export default function CertificatesScreen({ navigation }) {
     return (
       <View
         style={{
-          width: "90%",
+          // 100% of whatever width your FlatList is
+          width: "100%",
           maxWidth: 600,
+          alignSelf: "center",
           marginBottom: 24,
         }}
       >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "flex-start",
+            width: "100%",
+          }}
+        >
           <Image
             source={source}
-            style={{
-              width: 64,
-              height: 64,
-              marginRight: 16,
-            }}
+            style={{ width: 64, height: 64, marginTop: 10 }}
             resizeMode="contain"
           />
-          <View style={{ flex: 1 }}>
-            <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-              <Text style={globalStyles.headingText}>{item.title}</Text>
-              <Text style={[globalStyles.bodyRegular, { marginLeft: 8 }]}>
-                {has ? "(Unlocked)" : "(Locked)"}
+
+          <View
+            style={{
+              // take remaining space, but allow wrapping
+              flex: 1,
+              flexShrink: 1,
+              marginLeft: 16,
+            }}
+          >
+            <Text style={globalStyles.headingText}>
+              {item.title}{" "}
+              <Text style={globalStyles.bodyRegular}>
+                ({has ? "Unlocked" : "Locked"})
               </Text>
-            </View>
-            <Text style={globalStyles.bodyRegular}>
+            </Text>
+
+            <Text style={[globalStyles.bodyRegular, { flexWrap: "wrap" }]}>
               Skill Highlighted: {item.skill}
             </Text>
-            <Text style={globalStyles.bodyRegular}>
+
+            <Text style={[globalStyles.bodyRegular, { flexWrap: "wrap" }]}>
               Earned by: {item.criteria}
             </Text>
           </View>
@@ -136,27 +150,13 @@ export default function CertificatesScreen({ navigation }) {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#fbfbfb",
-        alignItems: "center",
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}>
       <FlatList
         data={certificateData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        style={{
-          flex: 1,
-          backgroundColor: "#fbfbfb",
-          width: "90%",
-        }}
-        contentContainerStyle={{
-          paddingVertical: 16,
-          paddingHorizontal: 16,
-          alignItems: "flex-start",
-        }}
+        keyExtractor={(i) => i.id}
+        style={{ width: "90%" }} // or use listWidth from useWindowDimensions
+        contentContainerStyle={{ paddingVertical: 16 }}
       />
     </View>
   );

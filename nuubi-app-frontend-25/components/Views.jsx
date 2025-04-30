@@ -145,7 +145,7 @@ function HomeDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                Certificates
+                My Awards
               </Text>
             </View>
           ),
@@ -925,7 +925,7 @@ function HandleInviteNavigator() {
                   color: "#292929",
                 }}
               >
-                Certificates
+                My Awards
               </Text>
             </View>
           ),
@@ -1385,11 +1385,11 @@ const TabNavigator = () => {
             case "MyGroupsStack":
               label = "Groups";
               break;
-            case "NotificationsStack":
-              label = "Activity";
-              break;
             case "SettingsStack":
               label = "Profile";
+              break;
+            case "NotificationsStack":
+              label = "Notifications";
               break;
             default:
               label = route.name;
@@ -1505,15 +1505,16 @@ const TabNavigator = () => {
         component={MyGroupsStack}
         options={{ tabBarLabel: "Groups" }}
       />
-      <Tab.Screen
-        name="NotificationsStack"
-        component={NotificationsStack}
-        options={{ tabBarLabel: "Activity" }}
-      />
+
       <Tab.Screen
         name="SettingsStack"
         component={SettingsStack}
         options={{ tabBarLabel: "Profile" }}
+      />
+      <Tab.Screen
+        name="NotificationsStack"
+        component={NotificationsStack}
+        options={{ tabBarLabel: "Notifications" }}
       />
     </Tab.Navigator>
   );
