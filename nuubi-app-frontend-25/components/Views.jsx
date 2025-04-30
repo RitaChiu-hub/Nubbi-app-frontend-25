@@ -73,6 +73,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import * as SplashScreenExpo from "expo-splash-screen";
 
+import CertificatesScreen from "./Certificates/CertificatesScreen";
+
 const HomeDrawer = createDrawerNavigator();
 
 function HomeDrawerNavigator() {
@@ -111,6 +113,39 @@ function HomeDrawerNavigator() {
                 }}
               >
                 Progress
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      />
+      <HomeDrawer.Screen
+        name="Certificates"
+        component={CertificatesScreen}
+        options={{
+          animation: "none",
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="gauge-high"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Certificates
               </Text>
             </View>
           ),
