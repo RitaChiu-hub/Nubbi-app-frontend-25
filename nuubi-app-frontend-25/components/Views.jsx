@@ -89,7 +89,7 @@ function HomeDrawerNavigator() {
         headerTintColor: "#fbfbfb",
       }}
     >
-      <HomeDrawer.Screen
+      {/* <HomeDrawer.Screen
         name="Home"
         component={HomeScreen}
         options={{
@@ -121,7 +121,7 @@ function HomeDrawerNavigator() {
           },
           drawerActiveTintColor: "#2482AA",
         }}
-      />
+      /> */}
       <HomeDrawer.Screen
         name="Certificates"
         component={CertificatesScreen}
@@ -130,7 +130,7 @@ function HomeDrawerNavigator() {
           drawerLabel: () => (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <FontAwesome6
-                name="gauge-high"
+                name="medal"
                 solid
                 style={{
                   color: "#292929", // Default color, adjust if needed
@@ -178,7 +178,7 @@ function HomeDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                Groups
+                My Groups
               </Text>
             </View>
           ),
@@ -188,6 +188,13 @@ function HomeDrawerNavigator() {
           drawerActiveTintColor: "#2482AA",
         }}
       />
+
+      <HomeDrawer.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+
       <HomeDrawer.Screen
         name="ViewAllGroups"
         component={GroupListScreen}
@@ -279,38 +286,6 @@ function HomeDrawerNavigator() {
         component={JoinGroupWithPasscode}
         options={{ drawerItemStyle: { display: "none" } }}
       />
-      <HomeDrawer.Screen
-        name="Notifications"
-        component={NotificationsScreen}
-        options={{
-          drawerLabel: () => (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <FontAwesome6
-                name="bell"
-                solid
-                style={{
-                  color: "#292929", // Default color, adjust if needed
-                }}
-                size={24}
-              />
-              <Text
-                style={{
-                  fontFamily: "Poppins_500Medium",
-                  marginLeft: 8,
-                  fontSize: 18,
-                  color: "#292929",
-                }}
-              >
-                Activity
-              </Text>
-            </View>
-          ),
-          drawerLabelStyle: {
-            fontFamily: "Poppins_500Medium",
-          },
-          drawerActiveTintColor: "#2482AA",
-        }}
-      />
 
       <HomeDrawer.Screen
         name="ProfilePage"
@@ -334,7 +309,7 @@ function HomeDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                Profile
+                My Profile
               </Text>
             </View>
           ),
@@ -343,6 +318,39 @@ function HomeDrawerNavigator() {
           },
           drawerActiveTintColor: "#2482AA",
           headerTitle: "Profile", // Use a simple title for the header
+        }}
+      />
+
+      <HomeDrawer.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="bell"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Notifications
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
         }}
       />
       <HomeDrawer.Screen
@@ -554,7 +562,7 @@ const StackHome = createNativeStackNavigator();
 function HomeStack() {
   return (
     <StackHome.Navigator
-      initialRouteName="Home"
+      initialRouteName="Certificates"
       screenOptions={{
         headerBackTitleVisible: false,
         headerStyle: {
@@ -563,6 +571,18 @@ function HomeStack() {
         headerTintColor: "#fbfbfb",
       }}
     >
+      <StackHome.Screen
+        name="Certificates"
+        component={CertificatesScreen}
+        // options={{ animation: "none" }}
+        options={{
+          animation: "none",
+          headerStyle: {
+            backgroundColor: "#2482AA",
+          },
+        }}
+        //    options={{ title: "Home" }}
+      />
       <StackHome.Screen
         name="Home"
         component={HomeScreen}
@@ -849,7 +869,7 @@ function HandleInviteNavigator() {
       />
 
       {/* All other screens */}
-      <StackHandleInvite.Screen
+      {/* <StackHandleInvite.Screen
         name="Home"
         component={HomeScreen}
         options={{
@@ -873,6 +893,39 @@ function HandleInviteNavigator() {
                 }}
               >
                 Progress
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      /> */}
+      <HomeDrawer.Screen
+        name="Certificates"
+        component={CertificatesScreen}
+        options={{
+          animation: "none",
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="medal"
+                solid
+                style={{
+                  color: "#292929", // Default color, adjust if needed
+                }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Certificates
               </Text>
             </View>
           ),
@@ -910,6 +963,11 @@ function HandleInviteNavigator() {
           drawerLabelStyle: { fontFamily: "Poppins_500Medium" },
           drawerActiveTintColor: "#2482AA",
         }}
+      />
+      <StackHandleInvite.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
       />
       <StackHandleInvite.Screen
         name="ViewAllGroups"
@@ -1021,7 +1079,7 @@ function HandleInviteNavigator() {
                   color: "#292929",
                 }}
               >
-                Activity
+                Notifications
               </Text>
             </View>
           ),
@@ -1319,7 +1377,7 @@ const TabNavigator = () => {
           let label;
           switch (route.name) {
             case "HomeStack":
-              label = "Progress";
+              label = "Awards";
               break;
             // case "SearchStack":
             //   label = "Discover";
@@ -1344,7 +1402,8 @@ const TabNavigator = () => {
             case "HomeStack":
               return (
                 <FontAwesome6
-                  name="gauge-high"
+                  // name="gauge-high"
+                  name="medal"
                   style={{
                     color: focused ? "#2482AA" : "#767676",
                   }}
@@ -1434,7 +1493,7 @@ const TabNavigator = () => {
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}
-        options={{ tabBarLabel: "Progress" }}
+        options={{ tabBarLabel: "Awards" }}
       />
       {/* <Tab.Screen
         name="SearchStack"
