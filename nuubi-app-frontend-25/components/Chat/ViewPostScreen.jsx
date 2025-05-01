@@ -25,6 +25,7 @@ import * as SecureStore from "expo-secure-store";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function ViewPostScreen({ navigation, route }) {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const { user, setUser } = React.useContext(AccountContext);
   // setUser({ ...user, currentPost: route.params });
   const [comments, setComments] = React.useState([]);
