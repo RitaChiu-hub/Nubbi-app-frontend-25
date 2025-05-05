@@ -2,23 +2,22 @@
   "headers": [
     {
       "source": "/(.*)",
+      "cleanUrls": true,
       "headers": [
         {
           "key": "X-Frame-Options",
-          "value": " "
+          "value": "ALLOW-FROM https://stthomas.beta.instructure.com"
         },
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://stthomas.beta.instructure.com https://canvas.beta.instructure.com;"
+          "value": "frame-ancestors 'self' https://*.instructure.com"
         }
+      ],
+      "rewrites": [
+        { "source": "/lti-login", "destination": "/" },
+        { "source": "/lti-login/", "destination": "/" },
+        { "source": "/:path*", "destination": "/" }
       ]
     }
-  ],
-
-  "buildCommand": "expo export -p web",
-  "outputDirectory": "dist",
-  "devCommand": "expo",
-  "cleanUrls": true,
-  "framework": null,
-  "rewrites": [{ "source": "/:path*", "destination": "/" }]
+  ]
 }

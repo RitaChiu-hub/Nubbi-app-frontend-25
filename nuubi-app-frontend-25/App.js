@@ -75,10 +75,12 @@ export default function App() {
   const linking = {
     prefixes: [
       "https://www.nuubi.app",
+      "https://nuubi.app",
       "https://xnlvhxq-kittykat-8081.exp.direct/",
     ],
     config: {
       screens: {
+        LtiLogin: "lti-login",
         DrawerTabs: {
           screens: {
             HomePage: {
