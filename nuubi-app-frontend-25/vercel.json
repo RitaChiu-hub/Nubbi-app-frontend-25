@@ -7,10 +7,6 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "X-Frame-Options",
-          "value": "ALLOW-FROM https://stthomas.beta.instructure.com"
-        },
-        {
           "key": "Content-Security-Policy",
           "value": "frame-ancestors 'self' https://*.instructure.com"
         }
