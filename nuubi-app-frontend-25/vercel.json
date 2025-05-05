@@ -1,14 +1,24 @@
 {
-  "routes": [
+  "cleanUrls": true,
+
+  "rewrites": [
+    { "source": "/lti-login(/.*)?", "destination": "/" },
+    { "source": "/(.*)", "destination": "/" }
+  ],
+
+  "headers": [
     {
-      "src": "/(.*)",
-      "headers": {
-        "X-Frame-Options": "ALLOW-FROM https://stthomas.beta.instructure.com",
-        "Content-Security-Policy": "frame-ancestors 'self' https://*.instructure.com"
-      }
-    },
-    { "handle": "filesystem" },
-    { "src": "/lti-login/?$", "dest": "/" },
-    { "src": "/(.*)", "dest": "/" }
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "ALLOW-FROM https://stthomas.beta.instructure.com"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://*.instructure.com"
+        }
+      ]
+    }
   ]
 }
