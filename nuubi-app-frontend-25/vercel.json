@@ -1,9 +1,7 @@
 {
-  "cleanUrls": true,
-
-  "headers": [
+  "routes": [
     {
-      "source": "/(.*)",
+      "src": "/(.*)",
       "headers": [
         {
           "key": "X-Frame-Options",
@@ -14,9 +12,7 @@
           "value": "frame-ancestors 'self' https://*.instructure.com"
         }
       ]
-    }
-  ],
-  "routes": [
+    },
     { "handle": "filesystem" },
 
     { "src": "/lti-login/?$", "dest": "/" },
