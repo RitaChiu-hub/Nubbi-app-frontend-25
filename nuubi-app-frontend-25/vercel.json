@@ -1,5 +1,6 @@
 {
   "cleanUrls": true,
+
   "headers": [
     {
       "source": "/(.*)",
@@ -15,9 +16,11 @@
       ]
     }
   ],
-  "rewrites": [
-    { "source": "/lti-login", "destination": "/" },
-    { "source": "/lti-login/", "destination": "/" },
-    { "source": "/:path*", "destination": "/" }
+  "routes": [
+    { "handle": "filesystem" },
+
+    { "src": "/lti-login/?$", "dest": "/" },
+
+    { "src": "/(.*)", "dest": "/" }
   ]
 }
