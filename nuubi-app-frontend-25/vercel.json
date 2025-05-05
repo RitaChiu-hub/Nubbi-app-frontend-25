@@ -1,11 +1,7 @@
 {
+  "buildCommand": "expo export -p web",
+  "outputDirectory": "dist",
   "cleanUrls": true,
-
-  "rewrites": [
-    { "source": "/lti-login(/.*)?", "destination": "/" },
-    { "source": "/(.*)", "destination": "/" }
-  ],
-
   "headers": [
     {
       "source": "/(.*)",
@@ -20,5 +16,9 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/lti-login(/.*)?", "destination": "/" },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
