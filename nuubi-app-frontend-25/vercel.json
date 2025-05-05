@@ -1,8 +1,8 @@
 {
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/(.*)",
-      "cleanUrls": true,
       "headers": [
         {
           "key": "X-Frame-Options",
@@ -12,12 +12,12 @@
           "key": "Content-Security-Policy",
           "value": "frame-ancestors 'self' https://*.instructure.com"
         }
-      ],
-      "rewrites": [
-        { "source": "/lti-login", "destination": "/" },
-        { "source": "/lti-login/", "destination": "/" },
-        { "source": "/:path*", "destination": "/" }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/lti-login", "destination": "/" },
+    { "source": "/lti-login/", "destination": "/" },
+    { "source": "/:path*", "destination": "/" }
   ]
 }
