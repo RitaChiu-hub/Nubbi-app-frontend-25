@@ -4,6 +4,17 @@
   "cleanUrls": true,
   "headers": [
     {
+      "source": "/lti-login(/.*)?",
+      "headers": [
+        { "key": "Cross-Origin-Embedder-Policy", "value": "unsafe-none" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://*.instructure.com"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
