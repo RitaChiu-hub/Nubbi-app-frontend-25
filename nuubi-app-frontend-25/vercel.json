@@ -5,20 +5,11 @@
 
   "headers": [
     {
-      "source": "/lti-login(/.*)?",
-      "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://*.instructure.com https://*.ondigitalocean.app"
-        }
-      ]
-    },
-    {
       "source": "/(.*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://*.instructure.com"
+          "value": "frame-ancestors 'self' https://*.instructure.com https://*.ondigitalocean.app"
         }
       ]
     }
