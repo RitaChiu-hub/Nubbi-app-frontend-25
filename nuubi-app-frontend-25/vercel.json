@@ -14,7 +14,7 @@
         { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" },
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://*.instructure.com"
+          "value": "frame-ancestors 'self' https://*.instructure.com https://*.ondigitalocean.app"
         }
       ]
     },
