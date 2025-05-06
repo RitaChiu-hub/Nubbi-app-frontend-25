@@ -12,6 +12,16 @@ export default function LtiLoginScreen() {
 
     if (token) {
       console.log("[Nuubi] id_token received:", token);
+      // 🔍 quick peek (⚠️ no signature‑check)
+      const decoded = require("jsonwebtoken").decode(token, {
+        complete: true,
+      });
+
+      console.log("[Nuubi] ─ header  ────────────────");
+      console.log(JSON.stringify(decoded.header, null, 2));
+
+      console.log("[Nuubi] ─ payload / claims ─────");
+      console.log(JSON.stringify(decoded.payload, null, 2));
       sessionStorage.setItem("lti_id_token", token);
 
       // TODO: hit your /api/lti/session endpoint here if you want
