@@ -40,7 +40,7 @@ export default function LtiLoginScreen() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify({ idToken }),
+            body: JSON.stringify({ id_token: idToken }),
           }
         );
 
