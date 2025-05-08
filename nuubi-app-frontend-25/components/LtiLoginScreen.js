@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { View, Text, ActivityIndicator, Platform } from "react-native";
-import { AccountContext } from "../AccountContext";
-import { useNavigation } from "@react-navigation/native";
-import socket from "../../socket";
-import CertificatesScreen from "./Certificates/CertificatesScreen";
+import { AccountContext } from "./AccountContext";
+import socket from "../socket";
 
 export default function LtiLoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
