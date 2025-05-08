@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Platform } from "react-native";
+import { AccountContext } from "../AccountContext";
 import { useNavigation } from "@react-navigation/native";
+import socket from "../../socket";
+import CertificatesScreen from "./Certificates/CertificatesScreen";
 
-export default function LtiLoginScreen() {
-  const navigation = useNavigation();
+export default function LtiLoginScreen({ navigation }) {
+  const { user, setUser } = React.useContext(AccountContext);
+
+  //const navigation = useNavigation();
 
   //   useEffect(() => {
   //     /** We land on …/lti-login?token=xxx */
@@ -47,9 +52,17 @@ export default function LtiLoginScreen() {
         const data = await res.json();
         if (data.success) {
           sessionStorage.setItem("nuubi_token", data.jwt);
+          setUser({ ...data, loggedIn: true });
+
+          // ✅ Connect socket now that we are logged in
+          socket.connect();
+
           console.log("Logged in as:", data.email);
           console.log("✅ Nuubi LTI Session Response:");
           console.log(JSON.stringify(data, null, 2));
+          Platform.OS === "web"
+            ? navigation.navigate("DrawerTabs")
+            : navigation.navigate("BottomTabs");
           //   navigation.replace("GroupPage", { email: data.email }); // Or whatever your next screen is
         } else {
           console.error("LTI login failed:", data.error);
