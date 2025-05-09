@@ -45,6 +45,7 @@ import {
   Poppins_900Black,
   Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
+import Canvas from "react-native-canvas";
 
 //Freshpaint.init("e1f8844c-e8e6-4bba-81b8-9873888789b1");
 // const FreshpaintNavigationContainer =
@@ -80,7 +81,7 @@ export default function App() {
     ],
     config: {
       screens: {
-        CanvasDrawerNavigator: "lti-login",
+        Canvas: "lti-login",
         DrawerTabs: {
           screens: {
             HomePage: {
