@@ -204,6 +204,18 @@ export default function PostScreen({ navigation }) {
         backgroundColor: "#fbfbfb",
       }}
     >
+      {/* ⬅️ Back button at the very top */}
+      <TouchableOpacity
+        onPress={navigation.goBack}
+        accessibilityRole="button"
+        style={{
+          alignSelf: "flex-start",
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+        }}
+      >
+        <Text style={{ fontSize: 16 }}>← Back</Text>
+      </TouchableOpacity>
       <FlatList
         data={posts}
         renderItem={renderItem}
