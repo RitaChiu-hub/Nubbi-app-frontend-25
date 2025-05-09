@@ -29,6 +29,7 @@ export default function LtiLoginScreen({ navigation }) {
 
         const data = await res.json();
         if (data.success) {
+          const { groupId, groupName, invitePasscode } = data;
           sessionStorage.setItem("nuubi_token", data.jwt);
           //  setUser({ ...data, loggedIn: true });
 
