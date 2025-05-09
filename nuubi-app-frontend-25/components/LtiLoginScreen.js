@@ -6,26 +6,6 @@ import socket from "../socket";
 export default function LtiLoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
 
-  //const navigation = useNavigation();
-
-  //   useEffect(() => {
-  //     /** We land on …/lti-login?token=xxx */
-  //     const params = new URLSearchParams(window.location.search);
-  //     const token = params.get("token");
-
-  //     if (token) {
-  //       console.log("[Nuubi] id_token received:", token);
-  //       sessionStorage.setItem("lti_id_token", token);
-
-  //       // TODO: hit your /api/lti/session endpoint here if you want
-  //       // await fetch("/api/lti/session", { … })
-
-  //       navigation.replace("Home Page"); // or Dashboard, etc.
-  //     } else {
-  //       console.error("[Nuubi] No id_token in query-string.");
-  //     }
-  //   }, []);
-
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const idToken = params.get("token");
@@ -50,17 +30,22 @@ export default function LtiLoginScreen({ navigation }) {
         const data = await res.json();
         if (data.success) {
           sessionStorage.setItem("nuubi_token", data.jwt);
-          setUser({ ...data, loggedIn: true });
+          //  setUser({ ...data, loggedIn: true });
 
+          setUser({
+            ...data,
+            loggedIn: true,
+            currentGroup: groupId,
+            groupName,
+            invitePasscode,
+          });
           // ✅ Connect socket now that we are logged in
           socket.connect();
 
           console.log("Logged in as:", data.email);
           console.log("✅ Nuubi LTI Session Response:");
           console.log(JSON.stringify(data, null, 2));
-          Platform.OS === "web"
-            ? navigation.navigate("DrawerTabs")
-            : navigation.navigate("BottomTabs");
+          navigation.navigate("Group Tabs", { groupName });
           //   navigation.replace("GroupPage", { email: data.email }); // Or whatever your next screen is
         } else {
           console.error("LTI login failed:", data.error);
