@@ -341,6 +341,35 @@ export default function ViewPostScreen({ navigation, route }) {
         alignItems: "center",
       }}
     >
+      {/* ⬅️ Back button at the very top */}
+      <TouchableOpacity
+        onPress={navigation.goBack}
+        accessibilityRole="button"
+        style={{
+          alignSelf: "flex-start",
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+          flexDirection: "row",
+          alignItems: "center",
+          padding: 8,
+        }}
+      >
+        <FAIcon
+          name="chevron-left"
+          size={16}
+          color="#2482AA"
+          style={{ marginRight: 4 }}
+        />
+        <Text
+          style={{
+            color: "#2482AA",
+            fontSize: 18,
+            fontFamily: "Poppins_600SemiBold",
+          }}
+        >
+          Back
+        </Text>
+      </TouchableOpacity>
       <ScrollView
         ref={scrollViewRef}
         onContentSizeChange={() =>
@@ -413,6 +442,7 @@ export default function ViewPostScreen({ navigation, route }) {
             </View>
           </View>
         </Modal>
+
         <View
           style={{
             padding: 10,
