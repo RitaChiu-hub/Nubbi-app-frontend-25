@@ -80,7 +80,7 @@ export default function App() {
     ],
     config: {
       screens: {
-        LtiLogin: "lti-login",
+        CanvasDrawerNavigator: "lti-login",
         DrawerTabs: {
           screens: {
             HomePage: {
