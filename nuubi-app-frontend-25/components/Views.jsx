@@ -457,6 +457,333 @@ function WebStack() {
   );
 }
 
+const CanvasDrawer = createDrawerNavigator();
+
+function CanvasDrawerNavigator() {
+  return (
+    <CanvasDrawer.Navigator
+      initialRouteName="LtiLogin"
+      backBehavior="history"
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: "#2482AA",
+        },
+        headerTintColor: "#fbfbfb",
+      }}
+    >
+      <CanvasDrawer.Screen
+        name="LtiLogin"
+        component={LtiLoginScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+
+      <CanvasDrawer.Screen
+        name="Certificates"
+        component={CertificatesScreen}
+        options={{
+          animation: "none",
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="medal"
+                solid
+                style={{ color: "#292929" }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                My Awards
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      />
+
+      <CanvasDrawer.Screen
+        name="MyGroups"
+        component={MyGroupsScreen}
+        options={{
+          animation: "none",
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="user-group"
+                solid
+                style={{ color: "#292929" }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                My Groups
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      />
+
+      {/* Hidden Screens */}
+      <CanvasDrawer.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="ViewAllGroups"
+        component={GroupListScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="Group Tabs"
+        component={GroupTabs}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="AddGroup"
+        component={AddGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="CreateGroup"
+        component={CreateGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="CreateTask"
+        component={CreateTask}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="MyGroupTasks"
+        component={MyGroupTasks}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="OverallAchievements"
+        component={OverallAchievements}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="GroupAchievements"
+        component={GroupAchievements}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="EditGroup"
+        component={EditGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="Group Chat"
+        component={ChatScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={{ animation: "none", drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="CreatePost"
+        component={CreatePostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="EditPost"
+        component={EditPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="ViewPost"
+        component={ViewPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="GroupInfo"
+        component={GroupInfoScreen}
+        options={{ animation: "none", drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="GroupAnalytics"
+        component={GroupAnalytics}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="DeleteGroup"
+        component={DeleteGroupScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="JoinGroup"
+        component={JoinGroupWithPasscode}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+
+      <CanvasDrawer.Screen
+        name="ProfilePage"
+        component={ProfilePageScreen}
+        options={{
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="circle-user"
+                solid
+                style={{ color: "#292929" }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                My Profile
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+          headerTitle: "Profile",
+        }}
+      />
+
+      <CanvasDrawer.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="bell"
+                solid
+                style={{ color: "#292929" }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Notifications
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+        }}
+      />
+
+      <CanvasDrawer.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="DeleteAccount"
+        component={DeleteAccountScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="ChangeUsernameScreen"
+        component={ChangeUsernameScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="AccountScreen"
+        component={AccountScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+
+      <CanvasDrawer.Screen
+        name="HelpLoggedIn"
+        component={HelpScreen}
+        options={{
+          drawerLabel: () => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome6
+                name="circle-question"
+                solid
+                style={{ color: "#292929" }}
+                size={24}
+              />
+              <Text
+                style={{
+                  fontFamily: "Poppins_500Medium",
+                  marginLeft: 8,
+                  fontSize: 18,
+                  color: "#292929",
+                }}
+              >
+                Nuubi FAQ
+              </Text>
+            </View>
+          ),
+          drawerLabelStyle: {
+            fontFamily: "Poppins_500Medium",
+          },
+          drawerActiveTintColor: "#2482AA",
+          headerTitle: "Profile",
+        }}
+      />
+
+      <CanvasDrawer.Screen
+        name="FeedbackScreen"
+        component={FeedbackScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="NotificationSettings"
+        component={NotificationSettings}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <CanvasDrawer.Screen
+        name="StudyModeScreen"
+        component={StudyModeScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+    </CanvasDrawer.Navigator>
+  );
+}
+
 const GroupTab = createMaterialTopTabNavigator();
 
 function GroupTabs({ navigation, route }) {
@@ -1661,8 +1988,8 @@ export default function Views({ landingPage, inviteToken }) {
         />
       )}
       <Stack.Screen
-        name="LtiLogin"
-        component={LtiLoginScreen}
+        name="Canvas"
+        component={CanvasDrawerNavigator}
         options={{ path: "lti-login" }}
       />
     </Stack.Navigator>
