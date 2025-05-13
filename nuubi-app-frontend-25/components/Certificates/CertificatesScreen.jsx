@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, Image, Platform, FlatList } from "react-native";
-import { globalStyles } from "../../styles/global";
+import { globalStyles, nuubiColors } from "../../styles/global";
 import { useAssets } from "expo-asset";
 import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
@@ -220,6 +220,28 @@ export default function CertificatesScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}>
+      <View
+        style={{
+          width: "100%",
+          maxWidth: 600,
+          alignSelf: "center",
+          backgroundColor: nuubiColors.white,
+          paddingVertical: 16,
+          paddingHorizontal: 24,
+          marginBottom: 12,
+          marginTop: 12,
+          borderWidth: 4,
+          borderColor: nuubiColors.darkerBlue,
+          borderRadius: 12,
+        }}
+      >
+        <Text style={[globalStyles.bodyRegular, { textAlign: "center" }]}>
+          Earn recognition for skills that matter! Click{" "}
+          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>"My Groups”</Text>{" "}
+          in the navigation bar to start earning awards that spotlight your
+          strengths.
+        </Text>
+      </View>
       <FlatList
         data={certificateData}
         renderItem={renderItem}

@@ -40,18 +40,18 @@ const SECTIONS = [
         type: "link",
         navRoute: "ForgotPassword",
       },
-      {
-        label: "Update email",
-        icon: "envelope",
-        type: "link",
-        navRoute: "comingSoonAlert",
-      },
-      {
-        label: "Contact us",
-        icon: "paper-plane",
-        type: "link",
-        navRoute: "FeedbackScreen",
-      },
+      // {
+      //   label: "Update email",
+      //   icon: "envelope",
+      //   type: "link",
+      //   navRoute: "comingSoonAlert",
+      // },
+      // {
+      //   label: "Contact us",
+      //   icon: "paper-plane",
+      //   type: "link",
+      //   navRoute: "FeedbackScreen",
+      // },
       {
         label: "Sign out",
         icon: "right-from-bracket",

@@ -371,7 +371,7 @@ export default function ProfilePageScreen({ navigation }) {
               ) : null}
             </View>
 
-            <View style={globalStyles.rowWrapper}>
+            {/* <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
                 style={globalStyles.row}
                 onPress={() => navigation.navigate("OverallAchievements")}
@@ -388,26 +388,26 @@ export default function ProfilePageScreen({ navigation }) {
                 </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
-            </View>
+            </View> */}
 
-            {/* <View style={[globalStyles.rowWrapper]}>
+            <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
                 style={globalStyles.row}
-                onPress={() => alert("Coming soon!")}
+                onPress={() => navigation.navigate("FeedbackScreen")}
               >
                 <View style={[globalStyles.row]}>
                   <FeatherIcon
                     color="#616161"
                     solid
-                    name="chart-simple"
+                    name="paper-plane"
                     style={globalStyles.rowIcon}
                     size={22}
                   />
-                  <Text style={globalStyles.headingTextRows}>Analytics</Text>
+                  <Text style={globalStyles.headingTextRows}>Contact Us</Text>
                 </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
-            </View> */}
+            </View>
 
             <View style={globalStyles.rowWrapper}>
               <TouchableOpacity
