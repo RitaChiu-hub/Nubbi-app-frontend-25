@@ -11,65 +11,49 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kittykat.nuubiapp",
       "infoPlist": {
         "LSMinimumSystemVersion": "12.0",
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCameraUsageDescription": "Nuubi needs camera access so you can take profile photos and attach images to posts.",
+        "NSPhotoLibraryUsageDescription": "Nuubi needs photo library access so you can choose existing images for your posts."
       },
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": [
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "CA92.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "3B52.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["3B52.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "E174.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["E174.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "8FFB.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["8FFB.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "CA92.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "3B52.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["3B52.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "E174.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["E174.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "8FFB.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["8FFB.1"]
           }
         ]
       }
@@ -91,11 +75,6 @@
         "projectId": "248f8701-02d5-444d-81c1-c001c6bc6273"
       }
     },
-    "plugins": [
-      "expo-font",
-      "expo-asset",
-      "expo-secure-store",
-      "expo-router"
-    ]
+    "plugins": ["expo-font", "expo-asset", "expo-secure-store", "expo-router"]
   }
 }
