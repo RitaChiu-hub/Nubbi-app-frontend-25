@@ -21,6 +21,7 @@ import IonIcon from "@expo/vector-icons/Ionicons";
 import * as ImageManipulator from "expo-image-manipulator";
 import alert from "./../alert";
 import * as SecureStore from "expo-secure-store";
+import FAIcon from "@expo/vector-icons/FontAwesome";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -176,6 +177,35 @@ export default function CreatePostScreen({ navigation }) {
 
   return (
     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
+      {/* ⬅️ Back button at the very top */}
+      <TouchableOpacity
+        onPress={navigation.goBack}
+        accessibilityRole="button"
+        style={{
+          alignSelf: "flex-start",
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+          flexDirection: "row",
+          alignItems: "center",
+          padding: 8,
+        }}
+      >
+        <FAIcon
+          name="chevron-left"
+          size={16}
+          color="#2482AA"
+          style={{ marginRight: 4 }}
+        />
+        <Text
+          style={{
+            color: "#2482AA",
+            fontSize: 18,
+            fontFamily: "Poppins_600SemiBold",
+          }}
+        >
+          Back
+        </Text>
+      </TouchableOpacity>
       <View
         style={{
           flex: 1,
@@ -492,9 +522,9 @@ export default function CreatePostScreen({ navigation }) {
                         fileUrl: fileUploadUrl,
                       };
                       const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token");// Get token only on mobile
+                        Platform.OS !== "web"
+                          ? await SecureStore.getItemAsync("token")
+                          : sessionStorage.getItem("token"); // Get token only on mobile
 
                       fetch(
                         `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
@@ -561,9 +591,9 @@ export default function CreatePostScreen({ navigation }) {
                         fileUrl: fileUploadUrl,
                       };
                       const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token");// Get token only on mobile
+                        Platform.OS !== "web"
+                          ? await SecureStore.getItemAsync("token")
+                          : sessionStorage.getItem("token"); // Get token only on mobile
 
                       fetch(
                         `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
