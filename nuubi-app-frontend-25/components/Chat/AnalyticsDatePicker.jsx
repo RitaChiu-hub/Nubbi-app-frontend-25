@@ -6,6 +6,7 @@ import {
   Platform,
   Alert,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import { nuubiColors, globalStyles } from "../../styles/global";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -142,19 +143,19 @@ export default function AnalyticsDatePicker({
             <>
               <TouchableOpacity
                 style={styles.dateBtn}
-                onPress={() => setShowStart(true)}
+                onPress={() => setShowStartPicker(true)}
               >
                 <Text style={styles.dateBtnText}>
                   Start: {startDate.toDateString()}
                 </Text>
               </TouchableOpacity>
-              {showStart && (
+              {showStartPicker && (
                 <DateTimePicker
                   value={startDate}
                   mode="date"
                   display="default"
                   onChange={(e, d) => {
-                    setShowStart(false);
+                    setShowStartPicker(false);
                     if (d) setStartDate(d);
                   }}
                 />
@@ -177,19 +178,19 @@ export default function AnalyticsDatePicker({
             <>
               <TouchableOpacity
                 style={styles.dateBtn}
-                onPress={() => setShowEnd(true)}
+                onPress={() => setShowEndPicker(true)}
               >
                 <Text style={styles.dateBtnText}>
                   End: {endDate.toDateString()}
                 </Text>
               </TouchableOpacity>
-              {showEnd && (
+              {showEndPicker && (
                 <DateTimePicker
                   value={endDate}
                   mode="date"
                   display="default"
                   onChange={(e, d) => {
-                    setShowEnd(false);
+                    setShowEndPicker(false);
                     if (d) setEndDate(d);
                   }}
                 />
@@ -228,9 +229,14 @@ export default function AnalyticsDatePicker({
   );
 }
 
+const deviceWidth = Dimensions.get("window").width;
 /* ---------- Nuubi‑styled local styles ---------- */
 const styles = StyleSheet.create({
-  wrapper: { padding: 16 },
+  wrapper: {
+    padding: 16,
+    maxWidth: Platform.OS === "web" ? 600 : deviceWidth - 32, // 16 px padding on each side
+    alignSelf: "center",
+  },
 
   expandBtn: {
     backgroundColor: nuubiColors.darkerBlue,
@@ -246,6 +252,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     backgroundColor: nuubiColors.white,
+    width: Platform.OS === "web" ? "100%" : deviceWidth * 0.9, // 90 % width on mobile
+    alignSelf: "center",
   },
 
   label: {
@@ -268,6 +276,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10,
   },
+
   dateBtnText: {
     color: nuubiColors.white,
     textAlign: "center",
