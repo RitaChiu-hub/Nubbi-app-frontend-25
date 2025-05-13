@@ -24,15 +24,18 @@ export default function ForgotPasswordScreen({ navigation }) {
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
-    fetch("https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: JSON.stringify({ ...user, mypasscode }),
-    })
+    fetch(
+      "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user, mypasscode }),
+      }
+    )
       .catch((err) => {
         return;
       })
@@ -54,7 +57,9 @@ export default function ForgotPasswordScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>Forgot or Create Nuubi Password</Text>
+        <Text style={globalStyles.h3HeadingWhite}>
+          Forgot or Create Nuubi Password
+        </Text>
       ),
       headerTitleAlign: "center",
     });
@@ -71,7 +76,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 40,
+          marginBottom: 140,
         }}
       >
         <View style={globalStyles.widthContainer}>
@@ -88,9 +93,25 @@ export default function ForgotPasswordScreen({ navigation }) {
               },
             ]}
           >
-            Click this button to send a 6 digit passcode to the email associated
-            with this account. Enter the 6 digit passcode and a new password
-            below.
+            If you signed up through Canvas or forgot your password, you’ll need
+            to set a Nuubi password to log into the mobile app or change account
+            settings like your username.
+          </Text>
+          <Text
+            style={[
+              {
+                fontFamily: "Poppins_400Regular",
+                fontSize: 14,
+                color: "#333",
+                padding: 14,
+              },
+              Platform.OS === "web" && {
+                outlineStyle: "none",
+              },
+            ]}
+          >
+            Tap the button to send a 6-digit passcode to your email. Then enter
+            the code and set a new password below.
           </Text>
           <View>
             <TouchableOpacity
@@ -111,15 +132,18 @@ export default function ForgotPasswordScreen({ navigation }) {
                 Platform.OS !== "web"
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-                body: JSON.stringify({ ...user, ...vals }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                  },
+                  body: JSON.stringify({ ...user, ...vals }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })

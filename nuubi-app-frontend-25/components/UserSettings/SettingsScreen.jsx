@@ -35,7 +35,7 @@ const SECTIONS = [
         navRoute: "ChangePasswordScreen",
       },
       {
-        label: "Forgot/Create Nuubi password",
+        label: "Reset Nuubi password",
         icon: "unlock",
         type: "link",
         navRoute: "ForgotPassword",
