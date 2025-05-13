@@ -54,7 +54,7 @@ export default function ForgotPasswordScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>Forgot or Create Password</Text>
+        <Text style={globalStyles.h3HeadingWhite}>Forgot or Create Nuubi Password</Text>
       ),
       headerTitleAlign: "center",
     });

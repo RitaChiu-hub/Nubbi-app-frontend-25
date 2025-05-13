@@ -23,19 +23,19 @@ const SECTIONS = [
     header: "",
     items: [
       {
-        label: "Update username",
+        label: "Change Nuubi username",
         icon: "user",
         type: "link",
         navRoute: "ChangeUsernameScreen",
       },
       {
-        label: "Update password",
+        label: "Change Nuubi password",
         icon: "key",
         type: "link",
         navRoute: "ChangePasswordScreen",
       },
       {
-        label: "Forgot/Create password",
+        label: "Forgot/Create Nuubi password",
         icon: "unlock",
         type: "link",
         navRoute: "ForgotPassword",

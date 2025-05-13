@@ -56,7 +56,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
         <View
           style={{
             flex: 0.2,
-            backgroundColor: enteredEmail ? "#33FFB6" : "white",
+            backgroundColor: enteredEmail ? "#33FFB6" : "#fbfbfb",
             paddingHorizontal: 20,
           }}
         >
@@ -77,8 +77,8 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             }}
           >
             {enteredEmail
-              ? "We've sent instructions on reseting your password. If you don't receive an email, please check your spam."
-              : "We will send you instructions on how to reset your password"}
+              ? "We've sent a passcode to your email. It may be in your spam folder."
+              : "We will email you a passcode to reset or create your Nuubi password."}
           </Text>
           <View
             style={{ flex: 0.35, marginTop: 16, paddingHorizontal: 20 }}
@@ -87,7 +87,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             initialValues={{ email: "" }}
             onSubmit={(values, actions) => {
               const vals = { ...values };
-              actions.resetForm();
+              //  actions.resetForm();
               const email = vals.email;
               fetch(
                 "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
