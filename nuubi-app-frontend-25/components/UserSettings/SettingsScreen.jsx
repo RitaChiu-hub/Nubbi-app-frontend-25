@@ -35,7 +35,7 @@ const SECTIONS = [
         navRoute: "ChangePasswordScreen",
       },
       {
-        label: "Forgot password",
+        label: "Forgot/Create password",
         icon: "unlock",
         type: "link",
         navRoute: "ForgotPassword",

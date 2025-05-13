@@ -239,7 +239,7 @@ export default function LoginScreen({ navigation }) {
                 }}
               >
                 <Text style={globalStyles.captionLinkBlue}>
-                  Forgot password?
+                  Forgot or need to create password?
                 </Text>
               </TouchableOpacity>
 

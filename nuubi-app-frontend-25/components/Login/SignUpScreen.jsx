@@ -253,7 +253,7 @@ export default function SignUpScreen({ navigation }) {
                         }}
                       >
                         {" "}
-                        Forgot Password?
+                        Forgot or need to create password?
                       </Text>
                     </TouchableOpacity>
                   </Text>
