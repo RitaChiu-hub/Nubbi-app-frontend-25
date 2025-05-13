@@ -2,7 +2,7 @@
   "expo": {
     "name": "Nuubi",
     "slug": "nuubi-app",
-    "version": "1.3.26",
+    "version": "1.3.27",
     "orientation": "portrait",
     "icon": "./assets/nuubiicon.png",
     "userInterfaceStyle": "light",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kittykat.nuubiapp",
@@ -24,27 +22,19 @@
         "NSPrivacyAccessedAPITypes": [
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "CA92.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "3B52.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["3B52.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "E174.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["E174.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "8FFB.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["8FFB.1"]
           }
         ]
       }
@@ -55,7 +45,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.kittykat.nuubiapp",
-      "versionCode": 1326,
+      "versionCode": 1327,
       "googleServicesFile": "./google-services.json"
     },
     "web": {
@@ -66,11 +56,6 @@
         "projectId": "248f8701-02d5-444d-81c1-c001c6bc6273"
       }
     },
-    "plugins": [
-      "expo-font",
-      "expo-asset",
-      "expo-secure-store",
-      "expo-router"
-    ]
+    "plugins": ["expo-font", "expo-asset", "expo-secure-store", "expo-router"]
   }
 }
