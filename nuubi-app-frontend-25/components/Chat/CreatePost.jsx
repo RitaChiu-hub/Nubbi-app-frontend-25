@@ -178,34 +178,36 @@ export default function CreatePostScreen({ navigation }) {
   return (
     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
       {/* ⬅️ Back button at the very top */}
-      <TouchableOpacity
-        onPress={navigation.goBack}
-        accessibilityRole="button"
-        style={{
-          alignSelf: "flex-start",
-          paddingHorizontal: 16,
-          paddingVertical: 8,
-          flexDirection: "row",
-          alignItems: "center",
-          padding: 8,
-        }}
-      >
-        <FAIcon
-          name="chevron-left"
-          size={16}
-          color="#2482AA"
-          style={{ marginRight: 4 }}
-        />
-        <Text
+      {Platform.OS === "web" && (
+        <TouchableOpacity
+          onPress={navigation.goBack}
+          accessibilityRole="button"
           style={{
-            color: "#2482AA",
-            fontSize: 18,
-            fontFamily: "Poppins_600SemiBold",
+            alignSelf: "flex-start",
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            padding: 8,
           }}
         >
-          Back
-        </Text>
-      </TouchableOpacity>
+          <FAIcon
+            name="chevron-left"
+            size={16}
+            color="#2482AA"
+            style={{ marginRight: 4 }}
+          />
+          <Text
+            style={{
+              color: "#2482AA",
+              fontSize: 18,
+              fontFamily: "Poppins_600SemiBold",
+            }}
+          >
+            Back
+          </Text>
+        </TouchableOpacity>
+      )}
       <View
         style={{
           flex: 1,

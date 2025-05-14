@@ -342,6 +342,7 @@ export default function ViewPostScreen({ navigation, route }) {
       }}
     >
       {/* ⬅️ Back button at the very top */}
+      {Platform.OS === "web" && (
       <TouchableOpacity
         onPress={navigation.goBack}
         accessibilityRole="button"
@@ -370,6 +371,7 @@ export default function ViewPostScreen({ navigation, route }) {
           Back
         </Text>
       </TouchableOpacity>
+      )}
       <ScrollView
         ref={scrollViewRef}
         onContentSizeChange={() =>

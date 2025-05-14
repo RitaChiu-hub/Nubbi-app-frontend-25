@@ -198,40 +198,6 @@ export default function ChatScreen({ navigation }) {
     getGroupInfo();
   }, [isFocused, user.currentGroup]);
 
-  // React.useEffect(() => {
-  //   // still load likes, admin, group info, etc
-  //   getLikes();
-  //   getGroupName();
-  //   getChats();
-  //   getIsAdmin();
-  //   getGroupInfo();
-
-  //   // now append only the new message
-  //   socket.on("insert msg return updated list", (newMsg) => {
-  //     setChats((prev) => [...prev, newMsg]);
-  //   });
-
-  //   // cleanup listener
-  //   return () => {
-  //     socket.off("insert msg return updated list");
-  //   };
-  // }, [isFocused, user.currentGroup]);
-
-  // React.useEffect(() => {
-  //   getLikes();
-  //   getGroupName();
-  //   getChats();
-  //   getIsAdmin();
-  //   getGroupInfo();
-  // }, [isFocused, user.currentGroup]);
-
-  // React.useEffect(() => {
-  //   socket.on("insert msg return updated list", (jsonData) => {
-  //     setChats(jsonData);
-  //     getChats();
-  //   });
-  // }, [chats]);
-
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
   return (
@@ -242,211 +208,203 @@ export default function ChatScreen({ navigation }) {
       }
       style={{ flex: 1, backgroundColor: "#fbfbfb" }}
     >
-      <View style={{ flex: 1, backgroundColor: "#fbfbfb" }}>
-        <ScrollView
-          ref={scrollViewRef}
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingHorizontal: 16,
-            paddingBottom: INPUT_BAR_HEIGHT,
-          }}
-          keyboardShouldPersistTaps="handled"
-          onContentSizeChange={() =>
-            scrollViewRef.current.scrollToEnd({ animated: true })
-          }
-        >
-          {chats &&
-            chats.map((chats) => (
+      <ScrollView
+        ref={scrollViewRef}
+        style={{ flex: 1 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 16,
+          paddingBottom: INPUT_BAR_HEIGHT,
+        }}
+        keyboardShouldPersistTaps="handled"
+        onContentSizeChange={() =>
+          scrollViewRef.current.scrollToEnd({ animated: true })
+        }
+      >
+        {chats &&
+          chats.map((chats) => (
+            <View
+              key={chats.messages_id}
+              style={{
+                backgroundColor: "transparent",
+                padding: 8,
+                marginTop: 10,
+                // ...(Platform.OS !== "web" && { marginRight: 40 }),
+                elevation: 15,
+                borderWidth: 1,
+                borderColor: "#ddd",
+                borderRadius: 16,
+              }}
+            >
               <View
-                key={chats.messages_id}
                 style={{
-                  backgroundColor: "transparent",
-                  padding: 8,
-                  marginTop: 10,
-                  marginRight: 40,
-                  elevation: 15,
-                  borderWidth: 1,
-                  borderColor: "#ddd",
-                  minWidth: "90%",
-                  borderRadius: 16,
-                  alignSelf: "left",
+                  flexDirection: "row",
+                  paddingLeft: 4,
                 }}
               >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    paddingLeft: 4,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontWeight: "bold",
-                      color: "#2482AA",
-                      fontSize: 16,
-                    }}
-                  >
-                    {chats.message_points}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={async () => {
-                      if (!likes.includes(chats.messages_id)) {
-                        likes.push(chats.messages_id);
-                        setLikes(likes);
-                        chats.message_points++;
-                        setIsChanged(!isChanged);
-                      } else {
-                        const index = likes.indexOf(chats.messages_id);
-                        likes.splice(index, 1);
-                        setLikes(likes);
-                        chats.message_points--;
-                        setIsChanged(!isChanged);
-                      }
-
-                      const token =
-                        Platform.OS !== "web"
-                          ? await SecureStore.getItemAsync("token")
-                          : sessionStorage.getItem("token"); // Get token only on mobile
-
-                      fetch(
-                        `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
-                        {
-                          method: "POST",
-                          credentials: "include",
-                          headers: {
-                            "Content-Type": "application/json",
-                            ...(token
-                              ? { Authorization: `Bearer ${token}` }
-                              : {}),
-                          },
-                          body: JSON.stringify({
-                            ...user,
-                            message_id: chats.messages_id,
-                          }),
-                        }
-                      );
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: likes.includes(chats.messages_id)
-                          ? "#228ee7"
-                          : "#bbb",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                        paddingBottom: 2,
-                        paddingRight: 2,
-                      }}
-                    >
-                      +
-                    </Text>
-                  </TouchableOpacity>
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      fontSize: 14,
-                      fontFamily: "Poppins_600SemiBold",
-                      color: chats.user_id === adminId ? "#050505" : "#333",
-                    }}
-                  >
-                    {chats.sender_username}
-                  </Text>
-                  <View style={{ marginHorizontal: 2 }}></View>
-                  <Text style={{ fontSize: 10, color: "grey" }}>
-                    {moment(chats.iso_time_sent).calendar()}
-                  </Text>
-                </View>
                 <Text
                   style={{
-                    paddingLeft: 4,
-                    color: "#050505",
-                    fontFamily: "Poppins_400Regular",
-                    fontSize: 14,
-                    letterSpacing: 0.5,
+                    fontWeight: "bold",
+                    color: "#2482AA",
+                    fontSize: 16,
                   }}
                 >
-                  {chats.text}
+                  {chats.message_points}
                 </Text>
-              </View>
-            ))}
-        </ScrollView>
-        <View
-          style={{
-            paddingVertical: 10,
-            paddingBottom: Platform.OS === "ios" ? 20 : 10,
-            paddingHorizontal: 10,
-            backgroundColor: "#fbfbfb",
-            borderTopWidth: 1,
-            borderColor: "#ddd",
-          }}
-        >
-          <Formik
-            initialValues={{ mymessage: "" }}
-            validationSchema={addMessageSchema}
-            onSubmit={async (values, actions) => {
-              const token =
-                Platform.OS !== "web"
-                  ? await SecureStore.getItemAsync("token")
-                  : sessionStorage.getItem("token");
-              const payload = {
-                ...user,
-                mymessage: values.mymessage,
-                token,
-              };
-              socket.emit("insert msg return updated list", payload);
-              actions.resetForm();
-              await getChats();
-            }}
-          >
-            {(props) => (
-              <View>
-                <Text style={globalStyles.captionError}>
-                  <ErrorMessage name="mymessage" />
-                </Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    borderRadius: 16,
-                    borderWidth: 1,
-                    borderColor: "#ddd",
-                    backgroundColor: "#fbfbfb",
-                    alignItems: "center",
-                    paddingHorizontal: 10,
+                <TouchableOpacity
+                  onPress={async () => {
+                    if (!likes.includes(chats.messages_id)) {
+                      likes.push(chats.messages_id);
+                      setLikes(likes);
+                      chats.message_points++;
+                      setIsChanged(!isChanged);
+                    } else {
+                      const index = likes.indexOf(chats.messages_id);
+                      likes.splice(index, 1);
+                      setLikes(likes);
+                      chats.message_points--;
+                      setIsChanged(!isChanged);
+                    }
+
+                    const token =
+                      Platform.OS !== "web"
+                        ? await SecureStore.getItemAsync("token")
+                        : sessionStorage.getItem("token"); // Get token only on mobile
+
+                    fetch(
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+                      {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                          "Content-Type": "application/json",
+                          ...(token
+                            ? { Authorization: `Bearer ${token}` }
+                            : {}),
+                        },
+                        body: JSON.stringify({
+                          ...user,
+                          message_id: chats.messages_id,
+                        }),
+                      }
+                    );
                   }}
                 >
-                  <TextInput
+                  <Text
                     style={{
-                      flex: 1,
-                      fontFamily: "Poppins_400Regular",
+                      color: likes.includes(chats.messages_id)
+                        ? "#228ee7"
+                        : "#bbb",
                       fontSize: 16,
-                      color: "#767676",
-                      paddingVertical: 10,
-                    }}
-                    placeholder="Write a message... "
-                    onChangeText={props.handleChange("mymessage")}
-                    value={props.values.mymessage}
-                    multiline={true}
-                    autoFocus={true}
-                  />
-                  <TouchableOpacity
-                    onPress={props.handleSubmit}
-                    disabled={!props.values.mymessage.trim()}
-                    style={{
-                      padding: 10,
-                      borderRadius: 12,
-                      backgroundColor: !props.values.mymessage.trim()
-                        ? "#cccccc" // ✅ dim color when disabled
-                        : "#2482AA", // ✅ normal active color
-                      marginLeft: 10,
+                      fontWeight: "bold",
+                      paddingBottom: 2,
+                      paddingRight: 2,
                     }}
                   >
-                    <FAIcon name="paper-plane" size={24} color="#fff" />
-                  </TouchableOpacity>
-                </View>
+                    +
+                  </Text>
+                </TouchableOpacity>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 14,
+                    fontFamily: "Poppins_600SemiBold",
+                    color: chats.user_id === adminId ? "#050505" : "#333",
+                  }}
+                >
+                  {chats.sender_username}
+                </Text>
+                <View style={{ marginHorizontal: 2 }}></View>
+                <Text style={{ fontSize: 10, color: "grey" }}>
+                  {moment(chats.iso_time_sent).calendar()}
+                </Text>
               </View>
-            )}
-          </Formik>
-        </View>
+              <Text
+                style={{
+                  paddingLeft: 4,
+                  color: "#050505",
+                  fontFamily: "Poppins_400Regular",
+                  fontSize: 14,
+                  letterSpacing: 0.5,
+                }}
+              >
+                {chats.text}
+              </Text>
+            </View>
+          ))}
+      </ScrollView>
+      <View
+        style={{
+          paddingVertical: 10,
+          //    paddingBottom: Platform.OS === "ios" ? 20 : 10,
+          paddingHorizontal: 10,
+          backgroundColor: "#fbfbfb",
+          borderTopWidth: 1,
+          borderColor: "#ddd",
+        }}
+      >
+        <Formik
+          initialValues={{ mymessage: "" }}
+          validationSchema={addMessageSchema}
+          onSubmit={async (values, actions) => {
+            const token =
+              Platform.OS !== "web"
+                ? await SecureStore.getItemAsync("token")
+                : sessionStorage.getItem("token");
+            const payload = {
+              ...user,
+              mymessage: values.mymessage,
+              token,
+            };
+            socket.emit("insert msg return updated list", payload);
+            actions.resetForm();
+            await getChats();
+          }}
+        >
+          {(props) => (
+            <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  borderRadius: 16,
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  backgroundColor: "#fbfbfb",
+                  alignItems: "center",
+                  paddingHorizontal: 10,
+                }}
+              >
+                <TextInput
+                  style={{
+                    flex: 1,
+                    fontFamily: "Poppins_400Regular",
+                    fontSize: 16,
+                    color: "#767676",
+                    paddingVertical: 10,
+                  }}
+                  placeholder="Write a message... "
+                  onChangeText={props.handleChange("mymessage")}
+                  value={props.values.mymessage}
+                  multiline={true}
+                />
+                <TouchableOpacity
+                  onPress={props.handleSubmit}
+                  disabled={!props.values.mymessage.trim()}
+                  style={{
+                    padding: 10,
+                    borderRadius: 12,
+                    backgroundColor: !props.values.mymessage.trim()
+                      ? "#cccccc"
+                      : "#2482AA",
+                    marginLeft: 10,
+                  }}
+                >
+                  <FAIcon name="paper-plane" size={24} color="#fff" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </Formik>
       </View>
     </KeyboardAvoidingView>
   );

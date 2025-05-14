@@ -73,6 +73,7 @@ export default function EditPostScreen({ navigation }) {
   return (
     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
       {/* ⬅️ Back button at the very top */}
+      {Platform.OS === "web" && (
       <TouchableOpacity
         onPress={navigation.goBack}
         accessibilityRole="button"
@@ -101,6 +102,7 @@ export default function EditPostScreen({ navigation }) {
           Back
         </Text>
       </TouchableOpacity>
+      )}
       <View
         style={{
           flex: 1,

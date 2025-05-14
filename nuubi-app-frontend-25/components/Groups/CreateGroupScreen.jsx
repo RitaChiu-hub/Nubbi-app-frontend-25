@@ -13,6 +13,7 @@ import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 const { createGroupSchema } = require("../validationSchema");
 import * as SecureStore from "expo-secure-store";
+import FAIcon from "@expo/vector-icons/FontAwesome";
 
 export default function CreateGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -42,6 +43,36 @@ export default function CreateGroupScreen({ navigation }) {
 
   return (
     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
+      {Platform.OS === "web" && (
+        <TouchableOpacity
+          onPress={navigation.goBack}
+          accessibilityRole="button"
+          style={{
+            alignSelf: "flex-start",
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            padding: 8,
+          }}
+        >
+          <FAIcon
+            name="chevron-left"
+            size={16}
+            color="#2482AA"
+            style={{ marginRight: 4 }}
+          />
+          <Text
+            style={{
+              color: "#2482AA",
+              fontSize: 18,
+              fontFamily: "Poppins_600SemiBold",
+            }}
+          >
+            Back
+          </Text>
+        </TouchableOpacity>
+      )}
       <View style={globalStyles.container}>
         <View
           style={{
@@ -62,9 +93,9 @@ export default function CreateGroupScreen({ navigation }) {
               const vals = { ...values };
               const allvals = { ...values, privacySelection };
               const token =
-              Platform.OS !== "web"
-                ? await SecureStore.getItemAsync("token")
-                : null; // Get token only on mobile
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null; // Get token only on mobile
               actions.resetForm();
               fetch(
                 "https://coral-app-n96bn.ondigitalocean.app/groups/creategroup",

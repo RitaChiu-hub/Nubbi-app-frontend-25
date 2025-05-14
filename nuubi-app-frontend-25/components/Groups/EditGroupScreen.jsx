@@ -13,6 +13,8 @@ import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 const { createGroupSchema } = require("../validationSchema");
 import * as SecureStore from "expo-secure-store";
+import FAIcon from "@expo/vector-icons/FontAwesome";
+import { KeyboardAvoidingView } from "react-native-web";
 
 export default function EditGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -40,6 +42,36 @@ export default function EditGroupScreen({ navigation }) {
 
   return (
     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
+      {Platform.OS === "web" && (
+        <TouchableOpacity
+          onPress={navigation.goBack}
+          accessibilityRole="button"
+          style={{
+            alignSelf: "flex-start",
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            padding: 8,
+          }}
+        >
+          <FAIcon
+            name="chevron-left"
+            size={16}
+            color="#2482AA"
+            style={{ marginRight: 4 }}
+          />
+          <Text
+            style={{
+              color: "#2482AA",
+              fontSize: 18,
+              fontFamily: "Poppins_600SemiBold",
+            }}
+          >
+            Back
+          </Text>
+        </TouchableOpacity>
+      )}
       <View style={globalStyles.container}>
         <View
           style={{
@@ -62,15 +94,18 @@ export default function EditGroupScreen({ navigation }) {
                 Platform.OS !== "web"
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
-              fetch("https://coral-app-n96bn.ondigitalocean.app/groups/editgroup", {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-                body: JSON.stringify({ ...user, ...allvals }),
-              })
+              fetch(
+                "https://coral-app-n96bn.ondigitalocean.app/groups/editgroup",
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                  },
+                  body: JSON.stringify({ ...user, ...allvals }),
+                }
+              )
                 .catch((err) => {
                   return;
                 })

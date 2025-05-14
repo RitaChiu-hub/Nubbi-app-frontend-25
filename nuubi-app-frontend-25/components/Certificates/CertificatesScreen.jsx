@@ -222,18 +222,40 @@ export default function CertificatesScreen({ navigation }) {
     <View style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}>
       <View
         style={{
-          width: "100%",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          padding: 16,
+          minWidth: 300,
           maxWidth: 600,
-          alignSelf: "center",
-          backgroundColor: nuubiColors.white,
-          paddingVertical: 16,
-          paddingHorizontal: 24,
-          marginBottom: 12,
-          marginTop: 12,
-          borderWidth: 4,
-          borderColor: nuubiColors.darkerBlue,
-          borderRadius: 12,
+          borderWidth: 1,
+          borderRadius: 16,
+          marginHorizontal: 16,
+          marginVertical: 8,
+          borderColor: "#ddd",
+          backgroundColor: "#fbfbfb",
+          elevation: 15,
+          shadowColor: "#333333",
+          shadowOpacity: 0.5,
+          shadowRadius: 2,
+          shadowOffset: {
+            width: 0.8,
+            height: 0.8,
+          },
+          overflow: "visible",
         }}
+        // style={{
+        //   width: "100%",
+        //   maxWidth: 600,
+        //   alignSelf: "center",
+        //   backgroundColor: nuubiColors.white,
+        //   paddingVertical: 16,
+        //   paddingHorizontal: 24,
+        //   marginBottom: 12,
+        //   marginTop: 12,
+        //   borderWidth: 4,
+        //   borderColor: nuubiColors.darkerBlue,
+        //   borderRadius: 12,
+        // }}
       >
         <Text style={[globalStyles.bodyRegular, { textAlign: "center" }]}>
           Earn recognition for skills that matter! Click{" "}
