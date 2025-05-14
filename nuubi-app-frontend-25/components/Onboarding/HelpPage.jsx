@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { globalStyles } from "../../styles/global";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function HelpScreen({ navigation }) {
   const [openSections, setOpenSections] = React.useState({});
@@ -9,19 +10,63 @@ export default function HelpScreen({ navigation }) {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const Section = ({ title, content, sectionKey }) => (
-    <View style={{ marginBottom: 12 }}>
-      <TouchableOpacity onPress={() => toggleSection(sectionKey)}>
-        <Text style={globalStyles.headingText}>{title}</Text>
-      </TouchableOpacity>
-      {openSections[sectionKey] &&
-        content.map((c, i) => (
-          <Text key={i} style={globalStyles.bodyRegular}>
-            {c}
+  const Section = ({ title, content, sectionKey }) => {
+    const isOpen = openSections[sectionKey];
+    return (
+      <View
+        style={{
+          borderWidth: 1,
+          borderRadius: 16,
+          marginVertical: 8,
+          borderColor: "#ddd",
+          backgroundColor: "#fbfbfb",
+          padding: 16,
+          marginHorizontal: 16,
+          shadowColor: "#333",
+          shadowOffset: { width: 0.8, height: 0.8 },
+          shadowOpacity: 0.15,
+          shadowRadius: 4,
+          elevation: 4,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => toggleSection(sectionKey)}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={[
+              globalStyles.headingText,
+              {
+                flex: 1,
+                paddingRight: 12,
+              },
+            ]}
+          >
+            {title}
           </Text>
-        ))}
-    </View>
-  );
+          <AntDesign
+            name={isOpen ? "close" : "plus"}
+            size={20}
+            color="#555"
+            style={{ marginLeft: 8 }}
+          />
+        </TouchableOpacity>
+        {isOpen && (
+          <View style={{ marginTop: 12 }}>
+            {content.map((c, i) => (
+              <Text key={i} style={globalStyles.bodyRegular}>
+                {c}
+              </Text>
+            ))}
+          </View>
+        )}
+      </View>
+    );
+  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
