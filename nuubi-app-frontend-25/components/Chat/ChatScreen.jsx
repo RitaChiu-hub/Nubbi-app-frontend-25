@@ -29,6 +29,8 @@ export default function ChatScreen({ navigation }) {
   const [likes, setLikes] = React.useState([]);
   const [isChanged, setIsChanged] = React.useState(false);
   const height = useHeaderHeight();
+  const INPUT_BAR_HEIGHT = 60; // <—  roughly your bar’s height
+  const headerHeight = useHeaderHeight();
   // const [selectedTab, setSelectedTab] = React.useState("Chat");
   const screenWidth = Dimensions.get("window").width;
 
@@ -234,25 +236,27 @@ export default function ChatScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView
-      behavior={KeyboardBehavior}
-      keyboardVerticalOffset={height}
-      style={{
-        flex: 1,
-        backgroundColor: "#fbfbfb",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={
+        Platform.OS === "ios" ? headerHeight + INPUT_BAR_HEIGHT : 0
+      }
+      style={{ flex: 1, backgroundColor: "#fbfbfb" }}
     >
-      <ScrollView
-        ref={scrollViewRef}
-        onContentSizeChange={() =>
-          scrollViewRef.current.scrollToEnd({ animated: true })
-        }
-        style={{ width: "90%" }}
-      >
-        {chats &&
-          chats.map((chats) => {
-            return (
+      <View style={{ flex: 1, backgroundColor: "#fbfbfb" }}>
+        <ScrollView
+          ref={scrollViewRef}
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingHorizontal: 16,
+            paddingBottom: INPUT_BAR_HEIGHT,
+          }}
+          keyboardShouldPersistTaps="handled"
+          onContentSizeChange={() =>
+            scrollViewRef.current.scrollToEnd({ animated: true })
+          }
+        >
+          {chats &&
+            chats.map((chats) => (
               <View
                 key={chats.messages_id}
                 style={{
@@ -364,119 +368,85 @@ export default function ChatScreen({ navigation }) {
                   {chats.text}
                 </Text>
               </View>
-            );
-          })}
-      </ScrollView>
-
-      <View
-        style={{
-          width: "100%",
-          paddingVertical: 20,
-          backgroundColor: "#fbfbfb",
-        }}
-      >
-        <Formik
-          initialValues={{ mymessage: "" }}
-          validationSchema={addMessageSchema}
-          onSubmit={async (values, actions) => {
-            // inside onSubmit
-            const token =
-              Platform.OS !== "web"
-                ? await SecureStore.getItemAsync("token")
-                : sessionStorage.getItem("token");
-            const payload = {
-              ...user,
-              mymessage: values.mymessage,
-              token,
-            };
-            socket.emit("insert msg return updated list", payload);
-            //   console.log("my message: " + values.mymessage);
-            actions.resetForm();
-            await getChats();
+            ))}
+        </ScrollView>
+        <View
+          style={{
+            paddingVertical: 10,
+            paddingBottom: Platform.OS === "ios" ? 20 : 10,
+            paddingHorizontal: 10,
+            backgroundColor: "#fbfbfb",
+            borderTopWidth: 1,
+            borderColor: "#ddd",
           }}
-
-          // onSubmit={async (values, actions) => {
-          //   const token =
-          //     Platform.OS !== "web"
-          //       ? await SecureStore.getItemAsync("token")
-          //       : null; // Get token only on mobile
-          //   const vals = { ...values, token }; // Include the token
-          //   const uservals = { ...user, ...vals };
-
-          //   actions.resetForm();
-          //   socket.emit("insert msg return updated list", uservals); // Emit uservals including token
-          // }}
         >
-          {(props) => (
-            <View>
-              <Text style={globalStyles.captionError}>
-                <ErrorMessage name="mymessage" />
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  borderRadius: 16,
-                  minWidth: "90%",
-                  maxWidth: "90%",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  backgroundColor: "#fbfbfb",
-                  elevation: 15,
-                  borderWidth: 1,
-                  borderColor: "#ddd",
-                  shadowColor: "#333333",
-                  shadowOpacity: 0.5,
-                  shadowRadius: 2,
-                  shadowOffset: {
-                    width: 0.8,
-                    height: 0.8,
-                  },
-                  overflow: "visible",
-                  alignSelf: "center",
-                }}
-              >
-                <TextInput
+          <Formik
+            initialValues={{ mymessage: "" }}
+            validationSchema={addMessageSchema}
+            onSubmit={async (values, actions) => {
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : sessionStorage.getItem("token");
+              const payload = {
+                ...user,
+                mymessage: values.mymessage,
+                token,
+              };
+              socket.emit("insert msg return updated list", payload);
+              actions.resetForm();
+              await getChats();
+            }}
+          >
+            {(props) => (
+              <View>
+                <Text style={globalStyles.captionError}>
+                  <ErrorMessage name="mymessage" />
+                </Text>
+                <View
                   style={{
-                    minWidth: "85%",
-                    maxWidth: "85%",
-                    fontFamily: "Poppins_400Regular",
-                    fontSize: 18,
-                    letterSpacing: 0.5,
-                    alignContent: "center",
-                    color: "#767676",
-                    paddingLeft: 18,
-                  }}
-                  placeholder="Send message... "
-                  onChangeText={props.handleChange("mymessage")}
-                  value={props.values.mymessage}
-                  multiline={true}
-                />
-                <TouchableOpacity
-                  style={{
-                    paddingVertical: 10,
-                    paddingHorizontal: 14,
+                    flexDirection: "row",
                     borderRadius: 16,
-                    elevation: 3,
-                    backgroundColor: "#2482AA",
-                    alignSelf: "center",
-                    elevation: 15,
-                    shadowColor: "#333333",
-                    shadowOpacity: 0.5,
-                    shadowRadius: 2,
-                    shadowOffset: {
-                      width: 0.8,
-                      height: 0.8,
-                    },
-                    overflow: "visible",
+                    borderWidth: 1,
+                    borderColor: "#ddd",
+                    backgroundColor: "#fbfbfb",
+                    alignItems: "center",
+                    paddingHorizontal: 10,
                   }}
-                  onPress={props.handleSubmit}
                 >
-                  <FAIcon name="arrow-up" size={30} color="#fbfbfb" />
-                </TouchableOpacity>
+                  <TextInput
+                    style={{
+                      flex: 1,
+                      fontFamily: "Poppins_400Regular",
+                      fontSize: 16,
+                      color: "#767676",
+                      paddingVertical: 10,
+                    }}
+                    placeholder="Write a message... "
+                    onChangeText={props.handleChange("mymessage")}
+                    value={props.values.mymessage}
+                    multiline={true}
+                    autoFocus={true}
+                  />
+                  <TouchableOpacity
+                    onPress={props.handleSubmit}
+                    disabled={!props.values.mymessage.trim()}
+                    style={{
+                      padding: 10,
+                      borderRadius: 12,
+                      backgroundColor: !props.values.mymessage.trim()
+                        ? "#cccccc" // ✅ dim color when disabled
+                        : "#2482AA", // ✅ normal active color
+                      marginLeft: 10,
+                    }}
+                  >
+                    <FAIcon name="paper-plane" size={24} color="#fff" />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          )}
-        </Formik>
+            )}
+          </Formik>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
