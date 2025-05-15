@@ -14,6 +14,7 @@ import socket from "../../socket";
 import * as SecureStore from "expo-secure-store";
 import alert from "./../alert";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CommonActions } from "@react-navigation/native";
 
 // Dynamically create setting items
 // The optional attributes for each item: icon, label, type, color, navRoute or onPress
@@ -97,25 +98,37 @@ const inviteToken =
 //   .includes("groups/invite")
 //   ? window.location.pathname.split("/groups/invite/")[1].split("/")[0] // Extract the token part only
 //   : null;
-const handleSignOut = async (setUser, navigation) => {
-  setUser({ token: null, loggedIn: false }); // Correctly resetting the user state
-  if (Platform.OS === "web") {
-    await logoutUser(setUser); // Pass setUser directly
-    sessionStorage.removeItem("token");
-    if (inviteToken) {
-      // Navigate to ForgotPasswordLoggedOut with inviteToken
-      navigation.navigate("Login", { inviteToken });
-    }
-  } else {
-    SecureStore.deleteItemAsync("token");
-    SecureStore.deleteItemAsync("user");
-    AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
-    navigation.replace("Signin");
-  }
-  socket.disconnect();
-};
 
-const logoutUser = async (setUser) => {
+// const handleSignOut = async (setUser, navigation) => {
+//   setUser({ token: null }); // Correctly resetting the user state
+//   if (Platform.OS === "web") {
+//     await logoutUser(setUser); // Pass setUser directly
+//     sessionStorage.removeItem("token");
+//     if (inviteToken) {
+//       // Navigate to ForgotPasswordLoggedOut with inviteToken
+//       navigation.navigate("Login", { inviteToken });
+//     }
+//   } else {
+//     await SecureStore.deleteItemAsync("token");
+//     await SecureStore.deleteItemAsync("user");
+//     await AsyncStorage.setItem("isLoggedIn", "false");
+//   }
+//   socket.disconnect();
+
+//   // 4) *Reset* the entire navigation tree back to the AuthStack
+//   navigation.dispatch(
+//     CommonActions.reset({
+//       index: 0,
+//       routes: [
+//         {
+//           name: "Signin", // this is the root Stack.Screen that hosts your AuthStack
+//         },
+//       ],
+//     })
+//   );
+// };
+
+async function logoutUser(setUser) {
   try {
     const response = await fetch(
       "https://coral-app-n96bn.ondigitalocean.app/auth/logout",
@@ -134,6 +147,55 @@ const logoutUser = async (setUser) => {
   } catch (err) {
     console.error("Error during logout:", err);
   }
+}
+
+const handleSignOut = async (setUser, navigation) => {
+  // 1) clear React state
+  setUser({ token: null });
+
+  // 2) clear storage
+  if (Platform.OS === "web") {
+    await logoutUser(setUser);
+    sessionStorage.removeItem("token");
+
+    if (inviteToken) {
+      // reset straight into Login with inviteToken
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: "Signin", // root AuthStack
+              state: {
+                routes: [
+                  {
+                    name: "Login", // or "ForgotPasswordLoggedOut"
+                    params: { inviteToken },
+                  },
+                ],
+              },
+            },
+          ],
+        })
+      );
+      return;
+    }
+  } else {
+    await SecureStore.deleteItemAsync("token");
+    await SecureStore.deleteItemAsync("user");
+    await AsyncStorage.setItem("isLoggedIn", "false");
+  }
+
+  // 3) kill socket
+  socket.disconnect();
+
+  // 4) reset to Auth flow
+  navigation.dispatch(
+    CommonActions.reset({
+      index: 0,
+      routes: [{ name: "Signin" }],
+    })
+  );
 };
 
 export default function SettingsScreen({ navigation }) {
