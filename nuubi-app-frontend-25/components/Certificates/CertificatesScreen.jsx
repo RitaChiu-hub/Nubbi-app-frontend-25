@@ -52,6 +52,74 @@ export default function CertificatesScreen({ navigation }) {
   const [earnedAwards, setEarnedAwards] = React.useState([]);
   const assetsToLoad = certificateData.flatMap((c) => [c.asset, c.unwonAsset]);
   const [assets] = useAssets(assetsToLoad);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  // For Mobile: Retrieve token from SecureStore
+  async function getTokenFromSecureStore() {
+    try {
+      const token = await SecureStore.getItemAsync("token");
+      return token || null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  // For Web
+  async function checkWebLogin() {
+    try {
+      const response = await fetch(
+        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...user }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      return data.isLoggedIn; // Assuming the backend returns { isLoggedIn: true/false }
+    } catch (error) {
+      console.error("Error checking login status:", error);
+      return false; // Default to false if there's an error
+    }
+  }
+
+  // Check if user is logged in (cross-platform)
+  async function checkIsLoggedIn() {
+    if (Platform.OS === "web") {
+      // Web: Use the new checkWebLogin function
+      return await checkWebLogin();
+    } else {
+      // Mobile: Check SecureStore
+      const token = await getTokenFromSecureStore();
+      return !!token; // Check if token exists
+    }
+  }
+
+  React.useEffect(() => {
+    const checkLoginStatus = async () => {
+      const loggedIn = await checkIsLoggedIn(); // Call the async login check
+      setIsLoggedIn(loggedIn);
+    };
+
+    checkLoginStatus(); // Run the check when the component mounts
+  }, [user.loggedIn]);
+
+  React.useEffect(() => {
+    if (isLoggedIn === true) {
+      socket.connect();
+    } else {
+      socket.disconnect();
+    }
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
     async function fetchEarned() {

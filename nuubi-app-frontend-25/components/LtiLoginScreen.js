@@ -42,10 +42,6 @@ export default function LtiLoginScreen({ navigation }) {
           });
           // ✅ Connect socket now that we are logged in
           socket.connect();
-
-          console.log("Logged in as:", data.email);
-          console.log("✅ Nuubi LTI Session Response:");
-          console.log(JSON.stringify(data, null, 2));
           navigation.navigate("Group Tabs", { groupName });
           //   navigation.replace("GroupPage", { email: data.email }); // Or whatever your next screen is
         } else {

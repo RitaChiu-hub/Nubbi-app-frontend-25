@@ -43,15 +43,11 @@ export default function AnalyticsDatePicker({
   };
 
   const handleDownloadCSV = async () => {
-    console.log("Download button clicked");
 
     if (!members || members.length === 0) {
-      console.log("no members");
       Alert.alert("No data", "There is no analytics data to export.");
       return;
     }
-
-    console.log("Members:", members);
 
     const flattened = members.map((member) => {
       const base = {
@@ -80,7 +76,6 @@ export default function AnalyticsDatePicker({
     });
 
     const csv = Papa.unparse(flattened);
-    console.log("Generated CSV:", csv);
 
     if (Platform.OS === "web") {
       downloadCSVWeb(csv);
@@ -90,8 +85,6 @@ export default function AnalyticsDatePicker({
         await FileSystem.writeAsStringAsync(fileUri, csv, {
           encoding: FileSystem.EncodingType.UTF8,
         });
-
-        console.log("CSV saved to:", fileUri);
 
         const canShare = await Sharing.isAvailableAsync();
         if (canShare) {
