@@ -140,7 +140,7 @@ export default function CertificatesScreen({ navigation }) {
             <Text style={globalStyles.headingText}>
               {item.title}{" "}
               <Text style={globalStyles.bodyRegular}>
-                ({has ? "Unlocked" : "Locked"})
+                ({has ? "Won!" : "Unwon"})
               </Text>
             </Text>
 
@@ -150,7 +150,7 @@ export default function CertificatesScreen({ navigation }) {
 
             {has ? (
               <Text style={[globalStyles.bodyRegular, { flexWrap: "wrap" }]}>
-                Unlocked in:{" "}
+                Won in:{" "}
                 <Text style={{ fontFamily: "Poppins_600SemiBold" }}>
                   {earnedInfo.group_name}
                 </Text>
