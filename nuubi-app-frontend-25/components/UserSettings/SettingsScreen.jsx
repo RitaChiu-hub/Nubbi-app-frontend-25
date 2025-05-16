@@ -45,6 +45,21 @@ async function handleSignOut(
 }
 
 export default function SettingsScreen({ navigation }) {
+  useEffect(() => {
+    // 1) direct parent of this screen
+    const parent1 = navigation.getParent();
+    const p1 = parent1?.getState();
+    const parent1Name = p1 ? p1.routes[p1.index].name : "no parent1";
+
+    // 2) grand‑parent
+    const parent2 = parent1?.getParent();
+    const p2 = parent2?.getState();
+    const parent2Name = p2 ? p2.routes[p2.index].name : "no parent2";
+
+    console.log("parent1:", parent1Name);
+    console.log("parent2:", parent2Name);
+  }, [navigation]);
+
   const { user, setUser, isLoggedIn, setIsLoggedIn } =
     useContext(AccountContext);
 
