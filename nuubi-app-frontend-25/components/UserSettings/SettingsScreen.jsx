@@ -57,7 +57,7 @@ export default function SettingsScreen({ navigation }) {
   // now whenever SettingsScreen renders, you'll see this in your console:
   console.log("🏷 Active root route:", rootRouteName);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // 1) direct parent of this screen
     const parent1 = navigation.getParent();
     const p1 = parent1?.getState();
@@ -70,7 +70,7 @@ export default function SettingsScreen({ navigation }) {
 
     console.log("parent1:", parent1Name);
     console.log("parent2:", parent2Name);
-  }, [navigation]);
+  }, []);
 
   // rebuild your sections so you can close over setUser, navigation & setIsLoggedIn
   const sections = [
