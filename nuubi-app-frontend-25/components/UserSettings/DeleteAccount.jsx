@@ -48,6 +48,32 @@ export default function DeleteAccountScreen({ navigation }) {
       >
         <View
           style={{
+            alignItems: "flex-start",
+            justifyContent: "center",
+            padding: 16,
+            minWidth: 300,
+            maxWidth: 600,
+            borderWidth: 1,
+            borderRadius: 16,
+            marginHorizontal: 16,
+            marginVertical: 8,
+            borderColor: "#ddd",
+            backgroundColor: "#fbfbfb",
+            elevation: 15,
+            shadowColor: "#333333",
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
+            shadowOffset: { width: 0.8, height: 0.8 },
+            overflow: "visible",
+          }}
+        >
+          <Text style={[globalStyles.bodyRegular, { textAlign: "center" }]}>
+            Are you sure you want to delete your account? You will lose all your
+            points, messages and all data will be deleted!
+          </Text>
+        </View>
+        <View
+          style={{
             margin: 20,
           }}
         >
@@ -109,8 +135,9 @@ export default function DeleteAccountScreen({ navigation }) {
           >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
               <View>
-                <Text style={globalStyles.captionError}>{error}</Text>
-
+                <Text style={[globalStyles.captionError, { maxWidth: 600 }]}>
+                  {error}
+                </Text>
                 <Text style={globalStyles.textInputLabel}>
                   Enter your password:
                 </Text>
