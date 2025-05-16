@@ -11,7 +11,7 @@ import FeatherIcon from "@expo/vector-icons/FontAwesome6";
 import socket from "../../socket";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { CommonActions } from "@react-navigation/native";
+import { useNavigationState } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 
@@ -47,6 +47,15 @@ async function handleSignOut(
 export default function SettingsScreen({ navigation }) {
   const { user, setUser, isLoggedIn, setIsLoggedIn } =
     useContext(AccountContext);
+
+  // grab the name of your top‐level screen
+  const rootRouteName = useNavigationState((state) => {
+    const { routes, index } = state;
+    return routes[index].name;
+  });
+
+  // now whenever SettingsScreen renders, you'll see this in your console:
+  console.log("🏷 Active root route:", rootRouteName);
 
   // rebuild your sections so you can close over setUser, navigation & setIsLoggedIn
   const sections = [
