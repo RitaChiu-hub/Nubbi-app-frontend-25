@@ -18,6 +18,7 @@ import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 
 export default function SettingsScreen({ navigation }) {
+  const [showModal, setShowModal] = React.useState(false);
   const { user, setUser, isLoggedIn, setIsLoggedIn } =
     useContext(AccountContext);
 
