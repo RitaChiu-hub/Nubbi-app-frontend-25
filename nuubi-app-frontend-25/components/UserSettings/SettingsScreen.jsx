@@ -23,6 +23,7 @@ async function handleSignOut(
   setIsLoggedIn
 ) {
   try {
+    console.log("Signing out...");
     // 1) clear React state
     setUser({ token: null });
 
