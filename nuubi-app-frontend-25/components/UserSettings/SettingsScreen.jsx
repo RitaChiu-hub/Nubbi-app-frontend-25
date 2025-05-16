@@ -45,6 +45,18 @@ async function handleSignOut(
 }
 
 export default function SettingsScreen({ navigation }) {
+  const { user, setUser, isLoggedIn, setIsLoggedIn } =
+    useContext(AccountContext);
+
+  // grab the name of your top‐level screen
+  const rootRouteName = useNavigationState((state) => {
+    const { routes, index } = state;
+    return routes[index].name;
+  });
+
+  // now whenever SettingsScreen renders, you'll see this in your console:
+  console.log("🏷 Active root route:", rootRouteName);
+
   useEffect(() => {
     // 1) direct parent of this screen
     const parent1 = navigation.getParent();
@@ -59,36 +71,6 @@ export default function SettingsScreen({ navigation }) {
     console.log("parent1:", parent1Name);
     console.log("parent2:", parent2Name);
   }, [navigation]);
-
-  const { user, setUser, isLoggedIn, setIsLoggedIn } =
-    useContext(AccountContext);
-
-  // grab the name of your top‐level screen
-  const rootRouteName = useNavigationState((state) => {
-    const { routes, index } = state;
-    return routes[index].name;
-  });
-
-  // now whenever SettingsScreen renders, you'll see this in your console:
-  console.log("🏷 Active root route:", rootRouteName);
-
-  // 2) figure out which stack we're under
-  //   a) immediate parent:
-  const parent1 = navigation.getParent();
-  const parent1State = parent1?.getState();
-  const name1 = parent1State
-    ? parent1State.routes[parent1State.index].name
-    : null;
-
-  //   b) grandparent if needed:
-  const parent2 = parent1?.getParent();
-  const parent2State = parent2?.getState();
-  const name2 = parent2State
-    ? parent2State.routes[parent2State.index].name
-    : null;
-
-  // log so you can verify
-  console.log("sign-out: parent1=", name1, " parent2=", name2);
 
   // rebuild your sections so you can close over setUser, navigation & setIsLoggedIn
   const sections = [
