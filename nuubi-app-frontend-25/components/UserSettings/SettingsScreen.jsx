@@ -6,6 +6,8 @@ import {
   Switch,
   Platform,
   ScrollView,
+  Modal,
+  Pressable,
 } from "react-native";
 import FeatherIcon from "@expo/vector-icons/FontAwesome6";
 import socket from "../../socket";
@@ -14,35 +16,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigationState } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
-
-async function handleSignOut(
-  user,
-  isLoggedIn,
-  setUser,
-  navigation,
-  setIsLoggedIn
-) {
-  try {
-    console.log("Signing out...");
-    // 1) clear React state
-    setUser({ token: null });
-
-    // 2) clear storage
-    if (Platform.OS === "web") {
-      sessionStorage.removeItem("token");
-    } else {
-      await SecureStore.deleteItemAsync("token");
-      await SecureStore.deleteItemAsync("user");
-      await AsyncStorage.setItem("isLoggedIn", "false");
-    }
-
-    // 3) kill socket
-    if (socket.connected) socket.disconnect();
-    setIsLoggedIn(false);
-  } catch (err) {
-    console.error("Error during sign-out:", err);
-  }
-}
 
 export default function SettingsScreen({ navigation }) {
   const { user, setUser, isLoggedIn, setIsLoggedIn } =
@@ -54,23 +27,79 @@ export default function SettingsScreen({ navigation }) {
     return routes[index].name;
   });
 
-  // now whenever SettingsScreen renders, you'll see this in your console:
-  console.log("🏷 Active root route:", rootRouteName);
+  // async function handleSignOut(
+  //   user,
+  //   isLoggedIn,
+  //   setUser,
+  //   navigation,
+  //   setIsLoggedIn
+  // ) {
+  //   try {
+  //     console.log("Signing out...");
+  //     // 1) clear React state
+  //     setUser({ token: null });
 
-  React.useEffect(() => {
-    // 1) direct parent of this screen
-    const parent1 = navigation.getParent();
-    const p1 = parent1?.getState();
-    const parent1Name = p1 ? p1.routes[p1.index].name : "no parent1";
+  //     // 2) clear storage
+  //     if (Platform.OS === "web") {
+  //       sessionStorage.removeItem("token");
+  //     } else {
+  //       await SecureStore.deleteItemAsync("token");
+  //       await SecureStore.deleteItemAsync("user");
+  //       await AsyncStorage.setItem("isLoggedIn", "false");
+  //     }
 
-    // 2) grand‑parent
-    const parent2 = parent1?.getParent();
-    const p2 = parent2?.getState();
-    const parent2Name = p2 ? p2.routes[p2.index].name : "no parent2";
+  //     // 3) kill socket
+  //     if (socket.connected) socket.disconnect();
+  //     setIsLoggedIn(false);
+  //   } catch (err) {
+  //     console.error("Error during sign-out:", err);
+  //   }
+  // }
 
-    console.log("parent1:", parent1Name);
-    console.log("parent2:", parent2Name);
-  }, []);
+  // React.useEffect(() => {
+  //   // 1) direct parent of this screen
+  //   const parent1 = navigation.getParent();
+  //   const p1 = parent1?.getState();
+  //   const parent1Name = p1 ? p1.routes[p1.index].name : "no parent1";
+
+  //   console.log("parent1:", parent1Name);
+  // }, []);
+
+  async function handleSignOut() {
+    // get your immediate parent’s active route name:
+    const parent = navigation.getParent();
+    const parentState = parent?.getState();
+    const parentName = parentState
+      ? parentState.routes[parentState.index].name
+      : null;
+
+    if (parentName === "Canvas") {
+      // In canvas—just show the modal
+      setShowModal(true);
+      return;
+    }
+
+    try {
+      console.log("Signing out...");
+      // 1) clear React state
+      setUser({ token: null });
+
+      // 2) clear storage
+      if (Platform.OS === "web") {
+        sessionStorage.removeItem("token");
+      } else {
+        await SecureStore.deleteItemAsync("token");
+        await SecureStore.deleteItemAsync("user");
+        await AsyncStorage.setItem("isLoggedIn", "false");
+      }
+
+      // 3) kill socket
+      if (socket.connected) socket.disconnect();
+      setIsLoggedIn(false);
+    } catch (err) {
+      console.error("Error during sign-out:", err);
+    }
+  }
 
   // rebuild your sections so you can close over setUser, navigation & setIsLoggedIn
   const sections = [
@@ -178,6 +207,39 @@ export default function SettingsScreen({ navigation }) {
             </View>
           ))}
         </View>
+        <Modal visible={showModal} transparent animationType="fade">
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "rgba(0,0,0,0.5)",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                padding: 24,
+                borderRadius: 8,
+                width: "80%",
+              }}
+            >
+              <Text style={{ fontSize: 16, marginBottom: 16 }}>
+                Sorry, you’re signed in via Canvas and can’t sign out here.
+                Please access Nuubi directly if you need to sign out.
+              </Text>
+              <Pressable
+                onPress={() => setShowModal(false)}
+                style={{
+                  alignSelf: "flex-end",
+                  padding: 8,
+                }}
+              >
+                <Text style={{ color: "#2482AA" }}>OK</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
