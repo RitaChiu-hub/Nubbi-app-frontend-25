@@ -14,6 +14,7 @@ import { AccountContext } from "../AccountContext";
 const { createGroupSchema } = require("../validationSchema");
 import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function CreateGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -40,6 +41,12 @@ export default function CreateGroupScreen({ navigation }) {
       headerTitleAlign: "center",
     });
   }, [navigation]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setStatus(null);
+    }, [])
+  );
 
   return (
     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>

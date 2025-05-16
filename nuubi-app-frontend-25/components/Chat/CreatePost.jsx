@@ -22,6 +22,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import alert from "./../alert";
 import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
+import { useFocusEffect } from "@react-navigation/native";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -37,6 +38,12 @@ export default function CreatePostScreen({ navigation }) {
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [pickedFile, setPickedFile] = React.useState(null);
   const [fileUploadInfo, setFileUploadInfo] = React.useState(null);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setStatus(null);
+    }, [])
+  );
 
   const resizeImage = async (imageInfo, resizeAmount) => {
     const resizedPhoto = await ImageManipulator.manipulateAsync(

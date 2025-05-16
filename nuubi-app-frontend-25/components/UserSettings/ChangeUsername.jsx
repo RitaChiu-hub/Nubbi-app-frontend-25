@@ -14,6 +14,7 @@ import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 const { changeUsernameSchema } = require("../validationSchema");
 import * as SecureStore from "expo-secure-store";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function ChangeUsernameScreen({ navigation }) {
   const { goBack, navigate } = navigation;
@@ -73,6 +74,12 @@ export default function ChangeUsernameScreen({ navigation }) {
 
   const [usernameChanged, setUsernameChanged] = React.useState(true);
   const [suggestions, setSuggestions] = React.useState([]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setStatus(null);
+    }, [])
+  );
 
   //I didn't want it to look empty so I added noSC as a condition
   const validateUser = (input) => {
