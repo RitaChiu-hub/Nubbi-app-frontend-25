@@ -54,24 +54,26 @@ export default function SettingsScreen({ navigation }) {
     return routes[index].name;
   });
 
-  // 1️⃣ Log your immediate parent
-  const parent1 = navigation.getParent();
-  const parent1State = parent1?.getState();
-  const parent1Name = parent1State
-    ? parent1State.routes[parent1State.index].name
-    : "⛔ no parent";
-  console.log("⚡️ parent navigator#1:", parent1Name);
-
-  // 2️⃣ Maybe you need to go up *again* for the root:
-  const parent2 = parent1?.getParent();
-  const parent2State = parent2?.getState();
-  const parent2Name = parent2State
-    ? parent2State.routes[parent2State.index].name
-    : "⛔ no grandparent";
-  console.log("⚡️ parent navigator#2:", parent2Name);
-
   // now whenever SettingsScreen renders, you'll see this in your console:
   console.log("🏷 Active root route:", rootRouteName);
+
+  // 2) figure out which stack we're under
+  //   a) immediate parent:
+  const parent1 = navigation.getParent();
+  const parent1State = parent1?.getState();
+  const name1 = parent1State
+    ? parent1State.routes[parent1State.index].name
+    : null;
+
+  //   b) grandparent if needed:
+  const parent2 = parent1?.getParent();
+  const parent2State = parent2?.getState();
+  const name2 = parent2State
+    ? parent2State.routes[parent2State.index].name
+    : null;
+
+  // log so you can verify
+  console.log("sign-out: parent1=", name1, " parent2=", name2);
 
   // rebuild your sections so you can close over setUser, navigation & setIsLoggedIn
   const sections = [
