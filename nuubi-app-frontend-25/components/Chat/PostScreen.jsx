@@ -74,10 +74,10 @@ export default function PostScreen({ navigation }) {
   }, [user.loggedIn]);
 
   React.useEffect(() => {
-    if (isLoggedIn === true) {
+    if (isLoggedIn === true && !socket.connected) {
       socket.connect();
     } else {
-      socket.disconnect();
+      console.log("disconnect socket??");
     }
   }, [isLoggedIn]);
 

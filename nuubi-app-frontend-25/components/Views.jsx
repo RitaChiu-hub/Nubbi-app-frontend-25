@@ -1850,8 +1850,9 @@ const TabNavigator = () => {
 const Stack = createNativeStackNavigator();
 
 export default function Views({ landingPage, inviteToken }) {
-  const { user, setUser } = useContext(AccountContext);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const { user, setUser, isLoggedIn, setIsLoggedIn } =
+    useContext(AccountContext);
+  //const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
@@ -1939,7 +1940,7 @@ export default function Views({ landingPage, inviteToken }) {
 
   // 2️⃣ Check login status again when `user` changes
   React.useEffect(() => {
-    if (user) {
+    if (user?.token) {
       const verifyLogin = async () => {
         const loggedIn = await checkIsLoggedIn();
         setIsLoggedIn(Boolean(loggedIn)); // ✅ Only update if `checkIsLoggedIn` confirms it

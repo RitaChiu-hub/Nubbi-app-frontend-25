@@ -78,7 +78,23 @@ export default function ChatScreen({ navigation }) {
           body: JSON.stringify({ ...user }),
         }
       );
-      const jsonData = await response.json();
+
+      // read raw text and bail out if empty
+      const text = await response.text();
+      if (!text) {
+        console.warn("getGroupInfo: empty response body");
+        return;
+      }
+      // safe JSON parsing
+      let jsonData;
+      try {
+        jsonData = JSON.parse(text);
+      } catch (e) {
+        console.warn("getGroupInfo: invalid JSON", e, text);
+        return;
+      }
+
+      // const jsonData = await response.json();
       setAdminId(jsonData.admin_id);
       const visibilitySetting =
         jsonData.is_public === false ? "Private" : "Public";

@@ -41,7 +41,10 @@ export default function LtiLoginScreen({ navigation }) {
             invitePasscode,
           });
           // ✅ Connect socket now that we are logged in
-          socket.connect();
+          socket.auth = { token: data.jwt };
+          if (!socket.connected) {
+            socket.connect();
+          }
           navigation.navigate("Group Tabs", { groupName });
           //   navigation.replace("GroupPage", { email: data.email }); // Or whatever your next screen is
         } else {

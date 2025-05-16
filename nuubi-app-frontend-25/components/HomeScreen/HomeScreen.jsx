@@ -142,10 +142,11 @@ export default function HomeScreen({ navigation }) {
   // }, [user.loggedIn]);
 
   React.useEffect(() => {
-    if (isLoggedIn === true) {
+    if (isLoggedIn === true && !socket.connected) {
       socket.connect();
     } else {
-      socket.disconnect();
+      // socket.disconnect();
+      console.log("should disconnect socket here?");
     }
   }, [isLoggedIn]);
 

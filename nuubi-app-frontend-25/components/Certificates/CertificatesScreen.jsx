@@ -113,13 +113,13 @@ export default function CertificatesScreen({ navigation }) {
     checkLoginStatus(); // Run the check when the component mounts
   }, [user.loggedIn]);
 
-  React.useEffect(() => {
-    if (isLoggedIn === true) {
-      socket.connect();
-    } else {
-      socket.disconnect();
-    }
-  }, [isLoggedIn]);
+  // React.useEffect(() => {
+  //   if (isLoggedIn === true && !socket.connected) {
+  //     socket.connect();
+  //   } else {
+  //     socket.disconnect();
+  //   }
+  // }, [isLoggedIn]);
 
   React.useEffect(() => {
     async function fetchEarned() {
