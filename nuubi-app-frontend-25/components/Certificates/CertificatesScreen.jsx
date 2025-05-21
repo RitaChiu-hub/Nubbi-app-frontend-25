@@ -216,6 +216,9 @@ export default function CertificatesScreen({ navigation }) {
               Skill Highlighted: {item.skill}
             </Text>
 
+            <Text style={[globalStyles.bodyRegular, { flexWrap: "wrap" }]}>
+              Earned by: {item.criteria}
+            </Text>
             {has ? (
               <Text style={[globalStyles.bodyRegular, { flexWrap: "wrap" }]}>
                 Won in:{" "}
