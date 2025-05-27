@@ -72,6 +72,7 @@ import OverallAchievements from "./UserSettings/OverallAchievements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 import * as SplashScreenExpo from "expo-splash-screen";
+import TooltipLabel from "./TooltipLabel";
 
 import CertificatesScreen from "./Certificates/CertificatesScreen";
 
@@ -805,6 +806,7 @@ function GroupTabs({ navigation, route }) {
   return (
     <GroupTab.Navigator
       screenOptions={{
+        tabBarItemStyle: { pointerEvents: "auto" },
         tabBarLabelStyle: {
           fontSize: 14,
           fontFamily: "Poppins_500Medium",
@@ -817,6 +819,7 @@ function GroupTabs({ navigation, route }) {
       }}
     >
       <GroupTab.Screen name="Threads" component={PostScreen} />
+
       <GroupTab.Screen name="Chat" component={ChatScreen} />
       <GroupTab.Screen name="Leaders" component={GroupLeaderboard} />
       <GroupTab.Screen name="More" component={GroupInfoScreen} />
