@@ -1,5 +1,12 @@
 import * as React from "react";
-import { View, Text, FlatList, TouchableOpacity, Platform } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Platform,
+  Dimensions,
+} from "react-native";
 import { globalStyles } from "../../styles/global";
 const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
@@ -13,6 +20,8 @@ export default function PostScreen({ navigation }) {
   const [posts, setPosts] = React.useState([]);
   const isFocused = useIsFocused();
   const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+
+  const deviceWidth = Dimensions.get("window").width;
 
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
@@ -162,10 +171,25 @@ export default function PostScreen({ navigation }) {
               color: "#050505",
               fontSize: 18,
               fontFamily: "Poppins_600SemiBold",
+              flexShrink: 1,
+              flexWrap: "wrap",
+              maxWidth:
+                deviceWidth > 500 ? deviceWidth * 0.7 : deviceWidth * 0.8,
             }}
+            numberOfLines={2}
+            ellipsizeMode="tail"
           >
             {title}
           </Text>
+          {/* <Text
+            style={{
+              color: "#050505",
+              fontSize: 18,
+              fontFamily: "Poppins_600SemiBold",
+            }}
+          >
+            {title}
+          </Text> */}
           <Text
             style={globalStyles.bodyRegular}
             numberOfLines={2}

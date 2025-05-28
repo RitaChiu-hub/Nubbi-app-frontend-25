@@ -533,9 +533,24 @@ export default function ViewPostScreen({ navigation, route }) {
               </View>
               <View style={{ marginLeft: 10 }}></View>
 
-              <Text style={globalStyles.h3HeadingRegular}>
+              <Text
+                style={[
+                  globalStyles.h3HeadingRegular,
+                  {
+                    flexShrink: 1,
+                    flexWrap: "wrap",
+                    maxWidth:
+                      deviceWidth > 500
+                        ? deviceWidth * 0.65
+                        : deviceWidth * 0.75,
+                  },
+                ]}
+              >
                 {postInfo.post_title}
               </Text>
+              {/* <Text style={globalStyles.h3HeadingRegular}>
+                {postInfo.post_title}
+              </Text> */}
             </View>
 
             <View>

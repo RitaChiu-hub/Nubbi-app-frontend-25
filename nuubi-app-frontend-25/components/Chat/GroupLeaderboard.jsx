@@ -37,7 +37,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+      `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
