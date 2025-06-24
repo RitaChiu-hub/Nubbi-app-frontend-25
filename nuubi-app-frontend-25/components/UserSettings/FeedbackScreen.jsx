@@ -67,7 +67,7 @@ export default function FeedbackScreen({ navigation }) {
                 Platform.OS !== "web"
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/sendfeedback", {
+              fetch("http://localhost:8080/settings/sendfeedback", {
                 method: "POST",
                 credentials: "include",
                 headers: {

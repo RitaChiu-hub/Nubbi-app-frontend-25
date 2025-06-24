@@ -156,7 +156,7 @@ export default function EditPostScreen({ navigation }) {
                     let uploadUrl = data["secure_url"];
                     const vals = { ...values, imageUrl: uploadUrl };
                     fetch(
-                      `https://coral-app-n96bn.ondigitalocean.app/groups/editpost`,
+                      `http://localhost:8080/groups/editpost`,
 
                       {
                         method: "POST",
@@ -197,7 +197,7 @@ export default function EditPostScreen({ navigation }) {
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
                 fetch(
-                  `https://coral-app-n96bn.ondigitalocean.app/groups/editpost`,
+                  `http://localhost:8080/groups/editpost`,
                   {
                     method: "POST",
                     credentials: "include",

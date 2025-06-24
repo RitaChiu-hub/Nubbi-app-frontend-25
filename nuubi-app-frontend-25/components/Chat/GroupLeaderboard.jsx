@@ -37,7 +37,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-      `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+      `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -75,7 +75,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
+        `http://localhost:8080/groups/getmembercount`,
         {
           method: "POST",
           credentials: "include",
@@ -101,7 +101,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
     setLoading(true); // Start loading
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
+        "http://localhost:8080/groups/getleaderboard",
         {
           method: "POST",
           credentials: "include",

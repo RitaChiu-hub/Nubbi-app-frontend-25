@@ -68,7 +68,7 @@ export default function CertificatesScreen({ navigation }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `http://localhost:8080/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -130,7 +130,7 @@ export default function CertificatesScreen({ navigation }) {
 
       try {
         const res = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/groups/getwoncertificates",
+          "http://localhost:8080/groups/getwoncertificates",
           {
             method: "POST",
             credentials: "include",
@@ -347,7 +347,7 @@ export default function CertificatesScreen({ navigation }) {
 //   async function checkWebLogin() {
 //     try {
 //       const response = await fetch(
-//         `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+//         `http://localhost:8080/auth/checkweblogin`,
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -408,7 +408,7 @@ export default function CertificatesScreen({ navigation }) {
 //   //           : await SecureStore.getItemAsync("token");
 //   //       try {
 //   //         const res = await fetch(
-//   //           "https://coral-app-n96bn.ondigitalocean.app/groups/getwoncertificates",
+//   //           "http://localhost:8080/groups/getwoncertificates",
 //   //           {
 //   //             method: "POST",
 //   //             credentials: "include",

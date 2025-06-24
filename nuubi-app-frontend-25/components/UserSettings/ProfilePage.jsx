@@ -46,7 +46,7 @@ export default function ProfilePageScreen({ navigation }) {
 
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `http://localhost:8080/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -77,7 +77,7 @@ export default function ProfilePageScreen({ navigation }) {
 
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+        "http://localhost:8080/settings/getuseravatar",
         {
           method: "POST",
           credentials: "include",
@@ -245,7 +245,7 @@ export default function ProfilePageScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => {
                 fetch(
-                  `https://coral-app-n96bn.ondigitalocean.app/settings/deleteavatar`,
+                  `http://localhost:8080/settings/deleteavatar`,
                   {
                     method: "POST",
                     credentials: "include",
@@ -319,7 +319,7 @@ export default function ProfilePageScreen({ navigation }) {
                               : null; // Get token only on mobile
 
                           fetch(
-                            `https://coral-app-n96bn.ondigitalocean.app/settings/updateavatar`,
+                            `http://localhost:8080/settings/updateavatar`,
                             {
                               method: "POST",
                               credentials: "include",

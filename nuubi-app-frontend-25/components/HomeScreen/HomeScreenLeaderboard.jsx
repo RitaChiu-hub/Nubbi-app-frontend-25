@@ -84,7 +84,7 @@ export default function HomeScreenLeaderboard() {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/myleaderboards`,
+        `http://localhost:8080/groups/myleaderboards`,
         {
           method: "POST",
           credentials: "include",

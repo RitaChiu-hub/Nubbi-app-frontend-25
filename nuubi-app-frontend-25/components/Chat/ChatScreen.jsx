@@ -43,7 +43,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -67,7 +67,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `http://localhost:8080/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -121,7 +121,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
+        `http://localhost:8080/groupchat/getlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -151,7 +151,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+        "http://localhost:8080/groupchat/getmessages",
         {
           method: "POST",
           credentials: "include",
@@ -176,7 +176,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+        `http://localhost:8080/groups/isadmin`,
         {
           method: "POST",
           credentials: "include",
@@ -288,7 +288,7 @@ export default function ChatScreen({ navigation }) {
                         : sessionStorage.getItem("token"); // Get token only on mobile
 
                     fetch(
-                      `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+                      `http://localhost:8080/groups/addmessagepoint`,
                       {
                         method: "POST",
                         credentials: "include",

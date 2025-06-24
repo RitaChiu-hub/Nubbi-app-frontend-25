@@ -32,7 +32,7 @@ const FreebieLandingPage = ({ navigation }) => {
 
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/auth/freebiesignup",
+        "http://localhost:8080/auth/freebiesignup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
