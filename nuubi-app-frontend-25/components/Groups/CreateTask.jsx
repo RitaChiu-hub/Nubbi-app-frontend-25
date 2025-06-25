@@ -57,7 +57,7 @@ export default function CreateTask({ navigation }) {
               const vals = { ...values, assignToAdmin, assignToParticipants };
               actions.resetForm();
               fetch(
-                "http://localhost:8080/groups/createtask",
+                "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
                 {
                   method: "POST",
                   credentials: "include",

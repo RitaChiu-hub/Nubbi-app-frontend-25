@@ -34,7 +34,7 @@ export default function ChangeUsernameScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getuserpoints`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -160,7 +160,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
                 fetch(
-                  "http://localhost:8080/settings/updateusername",
+                  "https://coral-app-n96bn.ondigitalocean.app/settings/updateusername",
                   {
                     method: "POST",
                     credentials: "include",

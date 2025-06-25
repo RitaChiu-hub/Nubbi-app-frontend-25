@@ -59,7 +59,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostliked`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostliked`,
         {
           method: "POST",
           credentials: "include",
@@ -84,7 +84,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getcommentlikes`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getcommentlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -113,7 +113,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -167,7 +167,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostpoints`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -193,8 +193,8 @@ export default function ViewPostScreen({ navigation, route }) {
     const vals = { ...user, currentPost: route.params.currentPost };
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getpostcomments`,
-        //  `http://localhost:8080/groups/getpostcomments`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostcomments`,
+        //  `https://coral-app-n96bn.ondigitalocean.app/groups/getpostcomments`,
         {
           method: "POST",
           credentials: "include",
@@ -223,7 +223,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getuserpoints`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -504,7 +504,7 @@ export default function ViewPostScreen({ navigation, route }) {
                         : null; // Get token only on mobile
 
                     fetch(
-                      `http://localhost:8080/groups/addpostpoint`,
+                      `https://coral-app-n96bn.ondigitalocean.app/groups/addpostpoint`,
                       {
                         method: "POST",
                         credentials: "include",
@@ -723,7 +723,7 @@ export default function ViewPostScreen({ navigation, route }) {
                             : null; // Get token only on mobile
 
                         fetch(
-                          `http://localhost:8080/groups/addcommentpoint`,
+                          `https://coral-app-n96bn.ondigitalocean.app/groups/addcommentpoint`,
                           {
                             method: "POST",
                             credentials: "include",

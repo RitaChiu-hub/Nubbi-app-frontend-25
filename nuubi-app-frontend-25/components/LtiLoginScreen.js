@@ -18,7 +18,7 @@ export default function LtiLoginScreen({ navigation }) {
 
       try {
         const res = await fetch(
-          "http://localhost:8080/lti/session",
+          "https://coral-app-n96bn.ondigitalocean.app/lti/session",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

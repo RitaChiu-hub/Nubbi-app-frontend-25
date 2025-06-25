@@ -112,7 +112,7 @@ export default function ChangePasswordScreen({ navigation }) {
                     : null; // Get token only on mobile
 
                 fetch(
-                  "http://localhost:8080/settings/updatepassword",
+                  "https://coral-app-n96bn.ondigitalocean.app/settings/updatepassword",
                   {
                     method: "POST",
                     credentials: "include",

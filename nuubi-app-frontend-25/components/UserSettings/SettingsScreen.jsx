@@ -69,7 +69,7 @@ export default function SettingsScreen({ navigation }) {
   async function logoutUser(setUser) {
     try {
       const response = await fetch(
-        "http://localhost:8080/auth/logout",
+        "https://coral-app-n96bn.ondigitalocean.app/auth/logout",
         {
           method: "POST",
           credentials: "include", // Include the HttpOnly cookie in the request

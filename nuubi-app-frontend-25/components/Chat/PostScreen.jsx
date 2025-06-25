@@ -37,7 +37,7 @@ export default function PostScreen({ navigation }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `http://localhost:8080/auth/checkweblogin`,
+        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -97,7 +97,7 @@ export default function PostScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/${user.currentGroup}/posts`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/posts`,
         {
           method: "POST",
           credentials: "include",

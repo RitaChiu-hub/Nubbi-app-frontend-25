@@ -88,7 +88,7 @@ export default function DeleteAccountScreen({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                "http://localhost:8080/settings/delete",
+                "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
                 {
                   method: "POST",
                   credentials: "include",

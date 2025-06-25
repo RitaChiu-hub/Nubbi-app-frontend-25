@@ -1649,7 +1649,7 @@ const TabNavigator = () => {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "http://localhost:8080/groups/getnotificationsunread",
+        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
         {
           method: "POST",
           credentials: "include",
@@ -1673,7 +1673,7 @@ const TabNavigator = () => {
 
   //   try {
   //     const response = await fetch(
-  //       "http://localhost:8080/settings/getuseravatar",
+  //       "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
   //       {
   //         method: "POST",
   //         credentials: "include",
@@ -1871,8 +1871,8 @@ export default function Views({ landingPage, inviteToken }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `http://localhost:8080/auth/checkweblogin`,
-        //  `http://localhost:8080/auth/checkweblogin`,
+        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        //  `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",

@@ -36,8 +36,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
       try {
         const email = formVals.email;
         const response = await fetch(
-          "http://localhost:8080/settings/generatesignupcode",
-          //   "http://localhost:8080/settings/generatesignupcode",
+          "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
+          //   "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
           {
             method: "POST",
             credentials: "include",
@@ -108,8 +108,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
 
             try {
               const response = await fetch(
-                "http://localhost:8080/settings/validatesignup",
-                // "http://localhost:8080/settings/validatesignup",
+                "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
+                // "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
                 {
                   method: "POST",
                   credentials: "include",
@@ -134,15 +134,15 @@ export default function CodeVerificationScreen({ navigation, route }) {
               // Successful validation, now sign up the user using the formVals obtained from SignUpScreen
               const responseData = await response.json();
 
-              //  fetch("http://localhost:8080/auth/signup", {
+              //  fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
               // Check platform and determine which fetch request to make
               let url = "";
               if (Platform.OS === "web") {
-                url = `http://localhost:8080/auth/signup`; // Web endpoint
+                url = `https://coral-app-n96bn.ondigitalocean.app/auth/signup`; // Web endpoint
               } else {
-                url = `http://localhost:8080/auth/mobilesignup`; // Mobile endpoint
+                url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`; // Mobile endpoint
 
-                //  url = `http://localhost:8080/auth/mobilesignup`;
+                //  url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`;
               }
               fetch(url, {
                 method: "POST",

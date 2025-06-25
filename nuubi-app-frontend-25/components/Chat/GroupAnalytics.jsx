@@ -30,8 +30,8 @@ export default function GroupAnalytics({ navigation }) {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/groups/getweeklygroupinfo`,
-        //  `http://localhost:8080/groups/getweeklygroupinfo`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
+        //  `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
         {
           method: "POST",
           credentials: "include",
