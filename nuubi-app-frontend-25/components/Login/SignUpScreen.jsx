@@ -134,10 +134,12 @@ export default function SignUpScreen({ navigation }) {
             initialValues={{
               //email: email,
               email: user?.email || "",
-              password: password,
-              password2: comfirmPassword,
+              password: "",
+              password2: "",
+              //  password: password,
+              //   password2: comfirmPassword,
             }}
-            enableReinitialize={true}
+            //  enableReinitialize={true}
             validationSchema={formSignupSchema}
             onSubmit={(values, actions) => {
               values.email = values.email.trim();
@@ -191,6 +193,11 @@ export default function SignUpScreen({ navigation }) {
                       password2: "",
                     },
                   });
+                  setPassword("");
+                  setComfirmPassword("");
+                  setSuggestions([]);
+                  setShowComfirmPWDStatus("");
+                  setComfirmPasswardStatus("");
                 });
             }}
           >
