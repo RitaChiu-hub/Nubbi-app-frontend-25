@@ -98,48 +98,7 @@ export default function HomeScreen({ navigation }) {
     checkLoginStatus(); // Run the check when the component mounts
   }, [user.loggedIn]);
 
-  // // For Web
-  // function getTokenFromCookies() {
-  //   const cookies = document.cookie.split("; ");
-  //   const tokenCookie = cookies.find((row) => row.startsWith("token="));
-  //   return tokenCookie ? tokenCookie.split("=")[1] : null;
-  // }
-
-  // // For Mobile
-  // async function getTokenFromSecureStore() {
-  //   try {
-  //     const user = await SecureStore.getItemAsync("user");
-  //     if (user) {
-  //       const parsedUser = JSON.parse(user);
-  //       return parsedUser.token || null;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error retrieving token from SecureStore", error);
-  //     return null;
-  //   }
-  // }
-
-  // Check if user is logged in (cross-platform)
-  // async function checkIsLoggedIn() {
-  //   if (Platform.OS === "web") {
-  //     // Web: Check the cookies
-  //     const token = getTokenFromCookies();
-  //     return !!token;
-  //   } else {
-  //     // Mobile: Check SecureStore
-  //     const token = await getTokenFromSecureStore();
-  //     return !!token;
-  //   }
-  // }
-
-  // React.useEffect(() => {
-  //     if (loggedIn === true) {
-  //       socket.connect();
-  //     } else {
-  //       socket.disconnect();
-  //     }
-  //   };
-  // }, [user.loggedIn]);
+  
 
   React.useEffect(() => {
     if (isLoggedIn === true && !socket.connected) {
