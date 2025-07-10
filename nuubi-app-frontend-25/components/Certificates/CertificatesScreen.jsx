@@ -129,6 +129,15 @@ export default function CertificatesScreen({ navigation }) {
   const responseListener = React.useRef();
 
   async function registerForPushNotificationsAsync() {
+    if (Platform.OS === "android") {
+      await Notifications.setNotificationChannelAsync("default", {
+        name: "Default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+
     console.log("Starting push notification registration");
     debugLog("PushReg", "start");
     if (Platform.OS !== "web") {
@@ -167,7 +176,7 @@ export default function CertificatesScreen({ navigation }) {
         debugLog("AuthToken", authToken ? "found" : "none");
 
         // Send the push token with user info to your backend
-        await fetch(
+        const res = await fetch(
           "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
           {
             method: "POST",
@@ -179,9 +188,14 @@ export default function CertificatesScreen({ navigation }) {
           }
         );
 
-        console.log("Push token sent to backend");
+        console.log("Push token sent to backend, status:", res.status);
         debugLog("SaveTokenStatus", res.status);
 
+        if (!res.ok) {
+          const text = await res.text();
+          console.error("[SavePushToken] failed:", res.status, text);
+          debugLog("SaveTokenError", `${res.status}: ${text}`);
+        }
         return expoPushToken;
       } catch (error) {
         console.error("Error registering for push notifications:", error);
