@@ -128,16 +128,26 @@ export default function CertificatesScreen({ navigation }) {
   const notificationListener = React.useRef();
   const responseListener = React.useRef();
 
-  async function registerForPushNotificationsAsync() {
-    if (Platform.OS === "android") {
+  React.useEffect(() => {
+    if (Platform.OS !== "android") return;
+    (async () => {
       await Notifications.setNotificationChannelAsync("default", {
         name: "Default",
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: "#FF231F7C",
       });
-    }
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Channel Test",
+          body: "If you see this, channel is OK",
+        },
+        trigger: { seconds: 5, channelId: "default" },
+      });
+    })();
+  }, []);
 
+  async function registerForPushNotificationsAsync() {
     console.log("Starting push notification registration");
     debugLog("PushReg", "start");
     if (Platform.OS !== "web") {
@@ -209,7 +219,7 @@ export default function CertificatesScreen({ navigation }) {
     // Assume you have a user object from context or props here
     if (!user) return;
 
-    registerForPushNotificationsAsync(user)
+    registerForPushNotificationsAsync()
       .then((token) => setExpoPushToken(token ?? ""))
       .catch((error) => setExpoPushToken(`Error: ${error}`));
 
@@ -224,12 +234,8 @@ export default function CertificatesScreen({ navigation }) {
       });
 
     return () => {
-      if (notificationListener.current)
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
-      if (responseListener.current)
-        Notifications.removeNotificationSubscription(responseListener.current);
+      notificationListener.current?.remove();
+      responseListener.current?.remove();
     };
   }, [user]);
 
