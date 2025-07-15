@@ -126,6 +126,8 @@ export default function CertificatesScreen({ navigation }) {
 
   const [expoPushToken, setExpoPushToken] = React.useState("");
 
+  debugLog("Platform", Platform.OS);
+
   async function registerForPushNotificationsAsync() {
     console.log("Starting push notification registration");
     debugLog("PushReg", "start");

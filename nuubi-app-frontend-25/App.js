@@ -16,6 +16,16 @@ import * as Notifications from "expo-notifications";
 // import { StatusBar } from "expo-status-bar";
 // import { Linking, Platform } from "react-native";
 
+// 🔔 Setup Android notification channel BEFORE anything else
+if (Platform.OS === "android") {
+  Notifications.setNotificationChannelAsync("default", {
+    name: "default",
+    importance: Notifications.AndroidImportance.MAX,
+    vibrationPattern: [0, 250, 250, 250],
+    lightColor: "#FF231F7C",
+  });
+}
+
 // Lazy-load Stripe for Web
 const isWeb = Platform.OS === "web";
 const Elements = isWeb
@@ -191,16 +201,6 @@ export default function App() {
       });
     }
   }, []);
-
-  // 🔔 Setup Android notification channel BEFORE anything else
-  if (Platform.OS === "android") {
-    Notifications.setNotificationChannelAsync("default", {
-      name: "Default",
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    });
-  }
 
   return (
     <Fragment>
