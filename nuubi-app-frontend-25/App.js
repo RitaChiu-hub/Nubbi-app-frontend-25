@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import Views from "./components/Views";
 import UserContext from "./components/AccountContext";
-// import * as Notifications from "expo-notifications";
+import * as Notifications from "expo-notifications";
 // import Constants from "expo-constants";
 
 // import "react-native-gesture-handler";
@@ -192,49 +192,15 @@ export default function App() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   async function registerForPushNotificationsAsync() {
-  //     console.log("Constants:", Constants);
-  //     const isPhysicalDevice = !!Constants.deviceName;
-
-  //     if (!isPhysicalDevice) {
-  //       alert("Must use physical device for Push Notifications");
-  //       return;
-  //     }
-
-  //     const { status: existingStatus } =
-  //       await Notifications.getPermissionsAsync();
-  //     let finalStatus = existingStatus;
-
-  //     if (existingStatus !== "granted") {
-  //       const { status } = await Notifications.requestPermissionsAsync();
-  //       finalStatus = status;
-  //     }
-
-  //     if (finalStatus !== "granted") {
-  //       alert("Failed to get push token for push notification!");
-  //       return;
-  //     }
-
-  //     const token = (await Notifications.getExpoPushTokenAsync()).data;
-  //     console.log("Expo push token:", token);
-
-  //     // TODO: send this token to your backend here
-  //     try {
-  //       await fetch('https://your-backend-api.com/api/savePushToken', {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({ token }),
-  //         credentials: 'include', // if you use cookies for auth
-  //       });
-  //       console.log('Push token sent to backend');
-  //     } catch (error) {
-  //       console.error('Error sending push token to backend:', error);
-  //     }
-  //   }
-
-  //   registerForPushNotificationsAsync();
-  // }, []);
+  // 🔔 Setup Android notification channel BEFORE anything else
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "Default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
 
   return (
     <Fragment>

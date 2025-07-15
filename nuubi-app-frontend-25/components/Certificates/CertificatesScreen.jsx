@@ -125,27 +125,6 @@ export default function CertificatesScreen({ navigation }) {
   // }, [isLoggedIn]);
 
   const [expoPushToken, setExpoPushToken] = React.useState("");
-  const notificationListener = React.useRef();
-  const responseListener = React.useRef();
-
-  React.useEffect(() => {
-    if (Platform.OS !== "android") return;
-    (async () => {
-      await Notifications.setNotificationChannelAsync("default", {
-        name: "Default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: "Channel Test",
-          body: "If you see this, channel is OK",
-        },
-        trigger: { seconds: 5, channelId: "default" },
-      });
-    })();
-  }, []);
 
   async function registerForPushNotificationsAsync() {
     console.log("Starting push notification registration");
@@ -216,28 +195,28 @@ export default function CertificatesScreen({ navigation }) {
   }
 
   React.useEffect(() => {
-    // Assume you have a user object from context or props here
     if (!user) return;
 
     registerForPushNotificationsAsync()
       .then((token) => setExpoPushToken(token ?? ""))
       .catch((error) => setExpoPushToken(`Error: ${error}`));
-
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        // handle notification received
-      });
-
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        // handle notification response (tap)
-      });
-
-    return () => {
-      notificationListener.current?.remove();
-      responseListener.current?.remove();
-    };
   }, [user]);
+
+  // Handle foreground notifications
+  React.useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("📬 Notification received:", notification);
+        if (Platform.OS === "android") {
+          alert(
+            `${notification.request.content.title}\n${notification.request.content.body}`
+          );
+        }
+      }
+    );
+
+    return () => subscription.remove();
+  }, []);
 
   React.useEffect(() => {
     async function fetchEarned() {
