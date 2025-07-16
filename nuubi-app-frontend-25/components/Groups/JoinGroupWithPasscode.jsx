@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Platform
+  Platform,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -24,6 +24,14 @@ export default function JoinGroupWithPasscode({ navigation }) {
       ),
       headerTitleAlign: "center",
     });
+  }, [navigation]);
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setError(null); // clear status message on screen focus
+    });
+
+    return unsubscribe;
   }, [navigation]);
 
   return (

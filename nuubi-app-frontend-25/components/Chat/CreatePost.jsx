@@ -31,6 +31,7 @@ export default function CreatePostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   // const [error, setError] = React.useState(null);
   const [status, setStatus] = React.useState(null);
+  const [formKey, setFormKey] = React.useState(Date.now());
   const [statusColor, setStatusColor] = React.useState(
     globalStyles.captionError
   );
@@ -39,9 +40,20 @@ export default function CreatePostScreen({ navigation }) {
   const [pickedFile, setPickedFile] = React.useState(null);
   const [fileUploadInfo, setFileUploadInfo] = React.useState(null);
 
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     setStatus(null);
+  //   }, [])
+  // );
+
   useFocusEffect(
     React.useCallback(() => {
+      setFormKey(Date.now());
       setStatus(null);
+      setPickedImage(null);
+      setImageUploadInfo(null);
+      setPickedFile(null);
+      setFileUploadInfo(null);
     }, [])
   );
 
@@ -232,7 +244,9 @@ export default function CreatePostScreen({ navigation }) {
           }}
         >
           <Formik
+            key={formKey}
             initialValues={{ title: "", body_text: "" }}
+            enableReinitialize={true}
             //  initialValues={{ title: "Testing", body_text: "Test" }}
             validationSchema={createPostSchema}
             onSubmit={async (values, actions) => {
@@ -265,12 +279,14 @@ export default function CreatePostScreen({ navigation }) {
                       ...values,
                       imageUrl: uploadUrl,
                       fileUrl: null,
+                      fileName: null,
                     };
 
                     const token =
                       Platform.OS !== "web"
                         ? await SecureStore.getItemAsync("token")
                         : null; // Get token only on mobile
+
                     fetch(
                       `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                       {
@@ -314,21 +330,37 @@ export default function CreatePostScreen({ navigation }) {
                 // post with image and file attachment
 
                 if (Platform.OS === "web") {
-                  let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
+                  const file = await fetch(pickedFile.uri).then((r) =>
+                    r.blob()
+                  );
+                  const formData = new FormData();
+                  formData.append("file", file, pickedFile.name); // pass the filename here
+                  formData.append("upload_preset", "ehsnm9es");
+                  formData.append("api_key", apiKey);
 
-                  let data = {
-                    file: pickedFile.uri,
-                    upload_preset: "ehsnm9es",
-                    api_key: apiKey,
-                  };
+                  fetch(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+                    {
+                      method: "POST",
+                      body: formData,
 
-                  fetch(apiUrl, {
-                    body: JSON.stringify(data),
-                    headers: {
-                      "content-type": "application/json",
-                    },
-                    method: "POST",
-                  }).then(async (r) => {
+                      // if (Platform.OS === "web") {
+                      //   let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
+
+                      //   let data = {
+                      //     file: pickedFile.uri,
+                      //     upload_preset: "ehsnm9es",
+                      //     api_key: apiKey,
+                      //   };
+
+                      //   fetch(apiUrl, {
+                      //     body: JSON.stringify(data),
+                      //     headers: {
+                      //       "content-type": "application/json",
+                      //     },
+                      //     method: "POST",
+                    }
+                  ).then(async (r) => {
                     let data = await r.json();
                     setFileUploadInfo({ ...data });
                     let fileUploadUrl = data["secure_url"];
@@ -360,11 +392,13 @@ export default function CreatePostScreen({ navigation }) {
                           ...values,
                           imageUrl: uploadUrl,
                           fileUrl: fileUploadUrl,
+                          fileName: pickedFile.name,
                         };
                         const token =
                           Platform.OS !== "web"
                             ? await SecureStore.getItemAsync("token")
                             : null; // Get token only on mobile
+
                         fetch(
                           `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                           {
@@ -454,11 +488,13 @@ export default function CreatePostScreen({ navigation }) {
                           ...values,
                           imageUrl: uploadUrl,
                           fileUrl: fileUploadUrl,
+                          fileName: pickedFile.name,
                         };
                         const token =
                           Platform.OS !== "web"
                             ? await SecureStore.getItemAsync("token")
                             : null; // Get token only on mobile
+
                         fetch(
                           `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                           {
@@ -506,21 +542,21 @@ export default function CreatePostScreen({ navigation }) {
                 // post with no image and with a file attachment
 
                 if (Platform.OS === "web") {
-                  let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
+                  const file = await fetch(pickedFile.uri).then((r) =>
+                    r.blob()
+                  );
+                  const formData = new FormData();
+                  formData.append("file", file, pickedFile.name); // pass the filename here
+                  formData.append("upload_preset", "ehsnm9es");
+                  formData.append("api_key", apiKey);
 
-                  let data = {
-                    file: pickedFile.uri,
-                    upload_preset: "ehsnm9es",
-                    api_key: apiKey,
-                  };
-
-                  fetch(apiUrl, {
-                    body: JSON.stringify(data),
-                    headers: {
-                      "content-type": "application/json",
-                    },
-                    method: "POST",
-                  })
+                  fetch(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+                    {
+                      method: "POST",
+                      body: formData,
+                    }
+                  )
                     .then(async (r) => {
                       let data = await r.json();
                       setFileUploadInfo({ ...data });
@@ -529,6 +565,7 @@ export default function CreatePostScreen({ navigation }) {
                         ...values,
                         imageUrl: null,
                         fileUrl: fileUploadUrl,
+                        fileName: pickedFile.name,
                       };
                       const token =
                         Platform.OS !== "web"
@@ -598,6 +635,7 @@ export default function CreatePostScreen({ navigation }) {
                         ...values,
                         imageUrl: null,
                         fileUrl: fileUploadUrl,
+                        fileName: pickedFile.name,
                       };
                       const token =
                         Platform.OS !== "web"
@@ -646,12 +684,18 @@ export default function CreatePostScreen({ navigation }) {
                 }
               } else {
                 // regular post with no image and no file attachment
-                const vals = { ...values, imageUrl: null, fileUrl: null };
+                const vals = {
+                  ...values,
+                  imageUrl: null,
+                  fileUrl: null,
+                  fileName: null,
+                };
                 actions.resetForm();
                 const token =
                   Platform.OS !== "web"
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
+
                 fetch(
                   `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
                   {

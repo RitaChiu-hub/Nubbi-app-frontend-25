@@ -23,7 +23,9 @@ export default function GroupInfoScreen({ navigation }) {
   const [memberCount, setMemberCount] = React.useState(0);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [members, setMembers] = React.useState([user.members]);
-  const [invitePasscode, setInvitePasscode] = React.useState(user.inviteCode);
+  // const [invitePasscode, setInvitePasscode] = React.useState(
+  //   user.invitePasscode
+  // );
   // const [isAdmin, setIsAdmin] = React.useState(user.isAdmin);
   const isFocused = useIsFocused();
   const [adminLoaded, setAdminLoaded] = useState(false);
@@ -62,7 +64,6 @@ export default function GroupInfoScreen({ navigation }) {
   //     setAdminLoaded(true);
   //   }
   // };
-
 
   useEffect(() => {
     // if (!isFocused) return;
@@ -106,17 +107,16 @@ export default function GroupInfoScreen({ navigation }) {
         const visibilitySetting =
           groupData.is_public === false ? "Private" : "Public";
 
-        setUser((prev) => ({
-          ...prev,
-          isAdmin: adminData.isAdmin ?? prev.isAdmin,
+        setUser({
+          ...user,
+          isAdmin: adminData.isAdmin,
           groupName: groupData.groupname,
           groupDescription: groupData.description,
           visibility: visibilitySetting,
-        }));
+          inviteCode: groupData.invitePasscode,
+        });
         setIsAdminHere(String(adminData.isAdmin) === "true");
         setAdminLoaded(true);
-        //   setTimeout(() => setAdminLoaded(true), 0);
-        // setAdminLoaded(true);
       } catch (err) {
         console.error("Failed to load group data:", err);
         setAdminLoaded(true);
@@ -275,11 +275,18 @@ export default function GroupInfoScreen({ navigation }) {
   const renderSettings = () => (
     <ScrollView>
       <View style={[globalStyles.widthContainer, { paddingHorizontal: 24 }]}>
-        <TouchableOpacity style={globalStyles.row}>
+        {adminLoaded && user.invitePasscode && (
+          <TouchableOpacity style={globalStyles.row}>
+            <Text style={globalStyles.headingText}>
+              {user.visibility} Invitation Passcode: {user.invitePasscode}
+            </Text>
+          </TouchableOpacity>
+        )}
+        {/* <TouchableOpacity style={globalStyles.row}>
           <Text style={globalStyles.headingText}>
-            {user.visibilitySetting} Invitation Passcode: {invitePasscode}
+            {user.visibility} Invitation Passcode: {invitePasscode}
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={globalStyles.row}

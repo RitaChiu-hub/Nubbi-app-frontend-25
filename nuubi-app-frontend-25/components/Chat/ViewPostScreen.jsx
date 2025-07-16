@@ -10,6 +10,7 @@ import {
   Image,
   Modal,
   Dimensions,
+  Linking,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -36,6 +37,7 @@ export default function ViewPostScreen({ navigation, route }) {
     post_author: "loading",
     image_url: null,
     file_url: null,
+    file_name: null,
     iso_time_sent: "2000-01-01T01:00:00.000000",
   });
   const [likes, setLikes] = React.useState([]);
@@ -125,7 +127,11 @@ export default function ViewPostScreen({ navigation, route }) {
         }
       );
       const jsonData = await response.json();
-      setPostInfo(jsonData);
+      // setPostInfo(jsonData);
+      setPostInfo({
+        ...jsonData,
+        file_name: jsonData.file_name || null,
+      });
       if (jsonData.file_url !== null) {
         const parts = jsonData.file_url.split("upload/");
         const jpgPart2 = parts[2].split("pdf");
@@ -436,7 +442,8 @@ export default function ViewPostScreen({ navigation, route }) {
                     elevation: 3,
                     backgroundColor: "#2482AA",
                   }}
-                  onPress={() => alert("File Downloads are coming soon!")}
+                  onPress={() => Linking.openURL(postInfo.file_url)}
+                  //   onPress={() => alert("File Downloads are coming soon!")}
                 >
                   <FeatherIcon name="download" color="#fbfbfb" size={20} />
                 </TouchableOpacity>
@@ -573,10 +580,32 @@ export default function ViewPostScreen({ navigation, route }) {
                 )}
               </View>
 
-              <View
+              {postInfo.file_url && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingHorizontal: 14,
+                    paddingVertical: 6,
+                    marginTop: 10,
+                  }}
+                >
+                  <Text style={globalStyles.caption}>Attached file: </Text>
+                  <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Text
+                      style={[globalStyles.captionLinkBlue, { marginLeft: 4 }]}
+                    >
+                      {postInfo.file_name || "View file"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              {/* <View
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
+                  width: "80%",
+                  backgroundColor: "red",
                 }}
               >
                 {postInfo.file_url === null ? null : (
@@ -588,13 +617,14 @@ export default function ViewPostScreen({ navigation, route }) {
                         onPress={() => setModalVisible(true)}
                       >
                         <Text style={globalStyles.captionLinkBlue}>
-                          {postInfo.file_url}
+                          {/* //   {postInfo.file_url} */}
+              {/* {postInfo.file_name || "View File"}
                         </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
                 )}
-              </View>
+              </View> */}
             </View>
             <View
               style={{
