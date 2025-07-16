@@ -398,10 +398,10 @@ export default function ViewPostScreen({ navigation, route }) {
                     key={index}
                     style={{
                       borderRadius: 10,
-                      width: 250,
-                      height: 350,
-                      maxWidth: Dimensions.get("window").width * 0.7,
-                      maxHeight: Dimensions.get("window").height * 0.6,
+                      width: deviceWidth > 800 ? 500 : deviceWidth * 0.7,
+                      height: deviceWidth > 800 ? 700 : deviceWidth * 0.8,
+                      maxWidth: Dimensions.get("window").width * 0.6,
+                      maxHeight: Dimensions.get("window").height * 0.7,
                       justifyContent: "center",
                       alignItems: "center",
                       marginVertical: 10,

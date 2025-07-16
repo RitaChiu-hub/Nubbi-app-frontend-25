@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -133,11 +133,12 @@ export const globalStyles = StyleSheet.create({
   },
   modalView: {
     backgroundColor: nuubiColors["white"],
-    maxWidth: Dimensions.get("window").width * 0.8,
-    maxHeight: Dimensions.get("window").height * 0.7,
+    width: Dimensions.get("window").width * 0.7,
+    maxHeight: Dimensions.get("window").height * 0.9,
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
+    alignSelf: "center",
     elevation: 15,
     borderWidth: 1,
     borderColor: nuubiColors["lighterGray"],
