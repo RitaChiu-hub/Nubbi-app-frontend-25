@@ -24,82 +24,154 @@ export default function GroupInfoScreen({ navigation }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [members, setMembers] = React.useState([user.members]);
   const [invitePasscode, setInvitePasscode] = React.useState(user.inviteCode);
-  const [isAdmin, setIsAdmin] = React.useState(user.isAdmin);
+  // const [isAdmin, setIsAdmin] = React.useState(user.isAdmin);
   const isFocused = useIsFocused();
+  const [adminLoaded, setAdminLoaded] = useState(false);
+  const [isAdminHere, setIsAdminHere] = useState(null);
+
+  // const getIsAdmin = async () => {
+  //   setAdminLoaded(false);
+  //   const token =
+  //     Platform.OS !== "web"
+  //       ? await SecureStore.getItemAsync("token")
+  //       : sessionStorage.getItem("token");
+  //   try {
+  //     const response = await fetch(
+  //       `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+  //       {
+  //         method: "POST",
+  //         credentials: "include",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  //         },
+  //         //   body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
+  //         body: JSON.stringify({ ...user }),
+  //       }
+  //     );
+  //     const jsonData = await response.json();
+  //     // setUser(jsonData);
+  //     setUser((prev) => ({
+  //       ...prev,
+  //       isAdmin: jsonData.isAdmin,
+  //       //  currentGroup: jsonData.currentGroup, // if returned here
+  //     }));
+  //     setAdminLoaded(true);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //     setAdminLoaded(true);
+  //   }
+  // };
 
 
-  const getIsAdmin = async () => {
-    const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token");
-    try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          //   body: Platform.OS === "web" ? context : JSON.stringify({ ...user }),
-          body: JSON.stringify({ ...user }),
-        }
-      );
-      const jsonData = await response.json();
-      setUser(jsonData);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+  useEffect(() => {
+    // if (!isFocused) return;
+    const loadGroupData = async () => {
+      setAdminLoaded(false);
+      setIsAdminHere(null); // reset
 
-  React.useEffect(() => {
-    getIsAdmin();
-    setIsAdmin(user.isAdmin);
-    getGroupInfo();
+      const token =
+        Platform.OS !== "web"
+          ? await SecureStore.getItemAsync("token")
+          : sessionStorage.getItem("token");
+
+      try {
+        const [adminRes, groupRes] = await Promise.all([
+          fetch("https://coral-app-n96bn.ondigitalocean.app/groups/isadmin", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ ...user }),
+          }),
+          fetch(
+            "https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo",
+            {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              },
+              body: JSON.stringify({ ...user }),
+            }
+          ),
+        ]);
+
+        const adminData = await adminRes.json();
+        const groupData = await groupRes.json();
+
+        const visibilitySetting =
+          groupData.is_public === false ? "Private" : "Public";
+
+        setUser((prev) => ({
+          ...prev,
+          isAdmin: adminData.isAdmin ?? prev.isAdmin,
+          groupName: groupData.groupname,
+          groupDescription: groupData.description,
+          visibility: visibilitySetting,
+        }));
+        setIsAdminHere(String(adminData.isAdmin) === "true");
+        setAdminLoaded(true);
+        //   setTimeout(() => setAdminLoaded(true), 0);
+        // setAdminLoaded(true);
+      } catch (err) {
+        console.error("Failed to load group data:", err);
+        setAdminLoaded(true);
+      }
+    };
+
+    loadGroupData();
     getMembers();
     getMemberCount();
-    setInvitePasscode(user.invitePasscode);
-  }, [isFocused]);
+  }, [isFocused, user.currentGroup]);
 
-  const getGroupInfo = async () => {
-    const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token");
-    try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
-      const jsonData = await response.json();
-      const visibilitySetting =
-        jsonData.is_public === false ? "Private" : "Public";
-      const groupInfo = {
-        ...jsonData,
-        visibility: visibilitySetting,
-        is_public: jsonData.is_public,
-      };
-      setUser({
-        ...user,
-        groupName: groupInfo.groupname,
-        groupDescription: groupInfo.description,
-        visibility: visibilitySetting,
-      });
-      //  setGroupTitle(jsonData.groupname);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+  // const getGroupInfo = async () => {
+  //   const token =
+  //     Platform.OS !== "web"
+  //       ? await SecureStore.getItemAsync("token")
+  //       : sessionStorage.getItem("token");
+  //   try {
+  //     const response = await fetch(
+  //       `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+  //       {
+  //         method: "POST",
+  //         credentials: "include",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  //         },
+  //         body: JSON.stringify({ ...user }),
+  //       }
+  //     );
+  //     const jsonData = await response.json();
+  //     const visibilitySetting =
+  //       jsonData.is_public === false ? "Private" : "Public";
+  //     const groupInfo = {
+  //       ...jsonData,
+  //       visibility: visibilitySetting,
+  //       is_public: jsonData.is_public,
+  //     };
+  //     setUser((prev) => ({
+  //       ...prev,
+  //       groupName: groupInfo.groupname,
+  //       groupDescription: groupInfo.description,
+  //       visibility: visibilitySetting,
+  //       //  currentGroup: jsonData.currentGroup ?? prev.currentGroup,
+  //     }));
+  //     // setUser({
+  //     //   ...user,
+  //     //   groupName: groupInfo.groupname,
+  //     //   groupDescription: groupInfo.description,
+  //     //   visibility: visibilitySetting,
+  //     // });
+  //     //  setGroupTitle(jsonData.groupname);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // };
 
   const getMemberCount = async () => {
     const token =
@@ -242,7 +314,8 @@ export default function GroupInfoScreen({ navigation }) {
           </View>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
-        {isAdmin == "true" && (
+        {/* // {isAdmin == "true" && ( */}
+        {isAdminHere === true && (
           <TouchableOpacity
             style={globalStyles.row}
             onPress={() => navigation.navigate("EditGroup")}
@@ -260,7 +333,7 @@ export default function GroupInfoScreen({ navigation }) {
             <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
           </TouchableOpacity>
         )}
-        {isAdmin == "true" && (
+        {isAdminHere === true && (
           <TouchableOpacity
             style={globalStyles.row}
             onPress={() => setModalVisible(true)}
@@ -281,7 +354,7 @@ export default function GroupInfoScreen({ navigation }) {
             </View>
           </TouchableOpacity>
         )}
-        {isAdmin != "true" && (
+        {isAdminHere === false && (
           <TouchableOpacity
             style={globalStyles.row}
             onPress={() => setModalVisible(true)}
@@ -311,10 +384,17 @@ export default function GroupInfoScreen({ navigation }) {
           <View style={globalStyles.centeredView}>
             <View style={globalStyles.modalView}>
               <Text style={globalStyles.modalText}>
-                {isAdmin
+                {isAdminHere === null
+                  ? "Loading..."
+                  : isAdminHere
                   ? "Are you sure you want to PERMANENTLY delete this group? This action cannot be undone."
                   : "Are you sure you want to leave this group?"}
               </Text>
+              {/* <Text style={globalStyles.modalText}>
+                {user?.isAdmin
+                  ? "Are you sure you want to PERMANENTLY delete this group? This action cannot be undone."
+                  : "Are you sure you want to leave this group?"}
+              </Text> */}
               <View style={globalStyles.modalButtons}>
                 <TouchableOpacity
                   style={[
@@ -329,11 +409,11 @@ export default function GroupInfoScreen({ navigation }) {
                 <TouchableOpacity
                   style={[
                     globalStyles.modalButton,
-                    { backgroundColor: isAdmin ? "#E70808" : "#2482AA" },
+                    { backgroundColor: isAdminHere ? "#E70808" : "#2482AA" },
                   ]}
                   onPress={async () => {
                     setModalVisible(false);
-                    if (isAdmin) {
+                    if (isAdminHere) {
                       navigation.navigate("DeleteGroup");
                     } else {
                       await leaveGroup();
@@ -341,8 +421,15 @@ export default function GroupInfoScreen({ navigation }) {
                   }}
                 >
                   <Text style={globalStyles.primaryButtonText}>
-                    {isAdmin ? "Delete Group" : "Leave Group"}
+                    {isAdminHere === null
+                      ? "Loading..."
+                      : isAdminHere
+                      ? "Delete Group"
+                      : "Leave Group"}
                   </Text>
+                  {/* <Text style={globalStyles.primaryButtonText}>
+                    {user.isAdmin ? "Delete Group" : "Leave Group"}
+                  </Text> */}
                 </TouchableOpacity>
               </View>
             </View>
