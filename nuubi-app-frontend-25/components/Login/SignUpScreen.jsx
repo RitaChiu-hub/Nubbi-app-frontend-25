@@ -205,72 +205,78 @@ export default function SignUpScreen({ navigation }) {
               <View style={{ marginHorizontal: 30 }}>
                 {error != null && (
                   <View
-                    style={{
-                      alignItems: "center",
-                      paddingTop: 16,
-                      paddingBottom: 6,
-                    }}
-                    accessibilityRole="none"
+                    style={[globalStyles.widthContainer, { marginTop: 16 }]}
                   >
-                    <Text style={[globalStyles.captionError]}>
-                      Oops! {error} Would you like to:{" "}
-                      <TouchableOpacity
-                        //    onPress={() => navigation.navigate("Login")}
-                        onPress={() => {
-                          if (inviteToken) {
-                            // Navigate to ForgotPasswordLoggedOut with inviteToken
-                            navigation.navigate("Login", { inviteToken });
-                          } else {
-                            // Regular navigation without inviteToken
-                            navigation.navigate("Login");
-                          }
-                        }}
-                        accessibilityRole="button"
-                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
-                      >
-                        <Text
-                          style={{
-                            color: "#050505",
-                            fontFamily: "Poppins_500Medium",
-                            fontSize: 14,
-                            letterSpacing: 0.4,
-                            textDecorationLine: "underline",
+                    <View
+                      style={{
+                        maxWidth: "100%",
+                        alignSelf: "center",
+                        flexWrap: "wrap",
+                        paddingTop: 16,
+                        paddingBottom: 6,
+                      }}
+                      accessibilityRole="none"
+                    >
+                      <Text style={[globalStyles.captionError]}>
+                        Oops! {error} Would you like to:{" "}
+                        <TouchableOpacity
+                          //    onPress={() => navigation.navigate("Login")}
+                          onPress={() => {
+                            if (inviteToken) {
+                              // Navigate to ForgotPasswordLoggedOut with inviteToken
+                              navigation.navigate("Login", { inviteToken });
+                            } else {
+                              // Regular navigation without inviteToken
+                              navigation.navigate("Login");
+                            }
                           }}
+                          accessibilityRole="button"
+                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
                         >
-                          {" "}
-                          Log In
-                        </Text>
-                      </TouchableOpacity>{" "}
-                      or{" "}
-                      <TouchableOpacity
-                        onPress={() => {
-                          if (inviteToken) {
-                            // Navigate to ForgotPasswordLoggedOut with inviteToken
-                            navigation.navigate("ForgotPasswordLoggedOut", {
-                              inviteToken,
-                            });
-                          } else {
-                            // Regular navigation without inviteToken
-                            navigation.navigate("ForgotPasswordLoggedOut");
-                          }
-                        }}
-                        accessibilityRole="button"
-                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
-                      >
-                        <Text
-                          style={{
-                            color: "#050505",
-                            fontFamily: "Poppins_500Medium",
-                            fontSize: 14,
-                            letterSpacing: 0.4,
-                            textDecorationLine: "underline",
+                          <Text
+                            style={{
+                              color: "#050505",
+                              fontFamily: "Poppins_500Medium",
+                              fontSize: 14,
+                              letterSpacing: 0.4,
+                              textDecorationLine: "underline",
+                            }}
+                          >
+                            {" "}
+                            Log In
+                          </Text>
+                        </TouchableOpacity>{" "}
+                        or{" "}
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (inviteToken) {
+                              // Navigate to ForgotPasswordLoggedOut with inviteToken
+                              navigation.navigate("ForgotPasswordLoggedOut", {
+                                inviteToken,
+                              });
+                            } else {
+                              // Regular navigation without inviteToken
+                              navigation.navigate("ForgotPasswordLoggedOut");
+                            }
                           }}
+                          accessibilityRole="button"
+                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} // Larger clickable area
                         >
-                          {" "}
-                          Forgot or need to create password?
-                        </Text>
-                      </TouchableOpacity>
-                    </Text>
+                          <Text
+                            style={{
+                              color: "#050505",
+                              fontFamily: "Poppins_500Medium",
+                              fontSize: 14,
+                              letterSpacing: 0.4,
+                              textDecorationLine: "underline",
+                            }}
+                          >
+                            {" "}
+                            Forgot or need to create password?
+                          </Text>
+                        </TouchableOpacity>
+                      </Text>
+                    </View>
                   </View>
                 )}
 
