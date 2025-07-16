@@ -7,6 +7,7 @@ import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 import * as Notifications from "expo-notifications";
+import { SafeAreaView } from "react-native-safe-area-context";
 // import DebugOverlay from "../debug/DebugOverlay";
 // import { debugLog } from "../debug/debugLog";
 
@@ -70,17 +71,14 @@ export default function CertificatesScreen({ navigation }) {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...user }),
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -316,43 +314,49 @@ export default function CertificatesScreen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}>
+    <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
       <View
-        style={{
-          alignItems: "flex-start",
-          justifyContent: "center",
-          padding: 16,
-          minWidth: 300,
-          maxWidth: 600,
-          borderWidth: 1,
-          borderRadius: 16,
-          marginHorizontal: 16,
-          marginVertical: 8,
-          borderColor: "#ddd",
-          backgroundColor: "#fbfbfb",
-          elevation: 15,
-          shadowColor: "#333333",
-          shadowOpacity: 0.5,
-          shadowRadius: 2,
-          shadowOffset: { width: 0.8, height: 0.8 },
-          overflow: "visible",
-        }}
+        style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}
       >
-        <Text style={[globalStyles.bodyRegular, { textAlign: "center" }]}>
-          Earn recognition for skills that matter! Click{" "}
-          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>"My Groups"</Text>{" "}
-          in the navigation bar to start earning awards that spotlight your
-          strengths.
-        </Text>
-      </View>
+        <View
+          style={{
+            alignItems: "flex-start",
+            justifyContent: "center",
+            padding: 16,
+            minWidth: 300,
+            maxWidth: 600,
+            borderWidth: 1,
+            borderRadius: 16,
+            marginHorizontal: 16,
+            marginVertical: 8,
+            borderColor: "#ddd",
+            backgroundColor: "#fbfbfb",
+            elevation: 15,
+            shadowColor: "#333333",
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
+            shadowOffset: { width: 0.8, height: 0.8 },
+            overflow: "visible",
+          }}
+        >
+          <Text style={[globalStyles.bodyRegular, { textAlign: "center" }]}>
+            Earn recognition for skills that matter! Click{" "}
+            <Text style={{ fontFamily: "Poppins_600SemiBold" }}>
+              "My Groups"
+            </Text>{" "}
+            in the navigation bar to start earning awards that spotlight your
+            strengths.
+          </Text>
+        </View>
 
-      <FlatList
-        data={certificateData}
-        renderItem={renderItem}
-        keyExtractor={(i) => i.id.toString()}
-        style={{ width: "90%" }}
-        contentContainerStyle={{ paddingVertical: 16 }}
-      />
-    </View>
+        <FlatList
+          data={certificateData}
+          renderItem={renderItem}
+          keyExtractor={(i) => i.id.toString()}
+          style={{ width: "90%" }}
+          contentContainerStyle={{ paddingVertical: 16 }}
+        />
+      </View>
+    </SafeAreaView>
   );
 }

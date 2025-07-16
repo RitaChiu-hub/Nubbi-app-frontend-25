@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState, Suspense } from "react";
 import { Platform } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import Views from "./components/Views";
 import UserContext from "./components/AccountContext";
 import * as Notifications from "expo-notifications";
@@ -206,41 +207,43 @@ export default function App() {
     <Fragment>
       <StatusBar style="dark" />
       <UserContext>
-        <NavigationContainer
-          linking={linking}
-          landingPage={containsLandingPage}
-          inviteToken={inviteToken}
-        >
-          <Suspense
-            fallback={
-              <Views
-                landingPage={containsLandingPage}
-                inviteToken={inviteToken}
-              />
-            }
+        <SafeAreaProvider>
+          <NavigationContainer
+            linking={linking}
+            landingPage={containsLandingPage}
+            inviteToken={inviteToken}
           >
-            {isWeb && Elements && stripePromise ? (
-              <Elements stripe={stripePromise}>
+            <Suspense
+              fallback={
                 <Views
                   landingPage={containsLandingPage}
                   inviteToken={inviteToken}
                 />
-              </Elements>
-            ) : StripeProvider ? (
-              <StripeProvider publishableKey="pk_test_51LJPaMGxdxKNnJqJrQc1DZHLMO0wHS2zmPCNeKQxENFifWl5kfnQnIuzu629Mpk76jvQK2TGAPHIdN3m2a2k5qeQ00MIRhno5P">
+              }
+            >
+              {isWeb && Elements && stripePromise ? (
+                <Elements stripe={stripePromise}>
+                  <Views
+                    landingPage={containsLandingPage}
+                    inviteToken={inviteToken}
+                  />
+                </Elements>
+              ) : StripeProvider ? (
+                <StripeProvider publishableKey="pk_test_51LJPaMGxdxKNnJqJrQc1DZHLMO0wHS2zmPCNeKQxENFifWl5kfnQnIuzu629Mpk76jvQK2TGAPHIdN3m2a2k5qeQ00MIRhno5P">
+                  <Views
+                    landingPage={containsLandingPage}
+                    inviteToken={inviteToken}
+                  />
+                </StripeProvider>
+              ) : (
                 <Views
                   landingPage={containsLandingPage}
                   inviteToken={inviteToken}
                 />
-              </StripeProvider>
-            ) : (
-              <Views
-                landingPage={containsLandingPage}
-                inviteToken={inviteToken}
-              />
-            )}
-          </Suspense>
-        </NavigationContainer>
+              )}
+            </Suspense>
+          </NavigationContainer>
+        </SafeAreaProvider>
       </UserContext>
     </Fragment>
     // <Fragment>
