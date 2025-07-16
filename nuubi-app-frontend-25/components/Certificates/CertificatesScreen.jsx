@@ -188,7 +188,6 @@ export default function CertificatesScreen({ navigation }) {
   React.useEffect(() => {
     const subscription = Notifications.addNotificationReceivedListener(
       (notification) => {
-        console.log("📬 Notification received:", notification);
         if (Platform.OS === "android") {
           alert(
             `${notification.request.content.title}\n${notification.request.content.body}`
