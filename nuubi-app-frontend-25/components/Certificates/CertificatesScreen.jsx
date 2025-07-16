@@ -7,8 +7,8 @@ import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 import * as Notifications from "expo-notifications";
-import DebugOverlay from "../debug/DebugOverlay";
-import { debugLog } from "../debug/debugLog";
+// import DebugOverlay from "../debug/DebugOverlay";
+// import { debugLog } from "../debug/debugLog";
 
 const certificateData = [
   {
@@ -126,23 +126,15 @@ export default function CertificatesScreen({ navigation }) {
 
   const [expoPushToken, setExpoPushToken] = React.useState("");
 
-  debugLog("Platform", Platform.OS);
-
   async function registerForPushNotificationsAsync() {
-    console.log("Starting push notification registration");
-    debugLog("PushReg", "start");
     if (Platform.OS !== "web") {
       try {
         const { status: existingStatus } =
           await Notifications.getPermissionsAsync();
-        console.log("Existing notification permission status:", existingStatus);
-        debugLog("Perm existing", existingStatus);
 
         let finalStatus = existingStatus;
 
         if (existingStatus !== "granted") {
-          console.log("Requesting notification permissions...");
-          debugLog("Perm", "Requesting notification permissions...");
           const { status } = await Notifications.requestPermissionsAsync();
 
           finalStatus = status;
@@ -151,20 +143,15 @@ export default function CertificatesScreen({ navigation }) {
         if (finalStatus !== "granted") {
           console.warn("Notification permission not granted");
           alert("Failed to get push token for push notification!");
-          debugLog("Perm", "not-granted");
 
           return null;
         }
 
         const expoPushToken = (await Notifications.getExpoPushTokenAsync())
           .data;
-        console.log("Expo push token:", expoPushToken);
-        debugLog("Token", expoPushToken);
 
         // Fetch your auth token or user info however you do it
         const authToken = await SecureStore.getItemAsync("token");
-        console.log("Auth token retrieved for backend call:", authToken);
-        debugLog("AuthToken", authToken ? "found" : "none");
 
         // Send the push token with user info to your backend
         const res = await fetch(
@@ -179,18 +166,11 @@ export default function CertificatesScreen({ navigation }) {
           }
         );
 
-        console.log("Push token sent to backend, status:", res.status);
-        debugLog("SaveTokenStatus", res.status);
-
         if (!res.ok) {
           const text = await res.text();
-          console.error("[SavePushToken] failed:", res.status, text);
-          debugLog("SaveTokenError", `${res.status}: ${text}`);
         }
         return expoPushToken;
       } catch (error) {
-        console.error("Error registering for push notifications:", error);
-        debugLog("PushReg error", error.message);
         return null;
       }
     }
@@ -337,50 +317,43 @@ export default function CertificatesScreen({ navigation }) {
   };
 
   return (
-    <>
-      <DebugOverlay />
+    <View style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}>
       <View
-        style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}
+        style={{
+          alignItems: "flex-start",
+          justifyContent: "center",
+          padding: 16,
+          minWidth: 300,
+          maxWidth: 600,
+          borderWidth: 1,
+          borderRadius: 16,
+          marginHorizontal: 16,
+          marginVertical: 8,
+          borderColor: "#ddd",
+          backgroundColor: "#fbfbfb",
+          elevation: 15,
+          shadowColor: "#333333",
+          shadowOpacity: 0.5,
+          shadowRadius: 2,
+          shadowOffset: { width: 0.8, height: 0.8 },
+          overflow: "visible",
+        }}
       >
-        <View
-          style={{
-            alignItems: "flex-start",
-            justifyContent: "center",
-            padding: 16,
-            minWidth: 300,
-            maxWidth: 600,
-            borderWidth: 1,
-            borderRadius: 16,
-            marginHorizontal: 16,
-            marginVertical: 8,
-            borderColor: "#ddd",
-            backgroundColor: "#fbfbfb",
-            elevation: 15,
-            shadowColor: "#333333",
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            shadowOffset: { width: 0.8, height: 0.8 },
-            overflow: "visible",
-          }}
-        >
-          <Text style={[globalStyles.bodyRegular, { textAlign: "center" }]}>
-            Earn recognition for skills that matter! Click{" "}
-            <Text style={{ fontFamily: "Poppins_600SemiBold" }}>
-              "My Groups"
-            </Text>{" "}
-            in the navigation bar to start earning awards that spotlight your
-            strengths.
-          </Text>
-        </View>
-
-        <FlatList
-          data={certificateData}
-          renderItem={renderItem}
-          keyExtractor={(i) => i.id.toString()}
-          style={{ width: "90%" }}
-          contentContainerStyle={{ paddingVertical: 16 }}
-        />
+        <Text style={[globalStyles.bodyRegular, { textAlign: "center" }]}>
+          Earn recognition for skills that matter! Click{" "}
+          <Text style={{ fontFamily: "Poppins_600SemiBold" }}>"My Groups"</Text>{" "}
+          in the navigation bar to start earning awards that spotlight your
+          strengths.
+        </Text>
       </View>
-    </>
+
+      <FlatList
+        data={certificateData}
+        renderItem={renderItem}
+        keyExtractor={(i) => i.id.toString()}
+        style={{ width: "90%" }}
+        contentContainerStyle={{ paddingVertical: 16 }}
+      />
+    </View>
   );
 }
