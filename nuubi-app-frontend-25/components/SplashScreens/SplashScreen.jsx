@@ -304,7 +304,9 @@ export default function SplashScreen({ navigation }) {
 
         {/* USERS OF NUUBI SECTION */}
         <View style={styles.section}>
-          <Text style={globalStyles.h2HeadingMedium}>Nuubi is trusted by:</Text>
+          <Text style={globalStyles.h2HeadingMedium}>
+            Nuubi is trusted by students and professors at:
+          </Text>
 
           <View style={styles.logosWrapper}>
             {/* Left arrow indicator */}

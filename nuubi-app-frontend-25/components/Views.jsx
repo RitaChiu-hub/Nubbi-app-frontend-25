@@ -1725,7 +1725,17 @@ const TabNavigator = () => {
               label = route.name;
               break;
           }
-          return <Text>{label}</Text>;
+          return (
+            <Text
+              style={{
+                fontSize: 12,
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              {label}
+            </Text>
+          );
         },
         tabBarIcon: ({ focused }) => {
           switch (route.name) {
@@ -1835,16 +1845,15 @@ const TabNavigator = () => {
         component={MyGroupsStack}
         options={{ tabBarLabel: "Groups" }}
       />
-
-      <Tab.Screen
-        name="SettingsStack"
-        component={SettingsStack}
-        options={{ tabBarLabel: "Profile" }}
-      />
       <Tab.Screen
         name="NotificationsStack"
         component={NotificationsStack}
         options={{ tabBarLabel: "Notifications" }}
+      />
+      <Tab.Screen
+        name="SettingsStack"
+        component={SettingsStack}
+        options={{ tabBarLabel: "Profile" }}
       />
     </Tab.Navigator>
   );
