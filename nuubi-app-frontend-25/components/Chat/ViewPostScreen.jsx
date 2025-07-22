@@ -127,6 +127,7 @@ export default function ViewPostScreen({ navigation, route }) {
         }
       );
       const jsonData = await response.json();
+      console.log(JSON.stringify(jsonData, null, 2));
       // setPostInfo(jsonData);
       setPostInfo({
         ...jsonData,
