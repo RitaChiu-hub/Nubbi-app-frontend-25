@@ -263,7 +263,7 @@ export default function ChatScreen({ navigation }) {
                       justifyContent: "center",
                       alignItems: "center",
                       flex: 1,
-                      paddingTop: 4,
+                    //  paddingTop: 1,
                     }}
                   >
                     <Image
@@ -358,7 +358,7 @@ export default function ChatScreen({ navigation }) {
                         flexDirection: "row",
                         paddingLeft: 4,
                         backgroundColor: "transparent",
-                        padding: 8,
+                        padding: 4,
                         elevation: 15,
                       }}
                     >
