@@ -232,7 +232,7 @@ export default function ChatScreen({ navigation }) {
         style={{ flex: 1 }}
         contentContainerStyle={{
           flexGrow: 1,
-          paddingHorizontal: 16,
+          paddingHorizontal: 10,
           paddingBottom: INPUT_BAR_HEIGHT,
         }}
         keyboardShouldPersistTaps="handled"
@@ -263,7 +263,6 @@ export default function ChatScreen({ navigation }) {
                       justifyContent: "center",
                       alignItems: "center",
                       flex: 1,
-                    //  paddingTop: 1,
                     }}
                   >
                     <Image
