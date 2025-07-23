@@ -12,6 +12,7 @@ import {
   Dimensions,
   Linking,
 } from "react-native";
+import { useAssets } from "expo-asset";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
@@ -53,6 +54,8 @@ export default function ViewPostScreen({ navigation, route }) {
   const deviceWidth = Dimensions.get("window").width;
 
   const scrollViewRef = React.useRef();
+
+  let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
   const getPostLiked = async () => {
     const token =
@@ -127,8 +130,6 @@ export default function ViewPostScreen({ navigation, route }) {
         }
       );
       const jsonData = await response.json();
-      console.log(JSON.stringify(jsonData, null, 2));
-      // setPostInfo(jsonData);
       setPostInfo({
         ...jsonData,
         file_name: jsonData.file_name || null,
@@ -562,8 +563,34 @@ export default function ViewPostScreen({ navigation, route }) {
             </View>
 
             <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  padding: 14,
+                }}
+              >
+                <Image
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 20,
+                    //marginRight: 10,
+                  }}
+                  source={
+                    postInfo?.avatar_url
+                      ? { uri: postInfo.avatar_url }
+                      : Platform.OS === "web"
+                      ? require("../../assets/defaultAvatar.png")
+                      : assets1[0]
+                  }
+                />
+                <Text style={[globalStyles.bodyRegular, { padding: 14 }]}>
+                  Author: {postInfo.post_author}
+                </Text>
+              </View>
               <Text style={[globalStyles.bodyRegular, { padding: 14 }]}>
-                {postInfo.post_author}: {postInfo.body_text}
+                {postInfo.body_text}
               </Text>
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 {postInfo.image_url === null ? null : (
