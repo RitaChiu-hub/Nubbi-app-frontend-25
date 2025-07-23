@@ -812,6 +812,22 @@ export default function ViewPostScreen({ navigation, route }) {
                         +
                       </Text>
                     </TouchableOpacity>
+                    <Image
+                      style={{
+                        width: 15,
+                        height: 15,
+                        borderRadius: 20,
+                        marginLeft: 6,
+                      //  paddingLeft: 8,
+                      }}
+                      source={
+                        comments?.sender_avatar_url
+                          ? { uri: comments.sender_avatar_url }
+                          : Platform.OS === "web"
+                          ? require("../../assets/defaultAvatar.png")
+                          : assets1[0]
+                      }
+                    />
                     <Text
                       style={{
                         fontWeight: "bold",

@@ -8,7 +8,9 @@ import {
   KeyboardAvoidingView,
   Platform,
   Dimensions,
+  Image,
 } from "react-native";
+import { useAssets } from "expo-asset";
 import { Formik, ErrorMessage } from "formik";
 const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
@@ -35,6 +37,7 @@ export default function ChatScreen({ navigation }) {
   const screenWidth = Dimensions.get("window").width;
 
   const scrollViewRef = React.useRef();
+  let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
   const getGroupName = async () => {
     const token =
@@ -239,113 +242,158 @@ export default function ChatScreen({ navigation }) {
       >
         {chats &&
           chats.map((chats) => (
-            <View
-              key={chats.messages_id}
-              style={{
-                backgroundColor: "transparent",
-                padding: 8,
-                marginTop: 10,
-                // ...(Platform.OS !== "web" && { marginRight: 40 }),
-                elevation: 15,
-                borderWidth: 1,
-                borderColor: "#ddd",
-                borderRadius: 16,
-              }}
-            >
+            <View key={chats.messages_id}>
               <View
                 style={{
-                  flexDirection: "row",
-                  paddingLeft: 4,
+                  paddingLeft: 0,
+                  backgroundColor: "transparent",
+                  padding: 8,
+                  marginTop: 4,
+                  width: screenWidth * 0.8,
                 }}
               >
-                <Text
+                <View
                   style={{
-                    fontWeight: "bold",
-                    color: "#2482AA",
-                    fontSize: 16,
+                    flexDirection: "row",
+                    alignItems: "flex-start",
                   }}
                 >
-                  {chats.message_points}
-                </Text>
-                <TouchableOpacity
-                  onPress={async () => {
-                    if (!likes.includes(chats.messages_id)) {
-                      likes.push(chats.messages_id);
-                      setLikes(likes);
-                      chats.message_points++;
-                      setIsChanged(!isChanged);
-                    } else {
-                      const index = likes.indexOf(chats.messages_id);
-                      likes.splice(index, 1);
-                      setLikes(likes);
-                      chats.message_points--;
-                      setIsChanged(!isChanged);
-                    }
-
-                    const token =
-                      Platform.OS !== "web"
-                        ? await SecureStore.getItemAsync("token")
-                        : sessionStorage.getItem("token"); // Get token only on mobile
-
-                    fetch(
-                      `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
-                      {
-                        method: "POST",
-                        credentials: "include",
-                        headers: {
-                          "Content-Type": "application/json",
-                          ...(token
-                            ? { Authorization: `Bearer ${token}` }
-                            : {}),
-                        },
-                        body: JSON.stringify({
-                          ...user,
-                          message_id: chats.messages_id,
-                        }),
-                      }
-                    );
-                  }}
-                >
-                  <Text
+                  <View
                     style={{
-                      color: likes.includes(chats.messages_id)
-                        ? "#228ee7"
-                        : "#bbb",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      paddingBottom: 2,
-                      paddingRight: 2,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flex: 1,
+                      paddingTop: 4,
                     }}
                   >
-                    +
-                  </Text>
-                </TouchableOpacity>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontSize: 14,
-                    fontFamily: "Poppins_600SemiBold",
-                    color: chats.user_id === adminId ? "#050505" : "#333",
-                  }}
-                >
-                  {chats.sender_username}
-                </Text>
-                <View style={{ marginHorizontal: 2 }}></View>
-                <Text style={{ fontSize: 10, color: "grey" }}>
-                  {moment(chats.iso_time_sent).calendar()}
-                </Text>
+                    <Image
+                      style={{
+                        width: 25,
+                        height: 25,
+                        borderRadius: 20,
+                        margin: 3,
+                        marginRight: 6,
+                      }}
+                      source={
+                        chats?.sender_avatar_url
+                          ? { uri: chats.sender_avatar_url }
+                          : Platform.OS === "web"
+                          ? require("../../assets/defaultAvatar.png")
+                          : assets1[0]
+                      }
+                    />
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        marginTop: 1
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          color: "#2482AA",
+                          fontSize: 16,
+                          margin: 2,
+                          marginRight: 1,
+                        }}
+                      >
+                        {chats.message_points}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={async () => {
+                          if (!likes.includes(chats.messages_id)) {
+                            likes.push(chats.messages_id);
+                            setLikes(likes);
+                            chats.message_points++;
+                            setIsChanged(!isChanged);
+                          } else {
+                            const index = likes.indexOf(chats.messages_id);
+                            likes.splice(index, 1);
+                            setLikes(likes);
+                            chats.message_points--;
+                            setIsChanged(!isChanged);
+                          }
+
+                          const token =
+                            Platform.OS !== "web"
+                              ? await SecureStore.getItemAsync("token")
+                              : sessionStorage.getItem("token"); // Get token only on mobile
+
+                          fetch(
+                            `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+                            {
+                              method: "POST",
+                              credentials: "include",
+                              headers: {
+                                "Content-Type": "application/json",
+                                ...(token
+                                  ? { Authorization: `Bearer ${token}` }
+                                  : {}),
+                              },
+                              body: JSON.stringify({
+                                ...user,
+                                message_id: chats.messages_id,
+                              }),
+                            }
+                          );
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: likes.includes(chats.messages_id)
+                              ? "#228ee7"
+                              : "#bbb",
+                            fontSize: 18,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          +
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        paddingLeft: 4,
+                        backgroundColor: "transparent",
+                        padding: 8,
+                        elevation: 15,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontSize: 14,
+                          fontFamily: "Poppins_500Regular",
+                          color: chats.user_id === adminId ? "#050505" : "#333",
+                        }}
+                      >
+                        {chats.sender_username},{" "}
+                        {moment(chats.iso_time_sent).calendar()}
+                      </Text>
+                    </View>
+                    <Text
+                      style={{
+                        // paddingLeft: 4,
+                        padding: 12,
+                        color: "#050505",
+                        fontFamily: "Poppins_400Regular",
+                        fontSize: 14,
+                        letterSpacing: 0.5,
+                        elevation: 15,
+                        borderWidth: 1,
+                        borderColor: "#ddd",
+                        borderRadius: 16,
+                        width: screenWidth * 0.7,
+                      }}
+                    >
+                      {chats.text}
+                    </Text>
+                  </View>
+                </View>
               </View>
-              <Text
-                style={{
-                  paddingLeft: 4,
-                  color: "#050505",
-                  fontFamily: "Poppins_400Regular",
-                  fontSize: 14,
-                  letterSpacing: 0.5,
-                }}
-              >
-                {chats.text}
-              </Text>
             </View>
           ))}
       </ScrollView>
