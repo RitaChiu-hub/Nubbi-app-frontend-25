@@ -33,6 +33,7 @@ import {
   Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
 import * as SplashScreenExpo from "expo-splash-screen";
+import { AntDesign } from "@expo/vector-icons";
 
 // Local imports
 import { globalStyles } from "../../styles/global";
@@ -41,9 +42,45 @@ import Footer from "./Footer";
 
 SplashScreenExpo.preventAutoHideAsync();
 
+const screenshots = [
+  {
+    src: require("../../assets/screenshots/view-thread.png"),
+    caption: "Crowdsource answers from your whole class.",
+  },
+  {
+    src: require("../../assets/screenshots/notifications.png"),
+    caption: "Instantly get notified of new activity.",
+  },
+  {
+    src: require("../../assets/screenshots/awards.png"),
+    caption: "Earn professional, soft-skill awards.",
+  },
+  {
+    src: require("../../assets/screenshots/groups.png"),
+    caption: "Stay connected in all classes and groups.",
+  },
+];
+
+const featuredLogos = [
+  require("../../assets/logos/universityOfStThomas.png"),
+  require("../../assets/logos/merrimackCollege.png"),
+  require("../../assets/logos/northeasternUniversity.png"),
+];
+
 export default function SplashScreen({ navigation }) {
   const deviceWidth = Dimensions.get("window").width;
+  console.log(deviceWidth);
 
+  const dots = React.useMemo(() => {
+    const arr = [];
+    for (let i = 0; i < 40; i++) {
+      const size = Math.random() * 32 + 8;
+      const left = Math.random() * (deviceWidth - 40) + 20;
+      const top = Math.random() * (200 - 40);
+      arr.push({ size, left, top });
+    }
+    return arr;
+  }, [deviceWidth]);
   // Load fonts
   const [fontsLoaded] = useFonts({
     Poppins_100Thin,
@@ -129,7 +166,8 @@ export default function SplashScreen({ navigation }) {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: 14,
+          paddingHorizontal: 14,
+          paddingTop: 14,
           flexWrap: "wrap",
           marginTop: deviceWidth < 600 ? 50 : 0,
         }}
@@ -159,14 +197,26 @@ export default function SplashScreen({ navigation }) {
           }}
         >
           <TouchableOpacity
-            style={{ paddingVertical: 13, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: 14,
+              paddingHorizontal: 20,
+              borderRadius: 8,
+              borderWidth: 1.5,
+              borderColor: "#2482AA",
+              alignSelf: "center",
+              marginRight: 6,
+            }}
             onPress={openCalendly}
           >
-            <Text style={globalStyles.h3HeadingRegular}>Schedule Demo</Text>
+            <Text style={globalStyles.h3HeadingRegular}>Learn More</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{ paddingVertical: 13, paddingHorizontal: 14 }}
+            style={{
+              paddingVertical: 13,
+              paddingHorizontal: 14,
+              marginHorizontal: 4,
+            }}
             onPress={() => navigation.navigate("Login")}
           >
             <Text style={globalStyles.h3HeadingRegular}>Login</Text>
@@ -202,8 +252,8 @@ export default function SplashScreen({ navigation }) {
                 { fontSize: headingFontSize, textAlign: "center" },
               ]}
             >
-              Supercharged Help Forums for{" "}
-              <Text style={{ fontWeight: "bold" }}>Student Success</Text>
+              Q&A that brings your classroom{" "}
+              <Text style={{ fontWeight: "bold" }}>to life.</Text>
             </Text>
 
             <Text
@@ -216,143 +266,299 @@ export default function SplashScreen({ navigation }) {
                 },
               ]}
             >
-              Increase pass rates, boost engagement, and earn soft-skill awards.
+              Lightning-fast answers, career-ready badges, and mobile
+              participation that skyrockets student success.
             </Text>
 
             <TouchableOpacity style={styles.demoButton} onPress={openCalendly}>
-              <Text style={styles.demoButtonText}>Schedule Demo</Text>
+              <Text style={styles.demoButtonText}>Learn More</Text>
             </TouchableOpacity>
           </View>
         </LinearGradient>
-        {/* ================================ */}
-        {/* SUPER–SKIMMABLE “WHAT IS NUUBI?” */}
-        {/* ================================ */}
-        <View style={styles.whatIsNuubiSuperSkimmable}>
-          {/* 1. HEADLINE */}
-          {/* 2. ONE-SENTENCE PITCH */}
+        {/* 4. WHAT IS NUU BI? */}
+        <Text style={globalStyles.h2HeadingMedium}>
+          Nuubi replaces underused help forums with a vibrant, mobile-first Q&A
+          hub.
+        </Text>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            alignSelf: "center",
+            paddingHorizontal: 20,
+            width: "100%",
+          }}
+        >
+          {deviceWidth < 1100 && (
+            <AntDesign
+              name="left"
+              size={24}
+              color="#666"
+              style={{ marginRight: 8 }}
+            />
+          )}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            // style={styles.screenshotScroll}
+            contentContainerStyle={{
+              flexGrow: 1,
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              paddingHorizontal: 16, // give a little breathing room on the sides
+            }}
+          >
+            {screenshots.map(({ src, caption }) => (
+              <View key={caption} style={styles.screenshotCard}>
+                <Image source={src} style={styles.screenshotImage} />
+                <Text style={globalStyles.h3HeadingRegular}>{caption}</Text>
+              </View>
+            ))}
+          </ScrollView>
+          {deviceWidth < 1100 && (
+            <AntDesign
+              name="right"
+              size={24}
+              color="#666"
+              style={{ marginLeft: 8 }}
+            />
+          )}
+        </View>
+      </View>
+
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          marginVertical: 24,
+          paddingHorizontal: 20,
+          marginHorizontal: 40,
+        }}
+      >
+        <Image
+          source={require("../../assets/screenshots/canvas-analytics.png")}
+          style={{
+            width: deviceWidth * 0.4,
+            height: deviceWidth * 0.3,
+            minHeight: 400,
+            minWidth: 200,
+            resizeMode: "contain",
+            marginRight: 12,
+          }}
+        />
+        <View style={{ flex: 1, alignItems: "flex-start" }}>
           <Text
             style={[
               globalStyles.h2HeadingMedium,
-              {
-                fontSize: subHeadingFontSize,
-                marginBottom: 24,
-                textAlign: "center",
-              },
+              { marginBottom: 14, marginLeft: 12 },
             ]}
           >
-            Nuubi transforms every LMS help forum into a high-engagement peer
-            Q&A hub—students earn soft-skill badges, instructors get real-time
-            analytics, and nobody ever wastes time on duplicate emails again.
+            Nuubi's on the web, too.
           </Text>
-
-          {/* 3. TOPLINE FEATURES */}
-          <View style={styles.featureBlock}>
-            <Text style={styles.blockTitle}>Top Nuubi Features:</Text>
-            <View style={styles.bulletRow}>
-              <View style={styles.bulletCircle} />
-              <Text style={styles.bulletLabel}>
-                Q&A hub for most-asked questions each semester, helping students
-                get unstuck quickly
-              </Text>
-            </View>
-            <View style={styles.bulletRow}>
-              <View style={styles.bulletCircle} />
-              <Text style={styles.bulletLabel}>
-                Soft Skill awards that reward participation, including
-                Leadership and Communication
-              </Text>
-            </View>
-            <View style={styles.bulletRow}>
-              <View style={styles.bulletCircle} />
-              <Text style={styles.bulletLabel}>
-                Real-time instructor dashboard with downloadable analytics and
-                visibility to student participation trends
-              </Text>
-            </View>
-          </View>
-
-          {/* 4. TOPLINE RESULTS */}
-          <View style={styles.featureBlock}>
-            <Text style={styles.blockTitle}>What You’ll See:</Text>
-            <View style={styles.bulletRow}>
-              <View style={styles.bulletCircle} />
-              <Text style={styles.bulletLabel}>
-                4× more student posts & comments (peer help solves 80% of basic
-                questions)
-              </Text>
-            </View>
-            <View style={styles.bulletRow}>
-              <View style={styles.bulletCircle} />
-              <Text style={styles.bulletLabel}>
-                10% drop-out reduction per course & $2,500+ in tuition saved for
-                every student retained
-              </Text>
-            </View>
-            <View style={styles.bulletRow}>
-              <View style={styles.bulletCircle} />
-              <Text style={styles.bulletLabel}>
-                75% fewer “how-to” help-desk tickets & 5–10 hours of instructor
-                time reclaimed per course
-              </Text>
-            </View>
-          </View>
+          <Text
+            style={{
+              fontFamily: "Poppins_400Regular",
+              fontSize: 18,
+              color: "#333333",
+              lineHeight: 22,
+              marginLeft: 12,
+              marginBottom: 44,
+            }}
+          >
+            Same great features, including downloadable analytics at the click
+            of a button. Seamless integration with your system, or use it
+            instantly stand-alone.
+          </Text>
         </View>
-        {/* 5. CALL-TO-ACTION */}
-        <TouchableOpacity style={styles.ctaButton} onPress={openCalendly}>
-          <Text style={styles.ctaText}>Schedule Demo</Text>
-        </TouchableOpacity>
+      </View>
 
-        {/* USERS OF NUUBI SECTION */}
-        <View style={styles.section}>
-          <Text style={globalStyles.h2HeadingMedium}>
-            Nuubi is trusted by students and professors at:
-          </Text>
-
-          <View style={styles.logosWrapper}>
-            {/* Left arrow indicator */}
-            <View style={styles.arrowContainer}>
-              <Text style={styles.arrowText}>‹</Text>
+      {/* 7. RESULTS / METRICS */}
+      <View style={styles.resultsSection}>
+        <Text
+          style={{
+            fontSize: 24,
+            textAlign: "center",
+            color: "#333333",
+            fontFamily: "Poppins_500Medium",
+            letterSpacing: -0.5,
+            marginBottom: 16,
+          }}
+        >
+          See the Impact in Just One Semester
+        </Text>
+        <View style={styles.resultsGrid}>
+          {[
+            { value: "4×", label: "more student activity" },
+            { value: "32%", label: "higher course retention" },
+            { value: "11%", label: "increased pass rates" },
+            { value: "20+", label: "instructor hours saved" },
+          ].map(({ value, label }) => (
+            <View key={value} style={styles.resultCard}>
+              <Text style={styles.resultValue}>{value}</Text>
+              <Text style={styles.resultLabel}>{label}</Text>
             </View>
+          ))}
+        </View>
+      </View>
 
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.logosContainer}
-            >
-              <Image
-                style={styles.logo}
-                source={require("../../assets/logos/universityOfStThomas.png")}
-                resizeMode="contain"
-              />
-              <Image
-                style={styles.logo}
-                source={require("../../assets/logos/merrimackCollege.png")}
-                resizeMode="contain"
-              />
-              <Image
-                style={styles.logo}
-                source={require("../../assets/logos/universityOfTheCumberlands.png")}
-                resizeMode="contain"
-              />
+      {/* DATA PRIVACY BLURB */}
+      <View
+        style={{
+          alignItems: "center",
+          marginVertical: 40,
+          marginBottom: 60,
+        }}
+      >
+        <View
+          style={{
+            width: deviceWidth * 0.8,
+            backgroundColor: "#FFFFFF",
+            paddingVertical: 24,
+            paddingHorizontal: 20,
+            borderRadius: 12,
+            shadowColor: "#000",
+            shadowOpacity: 0.05,
+            shadowRadius: 6,
+            shadowOffset: { width: 0, height: 2 },
+            elevation: 3,
+            alignItems: "flex-start", // <— ensure children start at left
+          }}
+        >
+          {/* Icon + Title/Desc Row */}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "flex-start",
+              marginBottom: 16,
+            }}
+          >
+            <Text style={{ fontSize: 28, marginRight: 12 }}>🔒</Text>
 
-              <Image
-                style={styles.logo}
-                source={require("../../assets/logos/northeasternUniversity.png")}
-                resizeMode="contain"
-              />
-              {/* Add more logos as needed */}
-            </ScrollView>
-
-            {/* Right arrow indicator */}
-            <View style={styles.arrowContainer}>
-              <Text style={styles.arrowText}>›</Text>
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  color: "#050505",
+                  fontSize: 20,
+                  fontFamily: "Poppins_600SemiBold",
+                  marginBottom: 4,
+                }}
+              >
+                Get top‑of‑the‑line data protection with Nuubi.
+              </Text>
+              <Text
+                style={{
+                  color: "#050505",
+                  fontFamily: "Poppins_400Regular",
+                  fontSize: 16,
+                  letterSpacing: 0.5,
+                  marginBottom: 4,
+                }}
+              >
+                FERPA‑Compliant. All data encrypted on SOC‑certified managed
+                servers.
+              </Text>
+              {/* Policy Link */}
+              <Text
+                style={{
+                  color: "#050505",
+                  fontFamily: "Poppins_400Regular",
+                  fontSize: 16,
+                  letterSpacing: 0.5,
+                }}
+              >
+                Data is never sold or shared.{" "}
+                <Text
+                  onPress={() => navigation.navigate("PrivacyScreen")}
+                  style={{
+                    color: "#2482AA",
+                    textDecorationLine: "underline",
+                    fontFamily: "Poppins_600SemiBold",
+                  }}
+                >
+                  Read our full data policy here
+                </Text>
+                .
+              </Text>
             </View>
           </View>
         </View>
       </View>
-      {/* ADDITIONAL INFO SECTION & ANOTHER DEMO BUTTON */}
-      {/* <InformationSection navigation={navigation} /> */}
 
+      <View
+        style={{
+          backgroundColor: "#E8F7FF",
+          paddingTop: 24,
+          alignItems: "center",
+          paddingBottom: 40,
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: "Poppins_600SemiBold",
+            fontSize: 20,
+            color: "#111111",
+            textAlign: "center",
+            marginHorizontal: 20,
+            marginBottom: 36,
+          }}
+        >
+          Join students and faculty from 36+ institutions on Nuubi
+        </Text>
+        <View style={{ width: windowWidth, height: 200, position: "relative" }}>
+          {dots.map((d, i) => (
+            <View
+              key={i}
+              style={{
+                position: "absolute",
+                width: d.size,
+                height: d.size,
+                borderRadius: d.size / 2,
+                backgroundColor: "#2482AA",
+                opacity: 0.6,
+                left: d.left,
+                top: d.top,
+              }}
+            />
+          ))}
+
+          {featuredLogos.map((src, i) => {
+            const d = dots[i];
+            const circleSize = d.size * 2.5;
+            const logoSize = circleSize * 1.2;
+            return (
+              <View
+                key={i}
+                style={{
+                  position: "absolute",
+                  width: circleSize,
+                  height: circleSize,
+                  borderRadius: circleSize / 2,
+                  backgroundColor: "#FFFFFF", // white circle
+                  left: d.left - (circleSize - d.size) / 2,
+                  top: d.top - (circleSize - d.size) / 2,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  source={src}
+                  style={{
+                    width: logoSize,
+                    height: logoSize * 0.5, // adjust as needed per logo aspect
+                    resizeMode: "contain",
+                  }}
+                />
+              </View>
+            );
+          })}
+        </View>
+        <TouchableOpacity style={styles.ctaButton} onPress={openCalendly}>
+          <Text style={styles.ctaText}>Contact Us</Text>
+        </TouchableOpacity>
+      </View>
       <Footer />
     </ScrollView>
   );
@@ -395,12 +601,111 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginTop: 16,
   },
+  // Add to your StyleSheet
+  complianceSection: {
+    marginVertical: 40,
+    paddingHorizontal: 20,
+  },
+  complianceHeading: {
+    fontFamily: "Poppins_700Bold",
+    fontSize: 24,
+    color: "#111111",
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  complianceGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  complianceCard: {
+    width: "30%", // three per row on desktop
+    marginBottom: 24,
+    alignItems: "center",
+  },
+  complianceIcon: {
+    fontSize: 40,
+    marginBottom: 8,
+  },
+  complianceTitle: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 16,
+    color: "#111111",
+    marginBottom: 4,
+  },
+  complianceDesc: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#333333",
+    textAlign: "center",
+  },
   demoButtonText: {
     color: "#2482AA",
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
   },
-
+  screenshotCard: {
+    width: 240,
+    marginRight: 16,
+    alignItems: "center",
+  },
+  screenshotImage: {
+    width: "100%", // fill the 240px card
+    height: windowWidth < 1100 ? windowWidth * 0.5 : windowWidth * 0.3,
+    minHeight: 400,
+    aspectRatio: 375 / 812, // keep the screenshot’s original ratio
+    resizeMode: "contain",
+    borderRadius: 12,
+  },
+  featuresSection: {
+    marginVertical: 40,
+    paddingHorizontal: 20,
+  },
+  featuresGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  featureCard: {
+    flexBasis: windowWidth < 600 ? "90%" : "45%", // 2‑per‑row on desktop, full‑width on mobile
+    flexShrink: 0,
+    marginBottom: 24,
+  },
+  featureIcon: {
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  featureTitle: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 16,
+    color: "#111111",
+    marginBottom: 4,
+  },
+  featureDesc: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#333333",
+    lineHeight: 20,
+  },
+  screenshotScroll: {
+    marginTop: 16,
+  },
+  oneLinerCard: {
+    backgroundColor: "#F0FAFD",
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    marginHorizontal: 20,
+    marginBottom: 32,
+    alignItems: "center",
+  },
+  oneLinerText: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#111111",
+    textAlign: "center",
+  },
   section: {
     marginBottom: 40,
   },
@@ -408,13 +713,10 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingLeft: 12,
   },
-
-  // USERS OF NUUBI SECTION
   logosWrapper: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 16,
-    // Ensure the arrows and ScrollView fit comfortably
     justifyContent: "center",
     paddingHorizontal: "10%",
   },
@@ -470,12 +772,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     marginBottom: 20,
     color: "#333333",
-  },
-
-  // Grid container for feature rows
-  featuresGrid: {
-    flexDirection: "column",
-    justifyContent: "space-between",
   },
 
   // Each row: bullet + text
@@ -567,6 +863,39 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 40,
   },
+  resultsSection: {
+    marginTop: 40,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  resultsHeading: {
+    fontFamily: "Poppins_700Bold",
+    fontSize: 24,
+    color: "#111111",
+    marginBottom: 16,
+  },
+  resultsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-evenly",
+    width: "100%",
+  },
+  resultCard: {
+    width: "20%", // two per row
+    marginBottom: 24,
+    alignItems: "center",
+  },
+  resultValue: {
+    fontFamily: "Poppins_800ExtraBold",
+    fontSize: 32,
+    color: "#2482AA",
+  },
+  resultLabel: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    color: "#333333",
+    textAlign: "center",
+  },
   ctaText: {
     fontFamily: "Poppins_600SemiBold",
     color: "#FFFFFF",
@@ -636,265 +965,64 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: "#333333",
   },
+  // Add to your StyleSheet
+  oneLinerCard: {
+    backgroundColor: "#F0FAFD", // very pale aqua
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    marginHorizontal: 8,
+    marginTop: 24,
+    marginBottom: 32,
+    alignItems: "center",
+  },
+
+  oneLinerText: {
+    fontFamily: "Poppins_500Medium",
+    fontSize: 18,
+    lineHeight: 26,
+    color: "#111111",
+    textAlign: "center",
+  },
+  teaseWrapper: {
+    marginHorizontal: 20,
+    marginTop: 24,
+    alignItems: "center",
+  },
+  problemText: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 16,
+    color: "#666666",
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  promiseText: {
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 18,
+    color: "#111111",
+    textAlign: "center",
+  },
+  dualWrapper: {
+    flexDirection: windowWidth >= 600 ? "row" : "column",
+    justifyContent: "space-around",
+    marginVertical: 32,
+    paddingHorizontal: 10,
+  },
+  card: {
+    flex: 1,
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  cardImage: {
+    width: windowWidth >= 600 ? 300 : 240,
+    height: windowWidth >= 600 ? 180 : 144,
+    resizeMode: "contain",
+  },
+  cardCaption: {
+    marginTop: 12,
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    textAlign: "center",
+    color: "#333333",
+  },
 });
-
-// import React, { useState, useEffect } from "react";
-// import {
-//   View,
-//   Text,
-//   Image,
-//   TouchableOpacity,
-//   Dimensions,
-//   StyleSheet,
-//   ScrollView,
-// } from "react-native";
-// import { Helmet } from "react-helmet";
-// import { LinearGradient } from "expo-linear-gradient";
-// import {
-//   useFonts,
-//   Poppins_100Thin,
-//   Poppins_100Thin_Italic,
-//   Poppins_200ExtraLight,
-//   Poppins_200ExtraLight_Italic,
-//   Poppins_300Light,
-//   Poppins_300Light_Italic,
-//   Poppins_400Regular,
-//   Poppins_400Regular_Italic,
-//   Poppins_500Medium,
-//   Poppins_500Medium_Italic,
-//   Poppins_600SemiBold,
-//   Poppins_600SemiBold_Italic,
-//   Poppins_700Bold,
-//   Poppins_700Bold_Italic,
-//   Poppins_800ExtraBold,
-//   Poppins_800ExtraBold_Italic,
-//   Poppins_900Black,
-//   Poppins_900Black_Italic,
-// } from "@expo-google-fonts/poppins";
-// import * as SplashScreenExpo from "expo-splash-screen";
-
-// // Local imports
-// import { globalStyles } from "../../styles/global";
-// import InformationSection from "./InformationSection";
-// import Footer from "./Footer";
-
-// SplashScreenExpo.preventAutoHideAsync();
-
-// export default function SplashScreen({ navigation }) {
-//   const deviceWidth = Dimensions.get("window").width;
-
-//   // Load fonts
-//   const [fontsLoaded] = useFonts({
-//     Poppins_100Thin,
-//     Poppins_100Thin_Italic,
-//     Poppins_200ExtraLight,
-//     Poppins_200ExtraLight_Italic,
-//     Poppins_300Light,
-//     Poppins_300Light_Italic,
-//     Poppins_400Regular,
-//     Poppins_400Regular_Italic,
-//     Poppins_500Medium,
-//     Poppins_500Medium_Italic,
-//     Poppins_600SemiBold,
-//     Poppins_600SemiBold_Italic,
-//     Poppins_700Bold,
-//     Poppins_700Bold_Italic,
-//     Poppins_800ExtraBold,
-//     Poppins_800ExtraBold_Italic,
-//     Poppins_900Black,
-//     Poppins_900Black_Italic,
-//   });
-
-//   // Dynamically size text for small vs. large screens
-//   const [headingFontSize, setHeadingFontSize] = useState(
-//     getHeadingFontSize(deviceWidth)
-//   );
-//   const [subHeadingFontSize, setSubHeadingFontSize] = useState(
-//     getSubHeadingFontSize(deviceWidth)
-//   );
-
-//   useEffect(() => {
-//     const handleResize = () => {
-//       const width = Dimensions.get("window").width;
-//       setHeadingFontSize(getHeadingFontSize(width));
-//       setSubHeadingFontSize(getSubHeadingFontSize(width));
-//     };
-
-//     handleResize();
-//     const subscription = Dimensions.addEventListener("change", handleResize);
-//     return () => subscription?.remove && subscription.remove();
-//   }, []);
-
-//   function getHeadingFontSize(width) {
-//     // Larger text on smaller screens so it's easier to read
-//     if (width < 500) return 28; // was 24 or 32
-//     if (width > 1000) return 54;
-//     return 32;
-//   }
-
-//   function getSubHeadingFontSize(width) {
-//     // Also scale subheading bigger on smaller screens
-//     if (width < 500) return 18; // was 16 or 10
-//     if (width > 1000) return 28;
-//     return 16;
-//   }
-
-//   // Wait until fonts are loaded before rendering
-//   if (!fontsLoaded) {
-//     return null;
-//   }
-//   SplashScreenExpo.hideAsync();
-
-//   return (
-//     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
-//       <Helmet>
-//         <title>Nuubi: Study groups that keep you motivated.</title>
-//         <meta
-//           name="Nuubi"
-//           content="EdTech chat app for students and teachers that fosters learning."
-//         />
-//         <meta
-//           name="viewport"
-//           content="width=device-width, initial-scale=1, user-scalable=yes, maximum-scale=2.0001"
-//         />
-//       </Helmet>
-
-//       {/* HEADER */}
-//       <View
-//         style={{
-//           flex: 1,
-//           flexDirection: "row",
-//           justifyContent: "space-between",
-//           alignItems: "center",
-//           padding: 14,
-//           flexWrap: "wrap",
-//           marginTop: deviceWidth < 600 ? 50 : 0,
-//         }}
-//       >
-//         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-//           <Image
-//             style={{ width: 52, height: 52 }}
-//             source={require("../../assets/nuubiTransparent.png")}
-//           />
-//           <Text
-//             style={[
-//               globalStyles.webpageHeader2,
-//               { fontSize: 32, marginLeft: 20, marginTop: 5 },
-//             ]}
-//           >
-//             NUUBI
-//           </Text>
-//         </View>
-
-//         <View
-//           style={{
-//             flexDirection: "row",
-//             alignItems: "center",
-//             justifyContent: "space-evenly",
-//             flexWrap: "wrap",
-//             marginTop: 10,
-//           }}
-//         >
-//           <TouchableOpacity
-//             style={{ paddingVertical: 13, paddingHorizontal: 14 }}
-//             onPress={() => navigation.navigate("SignUp")}
-//           >
-//             <Text style={globalStyles.h3HeadingRegular}>Sign Up</Text>
-//           </TouchableOpacity>
-
-//           <TouchableOpacity
-//             style={{ paddingVertical: 13, paddingHorizontal: 14 }}
-//             onPress={() => navigation.navigate("Login")}
-//           >
-//             <Text style={globalStyles.h3HeadingRegular}>Login</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-
-//       {/* THIN TOP LINE GRADIENT */}
-//       <View style={{ marginTop: deviceWidth < 600 ? 8 : 12 }}>
-//         <View style={{ width: "100%", height: 3 }}>
-//           <LinearGradient
-//             colors={["#7DDFA0", "#87ceeb"]}
-//             start={{ x: 0, y: 0 }}
-//             end={{ x: 1, y: 0 }}
-//             style={{ flex: 1 }}
-//           />
-//         </View>
-//       </View>
-
-//       {/* MAIN CONTENT WRAPPER */}
-//       <View style={styles.mainContainer}>
-//         {/* LARGE GRADIENT SECTION with rounded corners and minHeight for small screens */}
-//         <LinearGradient
-//           colors={["#7DDFA0", "#87ceeb"]}
-//           start={[0, 1]}
-//           end={[0, 1]}
-//           style={[
-//             styles.mainGradient,
-//             // {
-//             //   // Guarantee enough space on small screens so gradient is visible
-//             //   minHeight: deviceWidth < 500 ? 420 : 400,
-//             // },
-//           ]}
-//         >
-//           <View style={styles.mainContent}>
-//             <Text
-//               style={[
-//                 globalStyles.secondaryButtonText,
-//                 { fontSize: headingFontSize, textAlign: "center" },
-//               ]}
-//             >
-//               Study groups built for{" "}
-//               <Text style={{ fontWeight: "bold" }}>your success</Text>
-//             </Text>
-
-//             <Text
-//               style={[
-//                 globalStyles.h2HeadingMedium,
-//                 {
-//                   fontSize: subHeadingFontSize,
-//                   marginBottom: 24,
-//                   textAlign: "center",
-//                 },
-//               ]}
-//             >
-//               With features that keep you motivated.
-//             </Text>
-
-//             <Text
-//               style={[globalStyles.h3HeadingRegular, { textAlign: "center" }]}
-//             >
-//               Let's accomplish our goals together!
-//             </Text>
-//           </View>
-//         </LinearGradient>
-
-//         <InformationSection navigation={navigation} />
-//         <Footer />
-//       </View>
-//     </ScrollView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   mainContainer: {
-//     paddingHorizontal: 20,
-//     paddingTop: 30,
-//     paddingBottom: 60,
-//   },
-//   mainGradient: {
-//     borderRadius: 16, // Rounded corners
-//     justifyContent: "center",
-//     alignItems: "center",
-//     marginBottom: 40,
-//     marginTop: 20,
-//   },
-//   mainContent: {
-//     width: "100%",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     paddingHorizontal: 20,
-//     paddingVertical: 30,
-//   },
-// });

@@ -28,12 +28,30 @@ export default function PrivacyScreen({ navigation }) {
       >
         <Text style={globalStyles.bodyRegular}>
           Protecting your private information is our priority. This Statement of
-          Privacy applies to Nuubi, and Nuubi Inc and governs data collection
-          and usage. For the purposes of this Privacy Policy, unless otherwise
-          noted, all references to Nuubi Inc include www.nuubi.app and Nuubi.
-          The Nuubi application is a eLearning and social media application. By
-          using the Nuubi application, you consent to the data practices
+          Privacy applies to Nuubi and Nuubi Inc {"("}www.nuubi.app{")"} and
+          governs data collection and usage. For the purposes of this Privacy
+          Policy, unless otherwise noted, all references to Nuubi Inc. include
+          www.nuubi.app and Nuubi. The Nuubi application is an eLearning and
+          social media platform. Nuubi operates on SOC 2‑certified managed
+          servers {"("}DigitalOcean for data storage, Vercel for web hosting
+          {")"} and uses industry‑standard AES‑256 encryption at rest and
+          TLS 1.2+ in transit. By using Nuubi, you consent to the data practices
           described in this statement.
+        </Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={[globalStyles.headingText]}>Security Overview</Text>
+        <View style={{ margin: 5 }}></View>
+        <Text style={[globalStyles.bodyRegular, { marginVertical: 8 }]}>
+          • <Text style={{ fontWeight: "600" }}>Encryption:</Text> All data is
+          encrypted at rest (AES‑256) and in transit (TLS 1.2+).{"\n"}•{" "}
+          <Text style={{ fontWeight: "600" }}>SOC 2 Certified:</Text>
+          Our infrastructure undergoes regular third‑party audits.{"\n"}•{" "}
+          <Text style={{ fontWeight: "600" }}>Data Minimization:</Text>
+          We only collect what’s necessary—email, username, and participation
+          metrics.{"\n"}•{" "}
+          <Text style={{ fontWeight: "600" }}>No Marketing Sharing:</Text>
+          We never sell or rent personal data; integrations {"("}Canvas, email
+          {")"} are governed by strict confidentiality agreements.
         </Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.headingText}>

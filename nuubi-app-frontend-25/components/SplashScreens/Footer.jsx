@@ -29,7 +29,7 @@ export default function Footer() {
   const fontSizeMultiplier = isSmallScreen ? 0.75 : 1.0;
 
   return (
-    <View style={{ marginTop: 150 }}>
+    <View style={{ marginTop: 60 }}>
       <LinearGradient
         start={[0, 1]}
         end={[0, 1]}
