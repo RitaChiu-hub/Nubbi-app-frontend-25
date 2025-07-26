@@ -53,7 +53,7 @@ const screenshots = [
   },
   {
     src: require("../../assets/screenshots/awards.png"),
-    caption: "Earn professional, soft-skill awards.",
+    caption: "Earn professional, soft-skill certificates.",
   },
   {
     src: require("../../assets/screenshots/groups.png"),
@@ -252,8 +252,8 @@ export default function SplashScreen({ navigation }) {
                 { fontSize: headingFontSize, textAlign: "center" },
               ]}
             >
-              Q&A that brings your classroom{" "}
-              <Text style={{ fontWeight: "bold" }}>to life.</Text>
+              Amplify Learning with{" "}
+              <Text style={{ fontWeight: "bold" }}>Every Question.</Text>
             </Text>
 
             <Text
@@ -266,7 +266,7 @@ export default function SplashScreen({ navigation }) {
                 },
               ]}
             >
-              Lightning-fast answers, career-ready badges, and mobile
+              Lightning-fast answers, soft-skill microcredentials, and mobile
               participation that skyrockets student success.
             </Text>
 
@@ -277,8 +277,7 @@ export default function SplashScreen({ navigation }) {
         </LinearGradient>
         {/* 4. WHAT IS NUU BI? */}
         <Text style={globalStyles.h2HeadingMedium}>
-          Nuubi replaces underused help forums with a vibrant, mobile-first Q&A
-          hub.
+          Replace silent help forums with a vibrant, mobile-first Q&A hub.
         </Text>
 
         <View

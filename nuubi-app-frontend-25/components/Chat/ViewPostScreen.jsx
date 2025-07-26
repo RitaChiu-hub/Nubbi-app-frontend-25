@@ -25,6 +25,7 @@ import alert from "./../alert";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import * as SecureStore from "expo-secure-store";
 import { useIsFocused } from "@react-navigation/native";
+import Markdown from "react-native-markdown-display";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -818,7 +819,7 @@ export default function ViewPostScreen({ navigation, route }) {
                         height: 15,
                         borderRadius: 20,
                         marginLeft: 6,
-                      //  paddingLeft: 8,
+                        //  paddingLeft: 8,
                       }}
                       source={
                         comments?.sender_avatar_url
@@ -843,9 +844,53 @@ export default function ViewPostScreen({ navigation, route }) {
                     </Text>
                   </View>
                   <View style={{ paddingLeft: 4 }}>
-                    <Text style={globalStyles.bodyRegular}>
+                    <Markdown
+                      style={{
+                        body: {
+                          fontFamily: "Poppins_400Regular",
+                          fontSize: 14,
+                          color: "#050505",
+                        },
+                        strong: { fontFamily: "Poppins_600SemiBold" }, // **bold**
+                        em: { fontStyle: "italic" }, // *italic*
+                        link: { color: "#2482AA" },
+                        // bullet & numbered lists share the same left indent
+                        bullet_list: { paddingLeft: 8 },
+                        ordered_list: { paddingLeft: 8 },
+                        list_item: { marginVertical: 2 },
+
+                        // block quotes
+                        block_quote: {
+                          borderLeftWidth: 3,
+                          borderLeftColor: "#7DDFA0",
+                          paddingLeft: 8,
+                          fontStyle: "italic",
+                          color: "#555",
+                        },
+
+                        // inline `code`
+                        inline_code: {
+                          backgroundColor: "#f1f1f1",
+                          borderRadius: 4,
+                          fontFamily: "Courier", // or any monospace font installed
+                          paddingHorizontal: 4,
+                        },
+
+                        // fenced ```code blocks```
+                        fence: {
+                          backgroundColor: "#f9f9f9",
+                          borderRadius: 6,
+                          padding: 8,
+                          fontFamily: "Courier",
+                          color: "#111",
+                        },
+                      }}
+                    >
                       {comments.comment_text}
-                    </Text>
+                    </Markdown>
+                    {/* <Text style={globalStyles.bodyRegular}>
+                      {comments.comment_text}
+                    </Text> */}
                   </View>
                 </View>
               );
