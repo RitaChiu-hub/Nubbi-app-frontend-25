@@ -6,18 +6,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Views from "./components/Views";
 import UserContext from "./components/AccountContext";
 import * as Notifications from "expo-notifications";
-// import Constants from "expo-constants";
+import { navigationRef } from "./components/navRef";
+import { installSessionGuard } from "./components/sessionGuard";
 
-// import "react-native-gesture-handler";
-// import Animated from "react-native-reanimated";
-// import Views from "./components/Views";
-// import { NavigationContainer } from "@react-navigation/native";
-// import UserContext from "./components/AccountContext";
-// import React, { Fragment, useEffect, useState, lazy, Suspense } from "react";
-// import { StatusBar } from "expo-status-bar";
-// import { Linking, Platform } from "react-native";
-
-// 🔔 Setup Android notification channel BEFORE anything else
+// installSessionGuard();
 if (Platform.OS === "android") {
   Notifications.setNotificationChannelAsync("default", {
     name: "default",
@@ -27,7 +19,6 @@ if (Platform.OS === "android") {
   });
 }
 
-// Lazy-load Stripe for Web
 const isWeb = Platform.OS === "web";
 const Elements = isWeb
   ? React.lazy(() =>
@@ -209,6 +200,7 @@ export default function App() {
       <UserContext>
         <SafeAreaProvider>
           <NavigationContainer
+          //  ref={navigationRef}
             linking={linking}
             landingPage={containsLandingPage}
             inviteToken={inviteToken}
@@ -246,17 +238,5 @@ export default function App() {
         </SafeAreaProvider>
       </UserContext>
     </Fragment>
-    // <Fragment>
-    //   <StatusBar style="dark" />
-    //   <UserContext>
-    //     <NavigationContainer
-    //       linking={linking}
-    //       landingPage={containsLandingPage}
-    //       inviteToken={inviteToken}
-    //     >
-    //       <Views landingPage={containsLandingPage} inviteToken={inviteToken} />
-    //     </NavigationContainer>
-    //   </UserContext>
-    // </Fragment>
   );
 }

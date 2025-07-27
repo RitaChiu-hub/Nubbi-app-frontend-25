@@ -58,6 +58,25 @@ export default function CertificatesScreen({ navigation }) {
   const [assets] = useAssets(assetsToLoad);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
+  const awardsById = React.useMemo(() => {
+    const map = new Map();
+    for (const row of earnedAwards) {
+      // row: { award_id, title, group_id, group_name }
+      if (!map.has(row.award_id)) {
+        map.set(row.award_id, { groups: [] });
+      }
+      const entry = map.get(row.award_id);
+      // de‑dupe by group_id just in case
+      if (!entry.groups.some((g) => g.group_id === row.group_id)) {
+        entry.groups.push({
+          group_id: row.group_id,
+          group_name: row.group_name,
+        });
+      }
+    }
+    return map;
+  }, [earnedAwards]);
+
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
     try {
@@ -257,9 +276,17 @@ export default function CertificatesScreen({ navigation }) {
 
   const renderItem = ({ item, index }) => {
     // find earned info for this award
-    const earnedInfo = earnedAwards.find((a) => a.award_id === item.id);
-    const has = Boolean(earnedInfo);
+    // const earnedInfo = earnedAwards.find((a) => a.award_id === item.id);
+    const info = awardsById.get(item.id);
+    const has = !!info && info.groups.length > 0;
     const source = has ? assets[index * 2] : assets[index * 2 + 1];
+    // const has = Boolean(earnedInfo);
+    //   const source = has ? assets[index * 2] : assets[index * 2 + 1];
+
+    // Join all group names; tweak formatting if long
+    const groupNames = has
+      ? info.groups.map((g) => g.group_name).join(", ")
+      : "";
 
     return (
       <View
@@ -294,14 +321,11 @@ export default function CertificatesScreen({ navigation }) {
             <Text style={[globalStyles.bodyRegular, { flexWrap: "wrap" }]}>
               Skill Highlighted: {item.skill}
             </Text>
-            {/* <Text style={[globalStyles.bodyRegular, { flexWrap: "wrap" }]}>
-              Earned by: {item.criteria}
-            </Text> */}
             {has ? (
               <Text style={[globalStyles.bodyRegular, { flexWrap: "wrap" }]}>
                 Won in:{" "}
                 <Text style={{ fontFamily: "Poppins_600SemiBold" }}>
-                  {earnedInfo.group_name}
+                  {groupNames}
                 </Text>
               </Text>
             ) : (

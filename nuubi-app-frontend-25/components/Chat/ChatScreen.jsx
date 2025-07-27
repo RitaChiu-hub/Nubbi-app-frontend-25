@@ -263,6 +263,7 @@ export default function ChatScreen({ navigation }) {
                       justifyContent: "center",
                       alignItems: "center",
                       flex: 1,
+                      maxWidth: 50,
                     }}
                   >
                     <Image
@@ -271,7 +272,6 @@ export default function ChatScreen({ navigation }) {
                         height: 25,
                         borderRadius: 20,
                         margin: 3,
-                        marginRight: 6,
                       }}
                       source={
                         chats?.sender_avatar_url
@@ -284,7 +284,7 @@ export default function ChatScreen({ navigation }) {
                     <View
                       style={{
                         flexDirection: "row",
-                        marginTop: 1
+                        marginTop: 1,
                       }}
                     >
                       <Text

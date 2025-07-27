@@ -44,19 +44,19 @@ SplashScreenExpo.preventAutoHideAsync();
 
 const screenshots = [
   {
-    src: require("../../assets/screenshots/view-thread.png"),
+    src: require("../../assets/screenshots/view-thread3.png"),
     caption: "Crowdsource answers from your whole class.",
   },
   {
-    src: require("../../assets/screenshots/notifications.png"),
+    src: require("../../assets/screenshots/notifications2.png"),
     caption: "Instantly get notified of new activity.",
   },
   {
-    src: require("../../assets/screenshots/awards.png"),
+    src: require("../../assets/screenshots/awards2.png"),
     caption: "Earn professional, soft-skill certificates.",
   },
   {
-    src: require("../../assets/screenshots/groups.png"),
+    src: require("../../assets/screenshots/groups2.png"),
     caption: "Stay connected in all classes and groups.",
   },
 ];
@@ -366,9 +366,9 @@ export default function SplashScreen({ navigation }) {
               marginBottom: 44,
             }}
           >
-            Same great features, with downloadable analytics at the click
-            of a button. Seamless integration with your system, or use it
-            instantly stand-alone.
+            Same great features, with downloadable analytics at the click of a
+            button. Seamless integration with your system, or use it instantly
+            stand-alone.
           </Text>
         </View>
       </View>
