@@ -69,7 +69,6 @@ const featuredLogos = [
 
 export default function SplashScreen({ navigation }) {
   const deviceWidth = Dimensions.get("window").width;
-  console.log(deviceWidth);
 
   const dots = React.useMemo(() => {
     const arr = [];
@@ -367,7 +366,7 @@ export default function SplashScreen({ navigation }) {
               marginBottom: 44,
             }}
           >
-            Same great features, including downloadable analytics at the click
+            Same great features, with downloadable analytics at the click
             of a button. Seamless integration with your system, or use it
             instantly stand-alone.
           </Text>
@@ -386,7 +385,7 @@ export default function SplashScreen({ navigation }) {
             marginBottom: 16,
           }}
         >
-          See the Impact in Just One Semester
+          Impact within one term.
         </Text>
         <View style={styles.resultsGrid}>
           {[
