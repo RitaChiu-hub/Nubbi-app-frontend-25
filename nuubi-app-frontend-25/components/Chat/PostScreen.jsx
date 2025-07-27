@@ -20,6 +20,7 @@ export default function PostScreen({ navigation }) {
   const [posts, setPosts] = React.useState([]);
   const isFocused = useIsFocused();
   const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
 
   const deviceWidth = Dimensions.get("window").width;
 
@@ -90,14 +91,15 @@ export default function PostScreen({ navigation }) {
     }
   }, [isLoggedIn]);
 
-  const getPosts = async () => {
+  //const getPosts = async () => {
+  const getPosts = async (groupId, signal) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/posts`,
+        `https://coral-app-n96bn.ondigitalocean.app/groups/${groupId}/posts`,
         {
           method: "POST",
           credentials: "include",
@@ -105,20 +107,44 @@ export default function PostScreen({ navigation }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify({ ...user }),
+          // body: JSON.stringify({ ...user }),
+          body: JSON.stringify({ ...user, currentGroup: groupId }),
+          signal,
         }
       );
       const jsonData = await response.json();
 
-      setPosts(jsonData);
+      //  setPosts(jsonData);
+      if (!signal.aborted && user.currentGroup === groupId) {
+        setPosts(Array.isArray(jsonData) ? jsonData : []);
+      }
     } catch (err) {
-      console.error(err.message);
+      // console.error(err.message);
+      if (err.name !== "AbortError") {
+        console.error(err.message);
+      }
     }
   };
 
+  // React.useEffect(() => {
+  //   getPosts();
+  // }, [isFocused]);
+
   React.useEffect(() => {
-    getPosts();
-  }, [isFocused]);
+    // Snapshot the group id for this run
+    const groupId = user.currentGroup;
+    // Clear stale items immediately to avoid flashing old content
+    setPosts([]);
+    setLoading(true);
+    const controller = new AbortController();
+    getPosts(groupId, controller.signal).finally(() => {
+      if (!controller.signal.aborted && user.currentGroup === groupId) {
+        setLoading(false);
+      }
+    });
+    // Cancel in‑flight request if group changes or screen blurs/unmounts
+    return () => controller.abort();
+  }, [user.currentGroup, isFocused]);
 
   const Item = ({
     title,
@@ -222,17 +248,20 @@ export default function PostScreen({ navigation }) {
 
   return (
     <View
+      key={user.currentGroup}
       style={{
         flex: 1,
         paddingTop: 8,
         backgroundColor: "#fbfbfb",
       }}
     >
-      <FlatList
-        data={posts}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.post_id}
-      />
+      {!loading && (
+        <FlatList
+          data={posts}
+          renderItem={renderItem}
+          keyExtractor={(item) => String(item.post_id)}
+        />
+      )}
       <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
           style={globalStyles.primaryButtonWide}
