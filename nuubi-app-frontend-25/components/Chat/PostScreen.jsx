@@ -144,7 +144,7 @@ export default function PostScreen({ navigation }) {
     });
     // Cancel in‑flight request if group changes or screen blurs/unmounts
     return () => controller.abort();
-  }, [user.currentGroup, isFocused]);
+  }, [user.currentGroup]);
 
   const Item = ({
     title,
@@ -255,12 +255,14 @@ export default function PostScreen({ navigation }) {
         backgroundColor: "#fbfbfb",
       }}
     >
-      {!loading && (
+      {!loading ? (
         <FlatList
           data={posts}
           renderItem={renderItem}
           keyExtractor={(item) => String(item.post_id)}
         />
+      ) : (
+        <Text>Loading your group threads...</Text>
       )}
       <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
