@@ -26,11 +26,11 @@ import FAIcon from "@expo/vector-icons/FontAwesome";
 import * as SecureStore from "expo-secure-store";
 import { useIsFocused } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
+import { ActivityIndicator } from "react-native";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const { user, setUser } = React.useContext(AccountContext);
-  // setUser({ ...user, currentPost: route.params });
   const [comments, setComments] = React.useState([]);
   const [postPoints, setPostPoints] = React.useState(0);
   const [postInfo, setPostInfo] = React.useState({
@@ -51,6 +51,9 @@ export default function ViewPostScreen({ navigation, route }) {
   const [previewUrls, setPreviewUrls] = React.useState([]);
   const [myUsername, setMyUsername] = React.useState("");
   const isFocused = useIsFocused();
+  const postId = route.params?.currentPost ?? user.currentPost ?? null;
+  const [loading, setLoading] = React.useState(true);
+  const [loadedPostId, setLoadedPostId] = React.useState(null);
 
   const deviceWidth = Dimensions.get("window").width;
 
@@ -250,14 +253,58 @@ export default function ViewPostScreen({ navigation, route }) {
     }
   };
 
+  // React.useEffect(() => {
+  //   if (!postId) return;
+  //   setLoading(true);
+  //   setLoadedPostId(null);
+  //   getPostInfo();
+  //   getComments();
+  //   getPostPoints();
+  //   getLikes();
+  //   getPostLiked();
+  //   getUserPoints();
+  // }, [postId]);
+
   React.useEffect(() => {
-    getPostInfo();
-    getComments();
-    getPostPoints();
-    getLikes();
-    getPostLiked();
-    getUserPoints();
-  }, [isFocused]);
+    if (!postId) return;
+
+    // instant reset so old content never renders
+    setLoading(true);
+    setLoadedPostId(null);
+    setPostInfo({
+      post_title: "",
+      body_text: "",
+      post_author: "",
+      image_url: null,
+      file_url: null,
+      file_name: null,
+      iso_time_sent: "2000-01-01T01:00:00.000Z",
+    });
+    setComments([]);
+    setLikes([]);
+    setPostLiked(false);
+    setPostPoints(0);
+    setPreviewUrl(null);
+    setPreviewUrls([]);
+
+    const controller = new AbortController();
+
+    Promise.all([
+      getPostInfo(postId, controller.signal),
+      getComments(postId, controller.signal),
+      getPostPoints(postId, controller.signal),
+      getLikes(controller.signal),
+      getPostLiked(controller.signal),
+      getUserPoints(controller.signal),
+    ]).finally(() => {
+      if (!controller.signal.aborted) {
+        setLoadedPostId(postId);
+        setLoading(false);
+      }
+    });
+
+    return () => controller.abort();
+  }, [postId]);
 
   const isAuthor = myUsername === user.post_author ? true : false;
 
@@ -339,6 +386,21 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
+  if (loading || loadedPostId !== postId) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fbfbfb",
+        }}
+      >
+        <ActivityIndicator size="large" />
+        <Text style={{ marginTop: 8 }}>Loading post…</Text>
+      </View>
+    );
+  }
   return (
     <KeyboardAvoidingView
       behavior={KeyboardBehavior}
@@ -880,7 +942,7 @@ export default function ViewPostScreen({ navigation, route }) {
                         fence: {
                           backgroundColor: "#f9f9f9",
                           borderRadius: 6,
-                          padding: 8,
+                          //  padding: 8,
                           fontFamily: "Courier",
                           color: "#111",
                         },

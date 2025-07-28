@@ -188,7 +188,15 @@ export default function PostScreen({ navigation }) {
             isoTimeSent: isoTimeSent,
             number_comments: number_comments,
           }),
-            navigation.navigate("ViewPost", { currentPost: id });
+            //   navigation.push("ViewPost", { currentPost: id });
+            //  navigation.navigate("ViewPost", { currentPost: id });
+            // or, if you prefer navigate:
+            navigation.navigate({
+              name: "ViewPost",
+              key: `post-${id}`, // unique key per post
+              params: { currentPost: id },
+              merge: false, // don't merge old params
+            });
         }}
       >
         <View style={{ paddingHorizontal: 1 }}>
