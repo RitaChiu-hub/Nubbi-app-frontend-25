@@ -445,9 +445,9 @@ export default function ViewPostScreen({ navigation, route }) {
       )}
       <ScrollView
         ref={scrollViewRef}
-        onContentSizeChange={() =>
-          scrollViewRef.current?.scrollToEnd({ animated: true })
-        }
+        // onContentSizeChange={() =>
+        //   scrollViewRef.current?.scrollToEnd({ animated: true })
+        // }
       >
         <Modal
           animationType="slide"
@@ -931,20 +931,29 @@ export default function ViewPostScreen({ navigation, route }) {
                         },
 
                         // inline `code`
-                        inline_code: {
+                        code_inline: {
                           backgroundColor: "#f1f1f1",
                           borderRadius: 4,
-                          fontFamily: "Courier", // or any monospace font installed
-                          paddingHorizontal: 4,
+                          fontFamily: "Courier",
+                          fontSize: 13, // shrink text
+                          paddingHorizontal: 4, // reduce side padding
+                          paddingVertical: 2, // add small vertical padding
+                          marginHorizontal: 2, // tiny gaps between code and text
+                          flexShrink: 1, // allow it to shrink
+                          flexWrap: "wrap", // wrap long bits onto next line
+                          alignSelf: "flex-start", // don’t stretch to full width
                         },
 
                         // fenced ```code blocks```
                         fence: {
                           backgroundColor: "#f9f9f9",
                           borderRadius: 6,
-                          //  padding: 8,
                           fontFamily: "Courier",
-                          color: "#111",
+                          fontSize: 13, // shrink text
+                          padding: 8, // keep a little padding
+                          marginVertical: 8, // space above/below block
+                          maxWidth: deviceWidth * 0.95, // never wider than screen
+                          overflow: "scroll", // horizontal scroll if needed
                         },
                       }}
                     >
