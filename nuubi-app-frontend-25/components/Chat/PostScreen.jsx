@@ -144,7 +144,7 @@ export default function PostScreen({ navigation }) {
     });
     // Cancel in‑flight request if group changes or screen blurs/unmounts
     return () => controller.abort();
-  }, [user.currentGroup]);
+  }, [user.currentGroup, isFocused]);
 
   const Item = ({
     title,
