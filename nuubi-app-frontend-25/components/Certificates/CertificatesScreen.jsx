@@ -173,6 +173,11 @@ export default function CertificatesScreen({ navigation }) {
         // Fetch your auth token or user info however you do it
         const authToken = await SecureStore.getItemAsync("token");
 
+        const token =
+          Platform.OS !== "web"
+            ? await SecureStore.getItemAsync("token")
+            : null; // Get token only on mobile
+
         // Send the push token with user info to your backend
         const res = await fetch(
           "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
@@ -180,7 +185,7 @@ export default function CertificatesScreen({ navigation }) {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
             },
             body: JSON.stringify({ ...user, pushToken: expoPushToken }),
           }
