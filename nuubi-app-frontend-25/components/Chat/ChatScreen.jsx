@@ -365,7 +365,7 @@ export default function ChatScreen({ navigation }) {
                         style={{
                           textAlign: "center",
                           fontSize: 14,
-                          fontFamily: "Poppins_500Regular",
+                          fontFamily: "Poppins_500Medium",
                           color: chats.user_id === adminId ? "#050505" : "#333",
                         }}
                       >
