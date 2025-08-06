@@ -635,8 +635,8 @@ export default function ViewPostScreen({ navigation, route }) {
               >
                 <Image
                   style={{
-                    width: 40,
-                    height: 40,
+                    width: 50,
+                    height: 50,
                     borderRadius: 20,
                     //marginRight: 10,
                   }}
@@ -877,8 +877,8 @@ export default function ViewPostScreen({ navigation, route }) {
                     </TouchableOpacity>
                     <Image
                       style={{
-                        width: 15,
-                        height: 15,
+                        width: 30,
+                        height: 30,
                         borderRadius: 20,
                         marginLeft: 6,
                         //  paddingLeft: 8,

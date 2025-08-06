@@ -268,8 +268,8 @@ export default function ChatScreen({ navigation }) {
                   >
                     <Image
                       style={{
-                        width: 25,
-                        height: 25,
+                        width: 30,
+                        height: 30,
                         borderRadius: 20,
                         margin: 3,
                       }}
