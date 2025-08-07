@@ -9,7 +9,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://*.instructure.com https://*.blackboard.com https://*.ondigitalocean.app https://coral-app-n96bn.ondigitalocean.app"
+          "value": "frame-ancestors 'self' https://*.instructure.com https://*.blackboard.com https://*.ondigitalocean.app https://coral-app-n96bn.ondigitalocean.app https://canvas.merrimack.edu"
         }
       ]
     }
