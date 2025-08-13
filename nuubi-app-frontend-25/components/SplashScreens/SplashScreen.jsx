@@ -406,7 +406,7 @@ export default function SplashScreen({ navigation }) {
           flexDirection: deviceWidth >= 800 ? "row" : "column",
           alignItems: "center",
           justifyContent: "center",
-          marginVertical: 20,
+          marginBottom: 40,
           marginHorizontal: 10,
           paddingHorizontal: 20,
         }}
