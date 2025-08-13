@@ -40,7 +40,7 @@ export default function TermsScreen({ navigation }) {
           Hello! Thank you for using Nuubi Inc’s app. Nuubi Inc {"("}“Nuubi,”
           “we,” “us,” or “our,”{")"} is a corporation that operates the mobile
           and web app Nuubi {"("}
-          www.nuubi.app{")"} {"("}“App”{")"}. The following Terms of Use are a
+          www.nuubi.com{")"} {"("}“App”{")"}. The following Terms of Use are a
           contract between you, the user {"("}“user,” “you,” or “your”{")"}, and
           Nuubi regarding the use of the App and services provided therein.
         </Text>

@@ -118,7 +118,7 @@ export default function HelpScreen({ navigation }) {
         title="How do I access Nuubi?"
         sectionKey="access"
         content={[
-          "Students can access Nuubi by creating an account at nuubi.app, or through the Canvas integration if it's enabled for their course.",
+          "Students can access Nuubi by creating an account at nuubi.com, or through the Canvas integration if it's enabled for their course.",
         ]}
       />
 
@@ -126,7 +126,7 @@ export default function HelpScreen({ navigation }) {
         title="How do I create an account?"
         sectionKey="createAccount"
         content={[
-          "1. Visit nuubi.app",
+          "1. Visit nuubi.com",
           "2. Click 'Sign Up'",
           "3. Enter your email and create a password (min. 8 characters, incl. uppercase, number, special character)",
           "4. Check your email for a 6-digit verification code",
@@ -149,7 +149,7 @@ export default function HelpScreen({ navigation }) {
         title="What if someone can’t access their account?"
         sectionKey="accountAccess"
         content={[
-          "They can email support@nuubi.app to recover or request deletion of their account.",
+          "They can email support@nuubi.com to recover or request deletion of their account.",
         ]}
       />
 
@@ -302,7 +302,7 @@ export default function HelpScreen({ navigation }) {
         title="How can users delete their data?"
         sectionKey="deleteData"
         content={[
-          "Users can delete their account anytime via their Profile > Settings page. This will remove all associated data. If they cannot access their account, they can email support@nuubi.app to request deletion.",
+          "Users can delete their account anytime via their Profile > Settings page. This will remove all associated data. If they cannot access their account, they can email support@nuubi.com to request deletion.",
         ]}
       />
 

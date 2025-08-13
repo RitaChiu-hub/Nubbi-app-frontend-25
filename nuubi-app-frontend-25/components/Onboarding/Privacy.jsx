@@ -28,10 +28,10 @@ export default function PrivacyScreen({ navigation }) {
       >
         <Text style={globalStyles.bodyRegular}>
           Protecting your private information is our priority. This Statement of
-          Privacy applies to Nuubi and Nuubi Inc {"("}www.nuubi.app{")"} and
+          Privacy applies to Nuubi and Nuubi Inc {"("}www.nuubi.com{")"} and
           governs data collection and usage. For the purposes of this Privacy
           Policy, unless otherwise noted, all references to Nuubi Inc. include
-          www.nuubi.app and Nuubi. The Nuubi application is an eLearning and
+          www.nuubi.com and Nuubi. The Nuubi application is an eLearning and
           social media platform. Nuubi operates on SOC 2‑certified managed
           servers {"("}DigitalOcean for data storage, Vercel for web hosting
           {")"} and uses industry‑standard AES‑256 encryption at rest and
@@ -251,7 +251,7 @@ export default function PrivacyScreen({ navigation }) {
         </Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>
-          Email Address: support@nuubi.app
+          Email Address: support@nuubi.com
         </Text>
         <View style={{ margin: 5 }}></View>
         <Text style={globalStyles.bodyRegular}>

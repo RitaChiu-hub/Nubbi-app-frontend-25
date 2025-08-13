@@ -81,6 +81,8 @@ export default function App() {
     prefixes: [
       "https://www.nuubi.app",
       "https://nuubi.app",
+      "https://www.nuubi.com",
+      "https://nuubi.com",
       "https://xnlvhxq-kittykat-8081.exp.direct/",
     ],
     config: {
@@ -200,7 +202,7 @@ export default function App() {
       <UserContext>
         <SafeAreaProvider>
           <NavigationContainer
-          //  ref={navigationRef}
+            //  ref={navigationRef}
             linking={linking}
             landingPage={containsLandingPage}
             inviteToken={inviteToken}

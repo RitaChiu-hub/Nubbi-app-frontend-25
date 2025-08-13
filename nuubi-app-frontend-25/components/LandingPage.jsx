@@ -66,7 +66,7 @@ const LandingPage = ({ navigation }) => {
       answer: (
         <Text>
           You can reach Dr. Kathryn Wifvat directly at:{" "}
-          <Text style={styles.email}>kat@nuubi.app</Text>
+          <Text style={styles.email}>kat@nuubi.com</Text>
         </Text>
       ),
     },
