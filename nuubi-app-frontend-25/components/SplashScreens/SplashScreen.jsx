@@ -308,10 +308,38 @@ export default function SplashScreen({ navigation }) {
               paddingHorizontal: 16, // give a little breathing room on the sides
             }}
           >
-            {screenshots.map(({ src, caption }) => (
+            {/* {screenshots.map(({ src, caption }) => (
               <View key={caption} style={styles.screenshotCard}>
                 <Image source={src} style={styles.screenshotImage} />
                 <Text style={globalStyles.h3HeadingRegular}>{caption}</Text>
+              </View>
+            ))} */}
+            {screenshots.map(({ src, caption }) => (
+              <View
+                key={caption}
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginHorizontal: 12,
+                  paddingTop: 12,
+                }}
+              >
+                <Image
+                  source={src}
+                  style={{
+                    width: deviceWidth >= 800 ? 340 : 190,
+                    height: deviceWidth >= 800 ? 420 : 280,
+                    resizeMode: "contain", // ensures the full image is visible
+                  }}
+                />
+                <Text
+                  style={[
+                    globalStyles.h3HeadingRegular,
+                    { maxWidth: deviceWidth >= 800 ? 300 : 190, padding: 4 },
+                  ]}
+                >
+                  {caption}
+                </Text>
               </View>
             ))}
           </ScrollView>
@@ -325,8 +353,58 @@ export default function SplashScreen({ navigation }) {
           )}
         </View>
       </View>
-
+      {/* NUUBI WEB FEATURE SECTION */}
       <View
+        style={{
+          flexDirection: deviceWidth >= 800 ? "row" : "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginVertical: 20,
+          marginHorizontal: 10,
+          paddingHorizontal: 20,
+        }}
+      >
+        {/* Web image */}
+        <Image
+          source={require("../../assets/screenshots/canvas-analytics.png")}
+          style={{
+            width: deviceWidth >= 800 ? 300 : 200,
+            height: deviceWidth >= 800 ? 225 : 150,
+            resizeMode: "contain",
+            marginRight: deviceWidth >= 800 ? 24 : 0,
+            marginBottom: deviceWidth < 800 ? 20 : 0,
+          }}
+        />
+
+        {/* Text content */}
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              fontFamily: "Poppins_600SemiBold",
+              fontSize: 28,
+              color: "#111111",
+              marginBottom: 12,
+            }}
+          >
+            Nuubi’s on the Web, Too
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Poppins_400Regular",
+              fontSize: 16,
+              lineHeight: 24,
+              color: "#333333",
+            }}
+          >
+            Same great features, with downloadable analytics at the click of a
+            button. Seamless integration with your LMS or use it instantly as a
+            stand-alone platform.
+          </Text>
+          <View style={{padding: 6}}></View>
+        </View>
+      </View>
+
+      {/* <View
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -369,6 +447,66 @@ export default function SplashScreen({ navigation }) {
             Same great features, with downloadable analytics at the click of a
             button. Seamless integration with your system, or use it instantly
             stand-alone.
+          </Text>
+        </View>
+      </View> */}
+      {/* CUUBI FEATURE SECTION */}
+      <View
+        style={{
+          flexDirection: deviceWidth >= 800 ? "row" : "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginVertical: 20,
+          marginHorizontal: 10,
+          paddingHorizontal: 20,
+        }}
+      >
+        {/* Cuubi image */}
+        <Image
+          source={require("../../assets/Cuubi3.png")}
+          style={{
+            width: deviceWidth >= 800 ? 300 : 200,
+            height: deviceWidth >= 800 ? 300 : 200,
+            resizeMode: "contain",
+            marginRight: deviceWidth >= 800 ? 24 : 0,
+            marginBottom: deviceWidth < 800 ? 20 : 0,
+          }}
+        />
+
+        {/* Text content */}
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              fontFamily: "Poppins_600SemiBold",
+              fontSize: 28,
+              color: "#111111",
+              marginBottom: 12,
+            }}
+          >
+            Meet Cuubi, Your AI TA
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Poppins_400Regular",
+              fontSize: 16,
+              lineHeight: 24,
+              color: "#333333",
+            }}
+          >
+            Cuubi instantly answers student questions using course context while
+            classmates and faculty can add their own answers or upvote others.
+            Students get help 24/7 and instructors save time.
+          </Text>
+          <View style={{ padding: 8 }}></View>
+          <Text
+            style={{
+              fontFamily: "Poppins_400Regular",
+              fontSize: 16,
+              lineHeight: 24,
+              color: "#333333",
+            }}
+          >
+            Because no question should go unanswered.
           </Text>
         </View>
       </View>
