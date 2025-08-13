@@ -251,7 +251,7 @@ export default function SplashScreen({ navigation }) {
                 { fontSize: headingFontSize, textAlign: "center" },
               ]}
             >
-              Keep momentum at{" "}
+              Keep Momentum at{" "}
               <Text style={{ fontWeight: "bold" }}>Every Question.</Text>
             </Text>
 
