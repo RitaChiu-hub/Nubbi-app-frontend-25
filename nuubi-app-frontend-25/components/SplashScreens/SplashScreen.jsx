@@ -251,7 +251,7 @@ export default function SplashScreen({ navigation }) {
                 { fontSize: headingFontSize, textAlign: "center" },
               ]}
             >
-              Amplify Learning with{" "}
+              Keep momentum at{" "}
               <Text style={{ fontWeight: "bold" }}>Every Question.</Text>
             </Text>
 
@@ -353,56 +353,6 @@ export default function SplashScreen({ navigation }) {
           )}
         </View>
       </View>
-      {/* NUUBI WEB FEATURE SECTION */}
-      <View
-        style={{
-          flexDirection: deviceWidth >= 800 ? "row" : "column",
-          alignItems: "center",
-          justifyContent: "center",
-          marginVertical: 20,
-          marginHorizontal: 10,
-          paddingHorizontal: 20,
-        }}
-      >
-        {/* Web image */}
-        <Image
-          source={require("../../assets/screenshots/canvas-analytics.png")}
-          style={{
-            width: deviceWidth >= 800 ? 300 : 200,
-            height: deviceWidth >= 800 ? 225 : 150,
-            resizeMode: "contain",
-            marginRight: deviceWidth >= 800 ? 24 : 0,
-            marginBottom: deviceWidth < 800 ? 20 : 0,
-          }}
-        />
-
-        {/* Text content */}
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              fontFamily: "Poppins_600SemiBold",
-              fontSize: 28,
-              color: "#111111",
-              marginBottom: 12,
-            }}
-          >
-            Nuubi’s on the Web, Too
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Poppins_400Regular",
-              fontSize: 16,
-              lineHeight: 24,
-              color: "#333333",
-            }}
-          >
-            Same great features, with downloadable analytics at the click of a
-            button. Seamless integration with your LMS or use it instantly as a
-            stand-alone platform.
-          </Text>
-          <View style={{padding: 6}}></View>
-        </View>
-      </View>
 
       {/* <View
         style={{
@@ -465,10 +415,11 @@ export default function SplashScreen({ navigation }) {
         <Image
           source={require("../../assets/Cuubi3.png")}
           style={{
-            width: deviceWidth >= 800 ? 300 : 200,
-            height: deviceWidth >= 800 ? 300 : 200,
+            width: deviceWidth >= 800 ? 280 : 200,
+            height: deviceWidth >= 800 ? 280 : 200,
             resizeMode: "contain",
-            marginRight: deviceWidth >= 800 ? 24 : 0,
+            marginLeft: deviceWidth >= 800 ? 10 : 0,
+            marginRight: deviceWidth >= 800 ? 34 : 0,
             marginBottom: deviceWidth < 800 ? 20 : 0,
           }}
         />
@@ -508,6 +459,57 @@ export default function SplashScreen({ navigation }) {
           >
             Because no question should go unanswered.
           </Text>
+        </View>
+      </View>
+
+      {/* NUUBI WEB FEATURE SECTION */}
+      <View
+        style={{
+          flexDirection: deviceWidth >= 800 ? "row-reverse" : "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginVertical: 20,
+          marginHorizontal: 10,
+          paddingHorizontal: 20,
+        }}
+      >
+        {/* Web image */}
+        <Image
+          source={require("../../assets/screenshots/canvas-analytics.png")}
+          style={{
+            width: deviceWidth >= 800 ? 300 : 200,
+            height: deviceWidth >= 800 ? 225 : 150,
+            resizeMode: "contain",
+            marginLeft: deviceWidth >= 800 ? 24 : 0,
+            marginBottom: deviceWidth < 800 ? 20 : 0,
+          }}
+        />
+
+        {/* Text content */}
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              fontFamily: "Poppins_600SemiBold",
+              fontSize: 28,
+              color: "#111111",
+              marginBottom: 12,
+            }}
+          >
+            Nuubi’s on the Web, Too
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Poppins_400Regular",
+              fontSize: 16,
+              lineHeight: 24,
+              color: "#333333",
+            }}
+          >
+            Same great features, with downloadable analytics at the click of a
+            button. Seamless integration with your LMS or use it instantly as a
+            stand-alone platform.
+          </Text>
+          <View style={{ padding: 6 }}></View>
         </View>
       </View>
 
