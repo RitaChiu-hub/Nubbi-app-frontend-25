@@ -266,7 +266,7 @@ export default function SplashScreen({ navigation }) {
               ]}
             >
               Lightning-fast answers, soft-skill microcredentials, and mobile
-              participation that skyrockets student success.
+              participation that skyrocket student success.
             </Text>
 
             <TouchableOpacity style={styles.demoButton} onPress={openCalendly}>
