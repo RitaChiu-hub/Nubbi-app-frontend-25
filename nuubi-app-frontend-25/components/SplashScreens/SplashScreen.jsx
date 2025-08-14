@@ -276,7 +276,7 @@ export default function SplashScreen({ navigation }) {
         </LinearGradient>
         {/* 4. WHAT IS NUU BI? */}
         <Text style={globalStyles.h2HeadingMedium}>
-          Replace silent help forums with a vibrant, mobile-first Q&A hub.
+          Replace silent help forums with a vibrant, mobile-first Q&A hub that keeps students engaged 24/7.
         </Text>
 
         <View
