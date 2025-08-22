@@ -16,7 +16,7 @@ const certificateData = [
     id: 1,
     asset: require("../../assets/certificates/leadership_color_final.png"),
     unwonAsset: require("../../assets/certificates/leadership_greyscale_final.png"),
-    title: "Leadership Award",
+    title: "Leadership Badge",
     skill: "Initiative & Peer Leadership",
     criteria:
       "Create 3 posts that each receive at least 1 comment from another user.",
@@ -25,7 +25,7 @@ const certificateData = [
     id: 2,
     asset: require("../../assets/certificates/teamwork_color_final.png"),
     unwonAsset: require("../../assets/certificates/teamwork_greyscale_final.png"),
-    title: "Teamwork Award",
+    title: "Teamwork Badge",
     skill: "Teamwork & Peer Support",
     criteria: "Comment on 10 different posts and earn at least 15 points.",
   },
@@ -33,7 +33,7 @@ const certificateData = [
     id: 3,
     asset: require("../../assets/certificates/communication_color_final.png"),
     unwonAsset: require("../../assets/certificates/communication_greyscale_final.png"),
-    title: "Communication Award",
+    title: "Communication Badge",
     skill: "Written Communication",
     criteria: "Send at least one message on 10 separate days.",
   },
@@ -41,7 +41,7 @@ const certificateData = [
     id: 4,
     asset: require("../../assets/certificates/reliability_color_final.png"),
     unwonAsset: require("../../assets/certificates/reliability_greyscale_final.png"),
-    title: "Reliability Award",
+    title: "Reliability Badge",
     skill: "Reliability & Engagement",
     criteria:
       "Send a post comment or message each week in 4 consecutive weeks.",
@@ -258,7 +258,7 @@ export default function CertificatesScreen({ navigation }) {
         const data = await res.json();
         setEarnedAwards(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error("Error fetching earned awards:", err);
+        console.error("Error fetching earned badges:", err);
         setEarnedAwards([]);
       }
     }
@@ -269,14 +269,14 @@ export default function CertificatesScreen({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>My Awards</Text>
+        <Text style={globalStyles.h3HeadingWhite}>My Badges</Text>
       ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
 
   if (!assets) {
-    return <Text>Loading awards...</Text>;
+    return <Text>Loading badges...</Text>;
   }
 
   const renderItem = ({ item, index }) => {
@@ -370,7 +370,7 @@ export default function CertificatesScreen({ navigation }) {
         <Text style={[globalStyles.bodyRegular, { textAlign: "center" }]}>
           Earn recognition for skills that matter! Click{" "}
           <Text style={{ fontFamily: "Poppins_600SemiBold" }}>"My Groups"</Text>{" "}
-          in the navigation bar to start earning awards that spotlight your
+          in the navigation bar to start earning badges that spotlight your
           strengths.
         </Text>
       </View>

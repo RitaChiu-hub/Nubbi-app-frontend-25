@@ -124,7 +124,7 @@ function HomeDrawerNavigator() {
         }}
       /> */}
       <HomeDrawer.Screen
-        name="Certificates"
+        name="My Badges"
         component={CertificatesScreen}
         options={{
           animation: "none",
@@ -146,7 +146,7 @@ function HomeDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                My Awards
+                My Badges
               </Text>
             </View>
           ),
@@ -480,7 +480,7 @@ function CanvasDrawerNavigator() {
       />
 
       <CanvasDrawer.Screen
-        name="Certificates"
+        name="My Badges"
         component={CertificatesScreen}
         options={{
           animation: "none",
@@ -500,7 +500,7 @@ function CanvasDrawerNavigator() {
                   color: "#292929",
                 }}
               >
-                My Awards
+                My Badges
               </Text>
             </View>
           ),
@@ -892,7 +892,7 @@ const StackHome = createNativeStackNavigator();
 function HomeStack() {
   return (
     <StackHome.Navigator
-      initialRouteName="Certificates"
+      initialRouteName="My Badges"
       screenOptions={{
         headerBackTitleVisible: false,
         headerStyle: {
@@ -902,7 +902,7 @@ function HomeStack() {
       }}
     >
       <StackHome.Screen
-        name="Certificates"
+        name="My Badges"
         component={CertificatesScreen}
         // options={{ animation: "none" }}
         options={{
@@ -1233,7 +1233,7 @@ function HandleInviteNavigator() {
         }}
       /> */}
       <HomeDrawer.Screen
-        name="Certificates"
+        name="My Badges"
         component={CertificatesScreen}
         options={{
           animation: "none",
@@ -1255,7 +1255,7 @@ function HandleInviteNavigator() {
                   color: "#292929",
                 }}
               >
-                My Awards
+                My Badges
               </Text>
             </View>
           ),
@@ -1707,7 +1707,7 @@ const TabNavigator = () => {
           let label;
           switch (route.name) {
             case "HomeStack":
-              label = "Awards";
+              label = "Badges";
               break;
             // case "SearchStack":
             //   label = "Discover";
@@ -1833,7 +1833,7 @@ const TabNavigator = () => {
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}
-        options={{ tabBarLabel: "Awards" }}
+        options={{ tabBarLabel: "Badges" }}
       />
       {/* <Tab.Screen
         name="SearchStack"

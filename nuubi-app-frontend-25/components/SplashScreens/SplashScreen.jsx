@@ -53,7 +53,7 @@ const screenshots = [
   },
   {
     src: require("../../assets/screenshots/awards2.png"),
-    caption: "Earn professional, soft-skill certificates.",
+    caption: "Earn professional, soft-skill badges.",
   },
   {
     src: require("../../assets/screenshots/groups2.png"),

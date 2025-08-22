@@ -286,7 +286,7 @@ export default function HelpScreen({ navigation }) {
         title="Why is this data collected?"
         sectionKey="dataPurpose"
         content={[
-          "To support group access, participation tracking, analytics, and awarding microcredentials. All data use is compliant with FERPA standards.",
+          "To support group access, participation tracking, analytics, and awarding badges and microcredentials. All data use is compliant with FERPA standards.",
         ]}
       />
 
