@@ -9,6 +9,8 @@ import {
   Alert,
   KeyboardAvoidingView,
   TouchableOpacity,
+  Linking,
+  AppState,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import * as Notifications from "expo-notifications";
@@ -25,6 +27,7 @@ export default function NotificationSettings({ navigation }) {
   const [statusColor, setStatusColor] = React.useState(
     globalStyles.captionError
   );
+  const [denied, setDenied] = React.useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,11 +48,91 @@ export default function NotificationSettings({ navigation }) {
     }
   }, []);
 
-  // Load stored preference (you can later swap to a backend GET)
+  async function getBackendEnabled() {
+    const auth = await SecureStore.getItemAsync("token");
+    const res = await fetch(
+      "https://coral-app-n96bn.ondigitalocean.app/settings/get-notif-prefs",
+      {
+        method: "POST", // your backend is POST for JWT body
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: auth }),
+      }
+    );
+    const json = await res.json();
+    return !!json.enabled;
+  }
+
+  // helper to save backend pref
+  async function setBackendEnabled(enabled) {
+    const auth = await SecureStore.getItemAsync("token");
+    await fetch(
+      "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: auth, enabled }),
+      }
+    );
+  }
+  // reconcile effect
   useEffect(() => {
-    SecureStore.getItemAsync("pushEnabled").then((val) => {
-      if (val !== null) setInitialEnabled(val === "true");
+    let mounted = true;
+    const reconcile = async () => {
+      const perm = await Notifications.getPermissionsAsync();
+      const deviceGranted = perm.status === "granted";
+      const backendEnabled = await getBackendEnabled();
+      // Case A: Device denied but backend says enabled -> flip OFF
+      if (!deviceGranted && backendEnabled) {
+        if (!mounted) return;
+        setIsEnabled(false);
+        await setBackendEnabled(false);
+        setStatusText(
+          "Notifications are disabled at the device level. We turned them off in Nuubi to match."
+        );
+      }
+
+      // Case B: Device granted but backend disabled -> auto-enable
+      if (deviceGranted && !backendEnabled) {
+        await setBackendEnabled(true);
+        if (!mounted) return;
+        setIsEnabled(true);
+        setStatusText(
+          "Device allows notifications. Enabled in Nuubi to match."
+        );
+
+        // ensure push token saved to backend
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        const auth = await SecureStore.getItemAsync("token");
+        await fetch(
+          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              ...(auth ? { Authorization: `Bearer ${auth}` } : {}),
+            },
+            body: JSON.stringify({ ...user, pushToken: token }),
+          }
+        );
+      }
+    };
+
+    // run on mount
+    reconcile();
+
+    // also run when app returns to foreground
+    const sub = AppState.addEventListener("change", (s) => {
+      if (s === "active") reconcile();
     });
+
+    return () => {
+      mounted = false;
+      sub.remove();
+    };
   }, []);
 
   const [layoutHeight, setLayoutHeight] = React.useState(0);
@@ -95,25 +178,11 @@ export default function NotificationSettings({ navigation }) {
   }
 
   useEffect(() => {
-    // Load stored preference
-    SecureStore.getItemAsync("pushEnabled").then((val) => {
-      if (val !== null) setIsEnabled(val === "true");
-    });
+    (async () => {
+      const backendEnabled = await getBackendEnabled();
+      setIsEnabled(backendEnabled);
+    })();
   }, []);
-
-  const toggleSwitch = async () => {
-    const newValue = !isEnabled;
-    setIsEnabled(newValue);
-    await SecureStore.setItemAsync("pushEnabled", newValue.toString());
-
-    if (newValue) {
-      const token = await registerForPushNotificationsAsync(user);
-      if (token) setStatusText("Push notifications enabled.");
-    } else {
-      // Optionally: remove token on backend
-      setStatusText("Push notifications disabled.");
-    }
-  };
 
   return (
     <KeyboardAvoidingView
@@ -145,21 +214,26 @@ export default function NotificationSettings({ navigation }) {
               initialValues={{ enabled: isEnabled }}
               onSubmit={async (values, { setSubmitting }) => {
                 try {
-                  await SecureStore.setItemAsync(
-                    "pushEnabled",
-                    String(values.enabled)
-                  );
-
                   if (values.enabled) {
-                    const t = await registerForPushNotificationsAsync();
-                    if (!t) {
+                    if (Platform.OS === "web") {
                       setStatusText(
-                        "Permission denied. Notifications remain off."
+                        "Your preference has been saved. To receive alerts, please make sure push notifications are turned on in your mobile device’s system settings."
                       );
-                      return;
+                    } else {
+                      const t = await registerForPushNotificationsAsync();
+                      if (!t) {
+                        setDenied(true);
+                        setStatusText(
+                          "Permission denied. You can enable notifications in device settings."
+                        );
+                        values.enabled = false; // flip it back off in UI
+                        await setBackendEnabled(false); // update backend instead of SecureStore
+                        return; // exit early, don’t call backend with enabled: true
+                      } else {
+                        setDenied(false);
+                      }
                     }
                   }
-
                   const auth = await SecureStore.getItemAsync("token");
                   await fetch(
                     "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
@@ -219,6 +293,13 @@ export default function NotificationSettings({ navigation }) {
                     >
                       {statusText}
                     </Text>
+                  )}
+                  {!!denied && (
+                    <TouchableOpacity onPress={() => Linking.openSettings()}>
+                      <Text style={{ color: "#2482AA", marginBottom: 16 }}>
+                        Open device settings
+                      </Text>
+                    </TouchableOpacity>
                   )}
                   <View style={{ padding: 20 }}></View>
                   <TouchableOpacity
