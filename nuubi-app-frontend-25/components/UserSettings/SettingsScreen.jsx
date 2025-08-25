@@ -148,6 +148,12 @@ export default function SettingsScreen({ navigation }) {
           navRoute: "ForgotPassword",
         },
         {
+          label: "Notification settings",
+          icon: "bell",
+          type: "link",
+          navRoute: "NotificationSettings",
+        },
+        {
           label: "Sign out",
           icon: "right-from-bracket",
           color: "#2482AA",
@@ -202,6 +208,7 @@ export default function SettingsScreen({ navigation }) {
                               size={22}
                               color={color || "#616161"}
                               style={globalStyles.rowIcon}
+                              {...{ solid: true }}
                             />
                             <Text
                               style={[

@@ -136,7 +136,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                 {
                   fontSize: 22,
                   marginTop: 40,
-                  color: "#606060",
+                  color: "#333333",
                   marginBottom: 20,
                 },
               ]}
@@ -235,7 +235,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                   <Text
                     style={{
                       fontFamily: "Poppins_500Medium",
-                      color: "#606060",
+                      color: "#333333",
                       fontSize: 16,
                       marginTop: 15,
                     }}
@@ -249,7 +249,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                     <Text
                       style={{
                         fontFamily: "Poppins_500Medium",
-                        color: "#606060",
+                        color: "#333333",
                         fontSize: 15,
                       }}
                     >
@@ -260,7 +260,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                     <Text
                       style={{
                         fontFamily: "Poppins_500Medium",
-                        color: "#606060",
+                        color: "#333333",
                         fontSize: 15,
                       }}
                     >
@@ -274,7 +274,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                     <Text
                       style={{
                         fontFamily: "Poppins_500Medium",
-                        color: "#606060",
+                        color: "#333333",
                         fontSize: 15,
                       }}
                     >
@@ -285,7 +285,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                     <Text
                       style={{
                         fontFamily: "Poppins_500Medium",
-                        color: "#606060",
+                        color: "#333333",
                         fontSize: 15,
                       }}
                     >
