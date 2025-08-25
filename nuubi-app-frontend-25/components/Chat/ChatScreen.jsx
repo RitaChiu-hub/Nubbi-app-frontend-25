@@ -9,6 +9,7 @@ import {
   Platform,
   Dimensions,
   Image,
+  AppState,
 } from "react-native";
 import { useAssets } from "expo-asset";
 import { Formik, ErrorMessage } from "formik";
@@ -198,14 +199,26 @@ export default function ChatScreen({ navigation }) {
     }
   };
 
+  // // 1) Register socket listener on mount only
+  // React.useEffect(() => {
+  //   socket.on("insert msg return updated list", (newMsg) => {
+  //     setChats((prev) => [...prev, newMsg]);
+  //   });
+  //   return () => {
+  //     socket.off("insert msg return updated list");
+  //   };
+  // }, []);
   // 1) Register socket listener on mount only
   React.useEffect(() => {
-    socket.on("insert msg return updated list", (newMsg) => {
-      setChats((prev) => [...prev, newMsg]);
-    });
-    return () => {
-      socket.off("insert msg return updated list");
+    const handler = (newMsg) => {
+      setChats((prev) =>
+        prev.some((m) => m.messages_id === newMsg.messages_id)
+          ? prev
+          : [...prev, newMsg]
+      );
     };
+    socket.on("insert msg return updated list", handler);
+    return () => socket.off("insert msg return updated list", handler);
   }, []);
 
   // 2) Fetch all the metadata + history whenever you focus or switch groups
@@ -216,6 +229,17 @@ export default function ChatScreen({ navigation }) {
     getIsAdmin();
     getGroupInfo();
   }, [isFocused, user.currentGroup]);
+
+  // 3) Refresh when app returns to foreground
+  React.useEffect(() => {
+    const sub = AppState.addEventListener("change", (state) => {
+      if (state === "active") {
+        getChats(); // grab anything missed while backgrounded
+        getLikes(); // optional
+      }
+    });
+    return () => sub.remove();
+  }, []); // no deps
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
