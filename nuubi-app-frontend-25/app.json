@@ -2,7 +2,7 @@
   "expo": {
     "name": "Nuubi",
     "slug": "nuubi-app",
-    "version": "1.3.48",
+    "version": "1.3.49",
     "orientation": "portrait",
     "icon": "./assets/nuubiicon.png",
     "userInterfaceStyle": "light",
@@ -48,7 +48,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.kittykat.nuubiapp",
-      "versionCode": 1348,
+      "versionCode": 1349,
       "googleServicesFile": "./google-services.json"
     },
     "web": {
