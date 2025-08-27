@@ -348,7 +348,7 @@ export default function NotificationSettings({ navigation }) {
                         { color: "#050505" },
                       ]}
                     >
-                      Cancel
+                      Back
                     </Text>
                   </TouchableOpacity>
                 </>
