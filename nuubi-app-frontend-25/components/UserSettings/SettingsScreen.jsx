@@ -130,38 +130,38 @@ export default function SettingsScreen({ navigation }) {
       header: "",
       items: [
         {
-          label: "Change Nuubi username",
+          label: "Change Nuubi Username",
           icon: "user",
           type: "link",
           navRoute: "ChangeUsernameScreen",
         },
         {
-          label: "Change Nuubi password",
+          label: "Change Nuubi Password",
           icon: "key",
           type: "link",
           navRoute: "ChangePasswordScreen",
         },
         {
-          label: "Reset Nuubi password",
+          label: "Reset Nuubi Password",
           icon: "unlock",
           type: "link",
           navRoute: "ForgotPassword",
         },
         {
-          label: "Notification settings",
+          label: "Notification Settings",
           icon: "bell",
           type: "link",
           navRoute: "NotificationSettings",
         },
         {
-          label: "Sign out",
+          label: "Sign Out",
           icon: "right-from-bracket",
           color: "#2482AA",
           onPress: () =>
             handleSignOut(user, isLoggedIn, setUser, navigation, setIsLoggedIn),
         },
         {
-          label: "Delete account",
+          label: "Delete Account",
           icon: "trash",
           color: "#E70808",
           navRoute: "DeleteAccount",
