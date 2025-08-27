@@ -49,15 +49,17 @@ export default function NotificationSettings({ navigation }) {
   }, []);
 
   async function getBackendEnabled() {
-    const auth = await SecureStore.getItemAsync("token");
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     const res = await fetch(
       "https://coral-app-n96bn.ondigitalocean.app/settings/get-notif-prefs",
       {
         method: "POST", // your backend is POST for JWT body
         headers: {
           "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ token: auth }),
+        body: JSON.stringify({ ...user }),
       }
     );
     const json = await res.json();
@@ -66,15 +68,17 @@ export default function NotificationSettings({ navigation }) {
 
   // helper to save backend pref
   async function setBackendEnabled(enabled) {
-    const auth = await SecureStore.getItemAsync("token");
+    const token =
+      Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     await fetch(
       "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ token: auth, enabled }),
+        body: JSON.stringify({ ...user, enabled }),
       }
     );
   }
@@ -105,17 +109,21 @@ export default function NotificationSettings({ navigation }) {
         );
 
         // ensure push token saved to backend
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
-        const auth = await SecureStore.getItemAsync("token");
+        const pushtoken = (await Notifications.getExpoPushTokenAsync()).data;
+        const token =
+          Platform.OS !== "web"
+            ? await SecureStore.getItemAsync("token")
+            : null; // Get token only on mobile
+
         await fetch(
           "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              ...(auth ? { Authorization: `Bearer ${auth}` } : {}),
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
             },
-            body: JSON.stringify({ ...user, pushToken: token }),
+            body: JSON.stringify({ ...user, pushToken: pushtoken }),
           }
         );
       }
@@ -156,7 +164,10 @@ export default function NotificationSettings({ navigation }) {
 
         const expoPushToken = (await Notifications.getExpoPushTokenAsync())
           .data;
-        const token = await SecureStore.getItemAsync("token");
+        const token =
+          Platform.OS !== "web"
+            ? await SecureStore.getItemAsync("token")
+            : null; // Get token only on mobile
 
         await fetch(
           "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
@@ -234,16 +245,22 @@ export default function NotificationSettings({ navigation }) {
                       }
                     }
                   }
-                  const auth = await SecureStore.getItemAsync("token");
+                  const token =
+                    Platform.OS !== "web"
+                      ? await SecureStore.getItemAsync("token")
+                      : null; // Get token only on mobile
                   await fetch(
                     "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
                     {
                       method: "POST",
                       headers: {
                         "Content-Type": "application/json",
-                        ...(auth ? { Authorization: `Bearer ${auth}` } : {}),
+                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
                       },
-                      body: JSON.stringify({ enabled: values.enabled }),
+                      body: JSON.stringify({
+                        ...user,
+                        enabled: values.enabled,
+                      }),
                     }
                   );
 
