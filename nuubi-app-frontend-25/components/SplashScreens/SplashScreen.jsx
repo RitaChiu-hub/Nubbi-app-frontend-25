@@ -69,7 +69,7 @@ const featuredLogos = [
 
 export default function SplashScreen({ navigation }) {
   const deviceWidth = Dimensions.get("window").width;
-
+  console.log(deviceWidth);
   const dots = React.useMemo(() => {
     const arr = [];
     for (let i = 0; i < 40; i++) {
@@ -236,7 +236,13 @@ export default function SplashScreen({ navigation }) {
       </View>
 
       {/* MAIN CONTENT WRAPPER */}
-      <View style={styles.mainContainer}>
+      <View
+        style={{
+          paddingHorizontal: deviceWidth >= 800 ? 60 : 20,
+          paddingTop: 30,
+          paddingBottom: 60,
+        }}
+      >
         {/* HERO SECTION */}
         <LinearGradient
           colors={["#7DDFA0", "#87ceeb"]}
@@ -290,7 +296,7 @@ export default function SplashScreen({ navigation }) {
             width: "100%",
           }}
         >
-          {deviceWidth < 1100 && (
+          {deviceWidth < 1500 && (
             <AntDesign
               name="left"
               size={24}
@@ -344,7 +350,7 @@ export default function SplashScreen({ navigation }) {
               </View>
             ))}
           </ScrollView>
-          {deviceWidth < 1100 && (
+          {deviceWidth < 1500 && (
             <AntDesign
               name="right"
               size={24}
@@ -355,227 +361,199 @@ export default function SplashScreen({ navigation }) {
         </View>
       </View>
 
-      {/* <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          marginVertical: 24,
-          paddingHorizontal: 20,
-          marginHorizontal: 40,
-        }}
-      >
-        <Image
-          source={require("../../assets/screenshots/canvas-analytics.png")}
-          style={{
-            width: deviceWidth * 0.4,
-            height: deviceWidth * 0.3,
-            minHeight: 400,
-            minWidth: 200,
-            resizeMode: "contain",
-            marginRight: 12,
-          }}
-        />
-        <View style={{ flex: 1, alignItems: "flex-start" }}>
-          <Text
-            style={[
-              globalStyles.h2HeadingMedium,
-              { marginBottom: 14, marginLeft: 12 },
-            ]}
-          >
-            Nuubi's on the web, too.
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Poppins_400Regular",
-              fontSize: 18,
-              color: "#333333",
-              lineHeight: 22,
-              marginLeft: 12,
-              marginBottom: 44,
-            }}
-          >
-            Same great features, with downloadable analytics at the click of a
-            button. Seamless integration with your system, or use it instantly
-            stand-alone.
-          </Text>
-        </View>
-      </View> */}
-      {/* CUUBI FEATURE SECTION */}
       <View
         style={{
-          flexDirection: deviceWidth >= 800 ? "row" : "column",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 40,
-          marginHorizontal: 10,
-          paddingHorizontal: 20,
+          paddingHorizontal: deviceWidth >= 800 ? 60 : 0, // extra padding on web
         }}
       >
-        {/* Cuubi image */}
-        <Image
-          source={require("../../assets/Cuubi3.png")}
+        {/* CUUBI FEATURE SECTION */}
+        <View
           style={{
-            width: deviceWidth >= 800 ? 280 : 200,
-            height: deviceWidth >= 800 ? 280 : 200,
-            resizeMode: "contain",
-            marginLeft: deviceWidth >= 800 ? 10 : 0,
-            marginRight: deviceWidth >= 800 ? 34 : 0,
-            marginBottom: deviceWidth < 800 ? 20 : 0,
+            flexDirection: deviceWidth >= 800 ? "row" : "column",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 40,
+            marginHorizontal: 10,
+            paddingHorizontal: 20,
           }}
-        />
+        >
+          {/* Cuubi image */}
+          <Image
+            source={require("../../assets/Cuubi3.png")}
+            style={{
+              width: deviceWidth >= 800 ? 280 : 200,
+              height: deviceWidth >= 800 ? 280 : 200,
+              resizeMode: "contain",
+              marginLeft: deviceWidth >= 800 ? 10 : 0,
+              marginRight: deviceWidth >= 800 ? 34 : 0,
+              marginBottom: deviceWidth < 800 ? 20 : 0,
+            }}
+          />
 
-        {/* Text content */}
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              fontFamily: "Poppins_600SemiBold",
-              fontSize: 28,
-              color: "#111111",
-              marginBottom: 12,
-            }}
-          >
-            Meet Cuubi, Your AI TA
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Poppins_400Regular",
-              fontSize: 16,
-              lineHeight: 24,
-              color: "#333333",
-            }}
-          >
-            Cuubi instantly answers student questions using course context while
-            classmates and faculty can add their own answers or upvote others.
-            Students get help 24/7 and instructors save time.
-          </Text>
-          <View style={{ padding: 8 }}></View>
-          <Text
-            style={{
-              fontFamily: "Poppins_400Regular",
-              fontSize: 16,
-              lineHeight: 24,
-              color: "#333333",
-            }}
-          >
-            Because no question should go unanswered.
-          </Text>
+          {/* Text content */}
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontFamily: "Poppins_600SemiBold",
+                fontSize: 28,
+                color: "#111111",
+                marginBottom: 12,
+              }}
+            >
+              Meet Cuubi, Your AI TA
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Poppins_400Regular",
+                fontSize: 16,
+                lineHeight: 24,
+                color: "#333333",
+              }}
+            >
+              Cuubi instantly answers student questions using course context
+              while classmates and faculty can add their own answers or upvote
+              others. Students get help 24/7 and instructors save time.
+            </Text>
+            <View style={{ padding: 8 }}></View>
+            <Text
+              style={{
+                fontFamily: "Poppins_400Regular",
+                fontSize: 16,
+                lineHeight: 24,
+                color: "#333333",
+              }}
+            >
+              Because no question should go unanswered.
+            </Text>
+          </View>
         </View>
-      </View>
 
-      {/* NUUBI WEB FEATURE SECTION */}
-      <View
-        style={{
-          flexDirection: deviceWidth >= 800 ? "row-reverse" : "column",
-          alignItems: "center",
-          justifyContent: "center",
-          marginVertical: 20,
-          marginHorizontal: 10,
-          paddingHorizontal: 20,
-        }}
-      >
-        {/* Web image */}
-        <Image
-          source={require("../../assets/screenshots/canvas-analytics.png")}
+        {/* NUUBI WEB FEATURE SECTION */}
+        <View
           style={{
-            width: deviceWidth >= 800 ? 400 : 200,
-            height: deviceWidth >= 800 ? 325 : 150,
-            resizeMode: "contain",
-            marginLeft: deviceWidth >= 800 ? 24 : 0,
-            marginBottom: deviceWidth < 800 ? 20 : 0,
+            flexDirection: deviceWidth >= 800 ? "row-reverse" : "column",
+            alignItems: "center",
+            justifyContent: "center",
+            marginVertical: 20,
+            marginHorizontal: 10,
+            paddingHorizontal: 20,
           }}
-        />
+        >
+          {/* Web image */}
+          <Image
+            source={require("../../assets/screenshots/canvas-analytics.png")}
+            style={{
+              width: deviceWidth >= 800 ? 400 : 280,
+              height: deviceWidth >= 800 ? 325 : 250,
+              resizeMode: "contain",
+              marginLeft: deviceWidth >= 800 ? 36 : 0,
+              marginBottom: deviceWidth < 800 ? 20 : 0,
+            }}
+          />
 
-        {/* Text content */}
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              fontFamily: "Poppins_600SemiBold",
-              fontSize: 28,
-              color: "#111111",
-              marginBottom: 12,
-            }}
-          >
-            Nuubi’s on the Web, Too
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Poppins_400Regular",
-              fontSize: 16,
-              lineHeight: 24,
-              color: "#333333",
-            }}
-          >
-            Same great features, with downloadable analytics at the click of a
-            button. Seamless integration with your LMS or use it instantly as a
-            stand-alone platform.
-          </Text>
-          <View style={{ padding: 6 }}></View>
+          {/* Text content */}
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontFamily: "Poppins_600SemiBold",
+                fontSize: 28,
+                color: "#111111",
+                marginBottom: 12,
+              }}
+            >
+              Nuubi’s on the Web, Too
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Poppins_400Regular",
+                fontSize: 16,
+                lineHeight: 24,
+                color: "#333333",
+              }}
+            >
+              Same great features, with downloadable analytics at the click of a
+              button. Seamless integration with your LMS or use it instantly as
+              a stand-alone platform.
+            </Text>
+            <View style={{ padding: 8 }}></View>
+            <Text
+              style={{
+                fontFamily: "Poppins_400Regular",
+                fontSize: 16,
+                lineHeight: 24,
+                color: "#333333",
+              }}
+            >
+              Course-based support with no extra logins or tabs required.
+            </Text>
+            <View style={{ padding: 6 }}></View>
+          </View>
         </View>
-      </View>
 
-      <View
-        style={{
-          flexDirection: deviceWidth >= 800 ? "row" : "column",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 40,
-          marginHorizontal: 10,
-          paddingHorizontal: 20,
-        }}
-      >
-        {/* Kat image */}
-        <Image
-          source={require("../../assets/KatHeadshot.jpg")}
+        <View
           style={{
-            width: deviceWidth >= 800 ? 280 : 200,
-            height: deviceWidth >= 800 ? 280 : 200,
-            borderRadius: deviceWidth >= 800 ? 140 : 100, // half of width/height
-            borderWidth: 2, // thickness of the border
-            borderColor: "#", // border color (change as needed)
-            resizeMode: "cover", // cover fills circle better than contain
-            marginLeft: deviceWidth >= 800 ? 10 : 0,
-            marginRight: deviceWidth >= 800 ? 34 : 0,
-            marginBottom: deviceWidth < 800 ? 20 : 0,
+            flexDirection: deviceWidth >= 800 ? "row" : "column",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 40,
+            marginHorizontal: 10,
+            paddingHorizontal: 20,
+            marginVertical: 20,
           }}
-        />
+        >
+          {/* Kat image */}
+          <Image
+            source={require("../../assets/KatHeadshot.jpg")}
+            style={{
+              width: deviceWidth >= 800 ? 280 : 200,
+              height: deviceWidth >= 800 ? 280 : 200,
+              borderRadius: deviceWidth >= 800 ? 140 : 100, // half of width/height
+              borderWidth: 2, // thickness of the border
+              borderColor: "#", // border color (change as needed)
+              resizeMode: "cover", // cover fills circle better than contain
+              marginLeft: deviceWidth >= 800 ? 10 : 0,
+              marginRight: deviceWidth >= 800 ? 36 : 0,
+              marginBottom: deviceWidth < 800 ? 20 : 0,
+            }}
+          />
 
-        {/* Text content */}
-        <View style={{ flex: 1 }}>
-          <Text
-            style={{
-              fontFamily: "Poppins_600SemiBold",
-              fontSize: 28,
-              color: "#111111",
-              marginBottom: 12,
-            }}
-          >
-            Hi, I'm Dr. Kat
-          </Text>
-          <Text
-            style={{
-              fontFamily: "Poppins_400Regular",
-              fontSize: 16,
-              lineHeight: 24,
-              color: "#333333",
-            }}
-          >
-            I created Nuubi to close the gap in engagement and support that
-            students face every day. Nuubi delivers instant answers,
-            encouragement, and motivation when students need it most.
-          </Text>
-          <View style={{ padding: 8 }}></View>
-          <Text
-            style={{
-              fontFamily: "Poppins_400Regular",
-              fontSize: 16,
-              lineHeight: 24,
-              color: "#333333",
-            }}
-          >
-            Named after the spirit of every “newbie,” Nuubi saves faculty time
-            while giving students the support to thrive.
-          </Text>
+          {/* Text content */}
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontFamily: "Poppins_600SemiBold",
+                fontSize: 28,
+                color: "#111111",
+                marginBottom: 12,
+              }}
+            >
+              Hi, I'm Dr. Kat
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Poppins_400Regular",
+                fontSize: 16,
+                lineHeight: 24,
+                color: "#333333",
+              }}
+            >
+              I created Nuubi to close the gap in engagement and support that
+              students face every day. Nuubi delivers instant answers,
+              encouragement, and motivation when students need it most.
+            </Text>
+            <View style={{ padding: 8 }}></View>
+            <Text
+              style={{
+                fontFamily: "Poppins_400Regular",
+                fontSize: 16,
+                lineHeight: 24,
+                color: "#333333",
+              }}
+            >
+              Named after the spirit of every “newbie,” Nuubi saves faculty time
+              while giving students the support to thrive.
+            </Text>
+          </View>
         </View>
       </View>
 
