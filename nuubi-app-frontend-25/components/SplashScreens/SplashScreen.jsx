@@ -498,7 +498,7 @@ export default function SplashScreen({ navigation }) {
             marginBottom: 40,
             marginHorizontal: 10,
             paddingHorizontal: 20,
-            marginVertical: 20,
+            marginTop: 20,
           }}
         >
           {/* Kat image */}
@@ -566,7 +566,7 @@ export default function SplashScreen({ navigation }) {
             color: "#333333",
             fontFamily: "Poppins_500Medium",
             letterSpacing: -0.5,
-            marginBottom: 16,
+            marginBottom: 20,
           }}
         >
           Impact within one term.
