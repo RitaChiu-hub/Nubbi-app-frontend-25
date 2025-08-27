@@ -276,7 +276,8 @@ export default function SplashScreen({ navigation }) {
         </LinearGradient>
         {/* 4. WHAT IS NUU BI? */}
         <Text style={globalStyles.h2HeadingMedium}>
-          Replace silent help forums with a vibrant, mobile-first Q&A hub that keeps students engaged 24/7.
+          Replace silent help forums with a vibrant, mobile-first Q&A hub that
+          keeps students engaged 24/7.
         </Text>
 
         <View
@@ -477,8 +478,8 @@ export default function SplashScreen({ navigation }) {
         <Image
           source={require("../../assets/screenshots/canvas-analytics.png")}
           style={{
-            width: deviceWidth >= 800 ? 300 : 200,
-            height: deviceWidth >= 800 ? 225 : 150,
+            width: deviceWidth >= 800 ? 400 : 200,
+            height: deviceWidth >= 800 ? 325 : 150,
             resizeMode: "contain",
             marginLeft: deviceWidth >= 800 ? 24 : 0,
             marginBottom: deviceWidth < 800 ? 20 : 0,
@@ -510,6 +511,71 @@ export default function SplashScreen({ navigation }) {
             stand-alone platform.
           </Text>
           <View style={{ padding: 6 }}></View>
+        </View>
+      </View>
+
+      <View
+        style={{
+          flexDirection: deviceWidth >= 800 ? "row" : "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 40,
+          marginHorizontal: 10,
+          paddingHorizontal: 20,
+        }}
+      >
+        {/* Kat image */}
+        <Image
+          source={require("../../assets/KatHeadshot.jpg")}
+          style={{
+            width: deviceWidth >= 800 ? 280 : 200,
+            height: deviceWidth >= 800 ? 280 : 200,
+            borderRadius: deviceWidth >= 800 ? 140 : 100, // half of width/height
+            borderWidth: 2, // thickness of the border
+            borderColor: "#", // border color (change as needed)
+            resizeMode: "cover", // cover fills circle better than contain
+            marginLeft: deviceWidth >= 800 ? 10 : 0,
+            marginRight: deviceWidth >= 800 ? 34 : 0,
+            marginBottom: deviceWidth < 800 ? 20 : 0,
+          }}
+        />
+
+        {/* Text content */}
+        <View style={{ flex: 1 }}>
+          <Text
+            style={{
+              fontFamily: "Poppins_600SemiBold",
+              fontSize: 28,
+              color: "#111111",
+              marginBottom: 12,
+            }}
+          >
+            Hi, I'm Dr. Kat
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Poppins_400Regular",
+              fontSize: 16,
+              lineHeight: 24,
+              color: "#333333",
+            }}
+          >
+            I created Nuubi to close the gap in engagement and support that
+            students face every day. Nuubi delivers instant answers,
+            encouragement, and motivation when students need it most.
+          </Text>
+          <View style={{ padding: 8 }}></View>
+          <Text
+            style={{
+              fontFamily: "Poppins_400Regular",
+              fontSize: 16,
+              lineHeight: 24,
+              color: "#333333",
+            }}
+          >
+            Named after the spirit of every “newbie,” Nuubi saves faculty time
+            while giving students the support to thrive.
+          </Text>
         </View>
       </View>
 
