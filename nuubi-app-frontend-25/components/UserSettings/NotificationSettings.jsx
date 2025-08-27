@@ -55,6 +55,7 @@ export default function NotificationSettings({ navigation }) {
       "https://coral-app-n96bn.ondigitalocean.app/settings/get-notif-prefs",
       {
         method: "POST", // your backend is POST for JWT body
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -74,6 +75,7 @@ export default function NotificationSettings({ navigation }) {
       "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
       {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -119,6 +121,7 @@ export default function NotificationSettings({ navigation }) {
           "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
           {
             method: "POST",
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
               ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -173,6 +176,7 @@ export default function NotificationSettings({ navigation }) {
           "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
           {
             method: "POST",
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
               ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -253,6 +257,7 @@ export default function NotificationSettings({ navigation }) {
                     "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
                     {
                       method: "POST",
+                      credentials: "include",
                       headers: {
                         "Content-Type": "application/json",
                         ...(token ? { Authorization: `Bearer ${token}` } : {}),
