@@ -495,7 +495,7 @@ export default function SplashScreen({ navigation }) {
             flexDirection: deviceWidth >= 800 ? "row" : "column",
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: 40,
+            marginBottom: 20,
             marginHorizontal: 10,
             paddingHorizontal: 20,
             marginTop: 20,
@@ -561,12 +561,10 @@ export default function SplashScreen({ navigation }) {
       <View style={styles.resultsSection}>
         <Text
           style={{
+            fontFamily: "Poppins_600SemiBold",
             fontSize: 24,
-            textAlign: "center",
-            color: "#333333",
-            fontFamily: "Poppins_500Medium",
-            letterSpacing: -0.5,
-            marginBottom: 20,
+            color: "#050505",
+            marginBottom: 30,
           }}
         >
           Impact within one term.
