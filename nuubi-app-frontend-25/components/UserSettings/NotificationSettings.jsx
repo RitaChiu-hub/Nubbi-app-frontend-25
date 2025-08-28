@@ -87,55 +87,44 @@ export default function NotificationSettings({ navigation }) {
   // reconcile effect
   useEffect(() => {
     let mounted = true;
+    let inFlight = false;
+
     const reconcile = async () => {
-      const perm = await Notifications.getPermissionsAsync();
-      const deviceGranted = perm.status === "granted";
-      const backendEnabled = await getBackendEnabled();
-      // Case A: Device denied but backend says enabled -> flip OFF
-      if (!deviceGranted && backendEnabled) {
+      if (inFlight) return; // avoid overlapping runs
+      inFlight = true;
+
+      try {
+        // 1) Always mirror the backend setting into the UI first
+        const backendEnabled = await getBackendEnabled();
         if (!mounted) return;
-        setIsEnabled(false);
-        await setBackendEnabled(false);
-        setStatusText(
-          "Notifications are disabled at the device level. We turned them off in Nuubi to match."
-        );
-      }
+        setIsEnabled(backendEnabled);
 
-      // Case B: Device granted but backend disabled -> auto-enable
-      if (deviceGranted && !backendEnabled) {
-        await setBackendEnabled(true);
-        if (!mounted) return;
-        setIsEnabled(true);
-        setStatusText(
-          "Device allows notifications. Enabled in Nuubi to match."
-        );
+        // 2) On web, there is no native push — stop here
+        if (Platform.OS === "web") {
+          inFlight = false;
+          return;
+        }
 
-        // ensure push token saved to backend
-        const pushtoken = (await Notifications.getExpoPushTokenAsync()).data;
-        const token =
-          Platform.OS !== "web"
-            ? await SecureStore.getItemAsync("token")
-            : null; // Get token only on mobile
+        // 3) Check device permission
+        const perm = await Notifications.getPermissionsAsync();
+        const deviceGranted = perm.status === "granted";
 
-        await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            },
-            body: JSON.stringify({ ...user, pushToken: pushtoken }),
-          }
-        );
+        // 4) If device cannot deliver notifications but backend says enabled -> force OFF
+        if (!deviceGranted && backendEnabled) {
+          await setBackendEnabled(false);
+          if (!mounted) return;
+          setIsEnabled(false);
+          setStatusText(
+            "Notifications are disabled at the device level. We turned them off in Nuubi to match."
+          );
+        }
+      } finally {
+        inFlight = false;
       }
     };
 
-    // run on mount
     reconcile();
 
-    // also run when app returns to foreground
     const sub = AppState.addEventListener("change", (s) => {
       if (s === "active") reconcile();
     });
