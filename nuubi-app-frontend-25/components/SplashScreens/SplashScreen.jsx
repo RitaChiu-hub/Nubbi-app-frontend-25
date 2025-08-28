@@ -69,7 +69,6 @@ const featuredLogos = [
 
 export default function SplashScreen({ navigation }) {
   const deviceWidth = Dimensions.get("window").width;
-  console.log(deviceWidth);
   const dots = React.useMemo(() => {
     const arr = [];
     for (let i = 0; i < 40; i++) {
