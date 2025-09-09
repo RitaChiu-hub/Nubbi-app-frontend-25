@@ -9,6 +9,7 @@ import {
   Keyboard,
   Platform,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -39,6 +40,7 @@ export default function CreatePostScreen({ navigation }) {
   const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [pickedFile, setPickedFile] = React.useState(null);
   const [fileUploadInfo, setFileUploadInfo] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   // useFocusEffect(
   //   React.useCallback(() => {
@@ -151,7 +153,7 @@ export default function CreatePostScreen({ navigation }) {
         })
         .catch((err) => console.log(err));
     } else {
-      let apiUrl = "https://api.cloudinary.com/v1_1/${cloudName}/auto/upload";
+      let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
       const formData = new FormData();
       formData.append("file", pickedFile);
       formData.append("api_key", apiKey);
@@ -250,6 +252,7 @@ export default function CreatePostScreen({ navigation }) {
             //  initialValues={{ title: "Testing", body_text: "Test" }}
             validationSchema={createPostSchema}
             onSubmit={async (values, actions) => {
+              setLoading(true);
               if (pickedImage !== null && pickedFile == null) {
                 // post submission with image but with no file attachment
                 // upload image to cloudinary
@@ -302,16 +305,21 @@ export default function CreatePostScreen({ navigation }) {
                       }
                     )
                       .catch((err) => {
+                        setLoading(false);
                         return;
                       })
                       .then((res) => {
+                        setLoading(false);
                         if (!res || !res.ok || res.status >= 400) {
                           return;
                         }
                         return res.json();
                       })
                       .then((data) => {
-                        if (!data) return;
+                        if (!data) {
+                          setLoading(false);
+                          return;
+                        }
                         setUser({ ...data });
                         if (data.status) {
                           //  setError(data.status);
@@ -322,10 +330,15 @@ export default function CreatePostScreen({ navigation }) {
                           }
                           setStatus(data.status);
                         }
+                        actions.resetForm();
+                        setLoading(false);
                       });
                     return data["secure_url"];
                   })
-                  .catch((err) => console.log(err));
+                  .catch((err) => {
+                    setLoading(false);
+                    console.log(err);
+                  });
               } else if (pickedImage !== null && pickedFile !== null) {
                 // post with image and file attachment
 
@@ -414,10 +427,12 @@ export default function CreatePostScreen({ navigation }) {
                           }
                         )
                           .catch((err) => {
+                            setLoading(false);
                             return;
                           })
                           .then((res) => {
                             if (!res || !res.ok || res.status >= 400) {
+                              setLoading(false);
                               return;
                             }
                             return res.json();
@@ -436,14 +451,18 @@ export default function CreatePostScreen({ navigation }) {
                               }
                               setStatus(data.status);
                             }
+                            actions.resetForm();
+                            setLoading(false);
                           });
                         return data["secure_url"];
                       })
-                      .catch((err) => console.log(err));
+                      .catch((err) => {
+                        setLoading(false);
+                        console.log(err);
+                      });
                   });
                 } else {
-                  let apiUrl =
-                    "https://api.cloudinary.com/v1_1/${cloudName}/auto/upload";
+                  let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
                   const formData = new FormData();
                   formData.append("file", pickedFile);
                   formData.append("api_key", apiKey);
@@ -510,10 +529,12 @@ export default function CreatePostScreen({ navigation }) {
                           }
                         )
                           .catch((err) => {
+                            setLoading(false);
                             return;
                           })
                           .then((res) => {
                             if (!res || !res.ok || res.status >= 400) {
+                              setLoading(false);
                               return;
                             }
                             return res.json();
@@ -532,10 +553,15 @@ export default function CreatePostScreen({ navigation }) {
                               }
                               setStatus(data.status);
                             }
+                            actions.resetForm();
+                            setLoading(false);
                           });
                         return data["secure_url"];
                       })
-                      .catch((err) => console.log(err));
+                      .catch((err) => {
+                        setLoading(false);
+                        console.log(err);
+                      });
                   });
                 }
               } else if (pickedImage == null && pickedFile !== null) {
@@ -587,16 +613,21 @@ export default function CreatePostScreen({ navigation }) {
                         }
                       )
                         .catch((err) => {
+                          setLoading(false);
                           return;
                         })
                         .then((res) => {
                           if (!res || !res.ok || res.status >= 400) {
+                            setLoading(false);
                             return;
                           }
                           return res.json();
                         })
                         .then((data) => {
-                          if (!data) return;
+                          if (!data) {
+                            setLoading(false);
+                            return;
+                          }
                           setUser({ ...data });
                           if (data.status) {
                             //   setError(data.status);
@@ -607,13 +638,17 @@ export default function CreatePostScreen({ navigation }) {
                             }
                             setStatus(data.status);
                           }
+                          actions.resetForm();
+                          setLoading(false);
                         });
                       return data["secure_url"];
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => {
+                      setLoading(false);
+                      console.log(err);
+                    });
                 } else {
-                  let apiUrl =
-                    "https://api.cloudinary.com/v1_1/${cloudName}/auto/upload";
+                  let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
                   const formData = new FormData();
                   formData.append("file", pickedFile);
                   formData.append("api_key", apiKey);
@@ -657,10 +692,12 @@ export default function CreatePostScreen({ navigation }) {
                         }
                       )
                         .catch((err) => {
+                          setLoading(false);
                           return;
                         })
                         .then((res) => {
                           if (!res || !res.ok || res.status >= 400) {
+                            setLoading(false);
                             return;
                           }
                           return res.json();
@@ -677,10 +714,15 @@ export default function CreatePostScreen({ navigation }) {
                             }
                             setStatus(data.status);
                           }
+                          actions.resetForm();
+                          setLoading(false);
                         });
                       return data["secure_url"];
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => {
+                      setLoading(false);
+                      console.log(err);
+                    });
                 }
               } else {
                 // regular post with no image and no file attachment
@@ -690,7 +732,7 @@ export default function CreatePostScreen({ navigation }) {
                   fileUrl: null,
                   fileName: null,
                 };
-                actions.resetForm();
+                //  actions.resetForm();
                 const token =
                   Platform.OS !== "web"
                     ? await SecureStore.getItemAsync("token")
@@ -709,16 +751,21 @@ export default function CreatePostScreen({ navigation }) {
                   }
                 )
                   .catch((err) => {
+                    setLoading(false);
                     return;
                   })
                   .then((res) => {
                     if (!res || !res.ok || res.status >= 400) {
+                      setLoading(false);
                       return;
                     }
                     return res.json();
                   })
                   .then((data) => {
-                    if (!data) return;
+                    if (!data) {
+                      setLoading(false);
+                      return;
+                    }
                     setUser({ ...data });
                     if (data.status) {
                       //  setError(data.status);
@@ -729,6 +776,8 @@ export default function CreatePostScreen({ navigation }) {
                       }
                       setStatus(data.status);
                     }
+                    actions.resetForm();
+                    setLoading(false);
                   });
               }
             }}
