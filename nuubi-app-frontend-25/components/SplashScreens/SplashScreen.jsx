@@ -62,8 +62,8 @@ const screenshots = [
 ];
 
 const featuredLogos = [
-  require("../../assets/logos/universityOfStThomas.png"),
-  require("../../assets/logos/merrimackCollege.png"),
+  // require("../../assets/logos/universityOfStThomas.png"),
+  // require("../../assets/logos/merrimackCollege.png"),
   //  require("../../assets/logos/northeasternUniversity.png"),
 ];
 
