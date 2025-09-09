@@ -13,6 +13,9 @@ import { globalStyles } from "../../styles/global";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
 import * as SecureStore from "expo-secure-store";
+import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
+import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
+import IconAD from "@expo/vector-icons/AntDesign";
 
 export default function ForgotPasswordLoggedOut({ navigation }) {
   const inviteToken =
@@ -28,6 +31,36 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [enteredEmail, setEnteredEmail] = React.useState(false);
+  const [password, setPassword] = React.useState("");
+  const [comfirmPassword, setComfirmPassword] = React.useState("");
+  const [suggestions, setSuggestions] = React.useState([]);
+
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+    useTogglePasswordVisibility();
+
+  const validatePassword = (input) => {
+    let newSuggestions = [];
+    if (input.length >= 8) {
+      newSuggestions.push("L");
+    }
+    if (/\d/.test(input)) {
+      newSuggestions.push("NM");
+    }
+
+    if (/[a-z]/.test(input)) {
+      newSuggestions.push("LC");
+    }
+
+    if (/[A-Z]/.test(input)) {
+      newSuggestions.push("UC");
+    }
+
+    if (/[^A-Za-z0-9]/.test(input)) {
+      newSuggestions.push("SC");
+    }
+
+    setSuggestions(newSuggestions);
+  };
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -54,11 +87,10 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
           style={{
             paddingHorizontal: 0,
             paddingVertical: 0,
+            paddingTop: 5,
             alignItems: "center",
           }}
         >
-          <Text style={globalStyles.captionError}>{error}</Text>
-
           <View
             style={{
               flex: 0.2,
@@ -69,6 +101,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
             <Text
               style={{
                 fontSize: 25,
+                paddingVertical: 10,
                 fontWeight: "500",
                 color: enteredEmail ? "#006400" : "#050505",
               }}
@@ -133,6 +166,8 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                     onChangeText={props.handleChange("email")}
                     value={props.values.email}
                   />
+                  <View style={{ marginVertical: 5 }}></View>
+                  <Text style={globalStyles.captionError}>{error}</Text>
                   <View style={{ marginVertical: 5 }}></View>
                   <View>
                     <TouchableOpacity
@@ -202,29 +237,117 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                     <ErrorMessage name="passcode" />
                   </Text>
                   <Text style={globalStyles.textInputLabel}>New Password:</Text>
-                  <TextInput
+                  {/* <TextInput
                     style={globalStyles.textInput}
                     placeholder="Enter New Password"
                     secureTextEntry={true}
                     onChangeText={props.handleChange("passattempt1")}
                     value={props.values.passattempt1}
-                  />
+                  /> */}
+                  <View style={globalStyles.passwordInputContainer}>
+                    <TextInput
+                      style={[
+                        globalStyles.passwordInput,
+                        Platform.OS === "web" && {
+                          outlineStyle: "none",
+                        },
+                      ]}
+                      placeholder="Enter New Password"
+                      onChangeText={(text) => {
+                        setPassword(text);
+                        props.setFieldValue("passattempt1", text);
+                        validatePassword(text);
+                      }}
+                      value={password}
+                      secureTextEntry={passwordVisibility}
+                    />
+                    <TouchableOpacity onPress={handlePasswordVisibility}>
+                      <IconMC name={rightIcon} size={22} color="#2482AA" />
+                    </TouchableOpacity>
+                  </View>
                   <Text style={globalStyles.captionError}>
                     <ErrorMessage name="passattempt1" />
                   </Text>
                   <Text style={globalStyles.textInputLabel}>
                     Repeat New Password:
                   </Text>
-                  <TextInput
+                  {/* <TextInput
                     style={globalStyles.textInput}
                     placeholder="Repeat New Password"
                     secureTextEntry={true}
                     onChangeText={props.handleChange("passattempt2")}
                     value={props.values.passattempt2}
-                  />
+                  /> */}
+                  <View style={globalStyles.passwordInputContainer}>
+                    <TextInput
+                      style={[
+                        globalStyles.passwordInput,
+                        Platform.OS === "web" && {
+                          outlineStyle: "none",
+                        },
+                      ]}
+                      placeholder="Repeat New Password"
+                      onChangeText={(text) => {
+                        setComfirmPassword(text);
+                        props.setFieldValue("passattempt2", text);
+                      }}
+                      value={comfirmPassword}
+                      secureTextEntry={passwordVisibility}
+                    />
+                    <TouchableOpacity onPress={handlePasswordVisibility}>
+                      <IconMC name={rightIcon} size={22} color="#2482AA" />
+                    </TouchableOpacity>
+                  </View>
                   <Text style={globalStyles.captionError}>
                     <ErrorMessage name="passattempt2" />
                   </Text>
+                  <View
+                    style={{
+                      padding: 10,
+                      fontSize: 18,
+                      width: "100%",
+                      alignItems: "stretch",
+                      marginTop: 5,
+                      marginBottom: 5,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      Password must contain:{" "}
+                    </Text>
+                    {[
+                      { code: "L", label: "8 to 28 characters" },
+                      { code: "LC", label: "At least one lowercase letter" },
+                      { code: "UC", label: "At least one uppercase letter" },
+                      { code: "NM", label: "At least one number" },
+                      { code: "SC", label: "At least one special character" },
+                    ].map((rule) => (
+                      <Text
+                        key={rule.code}
+                        style={{
+                          fontFamily: "Poppins_500Medium",
+                          color: "black",
+                        }}
+                      >
+                        <IconAD
+                          name="checkcircle"
+                          size={14}
+                          color={
+                            suggestions.includes(rule.code) &&
+                            password.length > 0
+                              ? "#00A86B"
+                              : "#d8d8d8"
+                          }
+                        />{" "}
+                        {rule.label}
+                      </Text>
+                    ))}
+                  </View>
+
                   <View style={{ marginVertical: 5 }}></View>
                   <View>
                     <TouchableOpacity
@@ -249,9 +372,10 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                       }}
                     >
                       <Text style={globalStyles.captionLinkBlue}>
-                        Return to Sign In
+                        Return to Log In
                       </Text>
                     </TouchableOpacity>
+                    <View style={{ marginVertical: 20 }}></View>
                   </View>
                 </View>
               )}
