@@ -1013,6 +1013,9 @@ export default function ViewPostScreen({ navigation, route }) {
                 marginBottom: deviceWidth > 500 ? 0 : "-4%",
               }}
             >
+              <Text style={[globalStyles.captionError, { padding: 4 }]}>
+                <ErrorMessage name="mycomment" />
+              </Text>
               <View
                 style={{
                   flexDirection: "row",

@@ -73,14 +73,14 @@ const addMessageSchema = Yup.object({
   mymessage: Yup.string()
     .required("Message is required")
     .min(1, "Message must be at least 1 character")
-    .max(500, "Message cannot exceed 500 characters"),
+    .max(2000, "Message cannot exceed 2000 characters"),
 });
 
 const addCommentSchema = Yup.object({
   mycomment: Yup.string()
     .required("Comment is required")
     .min(1, "Comment must be at least 1 character")
-    .max(1000, "Comment cannot exceed 1000 characters"),
+    .max(4000, "Comment cannot exceed 4000 characters"),
 });
 
 const createGroupSchema = Yup.object({
@@ -102,7 +102,7 @@ const createPostSchema = Yup.object({
   body_text: Yup.string()
     .required("Body text is required")
     .min(1, "Body text must be at least 1 character")
-    .max(4000, "Body text cannot exceed 4000 characters"),
+    .max(6000, "Body text cannot exceed 6000 characters"),
 });
 
 const createTaskSchema = Yup.object({
