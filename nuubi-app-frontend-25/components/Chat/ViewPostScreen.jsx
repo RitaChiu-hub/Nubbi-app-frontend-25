@@ -222,6 +222,7 @@ export default function ViewPostScreen({ navigation, route }) {
         (a, b) =>
           new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
       );
+      //   console.log("COMMENTS:", JSON.stringify(jsonData, null, 2));
       setComments(jsonData);
     } catch (err) {
       console.error(err.message);
@@ -959,9 +960,6 @@ export default function ViewPostScreen({ navigation, route }) {
                     >
                       {comments.comment_text}
                     </Markdown>
-                    {/* <Text style={globalStyles.bodyRegular}>
-                      {comments.comment_text}
-                    </Text> */}
                   </View>
                 </View>
               );
