@@ -227,17 +227,25 @@ export default function ChatScreen({ navigation }) {
                 backgroundColor: "transparent",
                 padding: 8,
                 marginTop: 4,
-                width: screenWidth * 0.8,
+                width:
+                  Platform.OS === "web" && screenWidth > 600
+                    ? "100%"
+                    : screenWidth * 0.85,
               }}
             >
               <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
                 {/* Avatar + Points */}
                 <View
                   style={{
-                    justifyContent: "center",
+                    justifyContent: "flex-start",
                     alignItems: "center",
+                    marginLeft:
+                      Platform.OS === "web" && screenWidth > 600 ? 12 : 0,
+                    marginRight:
+                      Platform.OS === "web" && screenWidth > 600 ? 16 : 0,
                     flex: 0,
-                    maxWidth: 50,
+                    maxWidth:
+                      Platform.OS === "web" && screenWidth > 600 ? 70 : 60,
                   }}
                 >
                   <Image
@@ -245,7 +253,8 @@ export default function ChatScreen({ navigation }) {
                       width: 30,
                       height: 30,
                       borderRadius: 20,
-                      margin: 3,
+                      marginVertical: 3,
+                      marginTop: 4,
                     }}
                     source={
                       chat?.sender_avatar_url
