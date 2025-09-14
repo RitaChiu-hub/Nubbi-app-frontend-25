@@ -414,6 +414,17 @@ export default function ChatScreen({ navigation }) {
                           width: "100%",
                           overflow: "hidden",
                         },
+                        code_block: {
+                          backgroundColor: "#f9f9f9",
+                          borderRadius: 6,
+                          fontFamily: mono,
+                          fontSize: 13,
+                          padding: 8,
+                          marginVertical: 8,
+                          flexShrink: 1,
+                          width: "100%",
+                          overflow: "hidden",
+                        },
                       }}
                       onError={(error) => {
                         console.warn("Markdown rendering error:", error);

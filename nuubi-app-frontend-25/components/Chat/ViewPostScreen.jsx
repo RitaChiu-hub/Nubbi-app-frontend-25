@@ -229,6 +229,13 @@ export default function ViewPostScreen({ navigation, route }) {
     }
   };
 
+  const mono = Platform.select({
+    ios: "Courier",
+    android: "monospace",
+    web: "monospace",
+    default: "Courier",
+  });
+
   const getUserPoints = async () => {
     const token =
       Platform.OS !== "web"
@@ -653,9 +660,74 @@ export default function ViewPostScreen({ navigation, route }) {
                   Author: {postInfo.post_author}
                 </Text>
               </View>
-              <Text style={[globalStyles.bodyRegular, { padding: 14 }]}>
-                {postInfo.body_text}
-              </Text>
+              <View style={{ padding: 14 }}>
+                {/* <Text style={[globalStyles.bodyRegular, { padding: 14 }]}> */}
+                <Markdown
+                  style={{
+                    body: {
+                      fontFamily: "Poppins_400Regular",
+                      fontSize: 14,
+                      color: "#050505",
+                    },
+                    strong: { fontFamily: "Poppins_600SemiBold" }, // **bold**
+                    em: { fontStyle: "italic" }, // *italic*
+                    link: { color: "#2482AA" },
+                    // bullet & numbered lists share the same left indent
+                    bullet_list: { paddingLeft: 8 },
+                    ordered_list: { paddingLeft: 8 },
+                    list_item: { marginVertical: 2 },
+
+                    // block quotes
+                    block_quote: {
+                      borderLeftWidth: 3,
+                      borderLeftColor: "#7DDFA0",
+                      paddingLeft: 8,
+                      fontStyle: "italic",
+                      color: "#555",
+                    },
+
+                    // inline `code`
+                    code_inline: {
+                      backgroundColor: "#f1f1f1",
+                      borderRadius: 4,
+                      fontFamily: mono,
+                      fontSize: 13, // shrink text
+                      paddingHorizontal: 4, // reduce side padding
+                      paddingVertical: 2, // add small vertical padding
+                      marginHorizontal: 2, // tiny gaps between code and text
+                      flexShrink: 1, // allow it to shrink
+                      flexWrap: "wrap", // wrap long bits onto next line
+                      alignSelf: "flex-start", // don’t stretch to full width
+                    },
+
+                    // fenced ```code blocks```
+                    fence: {
+                      backgroundColor: "#f9f9f9e9",
+                      borderRadius: 6,
+                      fontFamily: mono,
+                      fontSize: 13, // shrink text
+                      padding: 8, // keep a little padding
+                      marginVertical: 8, // space above/below block
+                      maxWidth: deviceWidth * 0.95, // never wider than screen
+                      overflow: "scroll", // horizontal scroll if needed
+                    },
+                    code_block: {
+                      backgroundColor: "#f9f9f9",
+                      borderRadius: 6,
+                      fontFamily: mono,
+                      fontSize: 13,
+                      padding: 8,
+                      marginVertical: 8,
+                      flexShrink: 1,
+                      width: "100%",
+                      overflow: "hidden",
+                    },
+                  }}
+                >
+                  {postInfo.body_text}
+                </Markdown>
+              </View>
+              {/* </Text> */}
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 {postInfo.image_url === null ? null : (
                   <Image
@@ -935,7 +1007,7 @@ export default function ViewPostScreen({ navigation, route }) {
                         code_inline: {
                           backgroundColor: "#f1f1f1",
                           borderRadius: 4,
-                          fontFamily: "Courier",
+                          fontFamily: mono,
                           fontSize: 13, // shrink text
                           paddingHorizontal: 4, // reduce side padding
                           paddingVertical: 2, // add small vertical padding
@@ -949,12 +1021,23 @@ export default function ViewPostScreen({ navigation, route }) {
                         fence: {
                           backgroundColor: "#f9f9f9",
                           borderRadius: 6,
-                          fontFamily: "Courier",
+                          fontFamily: mono,
                           fontSize: 13, // shrink text
                           padding: 8, // keep a little padding
                           marginVertical: 8, // space above/below block
                           maxWidth: deviceWidth * 0.95, // never wider than screen
                           overflow: "scroll", // horizontal scroll if needed
+                        },
+                        code_block: {
+                          backgroundColor: "#f9f9f9",
+                          borderRadius: 6,
+                          fontFamily: mono,
+                          fontSize: 13,
+                          padding: 8,
+                          marginVertical: 8,
+                          flexShrink: 1,
+                          width: "100%",
+                          overflow: "hidden",
                         },
                       }}
                     >
