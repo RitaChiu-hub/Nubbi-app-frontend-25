@@ -27,6 +27,7 @@ import * as SecureStore from "expo-secure-store";
 import { useIsFocused } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
 import { ActivityIndicator } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -54,7 +55,6 @@ export default function ViewPostScreen({ navigation, route }) {
   const postId = route.params?.currentPost ?? user.currentPost ?? null;
   const [loading, setLoading] = React.useState(true);
   const [loadedPostId, setLoadedPostId] = React.useState(null);
-
   const deviceWidth = Dimensions.get("window").width;
 
   const scrollViewRef = React.useRef();

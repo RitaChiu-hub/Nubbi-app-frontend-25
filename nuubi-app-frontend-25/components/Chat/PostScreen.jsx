@@ -11,7 +11,7 @@ import { globalStyles } from "../../styles/global";
 const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import moment from "moment";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 
@@ -21,8 +21,49 @@ export default function PostScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [isLoggedIn, setIsLoggedIn] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
-
   const deviceWidth = Dimensions.get("window").width;
+
+  const GROUP_KEY = "currentGroup";
+
+  async function saveGroup(id) {
+    const v = String(id);
+    if (Platform.OS === "web") {
+      try {
+        localStorage.setItem(GROUP_KEY, v);
+      } catch {}
+    } else {
+      try {
+        await AsyncStorage.setItem(GROUP_KEY, v);
+      } catch {}
+    }
+  }
+
+  async function loadGroup() {
+    try {
+      const v =
+        Platform.OS === "web"
+          ? localStorage.getItem(GROUP_KEY)
+          : await AsyncStorage.getItem(GROUP_KEY);
+      return v ? Number(v) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  // Save when group changes
+  React.useEffect(() => {
+    if (user?.currentGroup) saveGroup(user.currentGroup);
+  }, [user?.currentGroup]);
+
+  // Restore once on mount if missing
+  React.useEffect(() => {
+    (async () => {
+      if (!user?.currentGroup) {
+        const saved = await loadGroup();
+        if (saved) setUser((u) => ({ ...u, currentGroup: saved }));
+      }
+    })();
+  }, []);
 
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
@@ -130,21 +171,46 @@ export default function PostScreen({ navigation }) {
   //   getPosts();
   // }, [isFocused]);
 
-  React.useEffect(() => {
-    // Snapshot the group id for this run
-    const groupId = user.currentGroup;
-    // Clear stale items immediately to avoid flashing old content
-    setPosts([]);
-    setLoading(true);
-    const controller = new AbortController();
-    getPosts(groupId, controller.signal).finally(() => {
-      if (!controller.signal.aborted && user.currentGroup === groupId) {
-        setLoading(false);
-      }
-    });
-    // Cancel in‑flight request if group changes or screen blurs/unmounts
-    return () => controller.abort();
-  }, [user.currentGroup, isFocused]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!isLoggedIn) return;
+
+      const groupId = user.currentGroup;
+      const controller = new AbortController();
+
+      setLoading(true); // don't setPosts([]) here
+
+      (async () => {
+        try {
+          await getPosts(groupId, controller.signal); // setPosts happens inside getPosts
+        } finally {
+          // only end loading if we didn't abort and the group hasn't changed
+          if (!controller.signal.aborted && user.currentGroup === groupId) {
+            setLoading(false);
+          }
+        }
+      })();
+
+      // cancel in-flight fetch if we blur/unmount
+      return () => controller.abort();
+    }, [user.currentGroup, isLoggedIn])
+  );
+
+  // React.useEffect(() => {
+  //   // Snapshot the group id for this run
+  //   const groupId = user.currentGroup;
+  //   // Clear stale items immediately to avoid flashing old content
+  //   setPosts([]);
+  //   setLoading(true);
+  //   const controller = new AbortController();
+  //   getPosts(groupId, controller.signal).finally(() => {
+  //     if (!controller.signal.aborted && user.currentGroup === groupId) {
+  //       setLoading(false);
+  //     }
+  //   });
+  //   // Cancel in‑flight request if group changes or screen blurs/unmounts
+  //   return () => controller.abort();
+  // }, [user.currentGroup, isFocused]);
 
   const Item = ({
     title,
@@ -263,7 +329,7 @@ export default function PostScreen({ navigation }) {
         backgroundColor: "#fbfbfb",
       }}
     >
-      {!loading ? (
+      {/* {!loading ? (
         <FlatList
           data={posts}
           renderItem={renderItem}
@@ -271,7 +337,17 @@ export default function PostScreen({ navigation }) {
         />
       ) : (
         <Text>Loading your group threads...</Text>
-      )}
+      )} */}
+      <FlatList
+        data={posts}
+        renderItem={renderItem}
+        keyExtractor={(item) => String(item.post_id)}
+        ListEmptyComponent={
+          !loading ? <Text style={{ margin: 16 }}>No posts yet.</Text> : null
+        }
+      />
+
+      {loading && <Text style={{ margin: 16 }}>Refreshing…</Text>}
       <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
           style={globalStyles.primaryButtonWide}

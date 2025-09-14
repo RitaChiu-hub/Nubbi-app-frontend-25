@@ -82,7 +82,10 @@ export default function NotificationsScreen({ navigation }) {
         }
       );
       const jsonData = await response.json();
-      setUser({ ...user, notifications: false });
+      setUser((prev) => ({
+        ...(prev ?? {}),
+        notifications: false,
+      }));
     } catch (err) {
       console.error(err.message);
     }
