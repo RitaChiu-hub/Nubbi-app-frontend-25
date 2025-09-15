@@ -207,15 +207,21 @@ export default function App() {
             landingPage={containsLandingPage}
             inviteToken={inviteToken}
           >
-            <Suspense
+            <Suspense>
+              <Views
+                landingPage={containsLandingPage}
+                inviteToken={inviteToken}
+              />
+            </Suspense>
+            {/* <Suspense
               fallback={
                 <Views
                   landingPage={containsLandingPage}
                   inviteToken={inviteToken}
                 />
               }
-            >
-              {isWeb && Elements && stripePromise ? (
+            > */}
+            {/* {isWeb && Elements && stripePromise ? (
                 <Elements stripe={stripePromise}>
                   <Views
                     landingPage={containsLandingPage}
@@ -234,8 +240,8 @@ export default function App() {
                   landingPage={containsLandingPage}
                   inviteToken={inviteToken}
                 />
-              )}
-            </Suspense>
+              )} */}
+            {/* </Suspense> */}
           </NavigationContainer>
         </SafeAreaProvider>
       </UserContext>
