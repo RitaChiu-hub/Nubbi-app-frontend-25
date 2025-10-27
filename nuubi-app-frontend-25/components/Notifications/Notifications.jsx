@@ -52,7 +52,12 @@ export default function NotificationsScreen({ navigation }) {
       );
       const jsonData = await response.json();
 
-      //  setNotifications(formattedNotifications);
+      // console.log(
+      //   "%c🔔 Notifications JSON:",
+      //   "color: blue; font-weight: bold;",
+      //   JSON.stringify(jsonData, null, 2)
+      // );
+
       setNotifications(jsonData);
     } catch (err) {
       console.error(err.message);
