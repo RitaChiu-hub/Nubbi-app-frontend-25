@@ -24,6 +24,11 @@ const formSignupSchema = Yup.object({
     .required("Valid email required")
     .trim()
     .email("Valid email required"),
+  username: Yup.string()
+    .required("Username required")
+    .min(3, "Username must contain at least 3 characters")
+    .max(28, "Username can be a maximum of 28 characters")
+    .matches( /^[a-zA-Z0-9]+$/, "Username cannot contain white space or special characters"),
   password: Yup.string()
     .required("Password required")
     .min(8, "Password must contain at least 8 characters")

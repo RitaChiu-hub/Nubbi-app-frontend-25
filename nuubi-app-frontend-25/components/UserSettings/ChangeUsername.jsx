@@ -212,7 +212,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                       validateUser(usernameText);
                       props.handleChange("username")(usernameText);
                     }}
-                    value={username}
+                    value={""}
                   />
                   <Text style={globalStyles.captionError}>
                     <ErrorMessage name="username" />

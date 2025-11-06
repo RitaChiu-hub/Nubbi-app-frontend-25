@@ -34,15 +34,34 @@ export default function SignUpScreen({ navigation }) {
   let assets2 = useAssets([require("../../assets/facebook-logo.png")]);
   const deviceWidth = Dimensions.get("window").width;
 
+  
+  const [username, setUsername] = React.useState("");
+  const validateUser = (input) => {
+    let newSuggestions = [];
+    if (input.length >= 3) {
+      newSuggestions.push("L");
+    }
+    if (input.length <= 28) {
+      newSuggestions.push("H");
+    }
+    if (/^[a-zA-Z0-9]+$/.test(input)) {
+      newSuggestions.push("nSC");
+    }
+    setSuggestions(newSuggestions);
+  };
+
+
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
   const areAllFieldsEmpty = (values) => {
     values.email = values.email.trim();
+    value.username=username;
     values.password = password;
     values.password2 = comfirmPassword;
     return (
       !values.email.trim() ||
+      !values.username.trim() ||
       !values.password.trim() ||
       !values.password2.trim()
     );
@@ -134,6 +153,7 @@ export default function SignUpScreen({ navigation }) {
             initialValues={{
               //email: email,
               email: user?.email || "",
+              username:"",
               password: "",
               password2: "",
               //  password: password,
@@ -143,10 +163,12 @@ export default function SignUpScreen({ navigation }) {
             validationSchema={formSignupSchema}
             onSubmit={(values, actions) => {
               values.email = values.email.trim();
+              values.username=username;
               values.password = password;
               values.password2 = comfirmPassword;
               const vals = {
                 email: values.email,
+                username: username,
                 password: password,
                 password2: comfirmPassword,
               };
@@ -189,6 +211,7 @@ export default function SignUpScreen({ navigation }) {
                   actions.resetForm({
                     values: {
                       email: "", // Ensure email is blank for new users
+                      username:"",
                       password: "",
                       password2: "",
                     },
@@ -290,6 +313,17 @@ export default function SignUpScreen({ navigation }) {
                 <Text style={globalStyles.captionError}>
                   <ErrorMessage name="email" />
                 </Text>
+
+                <Text style={globalStyles.textInputLabel}>Username:</Text>
+                <TextInput
+                  style={globalStyles.textInput}
+                  placeholder="Username"
+                  onChangeText={(usernameText) => {
+                      setUsername(usernameText), validateUser(usernameText);
+                    }}
+                  value={username}
+                />
+
                 <Text style={globalStyles.textInputLabel}>Password:</Text>
                 <View style={globalStyles.passwordInputContainer}>
                   <TextInput
@@ -368,6 +402,63 @@ export default function SignUpScreen({ navigation }) {
                     marginBottom: 5,
                   }}
                 >
+
+
+
+
+                  <Text
+                    style={{ fontFamily: "Poppins_500Medium", color: "black" }}
+                  >
+                    Username must contain:{" "}
+                  </Text>
+                  {suggestions.includes("L") &&
+                  suggestions.includes("H") &&
+                  username.length > 0 ? (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#00A86B" /> 3
+                      to 28 characters
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> 3
+                      to 28 characters
+                    </Text>
+                  )}
+                  {suggestions.includes("nSC") && username.length > 0 ? (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#00A86B" /> No
+                      special characters{" "}
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins_500Medium",
+                        color: "black",
+                      }}
+                    >
+                      <IconAD name="checkcircle" size={14} color="#d8d8d8" /> No
+                      special characters{" "}
+                    </Text>
+                  )}
+
+
+
+
                   <Text
                     style={{ fontFamily: "Poppins_500Medium", color: "black" }}
                   >
@@ -479,6 +570,8 @@ export default function SignUpScreen({ navigation }) {
                     </Text>
                   )}
                 </View>
+
+
                 <View style={{ marginVertical: 5 }}></View>
                 <View>
                   <View>
