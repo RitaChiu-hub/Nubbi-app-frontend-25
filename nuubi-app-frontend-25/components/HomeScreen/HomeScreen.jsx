@@ -305,7 +305,24 @@ export default function HomeScreen({ navigation }) {
   }, [navigation]);
 
   return (
+
+    
     <View style={globalStyles.container}>
+
+       {/* H1 header for the Home screen (accessible on web as header) */}
+      <Text
+        accessibilityRole="header"
+        accessible={true}
+        style={[
+          globalStyles.webpageHeader2,
+          { fontSize: 32, marginVertical: 16 },
+        ]}
+      >
+        HomeScreenHeader
+      </Text>
+
+
+
       {forYouScreen ? (
         <ScrollView ref={scrollViewRef}>
           {/* <View
