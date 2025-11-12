@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   TextInput,
   View,
@@ -44,7 +45,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+        `${API_URL}/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -90,7 +91,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
+        `${API_URL}/groupchat/getlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -119,7 +120,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+        `${API_URL}/groupchat/getmessages`,
         {
           method: "POST",
           credentials: "include",
@@ -144,7 +145,7 @@ export default function ChatScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+        `${API_URL}/groups/isadmin`,
         {
           method: "POST",
           credentials: "include",
@@ -296,7 +297,7 @@ export default function ChatScreen({ navigation }) {
                             : sessionStorage.getItem("token");
 
                         await fetch(
-                          `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+                          `${API_URL}/groups/addmessagepoint`,
                           {
                             method: "POST",
                             credentials: "include",
@@ -565,7 +566,7 @@ export default function ChatScreen({ navigation }) {
 //         : sessionStorage.getItem("token");
 //     try {
 //       const response = await fetch(
-//         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+//         `${API_URL}/groups/getgroupinfo`,
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -589,7 +590,7 @@ export default function ChatScreen({ navigation }) {
 //         : sessionStorage.getItem("token");
 //     try {
 //       const response = await fetch(
-//         `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+//         `${API_URL}/groups/getgroupinfo`,
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -643,7 +644,7 @@ export default function ChatScreen({ navigation }) {
 //         : sessionStorage.getItem("token");
 //     try {
 //       const response = await fetch(
-//         `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
+//         `${API_URL}/groupchat/getlikes`,
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -673,7 +674,7 @@ export default function ChatScreen({ navigation }) {
 //         : sessionStorage.getItem("token");
 //     try {
 //       const response = await fetch(
-//         "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+//         "${API_URL}/groupchat/getmessages",
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -699,7 +700,7 @@ export default function ChatScreen({ navigation }) {
 //         : sessionStorage.getItem("token");
 //     try {
 //       const response = await fetch(
-//         `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+//         `${API_URL}/groups/isadmin`,
 //         {
 //           method: "POST",
 //           credentials: "include",
@@ -904,7 +905,7 @@ export default function ChatScreen({ navigation }) {
 //                                 : sessionStorage.getItem("token");
 
 //                             fetch(
-//                               `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+//                               `${API_URL}/groups/addmessagepoint`,
 //                               {
 //                                 method: "POST",
 //                                 credentials: "include",
@@ -1113,7 +1114,7 @@ export default function ChatScreen({ navigation }) {
 //                                 : sessionStorage.getItem("token"); // Get token only on mobile
 
 //                             fetch(
-//                               `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+//                               `${API_URL}/groups/addmessagepoint`,
 //                               {
 //                                 method: "POST",
 //                                 credentials: "include",

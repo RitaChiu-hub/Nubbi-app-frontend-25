@@ -8,6 +8,7 @@ import {
   Platform,
 } from "react-native";
 import React, { useState, useEffect, useContext, memo } from "react";
+import { API_URL } from "../../config";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useAssets } from "expo-asset";
 import { globalStyles } from "../../styles/global";
@@ -84,7 +85,7 @@ export default function HomeScreenLeaderboard() {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/myleaderboards`,
+        `${API_URL}/groups/myleaderboards`,
         {
           method: "POST",
           credentials: "include",

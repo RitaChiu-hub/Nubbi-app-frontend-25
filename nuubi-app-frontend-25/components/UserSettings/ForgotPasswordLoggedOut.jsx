@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -129,7 +130,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 //  actions.resetForm();
                 const email = vals.email;
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+                  `${API_URL}/settings/generatepasscode`,
                   {
                     method: "POST",
                     credentials: "include",
@@ -196,7 +197,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 const vals = { ...values };
                 actions.resetForm();
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                  `${API_URL}/settings/forgotpassword`,
                   {
                     method: "POST",
                     credentials: "include",

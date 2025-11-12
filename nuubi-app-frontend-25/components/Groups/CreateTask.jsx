@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   TextInput,
   View,
@@ -57,7 +58,7 @@ export default function CreateTask({ navigation }) {
               const vals = { ...values, assignToAdmin, assignToParticipants };
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
+                `https://coral-app-n96bn.ondigitalocean.app/groups/createtask`,
                 {
                   method: "POST",
                   credentials: "include",

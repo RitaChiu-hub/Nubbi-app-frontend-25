@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   TextInput,
   View,
@@ -105,7 +106,7 @@ export default function CreateGroupScreen({ navigation }) {
                   : null; // Get token only on mobile
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/creategroup",
+                `${API_URL}/groups/creategroup`,
                 {
                   method: "POST",
                   credentials: "include",

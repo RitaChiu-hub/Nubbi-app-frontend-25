@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -46,7 +47,7 @@ export default function DeleteGroupScreen({ navigation }) {
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
                 : null; // Get token only on mobile
-            fetch("https://coral-app-n96bn.ondigitalocean.app/groups/deletegroup", {
+            fetch(`${API_URL}/groups/deletegroup`, {
               method: "POST",
               credentials: "include",
               headers: {

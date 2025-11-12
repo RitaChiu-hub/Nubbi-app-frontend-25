@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   TextInput,
   View,
@@ -88,7 +89,7 @@ export default function JoinGroupWithPasscode({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                `https://coral-app-n96bn.ondigitalocean.app/groups/joingroupwithpasscode`,
+                `${API_URL}/groups/joingroupwithpasscode`,
                 {
                   method: "POST",
                   credentials: "include",

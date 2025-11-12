@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -39,7 +40,7 @@ export default function GroupInfoScreen({ navigation }) {
   //       : sessionStorage.getItem("token");
   //   try {
   //     const response = await fetch(
-  //       `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+  //       `${API_URL}/groups/isadmin`,
   //       {
   //         method: "POST",
   //         credentials: "include",
@@ -78,7 +79,7 @@ export default function GroupInfoScreen({ navigation }) {
 
       try {
         const [adminRes, groupRes] = await Promise.all([
-          fetch("https://coral-app-n96bn.ondigitalocean.app/groups/isadmin", {
+          fetch(`${API_URL}/groups/isadmin`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -88,7 +89,7 @@ export default function GroupInfoScreen({ navigation }) {
             body: JSON.stringify({ ...user }),
           }),
           fetch(
-            "https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo",
+            `${API_URL}/groups/getgroupinfo`,
             {
               method: "POST",
               credentials: "include",
@@ -135,7 +136,7 @@ export default function GroupInfoScreen({ navigation }) {
   //       : sessionStorage.getItem("token");
   //   try {
   //     const response = await fetch(
-  //       `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+  //       `${API_URL}/groups/getgroupinfo`,
   //       {
   //         method: "POST",
   //         credentials: "include",
@@ -180,7 +181,7 @@ export default function GroupInfoScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
+        `${API_URL}/groups/getmembercount`,
         {
           method: "POST",
           credentials: "include",
@@ -205,7 +206,7 @@ export default function GroupInfoScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
+        `${API_URL}/groups/getleaderboard`,
         {
           method: "POST",
           credentials: "include",
@@ -230,7 +231,7 @@ export default function GroupInfoScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/leavegroup",
+        `${API_URL}/groups/leavegroup`,
         {
           method: "POST",
           credentials: "include",

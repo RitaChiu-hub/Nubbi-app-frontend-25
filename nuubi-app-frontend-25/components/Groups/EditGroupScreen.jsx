@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   TextInput,
   View,
@@ -95,7 +96,7 @@ export default function EditGroupScreen({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/editgroup",
+                `${API_URL}/groups/editgroup`,
                 {
                   method: "POST",
                   credentials: "include",

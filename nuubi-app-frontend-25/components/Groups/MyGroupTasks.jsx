@@ -1,5 +1,6 @@
 //import * as React from "react";
 import React, { useState, useRef, useEffect } from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -177,8 +178,8 @@ export default function MyGroupTasks({ navigation }) {
   const getGroupTasks = async () => {
     try {
       const response = await fetch(
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
+        // `${API_URL}/groups/mygrouptasks`,
+        `${API_URL}/groups/mygrouptasks`,
         {
           method: "POST",
           credentials: "include",
@@ -198,8 +199,8 @@ export default function MyGroupTasks({ navigation }) {
   const getAllGroupTasks = async () => {
     try {
       const response = await fetch(
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        `https://coral-app-n96bn.ondigitalocean.app/groups/allgrouptasks`,
+        // `${API_URL}/groups/mygrouptasks`,
+        `${API_URL}/groups/allgrouptasks`,
         {
           method: "POST",
           credentials: "include",
@@ -234,8 +235,8 @@ export default function MyGroupTasks({ navigation }) {
       }));
 
       fetch(
-        //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-        "https://coral-app-n96bn.ondigitalocean.app/groups/taskcompleted",
+        //  `${API_URL}/groups/createtask`,
+        `${API_URL}/groups/taskcompleted`,
         {
           method: "POST",
           credentials: "include",
@@ -270,7 +271,7 @@ export default function MyGroupTasks({ navigation }) {
         [taskId]: true,
       }));
 
-      fetch("https://coral-app-n96bn.ondigitalocean.app/groups/taskapproved", {
+      fetch(`${API_URL}/groups/taskapproved`, {
         method: "POST",
         credentials: "include",
         headers: {

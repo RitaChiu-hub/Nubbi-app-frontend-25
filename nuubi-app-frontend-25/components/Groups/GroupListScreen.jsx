@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   View,
   Text,
@@ -31,7 +32,7 @@ export default function GroupListScreen({ navigation }) {
   const getGroups = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getpublicgroups",
+        `${API_URL}/groups/getpublicgroups`,
         {
           credentials: "include",
         }
@@ -81,7 +82,7 @@ export default function GroupListScreen({ navigation }) {
             Platform.OS !== "web"
               ? await SecureStore.getItemAsync("token")
               : null; // Get token only on mobile
-          fetch("https://coral-app-n96bn.ondigitalocean.app/groups/joingroup", {
+          fetch(`${API_URL}/groups/joingroup`, {
             method: "POST",
             credentials: "include",
             headers: {

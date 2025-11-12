@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import { View, Text, Image, Platform, FlatList } from "react-native";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
@@ -91,7 +92,7 @@ export default function CertificatesScreen({ navigation }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${API_URL}/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -180,7 +181,7 @@ export default function CertificatesScreen({ navigation }) {
 
         // Send the push token with user info to your backend
         const res = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          `${API_URL}/settings/savepushtoken`,
           {
             method: "POST",
             headers: {
@@ -233,7 +234,7 @@ export default function CertificatesScreen({ navigation }) {
 
       try {
         const res = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/groups/getwoncertificates",
+          `${API_URL}/groups/getwoncertificates`,
           {
             method: "POST",
             credentials: "include",

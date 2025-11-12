@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -33,7 +34,7 @@ export default function MyGroupsScreen({ navigation }) {
 
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
+        `${API_URL}/groups/mygroups`,
         {
           method: "POST",
           credentials: "include",

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -26,7 +27,7 @@ export default function ForgotPasswordScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+      `${API_URL}/settings/generatepasscode`,
       {
         method: "POST",
         credentials: "include",
@@ -145,7 +146,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                  `${API_URL}/settings/forgotpassword`,
                   {
                     method: "POST",
                     credentials: "include",
