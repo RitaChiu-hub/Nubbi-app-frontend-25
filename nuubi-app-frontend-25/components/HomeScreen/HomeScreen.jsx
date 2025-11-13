@@ -295,14 +295,24 @@ export default function HomeScreen({ navigation }) {
           "Find your earned badges here. Earning badges gets you more points!",
         ];
 
+
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>Progress Dashboard</Text>
-      ),
+        <Text
+        style={globalStyles.h3HeadingWhite}
+        accessibilityRole="header"
+        accessibilityLevel={1}
+      >
+        Progress Dashboard
+      </Text>
+    ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
+
+
 
   return (
 
@@ -318,7 +328,7 @@ export default function HomeScreen({ navigation }) {
           { fontSize: 32, marginVertical: 16 },
         ]}
       >
-        HomeScreenHeader
+        HomeScreen
       </Text>
 
 
@@ -587,6 +597,10 @@ export default function HomeScreen({ navigation }) {
                 textAlign: "center",
                 paddingBottom: 8,
               }}
+
+              accessibilityRole="header"
+              accessibilityLevel={2}
+
             >
               {modalTheme == "Finished" ? "You're all set!" : "Skip the Tour?"}
             </Text>
