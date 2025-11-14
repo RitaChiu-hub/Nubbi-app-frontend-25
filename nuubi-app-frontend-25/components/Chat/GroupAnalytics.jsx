@@ -188,7 +188,11 @@ export default function GroupAnalytics({ navigation }) {
   );
 
   return (
-    <ScrollView style={{ backgroundColor: "#fbfbfb" }} horizontal>
+    <ScrollView
+      style={{ backgroundColor: "#fbfbfb" }}
+      contentContainerStyle={{ paddingBottom: 40 }}
+      horizontal
+    >
       {Platform.OS === "web" && (
         <TouchableOpacity
           onPress={navigation.goBack}
