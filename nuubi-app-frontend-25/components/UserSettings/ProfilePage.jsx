@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   Platform,
+  Linking, // update 1: added this for opening external URLs
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
@@ -26,6 +27,7 @@ export default function ProfilePageScreen({ navigation }) {
   const [avatarInfo, setAvatarInfo] = React.useState(null);
   const [userPoints, setUserPoints] = React.useState(0);
   const [myUsername, setMyUsername] = React.useState("");
+  const [linkedinUrl, setLinkedinUrl] = React.useState(""); //update 2: added this for the linkedIN url
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -94,6 +96,23 @@ export default function ProfilePageScreen({ navigation }) {
       console.error(err.message);
     }
   };
+  
+//Update 3: Function to open the LinkedIn URL externally
+  const handleOpenLink = async () => {
+    // NOTE: This URL should ideally be stored in state (linkedinUrl) and fetched from the backend.
+    // Using a placeholder/example for demonstration.
+    const url = user.linkedin_url || "https://www.linkedin.com/in/exampleuser";
+
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      console.error(`Don't know how to open URL: ${url}`);
+      setError(`Cannot open LinkedIn profile. Invalid URL or no app to open it.`);
+    }
+  };
+  //End update 3
 
   const resizeImage = async (imageInfo, resizeAmount) => {
     const resizedPhoto = await ImageManipulator.manipulateAsync(
@@ -427,6 +446,26 @@ export default function ProfilePageScreen({ navigation }) {
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
             </View>
+            //update 4: LinkedIn Link Row
+            <View style={globalStyles.rowWrapper}>
+              <TouchableOpacity
+                style={globalStyles.row}
+                onPress={handleOpenLink}
+              >
+                <View style={[globalStyles.row]}>
+                  <FeatherIcon
+                    color="#616161"
+                    solid
+                    name="linkedin" 
+                    style={globalStyles.rowIcon}
+                    size={22}
+                  />
+                  <Text style={globalStyles.headingTextRows}>LinkedIn</Text>
+                </View>
+                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+              </TouchableOpacity>
+            </View>
+            //End update 4
 
             <View style={[globalStyles.rowWrapper, globalStyles.rowLast]}>
               <TouchableOpacity
