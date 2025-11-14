@@ -176,7 +176,26 @@ export default function Footer() {
             style={{
               paddingVertical: 13,
               paddingHorizontal: 14,
-              marginRight: 40,
+              marginHorizontal: 20,
+              marginBottom: 10,
+            }}
+            onPress={() => navigation.navigate("AccessibilityScreen")}
+          >
+            <Text
+              style={[
+                globalStyles.caption,
+                { fontSize: 22 * fontSizeMultiplier, color: "#050505" },
+              ]}
+            >
+              Accessibility
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              paddingVertical: 13,
+              paddingHorizontal: 14,
+              marginHorizontal: 20,
               marginBottom: 10,
             }}
             onPress={() => navigation.navigate("PrivacyScreen")}
@@ -195,6 +214,7 @@ export default function Footer() {
             style={{
               paddingVertical: 13,
               paddingHorizontal: 14,
+              marginHorizontal: 20,
               marginBottom: 10,
             }}
             onPress={() => navigation.navigate("TermsScreen")}
