@@ -244,7 +244,15 @@ export default function PostScreen({ navigation }) {
           },
           overflow: "visible",
         }}
+        // Log to server when a post is clicked
         onPress={() => {
+          socket.emit("view logs", {
+            token: user.token,
+            contentType: "post",
+            contentId: id,
+            groupId: user.currentGroup,
+            deviceType: Platform.OS,
+          });
           setUser({
             ...user,
             currentPost: id,
