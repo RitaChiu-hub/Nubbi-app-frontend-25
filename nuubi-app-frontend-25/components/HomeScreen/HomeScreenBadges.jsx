@@ -1,5 +1,6 @@
 import * as React from "react";
 import { API_URL } from "../../config";
+import { apiFetch } from "../../api/api";
 import {
   View,
   Text,
@@ -159,24 +160,14 @@ export default function HomeScreenBadges() {
   const [wonBadges, setWonBadges] = React.useState([]);
 
   const getWonBadges = async () => {
-    const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token"); // Get token only on mobile
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getwonbadges`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
-      const jsonData = await response.json();
+      const jsonData = await apiFetch(`${API_URL}//groups/getwonbadges`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({ ...user }),
+      });
+
+      if (!jsonData) return;
 
       const uniqueBadgeTitles = jsonData
         .map((userBadge) => userBadge.badge && userBadge.badge.title)

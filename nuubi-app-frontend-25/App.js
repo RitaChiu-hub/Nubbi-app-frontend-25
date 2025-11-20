@@ -201,8 +201,8 @@ export default function App() {
       <StatusBar style="dark" />
       <UserContext>
         <SafeAreaProvider>
-          <NavigationContainer
-            //  ref={navigationRef}
+          <NavigationContainer 
+            ref={navigationRef}
             linking={linking}
             landingPage={containsLandingPage}
             inviteToken={inviteToken}

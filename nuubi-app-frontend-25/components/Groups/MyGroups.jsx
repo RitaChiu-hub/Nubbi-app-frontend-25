@@ -1,5 +1,6 @@
 import * as React from "react";
 import { API_URL } from "../../config";
+import { apiFetch } from "../../api/api";
 import {
   Text,
   View,
@@ -15,6 +16,7 @@ import socket from "../../socket";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
+import { navigationRef, resetToSignIn } from "../navRef";
 
 export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -27,28 +29,19 @@ export default function MyGroupsScreen({ navigation }) {
   const screenWidth = Dimensions.get("window").width;
 
   const getGroups = async () => {
-    const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token");
-
     try {
-      const response = await fetch(
-        `${API_URL}/groups/mygroups`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
-      const jsonData = await response.json();
-      setGroups(jsonData);
+      const data = await apiFetch(`${API_URL}/groups/mygroups`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({ ...user }),
+      });
+
+      if (!data) return;
+
+      setGroups(data);
+      
     } catch (err) {
-      console.error(err.message);
+      console.error("getGroups error:", err.message);
     }
   };
 
