@@ -1,5 +1,6 @@
 import * as React from "react";
 import { API_URL } from "../../config";
+import { apiFetch } from "../../api/api";
 import {
   TextInput,
   View,
@@ -88,9 +89,9 @@ export default function JoinGroupWithPasscode({ navigation }) {
                 Platform.OS !== "web"
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
-              fetch(
-                `${API_URL}/groups/joingroupwithpasscode`,
-                {
+
+              try {
+                const data = await apiFetch(`${API_URL}/groups/joingroupwithpasscode`, {
                   method: "POST",
                   credentials: "include",
                   headers: {
@@ -98,24 +99,20 @@ export default function JoinGroupWithPasscode({ navigation }) {
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
                   },
                   body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
-                .catch((err) => {
-                  return;
-                })
-                .then((res) => {
-                  if (!res || !res.ok || res.status >= 400) {
-                    return;
-                  }
-                  return res.json();
-                })
-                .then((data) => {
-                  if (!data) return;
-                  setUser({ ...data });
-                  if (data.status) {
-                    setError(data.status);
-                  }
                 });
+
+                if (!data) return;
+
+                setUser({ ...data });
+
+                if (data.status) {
+                  setError(data.status);
+                }
+              }
+
+              catch (err) {
+                console.error("JoinGroupWithPasscode.jsx", err.message);
+              }
             }}
           >
             {(props) => (

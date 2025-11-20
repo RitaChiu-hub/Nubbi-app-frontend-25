@@ -1,5 +1,6 @@
 import * as React from "react";
 import { API_URL } from "../../config";
+import { apiFetch } from "../../api/api";
 import {
   TextInput,
   View,
@@ -54,36 +55,31 @@ export default function CreateTask({ navigation }) {
               pointValue: "",
             }}
             validationSchema={createTaskSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               const vals = { ...values, assignToAdmin, assignToParticipants };
               actions.resetForm();
-              fetch(
-                `https://coral-app-n96bn.ondigitalocean.app/groups/createtask`,
-                {
+
+              try {
+                const data = await apiFetch(`${API_URL}/groups/createtask`, {
                   method: "POST",
                   credentials: "include",
+                  body: JSON.stringify({ ...user, ...vals }),
                   headers: {
                     "Content-Type": "application/json",
                   },
-                  body: JSON.stringify({ ...user, ...vals }),
-                }
-              )
-                .catch((err) => {
-                  return;
-                })
-                .then((res) => {
-                  if (!res || !res.ok || res.status >= 400) {
-                    return;
-                  }
-                  return res.json();
-                })
-                .then((data) => {
-                  if (!data) return;
-                  setUser({ ...data });
-                  if (data.status) {
-                    setError(data.status);
-                  }
                 });
+
+                if (!data) return;
+
+                setUser({ ...data });
+                
+                if (data.status) {
+                  setError(data.status);
+                }
+              }
+              catch (err) {
+                console.error("CreateTask.jsx error", err.message);
+              }
             }}
           >
             {(props) => (

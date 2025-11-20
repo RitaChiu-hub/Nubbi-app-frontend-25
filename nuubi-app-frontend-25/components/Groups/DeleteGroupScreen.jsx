@@ -1,5 +1,6 @@
 import * as React from "react";
 import { API_URL } from "../../config";
+import { apiFetch } from "../../api/api";
 import {
   Text,
   View,
@@ -47,37 +48,29 @@ export default function DeleteGroupScreen({ navigation }) {
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
                 : null; // Get token only on mobile
-            fetch(`${API_URL}/groups/deletegroup`, {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-              },
-              body: JSON.stringify({
-                ...user,
-                ...vals,
-              }),
-            })
-              .catch((err) => {
-                return;
-              })
-              .then((res) => {
-                if (!res || !res.ok || res.status >= 400) {
-                  return;
-                }
-                return res.json();
-              })
-              .then((data) => {
+
+              try {
+                const data = await apiFetch(`${API_URL}/groups/mygroups`, {
+                  method: "POST",
+                  credentials: "include",
+                  body: JSON.stringify({ ...user, ...vals, }),
+                  headers: {
+                    "Content-Type": "application/json",
+                    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                  },
+                });
+
                 if (!data) return;
+
                 setUser({ ...data });
-                if (data.status) {
-                  setError(data.status);
-                  if (data.status === "Success") {
-                    navigation.navigate("Home");
-                  }
+
+                if (data.status === "Success") {
+                  navigation.navigate("Home");
                 }
-              });
+              }
+              catch (err) {
+                console.error("DeleteGroupScreen.jsx error", err.message);
+              }
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
