@@ -1,6 +1,5 @@
 import * as React from "react";
 import { API_URL } from "../../config";
-import { apiFetch } from "../../api/api";
 import {
   TextInput,
   View,
@@ -106,9 +105,9 @@ export default function CreateGroupScreen({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               actions.resetForm();
-
-              try {
-                const data = apiFetch(`${API_URL}/groups/creategroup`, {
+              fetch(
+                `${API_URL}/groups/creategroup`,
+                {
                   method: "POST",
                   credentials: "include",
                   headers: {
@@ -116,21 +115,29 @@ export default function CreateGroupScreen({ navigation }) {
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
                   },
                   body: JSON.stringify({ ...user, ...allvals }),
-                })
-
-                if (!data) return;
-
-                setUser({ ...data });
-                if (data.status) {
-                  if (data.status.includes("successfully")) {
-                    setStatusColor(globalStyles.captionErrorSuccess);
-                  }
                 }
-
-              }
-              catch (err) {
-                console.error("CreateGroupScreen.jsx error", err.message);
-              }
+              )
+                .catch((err) => {
+                  return;
+                })
+                .then((res) => {
+                  if (!res || !res.ok || res.status >= 400) {
+                    return;
+                  }
+                  return res.json();
+                })
+                .then((data) => {
+                  if (!data) return;
+                  setUser({ ...data });
+                  if (data.status) {
+                    if (data.status.includes("successfully")) {
+                      setStatusColor(globalStyles.captionErrorSuccess);
+                    } else {
+                      setStatusColor(globalStyles.captionError);
+                    }
+                    setStatus(data.status);
+                  }
+                });
             }}
           >
             {(props) => (
