@@ -12,110 +12,216 @@ import {
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
-import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
+import * as SecureStore from "expo-secure-store";
 
 const BLUE = "#2582A9";
-const BASE_URL = (() => {
-  if (Platform.OS === "android") {
-    return "http://10.0.2.2:8080";     // Android emulator
-  }
-  if (Platform.OS === "ios") {
-    return "http://localhost:8080";    // iOS simulator
-  }
-  // Real phone or your Mac's IP (change this to your Mac's actual IP!)
-  return "http://172.1.145.198:8080";  // ← YOUR MAC'S IP FROM TERMINAL
-})();
+const BASE_URL = "https://coral-app-n96bn.ondigitalocean.app";
 
 export default function GroupAnalytics({ navigation }) {
   const { user } = React.useContext(AccountContext);
-  const [members, setMembers] = React.useState([]);
-  const [analytics, setAnalytics] = React.useState(null); // ✅ Added analytics state
   const isFocused = useIsFocused();
+
+  const [members, setMembers] = React.useState([]);
+  const [analytics, setAnalytics] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [hasInitialLoad, setHasInitialLoad] = React.useState(false);
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
+  const [startDate, setStartDate] = React.useState("");
+  const [endDate, setEndDate] = React.useState("");
 
-  // ✅ Fetch BOTH weekly data AND analytics
+  // ---- FETCHING ----
   const getWeeklyGroupInfo = async (start, end) => {
+    if (!user?.currentGroup) {
+      console.log("❌ No currentGroup on user");
+      return;
+    }
+
     setLoading(true);
     console.log("🔍 Fetching analytics...");
     console.log("📅 Dates:", start, "to", end);
-    console.log("🏢 Group:", user?.currentGroup);
-
-    const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token");
+    console.log("🏢 Group:", user.currentGroup);
 
     try {
-      // 1️⃣ Fetch weekly table data
-      console.log("📊 Calling:", `${BASE_URL}/groups/getweeklygroupinfo`);
-      const weeklyResponse = await fetch(
-        `${BASE_URL}/groups/getweeklygroupinfo`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({
-            currentGroup: user?.currentGroup,
-            startDate: start,
-            endDate: end,
-          }),
-        }
-      );
+      // 🔑 get token (same pattern as old code)
+      const token =
+        Platform.OS !== "web"
+          ? await SecureStore.getItemAsync("token")
+          : sessionStorage.getItem("token");
 
-      console.log("📊 Weekly status:", weeklyResponse.status);
+      console.log("🔑 token from storage:", token);
 
-      if (weeklyResponse.ok) {
-        const weeklyData = await weeklyResponse.json();
-        console.log("✅ Weekly data:", weeklyData);
-        setMembers(weeklyData || []);
-      } else {
-        console.error("❌ Weekly failed:", await weeklyResponse.text());
+      const headers = {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
+
+      // 1) Weekly table data (members)
+      const weeklyRes = await fetch(`${BASE_URL}/groups/getweeklygroupinfo`, {
+        method: "POST",
+        credentials: "include",
+        headers,
+        body: JSON.stringify({
+          currentGroup: user.currentGroup,
+          startDate: start,
+          endDate: end,
+        }),
+      });
+
+      console.log("📊 weekly status", weeklyRes.status);
+
+      let weeklyJson = null;
+      try {
+        weeklyJson = await weeklyRes.json();
+      } catch (e) {
+        console.log("❌ weekly JSON parse error:", e);
+      }
+      console.log("📊 weekly JSON:", weeklyJson);
+
+      if (!weeklyRes.ok || weeklyJson?.error) {
+        console.log("❌ weekly error body:", weeklyJson);
         setMembers([]);
-      }
-
-      // 2️⃣ Fetch analytics summary
-      console.log("📈 Calling:", `${BASE_URL}/groups/analytics`);
-      const analyticsResponse = await fetch(
-        `${BASE_URL}/groups/analytics`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({
-            currentGroup: user?.currentGroup,
-            startDate: start,
-            endDate: end,
-          }),
-        }
-      );
-
-      console.log("📈 Analytics status:", analyticsResponse.status);
-
-      if (analyticsResponse.ok) {
-        const analyticsData = await analyticsResponse.json();
-        console.log("✅ Analytics data:", analyticsData);
-        setAnalytics(analyticsData);
       } else {
-        console.error("❌ Analytics failed:", await analyticsResponse.text());
-        setAnalytics(null);
+        setMembers(Array.isArray(weeklyJson) ? weeklyJson : []);
       }
 
+      // 2) Analytics summary (backend endpoint)
+      const analyticsRes = await fetch(`${BASE_URL}/groups/analytics`, {
+        method: "POST",
+        credentials: "include",
+        headers,
+        body: JSON.stringify({
+          currentGroup: user.currentGroup,
+          startDate: start,
+          endDate: end,
+        }),
+      });
+
+      console.log("📈 analytics status", analyticsRes.status);
+
+      let analyticsJson = null;
+      try {
+        analyticsJson = await analyticsRes.json();
+      } catch (e) {
+        console.log("❌ analytics JSON parse error:", e);
+      }
+      console.log("📈 Analytics JSON:", analyticsJson);
+
+      let normalized = null;
+
+      if (analyticsRes.ok && !analyticsJson?.error && analyticsJson) {
+        // ✅ Backend returned something – normalize to expected shape
+        normalized = analyticsJson?.questions
+          ? analyticsJson // already in nested format
+          : {
+              startDate: analyticsJson.startDate,
+              endDate: analyticsJson.endDate,
+              totalMembers: analyticsJson.totalMembers,
+              questions: {
+                percentage:
+                  analyticsJson.questionsPercentage ??
+                  analyticsJson.questions_percent ??
+                  0,
+                topicKeyword:
+                  analyticsJson.questionsTopicKeyword ??
+                  analyticsJson.questions_topic ??
+                  "Nothing",
+                topicPercentage:
+                  analyticsJson.questionsTopicPercentage ??
+                  analyticsJson.questions_topic_percentage ??
+                  0,
+              },
+              peerReplies: {
+                percentage:
+                  analyticsJson.peerRepliesPercentage ??
+                  analyticsJson.peer_replies_percent ??
+                  0,
+                totalPosts:
+                  analyticsJson.peerRepliesTotalPosts ??
+                  analyticsJson.peer_replies_total_posts ??
+                  0,
+              },
+              atRisk: {
+                count:
+                  analyticsJson.atRiskCount ??
+                  analyticsJson.at_risk_count ??
+                  0,
+                students:
+                  analyticsJson.atRiskStudents ??
+                  analyticsJson.at_risk_students ??
+                  [],
+              },
+            };
+      } else {
+        // ⚠️ Backend /groups/analytics not available or errored out.
+        // Fallback: compute simple analytics from weeklyJson so the dashboard still shows something.
+        console.log("⚠️ Using FRONTEND fallback analytics based on weeklyJson");
+
+        const arr = Array.isArray(weeklyJson) ? weeklyJson : [];
+        const totalMembers = arr.length;
+
+        const usersWhoPosted = arr.filter(
+          (m) => Number(m.total?.posts || 0) > 0
+        ).length;
+        const usersWhoCommented = arr.filter(
+          (m) => Number(m.total?.comments || 0) > 0
+        ).length;
+
+        const totalPosts = arr.reduce(
+          (sum, m) => sum + Number(m.total?.posts || 0),
+          0
+        );
+
+        const atRiskStudents = arr
+          .filter(
+            (m) =>
+              Number(m.total?.posts || 0) === 0 &&
+              Number(m.total?.comments || 0) === 0 &&
+              Number(m.total?.messages || 0) === 0
+          )
+          .map((m) => ({
+            id: m.user_id,
+            username: m.username,
+          }));
+
+        normalized = {
+          startDate: start,
+          endDate: end,
+          totalMembers,
+          questions: {
+            // % of members who have posted at least once
+            percentage:
+              totalMembers === 0
+                ? 0
+                : Math.round((usersWhoPosted / totalMembers) * 100),
+            topicKeyword: "N/A",
+            topicPercentage: 0,
+          },
+          peerReplies: {
+            // Use "% of members who have commented at least once" as a proxy
+            percentage:
+              totalMembers === 0
+                ? 0
+                : Math.round((usersWhoCommented / totalMembers) * 100),
+            totalPosts,
+          },
+          atRisk: {
+            count: atRiskStudents.length,
+            students: atRiskStudents,
+          },
+        };
+      }
+
+      console.log("✅ Normalized analytics for UI:", normalized);
+      setAnalytics(normalized);
       setHasInitialLoad(true);
     } catch (err) {
-      console.error("❌ Error:", err);
+      console.error("❌ Error fetching analytics:", err);
+      setMembers([]);
+      setAnalytics(null);
       setHasInitialLoad(true);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleGenerateAnalytics = () => {
@@ -139,11 +245,19 @@ export default function GroupAnalytics({ navigation }) {
       start.setDate(start.getDate() - 28);
 
       const formatDate = (date) => date.toISOString().split("T")[0];
-      
+
       setStartDate(formatDate(start));
       setEndDate(formatDate(end));
     }
   }, []);
+
+  // ✅ NEW: auto-load analytics once dates + group are ready (and screen is focused)
+  /* React.useEffect(() => {
+    if (startDate && endDate && user?.currentGroup && isFocused) {
+      console.log("🚀 Auto-loading analytics for initial view");
+      getWeeklyGroupInfo(startDate, endDate);
+    }
+  }, [startDate, endDate, user?.currentGroup, isFocused]); */
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -278,15 +392,31 @@ export default function GroupAnalytics({ navigation }) {
 
         {/* 🔍 DEBUG PANEL */}
         <View style={styles.debugPanel}>
-          <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>🔍 DEBUG:</Text>
-          <Text style={{ fontSize: 12 }}>Group: {user?.currentGroup || 'null'}</Text>
-          <Text style={{ fontSize: 12 }}>Has Analytics: {analytics ? 'YES ✅' : 'NO ❌'}</Text>
+          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>🔍 DEBUG:</Text>
+          <Text style={{ fontSize: 12 }}>
+            Group: {user?.currentGroup || "null"}
+          </Text>
+          <Text style={{ fontSize: 12 }}>
+            Has Analytics: {analytics ? "YES ✅" : "NO ❌"}
+          </Text>
           <Text style={{ fontSize: 12 }}>Members: {members.length}</Text>
           {analytics && (
             <>
-              <Text style={{ fontSize: 12 }}>Questions: {analytics.questions?.percentage}%</Text>
-              <Text style={{ fontSize: 12 }}>Peer Replies: {analytics.peerReplies?.percentage}%</Text>
-              <Text style={{ fontSize: 12 }}>At Risk: {analytics.atRisk?.count}</Text>
+              <Text style={{ fontSize: 12 }}>
+                Questions: {analytics.questions?.percentage}%
+              </Text>
+              <Text style={{ fontSize: 12 }}>
+                Topic keyword: {analytics.questions?.topicKeyword || "None"}
+              </Text>
+              <Text style={{ fontSize: 12 }}>
+                Topic %: {analytics.questions?.topicPercentage ?? 0}%
+              </Text>
+              <Text style={{ fontSize: 12 }}>
+                Peer Replies: {analytics.peerReplies?.percentage}%
+              </Text>
+              <Text style={{ fontSize: 12 }}>
+                At Risk: {analytics.atRisk?.count}
+              </Text>
             </>
           )}
         </View>
@@ -302,7 +432,7 @@ export default function GroupAnalytics({ navigation }) {
                 onChange={(e) => setStartDate(e.target.value)}
                 style={styles.dateInput}
               />
-              
+
               <Text style={styles.dateLabel}>End Date:</Text>
               <input
                 type="date"
@@ -314,19 +444,21 @@ export default function GroupAnalytics({ navigation }) {
               <View style={styles.dateCardNote}>
                 <Text style={styles.dateCardNoteIcon}>📅</Text>
                 <Text style={styles.dateCardNoteText}>
-                  Analytics are grouped by full weeks{'\n'}(Monday to Sunday)
+                  Analytics are grouped by full weeks{"\n"}(Monday to Sunday)
                 </Text>
               </View>
 
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.generateButton}
                 onPress={handleGenerateAnalytics}
               >
                 <Text style={styles.generateButtonIcon}>✓</Text>
-                <Text style={styles.generateButtonText}>Generate Analytics</Text>
+                <Text style={styles.generateButtonText}>
+                  Generate Analytics
+                </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.downloadButton}
                 onPress={handleDownloadCSV}
               >
@@ -335,24 +467,26 @@ export default function GroupAnalytics({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            {/* Questions Card - NOW DYNAMIC! */}
+            {/* Questions Card - DYNAMIC: "78% about midterm" style */}
             <View style={styles.metricCard}>
               <Text style={styles.chartIcon}>📊</Text>
-              <Text style={styles.metricPercentText}>
-                {analytics?.questions?.percentage || 0}%
-              </Text>
-              <Text style={styles.metricLabelText}>Questions</Text>
-              <Text style={styles.metricSubLabelText}>
-                {analytics?.questions?.topicKeyword || 'Probability'}
-              </Text>
-            </View>
 
-            {/* Students at Risk Card - NOW DYNAMIC! */}
+              {/* % of questions that are about the top keyword */}
+              <Text style={styles.metricPercentText}>
+                    {analytics?.questions?.topicPercentage ?? 0}%
+                  </Text>
+                  <Text style={styles.metricLabelText}>of questions are about</Text>
+                  <Text style={styles.metricSubLabelText}>
+                    {analytics?.questions?.topicKeyword || "Nothing"}
+                  </Text>
+                      </View>
+
+            {/* Students at Risk Card - DYNAMIC */}
             <View style={styles.largeCard}>
               <Text style={styles.warningIcon}>⚠️</Text>
-              <Text style={styles.sectionTitle}>No activity in the past week</Text>
+              <Text style={styles.sectionTitle}>No activity in the period</Text>
               <Text style={styles.riskNumber}>
-                {analytics?.atRisk?.count || 0}
+                {analytics?.atRisk?.count ?? 0}
               </Text>
               <Text style={styles.sectionTitle}>Students at Risk</Text>
               <View style={styles.cardContent}>
@@ -374,11 +508,11 @@ export default function GroupAnalytics({ navigation }) {
               </View>
             </View>
 
-            {/* Peer Replies Card - NOW DYNAMIC! */}
+            {/* Peer Replies Card - DYNAMIC */}
             <View style={styles.metricCard}>
               <Text style={styles.chartIcon}>💬</Text>
               <Text style={styles.metricPercentText}>
-                {analytics?.peerReplies?.percentage || 0}%
+                {analytics?.peerReplies?.percentage ?? 0}%
               </Text>
               <Text style={styles.metricLabelText}>Peer replies received</Text>
             </View>
@@ -565,12 +699,12 @@ const styles = StyleSheet.create({
   },
 
   debugPanel: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     padding: 10,
     marginBottom: 10,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: '#333',
+    borderColor: "#333",
   },
 
   cardsGrid: {
