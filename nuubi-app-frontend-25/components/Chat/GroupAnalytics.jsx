@@ -13,31 +13,47 @@ import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
-import AnalyticsDatePicker from "./AnalyticsDatePicker";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 
 const BLUE = "#2582A9";
+const BASE_URL = (() => {
+  if (Platform.OS === "android") {
+    return "http://10.0.2.2:8080";     // Android emulator
+  }
+  if (Platform.OS === "ios") {
+    return "http://localhost:8080";    // iOS simulator
+  }
+  // Real phone or your Mac's IP (change this to your Mac's actual IP!)
+  return "http://172.1.145.198:8080";  // ← YOUR MAC'S IP FROM TERMINAL
+})();
 
 export default function GroupAnalytics({ navigation }) {
   const { user } = React.useContext(AccountContext);
   const [members, setMembers] = React.useState([]);
+  const [analytics, setAnalytics] = React.useState(null); // ✅ Added analytics state
   const isFocused = useIsFocused();
   const [loading, setLoading] = React.useState(false);
   const [hasInitialLoad, setHasInitialLoad] = React.useState(false);
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
 
+  // ✅ Fetch BOTH weekly data AND analytics
   const getWeeklyGroupInfo = async (start, end) => {
     setLoading(true);
+    console.log("🔍 Fetching analytics...");
+    console.log("📅 Dates:", start, "to", end);
+    console.log("🏢 Group:", user?.currentGroup);
+
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
 
     try {
-      const response = await fetch(
-        `https://localhost:8081/groups/getweeklygroupinfo`,
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
+      // 1️⃣ Fetch weekly table data
+      console.log("📊 Calling:", `${BASE_URL}/groups/getweeklygroupinfo`);
+      const weeklyResponse = await fetch(
+        `${BASE_URL}/groups/getweeklygroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -53,24 +69,65 @@ export default function GroupAnalytics({ navigation }) {
         }
       );
 
-      const jsonData = await response.json();
-      setMembers(jsonData || []);
+      console.log("📊 Weekly status:", weeklyResponse.status);
+
+      if (weeklyResponse.ok) {
+        const weeklyData = await weeklyResponse.json();
+        console.log("✅ Weekly data:", weeklyData);
+        setMembers(weeklyData || []);
+      } else {
+        console.error("❌ Weekly failed:", await weeklyResponse.text());
+        setMembers([]);
+      }
+
+      // 2️⃣ Fetch analytics summary
+      console.log("📈 Calling:", `${BASE_URL}/groups/analytics`);
+      const analyticsResponse = await fetch(
+        `${BASE_URL}/groups/analytics`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({
+            currentGroup: user?.currentGroup,
+            startDate: start,
+            endDate: end,
+          }),
+        }
+      );
+
+      console.log("📈 Analytics status:", analyticsResponse.status);
+
+      if (analyticsResponse.ok) {
+        const analyticsData = await analyticsResponse.json();
+        console.log("✅ Analytics data:", analyticsData);
+        setAnalytics(analyticsData);
+      } else {
+        console.error("❌ Analytics failed:", await analyticsResponse.text());
+        setAnalytics(null);
+      }
+
       setHasInitialLoad(true);
     } catch (err) {
-      console.error("Failed to fetch analytics:", err);
+      console.error("❌ Error:", err);
       setHasInitialLoad(true);
     }
     setLoading(false);
   };
 
   const handleGenerateAnalytics = () => {
+    console.log("🎯 Generate clicked!");
     if (startDate && endDate) {
       getWeeklyGroupInfo(startDate, endDate);
+    } else {
+      alert("Please select start and end dates");
     }
   };
 
   const handleDownloadCSV = () => {
-    // CSV download logic here
     console.log("Download CSV clicked");
   };
 
@@ -79,7 +136,7 @@ export default function GroupAnalytics({ navigation }) {
     if (!startDate || !endDate) {
       const end = new Date();
       const start = new Date();
-      start.setDate(start.getDate() - 28); // last 4 weeks
+      start.setDate(start.getDate() - 28);
 
       const formatDate = (date) => date.toISOString().split("T")[0];
       
@@ -87,13 +144,6 @@ export default function GroupAnalytics({ navigation }) {
       setEndDate(formatDate(end));
     }
   }, []);
-
-  // Auto-load data when dates change and user/group exists
-  React.useEffect(() => {
-    if (user && user.currentGroup && isFocused && startDate && endDate) {
-      getWeeklyGroupInfo(startDate, endDate);
-    }
-  }, [user?.currentGroup, isFocused, startDate, endDate]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -222,15 +272,28 @@ export default function GroupAnalytics({ navigation }) {
       )}
 
       <View style={globalStyles.container}>
-        {/* Header Text */}
         <Text style={styles.headerNote}>
-          📋 Analytics are groups by full weeks (Monday to Sunday)
+          📋 Analytics are grouped by full weeks (Monday to Sunday)
         </Text>
 
-        {/* TOP ROW: All Cards in Single Row */}
+        {/* 🔍 DEBUG PANEL */}
+        <View style={styles.debugPanel}>
+          <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>🔍 DEBUG:</Text>
+          <Text style={{ fontSize: 12 }}>Group: {user?.currentGroup || 'null'}</Text>
+          <Text style={{ fontSize: 12 }}>Has Analytics: {analytics ? 'YES ✅' : 'NO ❌'}</Text>
+          <Text style={{ fontSize: 12 }}>Members: {members.length}</Text>
+          {analytics && (
+            <>
+              <Text style={{ fontSize: 12 }}>Questions: {analytics.questions?.percentage}%</Text>
+              <Text style={{ fontSize: 12 }}>Peer Replies: {analytics.peerReplies?.percentage}%</Text>
+              <Text style={{ fontSize: 12 }}>At Risk: {analytics.atRisk?.count}</Text>
+            </>
+          )}
+        </View>
+
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.cardsGrid}>
-            {/* Date Picker Card - Always Expanded */}
+            {/* Date Picker Card */}
             <View style={styles.dateCard}>
               <Text style={styles.dateLabel}>Start Date:</Text>
               <input
@@ -272,37 +335,56 @@ export default function GroupAnalytics({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            {/* 80% Questions Card */}
+            {/* Questions Card - NOW DYNAMIC! */}
             <View style={styles.metricCard}>
               <Text style={styles.chartIcon}>📊</Text>
-              <Text style={styles.metricPercentText}>80%</Text>
+              <Text style={styles.metricPercentText}>
+                {analytics?.questions?.percentage || 0}%
+              </Text>
               <Text style={styles.metricLabelText}>Questions</Text>
-              <Text style={styles.metricSubLabelText}>Probability</Text>
+              <Text style={styles.metricSubLabelText}>
+                {analytics?.questions?.topicKeyword || 'Probability'}
+              </Text>
             </View>
 
-            {/* Combined Students at Risk Card */}
+            {/* Students at Risk Card - NOW DYNAMIC! */}
             <View style={styles.largeCard}>
               <Text style={styles.warningIcon}>⚠️</Text>
               <Text style={styles.sectionTitle}>No activity in the past week</Text>
-              <Text style={styles.riskNumber}>3</Text>
+              <Text style={styles.riskNumber}>
+                {analytics?.atRisk?.count || 0}
+              </Text>
               <Text style={styles.sectionTitle}>Students at Risk</Text>
               <View style={styles.cardContent}>
-                <Text style={styles.placeholderText}>
-                  Student list will appear here
-                </Text>
+                {!analytics ? (
+                  <Text style={styles.placeholderText}>
+                    Click Generate Analytics
+                  </Text>
+                ) : analytics.atRisk?.students?.length === 0 ? (
+                  <Text style={styles.placeholderText}>
+                    No students at risk 🎉
+                  </Text>
+                ) : (
+                  analytics.atRisk?.students?.map((s) => (
+                    <Text key={s.id} style={styles.studentNameText}>
+                      • {s.username}
+                    </Text>
+                  ))
+                )}
               </View>
             </View>
 
-            {/* 30% Peer Replies Card */}
+            {/* Peer Replies Card - NOW DYNAMIC! */}
             <View style={styles.metricCard}>
               <Text style={styles.chartIcon}>💬</Text>
-              <Text style={styles.metricPercentText}>30%</Text>
+              <Text style={styles.metricPercentText}>
+                {analytics?.peerReplies?.percentage || 0}%
+              </Text>
               <Text style={styles.metricLabelText}>Peer replies received</Text>
             </View>
           </View>
         </ScrollView>
 
-        {/* Show different content based on state */}
         {!user || !user.currentGroup ? (
           <View style={{ padding: 24, alignItems: "center", marginTop: 24 }}>
             <Text style={{ fontSize: 16, color: "#666" }}>
@@ -311,7 +393,6 @@ export default function GroupAnalytics({ navigation }) {
           </View>
         ) : (
           <>
-            {/* TABLE HEADERS */}
             <ScrollView horizontal showsHorizontalScrollIndicator={true}>
               <View>
                 <View
@@ -483,6 +564,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  debugPanel: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#333',
+  },
+
   cardsGrid: {
     flexDirection: "row",
     gap: 16,
@@ -494,7 +584,7 @@ const styles = StyleSheet.create({
     borderColor: BLUE,
     borderRadius: 50,
     backgroundColor: "#FFFFFF",
-    padding: 25,
+    padding: 20,
     flex: 1,
     maxWidth: 340,
     minWidth: 320,
@@ -505,7 +595,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 6,
-    marginTop: 20,
+    marginTop: 8,
   },
 
   dateInput: {
@@ -516,7 +606,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
     marginBottom: 4,
-    marginLeft: -10,
+    marginLeft: 0,
   },
 
   dateCardNote: {
@@ -590,7 +680,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#FFFFFF",
     paddingVertical: 20,
-    paddingHorizontal: 50,
+    paddingHorizontal: 16,
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
@@ -614,7 +704,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "700",
     textAlign: "center",
-    marginVertical: 3,
+    marginVertical: 8,
   },
 
   riskNumber: {
@@ -622,7 +712,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: BLUE,
     textAlign: "center",
-    marginVertical: 1,
+    marginVertical: 12,
   },
 
   cardContent: {
@@ -640,9 +730,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  studentNameText: {
+    fontSize: 14,
+    color: "#333",
+    marginVertical: 2,
+    textAlign: "center",
+  },
+
   chartIcon: {
-    fontSize: 50,
-    marginBottom: 20,
+    fontSize: 32,
+    marginBottom: 8,
   },
 
   metricPercentText: {

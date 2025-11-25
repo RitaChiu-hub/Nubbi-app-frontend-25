@@ -97,7 +97,7 @@ export default function App() {
                 GroupChat: "chat",
                 PostScreen: "posts",
                 GroupInfo: "group",
-                GroupAnalytics: "analytics",
+                GroupAnalytics: "Home Page/GroupAnalytics",
                 GroupAchievements: "achievements",
                 ViewAllGroups: "allgroups",
                 AddGroup: "addgroup",
