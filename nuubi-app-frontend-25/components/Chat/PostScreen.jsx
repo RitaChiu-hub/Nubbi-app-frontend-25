@@ -245,14 +245,34 @@ export default function PostScreen({ navigation }) {
           overflow: "visible",
         }}
         // Log to server when a post is clicked
-        onPress={() => {
-          socket.emit("view logs", {
-            token: user.token,
-            contentType: "post",
-            contentId: id,
-            groupId: user.currentGroup,
-            deviceType: Platform.OS,
-          });
+        onPress={async () => {
+          try {
+            const token = Platform.OS !== "web"
+              ? await SecureStore.getItemAsync("token")
+              : sessionStorage.getItem("token");
+
+            const res = await fetch(`${API_URL}/logs/view`, 
+              {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                },
+                body: JSON.stringify({
+                  contentType: "post",
+                  contentId: id,
+                  groupId: user.currentGroup,
+                  deviceType: Platform.OS,
+                }),
+              });
+
+              if (!res.ok) {
+                console.log("Failed to log view:", res.status);
+              }
+            } catch (err) {
+              console.log("Error logging view:", err);
+              }
           setUser({
             ...user,
             currentPost: id,
