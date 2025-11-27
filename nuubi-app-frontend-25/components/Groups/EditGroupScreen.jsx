@@ -95,7 +95,7 @@ export default function EditGroupScreen({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/editgroup",
+                "http://localhost:8080/groups/editgroup",
                 {
                   method: "POST",
                   credentials: "include",

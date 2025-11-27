@@ -52,7 +52,7 @@ export default function NotificationSettings({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     const res = await fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/get-notif-prefs",
+      "http://localhost:8080/settings/get-notif-prefs",
       {
         method: "POST", // your backend is POST for JWT body
         credentials: "include",
@@ -72,7 +72,7 @@ export default function NotificationSettings({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     await fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
+      "http://localhost:8080/settings/notif-prefs",
       {
         method: "POST",
         credentials: "include",
@@ -162,7 +162,7 @@ export default function NotificationSettings({ navigation }) {
             : null; // Get token only on mobile
 
         await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          "http://localhost:8080/settings/savepushtoken",
           {
             method: "POST",
             credentials: "include",
@@ -243,7 +243,7 @@ export default function NotificationSettings({ navigation }) {
                       ? await SecureStore.getItemAsync("token")
                       : null; // Get token only on mobile
                   await fetch(
-                    "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
+                    "http://localhost:8080/settings/notif-prefs",
                     {
                       method: "POST",
                       credentials: "include",

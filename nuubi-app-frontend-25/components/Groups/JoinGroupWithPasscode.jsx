@@ -88,7 +88,7 @@ export default function JoinGroupWithPasscode({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                `https://coral-app-n96bn.ondigitalocean.app/groups/joingroupwithpasscode`,
+                `http://localhost:8080/groups/joingroupwithpasscode`,
                 {
                   method: "POST",
                   credentials: "include",

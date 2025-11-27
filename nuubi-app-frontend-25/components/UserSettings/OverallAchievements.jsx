@@ -153,7 +153,7 @@ export default function OverallAchievementsScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getwonbadges",
+        "http://localhost:8080/groups/getwonbadges",
         {
           method: "POST",
           credentials: "include",

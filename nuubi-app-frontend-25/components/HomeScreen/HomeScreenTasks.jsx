@@ -33,7 +33,7 @@ export default function HomeScreenTasks({}) {
   const getMyTasks = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mytasks`,
+        `http://localhost:8080/groups/mytasks`,
         // `https://coral-app-n96bn.ondigitalocean.app/groups/mytasks`,
         {
           method: "POST",

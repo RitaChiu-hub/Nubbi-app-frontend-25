@@ -26,7 +26,7 @@ export default function ForgotPasswordScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+      "http://localhost:8080/settings/generatepasscode",
       {
         method: "POST",
         credentials: "include",
@@ -145,7 +145,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                  "http://localhost:8080/settings/forgotpassword",
                   {
                     method: "POST",
                     credentials: "include",

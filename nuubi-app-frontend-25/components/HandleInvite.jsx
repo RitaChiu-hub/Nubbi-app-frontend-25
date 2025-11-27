@@ -36,7 +36,7 @@ const HandleInviteScreen = () => {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `http://localhost:8080/auth/checkweblogin`,
         //  `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
         {
           method: "POST",
@@ -115,7 +115,7 @@ const HandleInviteScreen = () => {
 
         try {
           const response = await fetch(
-            `https://coral-app-n96bn.ondigitalocean.app/groups/invite/${inviteToken}`,
+            `http://localhost:8080/groups/invite/${inviteToken}`,
             // `https://coral-app-n96bn.ondigitalocean.app/groups/invite/${inviteToken}`,
             {
               method: "POST",
