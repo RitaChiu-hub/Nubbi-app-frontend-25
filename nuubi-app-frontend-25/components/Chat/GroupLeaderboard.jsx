@@ -13,6 +13,7 @@ import FeatherIcon from "@expo/vector-icons/Feather";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 export default function GroupLeaderboardScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -37,7 +38,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-      `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+      `${config.API_BASE_URL}/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -75,7 +76,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getmembercount`,
+        `${config.API_BASE_URL}/groups/getmembercount`,
         {
           method: "POST",
           credentials: "include",
@@ -101,7 +102,7 @@ export default function GroupLeaderboardScreen({ navigation }) {
     setLoading(true); // Start loading
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getleaderboard",
+        `${config.API_BASE_URL}/groups/getleaderboard`,
         {
           method: "POST",
           credentials: "include",

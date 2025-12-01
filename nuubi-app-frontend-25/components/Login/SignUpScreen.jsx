@@ -20,6 +20,7 @@ import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import IconAD from "@expo/vector-icons/AntDesign";
 import alert from "./../alert";
 import { useAssets } from "expo-asset";
+import config from "../../config";
 
 export default function SignUpScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -152,7 +153,7 @@ export default function SignUpScreen({ navigation }) {
               };
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/auth/checkemail",
+                `${config.API_BASE_URL}/auth/checkemail`,
                 {
                   method: "POST",
                   credentials: "include",

@@ -12,6 +12,7 @@ import { globalStyles } from "../../styles/global";
 const { formSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 export default function GroupListScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -31,7 +32,7 @@ export default function GroupListScreen({ navigation }) {
   const getGroups = async () => {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getpublicgroups",
+        `${config.API_BASE_URL}/groups/getpublicgroups`,
         {
           credentials: "include",
         }
@@ -81,7 +82,7 @@ export default function GroupListScreen({ navigation }) {
             Platform.OS !== "web"
               ? await SecureStore.getItemAsync("token")
               : null; // Get token only on mobile
-          fetch("https://coral-app-n96bn.ondigitalocean.app/groups/joingroup", {
+          fetch(`${config.API_BASE_URL}/groups/joingroup`, {
             method: "POST",
             credentials: "include",
             headers: {

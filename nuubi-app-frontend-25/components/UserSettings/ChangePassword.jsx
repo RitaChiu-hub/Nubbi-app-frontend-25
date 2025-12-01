@@ -18,6 +18,7 @@ import { AccountContext } from "../AccountContext";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 const { formSchema, newPasswordSchema } = require("../validationSchema");
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 export default function ChangePasswordScreen({ navigation }) {
   const { goBack, navigate } = navigation;
@@ -112,7 +113,7 @@ export default function ChangePasswordScreen({ navigation }) {
                     : null; // Get token only on mobile
 
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/updatepassword",
+                  `${config.API_BASE_URL}/settings/updatepassword`,
                   {
                     method: "POST",
                     credentials: "include",

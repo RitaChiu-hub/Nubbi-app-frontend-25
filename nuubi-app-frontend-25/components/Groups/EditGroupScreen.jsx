@@ -15,6 +15,7 @@ const { createGroupSchema } = require("../validationSchema");
 import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import { KeyboardAvoidingView } from "react-native-web";
+import config from "../../config";
 
 export default function EditGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -95,7 +96,7 @@ export default function EditGroupScreen({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/editgroup",
+                `${config.API_BASE_URL}/groups/editgroup`,
                 {
                   method: "POST",
                   credentials: "include",

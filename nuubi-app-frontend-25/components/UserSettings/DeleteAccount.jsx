@@ -15,6 +15,7 @@ import { Formik, ErrorMessage } from "formik";
 import socket from "../../socket";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
+import config from "../../config";
 
 export default function DeleteAccountScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -88,7 +89,7 @@ export default function DeleteAccountScreen({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
+                `${config.API_BASE_URL}/settings/delete`,
                 {
                   method: "POST",
                   credentials: "include",

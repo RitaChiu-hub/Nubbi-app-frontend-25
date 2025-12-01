@@ -8,6 +8,7 @@ import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 import * as Notifications from "expo-notifications";
 import { SafeAreaView } from "react-native-safe-area-context";
+import config from "../../config";
 // import DebugOverlay from "../debug/DebugOverlay";
 // import { debugLog } from "../debug/debugLog";
 
@@ -233,7 +234,7 @@ export default function CertificatesScreen({ navigation }) {
 
       try {
         const res = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/groups/getwoncertificates",
+          `${config.API_BASE_URL}/groups/getwoncertificates`,
           {
             method: "POST",
             credentials: "include",

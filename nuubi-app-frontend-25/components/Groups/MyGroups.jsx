@@ -14,6 +14,7 @@ import socket from "../../socket";
 import { globalStyles } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -33,7 +34,7 @@ export default function MyGroupsScreen({ navigation }) {
 
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mygroups`,
+        `${config.API_BASE_URL}/groups/mygroups`,
         {
           method: "POST",
           credentials: "include",

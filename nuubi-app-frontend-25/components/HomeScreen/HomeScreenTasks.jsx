@@ -18,6 +18,7 @@ import alert from "../alert";
 import { AccountContext } from "../AccountContext";
 import { useIsFocused } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+import config from "../../config";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -33,7 +34,7 @@ export default function HomeScreenTasks({}) {
   const getMyTasks = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mytasks`,
+        `${config.API_BASE_URL}/groups/mytasks`,
         // `https://coral-app-n96bn.ondigitalocean.app/groups/mytasks`,
         {
           method: "POST",

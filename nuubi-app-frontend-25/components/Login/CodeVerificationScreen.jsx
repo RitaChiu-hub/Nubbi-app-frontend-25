@@ -13,6 +13,7 @@ import { codeVerificationSchema } from "../validationSchema";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "../../config";
 
 export default function CodeVerificationScreen({ navigation, route }) {
   // const inviteToken = window.location.pathname
@@ -36,8 +37,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
       try {
         const email = formVals.email;
         const response = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
-          //   "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
+          `${config.API_BASE_URL}/settings/generatesignupcode`,
           {
             method: "POST",
             credentials: "include",
@@ -108,8 +108,7 @@ export default function CodeVerificationScreen({ navigation, route }) {
 
             try {
               const response = await fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
-                // "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
+                `${config.API_BASE_URL}/settings/validatesignup`,
                 {
                   method: "POST",
                   credentials: "include",
@@ -134,90 +133,86 @@ export default function CodeVerificationScreen({ navigation, route }) {
               // Successful validation, now sign up the user using the formVals obtained from SignUpScreen
               const responseData = await response.json();
 
-              //  fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
               // Check platform and determine which fetch request to make
               let url = "";
               if (Platform.OS === "web") {
-                url = `https://coral-app-n96bn.ondigitalocean.app/auth/signup`; // Web endpoint
+                url = `${config.API_BASE_URL}/auth/signup`; // Web endpoint
               } else {
-                url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`; // Mobile endpoint
-
-                //  url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`;
+                url = `${config.API_BASE_URL}/auth/mobilesignup`; // Mobile endpoint
               }
-              fetch(url, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formVals),
-              })
-                .catch((err) => {
+              
+              try {
+                const signupResponse = await fetch(url, {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(formVals),
+                });
+
+                if (!signupResponse.ok || signupResponse.status >= 400) {
+                  const errorData = await signupResponse.json().catch(() => ({}));
+                  setError(errorData.status || "Signup failed. Please try again.");
                   return;
-                })
-                .then((res) => {
-                  if (!res || !res.ok || res.status >= 400) {
-                    return;
+                }
+
+                const data = await signupResponse.json();
+                
+                if (!data || data.status) {
+                  setError(data?.status || "Signup failed. Please try again.");
+                  return;
+                }
+
+                // Handle successful signup
+                if (Platform.OS === "web") {
+                  const mytoken = data.token;
+                  setUser({
+                    ...data,
+                    loggedIn: true,
+                    token: mytoken,
+                  });
+                  sessionStorage.setItem("token", mytoken);
+                  
+                  if (inviteToken) {
+                    navigation.navigate("HandleInvite", { inviteToken });
+                  } else {
+                    navigation.navigate("Home");
                   }
-                  return res.json();
-                })
-                .then(async (data) => {
-                  if (!data) return;
-                  setUser({ ...data });
-                  if (Platform.OS === "web") {
-                    setUser({
-                      loggedIn: true,
-                    });
-                    if (inviteToken) {
+                } else {
+                  SecureStore.setItemAsync("token", data.token)
+                    .then(() => {
+                      return SecureStore.setItem(
+                        "user",
+                        JSON.stringify(data)
+                      );
+                    })
+                    .then(() => {
                       setUser({
-                        ...user,
+                        ...data,
                         loggedIn: true,
                       });
-                      navigation.navigate("HandleInvite", { inviteToken });
-                    }
-                  } else {
-                    SecureStore.setItemAsync("token", data.token)
-                      .then(() => {
-                        return SecureStore.setItem(
-                          "user",
-                          JSON.stringify(data)
-                        );
-                      })
-                      .then(() => {
-                        setUser({
-                          ...data,
-                          loggedIn: true,
-                        });
-                        return AsyncStorage.setItem(
-                          "isLoggedIn",
-                          JSON.stringify(true)
-                        );
-                      })
-                      .catch((err) => {
-                        console.error("Error setting token or navigating", err);
-                      });
-                  }
-                  // if (Platform.OS === "web") {
-                  //   Cookies.set("token", data.token, {
-                  //     expires: 365,
-                  //     path: "/",
-                  //     secure: true,
-                  //     sameSite: "Strict",
-                  //   });
-                  //   localStorage.setItem("isLoggedIn", JSON.stringify(true));
-                  // } else {
-                  //   SecureStore.setItemAsync(
-                  //     "token",
-                  //     JSON.stringify(data.token)
-                  //   );
-                  //   SecureStore.setItem("user", JSON.stringify(data)); // storing the user in SecureStore
-                  //   AsyncStorage.setItem("isLoggedIn", JSON.stringify(true)); // storing the iLoggedIn state in AsyncStorage
-                  //   //  setUser({ ...data, loggedIn: true });
-                  // }
-                  // if (data.status) {
-                  //   setError(data.status);
-                  // }
-                });
+                      return AsyncStorage.setItem(
+                        "isLoggedIn",
+                        JSON.stringify(true)
+                      );
+                    })
+                    .then(() => {
+                      if (inviteToken) {
+                        navigation.navigate("HandleInvite", { inviteToken });
+                      } else {
+                        navigation.navigate("Home");
+                      }
+                    })
+                    .catch((err) => {
+                      console.error("Error setting token or navigating", err);
+                      setError("Error saving login information. Please try again.");
+                    });
+                }
+              } catch (err) {
+                console.error("Error during signup:", err);
+                setError("Signup failed. Please try again.");
+              }
 
               // Reset form after successful validation
               //  actions.resetForm();

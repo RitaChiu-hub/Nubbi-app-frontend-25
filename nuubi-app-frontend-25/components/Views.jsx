@@ -8,6 +8,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
+import config from '../config';
 
 import { Image, Platform, StyleSheet, View, Text } from "react-native";
 import { useAssets } from "expo-asset";
@@ -1649,7 +1650,7 @@ const TabNavigator = () => {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
+        `${config.API_BASE_URL}/groups/getnotificationsunread`,
         {
           method: "POST",
           credentials: "include",
@@ -1880,7 +1881,7 @@ export default function Views({ landingPage, inviteToken }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${config.API_BASE_URL}/auth/checkweblogin`,
         //  `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
         {
           method: "POST",

@@ -28,6 +28,7 @@ import { useIsFocused } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "../../config";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -68,7 +69,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostliked`,
+        `${config.API_BASE_URL}/groups/getpostliked`,
         {
           method: "POST",
           credentials: "include",
@@ -93,7 +94,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getcommentlikes`,
+        `${config.API_BASE_URL}/groups/getcommentlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -122,7 +123,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostinfo`,
+        `${config.API_BASE_URL}/groups/getpostinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -179,7 +180,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostpoints`,
+        `${config.API_BASE_URL}/groups/getpostpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -205,8 +206,8 @@ export default function ViewPostScreen({ navigation, route }) {
     const vals = { ...user, currentPost: route.params.currentPost };
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getpostcomments`,
-        //  `https://coral-app-n96bn.ondigitalocean.app/groups/getpostcomments`,
+        `${config.API_BASE_URL}/groups/getpostcomments`,
+        //  `${config.API_BASE_URL}/groups/getpostcomments`,
         {
           method: "POST",
           credentials: "include",
@@ -243,7 +244,7 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `${config.API_BASE_URL}/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -584,7 +585,7 @@ export default function ViewPostScreen({ navigation, route }) {
                         : null; // Get token only on mobile
 
                     fetch(
-                      `https://coral-app-n96bn.ondigitalocean.app/groups/addpostpoint`,
+                      `${config.API_BASE_URL}/groups/addpostpoint`,
                       {
                         method: "POST",
                         credentials: "include",
@@ -917,7 +918,7 @@ export default function ViewPostScreen({ navigation, route }) {
                             : null; // Get token only on mobile
 
                         fetch(
-                          `https://coral-app-n96bn.ondigitalocean.app/groups/addcommentpoint`,
+                          `${config.API_BASE_URL}/groups/addcommentpoint`,
                           {
                             method: "POST",
                             credentials: "include",

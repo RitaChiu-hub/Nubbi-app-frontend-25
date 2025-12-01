@@ -14,6 +14,7 @@ import { useAssets } from "expo-asset";
 import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -164,7 +165,7 @@ export default function HomeScreenBadges() {
         : sessionStorage.getItem("token"); // Get token only on mobile
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getwonbadges",
+        `${config.API_BASE_URL}/groups/getwonbadges`,
         {
           method: "POST",
           credentials: "include",

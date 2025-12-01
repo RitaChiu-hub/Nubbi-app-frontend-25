@@ -12,6 +12,7 @@ import {
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 export default function FeedbackScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -67,7 +68,7 @@ export default function FeedbackScreen({ navigation }) {
                 Platform.OS !== "web"
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
-              fetch("https://coral-app-n96bn.ondigitalocean.app/settings/sendfeedback", {
+              fetch(`${config.API_BASE_URL}/settings/sendfeedback`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

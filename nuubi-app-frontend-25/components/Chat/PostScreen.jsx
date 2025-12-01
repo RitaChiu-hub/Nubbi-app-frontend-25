@@ -14,6 +14,7 @@ import moment from "moment";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
+import config from "../../config";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -79,7 +80,7 @@ export default function PostScreen({ navigation }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${config.API_BASE_URL}/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -140,7 +141,7 @@ export default function PostScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/${groupId}/posts`,
+        `${config.API_BASE_URL}/groups/${groupId}/posts`,
         {
           method: "POST",
           credentials: "include",

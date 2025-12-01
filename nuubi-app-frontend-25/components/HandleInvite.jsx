@@ -1,7 +1,9 @@
 import React, { useEffect, useContext } from "react";
+import * as SecureStore from "expo-secure-store";
 import { ActivityIndicator, View, Alert, Platform, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AccountContext } from "./AccountContext";
+import config from "../config";
 
 const HandleInviteScreen = () => {
   const { user, setUser } = React.useContext(AccountContext);
@@ -36,7 +38,7 @@ const HandleInviteScreen = () => {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${config.API_BASE_URL}/auth/checkweblogin`,
         //  `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
         {
           method: "POST",
@@ -115,7 +117,7 @@ const HandleInviteScreen = () => {
 
         try {
           const response = await fetch(
-            `https://coral-app-n96bn.ondigitalocean.app/groups/invite/${inviteToken}`,
+            `${config.API_BASE_URL}/groups/invite/${inviteToken}`,
             // `https://coral-app-n96bn.ondigitalocean.app/groups/invite/${inviteToken}`,
             {
               method: "POST",

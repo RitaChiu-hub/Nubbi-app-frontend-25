@@ -16,6 +16,7 @@ import { FontAwesome } from "@expo/vector-icons"; // Assuming you're using Expo 
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import config from "../../config";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -177,8 +178,8 @@ export default function MyGroupTasks({ navigation }) {
   const getGroupTasks = async () => {
     try {
       const response = await fetch(
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
+        // `${config.API_BASE_URL}/groups/mygrouptasks`,
+        `${config.API_BASE_URL}/groups/mygrouptasks`,
         {
           method: "POST",
           credentials: "include",
@@ -198,8 +199,8 @@ export default function MyGroupTasks({ navigation }) {
   const getAllGroupTasks = async () => {
     try {
       const response = await fetch(
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        `https://coral-app-n96bn.ondigitalocean.app/groups/allgrouptasks`,
+        // `${config.API_BASE_URL}/groups/mygrouptasks`,
+        `${config.API_BASE_URL}/groups/allgrouptasks`,
         {
           method: "POST",
           credentials: "include",
@@ -234,8 +235,8 @@ export default function MyGroupTasks({ navigation }) {
       }));
 
       fetch(
-        //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-        "https://coral-app-n96bn.ondigitalocean.app/groups/taskcompleted",
+        //  `${config.API_BASE_URL}/groups/createtask`,
+        `${config.API_BASE_URL}/groups/taskcompleted`,
         {
           method: "POST",
           credentials: "include",
@@ -270,7 +271,7 @@ export default function MyGroupTasks({ navigation }) {
         [taskId]: true,
       }));
 
-      fetch("https://coral-app-n96bn.ondigitalocean.app/groups/taskapproved", {
+      fetch(`${config.API_BASE_URL}/groups/taskapproved`, {
         method: "POST",
         credentials: "include",
         headers: {

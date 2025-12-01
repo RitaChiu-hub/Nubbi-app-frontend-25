@@ -25,6 +25,7 @@ import alert from "./../alert";
 import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import { useFocusEffect } from "@react-navigation/native";
+import config from "../../config";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -344,7 +345,7 @@ export default function CreatePostScreen({ navigation }) {
                           : null; // Get token only on mobile
 
                       fetch(
-                        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                        `${config.API_BASE_URL}/groups/${user.currentGroup}/createpost`,
                         {
                           method: "POST",
                           credentials: "include",
@@ -474,7 +475,7 @@ export default function CreatePostScreen({ navigation }) {
                               : null; // Get token only on mobile
 
                           fetch(
-                            `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                            `${config.API_BASE_URL}/groups/${user.currentGroup}/createpost`,
                             {
                               method: "POST",
                               credentials: "include",
@@ -578,7 +579,7 @@ export default function CreatePostScreen({ navigation }) {
                               : null; // Get token only on mobile
 
                           fetch(
-                            `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                            `${config.API_BASE_URL}/groups/${user.currentGroup}/createpost`,
                             {
                               method: "POST",
                               credentials: "include",
@@ -664,7 +665,7 @@ export default function CreatePostScreen({ navigation }) {
                             : sessionStorage.getItem("token"); // Get token only on mobile
 
                         fetch(
-                          `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                          `${config.API_BASE_URL}/groups/${user.currentGroup}/createpost`,
                           {
                             method: "POST",
                             credentials: "include",
@@ -747,7 +748,7 @@ export default function CreatePostScreen({ navigation }) {
                             : sessionStorage.getItem("token"); // Get token only on mobile
 
                         fetch(
-                          `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                          `${config.API_BASE_URL}/groups/${user.currentGroup}/createpost`,
                           {
                             method: "POST",
                             credentials: "include",
@@ -812,7 +813,7 @@ export default function CreatePostScreen({ navigation }) {
                       : null; // Get token only on mobile
 
                   fetch(
-                    `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                    `${config.API_BASE_URL}/groups/${user.currentGroup}/createpost`,
                     {
                       method: "POST",
                       credentials: "include",

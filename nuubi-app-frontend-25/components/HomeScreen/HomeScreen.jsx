@@ -25,6 +25,7 @@ import {
 } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 export default function HomeScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -53,7 +54,7 @@ export default function HomeScreen({ navigation }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${config.API_BASE_URL}/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -140,7 +141,7 @@ export default function HomeScreen({ navigation }) {
 
         // Send the token to the backend API to save it in the user's table
         await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          `${config.API_BASE_URL}/settings/savepushtoken`,
           {
             method: "POST",
             headers: {
@@ -187,7 +188,7 @@ export default function HomeScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `${config.API_BASE_URL}/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",

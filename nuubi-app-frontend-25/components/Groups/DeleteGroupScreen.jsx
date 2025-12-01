@@ -10,6 +10,7 @@ import * as SecureStore from "expo-secure-store";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import { Formik, ErrorMessage } from "formik";
+import config from "../../config";
 
 export default function DeleteGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -46,7 +47,7 @@ export default function DeleteGroupScreen({ navigation }) {
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
                 : null; // Get token only on mobile
-            fetch("https://coral-app-n96bn.ondigitalocean.app/groups/deletegroup", {
+            fetch(`${config.API_BASE_URL}/groups/deletegroup`, {
               method: "POST",
               credentials: "include",
               headers: {

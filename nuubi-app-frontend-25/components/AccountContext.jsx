@@ -1,14 +1,17 @@
 import * as SecureStore from "expo-secure-store";
-const { createContext, useState, useEffect } = require("react");
+import { createContext, useState, useEffect } from "react";
 import { Platform } from "react-native";
 import socket from "../socket";
 
+import { registerPushToken } from "./usePushNotifications";   // ✅ NEW
+
 export const AccountContext = createContext();
 
-const UserContext = ({ children }) => {
+const AccountProvider = ({ children }) => {
   const [user, setUser] = useState({ token: null });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Load token from storage
   useEffect(() => {
     async function loadToken() {
       const token =
@@ -23,34 +26,24 @@ const UserContext = ({ children }) => {
     }
     loadToken();
   }, []);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // let myToken;
-  // if (Platform.OS === "web") {
-  //   myToken = null;
-  // } else {
-  //   getToken = SecureStore.getItemAsync("token");
-  //   if (getToken._j != null) {
-  //     myToken = getToken._j;
-  //   } else {
-  //     myToken = null;
-  //   }
-  // }
-
-  // const [user, setUser] = useState({
-  //   token: myToken,
-  // });
-
-  // connect/disconnect socket exactly once when login state changes
+  // Connect socket when logged in
   useEffect(() => {
     if (isLoggedIn && !socket.connected) {
       socket.auth = { token: user.token };
       socket.connect();
     } else if (!isLoggedIn && socket.connected) {
       console.log("Not logged in, and socket is connected");
-      // socket.disconnect();
     }
   }, [isLoggedIn, user.token]);
+
+  // ✅ REGISTER PUSH TOKEN WHEN USER LOGS IN
+  useEffect(() => {
+    if (isLoggedIn && user?.token) {
+      console.log("🔔 Registering push token for logged-in user…");
+      registerPushToken(user.token);
+    }
+  }, [isLoggedIn, user]);
 
   return (
     <AccountContext.Provider
@@ -61,4 +54,4 @@ const UserContext = ({ children }) => {
   );
 };
 
-export default UserContext;
+export default AccountProvider;

@@ -15,6 +15,7 @@ const { createGroupSchema } = require("../validationSchema");
 import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import { useFocusEffect } from "@react-navigation/native";
+import config from "../../config";
 
 export default function CreateGroupScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -105,7 +106,7 @@ export default function CreateGroupScreen({ navigation }) {
                   : null; // Get token only on mobile
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/creategroup",
+                `${config.API_BASE_URL}/groups/creategroup`,
                 {
                   method: "POST",
                   credentials: "include",

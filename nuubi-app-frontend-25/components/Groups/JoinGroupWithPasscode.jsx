@@ -12,6 +12,7 @@ import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
+import config from "../../config";
 
 export default function JoinGroupWithPasscode({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -88,7 +89,7 @@ export default function JoinGroupWithPasscode({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                `https://coral-app-n96bn.ondigitalocean.app/groups/joingroupwithpasscode`,
+                `${config.API_BASE_URL}/groups/joingroupwithpasscode`,
                 {
                   method: "POST",
                   credentials: "include",

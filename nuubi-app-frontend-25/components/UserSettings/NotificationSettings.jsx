@@ -17,6 +17,7 @@ import * as Notifications from "expo-notifications";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
 import { useFocusEffect } from "@react-navigation/native";
+import config from "../../config";
 
 export default function NotificationSettings({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -52,7 +53,7 @@ export default function NotificationSettings({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     const res = await fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/get-notif-prefs",
+      `${config.API_BASE_URL}/settings/get-notif-prefs`,
       {
         method: "POST", // your backend is POST for JWT body
         credentials: "include",
@@ -72,7 +73,7 @@ export default function NotificationSettings({ navigation }) {
     const token =
       Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null; // Get token only on mobile
     await fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
+      `${config.API_BASE_URL}/settings/notif-prefs`,
       {
         method: "POST",
         credentials: "include",
@@ -162,7 +163,7 @@ export default function NotificationSettings({ navigation }) {
             : null; // Get token only on mobile
 
         await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          `${config.API_BASE_URL}/settings/savepushtoken`,
           {
             method: "POST",
             credentials: "include",
@@ -242,8 +243,8 @@ export default function NotificationSettings({ navigation }) {
                     Platform.OS !== "web"
                       ? await SecureStore.getItemAsync("token")
                       : null; // Get token only on mobile
-                  await fetch(
-                    "https://coral-app-n96bn.ondigitalocean.app/settings/notif-prefs",
+                await fetch(
+                  `${config.API_BASE_URL}/settings/notif-prefs`,
                     {
                       method: "POST",
                       credentials: "include",

@@ -13,6 +13,7 @@ import { globalStyles } from "../../styles/global";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -26,7 +27,7 @@ export default function ForgotPasswordScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     fetch(
-      "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+      `${config.API_BASE_URL}/settings/generatepasscode`,
       {
         method: "POST",
         credentials: "include",
@@ -145,7 +146,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                  `${config.API_BASE_URL}/settings/forgotpassword`,
                   {
                     method: "POST",
                     credentials: "include",

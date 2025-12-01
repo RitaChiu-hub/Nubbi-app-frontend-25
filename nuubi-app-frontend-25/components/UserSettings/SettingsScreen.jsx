@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigationState } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
+import config from "../../config";
 
 export default function SettingsScreen({ navigation }) {
   const [showModal, setShowModal] = React.useState(false);
@@ -69,7 +70,7 @@ export default function SettingsScreen({ navigation }) {
   async function logoutUser(setUser) {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/auth/logout",
+        `${config.API_BASE_URL}/auth/logout`,
         {
           method: "POST",
           credentials: "include", // Include the HttpOnly cookie in the request

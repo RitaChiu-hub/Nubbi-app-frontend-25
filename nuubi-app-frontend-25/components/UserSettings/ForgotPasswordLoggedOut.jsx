@@ -13,6 +13,7 @@ import { globalStyles } from "../../styles/global";
 const { forgotPasswordSchema } = require("../validationSchema");
 import { Formik, ErrorMessage } from "formik";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 import { useTogglePasswordVisibility } from "../useTogglePasswordVisibility";
 import IconMC from "@expo/vector-icons/MaterialCommunityIcons";
 import IconAD from "@expo/vector-icons/AntDesign";
@@ -129,7 +130,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 //  actions.resetForm();
                 const email = vals.email;
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/generatepasscode",
+                  `${config.API_BASE_URL}/settings/generatepasscode`,
                   {
                     method: "POST",
                     credentials: "include",
@@ -196,7 +197,7 @@ export default function ForgotPasswordLoggedOut({ navigation }) {
                 const vals = { ...values };
                 actions.resetForm();
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/forgotpassword",
+                  `${config.API_BASE_URL}/settings/forgotpassword`,
                   {
                     method: "POST",
                     credentials: "include",

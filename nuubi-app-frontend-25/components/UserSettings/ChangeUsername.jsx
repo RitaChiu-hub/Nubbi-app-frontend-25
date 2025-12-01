@@ -14,6 +14,7 @@ import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 const { changeUsernameSchema } = require("../validationSchema");
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function ChangeUsernameScreen({ navigation }) {
@@ -34,7 +35,7 @@ export default function ChangeUsernameScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `${config.API_BASE_URL}/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -160,7 +161,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/updateusername",
+                  `${config.API_BASE_URL}/settings/updateusername`,
                   {
                     method: "POST",
                     credentials: "include",

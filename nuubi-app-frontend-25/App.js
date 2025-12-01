@@ -4,10 +4,15 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Views from "./components/Views";
-import UserContext from "./components/AccountContext";
+import AccountProvider from "./components/AccountContext";
 import * as Notifications from "expo-notifications";
 import { navigationRef } from "./components/navRef";
 import { installSessionGuard } from "./components/sessionGuard";
+//new import
+import { registerPushToken } from './components/usePushNotifications';
+
+
+
 
 // installSessionGuard();
 if (Platform.OS === "android") {
@@ -18,6 +23,8 @@ if (Platform.OS === "android") {
     lightColor: "#FF231F7C",
   });
 }
+
+
 
 const isWeb = Platform.OS === "web";
 const Elements = isWeb
@@ -199,7 +206,7 @@ export default function App() {
   return (
     <Fragment>
       <StatusBar style="dark" />
-      <UserContext>
+      <AccountProvider>
         <SafeAreaProvider>
           <NavigationContainer
             //  ref={navigationRef}
@@ -244,7 +251,7 @@ export default function App() {
             {/* </Suspense> */}
           </NavigationContainer>
         </SafeAreaProvider>
-      </UserContext>
+      </AccountProvider>
     </Fragment>
   );
 }

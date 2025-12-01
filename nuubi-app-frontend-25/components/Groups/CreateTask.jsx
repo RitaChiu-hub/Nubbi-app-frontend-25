@@ -11,6 +11,7 @@ import {
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
+import config from "../../config";
 const { createTaskSchema } = require("../validationSchema");
 
 export default function CreateTask({ navigation }) {
@@ -57,7 +58,7 @@ export default function CreateTask({ navigation }) {
               const vals = { ...values, assignToAdmin, assignToParticipants };
               actions.resetForm();
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
+                `${config.API_BASE_URL}/groups/createtask`,
                 {
                   method: "POST",
                   credentials: "include",

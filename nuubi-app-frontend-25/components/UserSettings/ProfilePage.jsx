@@ -14,6 +14,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { useAssets } from "expo-asset";
 import FeatherIcon from "@expo/vector-icons/FontAwesome6";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -46,7 +47,7 @@ export default function ProfilePageScreen({ navigation }) {
 
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `${config.API_BASE_URL}/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -77,7 +78,7 @@ export default function ProfilePageScreen({ navigation }) {
 
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+        `${config.API_BASE_URL}/settings/getuseravatar`,
         {
           method: "POST",
           credentials: "include",
@@ -319,7 +320,7 @@ export default function ProfilePageScreen({ navigation }) {
                               : null; // Get token only on mobile
 
                           fetch(
-                            `https://coral-app-n96bn.ondigitalocean.app/settings/updateavatar`,
+                            `${config.API_BASE_URL}/settings/updateavatar`,
                             {
                               method: "POST",
                               credentials: "include",

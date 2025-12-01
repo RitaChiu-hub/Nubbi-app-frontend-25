@@ -13,13 +13,12 @@ import { useIsFocused } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
 import moment from "moment-timezone";
 import * as SecureStore from "expo-secure-store";
+import config from "../../config";
 
 export default function NotificationsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
-  const [notifications, setNotifications] = React.useState({
-    created_at: "2000-01-01T01:00:00.000000",
-  });
+  const [notifications, setNotifications] = React.useState([]);
   const screenWidth = Dimensions.get("window").width;
   const isFocused = useIsFocused();
 
@@ -39,7 +38,7 @@ export default function NotificationsScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotifications",
+        `${config.API_BASE_URL}/groups/getnotifications`,
         {
           method: "POST",
           credentials: "include",
@@ -75,7 +74,7 @@ export default function NotificationsScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsread",
+        `${config.API_BASE_URL}/groups/getnotificationsread`,
         {
           method: "POST",
           credentials: "include",

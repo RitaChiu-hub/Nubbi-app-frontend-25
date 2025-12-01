@@ -14,6 +14,7 @@ import { useIsFocused } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import AnalyticsDatePicker from "./AnalyticsDatePicker";
 import FAIcon from "@expo/vector-icons/FontAwesome";
+import config from "../../config";
 
 export default function GroupAnalytics({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -30,7 +31,7 @@ export default function GroupAnalytics({ navigation }) {
 
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
+        `${config.API_BASE_URL}/groups/getweeklygroupinfo`,
         //  `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
         {
           method: "POST",

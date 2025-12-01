@@ -20,6 +20,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import alert from "./../alert";
 import { useAssets } from "expo-asset";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "../../config";
 
 export default function LoginScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -83,84 +84,53 @@ export default function LoginScreen({ navigation }) {
             //   password: "!2MemberTest",
             // }}
             validationSchema={formSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={async (values, actions) => {
               values.username = values.username.trim();
               const vals = { ...values };
-              // actions.resetForm();
-
-              // Check platform and determine which fetch request to make
-              let url = "";
-              if (Platform.OS === "web") {
-                url = `https://coral-app-n96bn.ondigitalocean.app/auth/login`; // Web endpoint
-              } else {
-                url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilelogin`; // Mobile endpoint
-              }
-
-              fetch(url, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(vals),
-              })
-                .then(async (res) => {
-                  // Check for HTTP errors
-                  if (!res.ok) {
-                    return res.json().then((data) => {
-                      // Handle error messages here
-                      if (data.message) {
-                        setError(data.message); // Set error message from the server
-                      } else {
-                        setError("An unknown error occurred"); // Fallback error message
-                      }
-                      throw new Error(data.message || "Error"); // Throw error to skip the next .then
-                    });
-                  }
-                  return res.json();
-                })
-                .then((data) => {
-                  // Handle successful login
-                  if (!data) return;
-                  setUser({ ...data });
-                  if (Platform.OS === "web") {
-                    const mytoken = data.token;
-                    setUser({
-                      ...user,
-                      loggedIn: true,
-                      token: mytoken,
-                    });
-                    sessionStorage.setItem("token", mytoken);
-
-                    if (inviteToken) {
-                      setUser({
-                        ...user,
-                        loggedIn: true,
-                        token: mytoken,
-                      });
-                      sessionStorage.setItem("token", mytoken);
-                      navigation.navigate("HandleInvite", { inviteToken });
-                    }
-                  } else {
-                    SecureStore.setItemAsync("token", data.token)
-                      .then(() => {
-                        return SecureStore.setItem(
-                          "user",
-                          JSON.stringify(data)
-                        ); // storing the user in SecureStore
-                      })
-                      .then(() => {
-                        setUser({ ...data, loggedIn: true });
-                        return AsyncStorage.setItem(
-                          "isLoggedIn",
-                          JSON.stringify(true)
-                        );
-                      })
-                      .catch((err) => {
-                        console.error("Error setting token or navigating", err);
-                      });
-                  }
+            
+              let url =
+                Platform.OS === "web"
+                  ? `${config.API_BASE_URL}/auth/login`
+                  : `${config.API_BASE_URL}/auth/mobilelogin`;
+            
+              try {
+                const res = await fetch(url, {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(vals),
                 });
+            
+                const data = await res.json();
+            
+                if (!res.ok) {
+                  setError(data.message || "An unknown error occurred");
+                  return;
+                }
+            
+                // SUCCESS — LOGIN OK
+                if (Platform.OS === "web") {
+                  const mytoken = data.token;
+                  setUser({ ...data, loggedIn: true, token: mytoken });
+                  sessionStorage.setItem("token", mytoken);
+            
+                  if (inviteToken) {
+                    navigation.navigate("HandleInvite", { inviteToken });
+                  }
+                } else {
+                  // MOBILE
+                  await SecureStore.setItemAsync("token", data.token);
+                  await SecureStore.setItemAsync("user", JSON.stringify(data));
+                  await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
+            
+                  setUser({ ...data, loggedIn: true });
+                }
+              } catch (err) {
+                console.error("Login error", err);
+                setError("Network error");
+              }
             }}
           >
             {(props) => (

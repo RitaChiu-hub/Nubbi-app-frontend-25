@@ -22,6 +22,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import * as SecureStore from "expo-secure-store";
 import Markdown from "react-native-markdown-display";
+import config from "../../config";
 
 export default function ChatScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -43,8 +44,8 @@ export default function ChatScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getgroupinfo`,
+    const response = await fetch(
+      `${config.API_BASE_URL}/groups/getgroupinfo`,
         {
           method: "POST",
           credentials: "include",
@@ -89,8 +90,8 @@ export default function ChatScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groupchat/getlikes`,
+    const response = await fetch(
+      `${config.API_BASE_URL}/groupchat/getlikes`,
         {
           method: "POST",
           credentials: "include",
@@ -118,8 +119,8 @@ export default function ChatScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groupchat/getmessages",
+    const response = await fetch(
+      `${config.API_BASE_URL}/groupchat/getmessages`,
         {
           method: "POST",
           credentials: "include",
@@ -143,8 +144,8 @@ export default function ChatScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/isadmin`,
+    const response = await fetch(
+      `${config.API_BASE_URL}/groups/isadmin`,
         {
           method: "POST",
           credentials: "include",
@@ -296,7 +297,7 @@ export default function ChatScreen({ navigation }) {
                             : sessionStorage.getItem("token");
 
                         await fetch(
-                          `https://coral-app-n96bn.ondigitalocean.app/groups/addmessagepoint`,
+                          `${config.API_BASE_URL}/groups/addmessagepoint`,
                           {
                             method: "POST",
                             credentials: "include",

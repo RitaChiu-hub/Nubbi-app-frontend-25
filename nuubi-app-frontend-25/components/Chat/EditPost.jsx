@@ -19,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
+import config from "../../config";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
@@ -155,8 +156,8 @@ export default function EditPostScreen({ navigation }) {
                     setImageUploadInfo({ ...data });
                     let uploadUrl = data["secure_url"];
                     const vals = { ...values, imageUrl: uploadUrl };
-                    fetch(
-                      `https://coral-app-n96bn.ondigitalocean.app/groups/editpost`,
+                      fetch(
+                        `${config.API_BASE_URL}/groups/editpost`,
 
                       {
                         method: "POST",
@@ -196,8 +197,8 @@ export default function EditPostScreen({ navigation }) {
                   Platform.OS !== "web"
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
-                fetch(
-                  `https://coral-app-n96bn.ondigitalocean.app/groups/editpost`,
+                  fetch(
+                    `${config.API_BASE_URL}/groups/editpost`,
                   {
                     method: "POST",
                     credentials: "include",

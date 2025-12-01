@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Modal,
 } from "react-native";
+import config from "../config";
 
 const FreebieLandingPage = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -32,7 +33,7 @@ const FreebieLandingPage = ({ navigation }) => {
 
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/auth/freebiesignup",
+        `${config.API_BASE_URL}/auth/freebiesignup`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
