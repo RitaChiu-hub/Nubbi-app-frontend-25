@@ -290,37 +290,6 @@ export default function GroupAnalytics({ navigation }) {
           📋 Analytics are grouped by full weeks (Monday to Sunday)
         </Text>
 
-        {/* 🔍 DEBUG PANEL */}
-        <View style={styles.debugPanel}>
-          <Text style={{ fontWeight: "bold", marginBottom: 5 }}>🔍 DEBUG:</Text>
-          <Text style={{ fontSize: 12 }}>
-            Group: {user?.currentGroup || "null"}
-          </Text>
-          <Text style={{ fontSize: 12 }}>
-            Has Analytics: {analytics ? "YES ✅" : "NO ❌"}
-          </Text>
-          <Text style={{ fontSize: 12 }}>Members: {members.length}</Text>
-          {analytics && (
-            <>
-              <Text style={{ fontSize: 12 }}>
-                Questions: {analytics.questions?.percentage}%
-              </Text>
-              <Text style={{ fontSize: 12 }}>
-                Topic keyword: {analytics.questions?.topicKeyword || "None"}
-              </Text>
-              <Text style={{ fontSize: 12 }}>
-                Topic %: {analytics.questions?.topicPercentage ?? 0}%
-              </Text>
-              <Text style={{ fontSize: 12 }}>
-                Peer Replies: {analytics.peerReplies?.percentage ?? 0}%
-              </Text>
-              <Text style={{ fontSize: 12 }}>
-                At Risk: {analytics.atRisk?.count ?? 0}
-              </Text>
-            </>
-          )}
-        </View>
-
         <ScrollView horizontal showsHorizontalScrollIndicator={true}>
           <View style={styles.cardsGrid}>
             {/* Date Picker Card */}
