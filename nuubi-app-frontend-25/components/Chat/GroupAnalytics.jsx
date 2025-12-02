@@ -718,7 +718,7 @@ const styles = StyleSheet.create({
   },
   atRiskScroll: {
     width: "100%",
-    maxHeight: 200,
+    maxHeight: 100,
   },
   atRiskScrollContent: {
     alignItems: "center",
@@ -766,7 +766,7 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 10,
+    marginVertical: 3,
   },
   tableCellText: {
     fontSize: 16,
