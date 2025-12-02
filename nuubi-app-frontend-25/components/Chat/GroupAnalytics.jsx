@@ -366,11 +366,17 @@ export default function GroupAnalytics({ navigation }) {
                     No students at risk 🎉
                   </Text>
                 ) : (
-                  analytics.atRisk?.students?.map((s) => (
-                    <Text key={s.id} style={styles.studentNameText}>
-                      • {s.username}
-                    </Text>
-                  ))
+                  <ScrollView
+                    style={styles.atRiskScroll}
+                    contentContainerStyle={styles.atRiskScrollContent}
+                    nestedScrollEnabled
+                  >
+                    {analytics.atRisk?.students?.map((s) => (
+                      <Text key={s.id} style={styles.studentNameText}>
+                        • {s.username}
+                      </Text>
+                    ))}
+                  </ScrollView>
                 )}
               </View>
             </View>
@@ -385,6 +391,9 @@ export default function GroupAnalytics({ navigation }) {
             </View>
           </View>
         </ScrollView>
+
+        {/* Spacer between cards and weekly list */}
+        <View style={{ height: 24 }} />
 
         {!user || !user.currentGroup ? (
           <View style={{ padding: 24, alignItems: "center", marginTop: 24 }}>
@@ -577,7 +586,7 @@ const styles = StyleSheet.create({
   cardsGrid: {
     flexDirection: "row",
     gap: 16,
-    marginBottom: 32,
+    marginBottom: 200,
   },
   dateCard: {
     borderWidth: 4,
@@ -588,7 +597,7 @@ const styles = StyleSheet.create({
     flex: 1,
     maxWidth: 340,
     minWidth: 320,
-    minHeight: 320,
+    minHeight: 380,
   },
   dateLabel: {
     fontSize: 14,
@@ -598,13 +607,13 @@ const styles = StyleSheet.create({
   },
   dateInput: {
     width: "100%",
-    padding: 8,
+    padding: 3,
     fontSize: 14,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     marginBottom: 4,
-    marginLeft: 0,
+    marginRight: 5,
   },
   dateCardNote: {
     flexDirection: "row",
@@ -673,6 +682,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     maxWidth: 320,
+    minHeight: 380,
   },
   largeCard: {
     borderWidth: 4,
@@ -705,6 +715,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     justifyContent: "center",
     alignItems: "center",
+  },
+  atRiskScroll: {
+    width: "100%",
+    maxHeight: 200,
+  },
+  atRiskScrollContent: {
+    alignItems: "center",
+    paddingHorizontal: 4,
   },
   placeholderText: {
     fontSize: 14,
