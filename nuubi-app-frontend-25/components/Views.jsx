@@ -14,6 +14,7 @@ import { useAssets } from "expo-asset";
 
 import { useContext } from "react";
 import { AccountContext } from "./AccountContext";
+import config from "../config";
 
 import LoginScreen from "./Login/LoginScreen";
 import SignUpScreen from "./Login/SignUpScreen";
@@ -75,6 +76,7 @@ import * as SplashScreenExpo from "expo-splash-screen";
 import TooltipLabel from "./TooltipLabel";
 
 import CertificatesScreen from "./Certificates/CertificatesScreen";
+import sessionService from "../services/sessionService";
 
 const HomeDrawer = createDrawerNavigator();
 
@@ -1865,6 +1867,8 @@ export default function Views({ landingPage, inviteToken }) {
   const { user, setUser, isLoggedIn, setIsLoggedIn } =
     useContext(AccountContext);
   //const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const routeNameRef = React.useRef();
+  const navigationRef = React.useRef();
 
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {

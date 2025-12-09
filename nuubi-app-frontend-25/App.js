@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState, Suspense } from "react";
-import { Platform } from "react-native";
+import React, { Fragment, useEffect, useState, Suspense, useRef } from "react";
+import { Platform, AppState } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -8,6 +8,7 @@ import UserContext from "./components/AccountContext";
 import * as Notifications from "expo-notifications";
 import { navigationRef } from "./components/navRef";
 import { installSessionGuard } from "./components/sessionGuard";
+import sessionService from "./services/sessionService";
 
 // installSessionGuard();
 if (Platform.OS === "android") {
@@ -179,6 +180,8 @@ export default function App() {
 
   const [StripeProvider, setStripeProvider] = useState(null);
   const [stripePromise, setStripePromise] = useState(null);
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
   useEffect(() => {
     if (!isWeb) {
@@ -196,16 +199,113 @@ export default function App() {
     }
   }, []);
 
+  // Handle app state changes (mobile only)
+  useEffect(() => {
+    if (Platform.OS === "web") {
+      return;
+    }
+
+    const subscription = AppState.addEventListener("change", async (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === "active"
+      ) {
+        console.log("App has come to the foreground");
+        // Resume heartbeat when app comes to foreground
+        try {
+          // Check if session exists, restore if needed
+          const storedSessionId = await sessionService.getStoredSessionId();
+          if (storedSessionId) {
+            await sessionService.storeSessionId(storedSessionId);
+            sessionService.startHeartbeat();
+          } else {
+            // Try to get current session from backend
+            const currentSession = await sessionService.getCurrentSession();
+            if (currentSession) {
+              await sessionService.storeSessionId(currentSession.session_id);
+              sessionService.startHeartbeat();
+            } else {
+              // Start new session if user is logged in
+              const token = await sessionService.getToken();
+              if (token) {
+                await sessionService.startSession();
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error restoring session on foreground:", error);
+          // Non-blocking: try to start heartbeat anyway
+          sessionService.startHeartbeat();
+        }
+      } else if (nextAppState.match(/inactive|background/)) {
+        console.log("App has gone to the background");
+        // Pause heartbeat when app goes to background
+        sessionService.stopHeartbeat();
+      }
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+    });
+
+    return () => {
+      subscription?.remove();
+    };
+  }, []);
+
+  // Cleanup on unmount (web only - handle page unload)
+  useEffect(() => {
+    if (Platform.OS !== "web") {
+      return;
+    }
+
+    const handleBeforeUnload = () => {
+      // End session when page is about to unload
+      sessionService.endSession();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  // Track navigation for analytics
+  const routeNameRef = useRef();
+
+  const onNavigationReady = () => {
+    routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
+  };
+
+  const onNavigationStateChange = async () => {
+    const previousRouteName = routeNameRef.current;
+    const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
+
+    if (previousRouteName !== currentRouteName && currentRouteName) {
+      // Track page view when route changes
+      try {
+        await sessionService.trackPageView(currentRouteName);
+      } catch (error) {
+        console.error("Error tracking page view:", error);
+      }
+    }
+
+    // Save the current route name for next comparison
+    routeNameRef.current = currentRouteName;
+  };
+
   return (
     <Fragment>
       <StatusBar style="dark" />
       <UserContext>
         <SafeAreaProvider>
           <NavigationContainer
-            //  ref={navigationRef}
+            ref={navigationRef}
             linking={linking}
             landingPage={containsLandingPage}
             inviteToken={inviteToken}
+            onReady={onNavigationReady}
+            onStateChange={onNavigationStateChange}
           >
             <Suspense>
               <Views

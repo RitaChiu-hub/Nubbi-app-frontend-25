@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store";
 const { createContext, useState, useEffect } = require("react");
 import { Platform } from "react-native";
 import socket from "../socket";
+import sessionService from "../services/sessionService";
 
 export const AccountContext = createContext();
 
@@ -19,6 +20,34 @@ const UserContext = ({ children }) => {
       if (token) {
         setUser({ token });
         setIsLoggedIn(true);
+        
+        // Restore session for mobile if token exists
+        if (Platform.OS !== "web") {
+          try {
+            // Try to restore existing session ID
+            const storedSessionId = await sessionService.getStoredSessionId();
+            if (storedSessionId) {
+              await sessionService.storeSessionId(storedSessionId);
+              sessionService.startHeartbeat();
+              console.log("📱 Restored session on app start:", storedSessionId);
+            } else {
+              // Try to get current session from backend
+              const currentSession = await sessionService.getCurrentSession();
+              if (currentSession) {
+                await sessionService.storeSessionId(currentSession.session_id);
+                sessionService.startHeartbeat();
+                console.log("📱 Restored active session from backend:", currentSession.session_id);
+              } else {
+                // Start new session if none exists
+                console.log("📱 No existing session, starting new session");
+                await sessionService.startSession();
+              }
+            }
+          } catch (error) {
+            console.error("Error restoring session on app start:", error);
+            // Non-blocking: continue even if session restore fails
+          }
+        }
       }
     }
     loadToken();

@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigationState } from "@react-navigation/native";
 import { AccountContext } from "../AccountContext";
 import { globalStyles } from "../../styles/global";
+import sessionService from "../../services/sessionService";
 
 export default function SettingsScreen({ navigation }) {
   const [showModal, setShowModal] = React.useState(false);
@@ -102,6 +103,9 @@ export default function SettingsScreen({ navigation }) {
     }
 
     try {
+      // 0) End session tracking before logout
+      await sessionService.endSession();
+
       // 1) clear React state
       setUser({ token: null });
       await logoutUser(setUser);
@@ -110,9 +114,11 @@ export default function SettingsScreen({ navigation }) {
       if (Platform.OS === "web") {
         sessionStorage.removeItem("token");
         localStorage.removeItem("token");
+        sessionStorage.removeItem("session_id");
       } else {
         await SecureStore.deleteItemAsync("token");
         await SecureStore.deleteItemAsync("user");
+        await SecureStore.deleteItemAsync("session_id");
         await AsyncStorage.setItem("isLoggedIn", "false");
       }
 
