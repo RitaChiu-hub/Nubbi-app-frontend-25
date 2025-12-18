@@ -1,0 +1,50 @@
+{
+  "title": "Nuubi",
+  "description": "Nuubi is a social learning platform that helps students build study communities and track their academic progress through gamification and collaborative tools.",
+  "target_link_uri": "https://www.nuubi.app/lti-login",
+  "oidc_initiation_url": "https://coral-app-n96bn.ondigitalocean.app/lti/login",
+  "public_jwk_url": "https://coral-app-n96bn.ondigitalocean.app/lti/jwks",
+  "scopes": [
+    "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem",
+    "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+    "https://purl.imsglobal.org/spec/lti-ags/scope/score",
+    "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+  ],
+  "extensions": [
+    {
+      "platform": "canvas.instructure.com",
+      "settings": {
+        "platform": "canvas.instructure.com",
+        "placements": [
+          {
+            "placement": "course_navigation",
+            "message_type": "LtiResourceLinkRequest",
+            "target_link_uri": "https://www.nuubi.app/lti-login",
+            "text": "Nuubi",
+            "icon_url": "https://www.nuubi.app/assets/nuubiicon.png",
+            "enabled": true,
+            "default": "enabled",
+            "windowTarget": "_blank"
+          },
+          {
+            "placement": "link_selection",
+            "message_type": "LtiDeepLinkingRequest",
+            "target_link_uri": "https://www.nuubi.app/lti-login",
+            "text": "Nuubi",
+            "icon_url": "https://www.nuubi.app/assets/nuubiicon.png"
+          }
+        ]
+      },
+      "privacy_level": "public",
+      "domain": "nuubi.app"
+    }
+  ],
+  "custom_fields": {
+    "canvas_course_id": "$Canvas.course.id",
+    "canvas_user_id": "$Canvas.user.id",
+    "canvas_user_login_id": "$Canvas.user.loginId",
+    "canvas_course_name": "$Canvas.course.name",
+    "person_name_full": "$Person.name.full",
+    "person_email_primary": "$Person.email.primary"
+  }
+}

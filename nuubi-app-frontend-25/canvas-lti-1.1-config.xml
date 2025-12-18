@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cartridge_basiclti_link xmlns="http://www.imsglobal.org/xsd/imslticc_v1p0"
+    xmlns:blti="http://www.imsglobal.org/xsd/imsbasiclti_v1p0"
+    xmlns:lticm="http://www.imsglobal.org/xsd/imslticm_v1p0"
+    xmlns:lticp="http://www.imsglobal.org/xsd/imslticp_v1p0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.imsglobal.org/xsd/imslticc_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticc_v1p0.xsd
+    http://www.imsglobal.org/xsd/imsbasiclti_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imsbasiclti_v1p0.xsd
+    http://www.imsglobal.org/xsd/imslticm_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticm_v1p0.xsd
+    http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
+  <blti:title>Nuubi</blti:title>
+  <blti:description>Nuubi is a social learning platform that helps students build study communities and track their academic progress through gamification and collaborative tools.</blti:description>
+  <blti:icon>https://www.nuubi.app/assets/nuubiicon.png</blti:icon>
+  <blti:launch_url>https://www.nuubi.app/lti-login</blti:launch_url>
+  <blti:extensions platform="canvas.instructure.com">
+    <lticm:property name="tool_id">nuubi</lticm:property>
+    <lticm:property name="privacy_level">public</lticm:property>
+    <lticm:property name="domain">nuubi.app</lticm:property>
+    <lticm:property name="icon_url">https://www.nuubi.app/assets/nuubiicon.png</lticm:property>
+    <lticm:options name="course_navigation">
+      <lticm:property name="url">https://www.nuubi.app/lti-login</lticm:property>
+      <lticm:property name="text">Nuubi</lticm:property>
+      <lticm:property name="enabled">true</lticm:property>
+      <lticm:property name="default">enabled</lticm:property>
+      <lticm:property name="windowTarget">_blank</lticm:property>
+    </lticm:options>
+    <lticm:options name="editor_button">
+      <lticm:property name="url">https://www.nuubi.app/lti-login</lticm:property>
+      <lticm:property name="icon_url">https://www.nuubi.app/assets/nuubiicon.png</lticm:property>
+      <lticm:property name="text">Nuubi</lticm:property>
+      <lticm:property name="enabled">true</lticm:property>
+      <lticm:property name="selection_width">800</lticm:property>
+      <lticm:property name="selection_height">600</lticm:property>
+    </lticm:options>
+  </blti:extensions>
+  <blti:custom>
+    <lticm:property name="canvas_course_id">$Canvas.course.id</lticm:property>
+    <lticm:property name="canvas_user_id">$Canvas.user.id</lticm:property>
+    <lticm:property name="canvas_user_login_id">$Canvas.user.loginId</lticm:property>
+    <lticm:property name="canvas_course_name">$Canvas.course.name</lticm:property>
+    <lticm:property name="person_name_full">$Person.name.full</lticm:property>
+    <lticm:property name="person_email_primary">$Person.email.primary</lticm:property>
+  </blti:custom>
+</cartridge_basiclti_link>
