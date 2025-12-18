@@ -21,7 +21,7 @@
       <lticm:property name="url">https://www.nuubi.app/lti-login</lticm:property>
       <lticm:property name="text">Nuubi</lticm:property>
       <lticm:property name="enabled">true</lticm:property>
-      <lticm:property name="default">enabled</lticm:property>
+      <lticm:property name="default">true</lticm:property>
       <lticm:property name="windowTarget">_blank</lticm:property>
     </lticm:options>
     <lticm:options name="editor_button">

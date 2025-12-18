@@ -14,7 +14,6 @@
     {
       "platform": "canvas.instructure.com",
       "settings": {
-        "platform": "canvas.instructure.com",
         "placements": [
           {
             "placement": "course_navigation",
@@ -23,7 +22,7 @@
             "text": "Nuubi",
             "icon_url": "https://www.nuubi.app/assets/nuubiicon.png",
             "enabled": true,
-            "default": "enabled",
+            "default": true,
             "windowTarget": "_blank"
           },
           {

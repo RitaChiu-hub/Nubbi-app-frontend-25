@@ -26,7 +26,7 @@ Nuubi supports two integration methods:
 1. Navigate to **Admin** > **Developer Keys**
 2. Click **+ Developer Key** > **+ LTI Key**
 3. Select **Method: Paste JSON**
-4. Copy the contents of `canvas-lti-1.3-config.json` (available at [GitHub](https://github.com/nuubiapp/nuubi-app-frontend-25/blob/main/canvas-lti-1.3-config.json))
+4. Copy the contents of `canvas-lti-1.3-config.json` from this repository
 5. Paste the JSON configuration
 6. Click **Save**
 7. Enable the Developer Key (toggle to "On")
@@ -77,7 +77,7 @@ Contact Nuubi support at support@nuubi.app to request:
    - **Name:** Nuubi
    - **Consumer Key:** (provided by Nuubi support)
    - **Shared Secret:** (provided by Nuubi support)
-5. Copy the contents of `canvas-lti-1.1-config.xml` (available at [GitHub](https://github.com/nuubiapp/nuubi-app-frontend-25/blob/main/canvas-lti-1.1-config.xml))
+5. Copy the contents of `canvas-lti-1.1-config.xml` from this repository
 6. Paste into the **XML Configuration** field
 7. Click **Submit**
 8. Nuubi will now appear in your course navigation
@@ -167,8 +167,7 @@ Instructors can insert Nuubi content using the editor toolbar.
 - Ensure pop-ups are enabled in your browser for the best experience
 
 ### Updates
-Canvas administrators should check periodically for configuration updates at:
-https://github.com/nuubiapp/nuubi-app-frontend-25
+Canvas administrators should check this repository periodically for configuration updates.
 
 ---
 
