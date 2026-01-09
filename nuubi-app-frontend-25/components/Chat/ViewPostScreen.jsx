@@ -29,6 +29,8 @@ import { useIsFocused } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "../../config";
+import sessionService from "../../services/sessionService";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -57,6 +59,8 @@ export default function ViewPostScreen({ navigation, route }) {
   const [loading, setLoading] = React.useState(true);
   const [loadedPostId, setLoadedPostId] = React.useState(null);
   const deviceWidth = Dimensions.get("window").width;
+  // Note: Post view deduplication is now handled in sessionService
+  // This ref is kept for backward compatibility but sessionService handles deduplication
 
   const scrollViewRef = React.useRef();
 
@@ -309,6 +313,13 @@ export default function ViewPostScreen({ navigation, route }) {
       if (!controller.signal.aborted) {
         setLoadedPostId(postId);
         setLoading(false);
+        
+        // Track post view (deduplication handled in sessionService)
+        if (postId) {
+          sessionService.trackPostView(postId).catch((error) => {
+            console.error("Error tracking post view:", error);
+          });
+        }
       }
     });
 
