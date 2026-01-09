@@ -37,6 +37,8 @@ import * as ImageManipulator from "expo-image-manipulator";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
+const MAX_COMMENT_IMAGE_SIZE = 5242880; // 5MB in bytes
+const COMMENT_BUTTON_WIDTH = 112; // Combined width of image button + submit button
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -297,9 +299,9 @@ export default function ViewPostScreen({ navigation, route }) {
     });
 
     const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
-    if (fileImg.size > 5242880) {
+    if (fileImg.size > MAX_COMMENT_IMAGE_SIZE) {
       // 5MB limit for comments
-      resizeCommentImage(imageInfo, resizeAmount * 0.5, iteration + 1);
+      return resizeCommentImage(imageInfo, resizeAmount * 0.5, iteration + 1);
     }
   };
 
@@ -316,22 +318,30 @@ export default function ViewPostScreen({ navigation, route }) {
     if (!result.canceled) {
       const imageAsset = result.assets[0];
       
-      // Validate file type
-      const uri = imageAsset.uri;
-      const fileExtension = uri.split('.').pop().toLowerCase();
-      if (!['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+      // Validate file type using mimeType if available, otherwise use file extension
+      let isValidType = false;
+      if (imageAsset.mimeType) {
+        isValidType = ['image/jpeg', 'image/png', 'image/gif'].includes(imageAsset.mimeType);
+      } else {
+        const uri = imageAsset.uri;
+        const fileExtension = uri.split('.').pop().toLowerCase();
+        isValidType = ['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension);
+      }
+
+      if (!isValidType) {
         setCommentImageError("Only JPEG, PNG, and GIF images are supported");
         return;
       }
 
       // Validate file size (5MB limit)
-      if (imageAsset.fileSize > 5242880) {
+      if (imageAsset.fileSize > MAX_COMMENT_IMAGE_SIZE) {
         resizeCommentImage(imageAsset, 0.5);
       } else {
         setCommentImage({
           uri: imageAsset.uri,
           base64: imageAsset.base64,
           width: imageAsset.width,
+          mimeType: imageAsset.mimeType,
         });
       }
     }
@@ -1223,12 +1233,15 @@ export default function ViewPostScreen({ navigation, route }) {
             if (commentImage) {
               try {
                 // Upload image to Cloudinary
-                // Determine MIME type based on the file extension or use a generic format
-                const uri = commentImage.uri || "";
-                const fileExtension = uri.split('.').pop()?.toLowerCase() || 'jpeg';
-                const mimeType = fileExtension === 'png' ? 'image/png' : 
-                                 fileExtension === 'gif' ? 'image/gif' : 
-                                 'image/jpeg';
+                // Use stored MIME type or determine from file extension
+                let mimeType = commentImage.mimeType || 'image/jpeg';
+                if (!mimeType) {
+                  const uri = commentImage.uri || "";
+                  const fileExtension = uri.split('.').pop()?.toLowerCase() || 'jpeg';
+                  mimeType = fileExtension === 'png' ? 'image/png' : 
+                             fileExtension === 'gif' ? 'image/gif' : 
+                             'image/jpeg';
+                }
                 let base64Img = `data:${mimeType};base64,${commentImage.base64}`;
                 let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
@@ -1378,8 +1391,8 @@ export default function ViewPostScreen({ navigation, route }) {
                     color: "#767676",
                     width:
                       deviceWidth > 500
-                        ? deviceWidth * 0.75 - 112
-                        : deviceWidth * 0.9 - 112,
+                        ? deviceWidth * 0.75 - COMMENT_BUTTON_WIDTH
+                        : deviceWidth * 0.9 - COMMENT_BUTTON_WIDTH,
                   }}
                   multiline={true} // Allows new lines
                   numberOfLines={2} // Keeps it visually small
