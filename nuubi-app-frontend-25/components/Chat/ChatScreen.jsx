@@ -34,9 +34,53 @@ export default function ChatScreen({ navigation }) {
   const headerHeight = useHeaderHeight();
   const INPUT_BAR_HEIGHT = 60;
   const screenWidth = Dimensions.get("window").width;
-
+  const viewedMessagesRef = React.useRef(new Set());
   const scrollViewRef = React.useRef();
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
+
+  const logMessageView = async (messageId, groupId) => {
+
+    // don't log if not on this screen
+    if (!isFocused) {
+      return;
+    }
+    
+    // check if already viewed in this session
+    if (viewedMessagesRef.current.has(messageId)) {
+      return;
+    }
+    
+    // mark as viewed
+    viewedMessagesRef.current.add(messageId);
+    
+    const token =
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
+    
+    try {
+      const res = await fetch(`${API_URL}/logs/view`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          contentType: "message",
+          contentId: messageId,
+          groupId: groupId,
+          deviceType: Platform.OS,
+        }),
+      });
+
+      if (!res.ok) {
+        console.log("Failed to log message view:", res.status);
+      }
+    } catch (err) {
+      console.log("Error logging message view:", err);
+    }
+  };
 
   const getGroupInfo = async () => {
     const token =
@@ -133,6 +177,12 @@ export default function ChatScreen({ navigation }) {
       );
       const jsonData = await response.json();
       setChats(jsonData);
+      // log views for fetched messages
+      if (isFocused && Array.isArray(jsonData)) {
+          jsonData.forEach(chat => {
+            logMessageView(chat.messages_id, user.currentGroup);
+          });
+        }
     } catch (err) {
       console.error(err.message);
     }
@@ -177,12 +227,18 @@ export default function ChatScreen({ navigation }) {
           ? prev
           : [...prev, newMsg]
       );
+      // log view for the new message
+      if (isFocused) {
+        logMessageView(newMsg.messages_id, user.currentGroup);
+      }
     };
     socket.on("insert msg return updated list", handler);
     return () => socket.off("insert msg return updated list", handler);
   }, []);
 
   React.useEffect(() => {
+    viewedMessagesRef.current.clear();
+    setChats([]);
     getLikes();
     getChats();
     getIsAdmin();
