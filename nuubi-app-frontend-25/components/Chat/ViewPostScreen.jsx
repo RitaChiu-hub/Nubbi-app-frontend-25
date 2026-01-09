@@ -278,7 +278,13 @@ export default function ViewPostScreen({ navigation, route }) {
     }
   };
 
-  const resizeCommentImage = async (imageInfo, resizeAmount) => {
+  const resizeCommentImage = async (imageInfo, resizeAmount, iteration = 0) => {
+    // Prevent infinite recursion
+    if (iteration > 5) {
+      setCommentImageError("Image is too large. Please select a smaller image.");
+      return;
+    }
+
     const resizedPhoto = await ImageManipulator.manipulateAsync(
       imageInfo.uri,
       [{ resize: { width: imageInfo.width * resizeAmount } }],
@@ -293,7 +299,7 @@ export default function ViewPostScreen({ navigation, route }) {
     const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
     if (fileImg.size > 5242880) {
       // 5MB limit for comments
-      resizeCommentImage(imageInfo, resizeAmount * 0.5);
+      resizeCommentImage(imageInfo, resizeAmount * 0.5, iteration + 1);
     }
   };
 
@@ -1217,7 +1223,13 @@ export default function ViewPostScreen({ navigation, route }) {
             if (commentImage) {
               try {
                 // Upload image to Cloudinary
-                let base64Img = `data:image/jpg;base64,${commentImage.base64}`;
+                // Determine MIME type based on the file extension or use a generic format
+                const uri = commentImage.uri || "";
+                const fileExtension = uri.split('.').pop()?.toLowerCase() || 'jpeg';
+                const mimeType = fileExtension === 'png' ? 'image/png' : 
+                                 fileExtension === 'gif' ? 'image/gif' : 
+                                 'image/jpeg';
+                let base64Img = `data:${mimeType};base64,${commentImage.base64}`;
                 let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
                 let data = {
