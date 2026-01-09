@@ -1,5 +1,7 @@
 //import * as React from "react";
 import React, { useState, useRef, useEffect } from "react";
+import { API_URL } from "../../config";
+import { apiFetch } from "../../api/api";
 import {
   Text,
   View,
@@ -176,43 +178,39 @@ export default function MyGroupTasks({ navigation }) {
 
   const getGroupTasks = async () => {
     try {
-      const response = await fetch(
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        {
-          method: "POST",
-          credentials: "include",
+      const data = await apiFetch(`${API_URL}/groups/mygrouptasks`, {
+        method: "POST",
+        credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...user }),
-        }
-      );
-      const jsonData = await response.json();
-      setGroupTasks(jsonData);
+        body: JSON.stringify({ ...user }),
+      });
+
+      if (!data) return;
+
+      setGroupTasks(data);
     } catch (err) {
-      console.error(err.message);
+      console.error("GetGroupTasks error:", err.message);
     }
   };
 
   const getAllGroupTasks = async () => {
     try {
-      const response = await fetch(
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/mygrouptasks`,
-        `https://coral-app-n96bn.ondigitalocean.app/groups/allgrouptasks`,
-        {
-          method: "POST",
-          credentials: "include",
+      const data = await fetch(`${API_URL}/groups/allgrouptasks`, {
+        method: "POST",
+        credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...user }),
-        }
-      );
-      const jsonData = await response.json();
-      setAllGroupTasks(jsonData);
+        body: JSON.stringify({ ...user }),
+      });
+
+      if (!data) return;
+
+      setAllGroupTasks(data);
     } catch (err) {
-      console.error(err.message);
+      console.error(`getAllGroupTasks error ${err.message}`);
     }
   };
 
@@ -226,73 +224,58 @@ export default function MyGroupTasks({ navigation }) {
     }
   }, []);
 
-  const handleCompleteTask = (taskId) => {
+  const handleCompleteTask = async (taskId) => {
     if (!completedTasks[taskId]) {
       setCompletedTasks((prevCompletedTasks) => ({
         ...prevCompletedTasks,
         [taskId]: true,
       }));
 
-      fetch(
-        //  "https://coral-app-n96bn.ondigitalocean.app/groups/createtask",
-        "https://coral-app-n96bn.ondigitalocean.app/groups/taskcompleted",
-        {
+      try {
+        const data = await fetch(`${API_URL}/groups/taskcompleted`, {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...user, taskId }),
-        }
-      )
-        .catch((err) => {
-          return;
-        })
-        .then((res) => {
-          if (!res || !res.ok || res.status >= 400) {
-            return;
-          }
-          return res.json();
-        })
-        .then((data) => {
-          if (!data) return;
-          if (data.status) {
-            setError(data.status);
-          }
         });
+        
+        if (!data) return;
+
+      }
+      catch (err) {
+        console.error(`handleCompleteTask error ${err.message}`);
+      }
     }
   };
 
-  const handleApproveTask = (taskId, expoPushToken) => {
+  const handleApproveTask = async (taskId, expoPushToken) => {
     if (!approvedTasks[taskId]) {
       setApprovedTasks((prevApprovedTasks) => ({
         ...prevApprovedTasks,
         [taskId]: true,
       }));
-
-      fetch("https://coral-app-n96bn.ondigitalocean.app/groups/taskapproved", {
-        method: "POST",
-        credentials: "include",
-        headers: {
+      
+      try {
+        const data = await fetch(`${API_URL}/groups/taskapproved`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...user, taskId, expoPushToken }),
-      })
-        .catch((err) => {
-          return;
-        })
-        .then((res) => {
-          if (!res || !res.ok || res.status >= 400) {
-            return;
-          }
-          return res.json();
-        })
-        .then((data) => {
-          if (!data) return;
-          if (data.status) {
-            setError(data.status);
-          }
+          body: JSON.stringify({ ...user, taskId }),
         });
+
+        if (!data) return;
+
+        if (data.status) {
+          setError(data.status);
+        }
+      }
+      catch (err) {
+        console.error("handleApproveTask error", err.message);
+      }
     }
   };
 

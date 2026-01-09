@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { API_URL } from "../../config";
 import {
   View,
   Text,
@@ -70,7 +71,7 @@ export default function SettingsScreen({ navigation }) {
   async function logoutUser(setUser) {
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/auth/logout",
+        `${API_URL}/auth/logout`,
         {
           method: "POST",
           credentials: "include", // Include the HttpOnly cookie in the request

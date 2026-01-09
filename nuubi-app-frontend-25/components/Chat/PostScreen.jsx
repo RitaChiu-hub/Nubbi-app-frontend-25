@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   View,
   Text,
@@ -79,7 +80,7 @@ export default function PostScreen({ navigation }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${API_URL}/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -132,7 +133,6 @@ export default function PostScreen({ navigation }) {
     }
   }, [isLoggedIn]);
 
-  //const getPosts = async () => {
   const getPosts = async (groupId, signal) => {
     const token =
       Platform.OS !== "web"
@@ -140,7 +140,7 @@ export default function PostScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/${groupId}/posts`,
+        `${API_URL}/groups/${groupId}/posts`,
         {
           method: "POST",
           credentials: "include",
@@ -281,7 +281,7 @@ export default function PostScreen({ navigation }) {
           >
             {title}
           </Text>
-          {/* <Text
+          <Text
             style={{
               color: "#050505",
               fontSize: 18,
@@ -289,7 +289,7 @@ export default function PostScreen({ navigation }) {
             }}
           >
             {title}
-          </Text> */}
+          </Text>
           <Text
             style={globalStyles.bodyRegular}
             numberOfLines={2}
@@ -329,7 +329,7 @@ export default function PostScreen({ navigation }) {
         backgroundColor: "#fbfbfb",
       }}
     >
-      {/* {!loading ? (
+      {!loading ? (
         <FlatList
           data={posts}
           renderItem={renderItem}
@@ -337,7 +337,7 @@ export default function PostScreen({ navigation }) {
         />
       ) : (
         <Text>Loading your group threads...</Text>
-      )} */}
+      )}
       <FlatList
         data={posts}
         renderItem={renderItem}

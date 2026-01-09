@@ -10,6 +10,7 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
+import { API_URL } from "../../config";
 import { FontAwesome6 } from "@expo/vector-icons";
 import "../../assets/nuubiicon.png";
 import { globalStyles } from "../../styles/global";
@@ -33,8 +34,8 @@ export default function HomeScreenTasks({}) {
   const getMyTasks = async () => {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/mytasks`,
-        // `https://coral-app-n96bn.ondigitalocean.app/groups/mytasks`,
+        `${API_URL}/groups/mytasks`,
+        // `${API_URL}/groups/mytasks`,
         {
           method: "POST",
           credentials: "include",

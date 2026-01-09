@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -88,7 +89,7 @@ export default function DeleteAccountScreen({ navigation }) {
                   ? await SecureStore.getItemAsync("token")
                   : null; // Get token only on mobile
               fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/delete",
+                `${API_URL}/settings/delete`,
                 {
                   method: "POST",
                   credentials: "include",

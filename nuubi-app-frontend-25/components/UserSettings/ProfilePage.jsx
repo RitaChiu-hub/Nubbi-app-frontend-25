@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   View,
   Text,
@@ -17,6 +18,7 @@ import * as SecureStore from "expo-secure-store";
 
 const cloudName = "dvvdc9evd";
 const apiKey = "971765162862783";
+
 
 export default function ProfilePageScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -46,7 +48,7 @@ export default function ProfilePageScreen({ navigation }) {
 
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `${API_URL}/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -77,7 +79,7 @@ export default function ProfilePageScreen({ navigation }) {
 
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+        `${API_URL}/settings/getuseravatar`,
         {
           method: "POST",
           credentials: "include",
@@ -245,7 +247,7 @@ export default function ProfilePageScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => {
                 fetch(
-                  `https://coral-app-n96bn.ondigitalocean.app/settings/deleteavatar`,
+                  `${API_URL}/settings/deleteavatar`,
                   {
                     method: "POST",
                     credentials: "include",
@@ -319,7 +321,7 @@ export default function ProfilePageScreen({ navigation }) {
                               : null; // Get token only on mobile
 
                           fetch(
-                            `https://coral-app-n96bn.ondigitalocean.app/settings/updateavatar`,
+                            `${API_URL}/settings/updateavatar`,
                             {
                               method: "POST",
                               credentials: "include",

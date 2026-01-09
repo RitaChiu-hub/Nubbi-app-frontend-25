@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   TextInput,
   View,
@@ -344,7 +345,7 @@ export default function CreatePostScreen({ navigation }) {
                           : null; // Get token only on mobile
 
                       fetch(
-                        `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                        `${API_URL}/groups/${user.currentGroup}/createpost`,
                         {
                           method: "POST",
                           credentials: "include",
@@ -474,7 +475,7 @@ export default function CreatePostScreen({ navigation }) {
                               : null; // Get token only on mobile
 
                           fetch(
-                            `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                            `${API_URL}/groups/${user.currentGroup}/createpost`,
                             {
                               method: "POST",
                               credentials: "include",
@@ -578,7 +579,7 @@ export default function CreatePostScreen({ navigation }) {
                               : null; // Get token only on mobile
 
                           fetch(
-                            `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                            `${API_URL}/groups/${user.currentGroup}/createpost`,
                             {
                               method: "POST",
                               credentials: "include",
@@ -664,7 +665,7 @@ export default function CreatePostScreen({ navigation }) {
                             : sessionStorage.getItem("token"); // Get token only on mobile
 
                         fetch(
-                          `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                          `${API_URL}/groups/${user.currentGroup}/createpost`,
                           {
                             method: "POST",
                             credentials: "include",
@@ -747,7 +748,7 @@ export default function CreatePostScreen({ navigation }) {
                             : sessionStorage.getItem("token"); // Get token only on mobile
 
                         fetch(
-                          `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                          `${API_URL}/groups/${user.currentGroup}/createpost`,
                           {
                             method: "POST",
                             credentials: "include",
@@ -812,7 +813,7 @@ export default function CreatePostScreen({ navigation }) {
                       : null; // Get token only on mobile
 
                   fetch(
-                    `https://coral-app-n96bn.ondigitalocean.app/groups/${user.currentGroup}/createpost`,
+                    `${API_URL}/groups/${user.currentGroup}/createpost`,
                     {
                       method: "POST",
                       credentials: "include",

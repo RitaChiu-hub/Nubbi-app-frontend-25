@@ -51,6 +51,7 @@ import {
   Poppins_900Black_Italic,
 } from "@expo-google-fonts/poppins";
 import Canvas from "react-native-canvas";
+import AccessibilityScreen from "./components/Onboarding/Accessibility";
 
 //Freshpaint.init("e1f8844c-e8e6-4bba-81b8-9873888789b1");
 // const FreshpaintNavigationContainer =
@@ -138,6 +139,7 @@ export default function App() {
             LearnMore7: "signin/learn-more-7",
             PrivacyScreen: "signin/privacy",
             TermsScreen: "signin/terms",
+            AccessibilityScreen: "signin/accessibility",
             FeedbackScreen: "signin/feedback",
             HelpLoggedOut: "signin/help",
             //  HandleInvite: "groups/invite/:token",

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   TextInput,
   View,
@@ -36,8 +37,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
       try {
         const email = formVals.email;
         const response = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
-          //   "https://coral-app-n96bn.ondigitalocean.app/settings/generatesignupcode",
+          `${API_URL}/settings/generatesignupcode`,
+          //   `${API_URL}/settings/generatesignupcode`,
           {
             method: "POST",
             credentials: "include",
@@ -108,8 +109,8 @@ export default function CodeVerificationScreen({ navigation, route }) {
 
             try {
               const response = await fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
-                // "https://coral-app-n96bn.ondigitalocean.app/settings/validatesignup",
+                `${API_URL}/settings/validatesignup`,
+                // `${API_URL}/settings/validatesignup`,
                 {
                   method: "POST",
                   credentials: "include",
@@ -134,15 +135,15 @@ export default function CodeVerificationScreen({ navigation, route }) {
               // Successful validation, now sign up the user using the formVals obtained from SignUpScreen
               const responseData = await response.json();
 
-              //  fetch("https://coral-app-n96bn.ondigitalocean.app/auth/signup", {
+              //  fetch(`${API_URL}/auth/signup`, {
               // Check platform and determine which fetch request to make
               let url = "";
               if (Platform.OS === "web") {
-                url = `https://coral-app-n96bn.ondigitalocean.app/auth/signup`; // Web endpoint
+                url = `${API_URL}/auth/signup`; // Web endpoint
               } else {
-                url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`; // Mobile endpoint
+                url = `${API_URL}/auth/mobilesignup`; // Mobile endpoint
 
-                //  url = `https://coral-app-n96bn.ondigitalocean.app/auth/mobilesignup`;
+                //  url = `${API_URL}/auth/mobilesignup`;
               }
               fetch(url, {
                 method: "POST",

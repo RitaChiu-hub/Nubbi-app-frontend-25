@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import * as React from "react";
+import { API_URL } from "../config";
 import { useEffect, useState } from "react";
 import { useNavigationState } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -67,6 +68,7 @@ import LearnMore4Screen from "./Onboarding/LearnMore4";
 import LearnMore7Screen from "./Onboarding/LearnMore7";
 import PrivacyScreen from "./Onboarding/Privacy";
 import TermsScreen from "./Onboarding/Terms";
+import AccessibilityScreen from "./Onboarding/Accessibility";
 
 import ProfilePageScreen from "./UserSettings/ProfilePage";
 import OverallAchievements from "./UserSettings/OverallAchievements";
@@ -1055,6 +1057,7 @@ function AuthStack() {
       <StackAuth.Screen name="LearnMore7" component={LearnMore7Screen} />
       <StackAuth.Screen name="PrivacyScreen" component={PrivacyScreen} />
       <StackAuth.Screen name="TermsScreen" component={TermsScreen} />
+      <StackAuth.Screen name="AccessibilityScreen" component={AccessibilityScreen} />
       <StackAuth.Screen name="FeedbackScreen" component={FeedbackScreen} />
       <StackAuth.Screen
         name="HelpLoggedOut"
@@ -1563,6 +1566,11 @@ function HandleInviteNavigator() {
         component={TermsScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
+      <StackHandleInvite.Screen
+        name="AccessibilityScreen"
+        component={AccessibilityScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
 
       <StackHandleInvite.Screen
         name="HelpLoggedOut"
@@ -1651,7 +1659,7 @@ const TabNavigator = () => {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
+        `${API_URL}/groups/getnotificationsunread`,
         {
           method: "POST",
           credentials: "include",
@@ -1675,7 +1683,7 @@ const TabNavigator = () => {
 
   //   try {
   //     const response = await fetch(
-  //       "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+  //       `${API_URL}/settings/getuseravatar`,
   //       {
   //         method: "POST",
   //         credentials: "include",
@@ -1884,8 +1892,8 @@ export default function Views({ landingPage, inviteToken }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
-        //  `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${API_URL}/auth/checkweblogin`,
+        //  `${API_URL}/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",

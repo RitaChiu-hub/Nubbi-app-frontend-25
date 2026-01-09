@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import { View, Text, Image, Platform, FlatList } from "react-native";
 import { globalStyles } from "../../styles/global";
 import { useAssets } from "expo-asset";
@@ -140,7 +141,7 @@ export default function GroupAchievementsScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getwonbadges",
+        "${API_URL}/groups/getwonbadges",
         {
           method: "POST",
           credentials: "include",

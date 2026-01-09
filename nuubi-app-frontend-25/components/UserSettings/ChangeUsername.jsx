@@ -1,5 +1,6 @@
 import { ErrorMessage, Formik } from "formik";
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   ScrollView,
   Text,
@@ -34,7 +35,7 @@ export default function ChangeUsernameScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `${API_URL}/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
@@ -160,7 +161,7 @@ export default function ChangeUsernameScreen({ navigation }) {
                     ? await SecureStore.getItemAsync("token")
                     : null; // Get token only on mobile
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/updateusername",
+                  `${API_URL}/settings/updateusername`,
                   {
                     method: "POST",
                     credentials: "include",

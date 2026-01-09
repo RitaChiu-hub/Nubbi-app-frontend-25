@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from "react";
+import { API_URL } from "../config";
 import { ActivityIndicator, View, Alert, Platform, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AccountContext } from "./AccountContext";
@@ -36,8 +37,8 @@ const HandleInviteScreen = () => {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
-        //  `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${API_URL}/auth/checkweblogin`,
+        //  `${API_URL}/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
@@ -115,8 +116,8 @@ const HandleInviteScreen = () => {
 
         try {
           const response = await fetch(
-            `https://coral-app-n96bn.ondigitalocean.app/groups/invite/${inviteToken}`,
-            // `https://coral-app-n96bn.ondigitalocean.app/groups/invite/${inviteToken}`,
+            `${API_URL}/groups/invite/${inviteToken}`,
+            // `${API_URL}/groups/invite/${inviteToken}`,
             {
               method: "POST",
               credentials: "include",

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   View,
   Text,
@@ -39,7 +40,7 @@ export default function NotificationsScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotifications",
+        `${API_URL}/groups/getnotifications`,
         {
           method: "POST",
           credentials: "include",
@@ -75,7 +76,7 @@ export default function NotificationsScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsread",
+        `${API_URL}/groups/getnotificationsread`,
         {
           method: "POST",
           credentials: "include",

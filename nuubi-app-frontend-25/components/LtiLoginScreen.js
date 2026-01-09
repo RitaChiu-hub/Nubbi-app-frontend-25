@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { API_URL } from "../config";
 import { View, Text, ActivityIndicator, Platform } from "react-native";
 import { AccountContext } from "./AccountContext";
 import socket from "../socket";
@@ -18,7 +19,7 @@ export default function LtiLoginScreen({ navigation }) {
 
       try {
         const res = await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/lti/session",
+          `${API_URL}/lti/session`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -26,7 +27,9 @@ import {
 import * as Notifications from "expo-notifications";
 import * as SecureStore from "expo-secure-store";
 
+
 export default function HomeScreen({ navigation }) {
+  
   const { user, setUser } = React.useContext(AccountContext);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(true); // To handle async loading
@@ -52,22 +55,22 @@ export default function HomeScreen({ navigation }) {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`${API_URL}/auth/checkweblogin`,
+      {
+        method: "POST",
+        credentials: "include", // ensures cookies are sent
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...user }),
+      }
+    );
 
+      
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
+      
       const data = await response.json();
 
       return data.isLoggedIn; // Assuming the backend returns { isLoggedIn: true/false }
@@ -99,7 +102,6 @@ export default function HomeScreen({ navigation }) {
   }, [user.loggedIn]);
 
   
-
   React.useEffect(() => {
     if (isLoggedIn === true && !socket.connected) {
       socket.connect();
@@ -140,7 +142,7 @@ export default function HomeScreen({ navigation }) {
 
         // Send the token to the backend API to save it in the user's table
         await fetch(
-          "https://coral-app-n96bn.ondigitalocean.app/settings/savepushtoken",
+          `${API_URL}/settings/savepushtoken`,
           {
             method: "POST",
             headers: {
@@ -187,7 +189,7 @@ export default function HomeScreen({ navigation }) {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getuserpoints`,
+        `${API_URL}/groups/getuserpoints`,
         {
           method: "POST",
           credentials: "include",
