@@ -284,24 +284,31 @@ export default function ViewPostScreen({ navigation, route }) {
     // Prevent infinite recursion
     if (iteration > 5) {
       setCommentImageError("Image is too large. Please select a smaller image.");
+      setCommentImage(null);
       return;
     }
 
-    const resizedPhoto = await ImageManipulator.manipulateAsync(
-      imageInfo.uri,
-      [{ resize: { width: imageInfo.width * resizeAmount } }],
-      { compress: 0.7, format: "jpeg", base64: true }
-    );
+    try {
+      const resizedPhoto = await ImageManipulator.manipulateAsync(
+        imageInfo.uri,
+        [{ resize: { width: imageInfo.width * resizeAmount } }],
+        { compress: 0.7, format: "jpeg", base64: true }
+      );
 
-    setCommentImage({
-      uri: resizedPhoto.uri,
-      base64: resizedPhoto.base64,
-    });
+      setCommentImage({
+        uri: resizedPhoto.uri,
+        base64: resizedPhoto.base64,
+      });
 
-    const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
-    if (fileImg.size > MAX_COMMENT_IMAGE_SIZE) {
-      // 5MB limit for comments
-      return resizeCommentImage(imageInfo, resizeAmount * 0.5, iteration + 1);
+      const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
+      if (fileImg.size > MAX_COMMENT_IMAGE_SIZE) {
+        // 5MB limit for comments - continue resizing
+        return resizeCommentImage(imageInfo, resizeAmount * 0.5, iteration + 1);
+      }
+    } catch (error) {
+      console.error("Image resize error:", error);
+      setCommentImageError("Failed to process image. Please try a different image.");
+      setCommentImage(null);
     }
   };
 
@@ -1233,15 +1240,8 @@ export default function ViewPostScreen({ navigation, route }) {
             if (commentImage) {
               try {
                 // Upload image to Cloudinary
-                // Use stored MIME type or determine from file extension
-                let mimeType = commentImage.mimeType || 'image/jpeg';
-                if (!mimeType) {
-                  const uri = commentImage.uri || "";
-                  const fileExtension = uri.split('.').pop()?.toLowerCase() || 'jpeg';
-                  mimeType = fileExtension === 'png' ? 'image/png' : 
-                             fileExtension === 'gif' ? 'image/gif' : 
-                             'image/jpeg';
-                }
+                // Use stored MIME type or fallback to jpeg
+                const mimeType = commentImage.mimeType || 'image/jpeg';
                 let base64Img = `data:${mimeType};base64,${commentImage.base64}`;
                 let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
@@ -1259,8 +1259,16 @@ export default function ViewPostScreen({ navigation, route }) {
                   method: "POST",
                 });
 
+                if (!uploadResponse.ok) {
+                  throw new Error(`Upload failed with status: ${uploadResponse.status}`);
+                }
+
                 const uploadData = await uploadResponse.json();
-                const imageUrl = uploadData["secure_url"];
+                if (!uploadData.secure_url) {
+                  throw new Error("Upload succeeded but no URL returned");
+                }
+                
+                const imageUrl = uploadData.secure_url;
 
                 const token =
                   Platform.OS !== "web"
