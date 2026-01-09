@@ -66,6 +66,7 @@ import LearnMore4Screen from "./Onboarding/LearnMore4";
 import LearnMore7Screen from "./Onboarding/LearnMore7";
 import PrivacyScreen from "./Onboarding/Privacy";
 import TermsScreen from "./Onboarding/Terms";
+import AccessibilityScreen from "./Onboarding/Accessibility";
 
 import ProfilePageScreen from "./UserSettings/ProfilePage";
 import OverallAchievements from "./UserSettings/OverallAchievements";
@@ -1053,6 +1054,7 @@ function AuthStack() {
       <StackAuth.Screen name="LearnMore7" component={LearnMore7Screen} />
       <StackAuth.Screen name="PrivacyScreen" component={PrivacyScreen} />
       <StackAuth.Screen name="TermsScreen" component={TermsScreen} />
+      <StackAuth.Screen name="AccessibilityScreen" component={AccessibilityScreen} />
       <StackAuth.Screen name="FeedbackScreen" component={FeedbackScreen} />
       <StackAuth.Screen
         name="HelpLoggedOut"
@@ -1559,6 +1561,11 @@ function HandleInviteNavigator() {
       <StackHandleInvite.Screen
         name="TermsScreen"
         component={TermsScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="AccessibilityScreen"
+        component={AccessibilityScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
 
