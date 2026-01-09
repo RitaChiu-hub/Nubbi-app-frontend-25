@@ -1,4 +1,5 @@
 import * as React from "react";
+import { API_URL } from "../../config";
 import {
   Text,
   View,
@@ -30,8 +31,8 @@ export default function GroupAnalytics({ navigation }) {
 
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
-        //  `https://coral-app-n96bn.ondigitalocean.app/groups/getweeklygroupinfo`,
+        `${API_URL}/groups/getweeklygroupinfo`,
+        //  `${API_URL}/groups/getweeklygroupinfo`,
         {
           method: "POST",
           credentials: "include",

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../config";
 import {
   View,
   Text,
@@ -32,7 +33,7 @@ const FreebieLandingPage = ({ navigation }) => {
 
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/auth/freebiesignup",
+        `${API_URL}/auth/freebiesignup`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

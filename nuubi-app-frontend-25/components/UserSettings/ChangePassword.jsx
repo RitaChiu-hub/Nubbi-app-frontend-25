@@ -1,5 +1,6 @@
 import { ErrorMessage, Formik } from "formik";
 import * as React from "react";
+import { API_URL } from "../../config";
 import { useRef, useState } from "react"; // Import useState and useRef
 import {
   Platform,
@@ -112,7 +113,7 @@ export default function ChangePasswordScreen({ navigation }) {
                     : null; // Get token only on mobile
 
                 fetch(
-                  "https://coral-app-n96bn.ondigitalocean.app/settings/updatepassword",
+                  `${API_URL}/settings/updatepassword`,
                   {
                     method: "POST",
                     credentials: "include",

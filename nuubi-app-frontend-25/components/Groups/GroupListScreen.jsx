@@ -1,4 +1,6 @@
 import * as React from "react";
+import { API_URL } from "../../config";
+import { apiFetch } from "../../api/api";
 import {
   View,
   Text,
@@ -30,17 +32,18 @@ export default function GroupListScreen({ navigation }) {
 
   const getGroups = async () => {
     try {
-      const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getpublicgroups",
-        {
-          credentials: "include",
-        }
-      );
-      const jsonData = await response.json();
+      const data = await fetch(`${API_URL}/groups/getpublicgroups`, {
+        method: "POST",
+        credentials: "include",
+      });
 
-      setGroups(jsonData);
-    } catch (err) {
-      console.error(err.message);
+      if (!data) return;
+
+      setGroups(data);
+    }
+
+    catch (err) {
+      console.error("getGroups error", err.message);
     }
   };
 
@@ -81,36 +84,30 @@ export default function GroupListScreen({ navigation }) {
             Platform.OS !== "web"
               ? await SecureStore.getItemAsync("token")
               : null; // Get token only on mobile
-          fetch("https://coral-app-n96bn.ondigitalocean.app/groups/joingroup", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            },
-            body: JSON.stringify({
-              ...user,
-              joinGroupId,
-              currentGroup: id,
-              groupName: title,
-            }),
-          })
-            .catch((err) => {
-              return;
-            })
-            .then((res) => {
-              if (!res || !res.ok || res.status >= 400) {
-                return;
-              }
-              return res.json();
-            })
-            .then((data) => {
-              if (!data) return;
-              setUser({ ...data });
-              if (data.status) {
-                setError(data.status);
-              }
+
+
+          try {
+            const data = await fetch(`${API_URL}/groups/joingroup`, {
+              method: "POST",
+              credentials: "include",
+              body: JSON.stringify({ ...user, joinGroupId, currentGroup: id, groupName: title,}), 
+              headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              },
             });
+
+            if (!data) return;
+
+            setUser({ ...data });
+
+            if (data.status) {
+              setError(data.status);
+            }
+          }
+          catch (err) {
+            console.error("GroupListScreen.jsx - Item error", err.message);
+          }
         }}
       >
         <View>

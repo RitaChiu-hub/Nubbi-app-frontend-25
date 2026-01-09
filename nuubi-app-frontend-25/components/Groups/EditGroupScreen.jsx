@@ -1,4 +1,6 @@
 import * as React from "react";
+import { API_URL } from "../../config";
+import { apiFetch } from "../../api/api";
 import {
   TextInput,
   View,
@@ -88,15 +90,15 @@ export default function EditGroupScreen({ navigation }) {
               visibility: user.visibility,
             }}
             validationSchema={createGroupSchema}
+
             onSubmit={async (values, actions) => {
-              const allvals = { ...values, privacySelection };
-              const token =
-                Platform.OS !== "web"
-                  ? await SecureStore.getItemAsync("token")
-                  : null; // Get token only on mobile
-              fetch(
-                "https://coral-app-n96bn.ondigitalocean.app/groups/editgroup",
-                {
+              try {
+                const allvals = { ...values, privacySelection };
+              
+                const token =
+                  Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : null;
+
+                const data = await apiFetch(`${API_URL}/groups/editgroup`, {
                   method: "POST",
                   credentials: "include",
                   headers: {
@@ -104,25 +106,18 @@ export default function EditGroupScreen({ navigation }) {
                     ...(token ? { Authorization: `Bearer ${token}` } : {}),
                   },
                   body: JSON.stringify({ ...user, ...allvals }),
-                }
-              )
-                .catch((err) => {
-                  return;
-                })
-                .then((res) => {
-                  if (!res || !res.ok || res.status >= 400) {
-                    return;
-                  }
-                  return res.json();
-                })
-                .then((data) => {
-                  if (!data) return;
-                  setUser({ ...data });
-                  if (data.status) {
-                    setError(data.status);
-                  }
                 });
-            }}
+
+                if (!data) return;
+
+                setUser({ ...data });
+
+                if (data.status) { setError(data.status); }
+                
+            } catch (err) {
+              console.error("editGroup error:", err.message);
+            }
+          }}
           >
             {(props) => (
               <View>

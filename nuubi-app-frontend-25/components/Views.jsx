@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import * as React from "react";
+import { API_URL } from "../config";
 import { useEffect, useState } from "react";
 import { useNavigationState } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -1656,7 +1657,7 @@ const TabNavigator = () => {
         : sessionStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://coral-app-n96bn.ondigitalocean.app/groups/getnotificationsunread",
+        `${API_URL}/groups/getnotificationsunread`,
         {
           method: "POST",
           credentials: "include",
@@ -1680,7 +1681,7 @@ const TabNavigator = () => {
 
   //   try {
   //     const response = await fetch(
-  //       "https://coral-app-n96bn.ondigitalocean.app/settings/getuseravatar",
+  //       `${API_URL}/settings/getuseravatar`,
   //       {
   //         method: "POST",
   //         credentials: "include",
@@ -1887,8 +1888,8 @@ export default function Views({ landingPage, inviteToken }) {
   async function checkWebLogin() {
     try {
       const response = await fetch(
-        `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
-        //  `https://coral-app-n96bn.ondigitalocean.app/auth/checkweblogin`,
+        `${API_URL}/auth/checkweblogin`,
+        //  `${API_URL}/auth/checkweblogin`,
         {
           method: "POST",
           credentials: "include",
