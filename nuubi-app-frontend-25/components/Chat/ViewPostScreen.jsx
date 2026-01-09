@@ -31,6 +31,12 @@ import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "../../config";
 import sessionService from "../../services/sessionService";
+import * as ImagePicker from "expo-image-picker";
+import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import * as ImageManipulator from "expo-image-manipulator";
+
+const cloudName = "dvvdc9evd";
+const apiKey = "971765162862783";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -63,6 +69,12 @@ export default function ViewPostScreen({ navigation, route }) {
   // This ref is kept for backward compatibility but sessionService handles deduplication
 
   const scrollViewRef = React.useRef();
+
+  // State for comment image upload
+  const [commentImage, setCommentImage] = React.useState(null);
+  const [commentImageError, setCommentImageError] = React.useState("");
+  const [imageModalVisible, setImageModalVisible] = React.useState(false);
+  const [selectedImage, setSelectedImage] = React.useState(null);
 
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
@@ -264,6 +276,64 @@ export default function ViewPostScreen({ navigation, route }) {
     } catch (err) {
       console.error(err.message);
     }
+  };
+
+  const resizeCommentImage = async (imageInfo, resizeAmount) => {
+    const resizedPhoto = await ImageManipulator.manipulateAsync(
+      imageInfo.uri,
+      [{ resize: { width: imageInfo.width * resizeAmount } }],
+      { compress: 0.7, format: "jpeg", base64: true }
+    );
+
+    setCommentImage({
+      uri: resizedPhoto.uri,
+      base64: resizedPhoto.base64,
+    });
+
+    const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
+    if (fileImg.size > 5242880) {
+      // 5MB limit for comments
+      resizeCommentImage(imageInfo, resizeAmount * 0.5);
+    }
+  };
+
+  const pickCommentImage = async () => {
+    setCommentImageError("");
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
+
+    if (!result.canceled) {
+      const imageAsset = result.assets[0];
+      
+      // Validate file type
+      const uri = imageAsset.uri;
+      const fileExtension = uri.split('.').pop().toLowerCase();
+      if (!['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+        setCommentImageError("Only JPEG, PNG, and GIF images are supported");
+        return;
+      }
+
+      // Validate file size (5MB limit)
+      if (imageAsset.fileSize > 5242880) {
+        resizeCommentImage(imageAsset, 0.5);
+      } else {
+        setCommentImage({
+          uri: imageAsset.uri,
+          base64: imageAsset.base64,
+          width: imageAsset.width,
+        });
+      }
+    }
+  };
+
+  const removeCommentImage = () => {
+    setCommentImage(null);
+    setCommentImageError("");
   };
 
   // React.useEffect(() => {
@@ -469,6 +539,59 @@ export default function ViewPostScreen({ navigation, route }) {
         //   scrollViewRef.current?.scrollToEnd({ animated: true })
         // }
       >
+        {/* Modal for viewing comment images */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={imageModalVisible}
+          onRequestClose={() => setImageModalVisible(false)}
+        >
+          <View style={globalStyles.centeredView}>
+            <TouchableOpacity
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(0,0,0,0.9)",
+              }}
+              onPress={() => setImageModalVisible(false)}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {selectedImage && (
+                  <Image
+                    style={{
+                      width: deviceWidth > 800 ? 600 : deviceWidth * 0.9,
+                      height: deviceWidth > 800 ? 600 : deviceWidth * 0.9,
+                      resizeMode: "contain",
+                    }}
+                    source={{ uri: selectedImage }}
+                  />
+                )}
+                <TouchableOpacity
+                  style={{
+                    marginTop: 20,
+                    paddingVertical: 12,
+                    paddingHorizontal: 30,
+                    borderRadius: 60,
+                    backgroundColor: "#2482AA",
+                  }}
+                  onPress={() => setImageModalVisible(false)}
+                >
+                  <Text style={globalStyles.primaryButtonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
         <Modal
           animationType="slide"
           transparent={true}
@@ -1055,6 +1178,25 @@ export default function ViewPostScreen({ navigation, route }) {
                     >
                       {comments.comment_text}
                     </Markdown>
+                    {comments.image_url && (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSelectedImage(comments.image_url);
+                          setImageModalVisible(true);
+                        }}
+                        style={{ marginTop: 8 }}
+                      >
+                        <Image
+                          style={{
+                            borderRadius: 8,
+                            width: deviceWidth > 500 ? 200 : deviceWidth * 0.5,
+                            height: deviceWidth > 500 ? 150 : deviceWidth * 0.4,
+                            resizeMode: "cover",
+                          }}
+                          source={{ uri: comments.image_url }}
+                        />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
               );
@@ -1072,22 +1214,68 @@ export default function ViewPostScreen({ navigation, route }) {
           initialValues={{ mycomment: "" }}
           validationSchema={addCommentSchema}
           onSubmit={async (values, actions) => {
-            const token =
-              Platform.OS !== "web"
-                ? await SecureStore.getItemAsync("token")
-                : null;
+            if (commentImage) {
+              try {
+                // Upload image to Cloudinary
+                let base64Img = `data:image/jpg;base64,${commentImage.base64}`;
+                let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
-            const payload = {
-              ...user,
-              currentPost: route.params.currentPost,
-              mycomment: values.mycomment,
-              token,
-            };
+                let data = {
+                  file: base64Img,
+                  upload_preset: "ehsnm9es",
+                  api_key: apiKey,
+                };
 
-            socket.emit("insert comment return updated list", payload);
-            actions.resetForm();
-            // pull in the fresh list
-            await getComments();
+                const uploadResponse = await fetch(apiUrl, {
+                  body: JSON.stringify(data),
+                  headers: {
+                    "content-type": "application/json",
+                  },
+                  method: "POST",
+                });
+
+                const uploadData = await uploadResponse.json();
+                const imageUrl = uploadData["secure_url"];
+
+                const token =
+                  Platform.OS !== "web"
+                    ? await SecureStore.getItemAsync("token")
+                    : null;
+
+                const payload = {
+                  ...user,
+                  currentPost: route.params.currentPost,
+                  mycomment: values.mycomment,
+                  imageUrl: imageUrl,
+                  token,
+                };
+
+                socket.emit("insert comment return updated list", payload);
+                actions.resetForm();
+                setCommentImage(null);
+                setCommentImageError("");
+                await getComments();
+              } catch (error) {
+                console.error("Image upload error:", error);
+                setCommentImageError("Failed to upload image. Please try again.");
+              }
+            } else {
+              const token =
+                Platform.OS !== "web"
+                  ? await SecureStore.getItemAsync("token")
+                  : null;
+
+              const payload = {
+                ...user,
+                currentPost: route.params.currentPost,
+                mycomment: values.mycomment,
+                token,
+              };
+
+              socket.emit("insert comment return updated list", payload);
+              actions.resetForm();
+              await getComments();
+            }
           }}
           // onSubmit={async (values, actions) => {
           //   const token =
@@ -1109,10 +1297,50 @@ export default function ViewPostScreen({ navigation, route }) {
               <Text style={[globalStyles.captionError, { padding: 4 }]}>
                 <ErrorMessage name="mycomment" />
               </Text>
+              {commentImageError ? (
+                <Text style={[globalStyles.captionError, { padding: 4 }]}>
+                  {commentImageError}
+                </Text>
+              ) : null}
+              {commentImage && (
+                <View
+                  style={{
+                    marginBottom: 8,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: 8,
+                    backgroundColor: "#f0f0f0",
+                    borderRadius: 8,
+                  }}
+                >
+                  <Image
+                    style={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: 8,
+                    }}
+                    source={{ uri: commentImage.uri }}
+                  />
+                  <TouchableOpacity
+                    onPress={removeCommentImage}
+                    style={{
+                      padding: 8,
+                      backgroundColor: "#ff4444",
+                      borderRadius: 8,
+                    }}
+                  >
+                    <Text style={{ color: "#fff", fontWeight: "bold" }}>
+                      Remove
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
               <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  alignItems: "center",
                   borderColor: "#ddd",
                   borderRadius: 16,
                   borderWidth: 1,
@@ -1138,8 +1366,8 @@ export default function ViewPostScreen({ navigation, route }) {
                     color: "#767676",
                     width:
                       deviceWidth > 500
-                        ? deviceWidth * 0.75 - 56
-                        : deviceWidth * 0.9 - 56,
+                        ? deviceWidth * 0.75 - 112
+                        : deviceWidth * 0.9 - 112,
                   }}
                   multiline={true} // Allows new lines
                   numberOfLines={2} // Keeps it visually small
@@ -1148,6 +1376,21 @@ export default function ViewPostScreen({ navigation, route }) {
                   onChangeText={props.handleChange("mycomment")}
                   value={props.values.mycomment}
                 />
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 10,
+                    paddingHorizontal: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  onPress={pickCommentImage}
+                >
+                  <MaterialIcon
+                    name={commentImage ? "photo" : "add-a-photo"}
+                    size={24}
+                    color="#2482AA"
+                  />
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={{
                     paddingVertical: 10,
