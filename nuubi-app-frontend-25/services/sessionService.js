@@ -1,6 +1,6 @@
 import { Platform } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import config from "../config";
+import { API_URL } from "../config";
 
 /**
  * Session Service
@@ -92,7 +92,7 @@ class SessionService {
       }
 
       const response = await fetch(
-        `${config.API_BASE_URL}/activity/session/start`,
+        `${API_URL}/activity/session/start`,
         {
           method: "POST",
           credentials: "include",
@@ -146,7 +146,7 @@ class SessionService {
       }
 
       const response = await fetch(
-        `${config.API_BASE_URL}/activity/session/end`,
+        `${API_URL}/activity/session/end`,
         {
           method: "POST",
           credentials: "include",
@@ -215,7 +215,7 @@ class SessionService {
       this.activeSeconds += secondsSinceLastHeartbeat;
 
       const response = await fetch(
-        `${config.API_BASE_URL}/activity/heartbeat`,
+        `${API_URL}/activity/heartbeat`,
         {
           method: "POST",
           credentials: "include",
@@ -283,7 +283,7 @@ class SessionService {
         return;
       }
 
-      await fetch(`${config.API_BASE_URL}/activity/page-view`, {
+      await fetch(`${API_URL}/activity/page-view`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -331,7 +331,7 @@ class SessionService {
       }
 
       const response = await fetch(
-        `${config.API_BASE_URL}/activity/posts/${postId}/view`,
+        `${API_URL}/activity/posts/${postId}/view`,
         {
           method: "POST",
           credentials: "include",
@@ -376,7 +376,7 @@ class SessionService {
         return;
       }
 
-      await fetch(`${config.API_BASE_URL}/activity/action`, {
+      await fetch(`${API_URL}/activity/action`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -405,7 +405,7 @@ class SessionService {
         return;
       }
 
-      await fetch(`${config.API_BASE_URL}/activity/error`, {
+      await fetch(`${API_URL}/activity/error`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -434,7 +434,7 @@ class SessionService {
       }
 
       const response = await fetch(
-        `${config.API_BASE_URL}/activity/session/current`,
+        `${API_URL}/activity/session/current`,
         {
           method: "GET",
           credentials: "include",

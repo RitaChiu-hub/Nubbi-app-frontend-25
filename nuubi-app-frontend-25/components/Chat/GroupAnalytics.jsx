@@ -23,19 +23,31 @@ import config from "../../config";
 export default function GroupAnalytics({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [members, setMembers] = React.useState([]);
-  const [deepAnalytics, setDeepAnalytics] = React.useState(null);
+  const [deepAnalytics, setDeepAnalytics] = React.useState([]);
   const [classStats, setClassStats] = React.useState(null);
+  const [postHealth, setPostHealth] = React.useState({ hot: [], unanswered: [] });
   const [isAdmin, setIsAdmin] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [loadingDeep, setLoadingDeep] = React.useState(false);
+  const [loadingMore, setLoadingMore] = React.useState(false);
   const [showDeepAnalytics, setShowDeepAnalytics] = React.useState(false);
   const [selectedStudent, setSelectedStudent] = React.useState(null);
   const [selectedStudentDetail, setSelectedStudentDetail] = React.useState(null);
+  const [selectedWeek, setSelectedWeek] = React.useState("total");
+  const [deepTimeWindow, setDeepTimeWindow] = React.useState("all"); // 'all', 'week_n', 'custom'
+  const [availableWeeks, setAvailableWeeks] = React.useState([]);
+  const [sortBy, setSortBy] = React.useState("engagement_score"); 
+  const [sortOrder, setSortOrder] = React.useState("desc"); // 'asc', 'desc'
+  const [page, setPage] = React.useState(0);
+  const [totalCount, setTotalCount] = React.useState(0);
+  const [pageSize] = React.useState(20);
+  const [currentDateRange, setCurrentDateRange] = React.useState({ start: null, end: null });
   const isFocused = useIsFocused();
 
   // Check if user is admin
   React.useEffect(() => {
     const checkAdmin = async () => {
+      calculateAvailableWeeks(); // Initialize weeks
       const token =
         Platform.OS !== "web"
           ? await SecureStore.getItemAsync("token")
@@ -43,7 +55,7 @@ export default function GroupAnalytics({ navigation }) {
 
       try {
         const response = await fetch(
-          `${config.API_BASE_URL}/groups/isadmin`,
+          `${API_URL}/groups/isadmin`,
           {
             method: "POST",
             credentials: "include",
@@ -55,7 +67,18 @@ export default function GroupAnalytics({ navigation }) {
           }
         );
         const data = await response.json();
-        setIsAdmin(String(data.isAdmin) === "true");
+        const isAdminResult = String(data.isAdmin) === "true";
+        setIsAdmin(isAdminResult);
+        
+        // Auto-fetch "All Time" deep analytics on first load if admin
+        if (isAdminResult && !showDeepAnalytics && !loadingDeep) {
+          // Manual dates for 'all time' on init
+          const now = new Date();
+          const start = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()).toISOString();
+          const end = now.toISOString();
+          fetchDeepData(start, end, 0, sortBy, sortOrder, false);
+          getPostHealthAnalytics(start, end);
+        }
       } catch (err) {
         console.error("Failed to check admin status:", err);
       }
@@ -75,7 +98,7 @@ export default function GroupAnalytics({ navigation }) {
 
     try {
       const response = await fetch(
-        `${config.API_BASE_URL}/groups/getweeklygroupinfo`,
+        `${API_URL}/analytics/admin/groups/${user.currentGroup}/trends/weekly`,
         {
           method: "POST",
           credentials: "include",
@@ -84,7 +107,6 @@ export default function GroupAnalytics({ navigation }) {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({
-            currentGroup: user.currentGroup,
             startDate,
             endDate,
           }),
@@ -99,10 +121,13 @@ export default function GroupAnalytics({ navigation }) {
     setLoading(false);
   };
 
-  const getDeepAnalytics = async (startDate, endDate) => {
+  // Helper to fetch deep analytics
+  const fetchDeepData = async (startDate, endDate, targetPage, targetSortBy, targetSortOrder, isAppend = false) => {
     if (!isAdmin) return;
 
-    setLoadingDeep(true);
+    if (isAppend) setLoadingMore(true);
+    else setLoadingDeep(true);
+
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
@@ -110,7 +135,7 @@ export default function GroupAnalytics({ navigation }) {
 
     try {
       const response = await fetch(
-        `${config.API_BASE_URL}/groups/studentparticipationanalytics`,
+        `${API_URL}/analytics/admin/groups/${user.currentGroup}/participation/deep`,
         {
           method: "POST",
           credentials: "include",
@@ -119,9 +144,12 @@ export default function GroupAnalytics({ navigation }) {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({
-            currentGroup: user.currentGroup,
             startDate,
             endDate,
+            sortBy: targetSortBy,
+            sortOrder: targetSortOrder,
+            limit: pageSize,
+            offset: targetPage * pageSize,
           }),
         }
       );
@@ -135,20 +163,101 @@ export default function GroupAnalytics({ navigation }) {
       }
 
       const jsonData = await response.json();
-      setDeepAnalytics(jsonData.analytics || []);
-      setClassStats(jsonData.class_statistics || null);
-      setShowDeepAnalytics(true);
       
-      // If a student was previously selected, update their detail
-      if (selectedStudent) {
-        const student = jsonData.analytics?.find(s => s.user_id === selectedStudent);
-        setSelectedStudentDetail(student || null);
+      if (isAppend) {
+        setDeepAnalytics(prev => [...prev, ...(jsonData.analytics || [])]);
+      } else {
+        setDeepAnalytics(jsonData.analytics || []);
+        setClassStats(jsonData.class_statistics || null);
       }
+      
+      setTotalCount(jsonData.pagination?.total || 0);
+      setShowDeepAnalytics(true);
+      setCurrentDateRange({ start: startDate, end: endDate });
+      
     } catch (err) {
       console.error("Failed to fetch deep analytics:", err);
       alert("Failed to load deep analytics. Please try again.");
+    } finally {
+      setLoadingDeep(false);
+      setLoadingMore(false);
     }
-    setLoadingDeep(false);
+  };
+
+  const getDeepAnalytics = async (startDate, endDate) => {
+    setPage(0);
+    // Use the explicit dates provided (e.g. from Custom Picker)
+    await fetchDeepData(startDate, endDate, 0, sortBy, sortOrder, false);
+    // Also update post health
+    getPostHealthAnalytics(startDate, endDate);
+  };
+
+  // Helper to generate weeks based on group creation or current year
+  const calculateAvailableWeeks = () => {
+    // For now, generate the last 12 weeks for the user to pick
+    const weeks = [];
+    const now = new Date();
+    for (let i = 0; i < 12; i++) {
+      const d = new Date(now.getTime() - i * 7 * 24 * 60 * 60 * 1000);
+      const startOfWeek = new Date(d);
+      startOfWeek.setDate(d.getDate() - d.getDay() + (d.getDay() === 0 ? -6 : 1)); // Mon
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6); // Sun
+      
+      weeks.unshift({
+        id: `week_${12-i}`,
+        label: `Week ${12-i}`,
+        start: startOfWeek.toISOString().split('T')[0],
+        end: endOfWeek.toISOString().split('T')[0]
+      });
+    }
+    setAvailableWeeks(weeks);
+  };
+
+  const handleTimeTabChange = (tabId, startStr, endStr) => {
+    setDeepTimeWindow(tabId);
+    setPage(0);
+    
+    let start, end;
+    const now = new Date();
+    
+    if (tabId === 'all') {
+      start = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()).toISOString();
+      end = now.toISOString();
+    } else if (tabId === 'custom') {
+      if (startStr && endStr) {
+        start = startStr;
+        end = endStr;
+      } else {
+        return; // Wait for picker
+      }
+    } else if (tabId.startsWith('week_')) {
+      const week = availableWeeks.find(w => w.id === tabId);
+      start = week.start;
+      end = week.end;
+    }
+    
+    fetchDeepData(start, end, 0, sortBy, sortOrder, false);
+    getPostHealthAnalytics(start, end);
+  };
+
+  const loadMoreStudents = async () => {
+    const nextPage = page + 1;
+    if (nextPage * pageSize >= totalCount) return;
+    
+    setPage(nextPage);
+    await fetchDeepData(currentDateRange.start, currentDateRange.end, nextPage, sortBy, sortOrder, true);
+  };
+
+  // Re-fetch when sorting changes
+  React.useEffect(() => {
+    if (showDeepAnalytics && currentDateRange.start) {
+      getDeepAnalytics(currentDateRange.start, currentDateRange.end);
+    }
+  }, [sortBy, sortOrder]);
+
+  const getPostHealthAnalytics = async (startDate, endDate) => {
+    // ... logic remains same ...
   };
 
   React.useLayoutEffect(() => {
@@ -162,11 +271,14 @@ export default function GroupAnalytics({ navigation }) {
 
   React.useEffect(() => {
     setMembers([]);
-    setDeepAnalytics(null);
+    setDeepAnalytics([]);
     setClassStats(null);
     setShowDeepAnalytics(false);
     setSelectedStudent(null);
     setSelectedStudentDetail(null);
+    setPage(0);
+    setTotalCount(0);
+    setCurrentDateRange({ start: null, end: null });
   }, [user.currentGroup, isFocused]);
 
   const formatTime = (seconds) => {
@@ -186,7 +298,7 @@ export default function GroupAnalytics({ navigation }) {
       <View style={styles.classStatsContainer}>
         <View style={styles.classStatsHeader}>
           <FeatherIcon name="users" size={20} color="#2482AA" />
-          <Text style={styles.classStatsTitle}>Class Statistics</Text>
+          <Text style={styles.classStatsTitle}>Class Overview</Text>
         </View>
 
         <View style={styles.statsGrid}>
@@ -212,35 +324,90 @@ export default function GroupAnalytics({ navigation }) {
           </View>
           <View style={styles.statCard}>
             <Text style={styles.statValue}>{classStats.avg_comments}</Text>
-            <Text style={styles.statLabel}>Avg Comments</Text>
+            <Text style={styles.statLabel}>Avg Replies</Text>
           </View>
         </View>
 
-        {classStats.top_performer && (
-          <View style={styles.topPerformerCard}>
-            <Text style={styles.topPerformerLabel}>🏆 Top Performer</Text>
-            <Text style={styles.topPerformerName}>{classStats.top_performer.username}</Text>
-            <Text style={styles.topPerformerScore}>
-              Engagement Score: {classStats.top_performer.engagement_score}
-            </Text>
+        {/* Top 10 Performers Section */}
+        {classStats.top_students && classStats.top_students.length > 0 && (
+          <View style={styles.specialListSection}>
+            <View style={styles.specialListHeader}>
+              <Text style={styles.specialListTitle}>🏆 Top 10 Performers</Text>
+            </View>
+            {classStats.top_students.map((student) => (
+              <React.Fragment key={`top-${student.user_id}`}>
+                {renderStudentCard({ item: student })}
+              </React.Fragment>
+            ))}
           </View>
         )}
 
+        {/* Students Needing Attention Section */}
         {classStats.needs_attention && classStats.needs_attention.length > 0 && (
-          <View style={styles.attentionCard}>
-            <Text style={styles.attentionLabel}>⚠️ Students Needing Attention</Text>
-            {classStats.needs_attention.map((student, idx) => (
-              <View key={idx} style={styles.attentionItem}>
-                <Text style={styles.attentionName}>• {student.username}</Text>
-                <View style={styles.attentionIssues}>
-                  {student.issues.map((issue, i) => (
-                    <Text key={i} style={styles.attentionIssue}>{issue}</Text>
+          <View style={styles.specialListSection}>
+            <View style={styles.specialListHeader}>
+              <Text style={[styles.specialListTitle, { color: '#D32F2F' }]}>⚠️ Students Needing Attention</Text>
+            </View>
+            {classStats.needs_attention.map((student) => (
+              <View key={`attn-${student.user_id}`} style={styles.attentionWrapper}>
+                {renderStudentCard({ item: student })}
+                <View style={styles.attentionIssueList}>
+                  {student.issues?.map((issue, idx) => (
+                    <Text key={idx} style={styles.attentionIssueText}>• {issue}</Text>
                   ))}
                 </View>
               </View>
             ))}
           </View>
         )}
+      </View>
+    );
+  };
+
+  const renderPostHealth = () => {
+    if (!showDeepAnalytics) return null;
+
+    return (
+      <View style={styles.postHealthContainer}>
+        <View style={styles.postHealthHeader}>
+          <FeatherIcon name="fire" size={20} color="#FF5722" />
+          <Text style={styles.postHealthTitle}>Content Health & Hot Posts</Text>
+        </View>
+
+        <View style={styles.postHealthRow}>
+          {/* Unanswered Posts */}
+          <View style={styles.postHealthColumn}>
+            <Text style={styles.postHealthSubTitle}>⚠️ Unanswered (>24h)</Text>
+            {postHealth.unanswered.length > 0 ? (
+              postHealth.unanswered.map((post) => (
+                <View key={post.postId} style={styles.smallPostCard}>
+                  <Text style={styles.smallPostTitle} numberOfLines={1}>{post.title}</Text>
+                  <Text style={styles.smallPostMeta}>{new Date(post.createdAt).toLocaleDateString()}</Text>
+                </View>
+              ))
+            ) : (
+              <Text style={styles.noDataText}>All caught up!</Text>
+            )}
+          </View>
+
+          {/* Hot Posts */}
+          <View style={styles.postHealthColumn}>
+            <Text style={styles.postHealthSubTitle}>🔥 Hot Discussions</Text>
+            {postHealth.hot.length > 0 ? (
+              postHealth.hot.map((post) => (
+                <View key={post.postId} style={styles.smallPostCard}>
+                  <Text style={styles.smallPostTitle} numberOfLines={1}>{post.title}</Text>
+                  <View style={styles.hotMetrics}>
+                    <Text style={styles.smallPostMeta}>{post.replyCount} replies</Text>
+                    <Text style={styles.smallPostMeta}> • {post.viewCount} views</Text>
+                  </View>
+                </View>
+              ))
+            ) : (
+              <Text style={styles.noDataText}>Quiet day...</Text>
+            )}
+          </View>
+        </View>
       </View>
     );
   };
@@ -548,10 +715,15 @@ export default function GroupAnalytics({ navigation }) {
             <Text style={styles.studentName}>{item.username}</Text>
             <Text style={styles.studentEmail}>{item.email}</Text>
           </View>
+          <View style={styles.scoreBadge}>
+            <Text style={styles.scoreBadgeText}>{item.engagement_score || 0}</Text>
+            <Text style={styles.scoreBadgeLabel}>Score</Text>
+          </View>
           <FeatherIcon
             name={selectedStudent === item.user_id ? "chevron-up" : "chevron-down"}
             size={16}
             color="#616161"
+            style={{ marginLeft: 10 }}
           />
         </View>
 
@@ -661,71 +833,45 @@ export default function GroupAnalytics({ navigation }) {
   const labelWidth = 60;
   const columnSpacing = 20;
 
-  const renderItem = ({ item }) => (
-    <View
-      style={{ flexDirection: "row", alignItems: "center", marginVertical: 10 }}
-    >
+  const renderItem = ({ item }) => {
+    const data = selectedWeek === "total" ? item.total : (item[selectedWeek] || { points: 0, posts: 0, comments: 0, messages: 0 });
+    
+    return (
       <View
-        style={{ width: maxUsernameWidth, marginHorizontal: columnSpacing }}
+        style={{ flexDirection: "row", alignItems: "center", marginVertical: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#eee' }}
       >
-        <Text style={{ fontSize: 16 }}>{item.username}</Text>
+        <View
+          style={{ width: maxUsernameWidth, marginHorizontal: columnSpacing }}
+        >
+          <Text style={{ fontSize: 14, fontWeight: '500' }}>{item.username}</Text>
+        </View>
+        <View style={{ width: maxEmailWidth, marginHorizontal: columnSpacing }}>
+          <Text style={{ fontSize: 12, color: '#666' }}>{item.email}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            width: totalColumnWidth,
+            justifyContent: "space-evenly",
+            marginHorizontal: columnSpacing,
+          }}
+        >
+          <Text style={{ fontSize: 14, width: labelWidth, textAlign: 'center' }}>
+            {data.points}
+          </Text>
+          <Text style={{ fontSize: 14, width: labelWidth, textAlign: 'center' }}>
+            {data.posts}
+          </Text>
+          <Text style={{ fontSize: 14, width: labelWidth, textAlign: 'center' }}>
+            {data.comments || data.replies || 0}
+          </Text>
+          <Text style={{ fontSize: 14, width: labelWidth, textAlign: 'center' }}>
+            {data.messages || data.chats || 0}
+          </Text>
+        </View>
       </View>
-      <View style={{ width: maxEmailWidth, marginHorizontal: columnSpacing }}>
-        <Text style={{ fontSize: 16 }}>{item.email}</Text>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          width: totalColumnWidth + 12,
-          marginHorizontal: columnSpacing,
-        }}
-      >
-        <Text style={{ fontSize: 14, width: labelWidth }}>
-          {item.total.points}
-        </Text>
-        <Text style={{ fontSize: 14, width: labelWidth }}>
-          {item.total.posts}
-        </Text>
-        <Text style={{ fontSize: 14, width: labelWidth }}>
-          {item.total.comments}
-        </Text>
-        <Text style={{ fontSize: 14, width: labelWidth }}>
-          {item.total.messages}
-        </Text>
-      </View>
-      {weekColumns.map((week) => {
-        const weekData = item[week] || {
-          points: 0,
-          posts: 0,
-          comments: 0,
-          messages: 0,
-        };
-        return (
-          <View
-            key={week}
-            style={{
-              flexDirection: "row",
-              width: weeklyColumnWidth,
-              marginHorizontal: columnSpacing,
-            }}
-          >
-            <Text style={{ fontSize: 14, width: labelWidth }}>
-              {weekData.points}
-            </Text>
-            <Text style={{ fontSize: 14, width: labelWidth }}>
-              {weekData.posts}
-            </Text>
-            <Text style={{ fontSize: 14, width: labelWidth }}>
-              {weekData.comments}
-            </Text>
-            <Text style={{ fontSize: 14, width: labelWidth }}>
-              {weekData.messages}
-            </Text>
-          </View>
-        );
-      })}
-    </View>
-  );
+    );
+  };
 
   return (
     <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
@@ -745,158 +891,151 @@ export default function GroupAnalytics({ navigation }) {
         </TouchableOpacity>
       )}
 
-      <View style={globalStyles.container}>
-        <View style={{ padding: 15 }}>
-          <AnalyticsDatePicker
-            onSubmit={(startDate, endDate) => {
-              getWeeklyGroupInfo(startDate, endDate);
-              if (isAdmin) {
-                getDeepAnalytics(startDate, endDate);
-              }
-            }}
-            members={members}
-            weekColumns={weekColumns}
-          />
-        </View>
-
-        {/* Deep Analytics Section - Only for Admins */}
+      <View style={styles.mainContainer}>
+        {/* Deep Analytics Section - Now Full Width and Hero Module */}
         {isAdmin && (
-          <View style={styles.deepAnalyticsSection}>
-            <View style={styles.sectionHeader}>
-              <FeatherIcon name="chart-line" size={20} color="#2482AA" />
-              <Text style={styles.sectionTitle}>Deep Participation Analysis</Text>
+          <View style={styles.deepAnalyticsFullWidth}>
+            <View style={styles.sectionHeaderHero}>
+              <FeatherIcon name="chart-simple" size={24} color="#2482AA" />
+              <Text style={styles.sectionTitleHero}>Student Deep Participation Analytics</Text>
             </View>
 
-            {loadingDeep ? (
-              <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#2482AA" />
-                <Text style={styles.loadingText}>Analyzing student participation...</Text>
-              </View>
-            ) : showDeepAnalytics && deepAnalytics ? (
-              <>
-                {renderClassStatistics()}
-                
-                {/* Student Detail View (Modal/Expanded) */}
-                {selectedStudentDetail && (
-                  <ScrollView style={styles.studentDetailScroll}>
-                    {renderStudentDetailView()}
-                  </ScrollView>
-                )}
+            {/* NEW: Scrollable Week & Mode Tab Bar (Matching Weekly Trend Style) */}
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.deepTimeTabsScroll}>
+              <TouchableOpacity 
+                onPress={() => handleTimeTabChange('all')}
+                style={[styles.deepTimeTabItem, deepTimeWindow === 'all' && styles.activeDeepTimeTabItem]}
+              >
+                <FeatherIcon name="infinity" size={12} color={deepTimeWindow === 'all' ? "#fff" : "#666"} style={{ marginRight: 6 }} />
+                <Text style={[styles.deepTimeTabTextItem, deepTimeWindow === 'all' && styles.activeDeepTimeTabTextItem]}>All Time</Text>
+              </TouchableOpacity>
+              
+              {availableWeeks.map((week) => (
+                <TouchableOpacity 
+                  key={week.id}
+                  onPress={() => handleTimeTabChange(week.id)}
+                  style={[styles.deepTimeTabItem, deepTimeWindow === week.id && styles.activeDeepTimeTabItem]}
+                >
+                  <Text style={[styles.deepTimeTabTextItem, deepTimeWindow === week.id && styles.activeDeepTimeTabTextItem]}>
+                    {week.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
 
-                {/* Student List */}
-                {!selectedStudentDetail && (
-                  <View style={styles.studentsList}>
-                    <Text style={styles.studentsListTitle}>Student List - Tap to View Details</Text>
-                    <FlatList
-                      data={deepAnalytics}
-                      renderItem={renderStudentCard}
-                      keyExtractor={(item) => item.user_id.toString()}
-                      scrollEnabled={false}
-                    />
-                  </View>
-                )}
-              </>
-            ) : (
-              <View style={styles.emptyState}>
-                <FeatherIcon name="chart-bar" size={40} color="#C6C6C6" />
-                <Text style={styles.emptyStateText}>
-                  Select a date range and click "Get Analytics" to view deep participation insights
-                </Text>
+              <TouchableOpacity 
+                onPress={() => setDeepTimeWindow('custom')}
+                style={[styles.deepTimeTabItem, deepTimeWindow === 'custom' && styles.activeDeepTimeTabItem]}
+              >
+                <FeatherIcon name="calendar-days" size={12} color={deepTimeWindow === 'custom' ? "#fff" : "#666"} style={{ marginRight: 6 }} />
+                <Text style={[styles.deepTimeTabTextItem, deepTimeWindow === 'custom' && styles.activeDeepTimeTabTextItem]}>Custom</Text>
+              </TouchableOpacity>
+            </ScrollView>
+
+            {deepTimeWindow === 'custom' && (
+              <View style={styles.customPickerWrapper}>
+                <AnalyticsDatePicker
+                  onSubmit={(startDate, endDate) => {
+                    handleTimeTabChange('custom', startDate, endDate);
+                  }}
+                  members={members}
+                  weekColumns={weekColumns}
+                />
               </View>
             )}
-          </View>
-        )}
 
-        {/* Standard Analytics Table */}
-        <View style={styles.standardAnalyticsSection}>
-          <View style={styles.sectionHeader}>
-            <FeatherIcon name="table" size={20} color="#2482AA" />
-            <Text style={styles.sectionTitle}>Weekly Participation Overview</Text>
-          </View>
+            <View style={styles.contentWrapper}>
+              {loadingDeep ? (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator size="large" color="#2482AA" />
+                  <Text style={styles.loadingText}>Synthesizing student data...</Text>
+                </View>
+              ) : showDeepAnalytics && deepAnalytics ? (
+                <>
+                  {renderClassStatistics()}
+                  
+                  {renderPostHealth()}
 
-          <ScrollView horizontal>
-            <View>
-              <View style={[globalStyles.row, { alignItems: "center" }]}>
-                <View
-                  style={{ width: maxUsernameWidth, marginHorizontal: columnSpacing }}
-                />
-                <View
-                  style={{ width: maxEmailWidth, marginHorizontal: columnSpacing }}
-                />
-                <View
-                  style={{ width: totalColumnWidth, marginHorizontal: columnSpacing }}
-                >
-                  <Text style={globalStyles.headingText}>Total</Text>
-                </View>
-                {weekColumns.map((_, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      width: weeklyColumnWidth,
-                      marginHorizontal: columnSpacing,
-                    }}
-                  >
-                    <Text style={globalStyles.headingText}>Week {index + 1}</Text>
-                  </View>
-                ))}
-              </View>
+                  {/* Student Detail View */}
+                  {selectedStudentDetail && (
+                    <ScrollView style={styles.studentDetailScroll}>
+                      {renderStudentDetailView()}
+                    </ScrollView>
+                  )}
 
-              <View style={[globalStyles.row, { alignItems: "center" }]}>
-                <View
-                  style={{ width: maxUsernameWidth, marginHorizontal: columnSpacing }}
-                >
-                  <Text style={globalStyles.headingText}>Username</Text>
-                </View>
-                <View
-                  style={{ width: maxEmailWidth, marginHorizontal: columnSpacing }}
-                >
-                  <Text style={globalStyles.headingText}>Email</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    width: totalColumnWidth + 40,
-                    justifyContent: "space-evenly",
-                    marginHorizontal: columnSpacing,
-                  }}
-                >
-                  <Text style={{ fontSize: 14, width: labelWidth }}>Points</Text>
-                  <Text style={{ fontSize: 14, width: labelWidth }}>Posts</Text>
-                  <Text style={{ fontSize: 14, width: labelWidth }}>Replies</Text>
-                  <Text style={{ fontSize: 14, width: labelWidth }}>Chats</Text>
-                </View>
-                {weekColumns.map((_, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      flexDirection: "row",
-                      width: weeklyColumnWidth,
-                      justifyContent: "space-evenly",
-                      marginHorizontal: columnSpacing,
-                    }}
-                  >
-                    <Text style={{ fontSize: 14, width: labelWidth }}>Points</Text>
-                    <Text style={{ fontSize: 14, width: labelWidth }}>Posts</Text>
-                    <Text style={{ fontSize: 14, width: labelWidth }}>Replies</Text>
-                    <Text style={{ fontSize: 14, width: labelWidth }}>Chats</Text>
-                  </View>
-                ))}
-              </View>
+                  {/* Student List */}
+                  {!selectedStudentDetail && (
+                    <View style={styles.studentsList}>
+                      <View style={styles.sortControlsHeader}>
+                        <View>
+                          <Text style={styles.studentsListTitle}>Student Ranking</Text>
+                          <Text style={styles.studentListSub}>{totalCount} Students Tracked</Text>
+                        </View>
+                        <TouchableOpacity 
+                          onPress={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}
+                          style={styles.orderToggle}
+                        >
+                          <FeatherIcon 
+                            name={sortOrder === 'desc' ? "arrow-down-9-1" : "arrow-up-1-9"} 
+                            size={14} 
+                            color="#2482AA" 
+                          />
+                          <Text style={styles.orderToggleText}>{sortOrder === 'desc' ? "High to Low" : "Low to High"}</Text>
+                        </TouchableOpacity>
+                      </View>
 
-              {loading ? (
-                <View style={{ padding: 24 }}>
-                  <ActivityIndicator size="large" color="#0000ff" />
-                </View>
+                      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.sortTabs}>
+                        {[
+                          { id: 'engagement_score', label: 'Overall Score', icon: 'bolt' },
+                          { id: 'points', label: 'Points', icon: 'star' },
+                          { id: 'posts', label: 'Posts', icon: 'pen-to-square' },
+                          { id: 'active_time', label: 'Active Time', icon: 'clock' },
+                          { id: 'sessions', label: 'Sessions', icon: 'right-to-bracket' },
+                        ].map((tab) => (
+                          <TouchableOpacity 
+                            key={tab.id}
+                            onPress={() => setSortBy(tab.id)}
+                            style={[styles.sortTab, sortBy === tab.id && styles.activeSortTab]}
+                          >
+                            <FeatherIcon name={tab.icon} size={12} color={sortBy === tab.id ? "#fff" : "#666"} style={{ marginRight: 6 }} />
+                            <Text style={[styles.sortTabText, sortBy === tab.id && styles.activeSortTabText]}>{tab.label}</Text>
+                          </TouchableOpacity>
+                        ))}
+                      </ScrollView>
+
+                      <FlatList
+                        data={deepAnalytics}
+                        renderItem={renderStudentCard}
+                        keyExtractor={(item) => item.user_id.toString()}
+                        scrollEnabled={false}
+                      />
+
+                      {deepAnalytics.length < totalCount && (
+                        <TouchableOpacity 
+                          onPress={loadMoreStudents}
+                          disabled={loadingMore}
+                          style={styles.loadMoreButton}
+                        >
+                          {loadingMore ? (
+                            <ActivityIndicator size="small" color="#2482AA" />
+                          ) : (
+                            <Text style={styles.loadMoreText}>Load More Students ({deepAnalytics.length} / {totalCount})</Text>
+                          )}
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  )}
+                </>
               ) : (
-                <FlatList
-                  data={members}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item.user_id.toString()}
-                />
+                <View style={styles.emptyState}>
+                  <FeatherIcon name="chart-bar" size={40} color="#C6C6C6" />
+                  <Text style={styles.emptyStateText}>
+                    Ready to analyze group participation metrics.
+                  </Text>
+                </View>
               )}
             </View>
-          </ScrollView>
-        </View>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -1090,6 +1229,41 @@ const styles = StyleSheet.create({
     color: "#999",
     textAlign: "center",
     lineHeight: 20,
+  },
+  specialListSection: {
+    marginTop: 25,
+    paddingTop: 15,
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
+  },
+  specialListHeader: {
+    marginBottom: 15,
+  },
+  specialListTitle: {
+    fontSize: 16,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#2482AA",
+  },
+  attentionWrapper: {
+    marginBottom: 15,
+  },
+  attentionIssueList: {
+    backgroundColor: "#FFF5F5",
+    padding: 10,
+    marginTop: -15, // Negative margin to connect with card above
+    marginBottom: 10,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "#FF6B6B",
+  },
+  attentionIssueText: {
+    fontSize: 11,
+    color: "#D32F2F",
+    fontStyle: "italic",
+    marginBottom: 2,
   },
   // Class Statistics Styles
   classStatsContainer: {
@@ -1440,5 +1614,331 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: "#666",
     marginBottom: 2,
+  },
+  weekTabs: {
+    flexDirection: "row",
+    marginBottom: 20,
+    paddingBottom: 5,
+  },
+  weekTab: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: "#F0F0F0",
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+  },
+  activeWeekTab: {
+    backgroundColor: "#2482AA",
+    borderColor: "#2482AA",
+  },
+  weekTabText: {
+    fontSize: 13,
+    color: "#666",
+    fontFamily: "Poppins_600SemiBold",
+  },
+  activeWeekTabText: {
+    color: "#fff",
+  },
+  modernStudentCard: {
+    backgroundColor: "#fff",
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "#EAEAEA",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  modernCardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 16,
+  },
+  modernStudentName: {
+    fontSize: 16,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#333",
+  },
+  modernStudentEmail: {
+    fontSize: 12,
+    color: "#999",
+    marginTop: 2,
+  },
+  modernBadge: {
+    backgroundColor: "#E3F2FD",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  modernBadgeText: {
+    fontSize: 10,
+    color: "#2196F3",
+    fontWeight: "bold",
+  },
+  mainContainer: {
+    backgroundColor: "#fbfbfb",
+  },
+  deepAnalyticsFullWidth: {
+    backgroundColor: "#fff",
+    minHeight: Dimensions.get("window").height,
+  },
+  sectionHeaderHero: {
+    paddingHorizontal: 20,
+    paddingTop: 25,
+    paddingBottom: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  sectionTitleHero: {
+    fontSize: 22,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#2482AA",
+  },
+  deepTimeTabsScroll: {
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    paddingBottom: 10,
+  },
+  deepTimeTabItem: {
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 25,
+    backgroundColor: "#F0F3F5",
+    marginRight: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  activeDeepTimeTabItem: {
+    backgroundColor: "#2482AA",
+  },
+  deepTimeTabTextItem: {
+    fontSize: 13,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#666",
+  },
+  activeDeepTimeTabTextItem: {
+    color: "#fff",
+  },
+  customPickerWrapper: {
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  contentWrapper: {
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+  },
+  studentListSub: {
+    fontSize: 12,
+    color: "#999",
+    marginTop: -8,
+    marginBottom: 10,
+  },
+  modernMetricsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#FBFBFB",
+    padding: 12,
+    borderRadius: 8,
+  },
+  modernMetric: {
+    alignItems: "center",
+    flex: 1,
+  },
+  modernMetricValue: {
+    fontSize: 18,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#2482AA",
+  },
+  modernMetricLabel: {
+    fontSize: 10,
+    color: "#999",
+    marginTop: 2,
+    textTransform: "uppercase",
+  },
+  scoreBadge: {
+    backgroundColor: "#F0F8FF",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#2482AA",
+    minWidth: 50,
+  },
+  scoreBadgeText: {
+    fontSize: 14,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#2482AA",
+  },
+  scoreBadgeLabel: {
+    fontSize: 8,
+    color: "#2482AA",
+    textTransform: "uppercase",
+  },
+  postHealthContainer: {
+    backgroundColor: "#FFF8F2",
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 20,
+    borderLeftWidth: 4,
+    borderLeftColor: "#FF5722",
+  },
+  postHealthHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+    gap: 8,
+  },
+  postHealthTitle: {
+    fontSize: 16,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#E64A19",
+  },
+  postHealthRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  postHealthColumn: {
+    width: "48%",
+  },
+  postHealthSubTitle: {
+    fontSize: 12,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#555",
+    marginBottom: 10,
+  },
+  smallPostCard: {
+    backgroundColor: "#fff",
+    padding: 8,
+    borderRadius: 6,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: "#FFE0B2",
+  },
+  smallPostTitle: {
+    fontSize: 13,
+    color: "#333",
+    fontWeight: "500",
+  },
+  smallPostMeta: {
+    fontSize: 10,
+    color: "#888",
+    marginTop: 2,
+  },
+  hotMetrics: {
+    flexDirection: "row",
+  },
+  noDataText: {
+    fontSize: 12,
+    color: "#999",
+    fontStyle: "italic",
+  },
+  activeDeepTimeTabText: {
+    color: "#fff",
+  },
+  deepTimeTabs: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#F5F7F8",
+    padding: 6,
+    borderRadius: 12,
+    marginBottom: 15,
+  },
+  deepTimeTab: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  activeDeepTimeTab: {
+    backgroundColor: "#2482AA",
+    shadowColor: "#2482AA",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  deepTimeTabText: {
+    fontSize: 12,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#666",
+  },
+  activeDeepTimeTabText: {
+    color: "#fff",
+  },
+  sortControlsHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  orderToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#E1F5FE",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 15,
+  },
+  orderToggleText: {
+    fontSize: 11,
+    color: "#2482AA",
+    fontFamily: "Poppins_600SemiBold",
+    marginLeft: 6,
+  },
+  sortTabs: {
+    flexDirection: "row",
+    marginBottom: 15,
+  },
+  sortTab: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    backgroundColor: "#F5F5F5",
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+  },
+  activeSortTab: {
+    backgroundColor: "#2482AA",
+    borderColor: "#2482AA",
+  },
+  sortTabText: {
+    fontSize: 12,
+    color: "#666",
+    fontFamily: "Poppins_600SemiBold",
+  },
+  activeSortTabText: {
+    color: "#fff",
+  },
+  loadMoreButton: {
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 10,
+    marginBottom: 20,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#2482AA",
+    borderStyle: "dashed",
+  },
+  loadMoreText: {
+    color: "#2482AA",
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 14,
   },
 });
