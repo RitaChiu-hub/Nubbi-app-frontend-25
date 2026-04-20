@@ -6,25 +6,29 @@ import {
   FlatList,
   TouchableOpacity,
   Platform,
-  Dimensions,
 } from "react-native";
-import { globalStyles } from "../../styles/global";
+import { globalStyles, nuubiColors } from "../../styles/global";
 const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
 import moment from "moment";
-import { useIsFocused, useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import socket from "../../socket";
+import { subscribePostThreadViewed } from "../../services/postThreadViewedBridge";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [posts, setPosts] = React.useState([]);
-  const isFocused = useIsFocused();
+  // Post ids the user just left (ViewPost blur): keep NEW off until API agrees.
+  const instantClearNewIdsRef = React.useRef(new Set());
+  const currentGroupRef = React.useRef(user.currentGroup);
+  currentGroupRef.current = user.currentGroup;
   const [isLoggedIn, setIsLoggedIn] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
-  const deviceWidth = Dimensions.get("window").width;
 
   const GROUP_KEY = "currentGroup";
+  const LAST_VIEWED_KEY = "lastViewedPosts";
 
   async function saveGroup(id) {
     const v = String(id);
@@ -51,6 +55,20 @@ export default function PostScreen({ navigation }) {
     }
   }
 
+  // Per-group map written by ViewPost on blur; sent to API so it can compute has_new_activity.
+  async function loadLastViewedPosts(groupId) {
+    const key = `${LAST_VIEWED_KEY}_${groupId}`;
+    try {
+      const v =
+        Platform.OS === "web"
+          ? localStorage.getItem(key)
+          : await AsyncStorage.getItem(key);
+      return v ? JSON.parse(v) : {};
+    } catch {
+      return {};
+    }
+  }
+
   // Save when group changes
   React.useEffect(() => {
     if (user?.currentGroup) saveGroup(user.currentGroup);
@@ -65,6 +83,44 @@ export default function PostScreen({ navigation }) {
       }
     })();
   }, []);
+
+  // Reset the instant-clear cache when switching groups
+  React.useEffect(() => {
+    instantClearNewIdsRef.current.clear();
+  }, [user?.currentGroup]);
+
+  // ViewPost emits on blur before storage/network finish — update list immediately.
+  React.useEffect(() => {
+    return subscribePostThreadViewed(({ postId, groupId }) => {
+      if (String(groupId) !== String(currentGroupRef.current)) return;
+      instantClearNewIdsRef.current.add(String(postId));
+      setPosts((prev) =>
+        prev.map((p) =>
+          String(p.post_id) === String(postId)
+            ? { ...p, has_new_activity: false }
+            : p
+        )
+      );
+    });
+  }, []);
+
+  // After fetch, strip NEW for any post we already marked viewed in-session (avoids flicker).
+  function applyInstantNewClear(rows) {
+    if (!Array.isArray(rows)) return rows;
+    const next = rows.map((p) => {
+      const id = String(p.post_id);
+      if (instantClearNewIdsRef.current.has(id)) {
+        return { ...p, has_new_activity: false };
+      }
+      return p;
+    });
+    next.forEach((p) => {
+      if (!p.has_new_activity) {
+        instantClearNewIdsRef.current.delete(String(p.post_id));
+      }
+    });
+    return next;
+  }
 
   // For Mobile: Retrieve token from SecureStore
   async function getTokenFromSecureStore() {
@@ -133,7 +189,8 @@ export default function PostScreen({ navigation }) {
     }
   }, [isLoggedIn]);
 
-  const getPosts = async (groupId, signal) => {
+  // viewedPosts = fresh read from AsyncStorage/localStorage (see loadLastViewedPosts).
+  const getPosts = async (groupId, signal, viewedPosts = {}) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
@@ -148,16 +205,19 @@ export default function PostScreen({ navigation }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          // body: JSON.stringify({ ...user }),
-          body: JSON.stringify({ ...user, currentGroup: groupId }),
+          body: JSON.stringify({ 
+            ...user, 
+            currentGroup: groupId,
+            lastViewedPosts: viewedPosts,
+          }),
           signal,
         }
       );
       const jsonData = await response.json();
 
-      //  setPosts(jsonData);
       if (!signal.aborted && user.currentGroup === groupId) {
-        setPosts(Array.isArray(jsonData) ? jsonData : []);
+        const rows = Array.isArray(jsonData) ? jsonData : [];
+        setPosts(applyInstantNewClear(rows));
       }
     } catch (err) {
       // console.error(err.message);
@@ -167,10 +227,7 @@ export default function PostScreen({ navigation }) {
     }
   };
 
-  // React.useEffect(() => {
-  //   getPosts();
-  // }, [isFocused]);
-
+  // Refetch when this tab gains focus so NEW reflects others’ posts/comments + storage.
   useFocusEffect(
     React.useCallback(() => {
       if (!isLoggedIn) return;
@@ -178,39 +235,23 @@ export default function PostScreen({ navigation }) {
       const groupId = user.currentGroup;
       const controller = new AbortController();
 
-      setLoading(true); // don't setPosts([]) here
+      setLoading(true);
 
       (async () => {
         try {
-          await getPosts(groupId, controller.signal); // setPosts happens inside getPosts
+          // Reload lastViewedPosts in case ViewPost updated it after blur.
+          const viewed = groupId ? await loadLastViewedPosts(groupId) : {};
+          await getPosts(groupId, controller.signal, viewed);
         } finally {
-          // only end loading if we didn't abort and the group hasn't changed
           if (!controller.signal.aborted && user.currentGroup === groupId) {
             setLoading(false);
           }
         }
       })();
 
-      // cancel in-flight fetch if we blur/unmount
       return () => controller.abort();
     }, [user.currentGroup, isLoggedIn])
   );
-
-  // React.useEffect(() => {
-  //   // Snapshot the group id for this run
-  //   const groupId = user.currentGroup;
-  //   // Clear stale items immediately to avoid flashing old content
-  //   setPosts([]);
-  //   setLoading(true);
-  //   const controller = new AbortController();
-  //   getPosts(groupId, controller.signal).finally(() => {
-  //     if (!controller.signal.aborted && user.currentGroup === groupId) {
-  //       setLoading(false);
-  //     }
-  //   });
-  //   // Cancel in‑flight request if group changes or screen blurs/unmounts
-  //   return () => controller.abort();
-  // }, [user.currentGroup, isFocused]);
 
   const Item = ({
     title,
@@ -220,6 +261,7 @@ export default function PostScreen({ navigation }) {
     isoTimeSent,
     point_total,
     number_comments,
+    has_new_activity,
   }) => (
     <View>
       <TouchableOpacity
@@ -243,9 +285,20 @@ export default function PostScreen({ navigation }) {
             height: 0.8,
           },
           overflow: "visible",
+          position: "relative",
         }}
         // Log to server when a post is clicked
         onPress={async () => {
+          // Clear NEW immediately so coming back doesn't flash stale has_new_activity
+          // from the previous fetch (ViewPost still persists lastViewed after comments load).
+          setPosts((prev) =>
+            prev.map((p) =>
+              p.post_id === id || String(p.post_id) === String(id)
+                ? { ...p, has_new_activity: false }
+                : p
+            )
+          );
+
           try {
             const token = Platform.OS !== "web"
               ? await SecureStore.getItemAsync("token")
@@ -282,42 +335,56 @@ export default function PostScreen({ navigation }) {
             isoTimeSent: isoTimeSent,
             number_comments: number_comments,
           }),
-            //   navigation.push("ViewPost", { currentPost: id });
-            //  navigation.navigate("ViewPost", { currentPost: id });
-            // or, if you prefer navigate:
             navigation.navigate({
               name: "ViewPost",
-              key: `post-${id}`, // unique key per post
+              key: `post-${id}`,
               params: { currentPost: id },
-              merge: false, // don't merge old params
+              merge: false,
             });
         }}
       >
-        <View style={{ paddingHorizontal: 1 }}>
-          <Text
-            style={{
-              color: "#050505",
-              fontSize: 18,
-              fontFamily: "Poppins_600SemiBold",
-              flexShrink: 1,
-              flexWrap: "wrap",
-              maxWidth:
-                deviceWidth > 500 ? deviceWidth * 0.7 : deviceWidth * 0.8,
-            }}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {title}
-          </Text>
-          <Text
-            style={{
-              color: "#050505",
-              fontSize: 18,
-              fontFamily: "Poppins_600SemiBold",
-            }}
-          >
-            {title}
-          </Text>
+        <View style={{ paddingHorizontal: 1, flex: 1, position: "relative", width: "100%" }}>
+          <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+            <Text
+              style={{
+                color: "#050505",
+                fontSize: 18,
+                fontFamily: "Poppins_600SemiBold",
+                flexShrink: 1,
+                flexWrap: "wrap",
+                flex: 1,
+              }}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
+              {title}
+            </Text>
+          </View>
+          {has_new_activity && (
+            <View
+              style={{
+                position: "absolute",
+                right: -6,
+                top: -6,
+                // Same teal as primary buttons (accessibility-approved contrast with white).
+                backgroundColor: nuubiColors.darkerBlue,
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                borderRadius: 12,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 11,
+                  fontFamily: "Poppins_600SemiBold",
+                  letterSpacing: 0.3,
+                }}
+              >
+                NEW
+              </Text>
+            </View>
+          )}
           <Text
             style={globalStyles.bodyRegular}
             numberOfLines={2}
@@ -345,6 +412,7 @@ export default function PostScreen({ navigation }) {
       isoTimeSent={item.created_at}
       point_total={item.point_total}
       number_comments={item.number_comments}
+      has_new_activity={item.has_new_activity}
     />
   );
 
@@ -357,15 +425,6 @@ export default function PostScreen({ navigation }) {
         backgroundColor: "#fbfbfb",
       }}
     >
-      {!loading ? (
-        <FlatList
-          data={posts}
-          renderItem={renderItem}
-          keyExtractor={(item) => String(item.post_id)}
-        />
-      ) : (
-        <Text>Loading your group threads...</Text>
-      )}
       <FlatList
         data={posts}
         renderItem={renderItem}

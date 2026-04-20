@@ -25,12 +25,13 @@ import FeatherIcon from "@expo/vector-icons/Feather";
 import alert from "./../alert";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import * as SecureStore from "expo-secure-store";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "../../config";
 import sessionService from "../../services/sessionService";
+import { emitPostThreadViewed } from "../../services/postThreadViewedBridge";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -58,9 +59,62 @@ export default function ViewPostScreen({ navigation, route }) {
   const postId = route.params?.currentPost ?? user.currentPost ?? null;
   const [loading, setLoading] = React.useState(true);
   const [loadedPostId, setLoadedPostId] = React.useState(null);
+
+  // Mirrors PostScreen: same storage key so the list can send lastViewedPosts to the API.
+  const LAST_VIEWED_KEY = "lastViewedPosts";
+
+  async function saveLastViewedPosts(groupId, viewedPosts) {
+    const key = `${LAST_VIEWED_KEY}_${groupId}`;
+    if (Platform.OS === "web") {
+      try {
+        localStorage.setItem(key, JSON.stringify(viewedPosts));
+      } catch {}
+    } else {
+      try {
+        await AsyncStorage.setItem(key, JSON.stringify(viewedPosts));
+      } catch {}
+    }
+  }
+
+  // Load lastViewedPosts for a group
+  async function loadLastViewedPosts(groupId) {
+    const key = `${LAST_VIEWED_KEY}_${groupId}`;
+    try {
+      const v =
+        Platform.OS === "web"
+          ? localStorage.getItem(key)
+          : await AsyncStorage.getItem(key);
+      return v ? JSON.parse(v) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  // Persists “last seen” for this thread
+  async function markThreadViewed(groupId, threadPostId) {
+    try {
+      const viewed = await loadLastViewedPosts(groupId);
+      viewed[String(threadPostId)] = new Date().toISOString();
+      await saveLastViewedPosts(groupId, viewed);
+    } catch (error) {
+      console.error("Error in markThreadViewed:", error);
+      throw error;
+    }
+  }
+
+  // Blur cleanup: update storage + notify PostScreen immediately (same postId remounts won’t re-run load effect).
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        if (!postId || !user?.currentGroup) return;
+        emitPostThreadViewed({ postId, groupId: user.currentGroup });
+        markThreadViewed(user.currentGroup, postId).catch((error) => {
+          console.error("Error marking thread viewed on blur:", error);
+        });
+      };
+    }, [postId, user?.currentGroup]),
+  );
   const deviceWidth = Dimensions.get("window").width;
-  // Note: Post view deduplication is now handled in sessionService
-  // This ref is kept for backward compatibility but sessionService handles deduplication
 
   const scrollViewRef = React.useRef();
 
@@ -313,7 +367,7 @@ export default function ViewPostScreen({ navigation, route }) {
       if (!controller.signal.aborted) {
         setLoadedPostId(postId);
         setLoading(false);
-        
+
         // Track post view (deduplication handled in sessionService)
         if (postId) {
           sessionService.trackPostView(postId).catch((error) => {
@@ -333,6 +387,7 @@ export default function ViewPostScreen({ navigation, route }) {
     socket.emit("join", room);
   }, [user.currentPost]);
 
+  // Server inserts then echoes one row to this socket; don’t pair with getComments() or it duplicates.
   React.useEffect(() => {
     socket.on("insert comment return updated list", (newComment) => {
       setComments((prev) => [
@@ -347,46 +402,6 @@ export default function ViewPostScreen({ navigation, route }) {
       socket.off("insert comment return updated list");
     };
   }, []);
-  // React.useEffect(() => {
-  //   socket.on("insert comment return updated list", (rows) => {
-  //     const sorted = rows.sort(
-  //       (a, b) =>
-  //         new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
-  //     );
-  //     setComments(sorted);
-  //   });
-  //   return () => {
-  //     socket.off("insert comment return updated list");
-  //   };
-  // }, []);
-
-  // React.useEffect(() => {
-  //   const handleUpdate = (jsonData) => {
-  //     const sorted = [...jsonData].sort(
-  //       (a, b) =>
-  //         new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
-  //     );
-  //     setComments(sorted);
-  //     getComments();
-  //   };
-
-  //   socket.on("insert comment return updated list", handleUpdate);
-
-  //   // Cleanup to prevent multiple listeners stacking
-  //   return () => {
-  //     socket.off("insert comment return updated list", handleUpdate);
-  //   };
-  // }, [user.currentPost, socket]);
-
-  // React.useEffect(() => {
-  //   socket.on("insert comment return updated list", (jsonData) => {
-  //     const sorted = [...jsonData].sort(
-  //       (a, b) =>
-  //         new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
-  //     );
-  //     setComments(sorted);
-  //   });
-  // }, [socket]);
 
   React.useEffect(() => {
     socket.on("add post point return updated sum", (jsonData) => {
@@ -1086,8 +1101,9 @@ export default function ViewPostScreen({ navigation, route }) {
 
             socket.emit("insert comment return updated list", payload);
             actions.resetForm();
-            // pull in the fresh list
-            await getComments();
+            // The server echoes the new comment back on the same event, which the
+            // socket listener appends to `comments`. Don't also refetch here — it
+            // races with that echo and causes the comment to appear twice.
           }}
           // onSubmit={async (values, actions) => {
           //   const token =
