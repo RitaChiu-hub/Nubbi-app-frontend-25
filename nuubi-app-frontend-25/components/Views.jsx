@@ -79,6 +79,7 @@ import TooltipLabel from "./TooltipLabel";
 
 import CertificatesScreen from "./Certificates/CertificatesScreen";
 import sessionService from "../services/sessionService";
+import { subscribeGroupsTabUnread } from "../services/groupsUnreadTabBridge";
 
 const HomeDrawer = createDrawerNavigator();
 
@@ -1610,6 +1611,7 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   const [notifications, setNotifications] = React.useState(false);
+  const [groupsUnreadTab, setGroupsUnreadTab] = React.useState(false);
   const { user, setUser } = React.useContext(AccountContext);
   const { isLoggedIn, setIsLoggedIn } = React.useContext(AccountContext);
   // const [avatarInfo, setAvatarInfo] = React.useState(null);
@@ -1640,6 +1642,10 @@ const TabNavigator = () => {
       console.error("Error retrieving user from SecureStore", error);
     }
   };
+
+  React.useEffect(() => {
+    return subscribeGroupsTabUnread(setGroupsUnreadTab);
+  }, []);
 
   React.useEffect(() => {
     getLoginStatus();
@@ -1772,13 +1778,16 @@ const TabNavigator = () => {
             //   );
             case "MyGroupsStack":
               return (
-                <FontAwesome6
-                  name="user-group"
-                  style={{
-                    color: focused ? "#2482AA" : "#767676",
-                  }}
-                  size={24}
-                />
+                <View style={styles.iconContainer}>
+                  <FontAwesome6
+                    name="user-group"
+                    style={{
+                      color: focused ? "#2482AA" : "#767676",
+                    }}
+                    size={24}
+                  />
+                  {groupsUnreadTab && <View style={styles.redDot} />}
+                </View>
               );
             case "NotificationsStack":
               return (

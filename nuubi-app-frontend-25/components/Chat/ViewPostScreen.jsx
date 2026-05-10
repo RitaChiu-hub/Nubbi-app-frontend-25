@@ -32,6 +32,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "../../config";
 import sessionService from "../../services/sessionService";
 import { emitPostThreadViewed } from "../../services/postThreadViewedBridge";
+import { apiFetch } from "../../api/api";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -90,15 +91,31 @@ export default function ViewPostScreen({ navigation, route }) {
     }
   }
 
-  // Persists “last seen” for this thread
+  // Persists “last seen” locally and syncs to server so other devices / mygroups dots stay correct.
   async function markThreadViewed(groupId, threadPostId) {
+    const iso = new Date().toISOString();
     try {
       const viewed = await loadLastViewedPosts(groupId);
-      viewed[String(threadPostId)] = new Date().toISOString();
+      viewed[String(threadPostId)] = iso;
       await saveLastViewedPosts(groupId, viewed);
     } catch (error) {
       console.error("Error in markThreadViewed:", error);
       throw error;
+    }
+
+    try {
+      await apiFetch(`${API_URL}/groups/posts/markread`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify({
+          ...user,
+          post_id: threadPostId,
+          group_id: groupId,
+          last_viewed_at: iso,
+        }),
+      });
+    } catch (error) {
+      console.error("Error syncing post markread to server:", error?.message ?? error);
     }
   }
 

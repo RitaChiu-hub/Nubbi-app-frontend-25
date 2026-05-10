@@ -13,10 +13,11 @@ import {
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import socket from "../../socket";
-import { globalStyles } from "../../styles/global";
+import { globalStyles, nuubiColors } from "../../styles/global";
 import { useIsFocused } from "@react-navigation/native";
-import * as SecureStore from "expo-secure-store";
 import { navigationRef, resetToSignIn } from "../navRef";
+import { loadMergedLastViewedPosts } from "../../services/lastViewedPostsMerge";
+import { emitGroupsTabUnread } from "../../services/groupsUnreadTabBridge";
 
 export default function MyGroupsScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -30,18 +31,24 @@ export default function MyGroupsScreen({ navigation }) {
 
   const getGroups = async () => {
     try {
+      const lastViewedPosts = await loadMergedLastViewedPosts();
       const data = await apiFetch(`${API_URL}/groups/mygroups`, {
         method: "POST",
         credentials: "include",
-        body: JSON.stringify({ ...user }),
+        body: JSON.stringify({ ...user, lastViewedPosts }),
       });
 
-      if (!data) return;
+      if (!data) {
+        emitGroupsTabUnread(false);
+        return;
+      }
 
-      setGroups(data);
-      
+      const rows = Array.isArray(data) ? data : [];
+      setGroups(rows);
+      emitGroupsTabUnread(rows.some((g) => g.has_unread_activity));
     } catch (err) {
       console.error("getGroups error:", err.message);
+      emitGroupsTabUnread(false);
     }
   };
 
@@ -53,7 +60,13 @@ export default function MyGroupsScreen({ navigation }) {
     setSelectedTab("Groups");
   }, [user]);
 
-  const Item = ({ title, description, id, invitePasscode }) => (
+  const Item = ({
+    title,
+    description,
+    id,
+    invitePasscode,
+    hasUnreadActivity,
+  }) => (
     <View>
       <TouchableOpacity
         style={styles.groupItem}
@@ -80,7 +93,17 @@ export default function MyGroupsScreen({ navigation }) {
           // }
         }}
       >
-        <Text style={globalStyles.h3HeadingRegular}>{title}</Text>
+        <View style={styles.groupTitleRow}>
+          {hasUnreadActivity ? (
+            <View
+              style={styles.unreadDot}
+              accessibilityLabel="Unread post activity in this group"
+            />
+          ) : null}
+          <Text style={[globalStyles.h3HeadingRegular, styles.groupTitleText]}>
+            {title}
+          </Text>
+        </View>
         <Text style={globalStyles.bodyRegular}>{description}</Text>
       </TouchableOpacity>
     </View>
@@ -92,6 +115,7 @@ export default function MyGroupsScreen({ navigation }) {
       description={item.description}
       id={item.group_id}
       invitePasscode={item.invite_passcode}
+      hasUnreadActivity={!!item.has_unread_activity}
     />
   );
 
@@ -109,7 +133,7 @@ export default function MyGroupsScreen({ navigation }) {
       <FlatList
         data={groups}
         renderItem={renderItem}
-        keyExtractor={(item) => item.group_id}
+        keyExtractor={(item) => String(item.group_id)}
         style={{ flex: 1 }}
       />
       <View style={styles.buttonContainer}>
@@ -223,6 +247,23 @@ export default function MyGroupsScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  groupTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+  },
+  groupTitleText: {
+    flex: 1,
+    textAlign: "left",
+  },
+  unreadDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: nuubiColors.darkerRed,
+    flexShrink: 0,
+    marginRight: 10,
+  },
   groupItem: {
     alignItems: "flex-start",
     justifyContent: "center",
