@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   Platform,
   Dimensions,
+  Image,
 } from "react-native";
+import FAIcon from "@expo/vector-icons/FontAwesome";
 import { globalStyles } from "../../styles/global";
 const { addMessageSchema } = require("../validationSchema");
 import { AccountContext } from "../AccountContext";
@@ -220,6 +222,9 @@ export default function PostScreen({ navigation }) {
     isoTimeSent,
     point_total,
     number_comments,
+    image_url,
+    file_url,
+    file_name,
   }) => (
     <View>
       <TouchableOpacity
@@ -281,6 +286,9 @@ export default function PostScreen({ navigation }) {
             post_author: post_author,
             isoTimeSent: isoTimeSent,
             number_comments: number_comments,
+            image_url: image_url,
+            file_url: file_url,
+            file_name: file_name,
           }),
             //   navigation.push("ViewPost", { currentPost: id });
             //  navigation.navigate("ViewPost", { currentPost: id });
@@ -293,38 +301,50 @@ export default function PostScreen({ navigation }) {
             });
         }}
       >
-        <View style={{ paddingHorizontal: 1 }}>
-          <Text
-            style={{
-              color: "#050505",
-              fontSize: 18,
-              fontFamily: "Poppins_600SemiBold",
-              flexShrink: 1,
-              flexWrap: "wrap",
-              maxWidth:
-                deviceWidth > 500 ? deviceWidth * 0.7 : deviceWidth * 0.8,
-            }}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {title}
-          </Text>
-          <Text
-            style={{
-              color: "#050505",
-              fontSize: 18,
-              fontFamily: "Poppins_600SemiBold",
-            }}
-          >
-            {title}
-          </Text>
-          <Text
-            style={globalStyles.bodyRegular}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {post_author}: {body}
-          </Text>
+        <View style={{ paddingHorizontal: 1, flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+          <View style={{ flex: 1, paddingRight: image_url ? 10 : 0 }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text
+                style={{
+                  color: "#050505",
+                  fontSize: 18,
+                  fontFamily: "Poppins_600SemiBold",
+                  flexShrink: 1,
+                  flexWrap: "wrap",
+                  maxWidth:
+                    deviceWidth > 500 ? deviceWidth * 0.6 : deviceWidth * 0.7,
+                }}
+                numberOfLines={2}
+                ellipsizeMode="tail"
+              >
+                {title}
+              </Text>
+              {file_url && (
+                <View style={{ marginLeft: 8 }}>
+                  <FAIcon name="file" size={16} color="#2482AA" />
+                </View>
+              )}
+            </View>
+            <Text
+              style={globalStyles.bodyRegular}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
+              {post_author}: {body}
+            </Text>
+          </View>
+          {image_url && (
+            <Image
+              source={{ uri: image_url }}
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: 8,
+                backgroundColor: "#eee",
+              }}
+              resizeMode="cover"
+            />
+          )}
         </View>
         <View style={{ paddingVertical: 2 }}></View>
         <Text style={globalStyles.bodyRegular}>
@@ -345,6 +365,9 @@ export default function PostScreen({ navigation }) {
       isoTimeSent={item.created_at}
       point_total={item.point_total}
       number_comments={item.number_comments}
+      image_url={item.image_url}
+      file_url={item.file_url}
+      file_name={item.file_name}
     />
   );
 
@@ -357,25 +380,23 @@ export default function PostScreen({ navigation }) {
         backgroundColor: "#fbfbfb",
       }}
     >
-      {!loading ? (
-        <FlatList
-          data={posts}
-          renderItem={renderItem}
-          keyExtractor={(item) => String(item.post_id)}
-        />
-      ) : (
-        <Text>Loading your group threads...</Text>
-      )}
       <FlatList
         data={posts}
         renderItem={renderItem}
         keyExtractor={(item) => String(item.post_id)}
         ListEmptyComponent={
-          !loading ? <Text style={{ margin: 16 }}>No posts yet.</Text> : null
+          !loading ? (
+            <Text style={{ margin: 16 }}>No posts yet.</Text>
+          ) : (
+            <Text style={{ margin: 16 }}>Loading your group threads...</Text>
+          )
         }
       />
 
-      {loading && <Text style={{ margin: 16 }}>Refreshing…</Text>}
+      {loading && posts.length > 0 && (
+        <Text style={{ margin: 16, textAlign: "center" }}>Refreshing…</Text>
+      )}
+      
       <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
           style={globalStyles.primaryButtonWide}

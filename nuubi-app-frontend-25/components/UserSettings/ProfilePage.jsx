@@ -7,6 +7,8 @@ import {
   ScrollView,
   Image,
   Platform,
+  ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import { globalStyles } from "../../styles/global";
 import * as ImagePicker from "expo-image-picker";
@@ -16,49 +18,60 @@ import { useAssets } from "expo-asset";
 import FeatherIcon from "@expo/vector-icons/FontAwesome6";
 import * as SecureStore from "expo-secure-store";
 
-const cloudName = "dvvdc9evd";
-const apiKey = "971765162862783";
-
-
 export default function ProfilePageScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [error, setError] = React.useState(null);
   const [pickedImage, setPickedImage] = React.useState(null);
-  const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [avatarInfo, setAvatarInfo] = React.useState(null);
   const [userPoints, setUserPoints] = React.useState(0);
   const [myUsername, setMyUsername] = React.useState("");
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <Text style={globalStyles.h3HeadingWhite}>Profile</Text>
-      ),
-      headerTitleAlign: "center",
-    });
-  }, [navigation]);
+  const [loading, setLoading] = React.useState(false);
 
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
-  const getUserPoints = async () => {
-    const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token");
+  const getS3PresignedUrl = async (fileName, fileType) => {
+    const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
+    const response = await fetch(`${API_URL}/file/s3-presigned-url`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ fileName, fileType }),
+    });
+    if (!response.ok) throw new Error("Failed to get S3 presigned URL");
+    return await response.json();
+  };
 
+  const uploadToS3 = async (fileUri, fileName, fileType) => {
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getuserpoints`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const { uploadUrl, fileUrl } = await getS3PresignedUrl(fileName, fileType);
+      const response = await fetch(fileUri);
+      const blob = await response.blob();
+      const uploadResponse = await fetch(uploadUrl, {
+        method: "PUT",
+        body: blob,
+        headers: { "Content-Type": fileType },
+      });
+      if (!uploadResponse.ok) throw new Error("Failed to upload to S3");
+      return fileUrl;
+    } catch (error) {
+      console.error("S3 Upload Error:", error);
+      throw error;
+    }
+  };
+
+  const getUserPoints = async () => {
+    const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
+    try {
+      const response = await fetch(`${API_URL}/groups/getuserpoints`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setUserPoints(jsonData.userPoints);
       setMyUsername(jsonData.username);
@@ -67,29 +80,17 @@ export default function ProfilePageScreen({ navigation }) {
     }
   };
 
-  React.useEffect(() => {
-    getUserPoints();
-  }, []);
-
   const getUserAvatar = async () => {
-    const token =
-      Platform.OS !== "web"
-        ? await SecureStore.getItemAsync("token")
-        : sessionStorage.getItem("token");
-
+    const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/settings/getuseravatar`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`${API_URL}/settings/getuseravatar`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setAvatarInfo(jsonData.avatar_url);
     } catch (err) {
@@ -103,16 +104,9 @@ export default function ProfilePageScreen({ navigation }) {
       [{ resize: { width: imageInfo.width * resizeAmount } }],
       { compress: 0.7, format: "jpeg", base64: true }
     );
-
-    setPickedImage({
-      uri: resizedPhoto.uri,
-      base64: resizedPhoto.base64,
-    });
-
+    setPickedImage({ uri: resizedPhoto.uri, base64: resizedPhoto.base64 });
     const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
-    if (fileImg.size > 10400000) {
-      resizeImage(imageInfo, resizeAmount * 0.5);
-    }
+    if (fileImg.size > 10400000) resizeImage(imageInfo, resizeAmount * 0.5);
   };
 
   const pickImage = async () => {
@@ -129,16 +123,45 @@ export default function ProfilePageScreen({ navigation }) {
         base64: result.assets[0].base64,
         width: result.assets[0].width,
       });
-
-      if (result.assets[0].fileSize > 10400000) {
-        resizeImage(result.assets[0], 0.5);
-      }
+      if (result.assets[0].fileSize > 10400000) resizeImage(result.assets[0], 0.5);
     }
   };
 
-  const resetImage = () => {
-    setPickedImage(null);
+  const resetImage = () => setPickedImage(null);
+
+  const saveAvatar = async () => {
+    setLoading(true);
+    try {
+      const fileName = `avatar-${user.id}-${Date.now()}.jpg`;
+      const imageUrl = await uploadToS3(pickedImage.uri, fileName, "image/jpeg");
+      
+      const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
+      const res = await fetch(`${API_URL}/settings/updateavatar`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user, imageUrl }),
+      });
+
+      if (!res.ok) throw new Error("Avatar update failed");
+      const data = await res.json();
+      setUser({ ...data });
+      setPickedImage(null);
+      if (data.status) setError(data.status);
+    } catch (error) {
+      console.error(error);
+      setError("Error updating avatar");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  React.useEffect(() => {
+    getUserPoints();
+    getUserAvatar();
+  }, []);
 
   React.useEffect(() => {
     getUserAvatar();
@@ -152,297 +175,73 @@ export default function ProfilePageScreen({ navigation }) {
     });
   }, [navigation]);
 
-  const handleNavigation = (navRoute, label) => {
-    if (navRoute === "" || !navRoute) {
-    } else if (navRoute == "comingSoonAlert") {
-      alert("Feature coming soon!");
-    } else {
-      navigation.navigate(navRoute);
-    }
-  };
-
   return (
-    <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#fbfbfb",
-          alignItems: "center",
-          marginTop: 12,
-        }}
-      >
-        <Text style={globalStyles.captionError}>{error}</Text>
-        <View>
-          {avatarInfo !== null && pickedImage === null ? (
-            <Image
-              style={globalStyles.roundImageContainer}
-              source={{ uri: avatarInfo }}
-            />
-          ) : pickedImage !== null ? (
-            <Image
-              style={globalStyles.roundImageContainer}
-              source={{ uri: pickedImage.uri }}
-            />
-          ) : (
-            <Image
-              style={globalStyles.roundImageContainer}
-              source={
-                Platform.OS == "web"
-                  ? require("../../assets/defaultAvatar.png")
-                  : assets1[0]
-              }
-            />
-          )}
+    <View style={{ flex: 1 }}>
+      {loading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color="#fff" />
         </View>
+      )}
+      <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
+        <View style={styles.container}>
+          <Text style={globalStyles.captionError}>{error}</Text>
+          <View>
+            {avatarInfo !== null && pickedImage === null ? (
+              <Image style={globalStyles.roundImageContainer} source={{ uri: avatarInfo }} />
+            ) : pickedImage !== null ? (
+              <Image style={globalStyles.roundImageContainer} source={{ uri: pickedImage.uri }} />
+            ) : (
+              <Image
+                style={globalStyles.roundImageContainer}
+                source={Platform.OS == "web" ? require("../../assets/defaultAvatar.png") : assets1[0]}
+              />
+            )}
+          </View>
 
-        <Text style={[globalStyles.h2HeadingMedium, { textAlign: "center" }]}>
-          Hi {myUsername}!
-        </Text>
-        <Text style={[globalStyles.bodyRegular, { marginBottom: 20 }]}>
-          You have {userPoints} total points 🎉
-        </Text>
-        <View style={globalStyles.widthContainer}>
-          <View style={globalStyles.sectionBody}>
-            <View>
+          <Text style={[globalStyles.h2HeadingMedium, { textAlign: "center" }]}>Hi {myUsername}!</Text>
+          <Text style={[globalStyles.bodyRegular, { marginBottom: 20 }]}>You have {userPoints} total points 🎉</Text>
+          
+          <View style={globalStyles.widthContainer}>
+            <View style={globalStyles.sectionBody}>
               <View style={[globalStyles.rowWrapper, globalStyles.rowFirst]}>
-                {pickedImage !== null ? (
-                  <TouchableOpacity
-                    onPress={resetImage}
-                    style={globalStyles.row}
-                  >
-                    <View style={[globalStyles.row]}>
-                      <FeatherIcon
-                        color="#616161"
-                        solid
-                        name="user-xmark"
-                        style={globalStyles.rowIcon}
-                        size={22}
-                      />
-                      <Text style={globalStyles.headingTextRows}>
-                        Cancel Update
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={pickImage}
-                    style={globalStyles.row}
-                  >
-                    <View style={[globalStyles.row]}>
-                      <FeatherIcon
-                        color="#616161"
-                        solid
-                        name="user-pen"
-                        style={globalStyles.rowIcon}
-                        size={22}
-                      />
-                      <Text style={globalStyles.headingTextRows}>
-                        Update Avatar
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                )}
+                <TouchableOpacity onPress={pickedImage ? resetImage : pickImage} style={globalStyles.row}>
+                  <View style={globalStyles.row}>
+                    <FeatherIcon color="#616161" solid name={pickedImage ? "user-xmark" : "user-pen"} style={globalStyles.rowIcon} size={22} />
+                    <Text style={globalStyles.headingTextRows}>{pickedImage ? "Cancel Update" : "Update Avatar"}</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-              {/* 
-            <TouchableOpacity
-              onPress={() => {
-                fetch(
-                  `${API_URL}/settings/deleteavatar`,
-                  {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ ...user }),
-                  }
-                )
-                  .catch((err) => {
-                    return;
-                  })
-                  .then((res) => {
-                    if (!res || !res.ok || res.status >= 400) {
-                      return;
-                    }
-                    return res.json();
-                  })
-                  .then((data) => {
-                    if (!data) return;
-                    setUser({ ...data });
-                    if (data.status) {
-                      setError(data.status);
-                    }
-                  });
-              }}
-              style={[globalStyles.secondaryButton, {width: "45%"}]}
-            >
-              <Text style={globalStyles.secondaryButtonText}>
-                Delete Avatar
-              </Text>
-            </TouchableOpacity> */}
 
-              {pickedImage !== null ? (
+              {pickedImage && (
                 <View style={globalStyles.rowWrapper}>
-                  <TouchableOpacity
-                    style={globalStyles.row}
-                    onPress={() => {
-                      // upload the pickedimage to cloudinary
-
-                      // get the secure_url from cloudinary
-                      // send the secure_url and user id to the backend and store in the database
-
-                      // upload image to cloudinary
-                      let base64Img = `data:image/jpg;base64,${pickedImage.base64}`;
-
-                      //Add your cloud name
-                      let apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-                      let data = {
-                        file: base64Img,
-                        upload_preset: "ehsnm9es",
-                        api_key: apiKey,
-                      };
-
-                      fetch(apiUrl, {
-                        body: JSON.stringify(data),
-                        headers: {
-                          "content-type": "application/json",
-                        },
-                        method: "POST",
-                      })
-                        .then(async (r) => {
-                          let data = await r.json();
-                          setImageUploadInfo({ ...data });
-                          let uploadUrl = data["secure_url"];
-                          const vals = { imageUrl: uploadUrl };
-                          const token =
-                            Platform.OS !== "web"
-                              ? await SecureStore.getItemAsync("token")
-                              : null; // Get token only on mobile
-
-                          fetch(
-                            `${API_URL}/settings/updateavatar`,
-                            {
-                              method: "POST",
-                              credentials: "include",
-                              headers: {
-                                "Content-Type": "application/json",
-                                ...(token
-                                  ? { Authorization: `Bearer ${token}` }
-                                  : {}),
-                              },
-                              body: JSON.stringify({ ...user, ...vals }),
-                            }
-                          )
-                            .catch((err) => {
-                              return;
-                            })
-                            .then((res) => {
-                              if (!res || !res.ok || res.status >= 400) {
-                                return;
-                              }
-                              return res.json();
-                            })
-                            .then((data) => {
-                              if (!data) return;
-                              setUser({ ...data });
-                              setPickedImage(null);
-                              if (data.status) {
-                                setError(data.status);
-                              }
-                            });
-                          return data["secure_url"];
-                        })
-                        .catch((err) => console.log(err));
-                    }}
-                  >
-                    <View style={[globalStyles.row]}>
-                      <FeatherIcon
-                        color="#616161"
-                        solid
-                        name="user-lock"
-                        style={globalStyles.rowIcon}
-                        size={22}
-                      />
-                      <Text style={globalStyles.headingTextRows}>
-                        Save Avatar
-                      </Text>
+                  <TouchableOpacity style={globalStyles.row} onPress={saveAvatar}>
+                    <View style={globalStyles.row}>
+                      <FeatherIcon color="#616161" solid name="user-lock" style={globalStyles.rowIcon} size={22} />
+                      <Text style={globalStyles.headingTextRows}>Save Avatar</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
-              ) : null}
-            </View>
+              )}
 
-            {/* <View style={globalStyles.rowWrapper}>
-              <TouchableOpacity
-                style={globalStyles.row}
-                onPress={() => navigation.navigate("OverallAchievements")}
-              >
-                <View style={[globalStyles.row]}>
-                  <FeatherIcon
-                    color="#616161"
-                    solid
-                    name="trophy"
-                    style={globalStyles.rowIcon}
-                    size={22}
-                  />
-                  <Text style={globalStyles.headingTextRows}>Achievements</Text>
-                </View>
-                <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
-              </TouchableOpacity>
-            </View> */}
-
-            <View style={globalStyles.rowWrapper}>
-              <TouchableOpacity
-                style={globalStyles.row}
-                onPress={() => navigation.navigate("FeedbackScreen")}
-              >
-                <View style={[globalStyles.row]}>
-                  <FeatherIcon
-                    color="#616161"
-                    solid
-                    name="paper-plane"
-                    style={globalStyles.rowIcon}
-                    size={22}
-                  />
+              <TouchableOpacity style={globalStyles.rowWrapper} onPress={() => navigation.navigate("FeedbackScreen")}>
+                <View style={globalStyles.row}>
+                  <FeatherIcon color="#616161" solid name="paper-plane" style={globalStyles.rowIcon} size={22} />
                   <Text style={globalStyles.headingTextRows}>Contact Us</Text>
                 </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
-            </View>
 
-            <View style={globalStyles.rowWrapper}>
-              <TouchableOpacity
-                style={globalStyles.row}
-                onPress={() => navigation.navigate("HelpLoggedIn")}
-              >
-                <View style={[globalStyles.row]}>
-                  <FeatherIcon
-                    color="#616161"
-                    solid
-                    name="circle-question"
-                    style={globalStyles.rowIcon}
-                    size={22}
-                  />
+              <TouchableOpacity style={globalStyles.rowWrapper} onPress={() => navigation.navigate("HelpLoggedIn")}>
+                <View style={globalStyles.row}>
+                  <FeatherIcon color="#616161" solid name="circle-question" style={globalStyles.rowIcon} size={22} />
                   <Text style={globalStyles.headingTextRows}>Nuubi FAQ</Text>
                 </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
               </TouchableOpacity>
-            </View>
 
-            <View style={[globalStyles.rowWrapper, globalStyles.rowLast]}>
-              <TouchableOpacity
-                style={globalStyles.row}
-                onPress={() => navigation.navigate("Settings")}
-              >
-                <View style={[globalStyles.row]}>
-                  <FeatherIcon
-                    color="#616161"
-                    solid
-                    name="gear"
-                    style={globalStyles.rowIcon}
-                    size={22}
-                  />
+              <TouchableOpacity style={[globalStyles.rowWrapper, globalStyles.rowLast]} onPress={() => navigation.navigate("Settings")}>
+                <View style={globalStyles.row}>
+                  <FeatherIcon color="#616161" solid name="gear" style={globalStyles.rowIcon} size={22} />
                   <Text style={globalStyles.headingTextRows}>Settings</Text>
                 </View>
                 <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
@@ -450,7 +249,18 @@ export default function ProfilePageScreen({ navigation }) {
             </View>
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 999,
+  },
+  container: { flex: 1, backgroundColor: "#fbfbfb", alignItems: "center", marginTop: 12 },
+});

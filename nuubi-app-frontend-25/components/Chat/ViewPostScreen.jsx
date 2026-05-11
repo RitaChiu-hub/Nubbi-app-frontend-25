@@ -66,7 +66,7 @@ export default function ViewPostScreen({ navigation, route }) {
 
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
-  const getPostLiked = async () => {
+  const getPostLiked = async (id, signal) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
@@ -81,17 +81,18 @@ export default function ViewPostScreen({ navigation, route }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify({ ...user }),
+          body: JSON.stringify({ ...user, currentPost: id }),
+          signal,
         }
       );
       const jsonData = await response.json();
       setPostLiked(jsonData);
     } catch (err) {
-      console.error(err.message);
+      if (err.name !== "AbortError") console.error(err.message);
     }
   };
 
-  const getLikes = async () => {
+  const getLikes = async (signal) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
@@ -107,6 +108,7 @@ export default function ViewPostScreen({ navigation, route }) {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
+          signal,
         }
       );
       const jsonData = await response.json();
@@ -116,11 +118,11 @@ export default function ViewPostScreen({ navigation, route }) {
           : [];
       setLikes(myLikes);
     } catch (err) {
-      console.error(err.message);
+      if (err.name !== "AbortError") console.error(err.message);
     }
   };
 
-  const getPostInfo = async () => {
+  const getPostInfo = async (id, signal) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
@@ -135,7 +137,8 @@ export default function ViewPostScreen({ navigation, route }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify({ ...user }),
+          body: JSON.stringify({ ...user, currentPost: id }),
+          signal,
         }
       );
       const jsonData = await response.json();
@@ -143,41 +146,49 @@ export default function ViewPostScreen({ navigation, route }) {
         ...jsonData,
         file_name: jsonData.file_name || null,
       });
-      if (jsonData.file_url !== null) {
-        const parts = jsonData.file_url.split("upload/");
-        const jpgPart2 = parts[2].split("pdf");
-        setPreviewUrl(
-          parts[0] +
-            "upload/pg_1,q_100/" +
-            parts[1] +
-            "upload/" +
-            jpgPart2[0] +
-            "jpg"
-        );
 
-        //  const totalPages = 3; // Change this to the total number of pages in your PDF
-        const totalPages = jsonData.filePages;
-        const urls = [];
-        for (let i = 1; i <= totalPages; i++) {
-          urls.push(
-            parts[0] +
-              `upload/pg_${i},q_100/` +
-              parts[1] +
-              "upload/" +
-              jpgPart2[0] +
-              "jpg"
-          );
+      // ☁️ 只有当是 Cloudinary 的 PDF 时才尝试生成预览图
+      if (jsonData.file_url && jsonData.file_url.includes("cloudinary.com") && jsonData.file_url.includes(".pdf")) {
+        try {
+          const parts = jsonData.file_url.split("upload/");
+          if (parts.length >= 3) {
+            const jpgPart2 = parts[2].split("pdf");
+            setPreviewUrl(
+              parts[0] +
+                "upload/pg_1,q_100/" +
+                parts[1] +
+                "upload/" +
+                jpgPart2[0] +
+                "jpg"
+            );
+
+            const totalPages = jsonData.filePages || 1;
+            const urls = [];
+            for (let i = 1; i <= totalPages; i++) {
+              urls.push(
+                parts[0] +
+                  `upload/pg_${i},q_100/` +
+                  parts[1] +
+                  "upload/" +
+                  jpgPart2[0] +
+                  "jpg"
+              );
+            }
+            setPreviewUrls(urls);
+          }
+        } catch (previewErr) {
+          console.error("Error generating PDF preview:", previewErr);
         }
-        setPreviewUrls(urls);
       } else {
-        null;
+        setPreviewUrl(null);
+        setPreviewUrls([]);
       }
     } catch (err) {
-      console.error(err.message);
+      if (err.name !== "AbortError") console.error("Error fetching post info:", err.message);
     }
   };
 
-  const getPostPoints = async () => {
+  const getPostPoints = async (id, signal) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
@@ -192,26 +203,26 @@ export default function ViewPostScreen({ navigation, route }) {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
-          body: JSON.stringify({ ...user }),
+          body: JSON.stringify({ ...user, currentPost: id }),
+          signal,
         }
       );
       const jsonData = await response.json();
       setPostPoints(jsonData);
     } catch (err) {
-      console.error(err.message);
+      if (err.name !== "AbortError") console.error(err.message);
     }
   };
 
-  const getComments = async () => {
+  const getComments = async (id, signal) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
-    const vals = { ...user, currentPost: route.params.currentPost };
+    const vals = { ...user, currentPost: id };
     try {
       const response = await fetch(
         `${API_URL}/groups/getpostcomments`,
-        //  `${API_URL}/groups/getpostcomments`,
         {
           method: "POST",
           credentials: "include",
@@ -220,6 +231,7 @@ export default function ViewPostScreen({ navigation, route }) {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...vals }),
+          signal,
         }
       );
       const jsonData = await response.json();
@@ -227,10 +239,9 @@ export default function ViewPostScreen({ navigation, route }) {
         (a, b) =>
           new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
       );
-      //   console.log("COMMENTS:", JSON.stringify(jsonData, null, 2));
       setComments(jsonData);
     } catch (err) {
-      console.error(err.message);
+      if (err.name !== "AbortError") console.error(err.message);
     }
   };
 
@@ -241,7 +252,7 @@ export default function ViewPostScreen({ navigation, route }) {
     default: "Courier",
   });
 
-  const getUserPoints = async () => {
+  const getUserPoints = async (signal) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
@@ -257,12 +268,13 @@ export default function ViewPostScreen({ navigation, route }) {
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
           },
           body: JSON.stringify({ ...user }),
+          signal,
         }
       );
       const jsonData = await response.json();
       setMyUsername(jsonData.username);
     } catch (err) {
-      console.error(err.message);
+      if (err.name !== "AbortError") console.error(err.message);
     }
   };
 
@@ -741,22 +753,23 @@ export default function ViewPostScreen({ navigation, route }) {
               </View>
               {/* </Text> */}
               <View style={{ justifyContent: "center", alignItems: "center" }}>
-                {postInfo.image_url === null ? null : (
+                {postInfo.image_url && postInfo.image_url !== "" ? (
                   <Image
                     style={{
                       borderRadius: 10,
-                      width: 250,
-                      height: 250,
+                      width: deviceWidth > 500 ? 400 : 250,
+                      height: deviceWidth > 500 ? 400 : 250,
                       justifyContent: "center",
                       alignItems: "center",
                       marginVertical: 10,
                     }}
                     source={{ uri: postInfo.image_url }}
+                    resizeMode="contain"
                   />
-                )}
+                ) : null}
               </View>
 
-              {postInfo.file_url && (
+              {postInfo.file_url && postInfo.file_url !== "" && (
                 <View
                   style={{
                     flexDirection: "row",
@@ -829,6 +842,8 @@ export default function ViewPostScreen({ navigation, route }) {
                         post_body: postInfo.body_text,
                         post_author: postInfo.post_author,
                         image_url: postInfo.image_url,
+                        file_url: postInfo.file_url,
+                        file_name: postInfo.file_name,
                       }),
                         navigation.navigate("EditPost");
                     }}
