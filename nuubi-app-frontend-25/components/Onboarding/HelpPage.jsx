@@ -78,7 +78,7 @@ export default function HelpScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <ScrollView style={{ backgroundColor: "#fbfbfb", padding: 16 }}>
+    <ScrollView role="main" aria-label="Nuubi FAQ main content" style={{ backgroundColor: "#fbfbfb", padding: 16 }}>
       {/* GENERAL QUESTIONS */}
       <Section
         title="What is Nuubi?"

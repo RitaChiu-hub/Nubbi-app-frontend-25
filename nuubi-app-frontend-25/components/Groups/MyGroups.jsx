@@ -105,7 +105,7 @@ export default function MyGroupsScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1, paddingTop: 8, backgroundColor: "#fbfbfb" }}>
+    <View role="main" aria-label="My Groups main content" style={{ flex: 1, paddingTop: 8, backgroundColor: "#fbfbfb" }}>
       <FlatList
         data={groups}
         renderItem={renderItem}

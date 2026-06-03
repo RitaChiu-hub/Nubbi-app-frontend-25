@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigationState } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerToggleButton } from "@react-navigation/drawer"; // Import DrawerToggleButton to reuse React Navigation's default drawer menu button in the custom web header.
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -80,18 +80,67 @@ import TooltipLabel from "./TooltipLabel";
 import CertificatesScreen from "./Certificates/CertificatesScreen";
 import sessionService from "../services/sessionService";
 
+
 const HomeDrawer = createDrawerNavigator();
 
+// Custom drawer header for web accessibility.
+// This replaces the default React Navigation header so we can label it as a banner landmark for screen readers.
+function WebDrawerHeader({ route, options }) {
+  const title = options.title || route.name;
+  return (
+    <View
+    role="banner"
+    aria-label="Page header"
+    style={{
+      height: 64,
+      width: "100%",
+      backgroundColor: "#2482AA",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "relative",
+      borderBottomWidth: 1,
+      borderBottomColor: "rgb(216, 216, 216)",
+    }}
+    >
+      <View
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: 56,
+          height: 64,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <DrawerToggleButton tintColor="#fbfbfb" />
+      </View>
+
+      <Text
+        role="heading"
+        aria-level={1}
+        style={{
+          color: "#fbfbfb",
+          fontFamily: "Poppins_600SemiBold",
+          fontSize: 18,
+          fontWeight: "600",
+          textAlign: "center",
+        }}
+      >
+        {title}
+      </Text>
+    </View>
+    );
+  }
+ 
 function HomeDrawerNavigator() {
   return (
     <HomeDrawer.Navigator
       backBehavior="history"
       screenOptions={{
         headerBackTitleVisible: false,
-        headerStyle: {
-          backgroundColor: "#2482AA",
-        },
-        headerTintColor: "#fbfbfb",
+        header: (props) => <WebDrawerHeader {...props} />,   // Use a custom header so the web app has an ARIA banner landmark          
       }}
     >
       {/* <HomeDrawer.Screen
@@ -425,7 +474,7 @@ function HomeDrawerNavigator() {
             fontFamily: "Poppins_500Medium",
           },
           drawerActiveTintColor: "#2482AA",
-          headerTitle: "Profile", // Use a simple title for the header
+          headerTitle: "Nuubi FAQ", // Use a simple title for the header
         }}
       />
 
