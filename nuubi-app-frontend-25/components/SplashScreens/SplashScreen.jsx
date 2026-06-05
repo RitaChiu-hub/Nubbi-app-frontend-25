@@ -159,6 +159,8 @@ export default function SplashScreen({ navigation }) {
 
       {/* HEADER */}
       <View
+        role="banner"
+        aria-label="Welcome page header"
         style={{
           flex: 1,
           flexDirection: "row",
@@ -233,7 +235,11 @@ export default function SplashScreen({ navigation }) {
           />
         </View>
       </View>
-
+    {/* MAIN CONTENT */}
+    <View
+      role="main"
+      aria-label="Welcome page main content"
+    ></View>
       {/* MAIN CONTENT WRAPPER */}
       <View
         style={{

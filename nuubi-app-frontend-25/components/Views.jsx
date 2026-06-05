@@ -140,7 +140,17 @@ function HomeDrawerNavigator() {
       backBehavior="history"
       screenOptions={{
         headerBackTitleVisible: false,
-        header: (props) => <WebDrawerHeader {...props} />,   // Use a custom header so the web app has an ARIA banner landmark          
+        header: (props) => <WebDrawerHeader {...props} />,   // Use a custom header so the web app has an ARIA banner landmark.
+        drawerActiveTintColor: "#2482AA",
+        drawerActiveBackgroundColor: "#DDEFF6",
+        drawerInactiveTintColor: "#292929",
+        drawerItemStyle: {
+          borderRadius: 28,
+        },
+        drawerLabelStyle: {
+          fontFamily: "Poppins_500Medium",
+          fontSize: 18,
+        },
       }}
     >
       {/* <HomeDrawer.Screen
@@ -474,7 +484,9 @@ function HomeDrawerNavigator() {
             fontFamily: "Poppins_500Medium",
           },
           drawerActiveTintColor: "#2482AA",
-          headerTitle: "Nuubi FAQ", // Use a simple title for the header
+           // Provide a simple string title for the custom header.
+           // The custom header reads options.title and renders it as the page heading.
+          title: "Nuubi FAQ", // Use a simple title for the header
         }}
       />
 
