@@ -1,13 +1,15 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 import { API_URL } from "../config";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigationState } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator, DrawerToggleButton } from "@react-navigation/drawer"; // Import DrawerToggleButton to reuse React Navigation's default drawer menu button in the custom web header.
+// Import DrawerToggleButton to reuse React Navigation's default drawer menu button in the custom web header. 
+// Import drawer content helpers to add web focus containment for the drawer.
+import { createDrawerNavigator, DrawerToggleButton, DrawerContentScrollView, DrawerItemList, useDrawerStatus } from "@react-navigation/drawer"; 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer, DrawerActions } from "@react-navigation/native"; // Import DrawerActions so the drawer can close with the Escape key.
 import { FontAwesome6 } from "@expo/vector-icons";
 
 import { Image, Platform, StyleSheet, View, Text } from "react-native";
@@ -132,25 +134,120 @@ function WebDrawerHeader({ route, options }) {
       </Text>
     </View>
     );
-  }
- 
+}
+// Custom drawer content for web focus management.
+// When the drawer is open, keyboard focus stays within the drawer navigation
+// instead of moving to the dimmed background content.
+function FocusTrapDrawerContent(props) {
+  const drawerRef = useRef(null); // Reference to the drawer navigation container so we can check whether focus is inside it.
+  const drawerStatus = useDrawerStatus(); // Track whether the drawer is currently open or closed.
+
+  useEffect(() => {
+    // Only apply focus trapping on web while the drawer is open.
+    if (Platform.OS !== "web" || drawerStatus !== "open") return; 
+
+    const drawerNode = drawerRef.current;
+    if (!drawerNode || typeof document === "undefined") return;
+
+    // Select all keyboard-focusable elements inside the drawer.
+    const focusableSelector =
+      'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'; 
+
+    // Get only visible and enabled focusable elements in the drawer.
+    const getFocusableElements = () =>
+      Array.from(drawerNode.querySelectorAll(focusableSelector)).filter(
+        (element) =>
+          !element.disabled &&
+          element.getAttribute("aria-hidden") !== "true" &&
+          element.offsetParent !== null
+      );
+
+    // Move focus to the first focusable drawer item.
+    const focusFirstElement = () => {
+      const focusableElements = getFocusableElements();
+      focusableElements[0]?.focus();
+    };
+
+    // Move focus to the last focusable drawer item.
+    const focusLastElement = () => {
+      const focusableElements = getFocusableElements();
+      focusableElements[focusableElements.length - 1]?.focus();
+    };
+
+    // Handle keyboard navigation while the drawer is open.
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        props.navigation.dispatch(DrawerActions.closeDrawer());
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      const activeElement = document.activeElement;
+
+      // If Shift+Tab is pressed on the first drawer item, loop focus to the last item.
+      if (event.shiftKey && activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+        return;
+      }
+
+      // If Tab is pressed on the last drawer item, loop focus back to the first item.
+      if (!event.shiftKey && activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    // If focus moves outside the open drawer, bring it back to the drawer.
+    const handleFocusIn = (event) => {
+      if (!drawerNode.contains(event.target)) {
+        event.preventDefault();
+        focusFirstElement();
+      }
+    };
+
+    // Move focus into the drawer after it opens.
+    setTimeout(focusFirstElement, 0);
+
+    // Use capture phase so we can catch focus before it stays on background content.
+    document.addEventListener("keydown", handleKeyDown, true);
+    document.addEventListener("focusin", handleFocusIn, true);
+
+    // Remove listeners when the drawer closes or the component unmounts.
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown, true);
+      document.removeEventListener("focusin", handleFocusIn, true);
+    };
+  }, [drawerStatus, props.navigation]);
+
+  return (
+    <DrawerContentScrollView {...props}>
+      <View
+        ref={drawerRef}
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        {/* Render the original React Navigation drawer items inside the focus-managed container. */}
+        <DrawerItemList {...props} />
+      </View>
+    </DrawerContentScrollView>
+  );
+}
+
 function HomeDrawerNavigator() {
   return (
     <HomeDrawer.Navigator
       backBehavior="history"
+      drawerContent={(props) => <FocusTrapDrawerContent {...props} />} // Keep keyboard focus inside the open drawer on web.
       screenOptions={{
         headerBackTitleVisible: false,
         header: (props) => <WebDrawerHeader {...props} />,   // Use a custom header so the web app has an ARIA banner landmark.
-        drawerActiveTintColor: "#2482AA",
-        drawerActiveBackgroundColor: "#DDEFF6",
-        drawerInactiveTintColor: "#292929",
-        drawerItemStyle: {
-          borderRadius: 28,
-        },
-        drawerLabelStyle: {
-          fontFamily: "Poppins_500Medium",
-          fontSize: 18,
-        },
       }}
     >
       {/* <HomeDrawer.Screen
