@@ -211,7 +211,7 @@ export default function CreatePostScreen({ navigation }) {
                     value={props.values.title}
                   />
                   <ErrorMessage name="title" render={msg => <Text style={globalStyles.captionError}>{msg}</Text>} />
-                  
+
                   <Text style={globalStyles.textInputLabel}>Post</Text>
                   <View style={globalStyles.postContainer}>
                     <TextInput
@@ -221,6 +221,14 @@ export default function CreatePostScreen({ navigation }) {
                       onChangeText={props.handleChange("body_text")}
                       value={props.values.body_text}
                     />
+                    {props.values.body_text.match(/(https?:\/\/[^\s]+)/g) && (
+                      <Text style={{ fontSize: 12, color: "#888", marginTop: 6, marginBottom: 2 }}>
+                        {" "}Link detected:{" "}
+                        <Text style={{ color: "#2482AA", textDecorationLine: "underline" }}>
+                          {props.values.body_text.match(/(https?:\/\/[^\s]+)/g)[0]}
+                        </Text>
+                      </Text>
+                    )}
                     {pickedImage && <Image style={globalStyles.squareImageContainer} source={{ uri: pickedImage.uri }} />}
                     {pickedFile && <Text style={globalStyles.captionError}>{pickedFile.name}</Text>}
                   </View>
@@ -231,7 +239,7 @@ export default function CreatePostScreen({ navigation }) {
                       <MaterialIcon name={pickedImage ? "no-photography" : "add-a-photo"} size={30} color="#fff" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={pickedFile ? resetFile : pickFile} style={styles.iconButton}>
-                      <MaterialIcon name={pickedFile ? "edit-document" : "document-attach"} size={30} color="#fff" />
+                      <MaterialIcon name={pickedFile ? "edit-document" : "attach-file"} size={30} color="#fff" />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.submitButton} onPress={props.handleSubmit}>
                       <Text style={globalStyles.primaryButtonText}>Create Post</Text>
