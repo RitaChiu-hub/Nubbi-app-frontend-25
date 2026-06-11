@@ -139,7 +139,7 @@ export default function NotificationsScreen({ navigation }) {
   // };
 
   return (
-    <View style={styles.container}>
+    <View role="main" aria-label="Notifications main content" style={styles.container}>
       {notifications.length > 0 ? (
         <FlatList
           data={notifications}

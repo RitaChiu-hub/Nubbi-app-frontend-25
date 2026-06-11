@@ -157,8 +157,10 @@ export default function SplashScreen({ navigation }) {
         />
       </Helmet>
 
-      {/* HEADER */}
+      {/* Header: Banner landmark for the welcome page, helping screen reader users identify the page header/navigation area. */}
       <View
+        role="banner"
+        aria-label="Welcome page header"
         style={{
           flex: 1,
           flexDirection: "row",
@@ -233,7 +235,11 @@ export default function SplashScreen({ navigation }) {
           />
         </View>
       </View>
-
+    {/* Main landmark for the welcome page, helping screen reader users access the primary content area. */}
+    <View
+      role="main"
+      aria-label="Welcome page main content"
+    ></View>
       {/* MAIN CONTENT WRAPPER */}
       <View
         style={{
