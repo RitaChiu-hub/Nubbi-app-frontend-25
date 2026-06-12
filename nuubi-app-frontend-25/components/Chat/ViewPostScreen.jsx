@@ -31,6 +31,7 @@ import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "../../config";
 import sessionService from "../../services/sessionService";
+import LinkPreviewCard from "./LinkPreviewCard";
 
 export default function ViewPostScreen({ navigation, route }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -58,11 +59,17 @@ export default function ViewPostScreen({ navigation, route }) {
   const postId = route.params?.currentPost ?? user.currentPost ?? null;
   const [loading, setLoading] = React.useState(true);
   const [loadedPostId, setLoadedPostId] = React.useState(null);
+  const [detectedUrl, setDetectedUrl] = React.useState(null);
   const deviceWidth = Dimensions.get("window").width;
   // Note: Post view deduplication is now handled in sessionService
   // This ref is kept for backward compatibility but sessionService handles deduplication
 
   const scrollViewRef = React.useRef();
+
+  React.useEffect(() => {
+  const match = postInfo.body_text?.match(/(https?:\/\/[^\s]+)/);
+  setDetectedUrl(match ? match[0] : null);
+}, [postInfo.body_text]);
 
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
@@ -750,6 +757,7 @@ export default function ViewPostScreen({ navigation, route }) {
                 >
                   {postInfo.body_text}
                 </Markdown>
+                {detectedUrl && <LinkPreviewCard url={detectedUrl} />}
               </View>
               {/* </Text> */}
               <View style={{ justifyContent: "center", alignItems: "center" }}>
