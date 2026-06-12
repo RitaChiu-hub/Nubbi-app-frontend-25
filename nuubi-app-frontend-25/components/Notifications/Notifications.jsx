@@ -139,6 +139,7 @@ export default function NotificationsScreen({ navigation }) {
   // };
 
   return (
+    // Main landmark for Notifications, helping screen reader users access the primary content area.
     <View role="main" aria-label="Notifications main content" style={styles.container}>
       {notifications.length > 0 ? (
         <FlatList

@@ -176,6 +176,7 @@ export default function ProfilePageScreen({ navigation }) {
   }, [navigation]);
 
   return (
+    // Main landmark for My Profile, helping screen reader users access the primary content area.
     <View role="main" aria-label="My Profile main content" style={{ flex: 1 }}>
       {loading && (
         <View style={styles.loadingOverlay}>
