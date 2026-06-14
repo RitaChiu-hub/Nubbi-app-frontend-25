@@ -180,7 +180,7 @@ export default function ProfilePageScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View role="main" aria-label="My Profile main content" style={{ flex: 1 }}>
       {loading && (
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#fff" />
