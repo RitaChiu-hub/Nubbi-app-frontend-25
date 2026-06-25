@@ -10,6 +10,7 @@ import {
   ScrollView,
   Platform,
   Dimensions,
+  TextInput,
 } from "react-native";
 import { AccountContext } from "../AccountContext";
 import FeatherIcon from "@expo/vector-icons/FontAwesome6";
@@ -31,6 +32,25 @@ export default function GroupInfoScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [adminLoaded, setAdminLoaded] = useState(false);
   const [isAdminHere, setIsAdminHere] = useState(null);
+
+  const [weeklyModalVisible, setWeeklyModalVisible] = useState(false);
+  const [weeklyStartDate, setWeeklyStartDate] = useState("");
+  const [weeklyEndDate, setWeeklyEndDate] = useState("");
+  const [weeklyDayOfWeek, setWeeklyDayOfWeek] = useState("Monday");
+  const [weeklyTitle, setWeeklyTitle] = useState("Weekly Takeaway");
+  const [weeklyContent, setWeeklyContent] = useState(
+    [
+      "Hi class,",
+      "",
+      "Please share your thoughts about class this week.",
+      "",
+      "You can respond to one or more of the following questions:",
+      "",
+      "1. What is one thing you learned this week?",
+      "2. What is one thing you are still stuck on or would like to understand better?",
+      "3. What is one concept that started to make more sense to you this week?",
+    ].join("\n")
+  );
 
   // const getIsAdmin = async () => {
   //   setAdminLoaded(false);
@@ -88,18 +108,15 @@ export default function GroupInfoScreen({ navigation }) {
             },
             body: JSON.stringify({ ...user }),
           }),
-          fetch(
-            `${API_URL}/groups/getgroupinfo`,
-            {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-                ...(token ? { Authorization: `Bearer ${token}` } : {}),
-              },
-              body: JSON.stringify({ ...user }),
-            }
-          ),
+          fetch(`${API_URL}/groups/getgroupinfo`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: JSON.stringify({ ...user }),
+          }),
         ]);
 
         const adminData = await adminRes.json();
@@ -180,18 +197,15 @@ export default function GroupInfoScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getmembercount`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getmembercount`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setMemberCount(jsonData);
     } catch (err) {
@@ -205,18 +219,15 @@ export default function GroupInfoScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getleaderboard`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getleaderboard`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setMembers(jsonData);
     } catch (err) {
@@ -230,18 +241,15 @@ export default function GroupInfoScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/leavegroup`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/leavegroup`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user }),
+      });
 
       if (!response || !response.ok || response.status >= 400) {
         return; // Handle error appropriately
@@ -271,6 +279,39 @@ export default function GroupInfoScreen({ navigation }) {
   //Used to trigger a Web or iOS alert for features that are not yet implemented.
   const triggerComingSoonAlert = () => {
     alert("Feature coming soon!");
+  };
+
+  const handleGenerateWeeklyTakeaway = () => {
+    const weeklyTakeawayTitle = "Weekly Takeaway";
+    const weeklyTakeawayContent = [
+      "Hi class,",
+      "",
+      "Please share your thoughts about class this week.",
+      "",
+      "You can respond to one or more of the following questions:",
+      "",
+      "1. What is one thing you learned this week?",
+      "2. What is one thing you are still stuck on or would like to understand better?",
+      "3. What is one concept that started to make more sense to you this week?",
+    ].join("\n");
+    setWeeklyModalVisible(false);
+
+    navigation.navigate("CreatePost", {
+      defaultTitle: weeklyTakeawayTitle,
+      defaultContent: weeklyTakeawayContent,
+      isWeeklyTakeaway: true,
+    });
+  };
+  const handleCreateWeeklyTakeawayPosts = () => {
+    console.log("Weekly Takeaway Settings:", {
+      startDate: weeklyStartDate,
+      endDate: weeklyEndDate,
+      dayOfWeek: weeklyDayOfWeek,
+      title: weeklyTitle,
+      content: weeklyContent,
+    });
+
+    alert("Weekly takeaway settings logged.");
   };
 
   const renderSettings = () => (
@@ -322,6 +363,205 @@ export default function GroupInfoScreen({ navigation }) {
           </View>
           <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
         </TouchableOpacity>
+
+        {isAdminHere === true && (
+          <TouchableOpacity
+            style={globalStyles.row}
+            onPress={() => setWeeklyModalVisible(true)}
+          >
+            <View style={[globalStyles.row]}>
+              <FeatherIcon
+                color="#616161"
+                solid
+                name="calendar-plus"
+                style={globalStyles.rowIcon}
+                size={22}
+              />
+              <Text style={globalStyles.headingTextRows}>
+                Generate Weekly Takeaway Post
+              </Text>
+            </View>
+            <FeatherIcon name="chevron-right" color="#C6C6C6" size={20} />
+          </TouchableOpacity>
+        )}
+
+        {/* Weekly Takeaway Modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={weeklyModalVisible}
+          onRequestClose={() => setWeeklyModalVisible(false)}
+        >
+          <View style={globalStyles.centeredView}>
+            <View
+              style={[
+                globalStyles.modalView,
+                {
+                  width: Platform.OS === "web" ? 760 : "90%",
+                  paddingHorizontal: 40,
+                  paddingVertical: 32,
+                  alignItems: "stretch",
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  globalStyles.modalText,
+                  {
+                    textAlign: "center",
+                    marginBottom: 28,
+                  },
+                ]}
+              >
+                Generate Weekly Takeaway Post
+              </Text>
+
+              <Text style={[globalStyles.textInputLabel, { marginBottom: 12 }]}>
+                Schedule
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: Platform.OS === "web" ? "row" : "column",
+                  gap: 16,
+                  width: "100%",
+                  marginBottom: 32,
+                }}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text style={globalStyles.textInputLabel}>Start Date</Text>
+                  {Platform.OS === "web" ? (
+                    <input
+                      type="date"
+                      value={weeklyStartDate}
+                      onChange={(e) => setWeeklyStartDate(e.target.value)}
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        borderRadius: 10,
+                        border: "1px solid #777",
+                        padding: "0 16px",
+                        fontSize: 16,
+                        fontFamily: "Poppins",
+                        backgroundColor: "#eeeeee",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                  ) : (
+                    <TextInput
+                      style={[globalStyles.textInput, { width: "100%" }]}
+                      placeholder="YYYY-MM-DD"
+                      value={weeklyStartDate}
+                      onChangeText={setWeeklyStartDate}
+                    />
+                  )}
+                </View>
+
+                <View style={{ flex: 1 }}>
+                  <Text style={globalStyles.textInputLabel}>End Date</Text>
+                  {Platform.OS === "web" ? (
+                    <input
+                      type="date"
+                      value={weeklyEndDate}
+                      onChange={(e) => setWeeklyEndDate(e.target.value)}
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        borderRadius: 10,
+                        border: "1px solid #777",
+                        padding: "0 16px",
+                        fontSize: 16,
+                        fontFamily: "Poppins",
+                        backgroundColor: "#eeeeee",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                  ) : (
+                    <TextInput
+                      style={[globalStyles.textInput, { width: "100%" }]}
+                      placeholder="YYYY-MM-DD"
+                      value={weeklyEndDate}
+                      onChangeText={setWeeklyEndDate}
+                    />
+                  )}
+                </View>
+
+                <View style={{ flex: 1 }}>
+                  <Text style={globalStyles.textInputLabel}>Day of Week</Text>
+                  {Platform.OS === "web" ? (
+                    <select
+                      value={weeklyDayOfWeek}
+                      onChange={(e) => setWeeklyDayOfWeek(e.target.value)}
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        borderRadius: 10,
+                        border: "1px solid #777",
+                        padding: "0 16px",
+                        fontSize: 16,
+                        fontFamily: "Poppins",
+                        backgroundColor: "#eeeeee",
+                        boxSizing: "border-box",
+                      }}
+                    >
+                      <option value="Sunday">Sunday</option>
+                      <option value="Monday">Monday</option>
+                      <option value="Tuesday">Tuesday</option>
+                      <option value="Wednesday">Wednesday</option>
+                      <option value="Thursday">Thursday</option>
+                      <option value="Friday">Friday</option>
+                      <option value="Saturday">Saturday</option>
+                    </select>
+                  ) : (
+                    <TextInput
+                      style={[globalStyles.textInput, { width: "100%" }]}
+                      placeholder="Monday"
+                      value={weeklyDayOfWeek}
+                      onChangeText={setWeeklyDayOfWeek}
+                    />
+                  )}
+                </View>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <TouchableOpacity
+                  style={[
+                    globalStyles.modalButton,
+                    {
+                      backgroundColor: "#A6A6A6",
+                      minWidth: 120,
+                    },
+                  ]}
+                  onPress={() => setWeeklyModalVisible(false)}
+                >
+                  <Text style={globalStyles.primaryButtonText}>Cancel</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    globalStyles.primaryButton,
+                    {
+                      width: 280,
+                    },
+                  ]}
+                  onPress={handleGenerateWeeklyTakeaway}
+                >
+                  <Text style={globalStyles.primaryButtonText}>
+                    Continue to Create Post
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
         {/* // {isAdmin == "true" && ( */}
         {isAdminHere === true && (
           <TouchableOpacity

@@ -105,6 +105,7 @@ export default function MyGroupsScreen({ navigation }) {
   }, [navigation]);
 
   return (
+    // Main landmark for My Groups, helping screen reader users access the primary content area.
     <View role="main" aria-label="My Groups main content" style={{ flex: 1, paddingTop: 8, backgroundColor: "#fbfbfb" }}>
       <FlatList
         data={groups}

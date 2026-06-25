@@ -78,6 +78,7 @@ export default function HelpScreen({ navigation }) {
   }, [navigation]);
 
   return (
+    // Main landmark for Nuubi FAQ, helping screen reader users access the primary content area.
     <ScrollView role="main" aria-label="Nuubi FAQ main content" style={{ backgroundColor: "#fbfbfb", padding: 16 }}>
       {/* GENERAL QUESTIONS */}
       <Section

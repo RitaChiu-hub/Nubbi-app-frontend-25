@@ -28,7 +28,7 @@ import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import { useFocusEffect } from "@react-navigation/native";
 
-export default function CreatePostScreen({ navigation }) {
+export default function CreatePostScreen({ navigation, route }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [status, setStatus] = React.useState(null);
   const [formKey, setFormKey] = React.useState(Date.now());
@@ -233,7 +233,10 @@ export default function CreatePostScreen({ navigation }) {
           <View style={styles.formWrapper}>
             <Formik
               key={formKey}
-              initialValues={{ title: "", body_text: "" }}
+              initialValues={{ 
+                title: route.params?.defaultTitle || "", 
+                body_text: route.params?.defaultContent || "",
+              }}
               enableReinitialize={true}
               validationSchema={createPostSchema}
               onSubmit={async (values, actions) => {
