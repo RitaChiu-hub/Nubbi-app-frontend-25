@@ -42,6 +42,7 @@ export default function CreatePostScreen({ navigation }) {
   const [linkText, setLinkText] = React.useState("");    // 顯示文字
   const [linkInput, setLinkInput] = React.useState("");  // URL
   const [pickedLink, setPickedLink] = React.useState(null); // { text, url }
+  const formikRef = React.useRef(null); // ref to access Formik helpers
   // ─────────────────────────────────────────────────────────
 
 
@@ -138,14 +139,16 @@ export default function CreatePostScreen({ navigation }) {
     }
   };
 // ── Link handlers ─────────────────────────────────────────
-  const confirmLink = () => {
+   const confirmLink = () => {
     const trimmedUrl  = linkInput.trim();
-    const trimmedText = linkText.trim();
     if (trimmedUrl && trimmedUrl.match(/^https?:\/\/.+/)) {
-      setPickedLink({
-        text: trimmedText || trimmedUrl, 
-        url: trimmedUrl,
-      });
+      // Append URL into the Post text field
+      if (formikRef.current) {
+        const currentText = formikRef.current.values.body_text;
+        const newText = currentText ? currentText + " " + trimmedUrl : trimmedUrl;
+        formikRef.current.setFieldValue("body_text", newText);
+      }
+      setPickedLink({ text: linkText.trim() || trimmedUrl, url: trimmedUrl });
       setLinkModalVisible(false);
       setLinkText("");
       setLinkInput("");
@@ -232,6 +235,7 @@ export default function CreatePostScreen({ navigation }) {
           <View style={styles.formWrapper}>
             <Formik
               key={formKey}
+              innerRef={formikRef}
               initialValues={{ title: "", body_text: "" }}
               enableReinitialize={true}
               validationSchema={createPostSchema}
@@ -298,25 +302,8 @@ export default function CreatePostScreen({ navigation }) {
                       onChangeText={props.handleChange("body_text")}
                       value={props.values.body_text}
                     />
-                    {props.values.body_text.match(/(https?:\/\/[^\s]+)/g) && (
-                      <Text style={{ fontSize: 12, color: "#888", marginTop: 6, marginBottom: 2 }}>
-                        {" "}Link detected:{" "}
-                        <Text style={{ color: "#2482AA", textDecorationLine: "underline" }}>
-                          {props.values.body_text.match(/(https?:\/\/[^\s]+)/g)[0]}
-                        </Text>
-                      </Text>
-                    )}
                     {pickedImage && <Image style={globalStyles.squareImageContainer} source={{ uri: pickedImage.uri }} />}
                     {pickedFile && <Text style={globalStyles.captionError}>{pickedFile.name}</Text>}
-                    {/* show link preview */}
-                    {pickedLink && (
-                      <Text style={styles.linkPreview}>
-                        🔗{" "}
-                        <Text style={{ color: "#2482AA", textDecorationLine: "underline" }}>
-                          {pickedLink.text}
-                        </Text>
-                      </Text>
-                    )}
                   </View>
                   <ErrorMessage name="body_text" render={msg => <Text style={globalStyles.captionError}>{msg}</Text>} />
 
