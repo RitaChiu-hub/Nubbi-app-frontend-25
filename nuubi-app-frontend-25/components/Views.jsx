@@ -63,6 +63,7 @@ import DeleteGroupScreen from "./Groups/DeleteGroupScreen";
 import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
 import GroupAchievements from "./Chat/GroupAchievements";
 import GroupLeaderboard from "./Chat/GroupLeaderboard";
+import KnowledgeScreen from "./Chat/KnowledgeScreen";
 
 import LearnMore1Screen from "./Onboarding/LearnMore1";
 import LearnMore2Screen from "./Onboarding/LearnMore2";
@@ -983,6 +984,7 @@ function GroupTabs({ navigation, route }) {
       <GroupTab.Screen name="Threads" component={PostScreen} />
 
       <GroupTab.Screen name="Chat" component={ChatScreen} />
+      <GroupTab.Screen name="Knowledge" component={KnowledgeScreen} />
       <GroupTab.Screen name="Leaders" component={GroupLeaderboard} />
       <GroupTab.Screen name="More" component={GroupInfoScreen} />
 
