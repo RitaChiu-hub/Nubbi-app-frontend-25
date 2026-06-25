@@ -12,6 +12,7 @@ import {
   Image,
   ActivityIndicator,
   StyleSheet,
+  Modal,
 } from "react-native";
 import { Formik, ErrorMessage } from "formik";
 import { globalStyles } from "../../styles/global";
@@ -36,12 +37,23 @@ export default function CreatePostScreen({ navigation }) {
   const [pickedFile, setPickedFile] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
+  // ── Link state ────────────────────────────────────────────
+  const [linkModalVisible, setLinkModalVisible] = React.useState(false);
+  const [linkText, setLinkText] = React.useState("");    // 顯示文字
+  const [linkInput, setLinkInput] = React.useState("");  // URL
+  const [pickedLink, setPickedLink] = React.useState(null); // { text, url }
+  // ─────────────────────────────────────────────────────────
+
+
   useFocusEffect(
     React.useCallback(() => {
       setFormKey(Date.now());
       setStatus(null);
       setPickedImage(null);
       setPickedFile(null);
+      setPickedLink(null);
+      setLinkText(""); 
+      setLinkInput("");
     }, [])
   );
 
@@ -126,9 +138,27 @@ export default function CreatePostScreen({ navigation }) {
       console.log("File pick error:", error);
     }
   };
+// ── Link handlers ─────────────────────────────────────────
+  const confirmLink = () => {
+    const trimmedUrl  = linkInput.trim();
+    const trimmedText = linkText.trim();
+    if (trimmedUrl && trimmedUrl.match(/^https?:\/\/.+/)) {
+      setPickedLink({
+        text: trimmedText || trimmedUrl, 
+        url: trimmedUrl,
+      });
+      setLinkModalVisible(false);
+      setLinkText("");
+      setLinkInput("");
+    } else {
+      alert("Please enter a valid URL starting with http:// or https://");
+    }
+  };
+  // ─────────────────────────────────────────────────────────
 
   const resetApp = () => setPickedImage(null);
   const resetFile = () => setPickedFile(null);
+  const resetLink = () => setPickedLink(null); // clear link
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -145,6 +175,53 @@ export default function CreatePostScreen({ navigation }) {
           <Text style={styles.loadingText}>Processing your post...</Text>
         </View>
       )}
+
+       {/* ── Link Modal (Gmail style) ── */}
+      <Modal
+  visible={linkModalVisible}
+  transparent
+  animationType="fade"
+  onRequestClose={() => setLinkModalVisible(false)}
+>
+  <TouchableOpacity
+    style={styles.modalOverlay}
+    activeOpacity={1}
+    onPress={() => setLinkModalVisible(false)}
+  >
+    {/* Prevent touch events from propagating to the overlay */}
+    <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+      <View style={styles.modalBox}>
+        {/* Text input */}
+        <View style={styles.modalRow}>
+          <MaterialIcon name="segment" size={20} color="#555" style={styles.modalIcon} />
+          <TextInput
+            style={styles.modalRowInput}
+            placeholder="Word"
+            value={linkText}
+            onChangeText={setLinkText}
+          />
+        </View>
+        {/* link input */}
+        <View style={styles.modalRow}>
+          <MaterialIcon name="link" size={20} color="#555555ff" style={styles.modalIcon} />
+          <TextInput
+            style={styles.modalRowInput}
+            placeholder="Type in Link or Paste"
+            value={linkInput}
+            onChangeText={setLinkInput}
+            autoCapitalize="none"
+            keyboardType="url"
+          />
+          <TouchableOpacity onPress={confirmLink}>
+            <Text style={styles.modalApplyText}>Apply</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </TouchableOpacity>
+  </TouchableOpacity>
+</Modal>
+      {/* ─────────────────────────── */}
+
       <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
         {Platform.OS === "web" && (
           <TouchableOpacity onPress={navigation.goBack} style={styles.backButton}>
@@ -233,6 +310,15 @@ export default function CreatePostScreen({ navigation }) {
                     )}
                     {pickedImage && <Image style={globalStyles.squareImageContainer} source={{ uri: pickedImage.uri }} />}
                     {pickedFile && <Text style={globalStyles.captionError}>{pickedFile.name}</Text>}
+                    {/* show link preview */}
+                    {pickedLink && (
+                      <Text style={styles.linkPreview}>
+                        🔗{" "}
+                        <Text style={{ color: "#2482AA", textDecorationLine: "underline" }}>
+                          {pickedLink.text}
+                        </Text>
+                      </Text>
+                    )}
                   </View>
                   <ErrorMessage name="body_text" render={msg => <Text style={globalStyles.captionError}>{msg}</Text>} />
 
@@ -243,6 +329,14 @@ export default function CreatePostScreen({ navigation }) {
                     <TouchableOpacity onPress={pickedFile ? resetFile : pickFile} style={styles.iconButton}>
                       <MaterialIcon name={pickedFile ? "edit-document" : "attach-file"} size={30} color="#fff" />
                     </TouchableOpacity>
+                     {/* link button (add) */}
+                    <TouchableOpacity
+                      onPress={pickedLink ? resetLink : () => setLinkModalVisible(true)}
+                      style={[styles.iconButton, pickedLink && { backgroundColor: "#e07b00" }]}
+                    >
+                      <MaterialIcon name={pickedLink ? "link-off" : "add-link"} size={30} color="#fff" />
+                    </TouchableOpacity>
+
                     <TouchableOpacity style={styles.submitButton} onPress={props.handleSubmit}>
                       <Text style={globalStyles.primaryButtonText}>Create Post</Text>
                     </TouchableOpacity>
@@ -270,7 +364,17 @@ const styles = StyleSheet.create({
   backText: { color: "#2482AA", fontSize: 18, marginLeft: 8 },
   container: { flex: 1, alignItems: "center", paddingTop: 20 },
   formWrapper: { minWidth: 300, width: "90%", marginBottom: 400 },
-  buttonRow: { flexDirection: "row", justifyContent: "space-around", alignItems: "center", marginTop: 12 },
+  buttonRow: { flexDirection: "row", justifyContent: "flex-start", alignItems: "center", marginTop: 12, width: "100%", flexWrap: "wrap",gap: 20 },
   iconButton: { backgroundColor: "#2482AA", padding: 10, borderRadius: 20 },
-  submitButton: { backgroundColor: "#2482AA", paddingVertical: 14, paddingHorizontal: 20, borderRadius: 20, width: "60%", alignItems: "center" },
+  submitButton: { backgroundColor: "#2482AA", paddingVertical: 14, paddingHorizontal: 20, borderRadius: 20, width: "35%", alignItems: "center" },
+  linkPreview:  { fontSize: 12, color: "#555", marginTop: 6 },
+  
+  // Modal
+modalOverlay:   { flex: 1, backgroundColor: "rgba(0,0,0,0.2)", justifyContent: "center", alignItems: "center" },
+modalBox:       { backgroundColor: "#fff", borderRadius: 12, padding: 16, width: "100%", shadowColor: "#000", shadowOpacity: 0.15, shadowRadius: 10, elevation: 5 },
+modalRow:       { flexDirection: "row", alignItems: "center", borderWidth: 1, borderColor: "#ddd", borderRadius: 8, marginBottom: 10, paddingHorizontal: 8 },
+modalIcon:      { marginRight: 8 },
+modalRowInput:  { flex: 1, paddingVertical: 10, fontSize: 15 },
+modalApplyText: { color: "#2482AA", fontSize: 15, paddingHorizontal: 6 },
+
 });
