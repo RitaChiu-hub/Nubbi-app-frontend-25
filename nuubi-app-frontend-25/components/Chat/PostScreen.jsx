@@ -81,17 +81,14 @@ export default function PostScreen({ navigation }) {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(
-        `${API_URL}/auth/checkweblogin`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`${API_URL}/auth/checkweblogin`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...user }),
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -141,20 +138,17 @@ export default function PostScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/${groupId}/posts`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          // body: JSON.stringify({ ...user }),
-          body: JSON.stringify({ ...user, currentGroup: groupId }),
-          signal,
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/${groupId}/posts`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        // body: JSON.stringify({ ...user }),
+        body: JSON.stringify({ ...user, currentGroup: groupId }),
+        signal,
+      });
       const jsonData = await response.json();
 
       //  setPosts(jsonData);
@@ -195,7 +189,7 @@ export default function PostScreen({ navigation }) {
 
       // cancel in-flight fetch if we blur/unmount
       return () => controller.abort();
-    }, [user.currentGroup, isLoggedIn])
+    }, [user.currentGroup, isLoggedIn]),
   );
 
   // React.useEffect(() => {
@@ -252,33 +246,33 @@ export default function PostScreen({ navigation }) {
         // Log to server when a post is clicked
         onPress={async () => {
           try {
-            const token = Platform.OS !== "web"
-              ? await SecureStore.getItemAsync("token")
-              : sessionStorage.getItem("token");
+            const token =
+              Platform.OS !== "web"
+                ? await SecureStore.getItemAsync("token")
+                : sessionStorage.getItem("token");
 
-            const res = await fetch(`${API_URL}/logs/view`, 
-              {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-                body: JSON.stringify({
-                  contentType: "post",
-                  contentId: id,
-                  groupId: user.currentGroup,
-                  deviceType: Platform.OS,
-                }),
-              });
+            const res = await fetch(`${API_URL}/logs/view`, {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              },
+              body: JSON.stringify({
+                contentType: "post",
+                contentId: id,
+                groupId: user.currentGroup,
+                deviceType: Platform.OS,
+              }),
+            });
 
-              if (!res.ok) {
-                console.log("Failed to log view:", res.status);
-              }
-            } catch (err) {
-              console.log("Error logging view:", err);
-              }
-          setUser({
+            if (!res.ok) {
+              console.log("Failed to log view:", res.status);
+            }
+          } catch (err) {
+            console.log("Error logging view:", err);
+          }
+          (setUser({
             ...user,
             currentPost: id,
             post_title: title,
@@ -293,15 +287,23 @@ export default function PostScreen({ navigation }) {
             //   navigation.push("ViewPost", { currentPost: id });
             //  navigation.navigate("ViewPost", { currentPost: id });
             // or, if you prefer navigate:
-            navigation.navigate({
-              name: "ViewPost",
-              key: `post-${id}`, // unique key per post
-              params: { currentPost: id },
-              merge: false, // don't merge old params
-            });
+            console.log("Navigate id =", id));
+          navigation.navigate({
+            name: "ViewPost",
+            key: `post-${id}`, // unique key per post
+            params: { currentPost: id },
+            merge: false, // don't merge old params
+          });
         }}
       >
-        <View style={{ paddingHorizontal: 1, flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+        <View
+          style={{
+            paddingHorizontal: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
           <View style={{ flex: 1, paddingRight: image_url ? 10 : 0 }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text
@@ -396,7 +398,7 @@ export default function PostScreen({ navigation }) {
       {loading && posts.length > 0 && (
         <Text style={{ margin: 16, textAlign: "center" }}>Refreshing…</Text>
       )}
-      
+
       <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
           style={globalStyles.primaryButtonWide}

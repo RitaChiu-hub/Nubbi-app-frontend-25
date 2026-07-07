@@ -5,7 +5,7 @@ const DEV = true;
 
 // Development backend: your computer’s LAN IP and port
 // Make sure your phone/device is on the same network
-const DEV_URL = "http://192.168.1.100:8080";
+const DEV_URL = "http://localhost:8080";
 
 // Production backend
 const PROD_URL = "https://api.nuubi.com";
@@ -14,12 +14,12 @@ const PROD_URL = "https://api.nuubi.com";
 const SOCKET_URL = DEV ? DEV_URL : PROD_URL;
 
 const socket = io(SOCKET_URL, {
-  autoConnect: false,            // only connect when you explicitly call socket.connect()
-  withCredentials: true,         // send cookies if your backend needs auth
-  reconnection: true,            // auto reconnect if disconnected
+  autoConnect: false, // only connect when you explicitly call socket.connect()
+  withCredentials: true, // send cookies if your backend needs auth
+  reconnection: true, // auto reconnect if disconnected
   reconnectionAttempts: Infinity,
   reconnectionDelay: 1000,
-  transports: ["websocket"],     // force websocket
+  transports: ["websocket"], // force websocket
 });
 
 // Optional: log connection events

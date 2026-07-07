@@ -19,6 +19,8 @@ import { globalStyles } from "../../styles/global";
 import { AccountContext } from "../AccountContext";
 import socket from "../../socket";
 const { addCommentSchema } = require("../validationSchema");
+import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import * as ImagePicker from "expo-image-picker";
 import moment from "moment";
 import { useHeaderHeight } from "@react-navigation/elements";
 import FeatherIcon from "@expo/vector-icons/Feather";
@@ -34,10 +36,13 @@ import sessionService from "../../services/sessionService";
 import LinkPreviewCard from "./LinkPreviewCard";
 
 export default function ViewPostScreen({ navigation, route }) {
+  console.log("route.params =", route.params);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const { user, setUser } = React.useContext(AccountContext);
   const [comments, setComments] = React.useState([]);
   const [postPoints, setPostPoints] = React.useState(0);
+  const [pickedImage, setPickedImage] = React.useState(null);
+  const [imageUploadInfo, setImageUploadInfo] = React.useState(null);
   const [postInfo, setPostInfo] = React.useState({
     post_title: "loading",
     body_text: "loading",
@@ -66,32 +71,103 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const scrollViewRef = React.useRef();
 
+  const getS3PresignedUrl = async (fileName, fileType) => {
+    const token =
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
+    const response = await fetch(`${API_URL}/file/s3-presigned-url`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ fileName, fileType }),
+    });
+    if (!response.ok) throw new Error("Failed to get S3 presigned URL");
+    return await response.json();
+  };
+
+  const uploadToS3 = async (fileUri, fileName, fileType) => {
+    try {
+      const { uploadUrl, fileUrl } = await getS3PresignedUrl(
+        fileName,
+        fileType,
+      );
+      const response = await fetch(fileUri);
+      const blob = await response.blob();
+      const uploadResponse = await fetch(uploadUrl, {
+        method: "PUT",
+        body: blob,
+        headers: { "Content-Type": fileType },
+      });
+      if (!uploadResponse.ok) throw new Error("Failed to upload to S3");
+      return fileUrl;
+    } catch (error) {
+      console.error("S3 Upload Error:", error);
+      throw error;
+    }
+  };
+
+  const resizeImage = async (imageInfo, resizeAmount) => {
+    const resizedPhoto = await ImageManipulator.manipulateAsync(
+      imageInfo.uri,
+      [{ resize: { width: imageInfo.width * resizeAmount } }],
+      { compress: 0.7, format: "jpeg", base64: true },
+    );
+    setPickedImage({ uri: resizedPhoto.uri, base64: resizedPhoto.base64 });
+    const fileImg = await fetch(resizedPhoto.uri).then((r) => r.blob());
+    if (fileImg.size > 10400000) resizeImage(imageInfo, resizeAmount * 0.5);
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+      base64: true,
+    });
+    if (!result.canceled) {
+      setPickedImage({
+        uri: result.assets[0].uri,
+        base64: result.assets[0].base64,
+        width: result.assets[0].width,
+      });
+      if (result.assets[0].fileSize > 10400000)
+        resizeImage(result.assets[0], 0.5);
+    }
+  };
+
   React.useEffect(() => {
-  const match = postInfo.body_text?.match(/(https?:\/\/[^\s]+)/);
-  setDetectedUrl(match ? match[0] : null);
-}, [postInfo.body_text]);
+    const match = postInfo.body_text?.match(/(https?:\/\/[^\s]+)/);
+    setDetectedUrl(match ? match[0] : null);
+  }, [postInfo.body_text]);
 
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
 
   const getPostLiked = async (id, signal) => {
+    const body = {
+      ...user,
+      currentPost: id,
+    };
+
+    console.log("request body =", body);
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getpostliked`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user, currentPost: id }),
-          signal,
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getpostliked`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user, currentPost: id }),
+        signal,
+      });
       const jsonData = await response.json();
       setPostLiked(jsonData);
     } catch (err) {
@@ -99,25 +175,22 @@ export default function ViewPostScreen({ navigation, route }) {
     }
   };
 
-  const getLikes = async (signal) => {
+  const getLikes = async (id, signal) => {
     const token =
       Platform.OS !== "web"
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getcommentlikes`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-          signal,
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getcommentlikes`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user, currentPost: id }),
+        signal,
+      });
       const jsonData = await response.json();
       const myLikes =
         jsonData.length > 0
@@ -135,19 +208,16 @@ export default function ViewPostScreen({ navigation, route }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getpostinfo`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user, currentPost: id }),
-          signal,
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getpostinfo`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user, currentPost: id }),
+        signal,
+      });
       const jsonData = await response.json();
       setPostInfo({
         ...jsonData,
@@ -155,7 +225,11 @@ export default function ViewPostScreen({ navigation, route }) {
       });
 
       // ☁️ 只有当是 Cloudinary 的 PDF 时才尝试生成预览图
-      if (jsonData.file_url && jsonData.file_url.includes("cloudinary.com") && jsonData.file_url.includes(".pdf")) {
+      if (
+        jsonData.file_url &&
+        jsonData.file_url.includes("cloudinary.com") &&
+        jsonData.file_url.includes(".pdf")
+      ) {
         try {
           const parts = jsonData.file_url.split("upload/");
           if (parts.length >= 3) {
@@ -166,7 +240,7 @@ export default function ViewPostScreen({ navigation, route }) {
                 parts[1] +
                 "upload/" +
                 jpgPart2[0] +
-                "jpg"
+                "jpg",
             );
 
             const totalPages = jsonData.filePages || 1;
@@ -178,7 +252,7 @@ export default function ViewPostScreen({ navigation, route }) {
                   parts[1] +
                   "upload/" +
                   jpgPart2[0] +
-                  "jpg"
+                  "jpg",
               );
             }
             setPreviewUrls(urls);
@@ -191,7 +265,8 @@ export default function ViewPostScreen({ navigation, route }) {
         setPreviewUrls([]);
       }
     } catch (err) {
-      if (err.name !== "AbortError") console.error("Error fetching post info:", err.message);
+      if (err.name !== "AbortError")
+        console.error("Error fetching post info:", err.message);
     }
   };
 
@@ -201,19 +276,16 @@ export default function ViewPostScreen({ navigation, route }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getpostpoints`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user, currentPost: id }),
-          signal,
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getpostpoints`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user, currentPost: id }),
+        signal,
+      });
       const jsonData = await response.json();
       setPostPoints(jsonData);
     } catch (err) {
@@ -228,23 +300,20 @@ export default function ViewPostScreen({ navigation, route }) {
         : sessionStorage.getItem("token");
     const vals = { ...user, currentPost: id };
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getpostcomments`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...vals }),
-          signal,
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getpostcomments`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...vals }),
+        signal,
+      });
       const jsonData = await response.json();
       jsonData.sort(
         (a, b) =>
-          new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent)
+          new Date(a.comment_iso_time_sent) - new Date(b.comment_iso_time_sent),
       );
       setComments(jsonData);
     } catch (err) {
@@ -265,19 +334,16 @@ export default function ViewPostScreen({ navigation, route }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getuserpoints`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-          signal,
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getuserpoints`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user }),
+        signal,
+      });
       const jsonData = await response.json();
       setMyUsername(jsonData.username);
     } catch (err) {
@@ -325,14 +391,14 @@ export default function ViewPostScreen({ navigation, route }) {
       getPostInfo(postId, controller.signal),
       getComments(postId, controller.signal),
       getPostPoints(postId, controller.signal),
-      getLikes(controller.signal),
-      getPostLiked(controller.signal),
+      getLikes(postId, controller.signal),
+      getPostLiked(postId, controller.signal),
       getUserPoints(controller.signal),
     ]).finally(() => {
       if (!controller.signal.aborted) {
         setLoadedPostId(postId);
         setLoading(false);
-        
+
         // Track post view (deduplication handled in sessionService)
         if (postId) {
           sessionService.trackPostView(postId).catch((error) => {
@@ -614,22 +680,17 @@ export default function ViewPostScreen({ navigation, route }) {
                         ? await SecureStore.getItemAsync("token")
                         : null; // Get token only on mobile
 
-                    fetch(
-                      `${API_URL}/groups/addpostpoint`,
-                      {
-                        method: "POST",
-                        credentials: "include",
-                        headers: {
-                          "Content-Type": "application/json",
-                          ...(token
-                            ? { Authorization: `Bearer ${token}` }
-                            : {}),
-                        },
-                        body: JSON.stringify({
-                          ...user,
-                        }),
-                      }
-                    );
+                    fetch(`${API_URL}/groups/addpostpoint`, {
+                      method: "POST",
+                      credentials: "include",
+                      headers: {
+                        "Content-Type": "application/json",
+                        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                      },
+                      body: JSON.stringify({
+                        ...user,
+                      }),
+                    });
                   }}
                 >
                   <Text
@@ -683,8 +744,8 @@ export default function ViewPostScreen({ navigation, route }) {
                     postInfo?.avatar_url
                       ? { uri: postInfo.avatar_url }
                       : Platform.OS === "web"
-                      ? require("../../assets/defaultAvatar.png")
-                      : assets1[0]
+                        ? require("../../assets/defaultAvatar.png")
+                        : assets1[0]
                   }
                 />
                 <Text style={[globalStyles.bodyRegular, { padding: 14 }]}>
@@ -844,7 +905,7 @@ export default function ViewPostScreen({ navigation, route }) {
                   <TouchableOpacity
                     style={globalStyles.smallRightButton}
                     onPress={() => {
-                      setUser({
+                      (setUser({
                         ...user,
                         post_title: postInfo.post_title,
                         post_body: postInfo.body_text,
@@ -853,7 +914,7 @@ export default function ViewPostScreen({ navigation, route }) {
                         file_url: postInfo.file_url,
                         file_name: postInfo.file_name,
                       }),
-                        navigation.navigate("EditPost");
+                        navigation.navigate("EditPost"));
                     }}
 
                     //  onPress={() => navigation.navigate("EditPost")}
@@ -951,23 +1012,20 @@ export default function ViewPostScreen({ navigation, route }) {
                             ? await SecureStore.getItemAsync("token")
                             : null; // Get token only on mobile
 
-                        fetch(
-                          `${API_URL}/groups/addcommentpoint`,
-                          {
-                            method: "POST",
-                            credentials: "include",
-                            headers: {
-                              "Content-Type": "application/json",
-                              ...(token
-                                ? { Authorization: `Bearer ${token}` }
-                                : {}),
-                            },
-                            body: JSON.stringify({
-                              ...user,
-                              comment_id: comments.post_comment_id,
-                            }),
-                          }
-                        );
+                        fetch(`${API_URL}/groups/addcommentpoint`, {
+                          method: "POST",
+                          credentials: "include",
+                          headers: {
+                            "Content-Type": "application/json",
+                            ...(token
+                              ? { Authorization: `Bearer ${token}` }
+                              : {}),
+                          },
+                          body: JSON.stringify({
+                            ...user,
+                            comment_id: comments.post_comment_id,
+                          }),
+                        });
                       }}
                     >
                       <Text
@@ -995,8 +1053,8 @@ export default function ViewPostScreen({ navigation, route }) {
                         comments?.sender_avatar_url
                           ? { uri: comments.sender_avatar_url }
                           : Platform.OS === "web"
-                          ? require("../../assets/defaultAvatar.png")
-                          : assets1[0]
+                            ? require("../../assets/defaultAvatar.png")
+                            : assets1[0]
                       }
                     />
                     <Text
@@ -1078,6 +1136,18 @@ export default function ViewPostScreen({ navigation, route }) {
                     >
                       {comments.comment_text}
                     </Markdown>
+                    {comments.image_url && (
+                      <Image
+                        source={{ uri: comments.image_url }}
+                        style={{
+                          width: 250,
+                          height: 250,
+                          borderRadius: 10,
+                          marginTop: 10,
+                        }}
+                        resizeMode="cover"
+                      />
+                    )}
                   </View>
                 </View>
               );
@@ -1098,19 +1168,36 @@ export default function ViewPostScreen({ navigation, route }) {
             const token =
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
-                : null;
+                : sessionStorage.getItem("token");
 
-            const payload = {
-              ...user,
-              currentPost: route.params.currentPost,
-              mycomment: values.mycomment,
-              token,
-            };
+            try {
+              let imageUrl = null;
 
-            socket.emit("insert comment return updated list", payload);
-            actions.resetForm();
-            // pull in the fresh list
-            await getComments();
+              if (pickedImage) {
+                imageUrl = await uploadToS3(
+                  pickedImage.uri,
+                  `comment-${Date.now()}.jpg`,
+                  "image/jpeg",
+                );
+              }
+
+              const payload = {
+                ...user,
+                currentPost: route.params.currentPost,
+                mycomment: values.mycomment,
+                imageUrl,
+                token,
+              };
+
+              socket.emit("insert comment return updated list", payload);
+
+              actions.resetForm();
+              setPickedImage(null);
+
+              await getComments();
+            } catch (err) {
+              console.error("Failed to submit comment:", err);
+            }
           }}
           // onSubmit={async (values, actions) => {
           //   const token =
@@ -1171,6 +1258,29 @@ export default function ViewPostScreen({ navigation, route }) {
                   onChangeText={props.handleChange("mycomment")}
                   value={props.values.mycomment}
                 />
+                {/* Image Button */}
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 10,
+                    paddingHorizontal: 14,
+                    borderRadius: 16,
+                    backgroundColor: "#2482AA",
+                    alignSelf: "center",
+                    elevation: 15,
+                    shadowColor: "#333333",
+                    shadowOpacity: 0.5,
+                    shadowRadius: 2,
+                    shadowOffset: {
+                      width: 0.8,
+                      height: 0.8,
+                    },
+                    overflow: "visible",
+                    marginRight: 8,
+                  }}
+                  onPress={pickImage}
+                >
+                  <MaterialIcon name="image" size={30} color="#fbfbfb" />
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={{
                     paddingVertical: 10,

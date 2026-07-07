@@ -91,17 +91,14 @@ class SessionService {
         return null;
       }
 
-      const response = await fetch(
-        `${API_URL}/activity/session/start`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/activity/session/start`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+      });
 
       const data = await response.json();
 
@@ -109,7 +106,7 @@ class SessionService {
         await this.storeSessionId(data.session.session_id);
         this.lastHeartbeat = Date.now();
         this.activeSeconds = data.session.active_seconds || 0;
-        
+
         // Clear viewed posts when starting new session
         this.viewedPosts = new Set();
 
@@ -145,20 +142,17 @@ class SessionService {
         return;
       }
 
-      const response = await fetch(
-        `${API_URL}/activity/session/end`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({
-            session_id: sessionId,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/activity/session/end`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+        }),
+      });
 
       const data = await response.json();
 
@@ -190,9 +184,11 @@ class SessionService {
         this.stopHeartbeat();
         return;
       }
-      
+
       if (!sessionId) {
-        console.log("No session ID available for heartbeat, trying to get current session");
+        console.log(
+          "No session ID available for heartbeat, trying to get current session",
+        );
         // Try to get current session from backend
         const currentSession = await this.getCurrentSession();
         if (currentSession) {
@@ -214,21 +210,18 @@ class SessionService {
       this.lastHeartbeat = now;
       this.activeSeconds += secondsSinceLastHeartbeat;
 
-      const response = await fetch(
-        `${API_URL}/activity/heartbeat`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({
-            session_id: sessionId,
-            active_seconds: secondsSinceLastHeartbeat,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/activity/heartbeat`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+          active_seconds: secondsSinceLastHeartbeat,
+        }),
+      });
 
       const data = await response.json();
 
@@ -306,19 +299,21 @@ class SessionService {
    */
   async trackPostView(postId) {
     if (!this.sessionId || !postId) {
-      console.warn("Session not active or postId missing, cannot track post view.");
+      console.warn(
+        "Session not active or postId missing, cannot track post view.",
+      );
       return;
     }
-    
+
     // Deduplicate post views within the same session
     if (!this.viewedPosts) {
       this.viewedPosts = new Set();
     }
-    
+
     if (this.viewedPosts.has(postId)) {
       return; // Already viewed in this session
     }
-    
+
     this.viewedPosts.add(postId); // Mark as viewed for this session
 
     try {
@@ -330,27 +325,24 @@ class SessionService {
         return;
       }
 
-      const response = await fetch(
-        `${API_URL}/activity/posts/${postId}/view`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({
-            session_id: sessionId,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/activity/posts/${postId}/view`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      
+
       if (data.success) {
         return data.view_count;
       }
@@ -433,17 +425,14 @@ class SessionService {
         return null;
       }
 
-      const response = await fetch(
-        `${API_URL}/activity/session/current`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/activity/session/current`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+      });
 
       const data = await response.json();
 
@@ -462,4 +451,3 @@ class SessionService {
 // Export singleton instance
 const sessionService = new SessionService();
 export default sessionService;
-

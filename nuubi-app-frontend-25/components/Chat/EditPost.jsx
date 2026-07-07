@@ -26,12 +26,17 @@ import FAIcon from "@expo/vector-icons/FontAwesome";
 export default function EditPostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [status, setStatus] = React.useState(null);
-  const [statusColor, setStatusColor] = React.useState(globalStyles.captionError);
+  const [statusColor, setStatusColor] = React.useState(
+    globalStyles.captionError,
+  );
   const [pickedImage, setPickedImage] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
   const getS3PresignedUrl = async (fileName, fileType) => {
-    const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
+    const token =
+      Platform.OS !== "web"
+        ? await SecureStore.getItemAsync("token")
+        : sessionStorage.getItem("token");
     const response = await fetch(`${API_URL}/file/s3-presigned-url`, {
       method: "POST",
       headers: {
@@ -46,7 +51,10 @@ export default function EditPostScreen({ navigation }) {
 
   const uploadToS3 = async (fileUri, fileName, fileType) => {
     try {
-      const { uploadUrl, fileUrl } = await getS3PresignedUrl(fileName, fileType);
+      const { uploadUrl, fileUrl } = await getS3PresignedUrl(
+        fileName,
+        fileType,
+      );
       const response = await fetch(fileUri);
       const blob = await response.blob();
       const uploadResponse = await fetch(uploadUrl, {
@@ -87,7 +95,9 @@ export default function EditPostScreen({ navigation }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text style={globalStyles.h3HeadingWhite}>Edit Post</Text>,
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingWhite}>Edit Post</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
@@ -102,7 +112,10 @@ export default function EditPostScreen({ navigation }) {
       )}
       <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
         {Platform.OS === "web" && (
-          <TouchableOpacity onPress={navigation.goBack} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={navigation.goBack}
+            style={styles.backButton}
+          >
             <FAIcon name="chevron-left" size={16} color="#2482AA" />
             <Text style={styles.backText}>Back</Text>
           </TouchableOpacity>
@@ -121,10 +134,17 @@ export default function EditPostScreen({ navigation }) {
                   let imageUrl = user.image_url;
 
                   if (pickedImage) {
-                    imageUrl = await uploadToS3(pickedImage.uri, `edit-img-${Date.now()}.jpg`, "image/jpeg");
+                    imageUrl = await uploadToS3(
+                      pickedImage.uri,
+                      `edit-img-${Date.now()}.jpg`,
+                      "image/jpeg",
+                    );
                   }
 
-                  const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
+                  const token =
+                    Platform.OS !== "web"
+                      ? await SecureStore.getItemAsync("token")
+                      : sessionStorage.getItem("token");
                   const res = await fetch(`${API_URL}/groups/editpost`, {
                     method: "POST",
                     headers: {
@@ -158,7 +178,12 @@ export default function EditPostScreen({ navigation }) {
                     onChangeText={props.handleChange("title")}
                     value={props.values.title}
                   />
-                  <ErrorMessage name="title" render={msg => <Text style={globalStyles.captionError}>{msg}</Text>} />
+                  <ErrorMessage
+                    name="title"
+                    render={(msg) => (
+                      <Text style={globalStyles.captionError}>{msg}</Text>
+                    )}
+                  />
 
                   <Text style={globalStyles.textInputLabel}>Post</Text>
                   <View style={globalStyles.postContainer}>
@@ -171,25 +196,56 @@ export default function EditPostScreen({ navigation }) {
                     />
                     {user.image_url && (
                       <Image
-                        style={{ borderRadius: 10, width: 250, height: 250, marginVertical: 10, alignSelf: "center" }}
+                        style={{
+                          borderRadius: 10,
+                          width: 250,
+                          height: 250,
+                          marginVertical: 10,
+                          alignSelf: "center",
+                        }}
                         source={{ uri: user.image_url }}
                       />
                     )}
                     {user.file_url && (
-                      <View style={{ flexDirection: "row", alignItems: "center", padding: 10 }}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          padding: 10,
+                        }}
+                      >
                         <FAIcon name="file" size={20} color="#2482AA" />
-                        <Text style={{ marginLeft: 10, color: "#2482AA" }}>{user.file_name || "Attached file"}</Text>
+                        <Text style={{ marginLeft: 10, color: "#2482AA" }}>
+                          {user.file_name || "Attached file"}
+                        </Text>
                       </View>
                     )}
                   </View>
-                  <ErrorMessage name="body_text" render={msg => <Text style={globalStyles.captionError}>{msg}</Text>} />
+                  <ErrorMessage
+                    name="body_text"
+                    render={(msg) => (
+                      <Text style={globalStyles.captionError}>{msg}</Text>
+                    )}
+                  />
 
                   <View style={styles.buttonRow}>
-                    <TouchableOpacity onPress={user.image_url ? resetApp : pickImage} style={styles.iconButton}>
-                      <MaterialIcon name={user.image_url ? "no-photography" : "add-a-photo"} size={30} color="#fff" />
+                    <TouchableOpacity
+                      onPress={user.image_url ? resetApp : pickImage}
+                      style={styles.iconButton}
+                    >
+                      <MaterialIcon
+                        name={user.image_url ? "no-photography" : "add-a-photo"}
+                        size={30}
+                        color="#fff"
+                      />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.submitButton} onPress={props.handleSubmit}>
-                      <Text style={globalStyles.primaryButtonText}>Update Post</Text>
+                    <TouchableOpacity
+                      style={styles.submitButton}
+                      onPress={props.handleSubmit}
+                    >
+                      <Text style={globalStyles.primaryButtonText}>
+                        Update Post
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -215,7 +271,19 @@ const styles = StyleSheet.create({
   backText: { color: "#2482AA", fontSize: 18, marginLeft: 8 },
   container: { flex: 1, alignItems: "center", paddingTop: 20 },
   formWrapper: { minWidth: 300, width: "90%", marginBottom: 400 },
-  buttonRow: { flexDirection: "row", justifyContent: "space-around", alignItems: "center", marginTop: 12 },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 12,
+  },
   iconButton: { backgroundColor: "#2482AA", padding: 10, borderRadius: 20 },
-  submitButton: { backgroundColor: "#2482AA", paddingVertical: 14, paddingHorizontal: 20, borderRadius: 20, width: "70%", alignItems: "center" },
+  submitButton: {
+    backgroundColor: "#2482AA",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    width: "70%",
+    alignItems: "center",
+  },
 });
