@@ -12,8 +12,48 @@ import {
 
 const URL_REGEX = /(https?:\/\/[^\s]+)/g;
 
-// Fetch OG metadata via a free proxy
+function safeHostname(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch (_) {
+    return url;
+  }
+}
+
+// Google open source favicon services，when og:image can not be fetched
+function faviconUrl(hostname) {
+  return `https://www.google.com/s2/favicons?sz=128&domain=${hostname}`;
+}
+
+// Analysis HTML content for Open Graph tags（ignore property/content attribute order）
+function parseOgTags(html) {
+  const getMeta = (prop) => {
+    const re1 = new RegExp(
+      `<meta[^>]+property=["']og:${prop}["'][^>]+content=["']([^"']*)["']`,
+      "i"
+    );
+    const m1 = html.match(re1);
+    if (m1) return m1[1];
+    const re2 = new RegExp(
+      `<meta[^>]+content=["']([^"']*)["'][^>]+property=["']og:${prop}["']`,
+      "i"
+    );
+    const m2 = html.match(re2);
+    return m2 ? m2[1] : null;
+  };
+  const titleTagMatch = html.match(/<title>([^<]*)<\/title>/i);
+  return {
+    title: getMeta("title") || (titleTagMatch ? titleTagMatch[1] : null),
+    description: getMeta("description"),
+    image: getMeta("image"),
+    siteName: getMeta("site_name"),
+  };
+}
+ 
+// Fetch OG metadata via a free proxy，並針對縮址 / 被擋爬蟲的網站提供多層備援，
 async function fetchLinkPreview(url) {
+  const hostname = safeHostname(url);
+  // Fetch OG metadata via a free proxy
   try {
     const endpoint = `https://api.microlink.io/?url=${encodeURIComponent(url)}`;
     const res = await fetch(endpoint);
@@ -27,13 +67,35 @@ async function fetchLinkPreview(url) {
       };
     }
   } catch (_) {}
-  // fallback: just show the URL
+
+  // Second layer: fetch the target webpage HTML directly and parse the og tags
+  // (handle websites that microlink cannot access, such as YouTube or various shortened URL services)
   try {
-    return { title: url, description: "", image: null, siteName: new URL(url).hostname };
-  } catch (_) {
-    return { title: url, description: "", image: null, siteName: url };
-  }
+    const proxied = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxied);
+    const html = await res.text();
+    const og = parseOgTags(html);
+    if (og.title || og.image) {
+      return {
+        title: og.title || hostname,
+        description: og.description || "",
+        image: og.image || faviconUrl(hostname),
+        imageType: og.image ? "hero" : "icon",
+        siteName: og.siteName || hostname,
+      };
+    }
+  } catch (_) {}
+
+  // Third layer (fallback): always show favicon + domain name to maintain consistent style with other link cards
+  return {
+    title: hostname,
+    description: "",
+    image: faviconUrl(hostname),
+    imageType: "icon",
+    siteName: hostname,
+  };
 }
+ 
 
 export default function LinkPreviewCard({ url }) {
   const [preview, setPreview] = React.useState(null);

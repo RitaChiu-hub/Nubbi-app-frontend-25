@@ -140,22 +140,36 @@ export default function CreatePostScreen({ navigation }) {
   };
 // ── Link handlers ─────────────────────────────────────────
    const confirmLink = () => {
-    const trimmedUrl  = linkInput.trim();
-    if (trimmedUrl && trimmedUrl.match(/^https?:\/\/.+/)) {
-      // Append URL into the Post text field
-      if (formikRef.current) {
-        const currentText = formikRef.current.values.body_text;
-        const newText = currentText ? currentText + " " + trimmedUrl : trimmedUrl;
-        formikRef.current.setFieldValue("body_text", newText);
-      }
-      setPickedLink({ text: linkText.trim() || trimmedUrl, url: trimmedUrl });
-      setLinkModalVisible(false);
-      setLinkText("");
-      setLinkInput("");
-    } else {
-      alert("Please enter a valid URL starting with http:// or https://");
-    }
-  };
+  
+   const trimmedUrl = linkInput.trim();  
+   const trimmedText = linkText.trim();  
+
+   if (!trimmedUrl) {
+    alert("URL cannot be empty.");
+    return;
+  }
+  if (!trimmedUrl.match(/^https?:\/\/.+\..+/)) {
+    alert("Invalid URL. Must start with http:// or https://");
+    return;
+  }
+
+   if (formikRef.current) {
+    const currentText = formikRef.current.values.body_text;
+    const displayText = trimmedText || trimmedUrl;
+
+    // Save as Markdown format：[youtube](https://www.youtube.com/)
+    // → Markdown can be rendered in the app, and the link will be clickable
+    // → regex can also detect URLs inside parentheses
+    const markdownLink = `[${displayText}](${trimmedUrl})`;
+    const newText = currentText ? currentText + " " + markdownLink : markdownLink;
+    formikRef.current.setFieldValue("body_text", newText);
+  }
+
+  setPickedLink({ text: trimmedText || trimmedUrl, url: trimmedUrl });
+  setLinkModalVisible(false);
+  setLinkText("");
+  setLinkInput("");
+};
   // ─────────────────────────────────────────────────────────
 
   const resetApp = () => setPickedImage(null);

@@ -66,8 +66,10 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const scrollViewRef = React.useRef();
 
-  React.useEffect(() => {
-  const match = postInfo.body_text?.match(/(https?:\/\/[^\s]+)/);
+React.useEffect(() => {
+  // detect plain URLs or Markdown [text](url) format URLs
+  // use [^\s)] format avoid  regex ")" matching
+  const match = postInfo.body_text?.match(/(https?:\/\/[^\s)]+)/);
   setDetectedUrl(match ? match[0] : null);
 }, [postInfo.body_text]);
 
@@ -425,6 +427,16 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
+  // shared onLinkPress handler for both Markdown components
+  const handleLinkPress = (url) => {
+    if (Platform.OS === "web") {
+      window.open(url, "_blank", "noopener,noreferrer");
+    } else {
+      Linking.openURL(url);
+    }
+    return false; // prevent Markdown default behaviour
+  };
+
   if (loading || loadedPostId !== postId) {
     return (
       <View
@@ -694,65 +706,19 @@ export default function ViewPostScreen({ navigation, route }) {
               <View style={{ padding: 14 }}>
                 {/* <Text style={[globalStyles.bodyRegular, { padding: 14 }]}> */}
                 <Markdown
+                  onLinkPress={handleLinkPress}
                   style={{
-                    body: {
-                      fontFamily: "Poppins_400Regular",
-                      fontSize: 14,
-                      color: "#050505",
-                    },
-                    strong: { fontFamily: "Poppins_600SemiBold" }, // **bold**
-                    em: { fontStyle: "italic" }, // *italic*
+                    body: { fontFamily: "Poppins_400Regular", fontSize: 14, color: "#050505" },
+                    strong: { fontFamily: "Poppins_600SemiBold" },
+                    em: { fontStyle: "italic" },
                     link: { color: "#2482AA" },
-                    // bullet & numbered lists share the same left indent
                     bullet_list: { paddingLeft: 8 },
                     ordered_list: { paddingLeft: 8 },
                     list_item: { marginVertical: 2 },
-
-                    // block quotes
-                    block_quote: {
-                      borderLeftWidth: 3,
-                      borderLeftColor: "#7DDFA0",
-                      paddingLeft: 8,
-                      fontStyle: "italic",
-                      color: "#555",
-                    },
-
-                    // inline `code`
-                    code_inline: {
-                      backgroundColor: "#f1f1f1",
-                      borderRadius: 4,
-                      fontFamily: mono,
-                      fontSize: 13, // shrink text
-                      paddingHorizontal: 4, // reduce side padding
-                      paddingVertical: 2, // add small vertical padding
-                      marginHorizontal: 2, // tiny gaps between code and text
-                      flexShrink: 1, // allow it to shrink
-                      flexWrap: "wrap", // wrap long bits onto next line
-                      alignSelf: "flex-start", // don’t stretch to full width
-                    },
-
-                    // fenced ```code blocks```
-                    fence: {
-                      backgroundColor: "#f9f9f9e9",
-                      borderRadius: 6,
-                      fontFamily: mono,
-                      fontSize: 13, // shrink text
-                      padding: 8, // keep a little padding
-                      marginVertical: 8, // space above/below block
-                      maxWidth: deviceWidth * 0.95, // never wider than screen
-                      overflow: "scroll", // horizontal scroll if needed
-                    },
-                    code_block: {
-                      backgroundColor: "#f9f9f9",
-                      borderRadius: 6,
-                      fontFamily: mono,
-                      fontSize: 13,
-                      padding: 8,
-                      marginVertical: 8,
-                      flexShrink: 1,
-                      width: "100%",
-                      overflow: "hidden",
-                    },
+                    block_quote: { borderLeftWidth: 3, borderLeftColor: "#7DDFA0", paddingLeft: 8, fontStyle: "italic", color: "#555" },
+                    code_inline: { backgroundColor: "#f1f1f1", borderRadius: 4, fontFamily: mono, fontSize: 13, paddingHorizontal: 4, paddingVertical: 2, marginHorizontal: 2, flexShrink: 1, flexWrap: "wrap", alignSelf: "flex-start" },
+                    fence: { backgroundColor: "#f9f9f9e9", borderRadius: 6, fontFamily: mono, fontSize: 13, padding: 8, marginVertical: 8, maxWidth: deviceWidth * 0.95, overflow: "scroll" },
+                    code_block: { backgroundColor: "#f9f9f9", borderRadius: 6, fontFamily: mono, fontSize: 13, padding: 8, marginVertical: 8, flexShrink: 1, width: "100%", overflow: "hidden" },
                   }}
                 >
                   {postInfo.body_text}
@@ -1015,69 +981,23 @@ export default function ViewPostScreen({ navigation, route }) {
                   </View>
                   <View style={{ paddingLeft: 4 }}>
                     <Markdown
-                      style={{
-                        body: {
-                          fontFamily: "Poppins_400Regular",
-                          fontSize: 14,
-                          color: "#050505",
-                        },
-                        strong: { fontFamily: "Poppins_600SemiBold" }, // **bold**
-                        em: { fontStyle: "italic" }, // *italic*
-                        link: { color: "#2482AA" },
-                        // bullet & numbered lists share the same left indent
-                        bullet_list: { paddingLeft: 8 },
-                        ordered_list: { paddingLeft: 8 },
-                        list_item: { marginVertical: 2 },
-
-                        // block quotes
-                        block_quote: {
-                          borderLeftWidth: 3,
-                          borderLeftColor: "#7DDFA0",
-                          paddingLeft: 8,
-                          fontStyle: "italic",
-                          color: "#555",
-                        },
-
-                        // inline `code`
-                        code_inline: {
-                          backgroundColor: "#f1f1f1",
-                          borderRadius: 4,
-                          fontFamily: mono,
-                          fontSize: 13, // shrink text
-                          paddingHorizontal: 4, // reduce side padding
-                          paddingVertical: 2, // add small vertical padding
-                          marginHorizontal: 2, // tiny gaps between code and text
-                          flexShrink: 1, // allow it to shrink
-                          flexWrap: "wrap", // wrap long bits onto next line
-                          alignSelf: "flex-start", // don’t stretch to full width
-                        },
-
-                        // fenced ```code blocks```
-                        fence: {
-                          backgroundColor: "#f9f9f9",
-                          borderRadius: 6,
-                          fontFamily: mono,
-                          fontSize: 13, // shrink text
-                          padding: 8, // keep a little padding
-                          marginVertical: 8, // space above/below block
-                          maxWidth: deviceWidth * 0.95, // never wider than screen
-                          overflow: "scroll", // horizontal scroll if needed
-                        },
-                        code_block: {
-                          backgroundColor: "#f9f9f9",
-                          borderRadius: 6,
-                          fontFamily: mono,
-                          fontSize: 13,
-                          padding: 8,
-                          marginVertical: 8,
-                          flexShrink: 1,
-                          width: "100%",
-                          overflow: "hidden",
-                        },
-                      }}
-                    >
-                      {comments.comment_text}
-                    </Markdown>
+                  onLinkPress={handleLinkPress}
+                  style={{
+                    body: { fontFamily: "Poppins_400Regular", fontSize: 14, color: "#050505" },
+                    strong: { fontFamily: "Poppins_600SemiBold" },
+                    em: { fontStyle: "italic" },
+                    link: { color: "#2482AA" },
+                    bullet_list: { paddingLeft: 8 },
+                    ordered_list: { paddingLeft: 8 },
+                    list_item: { marginVertical: 2 },
+                    block_quote: { borderLeftWidth: 3, borderLeftColor: "#7DDFA0", paddingLeft: 8, fontStyle: "italic", color: "#555" },
+                    code_inline: { backgroundColor: "#f1f1f1", borderRadius: 4, fontFamily: mono, fontSize: 13, paddingHorizontal: 4, paddingVertical: 2, marginHorizontal: 2, flexShrink: 1, flexWrap: "wrap", alignSelf: "flex-start" },
+                    fence: { backgroundColor: "#f9f9f9", borderRadius: 6, fontFamily: mono, fontSize: 13, padding: 8, marginVertical: 8, maxWidth: deviceWidth * 0.95, overflow: "scroll" },
+                    code_block: { backgroundColor: "#f9f9f9", borderRadius: 6, fontFamily: mono, fontSize: 13, padding: 8, marginVertical: 8, flexShrink: 1, width: "100%", overflow: "hidden" },
+                  }}
+                >
+                  {comments.comment_text}
+                </Markdown>
                   </View>
                 </View>
               );
