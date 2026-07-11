@@ -24,9 +24,31 @@ import socket from "../../socket";
 // syntax or turn it into a clickable link; that's left for the post detail
 // page (ViewPostScreen) to handle.
 
-function stripMarkdownLinks(text) {
+function renderBodyWithLinkStyle(text) {
   if (!text) return text;
-  return text.replace(/\[([^\]]+)\]\(https?:\/\/[^\s)]+\)/g, "$1");
+  const regex = /\[([^\]]+)\]\(https?:\/\/[^\s)]+\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+  let key = 0;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(<Text key={key++}>{text.slice(lastIndex, match.index)}</Text>);
+    }
+    parts.push(
+      <Text
+        key={key++}
+        style={{ color: "#2482AA", textDecorationLine: "underline" }}
+      >
+        {match[1]}
+      </Text>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    parts.push(<Text key={key++}>{text.slice(lastIndex)}</Text>);
+  }
+  return parts;
 }
 
 export default function PostScreen({ navigation }) {
@@ -341,7 +363,7 @@ export default function PostScreen({ navigation }) {
               numberOfLines={2}
               ellipsizeMode="tail"
             >
-               {post_author}: {stripMarkdownLinks(body)}
+              {post_author}: {renderBodyWithLinkStyle(body)}
             </Text>
           </View>
           {image_url && (
