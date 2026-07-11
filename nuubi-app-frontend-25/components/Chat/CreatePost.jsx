@@ -28,6 +28,28 @@ import * as SecureStore from "expo-secure-store";
 import FAIcon from "@expo/vector-icons/FontAwesome";
 import { useFocusEffect } from "@react-navigation/native";
 
+ 
+// ── Helper: split body_text into segments based on the applied link's display text ──
+// Find the first occurrence of pickedLink.text and split the string into
+// "before / link / after" segments.
+// Since the extracted text is character-for-character identical to the
+// original text (no characters are hidden), the overlay text layer and the
+// underlying TextInput's actual text stay aligned in length and line-wrapping,
+// so the cursor position never drifts.
+function getDisplaySegments(text, link) {
+  if (!link || !text) return [{ text: text || "", isLink: false }];
+  const idx = text.indexOf(link.text);
+  if (idx === -1) return [{ text, isLink: false }];
+  const before = text.slice(0, idx);
+  const matched = text.slice(idx, idx + link.text.length);
+  const after = text.slice(idx + link.text.length);
+  const segments = [];
+  if (before) segments.push({ text: before, isLink: false });
+  segments.push({ text: matched, isLink: true });
+  if (after) segments.push({ text: after, isLink: false });
+  return segments;
+}
+
 export default function CreatePostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [status, setStatus] = React.useState(null);
@@ -153,24 +175,26 @@ export default function CreatePostScreen({ navigation }) {
     return;
   }
 
-   if (formikRef.current) {
+// Insert the "display text" directly into the user's typing area
+// (appended naturally to the existing content), so the link text itself
+// becomes part of the post content. The actual [text](url) markdown
+// syntax is only assembled when the post is submitted — while editing,
+// the user only ever sees natural text.
+
+  if (formikRef.current) {
     const currentText = formikRef.current.values.body_text;
     const displayText = trimmedText || trimmedUrl;
-
-    // Save as Markdown format：[youtube](https://www.youtube.com/)
-    // → Markdown can be rendered in the app, and the link will be clickable
-    // → regex can also detect URLs inside parentheses
-    const markdownLink = `[${displayText}](${trimmedUrl})`;
-    const newText = currentText ? currentText + " " + markdownLink : markdownLink;
+    const newText = currentText ? `${currentText} ${displayText}` : displayText;
     formikRef.current.setFieldValue("body_text", newText);
   }
-
+ 
   setPickedLink({ text: trimmedText || trimmedUrl, url: trimmedUrl });
   setLinkModalVisible(false);
   setLinkText("");
   setLinkInput("");
 };
   // ─────────────────────────────────────────────────────────
+  
 
   const resetApp = () => setPickedImage(null);
   const resetFile = () => setPickedFile(null);
@@ -268,6 +292,16 @@ export default function CreatePostScreen({ navigation }) {
                     fileUrl = await uploadToS3(pickedFile.uri, fileName, pickedFile.type || "application/octet-stream");
                   }
 
+                // What the user sees in the typing area is natural text (e.g. "youtube").
+                // Here, at the moment of submission, that segment of text is replaced with
+                // the full [text](url) markdown syntax, which gets saved to the database
+                // and rendered as a hyperlink by View Post.
+                  let finalBodyText = values.body_text;
+                  if (pickedLink && finalBodyText.includes(pickedLink.text)) {
+                    const markdownLink = `[${pickedLink.text}](${pickedLink.url})`;
+                    finalBodyText = finalBodyText.replace(pickedLink.text, markdownLink);
+                  }
+
                   const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
                   const res = await fetch(`${API_URL}/groups/${user.currentGroup}/createpost`, {
                     method: "POST",
@@ -275,7 +309,7 @@ export default function CreatePostScreen({ navigation }) {
                       "Content-Type": "application/json",
                       ...(token ? { Authorization: `Bearer ${token}` } : {}),
                     },
-                    body: JSON.stringify({ ...user, ...values, imageUrl, fileUrl, fileName }),
+                    body: JSON.stringify({ ...user, ...values, body_text: finalBodyText, imageUrl, fileUrl, fileName }),
                   });
 
                   if (!res.ok) throw new Error("Post creation failed");
@@ -309,13 +343,32 @@ export default function CreatePostScreen({ navigation }) {
 
                   <Text style={globalStyles.textInputLabel}>Post</Text>
                   <View style={globalStyles.postContainer}>
-                    <TextInput
-                      style={globalStyles.postTextInput}
-                      multiline={true}
-                      placeholder="Enter text"
-                      onChangeText={props.handleChange("body_text")}
-                      value={props.values.body_text}
-                    />
+                      <View style={styles.postInputWrapper}>
+                      {/* Overlay: colors the text segment corresponding to the applied link
+                       blue with an underline, visually displaying it as a clickable hyperlink style, layered on top of the typing area */}
+                      <Text
+                        style={[globalStyles.postTextInput, styles.overlayText]}
+                        pointerEvents="none"
+                      >
+                        {getDisplaySegments(props.values.body_text, pickedLink).map((seg, i) =>
+                          seg.isLink ? (
+                            <Text key={i} style={styles.inlineLinkText}>{seg.text}</Text>
+                          ) : (
+                            <Text key={i}>{seg.text}</Text>
+                          )
+                        )}
+                        {!props.values.body_text ? " " : ""}
+                      </Text>
+                      <TextInput
+                        style={[globalStyles.postTextInput, styles.transparentInputText]}
+                        multiline={true}
+                        placeholder="Enter text"
+                        onChangeText={props.handleChange("body_text")}
+                        value={props.values.body_text}
+                        cursorColor="#2482AA"
+                        selectionColor="#2482AA55"
+                      />
+                    </View>
                     {pickedImage && <Image style={globalStyles.squareImageContainer} source={{ uri: pickedImage.uri }} />}
                     {pickedFile && <Text style={globalStyles.captionError}>{pickedFile.name}</Text>}
                   </View>
@@ -368,6 +421,29 @@ const styles = StyleSheet.create({
   submitButton: { backgroundColor: "#2482AA", paddingVertical: 14, paddingHorizontal: 20, borderRadius: 20, width: "35%", alignItems: "center" },
   linkPreview:  { fontSize: 12, color: "#555", marginTop: 6 },
   
+
+// Overlay layer: the underlying TextInput's text is set to transparent,
+// leaving only the cursor visible. On top, an identical layer of text
+// content is overlaid, with the link segment colored blue and underlined.
+// Since both layers contain exactly the same text (no hidden characters),
+// the line-wrapping and cursor position stay aligned.
+
+  postInputWrapper: { position: "relative", width: "100%" },
+  overlayText: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    color: "#050505",
+  },
+  transparentInputText: {
+    color: "transparent",
+  },
+  inlineLinkText: {
+    color: "#2482AA",
+    textDecorationLine: "underline",
+  },
+
   // Modal
 modalOverlay:   { flex: 1, backgroundColor: "rgba(0,0,0,0.2)", justifyContent: "center", alignItems: "center" },
 modalBox:       { backgroundColor: "#fff", borderRadius: 12, padding: 16, width: "100%", shadowColor: "#000", shadowOpacity: 0.15, shadowRadius: 10, elevation: 5 },

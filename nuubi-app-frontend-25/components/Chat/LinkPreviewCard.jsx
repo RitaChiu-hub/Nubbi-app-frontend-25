@@ -49,21 +49,36 @@ function parseOgTags(html) {
     siteName: getMeta("site_name"),
   };
 }
+
+
+const previewCache = new Map();
  
-// Fetch OG metadata via a free proxy，並針對縮址 / 被擋爬蟲的網站提供多層備援，
 async function fetchLinkPreview(url) {
+  if (previewCache.has(url)) {
+    return previewCache.get(url);
+  }
+  const result = await fetchLinkPreviewUncached(url);
+  previewCache.set(url, result);
+  return result;
+}
+
+// Fetch OG metadata via a free proxy，並針對縮址 / 被擋爬蟲的網站提供多層備援，
+async function fetchLinkPreviewUncached(url) {
   const hostname = safeHostname(url);
-  // Fetch OG metadata via a free proxy
+ 
+  // First layer：microlink
   try {
     const endpoint = `https://api.microlink.io/?url=${encodeURIComponent(url)}`;
     const res = await fetch(endpoint);
     const json = await res.json();
-    if (json.status === "success") {
+    if (json.status === "success" && json.data) {
+      const image = json.data.image?.url || json.data.logo?.url || null;
       return {
-        title: json.data.title || url,
+        title: json.data.title || hostname,
         description: json.data.description || "",
-        image: json.data.image?.url || null,
-        siteName: json.data.publisher || new URL(url).hostname,
+        image: image || faviconUrl(hostname),
+        imageType: image ? "hero" : "icon",
+        siteName: json.data.publisher || hostname,
       };
     }
   } catch (_) {}
@@ -75,15 +90,27 @@ async function fetchLinkPreview(url) {
     const res = await fetch(proxied);
     const html = await res.text();
     const og = parseOgTags(html);
-    if (og.title || og.image) {
+   
+    // Sanity check: some bot-blocked sites (e.g. YouTube) redirect crawlers to
+    // a consent/interstitial page instead of the real content. That page's
+    // title often just looks like a raw URL (e.g. "https://..."), and showing
+    // it as-is would produce a broken-looking preview card. Treat such a title
+    // as untrustworthy and discard this layer, falling through to the third
+    // layer's favicon fallback instead.
+    const isValidTitle =
+      og.title && og.title.trim().length > 3 && !/^https?:\/\//i.test(og.title.trim());
+ 
+    if (isValidTitle) {
       return {
-        title: og.title || hostname,
+        title: og.title,
         description: og.description || "",
         image: og.image || faviconUrl(hostname),
         imageType: og.image ? "hero" : "icon",
         siteName: og.siteName || hostname,
       };
     }
+    // Title is untrustworthy — discard the image along with it too,
+    // to avoid a mismatch between the image and the title.
   } catch (_) {}
 
   // Third layer (fallback): always show favicon + domain name to maintain consistent style with other link cards
@@ -95,12 +122,21 @@ async function fetchLinkPreview(url) {
     siteName: hostname,
   };
 }
- 
+
+// javascript// Fixed max width/height of the image container (matches the card layout)
+const IMAGE_BOX_HEIGHT = 140;
 
 export default function LinkPreviewCard({ url }) {
   const [preview, setPreview] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [warningVisible, setWarningVisible] = React.useState(false);
+
+  // The image's "natural resolution" vs. the actual width of the card container,
+  // used to calculate the "never scale up, only scale down" display size,
+  // avoiding small images from being hard-stretched and blurred.
+
+  const [naturalSize, setNaturalSize] = React.useState(null);
+  const [containerWidth, setContainerWidth] = React.useState(0);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -114,6 +150,17 @@ export default function LinkPreviewCard({ url }) {
     return () => { cancelled = true; };
   }, [url]);
 
+  React.useEffect(() => {
+    setNaturalSize(null);
+    if (preview?.image) {
+      Image.getSize(
+        preview.image,
+        (w, h) => setNaturalSize({ width: w, height: h }),
+        () => setNaturalSize(null)
+      );
+    }
+  }, [preview?.image]);
+
   const handleOpen = () => {
     if (Platform.OS === "web") {
       window.open(url, "_blank", "noopener,noreferrer");
@@ -122,7 +169,21 @@ export default function LinkPreviewCard({ url }) {
     }
     setWarningVisible(false);
   };
+  
 
+ // Compute the actual width/height to display the image at: only allow
+ // shrinking (scale <= 1) — never upscale a low-resolution image to fill
+ // the container, which would make it blurry.
+ 
+  let displayWidth = "100%";
+  let displayHeight = "100%";
+  let resizeMode = "contain";
+  if (naturalSize && containerWidth > 0) {
+    const scale = Math.min(1, containerWidth / naturalSize.width, IMAGE_BOX_HEIGHT / naturalSize.height);
+    displayWidth = naturalSize.width * scale;
+    displayHeight = naturalSize.height * scale;
+  }
+ 
   return (
     <>
       {/* Safety warning modal */}
@@ -208,13 +269,30 @@ export default function LinkPreviewCard({ url }) {
             <ActivityIndicator size="small" color="#2482AA" />
           </View>
         ) : (
-          <>
+           <>
+             {/* Unified layout: the card's shape (container size) always stays the same;
+              the image itself is only ever scaled down proportionally, never
+              upscaled to fill the space — this avoids low-resolution images
+              being stretched blurry. */}
             {preview?.image && (
-              <Image
-                source={{ uri: preview.image }}
-                style={{ width: "100%", height: 160 }}
-                resizeMode="cover"
-              />
+              <View
+                onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}
+                style={{
+                  width: "100%",
+                  height: IMAGE_BOX_HEIGHT,
+                  backgroundColor: "#fff",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#eee",
+                }}
+               >
+                <Image
+                  source={{ uri: preview.image }}
+                  style={{ width: displayWidth, height: displayHeight }}
+                  resizeMode={resizeMode}
+                />
+              </View>
             )}
             <View style={{ padding: 12 }}>
               <Text style={{ fontSize: 11, color: "#999", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 2 }}>

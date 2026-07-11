@@ -18,6 +18,17 @@ import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 
+// Convert the markdown link syntax [display text](url) in body_text into
+// just the "display text" — used for the list preview snippet (Threads list).
+// This is only a text summary, so there's no need to show the full markdown
+// syntax or turn it into a clickable link; that's left for the post detail
+// page (ViewPostScreen) to handle.
+
+function stripMarkdownLinks(text) {
+  if (!text) return text;
+  return text.replace(/\[([^\]]+)\]\(https?:\/\/[^\s)]+\)/g, "$1");
+}
+
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [posts, setPosts] = React.useState([]);
@@ -330,7 +341,7 @@ export default function PostScreen({ navigation }) {
               numberOfLines={2}
               ellipsizeMode="tail"
             >
-              {post_author}: {body}
+               {post_author}: {stripMarkdownLinks(body)}
             </Text>
           </View>
           {image_url && (
