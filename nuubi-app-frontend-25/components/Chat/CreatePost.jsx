@@ -36,20 +36,39 @@ import { useFocusEffect } from "@react-navigation/native";
 // original text (no characters are hidden), the overlay text layer and the
 // underlying TextInput's actual text stay aligned in length and line-wrapping,
 // so the cursor position never drifts.
-function getDisplaySegments(text, link) {
-  if (!link || !text) return [{ text: text || "", isLink: false }];
-  const idx = text.indexOf(link.text);
-  if (idx === -1) return [{ text, isLink: false }];
-  const before = text.slice(0, idx);
-  const matched = text.slice(idx, idx + link.text.length);
-  const after = text.slice(idx + link.text.length);
+function getDisplaySegments(text, links) {
+  if (!links || links.length === 0 || !text) return [{ text: text || "", isLink: false }];
+ 
+  // Locate the first match for each link.
+  const matches = [];
+  links.forEach((link) => {
+    const idx = text.indexOf(link.text);
+    if (idx !== -1) matches.push({ start: idx, end: idx + link.text.length });
+  });
+  if (matches.length === 0) return [{ text, isLink: false }];
+ 
+  // Sort by position and drop any overlaps (keep the earliest match).
+  matches.sort((a, b) => a.start - b.start);
+  const merged = [];
+  let lastEnd = 0;
+  matches.forEach((m) => {
+    if (m.start >= lastEnd) {
+      merged.push(m);
+      lastEnd = m.end;
+    }
+  });
+ 
   const segments = [];
-  if (before) segments.push({ text: before, isLink: false });
-  segments.push({ text: matched, isLink: true });
-  if (after) segments.push({ text: after, isLink: false });
+  let cursor = 0;
+  merged.forEach((m) => {
+    if (m.start > cursor) segments.push({ text: text.slice(cursor, m.start), isLink: false });
+    segments.push({ text: text.slice(m.start, m.end), isLink: true });
+    cursor = m.end;
+  });
+  if (cursor < text.length) segments.push({ text: text.slice(cursor), isLink: false });
   return segments;
 }
-
+ 
 export default function CreatePostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [status, setStatus] = React.useState(null);
@@ -61,9 +80,10 @@ export default function CreatePostScreen({ navigation }) {
 
   // ── Link state ────────────────────────────────────────────
   const [linkModalVisible, setLinkModalVisible] = React.useState(false);
-  const [linkText, setLinkText] = React.useState("");    // 顯示文字
+  const [linkText, setLinkText] = React.useState("");    // display text
   const [linkInput, setLinkInput] = React.useState("");  // URL
-  const [pickedLink, setPickedLink] = React.useState(null); // { text, url }
+  const [pickedLinks, setPickedLinks] = React.useState([]); // [{ text, url }]
+  const [checkingLinkSafety, setCheckingLinkSafety] = React.useState(false); // whether the link safety check is currently running
   const formikRef = React.useRef(null); // ref to access Formik helpers
   // ─────────────────────────────────────────────────────────
 
@@ -74,7 +94,7 @@ export default function CreatePostScreen({ navigation }) {
       setStatus(null);
       setPickedImage(null);
       setPickedFile(null);
-      setPickedLink(null);
+      setPickedLinks([]);
       setLinkText(""); 
       setLinkInput("");
     }, [])
@@ -92,6 +112,49 @@ export default function CreatePostScreen({ navigation }) {
     });
     if (!response.ok) throw new Error("Failed to get S3 presigned URL");
     return await response.json();
+  };
+
+
+  // Calls our backend API, which uses the Google Safe Browsing API key to check
+  // whether this URL is flagged as malware or a phishing site. The API key must
+  // never live in the frontend, so we only hand the URL to our own backend,
+  // and the backend is the one that queries Google.
+  //
+  // The path `${API_URL}/file/check-url-safety` is a reserved backend endpoint.
+  //    The backend needs to implement this route for it to actually take effect.
+  //
+  // Fail-open strategy: if the check request itself fails (network issue,
+  // backend not ready yet, etc.), we currently choose to treat it as "safe"
+  // and let the user proceed, rather than blocking normal posting just because
+  // the safety-check service itself is unreliable. If you'd rather have a more
+  // conservative fail-closed behavior (block the link whenever the check fails),
+  // change the `safe` value returned in the catch block below to `false`.
+  // This is a security-vs-availability tradeoff — worth confirming with the
+  // team lead which one they want.
+  const checkUrlSafety = async (url) => {
+    try {
+      const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
+      const response = await fetch(`${API_URL}/file/check-url-safety`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ url }),
+      });
+ 
+      if (!response.ok) {
+        console.warn("URL safety check request failed with status:", response.status);
+        return { safe: true }; // fail-open: the check request itself failed, don't block the user
+      }
+ 
+      const data = await response.json();
+      // Expected backend response shape: { safe: boolean, threatType?: string }
+      return data;
+    } catch (error) {
+      console.error("URL safety check error:", error);
+      return { safe: true }; // fail-open: network error etc., don't block the user
+    }
   };
 
   const uploadToS3 = async (fileUri, fileName, fileType) => {
@@ -161,7 +224,7 @@ export default function CreatePostScreen({ navigation }) {
     }
   };
 // ── Link handlers ─────────────────────────────────────────
-   const confirmLink = () => {
+   const confirmLink = async () => {
   
    const trimmedUrl = linkInput.trim();  
    const trimmedText = linkText.trim();  
@@ -174,12 +237,28 @@ export default function CreatePostScreen({ navigation }) {
     alert("Invalid URL. Must start with http:// or https://");
     return;
   }
+  
+  // Before applying the link, check the URL's safety via Google Safe Browsing.
+  // While the check is running, disable the Apply button (to prevent double
+  // taps) and only proceed once the check has finished.
+  setCheckingLinkSafety(true);
+  const safety = await checkUrlSafety(trimmedUrl);
+  setCheckingLinkSafety(false);
+ 
+  if (!safety?.safe) {
+    alert(
+      safety?.threatType
+        ? `This link was flagged as "${safety.threatType}" by Google Safe Browsing and can't be added.`
+        : "This link was flagged as unsafe and can't be added."
+    );
+    return;
+  }
 
-// Insert the "display text" directly into the user's typing area
-// (appended naturally to the existing content), so the link text itself
-// becomes part of the post content. The actual [text](url) markdown
-// syntax is only assembled when the post is submitted — while editing,
-// the user only ever sees natural text.
+  // Insert the "display text" directly into the user's typing area
+  // (appended naturally to the existing content), so the link text itself
+  // becomes part of the post content. The actual [text](url) markdown
+  // syntax is only assembled when the post is submitted — while editing,
+  // the user only ever sees natural text.
 
   if (formikRef.current) {
     const currentText = formikRef.current.values.body_text;
@@ -187,8 +266,8 @@ export default function CreatePostScreen({ navigation }) {
     const newText = currentText ? `${currentText} ${displayText}` : displayText;
     formikRef.current.setFieldValue("body_text", newText);
   }
- 
-  setPickedLink({ text: trimmedText || trimmedUrl, url: trimmedUrl });
+
+  setPickedLinks((prev) => [...prev, { text: trimmedText || trimmedUrl, url: trimmedUrl }]);
   setLinkModalVisible(false);
   setLinkText("");
   setLinkInput("");
@@ -198,8 +277,8 @@ export default function CreatePostScreen({ navigation }) {
 
   const resetApp = () => setPickedImage(null);
   const resetFile = () => setPickedFile(null);
-  const resetLink = () => setPickedLink(null); // clear link
-
+  const clearAllLinks = () => setPickedLinks([]); // clear every link
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => <Text style={globalStyles.h3HeadingWhite}>Create Post</Text>,
@@ -297,9 +376,29 @@ export default function CreatePostScreen({ navigation }) {
                 // the full [text](url) markdown syntax, which gets saved to the database
                 // and rendered as a hyperlink by View Post.
                   let finalBodyText = values.body_text;
-                  if (pickedLink && finalBodyText.includes(pickedLink.text)) {
-                    const markdownLink = `[${pickedLink.text}](${pickedLink.url})`;
-                    finalBodyText = finalBodyText.replace(pickedLink.text, markdownLink);
+                   if (pickedLinks.length > 0) {
+                    const matches = [];
+                    pickedLinks.forEach((link) => {
+                      const idx = finalBodyText.indexOf(link.text);
+                      if (idx !== -1) matches.push({ start: idx, end: idx + link.text.length, url: link.url });
+                    });
+                    matches.sort((a, b) => a.start - b.start);
+                    const merged = [];
+                    let lastEnd = 0;
+                    matches.forEach((m) => {
+                      if (m.start >= lastEnd) {
+                        merged.push(m);
+                        lastEnd = m.end;
+                      }
+                    });
+                    // Insert right-to-left so earlier match positions stay valid
+                    // as we splice later (rightmost) ones in first.
+                    for (let i = merged.length - 1; i >= 0; i--) {
+                      const m = merged[i];
+                      const displayText = finalBodyText.slice(m.start, m.end);
+                      const markdownLink = `[${displayText}](${m.url})`;
+                      finalBodyText = finalBodyText.slice(0, m.start) + markdownLink + finalBodyText.slice(m.end);
+                    }
                   }
 
                   const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
@@ -309,7 +408,17 @@ export default function CreatePostScreen({ navigation }) {
                       "Content-Type": "application/json",
                       ...(token ? { Authorization: `Bearer ${token}` } : {}),
                     },
-                    body: JSON.stringify({ ...user, ...values, body_text: finalBodyText, imageUrl, fileUrl, fileName }),
+                    body: JSON.stringify({
+                      ...user,
+                      ...values,
+                      body_text: finalBodyText,
+                      imageUrl,
+                      fileUrl,
+                      fileName,
+                      image_url: imageUrl,
+                      file_url: fileUrl,
+                      file_name: fileName,
+                    }),
                   });
 
                   if (!res.ok) throw new Error("Post creation failed");
@@ -320,6 +429,7 @@ export default function CreatePostScreen({ navigation }) {
                   actions.resetForm();
                   setPickedImage(null);
                   setPickedFile(null);
+                  setPickedLinks([]);
                 } catch (error) {
                   console.error(error);
                   setStatus("Error creating post");
@@ -350,7 +460,7 @@ export default function CreatePostScreen({ navigation }) {
                         style={[globalStyles.postTextInput, styles.overlayText]}
                         pointerEvents="none"
                       >
-                        {getDisplaySegments(props.values.body_text, pickedLink).map((seg, i) =>
+                        {getDisplaySegments(props.values.body_text, pickedLinks).map((seg, i) =>
                           seg.isLink ? (
                             <Text key={i} style={styles.inlineLinkText}>{seg.text}</Text>
                           ) : (
@@ -381,12 +491,13 @@ export default function CreatePostScreen({ navigation }) {
                     <TouchableOpacity onPress={pickedFile ? resetFile : pickFile} style={styles.iconButton}>
                       <MaterialIcon name={pickedFile ? "edit-document" : "attach-file"} size={30} color="#fff" />
                     </TouchableOpacity>
-                     {/* link button (add) */}
+                      {/* link button (add) — tap to add another link; long-press to clear all */}
                     <TouchableOpacity
-                      onPress={pickedLink ? resetLink : () => setLinkModalVisible(true)}
-                      style={[styles.iconButton, pickedLink && { backgroundColor: "#e07b00" }]}
+                      onPress={() => setLinkModalVisible(true)}
+                      onLongPress={pickedLinks.length > 0 ? clearAllLinks : undefined}
+                      style={[styles.iconButton, pickedLinks.length > 0 && { backgroundColor: "#e07b00" }]}
                     >
-                      <MaterialIcon name={pickedLink ? "link-off" : "add-link"} size={30} color="#fff" />
+                      <MaterialIcon name="add-link" size={30} color="#fff" />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.submitButton} onPress={props.handleSubmit}>

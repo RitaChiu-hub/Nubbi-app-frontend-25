@@ -59,7 +59,7 @@ export default function ViewPostScreen({ navigation, route }) {
   const postId = route.params?.currentPost ?? user.currentPost ?? null;
   const [loading, setLoading] = React.useState(true);
   const [loadedPostId, setLoadedPostId] = React.useState(null);
-  const [detectedUrl, setDetectedUrl] = React.useState(null);
+  const [detectedUrls, setDetectedUrls] = React.useState([]);
   const deviceWidth = Dimensions.get("window").width;
   // Note: Post view deduplication is now handled in sessionService
   // This ref is kept for backward compatibility but sessionService handles deduplication
@@ -67,10 +67,25 @@ export default function ViewPostScreen({ navigation, route }) {
   const scrollViewRef = React.useRef();
 
 React.useEffect(() => {
-  // detect plain URLs or Markdown [text](url) format URLs
-  // use [^\s)] format avoid  regex ")" matching
-  const match = postInfo.body_text?.match(/(https?:\/\/[^\s)]+)/);
-  setDetectedUrl(match ? match[0] : null);
+  // Detect every plain URL or Markdown [text](url) format URL in the body,
+  // not just the first one — each distinct link gets its own preview card
+  // below. Using a global regex here (previously missing the /g flag meant
+  // .match() only ever returned the first URL in the whole post).
+  // Also exclude "]" from the match so a URL sitting right before a markdown
+  // closing bracket doesn't accidentally swallow it.
+  const text = postInfo.body_text || "";
+  const regex = /(https?:\/\/[^\s)\]]+)/g;
+  const found = [];
+  const seen = new Set();
+  let m;
+  while ((m = regex.exec(text)) !== null) {
+    const url = m[0];
+    if (!seen.has(url)) {
+      seen.add(url);
+      found.push(url);
+    }
+  }
+  setDetectedUrls(found);
 }, [postInfo.body_text]);
 
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
@@ -427,16 +442,39 @@ React.useEffect(() => {
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
-  // shared onLinkPress handler for both Markdown components
-  const handleLinkPress = (url) => {
-    if (Platform.OS === "web") {
-      window.open(url, "_blank", "noopener,noreferrer");
-    } else {
-      Linking.openURL(url);
+  // shared onLinkPress handler for both Markdown components — instead of
+  // opening the URL straight away, show the same "you're leaving the app"
+  // confirmation used by LinkPreviewCard, so a plain hyperlink typed inline
+  // in the post text gets the same safety check as the preview card does.
+  const [linkWarningVisible, setLinkWarningVisible] = React.useState(false);
+  const [pendingLinkUrl, setPendingLinkUrl] = React.useState(null);
+ 
+  const safeHostname = (url) => {
+    try {
+      return new URL(url).hostname.replace(/^www\./, "");
+    } catch (_) {
+      return url;
     }
-    return false; // prevent Markdown default behaviour
   };
-
+ 
+  const handleLinkPress = (url) => {
+    setPendingLinkUrl(url);
+    setLinkWarningVisible(true);
+    return false; 
+  };
+ 
+  const confirmOpenPendingLink = () => {
+    if (pendingLinkUrl) {
+      if (Platform.OS === "web") {
+        window.open(pendingLinkUrl, "_blank", "noopener,noreferrer");
+      } else {
+        Linking.openURL(pendingLinkUrl);
+      }
+    }
+    setLinkWarningVisible(false);
+    setPendingLinkUrl(null);
+  };
+ 
   if (loading || loadedPostId !== postId) {
     return (
       <View
@@ -463,7 +501,74 @@ React.useEffect(() => {
         alignItems: "center",
       }}
     >
-      {/* ⬅️ Back button at the very top */}
+        {/* Safety confirmation for tapping a plain hyperlink in the post/comment
+          text — same warning shown by LinkPreviewCard when tapping the
+          preview card itself */}
+      <Modal
+        transparent
+        visible={linkWarningVisible}
+        animationType="fade"
+        onRequestClose={() => setLinkWarningVisible(false)}
+      >
+        <View style={{
+          flex: 1,
+          backgroundColor: "rgba(0,0,0,0.4)",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 24,
+        }}>
+          <View style={{
+            backgroundColor: "#fff",
+            borderRadius: 16,
+            padding: 20,
+            width: "100%",
+            maxWidth: 360,
+          }}>
+            <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 8, color: "#050505" }}>
+              You're leaving the app
+            </Text>
+            <Text style={{ fontSize: 14, color: "#555", marginBottom: 4 }}>
+              This will open{" "}
+              <Text style={{ fontWeight: "600", color: "#050505" }}>
+                {pendingLinkUrl ? safeHostname(pendingLinkUrl) : ""}
+              </Text>{" "}
+              in your browser.
+            </Text>
+            <Text style={{ fontSize: 13, color: "#888", marginBottom: 20 }}>
+              Make sure you trust this link before continuing.
+            </Text>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <TouchableOpacity
+                onPress={() => setLinkWarningVisible(false)}
+                style={{
+                  flex: 1,
+                  paddingVertical: 12,
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "#555", fontSize: 14 }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={confirmOpenPendingLink}
+                style={{
+                  flex: 1,
+                  paddingVertical: 12,
+                  borderRadius: 10,
+                  backgroundColor: "#2482AA",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "#fff", fontSize: 14, fontWeight: "600" }}>Open link</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Back button at the very top */}
       {Platform.OS === "web" && (
         <TouchableOpacity
           onPress={navigation.goBack}
@@ -723,7 +828,9 @@ React.useEffect(() => {
                 >
                   {postInfo.body_text}
                 </Markdown>
-                {detectedUrl && <LinkPreviewCard url={detectedUrl} />}
+                {detectedUrls.map((url) => (
+                  <LinkPreviewCard key={url} url={url} />
+                ))}
               </View>
               {/* </Text> */}
               <View style={{ justifyContent: "center", alignItems: "center" }}>
