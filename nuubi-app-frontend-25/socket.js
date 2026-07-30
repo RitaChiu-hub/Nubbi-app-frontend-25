@@ -1,11 +1,14 @@
+import { Platform } from "react-native";
 import { io } from "socket.io-client";
 
 // Toggle this to switch between development and production
 const DEV = true;
 
 // Development backend: your computer’s LAN IP and port
-// Make sure your phone/device is on the same network
-const DEV_URL = "http://192.168.1.100:8080";
+// For Web, localhost is usually fine. For mobile, use your LAN IP.
+const DEV_URL = Platform.OS === "web" 
+  ? "http://localhost:8080" 
+  : "http://192.168.1.100:8080";
 
 // Production backend
 const PROD_URL = "https://api.nuubi.com";
