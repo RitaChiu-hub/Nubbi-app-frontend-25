@@ -18,6 +18,39 @@ import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
 
+// Convert the markdown link syntax [display text](url) in body_text into
+// just the "display text" — used for the list preview snippet (Threads list).
+// This is only a text summary, so there's no need to show the full markdown
+// syntax or turn it into a clickable link; that's left for the post detail
+// page (ViewPostScreen) to handle.
+
+function renderBodyWithLinkStyle(text) {
+  if (!text) return text;
+  const regex = /\[([^\]]+)\]\(https?:\/\/[^\s)]+\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+  let key = 0;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(<Text key={key++}>{text.slice(lastIndex, match.index)}</Text>);
+    }
+    parts.push(
+      <Text
+        key={key++}
+        style={{ color: "#2482AA", textDecorationLine: "underline" }}
+      >
+        {match[1]}
+      </Text>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) {
+    parts.push(<Text key={key++}>{text.slice(lastIndex)}</Text>);
+  }
+  return parts;
+}
+
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [posts, setPosts] = React.useState([]);
@@ -330,7 +363,7 @@ export default function PostScreen({ navigation }) {
               numberOfLines={2}
               ellipsizeMode="tail"
             >
-              {post_author}: {body}
+              {post_author}: {renderBodyWithLinkStyle(body)}
             </Text>
           </View>
           {image_url && (
