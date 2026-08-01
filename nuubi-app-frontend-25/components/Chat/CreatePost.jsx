@@ -70,6 +70,7 @@ function getDisplaySegments(text, links) {
 }
  
 export default function CreatePostScreen({ navigation }) {
+export default function CreatePostScreen({ navigation, route }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [status, setStatus] = React.useState(null);
   const [formKey, setFormKey] = React.useState(Date.now());
@@ -108,6 +109,7 @@ export default function CreatePostScreen({ navigation }) {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
+      credentials: "include",
       body: JSON.stringify({ fileName, fileType }),
     });
     if (!response.ok) throw new Error("Failed to get S3 presigned URL");
@@ -354,6 +356,10 @@ export default function CreatePostScreen({ navigation }) {
               key={formKey}
               innerRef={formikRef}
               initialValues={{ title: "", body_text: "" }}
+              initialValues={{ 
+                title: route.params?.defaultTitle || "", 
+                body_text: route.params?.defaultContent || "",
+              }}
               enableReinitialize={true}
               validationSchema={createPostSchema}
               onSubmit={async (values, actions) => {
@@ -419,6 +425,8 @@ export default function CreatePostScreen({ navigation }) {
                       file_url: fileUrl,
                       file_name: fileName,
                     }),
+                    credentials: "include",
+                    body: JSON.stringify({ ...user, ...values, imageUrl, fileUrl, fileName }),
                   });
 
                   if (!res.ok) throw new Error("Post creation failed");

@@ -346,7 +346,8 @@ export default function CertificatesScreen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}>
+    // Main landmark for My Badges, helping screen reader users access the primary content area.
+    <View role="main" aria-label="My Badges main content" style={{ flex: 1, backgroundColor: "#fbfbfb", alignItems: "center" }}>
       <View
         style={{
           alignItems: "flex-start",

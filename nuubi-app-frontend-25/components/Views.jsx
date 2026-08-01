@@ -1,13 +1,15 @@
 import "react-native-gesture-handler";
 import * as React from "react";
 import { API_URL } from "../config";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigationState } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+// Import DrawerToggleButton to reuse React Navigation's default drawer menu button in the custom web header. 
+// Import drawer content helpers to add web focus containment for the drawer.
+import { createDrawerNavigator, DrawerToggleButton, DrawerContentScrollView, DrawerItemList, useDrawerStatus } from "@react-navigation/drawer"; 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { DefaultTheme, NavigationContainer, DrawerActions } from "@react-navigation/native"; // Import DrawerActions so the drawer can close with the Escape key.
 import { FontAwesome6 } from "@expo/vector-icons";
 
 import { Image, Platform, StyleSheet, View, Text } from "react-native";
@@ -61,6 +63,7 @@ import DeleteGroupScreen from "./Groups/DeleteGroupScreen";
 import JoinGroupWithPasscode from "./Groups/JoinGroupWithPasscode";
 import GroupAchievements from "./Chat/GroupAchievements";
 import GroupLeaderboard from "./Chat/GroupLeaderboard";
+import KnowledgeScreen from "./Chat/KnowledgeScreen";
 
 import LearnMore1Screen from "./Onboarding/LearnMore1";
 import LearnMore2Screen from "./Onboarding/LearnMore2";
@@ -80,18 +83,172 @@ import TooltipLabel from "./TooltipLabel";
 import CertificatesScreen from "./Certificates/CertificatesScreen";
 import sessionService from "../services/sessionService";
 
+
 const HomeDrawer = createDrawerNavigator();
+
+// Custom drawer header for web accessibility.
+// This replaces the default React Navigation header so we can label it as a banner landmark for screen readers.
+function WebDrawerHeader({ route, options }) {
+  const title = options.title || route.name;
+  return (
+    <View
+    role="banner"
+    aria-label="Page header"
+    style={{
+      height: 64,
+      width: "100%",
+      backgroundColor: "#2482AA",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "relative",
+      borderBottomWidth: 1,
+      borderBottomColor: "rgb(216, 216, 216)",
+    }}
+    >
+      <View
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: 56,
+          height: 64,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <DrawerToggleButton tintColor="#fbfbfb" />
+      </View>
+
+      <Text
+        role="heading"
+        aria-level={1}
+        style={{
+          color: "#fbfbfb",
+          fontFamily: "Poppins_600SemiBold",
+          fontSize: 18,
+          fontWeight: "600",
+          textAlign: "center",
+        }}
+      >
+        {title}
+      </Text>
+    </View>
+    );
+}
+// Custom drawer content for web focus management.
+// When the drawer is open, keyboard focus stays within the drawer navigation
+// instead of moving to the dimmed background content.
+function FocusTrapDrawerContent(props) {
+  const drawerRef = useRef(null); // Reference to the drawer navigation container so we can check whether focus is inside it.
+  const drawerStatus = useDrawerStatus(); // Track whether the drawer is currently open or closed.
+
+  useEffect(() => {
+    // Only apply focus trapping on web while the drawer is open.
+    if (Platform.OS !== "web" || drawerStatus !== "open") return; 
+
+    const drawerNode = drawerRef.current;
+    if (!drawerNode || typeof document === "undefined") return;
+
+    // Select all keyboard-focusable elements inside the drawer.
+    const focusableSelector =
+      'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'; 
+
+    // Get only visible and enabled focusable elements in the drawer.
+    const getFocusableElements = () =>
+      Array.from(drawerNode.querySelectorAll(focusableSelector)).filter(
+        (element) =>
+          !element.disabled &&
+          element.getAttribute("aria-hidden") !== "true" &&
+          element.offsetParent !== null
+      );
+
+    // Move focus to the first focusable drawer item.
+    const focusFirstElement = () => {
+      const focusableElements = getFocusableElements();
+      focusableElements[0]?.focus();
+    };
+
+    // Move focus to the last focusable drawer item.
+    const focusLastElement = () => {
+      const focusableElements = getFocusableElements();
+      focusableElements[focusableElements.length - 1]?.focus();
+    };
+
+    // Handle keyboard navigation while the drawer is open.
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        props.navigation.dispatch(DrawerActions.closeDrawer());
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      const activeElement = document.activeElement;
+
+      // If Shift+Tab is pressed on the first drawer item, loop focus to the last item.
+      if (event.shiftKey && activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+        return;
+      }
+
+      // If Tab is pressed on the last drawer item, loop focus back to the first item.
+      if (!event.shiftKey && activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    // If focus moves outside the open drawer, bring it back to the drawer.
+    const handleFocusIn = (event) => {
+      if (!drawerNode.contains(event.target)) {
+        event.preventDefault();
+        focusFirstElement();
+      }
+    };
+
+    // Move focus into the drawer after it opens.
+    setTimeout(focusFirstElement, 0);
+
+    // Use capture phase so we can catch focus before it stays on background content.
+    document.addEventListener("keydown", handleKeyDown, true);
+    document.addEventListener("focusin", handleFocusIn, true);
+
+    // Remove listeners when the drawer closes or the component unmounts.
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown, true);
+      document.removeEventListener("focusin", handleFocusIn, true);
+    };
+  }, [drawerStatus, props.navigation]);
+
+  return (
+    <DrawerContentScrollView {...props}>
+      <View
+        ref={drawerRef}
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        {/* Render the original React Navigation drawer items inside the focus-managed container. */}
+        <DrawerItemList {...props} />
+      </View>
+    </DrawerContentScrollView>
+  );
+}
 
 function HomeDrawerNavigator() {
   return (
     <HomeDrawer.Navigator
       backBehavior="history"
+      drawerContent={(props) => <FocusTrapDrawerContent {...props} />} // Keep keyboard focus inside the open drawer on web.
       screenOptions={{
         headerBackTitleVisible: false,
-        headerStyle: {
-          backgroundColor: "#2482AA",
-        },
-        headerTintColor: "#fbfbfb",
+        header: (props) => <WebDrawerHeader {...props} />,   // Use a custom header so the web app has an ARIA banner landmark.
       }}
     >
       {/* <HomeDrawer.Screen
@@ -425,7 +582,9 @@ function HomeDrawerNavigator() {
             fontFamily: "Poppins_500Medium",
           },
           drawerActiveTintColor: "#2482AA",
-          headerTitle: "Profile", // Use a simple title for the header
+           // Provide a simple string title for the custom header.
+           // The custom header reads options.title and renders it as the page heading.
+          title: "Nuubi FAQ", // Use a simple title for the header
         }}
       />
 
@@ -825,6 +984,7 @@ function GroupTabs({ navigation, route }) {
       <GroupTab.Screen name="Threads" component={PostScreen} />
 
       <GroupTab.Screen name="Chat" component={ChatScreen} />
+      <GroupTab.Screen name="Knowledge" component={KnowledgeScreen} />
       <GroupTab.Screen name="Leaders" component={GroupLeaderboard} />
       <GroupTab.Screen name="More" component={GroupInfoScreen} />
 

@@ -37,6 +37,7 @@ export default function ProfilePageScreen({ navigation }) {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
+      credentials: "include",
       body: JSON.stringify({ fileName, fileType }),
     });
     if (!response.ok) throw new Error("Failed to get S3 presigned URL");
@@ -70,6 +71,7 @@ export default function ProfilePageScreen({ navigation }) {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
+        credentials: "include",
         body: JSON.stringify({ ...user }),
       });
       const jsonData = await response.json();
@@ -89,6 +91,7 @@ export default function ProfilePageScreen({ navigation }) {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
+        credentials: "include",
         body: JSON.stringify({ ...user }),
       });
       const jsonData = await response.json();
@@ -142,6 +145,7 @@ export default function ProfilePageScreen({ navigation }) {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
+        credentials: "include",
         body: JSON.stringify({ ...user, imageUrl }),
       });
 
@@ -176,7 +180,8 @@ export default function ProfilePageScreen({ navigation }) {
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1 }}>
+    // Main landmark for My Profile, helping screen reader users access the primary content area.
+    <View role="main" aria-label="My Profile main content" style={{ flex: 1 }}>
       {loading && (
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#fff" />

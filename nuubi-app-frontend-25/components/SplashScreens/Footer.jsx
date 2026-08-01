@@ -29,7 +29,8 @@ export default function Footer() {
   const fontSizeMultiplier = isSmallScreen ? 0.75 : 1.0;
 
   return (
-    <View style={{ marginTop: 60 }}>
+    // Footer: Contentinfo landmark for the welcome page, helping screen reader users access site information and footer links.
+    <View role="contentinfo" aria-label="Welcome page footer" style={{ marginTop: 60 }}>
       <LinearGradient
         start={[0, 1]}
         end={[0, 1]}

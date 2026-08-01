@@ -183,6 +183,7 @@ export default function EditPostScreen({ navigation }) {
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
+      credentials: "include",
       body: JSON.stringify({ fileName, fileType }),
     });
     if (!response.ok) throw new Error("Failed to get S3 presigned URL");
@@ -297,6 +298,8 @@ export default function EditPostScreen({ navigation }) {
                     file_url: postData.file_url,
                     file_name: postData.file_name,
                   }),
+                    credentials: "include",
+                    body: JSON.stringify({ ...user, ...values, imageUrl }),
                   });
 
                   if (!res.ok) throw new Error("Post update failed");

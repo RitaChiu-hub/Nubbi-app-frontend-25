@@ -343,7 +343,7 @@ React.useEffect(() => {
       getComments(postId, controller.signal),
       getPostPoints(postId, controller.signal),
       getLikes(controller.signal),
-      getPostLiked(controller.signal),
+      getPostLiked(postId, controller.signal),
       getUserPoints(controller.signal),
     ]).finally(() => {
       if (!controller.signal.aborted) {
@@ -365,9 +365,11 @@ React.useEffect(() => {
   const isAuthor = myUsername === user.post_author ? true : false;
 
   React.useEffect(() => {
-    const room = `post-${user.currentPost}`;
-    socket.emit("join", room);
-  }, [user.currentPost]);
+    if (postId) {
+      const room = `post-${postId}`;
+      socket.emit("join", room);
+    }
+  }, [postId]);
 
   React.useEffect(() => {
     socket.on("insert comment return updated list", (newComment) => {
@@ -1125,11 +1127,11 @@ React.useEffect(() => {
             const token =
               Platform.OS !== "web"
                 ? await SecureStore.getItemAsync("token")
-                : null;
+                : sessionStorage.getItem("token");
 
             const payload = {
               ...user,
-              currentPost: route.params.currentPost,
+              currentPost: postId, // Use the correct postId
               mycomment: values.mycomment,
               token,
             };
@@ -1137,7 +1139,7 @@ React.useEffect(() => {
             socket.emit("insert comment return updated list", payload);
             actions.resetForm();
             // pull in the fresh list
-            await getComments();
+            await getComments(postId);
           }}
           // onSubmit={async (values, actions) => {
           //   const token =
