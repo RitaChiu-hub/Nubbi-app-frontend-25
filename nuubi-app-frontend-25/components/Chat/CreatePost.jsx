@@ -68,8 +68,7 @@ function getDisplaySegments(text, links) {
   if (cursor < text.length) segments.push({ text: text.slice(cursor), isLink: false });
   return segments;
 }
- 
-export default function CreatePostScreen({ navigation }) {
+
 export default function CreatePostScreen({ navigation, route }) {
   const { user, setUser } = React.useContext(AccountContext);
   const [status, setStatus] = React.useState(null);
@@ -355,7 +354,6 @@ export default function CreatePostScreen({ navigation, route }) {
             <Formik
               key={formKey}
               innerRef={formikRef}
-              initialValues={{ title: "", body_text: "" }}
               initialValues={{ 
                 title: route.params?.defaultTitle || "", 
                 body_text: route.params?.defaultContent || "",
@@ -414,6 +412,7 @@ export default function CreatePostScreen({ navigation, route }) {
                       "Content-Type": "application/json",
                       ...(token ? { Authorization: `Bearer ${token}` } : {}),
                     },
+                    credentials: "include",
                     body: JSON.stringify({
                       ...user,
                       ...values,
@@ -425,8 +424,6 @@ export default function CreatePostScreen({ navigation, route }) {
                       file_url: fileUrl,
                       file_name: fileName,
                     }),
-                    credentials: "include",
-                    body: JSON.stringify({ ...user, ...values, imageUrl, fileUrl, fileName }),
                   });
 
                   if (!res.ok) throw new Error("Post creation failed");
