@@ -951,6 +951,59 @@ React.useEffect(() => {
             paddingLeft: 10,
           }}
         >
+          {/* 📝 AI-generated discussion summary — only shows once the backend
+              has generated one (comment count has reached the threshold).
+              Covers the full comment thread (Cuubi's answers + student
+              follow-ups), re-generated as new comments come in. */}
+          {postInfo.comment_summary ? (
+            <View
+              style={{
+                backgroundColor: "#eef6fa",
+                borderRadius: 12,
+                padding: 14,
+                marginBottom: 14,
+                borderWidth: 1,
+                borderColor: "#d3e6ee",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: "600",
+                  color: "#2482AA",
+                  marginBottom: 6,
+                  textTransform: "uppercase",
+                  letterSpacing: 0.5,
+                }}
+              >
+                📝 Discussion Summary
+              </Text>
+              <Text style={{ fontSize: 14, color: "#333", lineHeight: 20 }}>
+                {postInfo.comment_summary}
+              </Text>
+              {postInfo.comment_summary_keywords ? (
+                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
+                  {postInfo.comment_summary_keywords
+                    .split(",")
+                    .map((kw) => kw.trim())
+                    .filter((kw) => kw.length > 0)
+                    .map((kw, i) => (
+                      <View
+                        key={i}
+                        style={{
+                          backgroundColor: "#2482AA",
+                          borderRadius: 12,
+                          paddingVertical: 4,
+                          paddingHorizontal: 10,
+                        }}
+                      >
+                        <Text style={{ color: "#fff", fontSize: 12 }}>{kw}</Text>
+                      </View>
+                    ))}
+                </View>
+              ) : null}
+            </View>
+          ) : null}
           <Text
             style={{
               color: "#050505",
