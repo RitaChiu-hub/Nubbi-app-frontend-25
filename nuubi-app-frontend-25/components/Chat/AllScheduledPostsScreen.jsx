@@ -20,7 +20,8 @@ function getTimezoneAbbreviation(timezone, dateValue) {
   try {
     const date = dateValue
       ? new Date(
-          /^\d{4}-\d{2}-\d{2}$/.test(dateValue)
+          /^\d{4}-\d{2}-\d{2}$/.test(dateValue) 
+          // Use midday to avoid timezone shifts changing the calendar date.
             ? `${dateValue}T12:00:00Z`
             : dateValue
         )
@@ -55,7 +56,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
       title: "All Scheduled Posts",
     });
   }, [navigation]);
-  // 同時取得 weekly schedule 和 one-time schedule。
+  // Fetch weekly and one-time schedules.
   const fetchAllSchedules = React.useCallback(
     async (signal) => {
       if (!groupId) {
@@ -63,30 +64,27 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
         setLoading(false);
         return;
       }
-  
+
       setLoading(true);
       setErrorMessage("");
-  
+
       try {
         const token =
           Platform.OS !== "web"
             ? await SecureStore.getItemAsync("token")
             : sessionStorage.getItem("token");
-  
+
         if (!token) {
           throw new Error(
             "No authentication token found. Please log in again."
           );
         }
-        // 建立 weekly schedule API URL
         const weeklyUrl =
-          `${API_URL}/groups/${groupId}` +
-          `/weekly-takeaway-schedules`;
-        // 建立 one-time schedule API URL
+          `${API_URL}/groups/${groupId}` + `/weekly-takeaway-schedules`;
+
         const regularUrl =
-          `${API_URL}/groups/${groupId}` +
-          `/scheduled-posts/all`;
-        // 建立共用的 request options
+          `${API_URL}/groups/${groupId}` + `/scheduled-posts/all`;
+
         const requestOptions = {
           method: "GET",
           credentials: "include",
@@ -96,22 +94,21 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
           },
           signal,
         };
-  
+
         console.log("Fetch all weekly schedules:", weeklyUrl);
         console.log("Fetch all one-time schedules:", regularUrl);
-        //同時呼叫兩個 API
-        const [weeklyResponse, regularResponse] =
-          await Promise.all([
-            fetch(weeklyUrl, requestOptions),
-            fetch(regularUrl, requestOptions),
-          ]);
-  
-        const [weeklyData, regularData] =
-          await Promise.all([
-            weeklyResponse.json(),
-            regularResponse.json(),
-          ]);
-  
+
+        // Fetch both schedule types at the same time.
+        const [weeklyResponse, regularResponse] = await Promise.all([
+          fetch(weeklyUrl, requestOptions),
+          fetch(regularUrl, requestOptions),
+        ]);
+
+        const [weeklyData, regularData] = await Promise.all([
+          weeklyResponse.json(),
+          regularResponse.json(),
+        ]);
+
         if (!weeklyResponse.ok) {
           throw new Error(
             weeklyData?.message ||
@@ -119,7 +116,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               `Failed to load weekly schedules: ${weeklyResponse.status}`
           );
         }
-  
+
         if (!regularResponse.ok) {
           throw new Error(
             regularData?.message ||
@@ -127,150 +124,96 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               `Failed to load one-time schedules: ${regularResponse.status}`
           );
         }
-  
-        const weeklySchedules =
-          Array.isArray(weeklyData)
-            ? weeklyData
-            : weeklyData.schedules || [];
-  
-        const regularSchedules =
-          Array.isArray(regularData)
-            ? regularData
-            : regularData.scheduledPosts || [];
-  
-        console.log(
-          "All weekly schedules:",
-          weeklySchedules
-        );
-  
-        console.log(
-          "All one-time schedules:",
-          regularSchedules
-        );
-  
-        const normalizedWeekly =
-          weeklySchedules.map((schedule) => ({
-            ...schedule,
-  
-            schedule_key: `weekly-${schedule.id}`,
-            schedule_type: "weekly",
-            type_label: "Weekly",
-  
-            display_date:
-              schedule.start_date || "—",
-  
-            display_end_date:
-              schedule.end_date || "—",
-  
-            display_day:
-              schedule.day_of_week || "—",
-  
-            display_time:
-              schedule.scheduled_time || "—",
-  
-            display_status:
-              schedule.is_active
-                ? "Active"
-                : "Inactive",
-  
-            sort_date:
-              schedule.created_at ||
-              schedule.createdAt ||
-              schedule.start_date,
-          }));
-  
-        const normalizedRegular =
-          regularSchedules.map((schedule) => ({
-            ...schedule,
-  
-            schedule_key: `one-time-${schedule.id}`,
-            schedule_type: "one_time",
-            type_label: "One-time",
-  
-            display_date:
-              schedule.scheduled_date || "—",
-  
-            display_end_date: "—",
-            display_day: "—",
-  
-            display_time:
-              schedule.scheduled_time || "—",
-  
-            display_status:
-              schedule.status || "pending",
-  
-            sort_date:
-              schedule.created_at ||
-              schedule.createdAt ||
-              schedule.scheduled_at,
-          }));
-  
-          const combinedSchedules = [
-            ...normalizedWeekly,
-            ...normalizedRegular,
-          ];
-          
-          const manageableSchedules =
-            combinedSchedules
-              .filter((schedule) => {
-                /*
-                 * Weekly 排程：
-                 * 只保留仍為 active 的排程。
-                 */
-                if (schedule.schedule_type === "weekly") {
-                  return schedule.is_active === true;
-                }
-          
-                /*
-                 * One-time 排程：
-                 * 移除 published 與 cancelled。
-                 * 同時兼容 canceled / cancelled 兩種拼法。
-                 */
-                const normalizedStatus = String(
-                  schedule.status || ""
-                ).toLowerCase();
-          
-                return ![
-                  "published",
-                  "cancelled",
-                  "canceled",
-                  "failed",
-                ].includes(normalizedStatus);
-              })
-              .sort((first, second) => {
-                const firstTime = new Date(
-                  first.sort_date || 0
-                ).getTime();
-          
-                const secondTime = new Date(
-                  second.sort_date || 0
-                ).getTime();
-          
-                return secondTime - firstTime;
-              });
-          
-          console.log(
-            "Combined all schedules:",
-            combinedSchedules
-          );
-          
-          console.log(
-            "Manageable schedules:",
-            manageableSchedules
-          );
-          
-          setSchedules(manageableSchedules);
+
+        const weeklySchedules = Array.isArray(weeklyData)
+          ? weeklyData
+          : weeklyData.schedules || [];
+
+        const regularSchedules = Array.isArray(regularData)
+          ? regularData
+          : regularData.scheduledPosts || [];
+
+        console.log("All weekly schedules:", weeklySchedules);
+
+        console.log("All one-time schedules:", regularSchedules);
+
+        const normalizedWeekly = weeklySchedules.map((schedule) => ({
+          ...schedule,
+
+          schedule_key: `weekly-${schedule.id}`,
+          schedule_type: "weekly",
+          type_label: "Weekly",
+
+          display_date: schedule.start_date || "—",
+
+          display_end_date: schedule.end_date || "—",
+
+          display_day: schedule.day_of_week || "—",
+
+          display_time: schedule.scheduled_time || "—",
+
+          display_status: schedule.is_active ? "Active" : "Inactive",
+
+          sort_date:
+            schedule.created_at || schedule.createdAt || schedule.start_date,
+        }));
+
+        const normalizedRegular = regularSchedules.map((schedule) => ({
+          ...schedule,
+
+          schedule_key: `one-time-${schedule.id}`,
+          schedule_type: "one_time",
+          type_label: "One-time",
+
+          display_date: schedule.scheduled_date || "—",
+
+          display_end_date: "—",
+          display_day: "—",
+
+          display_time: schedule.scheduled_time || "—",
+
+          display_status: schedule.status || "pending",
+
+          sort_date:
+            schedule.created_at || schedule.createdAt || schedule.scheduled_at,
+        }));
+
+        const combinedSchedules = [...normalizedWeekly, ...normalizedRegular];
+
+        const manageableSchedules = combinedSchedules
+          .filter((schedule) => {
+            // Only keep active weekly schedules.
+            if (schedule.schedule_type === "weekly") {
+              return schedule.is_active === true;
+            }
+
+            // Hide completed, cancelled, and failed one-time schedules.
+            const normalizedStatus = String(
+              schedule.status || ""
+            ).toLowerCase();
+
+            return !["published", "cancelled", "canceled", "failed"].includes(
+              normalizedStatus
+            );
+          })
+          .sort((first, second) => {
+            const firstTime = new Date(first.sort_date || 0).getTime();
+
+            const secondTime = new Date(second.sort_date || 0).getTime();
+
+            return secondTime - firstTime;
+          });
+
+        console.log("Combined all schedules:", combinedSchedules);
+
+        console.log("Manageable schedules:", manageableSchedules);
+
+        setSchedules(manageableSchedules);
       } catch (error) {
         if (error.name !== "AbortError") {
-          console.error(
-            "Failed to load all scheduled posts:",
-            error
-          );
-  
-          setErrorMessage(
-            error.message ||
-              "Unable to load scheduled posts."
-          );
+          console.error("Failed to load all scheduled posts:", error);
+
+          setErrorMessage(error.message || "Unable to load scheduled posts.");
         }
       } finally {
         if (!signal?.aborted) {
@@ -286,32 +229,27 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
       if (!groupId || !schedule?.id) {
         return;
       }
-  
+
       const scheduleKey =
-  schedule.schedule_key ||
-  `${
-    schedule.schedule_type === "weekly"
-      ? "weekly"
-      : "one-time"
-  }-${schedule.id}`;
-  
+        schedule.schedule_key ||
+        `${schedule.schedule_type === "weekly" ? "weekly" : "one-time"}-${
+          schedule.id
+        }`;
+
       setDeletingScheduleId(scheduleKey);
-  
+
       try {
         const token =
           Platform.OS !== "web"
             ? await SecureStore.getItemAsync("token")
             : sessionStorage.getItem("token");
-  
+
         if (!token) {
-          throw new Error(
-            "No authentication token found."
-          );
+          throw new Error("No authentication token found.");
         }
-  
-        const isWeekly =
-          schedule.schedule_type === "weekly";
-  
+
+        const isWeekly = schedule.schedule_type === "weekly";
+
         const url = isWeekly
           ? `${API_URL}/groups/${groupId}` +
             `/weekly-takeaway-schedules/` +
@@ -319,20 +257,18 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
           : `${API_URL}/groups/${groupId}` +
             `/scheduled-posts/` +
             `${schedule.id}/cancel`;
-  
+
         const response = await fetch(url, {
           method: "PATCH",
           credentials: "include",
           headers: {
-            "Content-Type":
-              "application/json",
-            Authorization:
-              `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
-  
+
         const data = await response.json();
-  
+
         if (!response.ok) {
           throw new Error(
             data?.error ||
@@ -340,35 +276,23 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               `Failed to delete schedule: ${response.status}`
           );
         }
-  
-        console.log(
-          "Schedule deactivated or cancelled:",
-          data
-        );
-  
+
+        console.log("Schedule deactivated or cancelled:", data);
+
         setSchedules((currentSchedules) =>
-            currentSchedules.filter(
-              (currentSchedule) =>
-                currentSchedule.schedule_key !==
-                scheduleKey
-            )
-          );
-      } catch (error) {
-        console.error(
-          "Failed to delete schedule:",
-          error
+          currentSchedules.filter(
+            (currentSchedule) => currentSchedule.schedule_key !== scheduleKey
+          )
         );
-  
+      } catch (error) {
+        console.error("Failed to delete schedule:", error);
+
         if (Platform.OS === "web") {
-          window.alert(
-            error.message ||
-              "Unable to delete schedule."
-          );
+          window.alert(error.message || "Unable to delete schedule.");
         } else {
           Alert.alert(
             "Delete failed",
-            error.message ||
-              "Unable to delete schedule."
+            error.message || "Unable to delete schedule."
           );
         }
       } finally {
@@ -377,37 +301,34 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
     },
     [groupId]
   );
+
   const confirmDeleteSchedule = React.useCallback(
     (schedule) => {
       const message =
         `Delete "${schedule.title}"?\n\n` +
         "This schedule will become inactive and will no longer create posts.";
-  
+
       if (Platform.OS === "web") {
         const confirmed = window.confirm(message);
-  
+
         if (confirmed) {
           deleteSchedule(schedule);
         }
-  
+
         return;
       }
-  
-      Alert.alert(
-        "Delete scheduled post?",
-        message,
-        [
-          {
-            text: "Cancel",
-            style: "cancel",
-          },
-          {
-            text: "Delete",
-            style: "destructive",
-            onPress: () => deleteSchedule(schedule),
-          },
-        ]
-      );
+
+      Alert.alert("Delete scheduled post?", message, [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => deleteSchedule(schedule),
+        },
+      ]);
     },
     [deleteSchedule]
   );
@@ -456,14 +377,8 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
         showsVerticalScrollIndicator
       >
         <TouchableOpacity
-          style={{
-            alignSelf: "flex-start",
-            paddingVertical: 8,
-            paddingRight: 16,
-          }}
+          style={styles.backButton}
           onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
         >
           <Text
             style={{
@@ -475,12 +390,12 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
             ‹ Back
           </Text>
         </TouchableOpacity>
-  
+
         <Text style={styles.countText}>
           {schedules.length} scheduled{" "}
           {schedules.length === 1 ? "post" : "posts"}
         </Text>
-  
+
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator
@@ -490,15 +405,11 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
             {/* Table header */}
             <View style={[styles.row, styles.headerRow]}>
               <Text
-                style={[
-                  styles.headerText,
-                  styles.idColumn,
-                  styles.centerText,
-                ]}
+                style={[styles.headerText, styles.idColumn, styles.centerText]}
               >
                 ID
               </Text>
-  
+
               <Text
                 style={[
                   styles.headerText,
@@ -508,7 +419,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               >
                 Type
               </Text>
-  
+
               <Text
                 style={[
                   styles.headerText,
@@ -518,7 +429,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               >
                 Title
               </Text>
-  
+
               <Text
                 style={[
                   styles.headerText,
@@ -528,7 +439,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               >
                 Start / Publish Date
               </Text>
-  
+
               <Text
                 style={[
                   styles.headerText,
@@ -538,17 +449,13 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               >
                 End Date
               </Text>
-  
+
               <Text
-                style={[
-                  styles.headerText,
-                  styles.dayColumn,
-                  styles.centerText,
-                ]}
+                style={[styles.headerText, styles.dayColumn, styles.centerText]}
               >
                 Day
               </Text>
-  
+
               <Text
                 style={[
                   styles.headerText,
@@ -558,7 +465,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               >
                 Time
               </Text>
-  
+
               <Text
                 style={[
                   styles.headerText,
@@ -568,7 +475,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               >
                 Timezone
               </Text>
-  
+
               <Text
                 style={[
                   styles.headerText,
@@ -578,7 +485,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
               >
                 Status
               </Text>
-  
+
               <Text
                 style={[
                   styles.headerText,
@@ -589,12 +496,11 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                 Actions
               </Text>
             </View>
-  
+
             {/* Table rows */}
             {schedules.map((schedule, index) => {
-              const isWeekly =
-                schedule.schedule_type === "weekly";
-  
+              const isWeekly = schedule.schedule_type === "weekly";
+
               const statusValue =
                 schedule.display_status ||
                 (isWeekly
@@ -602,28 +508,19 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                     ? "Active"
                     : "Inactive"
                   : schedule.status || "Pending");
-  
-              const normalizedStatus = String(
-                statusValue
-              ).toLowerCase();
-  
-              const isActiveStatus = [
-                "active",
-                "pending",
-              ].includes(normalizedStatus);
-  
-              const isDeleting =
-                deletingScheduleId ===
-                schedule.schedule_key;
-  
+
+              const normalizedStatus = String(statusValue).toLowerCase();
+
+              const isActiveStatus = ["active", "pending"].includes(
+                normalizedStatus
+              );
+
+              const isDeleting = deletingScheduleId === schedule.schedule_key;
+
               return (
                 <View
                   key={schedule.schedule_key}
-                  style={[
-                    styles.row,
-                    index % 2 === 1 &&
-                      styles.alternateRow,
-                  ]}
+                  style={[styles.row, index % 2 === 1 && styles.alternateRow]}
                 >
                   <Text
                     style={[
@@ -634,7 +531,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                   >
                     {schedule.id}
                   </Text>
-  
+
                   {/* Type */}
                   <View style={styles.typeColumn}>
                     <View
@@ -647,13 +544,11 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                     >
                       <Text style={styles.typeBadgeText}>
                         {schedule.type_label ||
-                          (isWeekly
-                            ? "Weekly"
-                            : "One-time")}
+                          (isWeekly ? "Weekly" : "One-time")}
                       </Text>
                     </View>
                   </View>
-  
+
                   <Text
                     style={[
                       styles.cellText,
@@ -661,10 +556,9 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                       styles.centerText,
                     ]}
                   >
-                    {schedule.title ||
-                      "Scheduled Post"}
+                    {schedule.title || "Scheduled Post"}
                   </Text>
-  
+
                   <Text
                     style={[
                       styles.cellText,
@@ -674,7 +568,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                   >
                     {schedule.display_date || "—"}
                   </Text>
-  
+
                   <Text
                     style={[
                       styles.cellText,
@@ -682,10 +576,9 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                       styles.centerText,
                     ]}
                   >
-                    {schedule.display_end_date ||
-                      "—"}
+                    {schedule.display_end_date || "—"}
                   </Text>
-  
+
                   <Text
                     style={[
                       styles.cellText,
@@ -695,7 +588,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                   >
                     {schedule.display_day || "—"}
                   </Text>
-  
+
                   <Text
                     style={[
                       styles.cellText,
@@ -705,7 +598,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                   >
                     {schedule.display_time || "—"}
                   </Text>
-  
+
                   <Text
                     style={[
                       styles.cellText,
@@ -720,7 +613,7 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                         schedule.display_date
                     )}
                   </Text>
-  
+
                   {/* Status */}
                   <View style={styles.statusColumn}>
                     <View
@@ -731,105 +624,87 @@ export default function AllScheduledPostsScreen({ navigation, route }) {
                           : styles.inactiveBadge,
                       ]}
                     >
-                      <Text style={styles.statusText}>
-                        {statusValue}
-                      </Text>
+                      <Text style={styles.statusText}>{statusValue}</Text>
                     </View>
                   </View>
-  
+
                   {/* Actions */}
                   <View style={styles.actionsColumn}>
-  <View style={styles.actionsContainer}>
-    <Pressable
-      style={({ pressed }) => [
-        styles.actionButton,
-        styles.editButton,
-        pressed &&
-          styles.buttonPressed,
-        !isActiveStatus &&
-          styles.disabledButton,
-      ]}
-      onPress={() => {
-        if (isWeekly) {
-          navigation.navigate(
-            "CreateWeeklyTakeawayPost",
-            {
-              group_id: groupId,
-              mode: "edit",
-              schedule,
-            }
-          );
+                    <View style={styles.actionsContainer}>
+                      <Pressable
+                        style={({ pressed }) => [
+                          styles.actionButton,
+                          styles.editButton,
+                          pressed && styles.buttonPressed,
+                          !isActiveStatus && styles.disabledButton,
+                        ]}
+                        onPress={() => {
+                          if (isWeekly) {
+                            navigation.navigate("CreateWeeklyTakeawayPost", {
+                              group_id: groupId,
+                              mode: "edit",
+                              schedule,
+                            });
 
-          return;
-        }
+                            return;
+                          }
 
-        navigation.navigate("CreatePost", {
-          group_id: groupId,
-          mode: "editScheduledPost",
-          scheduledPost: schedule,
-        });
-      }}
-      disabled={!isActiveStatus}
-      accessibilityRole="button"
-      accessibilityLabel={`Edit ${
-        schedule.title ||
-        "scheduled post"
-      }`}
-      accessibilityState={{
-        disabled: !isActiveStatus,
-      }}
-    >
-      <Text style={styles.editButtonText}>
-        Edit
-      </Text>
-    </Pressable>
+                          navigation.navigate("CreatePost", {
+                            group_id: groupId,
+                            mode: "editScheduledPost",
+                            scheduledPost: schedule,
+                          });
+                        }}
+                        disabled={!isActiveStatus}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Edit ${
+                          schedule.title || "scheduled post"
+                        }`}
+                        accessibilityState={{
+                          disabled: !isActiveStatus,
+                        }}
+                      >
+                        <Text style={styles.editButtonText}>Edit</Text>
+                      </Pressable>
 
-    <Pressable
-      style={({ pressed }) => [
-        styles.actionButton,
-        styles.deleteButton,
-        pressed &&
-          styles.buttonPressed,
-        (isDeleting ||
-          !isActiveStatus) &&
-          styles.disabledButton,
-      ]}
-      onPress={() => {
-        confirmDeleteSchedule(schedule);
-      }}
-      disabled={
-        isDeleting ||
-        !isActiveStatus
-      }
-      accessibilityRole="button"
-      accessibilityLabel={`Delete ${
-        schedule.title ||
-        "scheduled post"
-      }`}
-      accessibilityState={{
-        disabled:
-          isDeleting ||
-          !isActiveStatus,
-      }}
-    >
-      <Text style={styles.deleteButtonText}>
-        {isDeleting
-          ? "Deleting..."
-          : isActiveStatus
-            ? "Delete"
-            : "Deleted"}
-      </Text>
-      </Pressable>
+                      <Pressable
+                        style={({ pressed }) => [
+                          styles.actionButton,
+                          styles.deleteButton,
+                          pressed && styles.buttonPressed,
+                          (isDeleting || !isActiveStatus) &&
+                            styles.disabledButton,
+                        ]}
+                        onPress={() => {
+                          confirmDeleteSchedule(schedule);
+                        }}
+                        disabled={isDeleting || !isActiveStatus}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Delete ${
+                          schedule.title || "scheduled post"
+                        }`}
+                        accessibilityState={{
+                          disabled: isDeleting || !isActiveStatus,
+                        }}
+                      >
+                        <Text style={styles.deleteButtonText}>
+                          {isDeleting
+                            ? "Deleting..."
+                            : isActiveStatus
+                            ? "Delete"
+                            : "Deleted"}
+                        </Text>
+                      </Pressable>
+                    </View>
                   </View>
                 </View>
-              </View>
-            );
-          })}
-        </View>
+              );
+            })}
+          </View>
+        </ScrollView>
       </ScrollView>
-    </ScrollView>
-  </View>
-);
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -848,6 +723,11 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: "700",
+  },
+  backButton: {
+    alignSelf: "flex-start",
+    paddingVertical: 8,
+    paddingRight: 16,
   },
 
   countText: {
@@ -875,18 +755,13 @@ const styles = StyleSheet.create({
   pageScroll: {
     flex: 1,
   },
-  
-  pageContent: {
-    padding: 20,
-    paddingBottom: 48,
-  },
 
   horizontalContent: {
     paddingBottom: 16,
   },
 
   table: {
-    minWidth: 1390,
+    minWidth: 1400,
     borderWidth: 1,
     borderColor: "#d5d8dc",
     borderRadius: 12,
@@ -932,11 +807,11 @@ const styles = StyleSheet.create({
   },
 
   dateColumn: {
-    width: 130,
+    width: 200,
   },
 
   dayColumn: {
-    width: 130,
+    width: 110,
   },
 
   timeColumn: {
@@ -944,7 +819,7 @@ const styles = StyleSheet.create({
   },
 
   timezoneColumn: {
-    width: 220,
+    width: 110,
   },
 
   statusColumn: {
@@ -1020,47 +895,35 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
   },
-  leftText: {
-    textAlign: "left",
-  },
 
   centerText: {
     textAlign: "center",
   },
 
-  disabledButton: {
-    opacity: 0.45,
-  },
   typeColumn: {
     width: 110,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 6,
   },
-  
+
   typeBadge: {
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 14,
   },
-  
+
   weeklyTypeBadge: {
     backgroundColor: "#E5E7EB",
   },
-  
+
   oneTimeTypeBadge: {
     backgroundColor: "#EAF4F8",
   },
-  
+
   typeBadgeText: {
     fontSize: 12,
     fontWeight: "600",
-    textAlign: "center",
-  },
-  
-  viewOnlyText: {
-    fontSize: 13,
-    color: "#6B7280",
     textAlign: "center",
   },
 });

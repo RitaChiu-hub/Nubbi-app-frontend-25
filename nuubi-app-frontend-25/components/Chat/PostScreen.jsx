@@ -175,14 +175,14 @@ export default function PostScreen({ navigation }) {
         },
       };
   
-      // 同時呼叫兩支 API
+      // Fetch both schedule types at the same time.
       const [weeklyResponse, regularResponse] =
         await Promise.all([
           fetch(weeklyUrl, requestOptions),
           fetch(regularUrl, requestOptions),
         ]);
   
-      // 先用 text 讀取，避免後端回傳非 JSON 時直接報錯
+      // Read as text first in case the API returns a non-JSON response.
       const weeklyResponseText =
         await weeklyResponse.text();
   
@@ -250,14 +250,12 @@ export default function PostScreen({ navigation }) {
         );
       }
   
-      // Weekly API 可能直接回傳 array，
-      // 也可能回傳 { schedules: [...] }
+      // Support both array and { schedules: [...] } responses.
       const weeklySchedules =
         Array.isArray(weeklyData)
           ? weeklyData
           : weeklyData.schedules || [];
   
-      // One-time API 回傳 { scheduledPosts: [...] }
       const regularSchedules =
         Array.isArray(regularData)
           ? regularData
@@ -273,7 +271,7 @@ export default function PostScreen({ navigation }) {
         regularSchedules
       );
   
-      // 統一 Weekly Takeaway 資料格式
+      // Normalize weekly schedules.
       const normalizedWeekly = weeklySchedules
         .filter(
           (schedule) =>
@@ -282,14 +280,13 @@ export default function PostScreen({ navigation }) {
         .map((schedule) => ({
           ...schedule,
   
-          // 用來區分排程種類
           schedule_type: "weekly",
   
-          // 避免 Weekly 和 One-time 的 id 重複
+          // Use a unique key across weekly and one-time schedules.
           schedule_key: `weekly-${schedule.id}`,
         }));
   
-      // 統一一次性排程資料格式
+      // Normalize one-time schedules.
       const normalizedRegular = regularSchedules
         .filter(
           (schedule) =>
@@ -302,15 +299,14 @@ export default function PostScreen({ navigation }) {
           schedule_type: "one_time",
           schedule_key: `one-time-${schedule.id}`,
   
-          // 讓現有 Upcoming UI
-          // 可以沿用相同的日期欄位
+          // Use the same date field for both schedule types in the Upcoming UI.
           next_scheduled_at:
             schedule.scheduled_at,
         }));
   
       const now = new Date();
   
-      // 合併兩種排程，移除過期資料，再依時間排序
+      // Combine schedules, remove past items, and sort by next scheduled time.
       const upcomingOnly = [
         ...normalizedWeekly,
         ...normalizedRegular,

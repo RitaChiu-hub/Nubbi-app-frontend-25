@@ -52,10 +52,7 @@ const getCurrentDateTimeInTimezone = (timeZone) => {
   };
 };
 
-export default function CreatePostScreen({
-  navigation,
-  route,
-}) {
+export default function CreatePostScreen({ navigation, route }) {
   const { user } = React.useContext(AccountContext);
   const [status, setStatus] = React.useState(null);
   const [formKey, setFormKey] = React.useState(Date.now());
@@ -64,17 +61,14 @@ export default function CreatePostScreen({
   const [pickedFile, setPickedFile] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [publishMode, setPublishMode] = React.useState("now");
-const [scheduledDate, setScheduledDate] = React.useState("");
-const [timezone, setTimezone] = React.useState(
-  "America/Los_Angeles"
-);
-const [hour, setHour] = React.useState("1");
-const [minute, setMinute] = React.useState("30");
-const [ampm, setAmpm] = React.useState("PM");
+  const [scheduledDate, setScheduledDate] = React.useState("");
+  const [timezone, setTimezone] = React.useState("America/Los_Angeles");
+  const [hour, setHour] = React.useState("1");
+  const [minute, setMinute] = React.useState("30");
+  const [ampm, setAmpm] = React.useState("PM");
 
-const isAdmin =
-  user?.isAdmin === true ||
-  String(user?.isAdmin).toLowerCase() === "true";
+  const isAdmin =
+    user?.isAdmin === true || String(user?.isAdmin).toLowerCase() === "true";
   const timezoneOptions = [
     {
       label: "Pacific Time",
@@ -89,22 +83,26 @@ const isAdmin =
       value: "America/New_York",
     },
   ];
-  const hourOptions = Array.from(
-    { length: 12 },
-    (_, index) => String(index + 1)
+  const hourOptions = Array.from({ length: 12 }, (_, index) =>
+    String(index + 1)
   );
-  
+
   const minuteOptions = ["00", "15", "30", "45"];
-  
+
   const ampmOptions = ["AM", "PM"];
-  const editingScheduledPost =
-  route.params?.scheduledPost || null;
 
-const isEditingScheduledPost =
-  route.params?.mode ===
-    "editScheduledPost" &&
-  Boolean(editingScheduledPost);
+  const editingScheduledPost = route.params?.scheduledPost || null;
 
+  const isEditingScheduledPost =
+    route.params?.mode === "editScheduledPost" && Boolean(editingScheduledPost);
+    
+  React.useLayoutEffect(() => {
+  navigation.setOptions({
+    title: isEditingScheduledPost ? "Edit Post" : "Create Post",
+  });
+}, [navigation, isEditingScheduledPost]);
+
+  // Load scheduled post data when editing; otherwise reset the scheduling form.
   useFocusEffect(
     React.useCallback(() => {
       setFormKey(Date.now());
@@ -117,27 +115,22 @@ const isEditingScheduledPost =
   
       if (isEditingScheduledPost) {
         setPublishMode("scheduled");
-  
-        setScheduledDate(
-          editingScheduledPost?.scheduled_date || ""
-        );
-  
-        setTimezone(
-          editingScheduledPost?.timezone ||
-            "America/Los_Angeles"
-        );
-  
-        const [hourPart, minutePart] = String(
+
+        setScheduledDate(editingScheduledPost?.scheduled_date || "");
+
+        setTimezone(editingScheduledPost?.timezone || "America/Los_Angeles");
+
+        const [hourString, minuteString] = String(
           editingScheduledPost?.scheduled_time || "13:30"
         ).split(":");
-  
-        const hour24 = Number(hourPart);
-        const editAmPm = hour24 >= 12 ? "PM" : "AM";
+        
+        const hour24 = Number(hourString);
+        const convertedAmPm = hour24 >= 12 ? "PM" : "AM";
         const hour12 = hour24 % 12 || 12;
-  
+        
         setHour(String(hour12));
-        setMinute(minutePart || "30");
-        setAmpm(editAmPm);
+        setMinute(minuteString || "30");
+        setAmpm(convertedAmPm);
       } else {
         setPublishMode("now");
         setScheduledDate("");
@@ -258,12 +251,12 @@ const isEditingScheduledPost =
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <Text style={globalStyles.h3HeadingWhite}>Create Post</Text>,
+      headerTitle: () => (
+        <Text style={globalStyles.h3HeadingWhite}>Create Post</Text>
+      ),
       headerTitleAlign: "center",
     });
   }, [navigation]);
-
-  
 
   return (
     <View style={{ flex: 1 }}>
@@ -275,7 +268,10 @@ const isEditingScheduledPost =
       )}
       <ScrollView style={{ backgroundColor: "#fbfbfb" }}>
         {Platform.OS === "web" && (
-          <TouchableOpacity onPress={navigation.goBack} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={navigation.goBack}
+            style={styles.backButton}
+          >
             <FAIcon name="chevron-left" size={16} color="#2482AA" />
             <Text style={styles.backText}>Back</Text>
           </TouchableOpacity>
@@ -284,8 +280,8 @@ const isEditingScheduledPost =
           <View style={styles.formWrapper}>
             <Formik
               key={formKey}
-              initialValues={{ 
-                title: editingScheduledPost?.title || "", 
+              initialValues={{
+                title: editingScheduledPost?.title || "",
                 body_text: editingScheduledPost?.body_text || "",
               }}
               enableReinitialize={true}
@@ -298,11 +294,19 @@ const isEditingScheduledPost =
                   let fileName = null;
 
                   if (pickedImage) {
-                    imageUrl = await uploadToS3(pickedImage.uri, `img-${Date.now()}.jpg`, "image/jpeg");
+                    imageUrl = await uploadToS3(
+                      pickedImage.uri,
+                      `img-${Date.now()}.jpg`,
+                      "image/jpeg"
+                    );
                   }
                   if (pickedFile) {
                     fileName = pickedFile.name;
-                    fileUrl = await uploadToS3(pickedFile.uri, fileName, pickedFile.type || "application/octet-stream");
+                    fileUrl = await uploadToS3(
+                      pickedFile.uri,
+                      fileName,
+                      pickedFile.type || "application/octet-stream"
+                    );
                   }
 
                   const token = Platform.OS !== "web" ? await SecureStore.getItemAsync("token") : sessionStorage.getItem("token");
@@ -320,30 +324,34 @@ const isEditingScheduledPost =
                       fileUrl,
                       fileName,
                     }),
-                  });
+                    }
+                  );
 
                   const responseText = await res.text();
 
-console.log("Create post status:", res.status);
-console.log("Create post response:", responseText);
+                  console.log("Create post status:", res.status);
+                  console.log("Create post response:", responseText);
 
-let data = {};
-try {
-  data = responseText ? JSON.parse(responseText) : {};
-} catch (parseError) {
-  console.log("Create post response is not JSON:", parseError);
-}
+                  let data = {};
+                  try {
+                    data = responseText ? JSON.parse(responseText) : {};
+                  } catch (parseError) {
+                    console.log(
+                      "Create post response is not JSON:",
+                      parseError
+                    );
+                  }
 
-if (!res.ok) {
-  throw new Error(
-    data.error ||
-      data.message ||
-      data.status ||
-      `Post creation failed with status ${res.status}`
-  );
-}
+                  if (!res.ok) {
+                    throw new Error(
+                      data.error ||
+                        data.message ||
+                        data.status ||
+                        `Post creation failed with status ${res.status}`
+                    );
+                  }
 
-setStatus(data.status || "Post created successfully");
+                  setStatus(data.status || "Post created successfully");
                   setStatusColor(globalStyles.captionErrorSuccess);
                   actions.resetForm();
                   setPickedImage(null);
@@ -357,580 +365,539 @@ setStatus(data.status || "Post created successfully");
                 }
               }}
             >
-  {(props) => {
-    const handleSchedulePost = async () => {
-      const formErrors = await props.validateForm();
+              {(props) => {
+                const handleSchedulePost = async () => {
+                  const formErrors = await props.validateForm();
 
-      if (Object.keys(formErrors).length > 0) {
-        props.setTouched({
-          title: true,
-          body_text: true,
-        });
+                  if (Object.keys(formErrors).length > 0) {
+                    props.setTouched({
+                      title: true,
+                      body_text: true,
+                    });
 
-        setStatus(
-          "Please complete the required post fields."
-        );
-        setStatusColor(globalStyles.captionError);
-        return;
-      }
+                    setStatus("Please complete the required post fields.");
+                    setStatusColor(globalStyles.captionError);
+                    return;
+                  }
 
-      if (!scheduledDate) {
-        setStatus("Please select a publish date.");
-        setStatusColor(globalStyles.captionError);
-        return;
-      }
+                  if (!scheduledDate) {
+                    setStatus("Please select a publish date.");
+                    setStatusColor(globalStyles.captionError);
+                    return;
+                  }
 
-      if (!user?.currentGroup) {
-        setStatus("Missing group ID.");
-        setStatusColor(globalStyles.captionError);
-        return;
-      }
+                  if (!user?.currentGroup) {
+                    setStatus("Missing group ID.");
+                    setStatusColor(globalStyles.captionError);
+                    return;
+                  }
 
-      const scheduledTime = convertTo24HourTime(
-        hour,
-        minute,
-        ampm
-      );
-      const {
-        date: todayInSelectedTimezone,
-        time: currentTimeInSelectedTimezone,
-      } = getCurrentDateTimeInTimezone(
-        timezone
-      );
-      
-      if (
-        scheduledDate <
-        todayInSelectedTimezone
-      ) {
-        setStatus(
-          "Publish date cannot be earlier than today."
-        );
-      
-        setStatusColor(
-          globalStyles.captionError
-        );
-      
-        return;
-      }
-      
-      if (
-        scheduledDate ===
-          todayInSelectedTimezone &&
-        scheduledTime <=
-          currentTimeInSelectedTimezone
-      ) {
-        setStatus(
-          "When publishing today, please select a time later than the current time."
-        );
-      
-        setStatusColor(
-          globalStyles.captionError
-        );
-      
-        return;
-      }
+                  const scheduledTime = convertTo24HourTime(hour, minute, ampm);
+                  const {
+                    date: todayInSelectedTimezone,
+                    time: currentTimeInSelectedTimezone,
+                  } = getCurrentDateTimeInTimezone(timezone);
 
-      const token =
-        Platform.OS !== "web"
-          ? await SecureStore.getItemAsync("token")
-          : sessionStorage.getItem("token");
+                  if (scheduledDate < todayInSelectedTimezone) {
+                    setStatus("Publish date cannot be earlier than today.");
 
-      if (!token) {
-        setStatus(
-          "Authentication token not found. Please log in again."
-        );
-        setStatusColor(globalStyles.captionError);
-        return;
-      }
+                    setStatusColor(globalStyles.captionError);
 
-      setLoading(true);
-      setStatus(null);
-      
+                    return;
+                  }
 
-      try {
-        let imageUrl =
-  editingScheduledPost?.image_url || null;
+                  if (
+                    scheduledDate === todayInSelectedTimezone &&
+                    scheduledTime <= currentTimeInSelectedTimezone
+                  ) {
+                    setStatus(
+                      "When publishing today, please select a time later than the current time."
+                    );
 
-let fileUrl =
-  editingScheduledPost?.file_url || null;
+                    setStatusColor(globalStyles.captionError);
 
-let fileName =
-  editingScheduledPost?.file_name || null;
+                    return;
+                  }
 
-/*
- * 如果使用者選了新圖片，就先上傳到 S3，
- * 再用新 URL 覆蓋原本附件。
- */
-if (pickedImage) {
-  imageUrl = await uploadToS3(
-    pickedImage.uri,
-    `img-${Date.now()}.jpg`,
-    "image/jpeg"
-  );
-}
+                  const token =
+                    Platform.OS !== "web"
+                      ? await SecureStore.getItemAsync("token")
+                      : sessionStorage.getItem("token");
 
-/*
- * 如果使用者選了新檔案，也先上傳到 S3。
- */
-if (pickedFile) {
-  fileName = pickedFile.name;
+                  if (!token) {
+                    setStatus(
+                      "Authentication token not found. Please log in again."
+                    );
+                    setStatusColor(globalStyles.captionError);
+                    return;
+                  }
 
-  fileUrl = await uploadToS3(
-    pickedFile.uri,
-    fileName,
-    pickedFile.type ||
-      "application/octet-stream"
-  );
-}
-        const payload = {
-          title: props.values.title.trim(),
-          body_text: props.values.body_text.trim(),
-          scheduled_date: scheduledDate,
-          scheduled_time: scheduledTime,
-          timezone,
-          image_url: imageUrl,
-          file_url: fileUrl,
-          file_name: fileName,
-        };
+                  setLoading(true);
+                  setStatus(null);
 
-        console.log("Create scheduled post payload:", payload);
+                  try {
+                    let imageUrl = editingScheduledPost?.image_url || null;
 
-const scheduledPostUrl = isEditingScheduledPost
-  ? `${API_URL}/groups/${user.currentGroup}/scheduled-posts/${editingScheduledPost.id}`
-  : `${API_URL}/groups/${user.currentGroup}/scheduled-posts`;
+                    let fileUrl = editingScheduledPost?.file_url || null;
 
-const scheduledPostMethod = isEditingScheduledPost
-  ? "PATCH"
-  : "POST";
+                    let fileName = editingScheduledPost?.file_name || null;
 
-console.log("Scheduled post request:", {
-  url: scheduledPostUrl,
-  method: scheduledPostMethod,
-  editingId: editingScheduledPost?.id,
-});
+                    // Upload a new image and replace the existing image URL.
+                    if (pickedImage) {
+                      imageUrl = await uploadToS3(
+                        pickedImage.uri,
+                        `img-${Date.now()}.jpg`,
+                        "image/jpeg"
+                      );
+                    }
 
-const response = await fetch(scheduledPostUrl, {
-  method: scheduledPostMethod,
-  credentials: "include",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  },
-  body: JSON.stringify(payload),
-});
+                    // Upload a new file and replace the existing file.
+                    if (pickedFile) {
+                      fileName = pickedFile.name;
 
-const responseText = await response.text();
+                      fileUrl = await uploadToS3(
+                        pickedFile.uri,
+                        fileName,
+                        pickedFile.type || "application/octet-stream"
+                      );
+                    }
+                    const payload = {
+                      title: props.values.title.trim(),
+                      body_text: props.values.body_text.trim(),
+                      scheduled_date: scheduledDate,
+                      scheduled_time: scheduledTime,
+                      timezone,
+                      image_url: imageUrl,
+                      file_url: fileUrl,
+                      file_name: fileName,
+                    };
 
-        console.log(
-          "Create scheduled post status:",
-          response.status
-        );
+                    console.log("Create scheduled post payload:", payload);
 
-        console.log(
-          "Create scheduled post response:",
-          responseText
-        );
+                    const scheduledPostUrl = isEditingScheduledPost
+                      ? `${API_URL}/groups/${user.currentGroup}/scheduled-posts/${editingScheduledPost.id}`
+                      : `${API_URL}/groups/${user.currentGroup}/scheduled-posts`;
 
-        let data = {};
+                    const scheduledPostMethod = isEditingScheduledPost
+                      ? "PATCH"
+                      : "POST";
 
-        try {
-          data = responseText
-            ? JSON.parse(responseText)
-            : {};
-        } catch (parseError) {
-          console.error(
-            "Scheduled post response is not JSON:",
-            parseError
-          );
-        }
+                    console.log("Scheduled post request:", {
+                      url: scheduledPostUrl,
+                      method: scheduledPostMethod,
+                      editingId: editingScheduledPost?.id,
+                    });
 
-        if (!response.ok) {
-          const details = Array.isArray(data.details)
-            ? data.details.join(" ")
-            : "";
+                    const response = await fetch(scheduledPostUrl, {
+                      method: scheduledPostMethod,
+                      credentials: "include",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                      },
+                      body: JSON.stringify(payload),
+                    });
 
-          throw new Error(
-            details ||
-              data.error ||
-              data.message ||
-              `Unable to schedule post: ${response.status}`
-          );
-        }
+                    const responseText = await response.text();
 
-        setStatus(
-          data.message ||
-            "Post scheduled successfully."
-        );
+                    console.log(
+                      "Create scheduled post status:",
+                      response.status
+                    );
 
-        setStatusColor(
-          globalStyles.captionErrorSuccess
-        );
+                    console.log(
+                      "Create scheduled post response:",
+                      responseText
+                    );
 
-        props.resetForm();
-        setScheduledDate("");
-        setTimezone("America/Los_Angeles");
-        setHour("1");
-        setMinute("30");
-        setAmpm("PM");
-        setPublishMode("now");
-        setPickedImage(null);
-        setPickedFile(null);
-      } catch (error) {
-        console.error(
-          "Schedule post error:",
-          error
-        );
+                    let data = {};
 
-        setStatus(
-          error.message ||
-            "Unable to schedule post."
-        );
+                    try {
+                      data = responseText ? JSON.parse(responseText) : {};
+                    } catch (parseError) {
+                      console.error(
+                        "Scheduled post response is not JSON:",
+                        parseError
+                      );
+                    }
 
-        setStatusColor(globalStyles.captionError);
-      } finally {
-        setLoading(false);
-      }
-    };
+                    if (!response.ok) {
+                      const details = Array.isArray(data.details)
+                        ? data.details.join(" ")
+                        : "";
 
-    const handlePostButtonPress = async () => {
-      if (
-        isAdmin &&
-        publishMode === "scheduled"
-      ) {
-        await handleSchedulePost();
-        return;
-      }
+                      throw new Error(
+                        details ||
+                          data.error ||
+                          data.message ||
+                          `Unable to schedule post: ${response.status}`
+                      );
+                    }
 
-      props.handleSubmit();
-    };
+                    setStatus(data.message || "Post scheduled successfully.");
 
-    return (
-    <View>
-      <Text style={statusColor}>{status}</Text>
-  
-      <View style={styles.createPostRow}>
-        {/* Left side */}
-        <View style={styles.leftColumn}>
-                  <Text style={globalStyles.textInputLabel}>Post Title</Text>
-                  <TextInput
-                    style={globalStyles.textInput}
-                    placeholder="Enter post title"
-                    onChangeText={props.handleChange("title")}
-                    value={props.values.title}
-                  />
-                  <ErrorMessage name="title" render={msg => <Text style={globalStyles.captionError}>{msg}</Text>} />
+                    setStatusColor(globalStyles.captionErrorSuccess);
 
-                  <Text style={globalStyles.textInputLabel}>Post</Text>
-                  <View style={globalStyles.postContainer}>
-                    <TextInput
-                      style={globalStyles.postTextInput}
-                      multiline={true}
-                      placeholder="Enter text"
-                      onChangeText={props.handleChange("body_text")}
-                      value={props.values.body_text}
-                    />
-                    {props.values.body_text.match(/(https?:\/\/[^\s]+)/g) && (
-                      <Text style={{ fontSize: 12, color: "#888", marginTop: 6, marginBottom: 2 }}>
-                        {" "}Link detected:{" "}
-                        <Text style={{ color: "#2482AA", textDecorationLine: "underline" }}>
-                          {props.values.body_text.match(/(https?:\/\/[^\s]+)/g)[0]}
+                    props.resetForm();
+                    setScheduledDate("");
+                    setTimezone("America/Los_Angeles");
+                    setHour("1");
+                    setMinute("30");
+                    setAmpm("PM");
+                    setPublishMode("now");
+                    setPickedImage(null);
+                    setPickedFile(null);
+                  } catch (error) {
+                    console.error("Schedule post error:", error);
+
+                    setStatus(error.message || "Unable to schedule post.");
+
+                    setStatusColor(globalStyles.captionError);
+                  } finally {
+                    setLoading(false);
+                  }
+                };
+
+                const handlePostButtonPress = async () => {
+                  if (isAdmin && publishMode === "scheduled") {
+                    await handleSchedulePost();
+                    return;
+                  }
+
+                  props.handleSubmit();
+                };
+
+                return (
+                  <View>
+                    <Text style={statusColor}>{status}</Text>
+
+                    <View style={styles.createPostRow}>
+                      {/* Left side */}
+                      <View style={styles.leftColumn}>
+                        <Text style={globalStyles.textInputLabel}>
+                          Post Title
                         </Text>
-                      </Text>
-                    )}
-                    {(pickedImage ||
-  editingScheduledPost?.image_url) && (
-  <Image
-    style={
-      globalStyles.squareImageContainer
-    }
-    source={{
-      uri:
-        pickedImage?.uri ||
-        editingScheduledPost?.image_url,
-    }}
-  />
-)}
-                    {(pickedFile ||
-  editingScheduledPost?.file_name) && (
-  <Text style={globalStyles.captionError}>
-    {pickedFile?.name ||
-      editingScheduledPost?.file_name}
-  </Text>
-)}
+                        <TextInput
+                          style={globalStyles.textInput}
+                          placeholder="Enter post title"
+                          onChangeText={props.handleChange("title")}
+                          value={props.values.title}
+                        />
+                        <ErrorMessage
+                          name="title"
+                          render={(msg) => (
+                            <Text style={globalStyles.captionError}>{msg}</Text>
+                          )}
+                        />
+
+                        <Text style={globalStyles.textInputLabel}>Post</Text>
+                        <View style={globalStyles.postContainer}>
+                          <TextInput
+                            style={globalStyles.postTextInput}
+                            multiline={true}
+                            placeholder="Enter text"
+                            onChangeText={props.handleChange("body_text")}
+                            value={props.values.body_text}
+                          />
+                          {props.values.body_text.match(
+                            /(https?:\/\/[^\s]+)/g
+                          ) && (
+                            <Text
+                              style={{
+                                fontSize: 12,
+                                color: "#888",
+                                marginTop: 6,
+                                marginBottom: 2,
+                              }}
+                            >
+                              {" "}
+                              Link detected:{" "}
+                              <Text
+                                style={{
+                                  color: "#2482AA",
+                                  textDecorationLine: "underline",
+                                }}
+                              >
+                                {
+                                  props.values.body_text.match(
+                                    /(https?:\/\/[^\s]+)/g
+                                  )[0]
+                                }
+                              </Text>
+                            </Text>
+                          )}
+                          {(pickedImage || editingScheduledPost?.image_url) && (
+                            <Image
+                              style={globalStyles.squareImageContainer}
+                              source={{
+                                uri:
+                                  pickedImage?.uri ||
+                                  editingScheduledPost?.image_url,
+                              }}
+                            />
+                          )}
+                          {(pickedFile || editingScheduledPost?.file_name) && (
+                            <Text style={globalStyles.captionError}>
+                              {pickedFile?.name ||
+                                editingScheduledPost?.file_name}
+                            </Text>
+                          )}
+                        </View>
+                        <ErrorMessage
+                          name="body_text"
+                          render={(msg) => (
+                            <Text style={globalStyles.captionError}>{msg}</Text>
+                          )}
+                        />
+                        <View style={styles.buttonRow}>
+                          <TouchableOpacity
+                            onPress={pickedImage ? resetApp : pickImage}
+                            style={[styles.iconButton]}
+                          >
+                            <MaterialIcon
+                              name={
+                                pickedImage ? "no-photography" : "add-a-photo"
+                              }
+                              size={30}
+                              color="#fff"
+                            />
+                          </TouchableOpacity>
+
+                          <TouchableOpacity
+                            onPress={pickedFile ? resetFile : pickFile}
+                            style={[styles.iconButton]}
+                          >
+                            <MaterialIcon
+                              name={
+                                pickedFile ? "edit-document" : "attach-file"
+                              }
+                              size={30}
+                              color="#fff"
+                            />
+                          </TouchableOpacity>
+
+                          <TouchableOpacity
+                            style={[
+                              styles.submitButton,
+                              loading && styles.disabledButton,
+                            ]}
+                            onPress={handlePostButtonPress}
+                            disabled={loading}
+                          >
+                            <Text style={globalStyles.primaryButtonText}>
+                              {loading
+                                ? "Processing..."
+                                : isEditingScheduledPost
+                                ? "Update Scheduled Post"
+                                : isAdmin && publishMode === "scheduled"
+                                ? "Schedule Post"
+                                : "Create Post"}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                      {/* Right side */}
+                      {isAdmin && (
+                        <View style={styles.rightColumn}>
+                          <View style={styles.publishOptionsContainer}>
+                            <Text style={styles.sectionLabel}>
+                              Publish Option
+                            </Text>
+
+                            <View style={styles.publishOptionsRow}>
+                              <Pressable
+                                style={[
+                                  styles.publishOption,
+                                  styles.publishOptionLeft,
+                                  publishMode === "now" &&
+                                    styles.publishOptionSelected,
+                                ]}
+                                onPress={() => setPublishMode("now")}
+                              >
+                                <Text style={styles.radioIcon}>
+                                  {publishMode === "now" ? "●" : "○"}
+                                </Text>
+
+                                <View style={styles.publishOptionTextContainer}>
+                                  <Text style={styles.publishOptionTitle}>
+                                    Post Now
+                                  </Text>
+
+                                  <Text style={styles.publishOptionDescription}>
+                                    Publish this post immediately.
+                                  </Text>
+                                </View>
+                              </Pressable>
+
+                              <Pressable
+                                style={[
+                                  styles.publishOption,
+                                  publishMode === "scheduled" &&
+                                    styles.publishOptionSelected,
+                                ]}
+                                onPress={() => {
+                                  setPublishMode("scheduled");
+                                }}
+                              >
+                                <Text style={styles.radioIcon}>
+                                  {publishMode === "scheduled" ? "●" : "○"}
+                                </Text>
+
+                                <View style={styles.publishOptionTextContainer}>
+                                  <Text style={styles.publishOptionTitle}>
+                                    Schedule Post
+                                  </Text>
+
+                                  <Text style={styles.publishOptionDescription}>
+                                    Publish this post at a selected date and
+                                    time.
+                                  </Text>
+                                </View>
+                              </Pressable>
+                            </View>
+                          </View>
+
+                          {publishMode === "scheduled" && (
+                            <View style={styles.scheduleContainer}>
+                              <View style={styles.dateRow}>
+                                <View style={styles.scheduleField}>
+                                  <Text style={styles.fieldLabel}>
+                                    Publish Date
+                                  </Text>
+
+                                  {Platform.OS === "web" ? (
+                                    <input
+                                      type="date"
+                                      value={scheduledDate}
+                                      min={minimumScheduledDate}
+                                      onChange={(event) => {
+                                        const nextDate = event.target.value;
+
+                                        if (
+                                          nextDate &&
+                                          nextDate < minimumScheduledDate
+                                        ) {
+                                          setStatus(
+                                            "Publish date cannot be earlier than today."
+                                          );
+
+                                          setStatusColor(
+                                            globalStyles.captionError
+                                          );
+
+                                          return;
+                                        }
+
+                                        setScheduledDate(nextDate);
+                                      }}
+                                      style={webDateInputStyle}
+                                    />
+                                  ) : (
+                                    <TextInput
+                                      style={globalStyles.textInput}
+                                      value={scheduledDate}
+                                      onChangeText={setScheduledDate}
+                                      placeholder="YYYY-MM-DD"
+                                    />
+                                  )}
+                                </View>
+                              </View>
+                              <View style={styles.scheduleField}>
+                                <Text style={styles.fieldLabel}>
+                                  Publish Time
+                                </Text>
+
+                                <View style={styles.timeRow}>
+                                  <View style={styles.timePickerWrapper}>
+                                    <Picker
+                                      selectedValue={hour}
+                                      onValueChange={setHour}
+                                      style={styles.picker}
+                                    >
+                                      {hourOptions.map((option) => (
+                                        <Picker.Item
+                                          key={option}
+                                          label={option}
+                                          value={option}
+                                        />
+                                      ))}
+                                    </Picker>
+                                  </View>
+
+                                  <Text style={styles.timeSeparator}>:</Text>
+
+                                  <View style={styles.timePickerWrapper}>
+                                    <Picker
+                                      selectedValue={minute}
+                                      onValueChange={setMinute}
+                                      style={styles.picker}
+                                    >
+                                      {minuteOptions.map((option) => (
+                                        <Picker.Item
+                                          key={option}
+                                          label={option}
+                                          value={option}
+                                        />
+                                      ))}
+                                    </Picker>
+                                  </View>
+
+                                  <View style={styles.ampmPickerWrapper}>
+                                    <Picker
+                                      selectedValue={ampm}
+                                      onValueChange={setAmpm}
+                                      style={styles.picker}
+                                    >
+                                      {ampmOptions.map((option) => (
+                                        <Picker.Item
+                                          key={option}
+                                          label={option}
+                                          value={option}
+                                        />
+                                      ))}
+                                    </Picker>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={styles.scheduleField}>
+                                <Text style={styles.fieldLabel}>Timezone</Text>
+
+                                <View style={styles.timezonePickerWrapper}>
+                                  <Picker
+                                    selectedValue={timezone}
+                                    onValueChange={setTimezone}
+                                    style={styles.picker}
+                                  >
+                                    {timezoneOptions.map((option) => (
+                                      <Picker.Item
+                                        key={option.value}
+                                        label={option.label}
+                                        value={option.value}
+                                      />
+                                    ))}
+                                  </Picker>
+                                </View>
+                              </View>
+
+                              <Text style={styles.scheduleHelperText}>
+                                The post will be published once at the selected
+                                date and time.
+                              </Text>
+                            </View>
+                          )}
+                        </View>
+                      )}
+                      
+                    </View>
                   </View>
-                  <ErrorMessage
-  name="body_text"
-  render={(msg) => (
-    <Text style={globalStyles.captionError}>{msg}</Text>
-  )}
-/>
-<View style={styles.buttonRow}>
-  <TouchableOpacity
-    onPress={pickedImage ? resetApp : pickImage}
-    
-    style={[
-      styles.iconButton,
-      
-    ]}
-  >
-    <MaterialIcon
-      name={
-        pickedImage
-          ? "no-photography"
-          : "add-a-photo"
-      }
-      size={30}
-      color="#fff"
-    />
-  </TouchableOpacity>
-
-  <TouchableOpacity
-    onPress={pickedFile ? resetFile : pickFile}
-    
-    style={[
-      styles.iconButton,
-      
-    ]}
-  >
-    <MaterialIcon
-      name={
-        pickedFile
-          ? "edit-document"
-          : "attach-file"
-      }
-      size={30}
-      color="#fff"
-    />
-  </TouchableOpacity>
-
-  <TouchableOpacity
-  style={[
-    styles.submitButton,
-    loading && styles.disabledButton,
-  ]}
-  onPress={handlePostButtonPress}
-  disabled={loading}
->
-<Text style={globalStyles.primaryButtonText}>
-  {loading
-    ? "Processing..."
-    : isEditingScheduledPost
-      ? "Update Scheduled Post"
-      : isAdmin &&
-          publishMode === "scheduled"
-        ? "Schedule Post"
-        : "Create Post"}
-</Text>
-  </TouchableOpacity>
-</View>
-
-</View>
-      {/* Right side */}
-      {isAdmin && (
-        <View style={styles.rightColumn}>
-          <View style={styles.publishOptionsContainer}>
-  <Text style={styles.sectionLabel}>
-    Publish Option
-  </Text>
-
-  <View style={styles.publishOptionsRow}>
-    <Pressable
-      style={[
-        styles.publishOption,
-        styles.publishOptionLeft,
-        publishMode === "now" &&
-          styles.publishOptionSelected,
-      ]}
-      onPress={() => setPublishMode("now")}
-    >
-      <Text style={styles.radioIcon}>
-        {publishMode === "now" ? "●" : "○"}
-      </Text>
-
-      <View style={styles.publishOptionTextContainer}>
-        <Text style={styles.publishOptionTitle}>
-          Post Now
-        </Text>
-
-        <Text style={styles.publishOptionDescription}>
-          Publish this post immediately.
-        </Text>
-      </View>
-    </Pressable>
-
-    <Pressable
-      style={[
-        styles.publishOption,
-        publishMode === "scheduled" &&
-          styles.publishOptionSelected,
-      ]}
-      onPress={() => {
-        setPublishMode("scheduled");
-      }}
-    >
-      <Text style={styles.radioIcon}>
-        {publishMode === "scheduled" ? "●" : "○"}
-      </Text>
-
-      <View style={styles.publishOptionTextContainer}>
-        <Text style={styles.publishOptionTitle}>
-          Schedule Post
-        </Text>
-
-        <Text style={styles.publishOptionDescription}>
-          Publish this post at a selected date and time.
-        </Text>
-      </View>
-    </Pressable>
-  </View>
-</View>
-
-          {publishMode === "scheduled" && (
-            <View style={styles.scheduleContainer}>
-
-              <View style={styles.dateRow}>
-              <View style={styles.scheduleField}>
-  <Text style={styles.fieldLabel}>
-    Publish Date
-  </Text>
-
-  {Platform.OS === "web" ? (
-    <input
-    type="date"
-    value={scheduledDate}
-    min={minimumScheduledDate}
-    onChange={(event) => {
-      const nextDate =
-        event.target.value;
-  
-      if (
-        nextDate &&
-        nextDate < minimumScheduledDate
-      ) {
-        setStatus(
-          "Publish date cannot be earlier than today."
-        );
-  
-        setStatusColor(
-          globalStyles.captionError
-        );
-  
-        return;
-      }
-  
-      setScheduledDate(nextDate);
-    }}
-    style={webDateInputStyle}
-  />
-  ) : (
-    <TextInput
-      style={globalStyles.textInput}
-      value={scheduledDate}
-      onChangeText={setScheduledDate}
-      placeholder="YYYY-MM-DD"
-    />
-  )}
-</View>
-              </View>
-              <View style={styles.scheduleField}>
-
-              <Text style={styles.fieldLabel}>
-                Publish Time
-              </Text>
-
-              <View style={styles.timeRow}>
-                <View style={styles.timePickerWrapper}>
-                  <Picker
-                    selectedValue={hour}
-                    onValueChange={setHour}
-                    style={styles.picker}
-                  >
-                    {hourOptions.map((option) => (
-                      <Picker.Item
-                        key={option}
-                        label={option}
-                        value={option}
-                      />
-                    ))}
-                  </Picker>
-                </View>
-
-                <Text style={styles.timeSeparator}>:</Text>
-
-                <View style={styles.timePickerWrapper}>
-                  <Picker
-                    selectedValue={minute}
-                    onValueChange={setMinute}
-                    style={styles.picker}
-                  >
-                    {minuteOptions.map((option) => (
-                      <Picker.Item
-                        key={option}
-                        label={option}
-                        value={option}
-                      />
-                    ))}
-                  </Picker>
-                </View>
-
-                <View style={styles.ampmPickerWrapper}>
-                  <Picker
-                    selectedValue={ampm}
-                    onValueChange={setAmpm}
-                    style={styles.picker}
-                  >
-                    {ampmOptions.map((option) => (
-                      <Picker.Item
-                        key={option}
-                        label={option}
-                        value={option}
-                      />
-                    ))}
-                  </Picker>
-                </View>
-              </View>
-              </View>
-              <View style={styles.scheduleField}>
-              <Text style={styles.fieldLabel}>
-                Timezone
-              </Text>
-
-              <View style={styles.timezonePickerWrapper}>
-                <Picker
-                  selectedValue={timezone}
-                  onValueChange={setTimezone}
-                  style={styles.picker}
-                >
-                  {timezoneOptions.map((option) => (
-                    <Picker.Item
-                      key={option.value}
-                      label={option.label}
-                      value={option.value}
-                    />
-                  ))}
-                </Picker>
-              </View>
-              </View>
-
-              <Text style={styles.scheduleHelperText}>
-                The post will be published once at the selected
-                date and time.
-              </Text>
-            </View>
-          )}
-        </View>
-      )}
-                  {/* Close createPostRow */}
-                  </View>
+                );
+              }}
+            </Formik>
           </View>
-        );
-      }}
-    </Formik>
-  </View>
-</View>
-</ScrollView>
-</View>
-);
+        </View>
+      </ScrollView>
+    </View>
+  );
 }
 const webDateInputStyle = {
   width: "100%",
@@ -952,11 +919,11 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "space-between",
   },
-  
+
   leftColumn: {
     width: Platform.OS === "web" ? "48%" : "100%",
   },
-  
+
   rightColumn: {
     width: Platform.OS === "web" ? "48%" : "100%",
     marginTop: Platform.OS === "web" ? 0 : 24,
@@ -967,18 +934,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   
-  dateField: {
-    flex: 1,
-  },
   scheduleContainer: {
     width: "100%",
     marginTop: 22,
-    marginBottom: 16,
-  },
-  
-  scheduleHeading: {
-    fontSize: 17,
-    fontWeight: "600",
     marginBottom: 16,
   },
   
@@ -989,35 +947,39 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     letterSpacing: 0.5,
   },
-  
+
+  disabledButton: { 
+    opacity: 0.5 
+  },
+
   timeRow: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
   },
-  
+
   timePickerWrapper: {
     flex: 1,
     minWidth: 0,
   },
-  
+
   ampmPickerWrapper: {
     flex: 1,
     minWidth: 0,
     marginLeft: 10,
   },
-  
+
   timeSeparator: {
     width: 20,
     textAlign: "center",
     fontSize: 20,
     fontWeight: "600",
   },
-  
+
   timezonePickerWrapper: {
     width: "100%",
   },
-  
+
   picker: {
     width: "100%",
     height: 56,
@@ -1035,7 +997,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 28,
   },
-  
+
   scheduleHelperText: {
     marginTop: 8,
     fontSize: 13,
@@ -1056,7 +1018,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     letterSpacing: 0.5,
   },
-  
+
   publishOption: {
     flex: 1,
     minHeight: 72,
@@ -1073,23 +1035,23 @@ const styles = StyleSheet.create({
   publishOptionLeft: {
     marginRight: 12,
   },
-  
+
   publishOptionSelected: {
     borderColor: "#2482AA",
     borderWidth: 2,
     backgroundColor: "#EAF4F8",
   },
-  
+
   radioIcon: {
     fontSize: 20,
     marginRight: 10,
   },
-  
+
   publishOptionTitle: {
     fontSize: 15,
     fontWeight: "600",
   },
-  
+
   publishOptionDescription: {
     fontSize: 13,
     color: "#6B7280",
@@ -1111,9 +1073,25 @@ const styles = StyleSheet.create({
   backButton: { flexDirection: "row", alignItems: "center", padding: 16 },
   backText: { color: "#2482AA", fontSize: 18, marginLeft: 8 },
   container: { flex: 1, alignItems: "center", paddingTop: 20 },
-  formWrapper: { minWidth: 300, width: "90%", maxWidth: 1400, marginBottom: 400 },
-  buttonRow: { flexDirection: "row", justifyContent: "space-around", alignItems: "center", marginTop: 12 },
+  formWrapper: {
+    minWidth: 300,
+    width: "90%",
+    maxWidth: 1400,
+    paddingBottom: 80,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 12,
+  },
   iconButton: { backgroundColor: "#2482AA", padding: 10, borderRadius: 20 },
-  disabledButton: { opacity: 0.5 },
-  submitButton: { backgroundColor: "#2482AA", paddingVertical: 14, paddingHorizontal: 20, borderRadius: 20, width: "60%", alignItems: "center" },
+  submitButton: {
+    backgroundColor: "#2482AA",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    width: "60%",
+    alignItems: "center",
+  },
 });

@@ -29,76 +29,58 @@ function formatScheduledTime(dateTime, timezone) {
     return dateTime;
   }
 }
-const getTimezoneAbbreviation = (
-    timezone,
-    dateValue
-  ) => {
-    if (!timezone) {
-      return "—";
-    }
-  
-    try {
-      const date = dateValue
-        ? new Date(dateValue)
-        : new Date();
-  
-      const parts = new Intl.DateTimeFormat(
-        "en-US",
-        {
-          timeZone: timezone,
-          timeZoneName: "short",
-        }
-      ).formatToParts(date);
-  
-      return (
-        parts.find(
-          (part) =>
-            part.type === "timeZoneName"
-        )?.value || timezone
-      );
-    } catch (error) {
-      console.error(
-        "Unable to format timezone:",
-        error
-      );
-  
-      return timezone;
-    }
-  };
+const getTimezoneAbbreviation = (timezone, dateValue) => {
+  if (!timezone) {
+    return "—";
+  }
 
-export default function UpcomingScheduledPosts({ schedules = [], onViewAll, onEditSchedule }) {
+  try {
+    const date = dateValue ? new Date(dateValue) : new Date();
+
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      timeZoneName: "short",
+    }).formatToParts(date);
+
+    return (
+      parts.find((part) => part.type === "timeZoneName")?.value || timezone
+    );
+  } catch (error) {
+    console.error("Unable to format timezone:", error);
+
+    return timezone;
+  }
+};
+
+export default function UpcomingScheduledPosts({
+  schedules = [],
+  onViewAll,
+  onEditSchedule,
+}) {
   const [isExpanded, setIsExpanded] = React.useState(true);
 
   const [selectedSchedule, setSelectedSchedule] = React.useState(null);
   const closePreview = () => {
     setSelectedSchedule(null);
   };
-  
 
   const handleEditSelectedSchedule = () => {
     if (!selectedSchedule) {
       return;
     }
-  
+
     const scheduleToEdit = selectedSchedule;
-  
+
     setSelectedSchedule(null);
     onEditSchedule?.(scheduleToEdit);
   };
 
   const visibleSchedules = schedules.slice(0, 3);
-  const selectedIsOneTime =
-  selectedSchedule?.schedule_type === "one_time";
+  const selectedIsOneTime = selectedSchedule?.schedule_type === "one_time";
 
-const selectedCanEdit = selectedSchedule
-  ? selectedIsOneTime
-    ? selectedSchedule.status === "pending"
-    : selectedSchedule.is_active === true
-  : false;
-
-const selectedStatus = selectedIsOneTime
-  ? selectedSchedule?.status || "pending"
-  : selectedSchedule?.is_active
+  const selectedStatus = selectedIsOneTime
+    ? selectedSchedule?.status || "pending"
+    : selectedSchedule?.is_active
     ? "Active"
     : "Inactive";
 
@@ -127,10 +109,10 @@ const selectedStatus = selectedIsOneTime
       {isExpanded &&
         visibleSchedules.map((schedule) => (
           <Pressable
-          key={
-            schedule.schedule_key ||
-            `${schedule.schedule_type}-${schedule.id}`
-          }
+            key={
+              schedule.schedule_key ||
+              `${schedule.schedule_type}-${schedule.id}`
+            }
             style={({ pressed }) => [
               styles.scheduleCard,
               pressed && styles.scheduleCardPressed,
@@ -139,14 +121,14 @@ const selectedStatus = selectedIsOneTime
               setSelectedSchedule(schedule);
             }}
             accessibilityLabel={`Preview scheduled post ${
-                schedule.title || "Scheduled Post"
-              }`}
+              schedule.title || "Scheduled Post"
+            }`}
           >
             <Text style={styles.badgeText}>
-  {schedule.schedule_type === "one_time"
-    ? "One-time Scheduled"
-    : "Weekly Scheduled"}
-</Text>
+              {schedule.schedule_type === "one_time"
+                ? "One-time Scheduled"
+                : "Weekly Scheduled"}
+            </Text>
 
             <Text style={styles.title}>
               {schedule.title || "Weekly Takeaway"}
@@ -206,9 +188,11 @@ const selectedStatus = selectedIsOneTime
               contentContainerStyle={styles.modalContentContainer}
             >
               <View style={styles.previewBadge}>
-                <Text style={styles.previewBadgeText}>{selectedIsOneTime
-      ? "One-time Scheduled"
-      : "Weekly Scheduled"}</Text>
+                <Text style={styles.previewBadgeText}>
+                  {selectedIsOneTime
+                    ? "One-time Scheduled"
+                    : "Weekly Scheduled"}
+                </Text>
               </View>
 
               <Text style={styles.previewLabel}>Title</Text>
@@ -224,94 +208,86 @@ const selectedStatus = selectedIsOneTime
               </Text>
 
               <View style={styles.previewScheduleBox}>
-  <Text style={styles.previewSectionLabel}>
-    Schedule
-  </Text>
+                <Text style={styles.previewSectionLabel}>Schedule</Text>
+                // Show the schedule fields for the selected schedule type.
+                {selectedIsOneTime ? (
+                  <>
+                    <Text style={styles.previewScheduleText}>
+                      Publish date:{" "}
+                      {selectedSchedule?.scheduled_date ||
+                        selectedSchedule?.display_date ||
+                        "—"}
+                    </Text>
 
-  {selectedIsOneTime ? (
-    <>
-      <Text style={styles.previewScheduleText}>
-        Publish date:{" "}
-        {selectedSchedule?.scheduled_date ||
-          selectedSchedule?.display_date ||
-          "—"}
-      </Text>
+                    <Text style={styles.previewScheduleText}>
+                      Time:{" "}
+                      {selectedSchedule?.scheduled_time ||
+                        selectedSchedule?.display_time ||
+                        "—"}
+                    </Text>
 
-      <Text style={styles.previewScheduleText}>
-        Time:{" "}
-        {selectedSchedule?.scheduled_time ||
-          selectedSchedule?.display_time ||
-          "—"}
-      </Text>
+                    <Text style={styles.previewScheduleText}>
+                      Timezone:{" "}
+                      {getTimezoneAbbreviation(
+                        selectedSchedule?.timezone,
+                        selectedSchedule?.scheduled_at ||
+                          selectedSchedule?.scheduled_date
+                      )}
+                    </Text>
 
-      <Text style={styles.previewScheduleText}>
-        Timezone:{" "}
-        {getTimezoneAbbreviation(
-          selectedSchedule?.timezone,
-          selectedSchedule?.scheduled_at ||
-            selectedSchedule?.scheduled_date
-        )}
-      </Text>
+                    <Text style={styles.previewScheduleText}>
+                      Status: {selectedStatus}
+                    </Text>
+                  </>
+                ) : (
+                  <>
+                    <Text style={styles.previewScheduleText}>
+                      Start date: {selectedSchedule?.start_date || "—"}
+                    </Text>
 
-      <Text style={styles.previewScheduleText}>
-        Status: {selectedStatus}
-      </Text>
-    </>
-  ) : (
-    <>
-      <Text style={styles.previewScheduleText}>
-        Start date:{" "}
-        {selectedSchedule?.start_date || "—"}
-      </Text>
+                    <Text style={styles.previewScheduleText}>
+                      End date: {selectedSchedule?.end_date || "—"}
+                    </Text>
 
-      <Text style={styles.previewScheduleText}>
-        End date:{" "}
-        {selectedSchedule?.end_date || "—"}
-      </Text>
+                    <Text style={styles.previewScheduleText}>
+                      Day: {selectedSchedule?.day_of_week || "—"}
+                    </Text>
 
-      <Text style={styles.previewScheduleText}>
-        Day:{" "}
-        {selectedSchedule?.day_of_week || "—"}
-      </Text>
+                    <Text style={styles.previewScheduleText}>
+                      Time: {selectedSchedule?.scheduled_time || "—"}
+                    </Text>
 
-      <Text style={styles.previewScheduleText}>
-        Time:{" "}
-        {selectedSchedule?.scheduled_time || "—"}
-      </Text>
+                    <Text style={styles.previewScheduleText}>
+                      Timezone:{" "}
+                      {getTimezoneAbbreviation(
+                        selectedSchedule?.timezone,
+                        selectedSchedule?.next_scheduled_at ||
+                          selectedSchedule?.start_date
+                      )}
+                    </Text>
 
-      <Text style={styles.previewScheduleText}>
-        Timezone:{" "}
-        {getTimezoneAbbreviation(
-          selectedSchedule?.timezone,
-          selectedSchedule?.next_scheduled_at ||
-            selectedSchedule?.start_date
-        )}
-      </Text>
-
-      <Text style={styles.previewScheduleText}>
-        Status: {selectedStatus}
-      </Text>
-    </>
-  )}
-</View>
+                    <Text style={styles.previewScheduleText}>
+                      Status: {selectedStatus}
+                    </Text>
+                  </>
+                )}
+              </View>
             </ScrollView>
 
             <View style={styles.modalFooter}>
-            <Pressable
-  style={({ pressed }) => [
-    styles.closeButton,
-    pressed && styles.closeButtonPressed,
-  ]}
-  onPress={handleEditSelectedSchedule}
-  accessibilityRole="button"
-  accessibilityLabel={`Edit ${
-    selectedSchedule?.title || "scheduled post"
-  }`}
->
-  <Text style={styles.closeButtonText}>
-    Edit
-  </Text>
-</Pressable>
+              <Pressable
+                style={({ pressed }) => [
+                  styles.closeButton,
+                  pressed && styles.closeButtonPressed,
+                ]}
+                onPress={handleEditSelectedSchedule}
+                accessibilityRole="button"
+                accessibilityLabel={`Edit ${
+                  selectedSchedule?.title || "scheduled post"
+                }`}
+              >
+                <Text style={styles.closeButtonText}>Edit</Text>
+              </Pressable>
             </View>
           </View>
         </View>
@@ -410,7 +386,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "rgba(0, 0, 0, 0.45)",
   },
-  
+
   modalCard: {
     width: "100%",
     maxWidth: 760,
@@ -419,7 +395,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: "hidden",
   },
-  
+
   modalHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -429,28 +405,28 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#dddddd",
   },
-  
+
   modalHeading: {
     flex: 1,
     fontSize: 21,
     fontWeight: "700",
   },
-  
+
   closeIcon: {
     paddingLeft: 16,
     fontSize: 30,
     lineHeight: 30,
     fontWeight: "400",
   },
-  
+
   modalContent: {
     flexGrow: 0,
   },
-  
+
   modalContentContainer: {
     padding: 20,
   },
-  
+
   previewBadge: {
     alignSelf: "flex-start",
     marginBottom: 16,
@@ -459,7 +435,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     backgroundColor: "#e1e4e8",
   },
-  
+
   previewBadgeText: {
     fontSize: 12,
     fontWeight: "700",
@@ -477,29 +453,29 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#555555",
   },
-  
+
   previewTitle: {
     fontSize: 21,
     fontWeight: "700",
   },
-  
+
   previewBody: {
     fontSize: 16,
     lineHeight: 25,
   },
-  
+
   scheduleDetails: {
     marginTop: 12,
     padding: 14,
     borderRadius: 10,
     backgroundColor: "#f2f3f5",
   },
-  
+
   detailText: {
     marginTop: 4,
     fontSize: 14,
   },
-  
+
   modalFooter: {
     alignItems: "flex-end",
     paddingHorizontal: 20,
@@ -507,7 +483,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#dddddd",
   },
-  
+
   closeButton: {
     minWidth: 100,
     paddingHorizontal: 20,
@@ -516,11 +492,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#2482AA",
   },
-  
+
   closeButtonPressed: {
     opacity: 0.75,
   },
-  
+
   closeButtonText: {
     color: "#ffffff",
     fontSize: 14,
