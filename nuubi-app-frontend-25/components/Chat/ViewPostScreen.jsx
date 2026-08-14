@@ -419,6 +419,16 @@ export default function ViewPostScreen({ navigation, route }) {
   }, [user.currentPost]);
 
   React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (postId) {
+        getComments(postId);
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation, postId]);
+
+  React.useEffect(() => {
     socket.on("insert comment return updated list", (newComment) => {
       setComments((prev) => [
         ...prev,
@@ -981,95 +991,135 @@ export default function ViewPostScreen({ navigation, route }) {
                   <View
                     style={{
                       flexDirection: "row",
+                      justifyContent: "space-between",
                       alignItems: "center",
                       paddingLeft: 4,
                     }}
                   >
-                    <Text
+                    {/* Left Section */}
+                    <View
                       style={{
-                        fontWeight: "bold",
-                        color: "#333",
-                      }}
-                    >
-                      {comments.comment_points}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={async () => {
-                        if (!likes.includes(comments.post_comment_id)) {
-                          likes.push(comments.post_comment_id);
-                          setLikes(likes);
-                          comments.comment_points++;
-                          setIsChanged(!isChanged);
-                        } else {
-                          const index = likes.indexOf(comments.post_comment_id);
-                          likes.splice(index, 1);
-                          setLikes(likes);
-                          comments.comment_points--;
-                          setIsChanged(!isChanged);
-                        }
-                        const token =
-                          Platform.OS !== "web"
-                            ? await SecureStore.getItemAsync("token")
-                            : null; // Get token only on mobile
-
-                        fetch(`${API_URL}/groups/addcommentpoint`, {
-                          method: "POST",
-                          credentials: "include",
-                          headers: {
-                            "Content-Type": "application/json",
-                            ...(token
-                              ? { Authorization: `Bearer ${token}` }
-                              : {}),
-                          },
-                          body: JSON.stringify({
-                            ...user,
-                            comment_id: comments.post_comment_id,
-                          }),
-                        });
+                        flexDirection: "row",
+                        alignItems: "center",
                       }}
                     >
                       <Text
                         style={{
-                          color: likes.includes(comments.post_comment_id)
-                            ? "#228ee7"
-                            : "#bbb",
-                          fontSize: 16,
                           fontWeight: "bold",
-                          paddingBottom: 2,
+                          color: "#333",
                         }}
                       >
-                        +
+                        {comments.comment_points}
                       </Text>
-                    </TouchableOpacity>
-                    <Image
-                      style={{
-                        width: 30,
-                        height: 30,
-                        borderRadius: 20,
-                        marginLeft: 6,
-                        //  paddingLeft: 8,
-                      }}
-                      source={
-                        comments?.sender_avatar_url
-                          ? { uri: comments.sender_avatar_url }
-                          : Platform.OS === "web"
-                            ? require("../../assets/defaultAvatar.png")
-                            : assets1[0]
-                      }
-                    />
-                    <Text
-                      style={{
-                        fontWeight: "bold",
-                        color: "#333",
-                        paddingLeft: 5,
-                      }}
-                    >
-                      {comments.sender_username}
-                    </Text>
-                    <View style={{ marginHorizontal: 2 }}></View>
-                    <Text style={{ fontSize: 10, color: "grey" }}>
-                      {moment(comments.comment_iso_time_sent).calendar()}
-                    </Text>
+
+                      <TouchableOpacity
+                        onPress={async () => {
+                          if (!likes.includes(comments.post_comment_id)) {
+                            likes.push(comments.post_comment_id);
+                            setLikes(likes);
+                            comments.comment_points++;
+                            setIsChanged(!isChanged);
+                          } else {
+                            const index = likes.indexOf(
+                              comments.post_comment_id,
+                            );
+                            likes.splice(index, 1);
+                            setLikes(likes);
+                            comments.comment_points--;
+                            setIsChanged(!isChanged);
+                          }
+
+                          const token =
+                            Platform.OS !== "web"
+                              ? await SecureStore.getItemAsync("token")
+                              : null;
+
+                          fetch(`${API_URL}/groups/addcommentpoint`, {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                              "Content-Type": "application/json",
+                              ...(token
+                                ? { Authorization: `Bearer ${token}` }
+                                : {}),
+                            },
+                            body: JSON.stringify({
+                              ...user,
+                              comment_id: comments.post_comment_id,
+                            }),
+                          });
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: likes.includes(comments.post_comment_id)
+                              ? "#228ee7"
+                              : "#bbb",
+                            fontSize: 16,
+                            fontWeight: "bold",
+                            paddingBottom: 2,
+                          }}
+                        >
+                          +
+                        </Text>
+                      </TouchableOpacity>
+
+                      <Image
+                        style={{
+                          width: 30,
+                          height: 30,
+                          borderRadius: 20,
+                          marginLeft: 6,
+                        }}
+                        source={
+                          comments?.sender_avatar_url
+                            ? { uri: comments.sender_avatar_url }
+                            : Platform.OS === "web"
+                              ? require("../../assets/defaultAvatar.png")
+                              : assets1[0]
+                        }
+                      />
+
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          color: "#333",
+                          paddingLeft: 5,
+                        }}
+                      >
+                        {comments.sender_username}
+                      </Text>
+
+                      <View style={{ marginHorizontal: 2 }} />
+
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          color: "grey",
+                        }}
+                      >
+                        {moment(comments.comment_iso_time_sent).calendar()}
+                      </Text>
+                    </View>
+                    {/* Edit Button */}
+
+                    {myUsername === comments.sender_username && (
+                      <TouchableOpacity
+                        style={globalStyles.smallRightButton}
+                        onPress={() => {
+                          setUser({
+                            ...user,
+                            comment_id: comments.post_comment_id,
+                            comment_text: comments.comment_text,
+                            comment_image: comments.image_url,
+                          });
+
+                          navigation.navigate("EditComment");
+                        }}
+                      >
+                        <Text style={globalStyles.primaryButtonText}>Edit</Text>
+                      </TouchableOpacity>
+                    )}
                   </View>
                   <View style={{ paddingLeft: 4 }}>
                     <Markdown

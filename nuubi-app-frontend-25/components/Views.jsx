@@ -54,6 +54,7 @@ import ChatScreen from "./Chat/ChatScreen";
 import PostScreen from "./Chat/PostScreen";
 import CreatePostScreen from "./Chat/CreatePost";
 import EditPostScreen from "./Chat/EditPost";
+import EditCommentScreen from "./Chat/EditComment";
 import ViewPostScreen from "./Chat/ViewPostScreen";
 import GroupInfoScreen from "./Chat/GroupInfoScreen";
 import GroupAnalytics from "./Chat/GroupAnalytics";
@@ -264,6 +265,11 @@ function HomeDrawerNavigator() {
       <HomeDrawer.Screen
         name="EditPost"
         component={EditPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="EditComment"
+        component={EditCommentScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <HomeDrawer.Screen
@@ -952,6 +958,7 @@ function HomeStack() {
       <StackHome.Screen name="CreateTask" component={CreateTask} />
       <StackHome.Screen name="MyGroupTasks" component={MyGroupTasks} />
       <StackHome.Screen name="EditPost" component={EditPostScreen} />
+      <StackHome.Screen name="EditComment" component={EditCommentScreen} />
       <StackHome.Screen name="ViewPost" component={ViewPostScreen} />
       <StackHome.Screen
         name="GroupInfo"
@@ -1000,6 +1007,7 @@ function SearchStack() {
       <StackSearch.Screen name="CreateTask" component={CreateTask} />
       <StackSearch.Screen name="MyGroupTasks" component={MyGroupTasks} />
       <StackSearch.Screen name="EditPost" component={EditPostScreen} />
+      <StackSearch.Screen name="EditComment" component={EditCommentScreen} />
       <StackSearch.Screen name="ViewPost" component={ViewPostScreen} />
       <StackSearch.Screen name="GroupInfo" component={GroupInfoScreen} />
       <StackSearch.Screen
@@ -1057,7 +1065,10 @@ function AuthStack() {
       <StackAuth.Screen name="LearnMore7" component={LearnMore7Screen} />
       <StackAuth.Screen name="PrivacyScreen" component={PrivacyScreen} />
       <StackAuth.Screen name="TermsScreen" component={TermsScreen} />
-      <StackAuth.Screen name="AccessibilityScreen" component={AccessibilityScreen} />
+      <StackAuth.Screen
+        name="AccessibilityScreen"
+        component={AccessibilityScreen}
+      />
       <StackAuth.Screen name="FeedbackScreen" component={FeedbackScreen} />
       <StackAuth.Screen
         name="HelpLoggedOut"
@@ -1145,6 +1156,7 @@ function MyGroupsStack() {
       <StackMyGroups.Screen name="CreateTask" component={CreateTask} />
       <StackMyGroups.Screen name="MyGroupTasks" component={MyGroupTasks} />
       <StackMyGroups.Screen name="EditPost" component={EditPostScreen} />
+      <StackMyGroups.Screen name="EditComment" component={EditCommentScreen} />
       <StackMyGroups.Screen name="ViewPost" component={ViewPostScreen} />
       <StackMyGroups.Screen
         name="GroupInfo"
@@ -1367,6 +1379,11 @@ function HandleInviteNavigator() {
       <StackHandleInvite.Screen
         name="EditPost"
         component={EditPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="EditComment"
+        component={EditCommentScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <StackHandleInvite.Screen
@@ -1658,18 +1675,15 @@ const TabNavigator = () => {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/getnotificationsunread`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/getnotificationsunread`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ ...user }),
+      });
       const jsonData = await response.json();
       setNotifications(jsonData.hasUnreadNotifications);
     } catch (err) {
@@ -1901,7 +1915,7 @@ export default function Views({ landingPage, inviteToken }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...user }),
-        }
+        },
       );
 
       if (!response.ok) {
