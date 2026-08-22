@@ -7,6 +7,8 @@ export const nuubiColors = {
   black: "#050505", // "#111111",
   darkerBlue: "#2482AA",
   primaryBlue: "#33B7F0",
+  premiumGold: "#D4AF37", // A subtle accent for "smart" features
+  glassWhite: "rgba(255, 255, 255, 0.8)",
   darkerGray: "#292929",
   primaryGray: "#333333",
   lighterGray: "#767676",

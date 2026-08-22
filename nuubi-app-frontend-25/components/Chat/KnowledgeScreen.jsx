@@ -191,11 +191,15 @@ export default function KnowledgeScreen() {
       onPress={() => handleViewFile(item.fileUrl)}
     >
       <View style={styles.itemInfo}>
-        <FeatherIcon name="file-lines" size={24} color="#2482AA" />
+        <View style={styles.iconContainer}>
+          <FeatherIcon name="file-pdf" size={22} color="#2482AA" />
+        </View>
         <View style={styles.itemTextContainer}>
-          <Text style={styles.fileName}>{item.fileName}</Text>
+          <Text style={styles.fileName} numberOfLines={1} ellipsizeMode="middle">
+            {item.fileName}
+          </Text>
           <Text style={styles.fileDate}>
-            {new Date(item.createdAt).toLocaleDateString()}
+            Added on {new Date(item.createdAt).toLocaleDateString()}
           </Text>
         </View>
       </View>
@@ -204,7 +208,7 @@ export default function KnowledgeScreen() {
           onPress={() => handleDelete(item.id)}
           style={styles.deleteButton}
         >
-          <FeatherIcon name="trash-can" size={18} color="#E70808" />
+          <FeatherIcon name="trash-can" size={16} color="#E70808" />
         </TouchableOpacity>
       )}
     </TouchableOpacity>
@@ -219,12 +223,15 @@ export default function KnowledgeScreen() {
   }
 
   return (
-    <SafeAreaView style={globalStyles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f9fa" }}>
       <View style={styles.header}>
-        <Text style={styles.title}>Knowledge Base</Text>
+        <View>
+          <Text style={styles.title}>Knowledge Base</Text>
+          <Text style={styles.subtitle}>Manage training documents for Cuubi AI</Text>
+        </View>
         {isAdmin && (
           <TouchableOpacity
-            style={[globalStyles.primaryButton, styles.uploadButton]}
+            style={styles.uploadButtonGradient}
             onPress={handleUpload}
             disabled={uploading}
           >
@@ -232,8 +239,8 @@ export default function KnowledgeScreen() {
               <ActivityIndicator color="#fff" />
             ) : (
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <FeatherIcon name="plus" size={16} color="#fff" />
-                <Text style={globalStyles.primaryButtonText}> Upload File</Text>
+                <FeatherIcon name="plus" size={14} color="#fff" />
+                <Text style={styles.uploadButtonText}> Add File</Text>
               </View>
             )}
           </TouchableOpacity>
@@ -246,7 +253,11 @@ export default function KnowledgeScreen() {
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No knowledge files uploaded yet.</Text>
+            <View style={styles.emptyIconCircle}>
+              <FeatherIcon name="cloud-upload" size={40} color="#ccc" />
+            </View>
+            <Text style={styles.emptyText}>No knowledge files yet</Text>
+            <Text style={styles.emptySubtext}>Upload PDFs to train your group's AI assistant</Text>
           </View>
         }
         contentContainerStyle={styles.listContent}
@@ -260,42 +271,87 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#f8f9fa",
   },
   header: {
-    padding: 20,
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    paddingBottom: 20,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    alignItems: "flex-end",
+    backgroundColor: "#fff",
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
   },
   title: {
-    fontSize: 18,
-    fontFamily: "Poppins_600SemiBold",
+    fontSize: 26,
+    fontFamily: "Poppins_700Bold",
     color: "#050505",
+    letterSpacing: -0.5,
   },
-  uploadButton: {
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    height: "auto",
-    width: "auto",
+  subtitle: {
+    fontSize: 13,
+    fontFamily: "Poppins_400Regular",
+    color: "#666",
+    marginTop: 2,
+  },
+  uploadButtonGradient: {
+    backgroundColor: "#2482AA",
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 14,
+    shadowColor: "#2482AA",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  uploadButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontFamily: "Poppins_600SemiBold",
   },
   listContent: {
     padding: 20,
+    paddingTop: 24,
   },
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    padding: 16,
+    borderRadius: 20,
+    marginBottom: 12,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.04,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 3,
+      },
+      web: {
+        boxShadow: "0 2px 12px rgba(0,0,0,0.03)",
+      },
+    }),
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.02)",
+  },
+  iconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    backgroundColor: "rgba(36, 130, 170, 0.08)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   itemInfo: {
     flexDirection: "row",
@@ -303,27 +359,55 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemTextContainer: {
-    marginLeft: 15,
+    marginLeft: 16,
+    flex: 1,
   },
   fileName: {
-    fontSize: 16,
-    fontFamily: "Poppins_500Medium",
+    fontSize: 15,
+    fontFamily: "Poppins_600SemiBold",
     color: "#333",
   },
   fileDate: {
     fontSize: 12,
     fontFamily: "Poppins_400Regular",
     color: "#999",
+    marginTop: 2,
   },
   deleteButton: {
-    padding: 5,
+    padding: 10,
+    backgroundColor: "rgba(231, 8, 8, 0.05)",
+    borderRadius: 12,
   },
   emptyContainer: {
     alignItems: "center",
-    marginTop: 50,
+    justifyContent: "center",
+    marginTop: 80,
+    paddingHorizontal: 40,
+  },
+  emptyIconCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
   },
   emptyText: {
+    fontSize: 18,
+    fontFamily: "Poppins_600SemiBold",
+    color: "#333",
+  },
+  emptySubtext: {
+    fontSize: 14,
     fontFamily: "Poppins_400Regular",
     color: "#999",
+    textAlign: "center",
+    marginTop: 8,
+    lineHeight: 20,
   },
 });

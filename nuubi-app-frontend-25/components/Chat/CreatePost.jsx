@@ -183,6 +183,7 @@ export default function CreatePostScreen({ navigation, route }) {
   animationType="fade"
   onRequestClose={() => setLinkModalVisible(false)}
 >
+
   <TouchableOpacity
     style={styles.modalOverlay}
     activeOpacity={1}
