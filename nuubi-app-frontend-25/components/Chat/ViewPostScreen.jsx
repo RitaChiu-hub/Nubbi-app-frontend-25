@@ -59,16 +59,33 @@ export default function ViewPostScreen({ navigation, route }) {
   const postId = route.params?.currentPost ?? user.currentPost ?? null;
   const [loading, setLoading] = React.useState(true);
   const [loadedPostId, setLoadedPostId] = React.useState(null);
-  const [detectedUrl, setDetectedUrl] = React.useState(null);
+  const [detectedUrls, setDetectedUrls] = React.useState([]);
   const deviceWidth = Dimensions.get("window").width;
   // Note: Post view deduplication is now handled in sessionService
   // This ref is kept for backward compatibility but sessionService handles deduplication
 
   const scrollViewRef = React.useRef();
 
-  React.useEffect(() => {
-  const match = postInfo.body_text?.match(/(https?:\/\/[^\s]+)/);
-  setDetectedUrl(match ? match[0] : null);
+React.useEffect(() => {
+  // Detect every plain URL or Markdown [text](url) format URL in the body,
+  // not just the first one — each distinct link gets its own preview card
+  // below. Using a global regex here (previously missing the /g flag meant
+  // .match() only ever returned the first URL in the whole post).
+  // Also exclude "]" from the match so a URL sitting right before a markdown
+  // closing bracket doesn't accidentally swallow it.
+  const text = postInfo.body_text || "";
+  const regex = /(https?:\/\/[^\s)\]]+)/g;
+  const found = [];
+  const seen = new Set();
+  let m;
+  while ((m = regex.exec(text)) !== null) {
+    const url = m[0];
+    if (!seen.has(url)) {
+      seen.add(url);
+      found.push(url);
+    }
+  }
+  setDetectedUrls(found);
 }, [postInfo.body_text]);
 
   let assets1 = useAssets([require("../../assets/defaultAvatar.png")]);
@@ -427,6 +444,39 @@ export default function ViewPostScreen({ navigation, route }) {
 
   const KeyboardBehavior = Platform.OS === "android" ? "false" : "padding";
 
+  // shared onLinkPress handler for both Markdown components — instead of
+  // opening the URL straight away, show the same "you're leaving the app"
+  // confirmation used by LinkPreviewCard, so a plain hyperlink typed inline
+  // in the post text gets the same safety check as the preview card does.
+  const [linkWarningVisible, setLinkWarningVisible] = React.useState(false);
+  const [pendingLinkUrl, setPendingLinkUrl] = React.useState(null);
+ 
+  const safeHostname = (url) => {
+    try {
+      return new URL(url).hostname.replace(/^www\./, "");
+    } catch (_) {
+      return url;
+    }
+  };
+ 
+  const handleLinkPress = (url) => {
+    setPendingLinkUrl(url);
+    setLinkWarningVisible(true);
+    return false; 
+  };
+ 
+  const confirmOpenPendingLink = () => {
+    if (pendingLinkUrl) {
+      if (Platform.OS === "web") {
+        window.open(pendingLinkUrl, "_blank", "noopener,noreferrer");
+      } else {
+        Linking.openURL(pendingLinkUrl);
+      }
+    }
+    setLinkWarningVisible(false);
+    setPendingLinkUrl(null);
+  };
+ 
   if (loading || loadedPostId !== postId) {
     return (
       <View
@@ -453,7 +503,74 @@ export default function ViewPostScreen({ navigation, route }) {
         alignItems: "center",
       }}
     >
-      {/* ⬅️ Back button at the very top */}
+        {/* Safety confirmation for tapping a plain hyperlink in the post/comment
+          text — same warning shown by LinkPreviewCard when tapping the
+          preview card itself */}
+      <Modal
+        transparent
+        visible={linkWarningVisible}
+        animationType="fade"
+        onRequestClose={() => setLinkWarningVisible(false)}
+      >
+        <View style={{
+          flex: 1,
+          backgroundColor: "rgba(0,0,0,0.4)",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 24,
+        }}>
+          <View style={{
+            backgroundColor: "#fff",
+            borderRadius: 16,
+            padding: 20,
+            width: "100%",
+            maxWidth: 360,
+          }}>
+            <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 8, color: "#050505" }}>
+              You're leaving the app
+            </Text>
+            <Text style={{ fontSize: 14, color: "#555", marginBottom: 4 }}>
+              This will open{" "}
+              <Text style={{ fontWeight: "600", color: "#050505" }}>
+                {pendingLinkUrl ? safeHostname(pendingLinkUrl) : ""}
+              </Text>{" "}
+              in your browser.
+            </Text>
+            <Text style={{ fontSize: 13, color: "#888", marginBottom: 20 }}>
+              Make sure you trust this link before continuing.
+            </Text>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <TouchableOpacity
+                onPress={() => setLinkWarningVisible(false)}
+                style={{
+                  flex: 1,
+                  paddingVertical: 12,
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "#ddd",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "#555", fontSize: 14 }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={confirmOpenPendingLink}
+                style={{
+                  flex: 1,
+                  paddingVertical: 12,
+                  borderRadius: 10,
+                  backgroundColor: "#2482AA",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "#fff", fontSize: 14, fontWeight: "600" }}>Open link</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Back button at the very top */}
       {Platform.OS === "web" && (
         <TouchableOpacity
           onPress={navigation.goBack}
@@ -696,70 +813,26 @@ export default function ViewPostScreen({ navigation, route }) {
               <View style={{ padding: 14 }}>
                 {/* <Text style={[globalStyles.bodyRegular, { padding: 14 }]}> */}
                 <Markdown
+                  onLinkPress={handleLinkPress}
                   style={{
-                    body: {
-                      fontFamily: "Poppins_400Regular",
-                      fontSize: 14,
-                      color: "#050505",
-                    },
-                    strong: { fontFamily: "Poppins_600SemiBold" }, // **bold**
-                    em: { fontStyle: "italic" }, // *italic*
+                    body: { fontFamily: "Poppins_400Regular", fontSize: 14, color: "#050505" },
+                    strong: { fontFamily: "Poppins_600SemiBold" },
+                    em: { fontStyle: "italic" },
                     link: { color: "#2482AA" },
-                    // bullet & numbered lists share the same left indent
                     bullet_list: { paddingLeft: 8 },
                     ordered_list: { paddingLeft: 8 },
                     list_item: { marginVertical: 2 },
-
-                    // block quotes
-                    block_quote: {
-                      borderLeftWidth: 3,
-                      borderLeftColor: "#7DDFA0",
-                      paddingLeft: 8,
-                      fontStyle: "italic",
-                      color: "#555",
-                    },
-
-                    // inline `code`
-                    code_inline: {
-                      backgroundColor: "#f1f1f1",
-                      borderRadius: 4,
-                      fontFamily: mono,
-                      fontSize: 13, // shrink text
-                      paddingHorizontal: 4, // reduce side padding
-                      paddingVertical: 2, // add small vertical padding
-                      marginHorizontal: 2, // tiny gaps between code and text
-                      flexShrink: 1, // allow it to shrink
-                      flexWrap: "wrap", // wrap long bits onto next line
-                      alignSelf: "flex-start", // don’t stretch to full width
-                    },
-
-                    // fenced ```code blocks```
-                    fence: {
-                      backgroundColor: "#f9f9f9e9",
-                      borderRadius: 6,
-                      fontFamily: mono,
-                      fontSize: 13, // shrink text
-                      padding: 8, // keep a little padding
-                      marginVertical: 8, // space above/below block
-                      maxWidth: deviceWidth * 0.95, // never wider than screen
-                      overflow: "scroll", // horizontal scroll if needed
-                    },
-                    code_block: {
-                      backgroundColor: "#f9f9f9",
-                      borderRadius: 6,
-                      fontFamily: mono,
-                      fontSize: 13,
-                      padding: 8,
-                      marginVertical: 8,
-                      flexShrink: 1,
-                      width: "100%",
-                      overflow: "hidden",
-                    },
+                    block_quote: { borderLeftWidth: 3, borderLeftColor: "#7DDFA0", paddingLeft: 8, fontStyle: "italic", color: "#555" },
+                    code_inline: { backgroundColor: "#f1f1f1", borderRadius: 4, fontFamily: mono, fontSize: 13, paddingHorizontal: 4, paddingVertical: 2, marginHorizontal: 2, flexShrink: 1, flexWrap: "wrap", alignSelf: "flex-start" },
+                    fence: { backgroundColor: "#f9f9f9e9", borderRadius: 6, fontFamily: mono, fontSize: 13, padding: 8, marginVertical: 8, maxWidth: deviceWidth * 0.95, overflow: "scroll" },
+                    code_block: { backgroundColor: "#f9f9f9", borderRadius: 6, fontFamily: mono, fontSize: 13, padding: 8, marginVertical: 8, flexShrink: 1, width: "100%", overflow: "hidden" },
                   }}
                 >
                   {postInfo.body_text}
                 </Markdown>
-                {detectedUrl && <LinkPreviewCard url={detectedUrl} />}
+                {detectedUrls.map((url) => (
+                  <LinkPreviewCard key={url} url={url} />
+                ))}
               </View>
               {/* </Text> */}
               <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -878,6 +951,59 @@ export default function ViewPostScreen({ navigation, route }) {
             paddingLeft: 10,
           }}
         >
+          {/* 📝 AI-generated discussion summary — only shows once the backend
+              has generated one (comment count has reached the threshold).
+              Covers the full comment thread (Cuubi's answers + student
+              follow-ups), re-generated as new comments come in. */}
+          {postInfo.comment_summary ? (
+            <View
+              style={{
+                backgroundColor: "#eef6fa",
+                borderRadius: 12,
+                padding: 14,
+                marginBottom: 14,
+                borderWidth: 1,
+                borderColor: "#d3e6ee",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: "600",
+                  color: "#2482AA",
+                  marginBottom: 6,
+                  textTransform: "uppercase",
+                  letterSpacing: 0.5,
+                }}
+              >
+                📝 Discussion Summary
+              </Text>
+              <Text style={{ fontSize: 14, color: "#333", lineHeight: 20 }}>
+                {postInfo.comment_summary}
+              </Text>
+              {postInfo.comment_summary_keywords ? (
+                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
+                  {postInfo.comment_summary_keywords
+                    .split(",")
+                    .map((kw) => kw.trim())
+                    .filter((kw) => kw.length > 0)
+                    .map((kw, i) => (
+                      <View
+                        key={i}
+                        style={{
+                          backgroundColor: "#2482AA",
+                          borderRadius: 12,
+                          paddingVertical: 4,
+                          paddingHorizontal: 10,
+                        }}
+                      >
+                        <Text style={{ color: "#fff", fontSize: 12 }}>{kw}</Text>
+                      </View>
+                    ))}
+                </View>
+              ) : null}
+            </View>
+          ) : null}
           <Text
             style={{
               color: "#050505",
@@ -1017,69 +1143,23 @@ export default function ViewPostScreen({ navigation, route }) {
                   </View>
                   <View style={{ paddingLeft: 4 }}>
                     <Markdown
-                      style={{
-                        body: {
-                          fontFamily: "Poppins_400Regular",
-                          fontSize: 14,
-                          color: "#050505",
-                        },
-                        strong: { fontFamily: "Poppins_600SemiBold" }, // **bold**
-                        em: { fontStyle: "italic" }, // *italic*
-                        link: { color: "#2482AA" },
-                        // bullet & numbered lists share the same left indent
-                        bullet_list: { paddingLeft: 8 },
-                        ordered_list: { paddingLeft: 8 },
-                        list_item: { marginVertical: 2 },
-
-                        // block quotes
-                        block_quote: {
-                          borderLeftWidth: 3,
-                          borderLeftColor: "#7DDFA0",
-                          paddingLeft: 8,
-                          fontStyle: "italic",
-                          color: "#555",
-                        },
-
-                        // inline `code`
-                        code_inline: {
-                          backgroundColor: "#f1f1f1",
-                          borderRadius: 4,
-                          fontFamily: mono,
-                          fontSize: 13, // shrink text
-                          paddingHorizontal: 4, // reduce side padding
-                          paddingVertical: 2, // add small vertical padding
-                          marginHorizontal: 2, // tiny gaps between code and text
-                          flexShrink: 1, // allow it to shrink
-                          flexWrap: "wrap", // wrap long bits onto next line
-                          alignSelf: "flex-start", // don’t stretch to full width
-                        },
-
-                        // fenced ```code blocks```
-                        fence: {
-                          backgroundColor: "#f9f9f9",
-                          borderRadius: 6,
-                          fontFamily: mono,
-                          fontSize: 13, // shrink text
-                          padding: 8, // keep a little padding
-                          marginVertical: 8, // space above/below block
-                          maxWidth: deviceWidth * 0.95, // never wider than screen
-                          overflow: "scroll", // horizontal scroll if needed
-                        },
-                        code_block: {
-                          backgroundColor: "#f9f9f9",
-                          borderRadius: 6,
-                          fontFamily: mono,
-                          fontSize: 13,
-                          padding: 8,
-                          marginVertical: 8,
-                          flexShrink: 1,
-                          width: "100%",
-                          overflow: "hidden",
-                        },
-                      }}
-                    >
-                      {comments.comment_text}
-                    </Markdown>
+                  onLinkPress={handleLinkPress}
+                  style={{
+                    body: { fontFamily: "Poppins_400Regular", fontSize: 14, color: "#050505" },
+                    strong: { fontFamily: "Poppins_600SemiBold" },
+                    em: { fontStyle: "italic" },
+                    link: { color: "#2482AA" },
+                    bullet_list: { paddingLeft: 8 },
+                    ordered_list: { paddingLeft: 8 },
+                    list_item: { marginVertical: 2 },
+                    block_quote: { borderLeftWidth: 3, borderLeftColor: "#7DDFA0", paddingLeft: 8, fontStyle: "italic", color: "#555" },
+                    code_inline: { backgroundColor: "#f1f1f1", borderRadius: 4, fontFamily: mono, fontSize: 13, paddingHorizontal: 4, paddingVertical: 2, marginHorizontal: 2, flexShrink: 1, flexWrap: "wrap", alignSelf: "flex-start" },
+                    fence: { backgroundColor: "#f9f9f9", borderRadius: 6, fontFamily: mono, fontSize: 13, padding: 8, marginVertical: 8, maxWidth: deviceWidth * 0.95, overflow: "scroll" },
+                    code_block: { backgroundColor: "#f9f9f9", borderRadius: 6, fontFamily: mono, fontSize: 13, padding: 8, marginVertical: 8, flexShrink: 1, width: "100%", overflow: "hidden" },
+                  }}
+                >
+                  {comments.comment_text}
+                </Markdown>
                   </View>
                 </View>
               );
