@@ -17,6 +17,7 @@ import moment from "moment";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import socket from "../../socket";
+import UpcomingScheduledPosts from "./UpcomingScheduledPosts";
 
 export default function PostScreen({ navigation }) {
   const { user, setUser } = React.useContext(AccountContext);
@@ -25,6 +26,11 @@ export default function PostScreen({ navigation }) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const deviceWidth = Dimensions.get("window").width;
+  const [upcomingSchedules, setUpcomingSchedules] = React.useState([]);
+  const [schedulesLoading, setSchedulesLoading] = React.useState(false);
+  const groupId = user.currentGroup;
+  const isAdminHere =
+    user?.isAdmin === true || String(user?.isAdmin).toLowerCase() === "true";
 
   const GROUP_KEY = "currentGroup";
 
@@ -81,17 +87,14 @@ export default function PostScreen({ navigation }) {
   // For Web
   async function checkWebLogin() {
     try {
-      const response = await fetch(
-        `${API_URL}/auth/checkweblogin`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...user }),
-        }
-      );
+      const response = await fetch(`${API_URL}/auth/checkweblogin`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...user }),
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -118,6 +121,234 @@ export default function PostScreen({ navigation }) {
     }
   }
 
+  const fetchUpcomingSchedules = React.useCallback(async () => {
+    if (!groupId) {
+      console.log("Cannot fetch schedules: missing groupId");
+      return;
+    }
+  
+    setSchedulesLoading(true);
+  
+    try {
+      const token =
+        Platform.OS !== "web"
+          ? await SecureStore.getItemAsync("token")
+          : sessionStorage.getItem("token");
+  
+      console.log(
+        "Schedule token exists:",
+        Boolean(token)
+      );
+  
+      if (!token) {
+        throw new Error(
+          "No authentication token found. Please log in again."
+        );
+      }
+  
+      // Weekly Takeaway schedules API
+      const weeklyUrl =
+        `${API_URL}/groups/${groupId}` +
+        `/weekly-takeaway-schedules`;
+  
+      // One-time scheduled posts API
+      const regularUrl =
+        `${API_URL}/groups/${groupId}` +
+        `/scheduled-posts`;
+  
+      console.log(
+        "Fetch weekly schedules URL:",
+        weeklyUrl
+      );
+  
+      console.log(
+        "Fetch one-time schedules URL:",
+        regularUrl
+      );
+  
+      const requestOptions = {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+  
+      // Fetch both schedule types at the same time.
+      const [weeklyResponse, regularResponse] =
+        await Promise.all([
+          fetch(weeklyUrl, requestOptions),
+          fetch(regularUrl, requestOptions),
+        ]);
+  
+      // Read as text first in case the API returns a non-JSON response.
+      const weeklyResponseText =
+        await weeklyResponse.text();
+  
+      const regularResponseText =
+        await regularResponse.text();
+  
+      console.log(
+        "Weekly schedules response status:",
+        weeklyResponse.status
+      );
+  
+      console.log(
+        "Weekly schedules response body:",
+        weeklyResponseText
+      );
+  
+      console.log(
+        "One-time schedules response status:",
+        regularResponse.status
+      );
+  
+      console.log(
+        "One-time schedules response body:",
+        regularResponseText
+      );
+  
+      let weeklyData = {};
+      let regularData = {};
+  
+      try {
+        weeklyData = weeklyResponseText
+          ? JSON.parse(weeklyResponseText)
+          : {};
+      } catch (parseError) {
+        console.error(
+          "Weekly schedule response is not JSON:",
+          parseError
+        );
+      }
+  
+      try {
+        regularData = regularResponseText
+          ? JSON.parse(regularResponseText)
+          : {};
+      } catch (parseError) {
+        console.error(
+          "One-time schedule response is not JSON:",
+          parseError
+        );
+      }
+  
+      if (!weeklyResponse.ok) {
+        throw new Error(
+          weeklyData?.message ||
+            weeklyData?.error ||
+            `Failed to load weekly schedules: ${weeklyResponse.status}`
+        );
+      }
+  
+      if (!regularResponse.ok) {
+        throw new Error(
+          regularData?.message ||
+            regularData?.error ||
+            `Failed to load one-time schedules: ${regularResponse.status}`
+        );
+      }
+  
+      // Support both array and { schedules: [...] } responses.
+      const weeklySchedules =
+        Array.isArray(weeklyData)
+          ? weeklyData
+          : weeklyData.schedules || [];
+  
+      const regularSchedules =
+        Array.isArray(regularData)
+          ? regularData
+          : regularData.scheduledPosts || [];
+  
+      console.log(
+        "Weekly schedules:",
+        weeklySchedules
+      );
+  
+      console.log(
+        "One-time schedules:",
+        regularSchedules
+      );
+  
+      // Normalize weekly schedules.
+      const normalizedWeekly = weeklySchedules
+        .filter(
+          (schedule) =>
+            schedule.next_scheduled_at
+        )
+        .map((schedule) => ({
+          ...schedule,
+  
+          schedule_type: "weekly",
+  
+          // Use a unique key across weekly and one-time schedules.
+          schedule_key: `weekly-${schedule.id}`,
+        }));
+  
+      // Normalize one-time schedules.
+      const normalizedRegular = regularSchedules
+        .filter(
+          (schedule) =>
+            schedule.status === "pending" &&
+            schedule.scheduled_at
+        )
+        .map((schedule) => ({
+          ...schedule,
+  
+          schedule_type: "one_time",
+          schedule_key: `one-time-${schedule.id}`,
+  
+          // Use the same date field for both schedule types in the Upcoming UI.
+          next_scheduled_at:
+            schedule.scheduled_at,
+        }));
+  
+      const now = new Date();
+  
+      // Combine schedules, remove past items, and sort by next scheduled time.
+      const upcomingOnly = [
+        ...normalizedWeekly,
+        ...normalizedRegular,
+      ]
+        .filter((schedule) => {
+          const nextDate = new Date(
+            schedule.next_scheduled_at
+          );
+  
+          return (
+            !Number.isNaN(nextDate.getTime()) &&
+            nextDate > now
+          );
+        })
+        .sort(
+          (first, second) =>
+            new Date(
+              first.next_scheduled_at
+            ).getTime() -
+            new Date(
+              second.next_scheduled_at
+            ).getTime()
+        );
+  
+      console.log(
+        "Combined upcoming schedules:",
+        upcomingOnly
+      );
+  
+      setUpcomingSchedules(upcomingOnly);
+    } catch (error) {
+      console.error(
+        "Failed to fetch upcoming schedules:",
+        error
+      );
+  
+      setUpcomingSchedules([]);
+    } finally {
+      setSchedulesLoading(false);
+    }
+  }, [groupId]);
+
   React.useEffect(() => {
     const checkLoginStatus = async () => {
       const loggedIn = await checkIsLoggedIn(); // Call the async login check
@@ -141,20 +372,17 @@ export default function PostScreen({ navigation }) {
         ? await SecureStore.getItemAsync("token")
         : sessionStorage.getItem("token");
     try {
-      const response = await fetch(
-        `${API_URL}/groups/${groupId}/posts`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          // body: JSON.stringify({ ...user }),
-          body: JSON.stringify({ ...user, currentGroup: groupId }),
-          signal,
-        }
-      );
+      const response = await fetch(`${API_URL}/groups/${groupId}/posts`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        // body: JSON.stringify({ ...user }),
+        body: JSON.stringify({ ...user, currentGroup: groupId }),
+        signal,
+      });
       const jsonData = await response.json();
 
       //  setPosts(jsonData);
@@ -196,6 +424,20 @@ export default function PostScreen({ navigation }) {
       // cancel in-flight fetch if we blur/unmount
       return () => controller.abort();
     }, [user.currentGroup, isLoggedIn])
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log("Schedules focus effect:", {
+        isLoggedIn,
+        groupId,
+      });
+  
+      if (!isLoggedIn || !groupId) return;
+  
+      console.log("Calling fetchUpcomingSchedules");
+      fetchUpcomingSchedules();
+    }, [isLoggedIn, groupId, fetchUpcomingSchedules])
   );
 
   // React.useEffect(() => {
@@ -252,32 +494,32 @@ export default function PostScreen({ navigation }) {
         // Log to server when a post is clicked
         onPress={async () => {
           try {
-            const token = Platform.OS !== "web"
-              ? await SecureStore.getItemAsync("token")
-              : sessionStorage.getItem("token");
+            const token =
+              Platform.OS !== "web"
+                ? await SecureStore.getItemAsync("token")
+                : sessionStorage.getItem("token");
 
-            const res = await fetch(`${API_URL}/logs/view`, 
-              {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                  "Content-Type": "application/json",
-                  ...(token ? { Authorization: `Bearer ${token}` } : {}),
-                },
-                body: JSON.stringify({
-                  contentType: "post",
-                  contentId: id,
-                  groupId: user.currentGroup,
-                  deviceType: Platform.OS,
-                }),
-              });
+            const res = await fetch(`${API_URL}/logs/view`, {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              },
+              body: JSON.stringify({
+                contentType: "post",
+                contentId: id,
+                groupId: user.currentGroup,
+                deviceType: Platform.OS,
+              }),
+            });
 
-              if (!res.ok) {
-                console.log("Failed to log view:", res.status);
-              }
-            } catch (err) {
-              console.log("Error logging view:", err);
-              }
+            if (!res.ok) {
+              console.log("Failed to log view:", res.status);
+            }
+          } catch (err) {
+            console.log("Error logging view:", err);
+          }
           setUser({
             ...user,
             currentPost: id,
@@ -301,7 +543,14 @@ export default function PostScreen({ navigation }) {
             });
         }}
       >
-        <View style={{ paddingHorizontal: 1, flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+        <View
+          style={{
+            paddingHorizontal: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
           <View style={{ flex: 1, paddingRight: image_url ? 10 : 0 }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text
@@ -371,6 +620,8 @@ export default function PostScreen({ navigation }) {
     />
   );
 
+  // const canViewSchedules = currentUser?.role === "admin"
+
   return (
     <View
       key={user.currentGroup}
@@ -384,6 +635,35 @@ export default function PostScreen({ navigation }) {
         data={posts}
         renderItem={renderItem}
         keyExtractor={(item) => String(item.post_id)}
+        ListHeaderComponent={
+          isAdminHere ? (
+            <UpcomingScheduledPosts
+              schedules={upcomingSchedules}
+              onViewAll={() => {
+                navigation.navigate("AllScheduledPosts", {
+                  groupId,
+                });
+              }}
+              onEditSchedule={(schedule) => {
+  if (schedule.schedule_type === "one_time") {
+    navigation.navigate("CreatePost", {
+      group_id: groupId,
+      mode: "editScheduledPost",
+      scheduledPost: schedule,
+    });
+
+    return;
+  }
+
+  navigation.navigate("CreateWeeklyTakeawayPost", {
+    group_id: groupId,
+    mode: "edit",
+    schedule,
+  });
+}}
+            />
+          ) : null
+        }
         ListEmptyComponent={
           !loading ? (
             <Text style={{ margin: 16 }}>No posts yet.</Text>
@@ -396,7 +676,7 @@ export default function PostScreen({ navigation }) {
       {loading && posts.length > 0 && (
         <Text style={{ margin: 16, textAlign: "center" }}>Refreshing…</Text>
       )}
-      
+
       <View style={{ marginHorizontal: 16, marginVertical: 16 }}>
         <TouchableOpacity
           style={globalStyles.primaryButtonWide}

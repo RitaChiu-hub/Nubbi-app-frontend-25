@@ -284,9 +284,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 15,
   },
-  disabledButton: {
-    backgroundColor: "#ccc",
-  },
   submitButtonText: {
     color: "white",
     fontWeight: "bold",

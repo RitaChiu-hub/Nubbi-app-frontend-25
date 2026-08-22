@@ -82,7 +82,8 @@ import TooltipLabel from "./TooltipLabel";
 
 import CertificatesScreen from "./Certificates/CertificatesScreen";
 import sessionService from "../services/sessionService";
-
+import CreateWeeklyTakeawayPostScreen from "./Chat/CreateWeeklyTakeawayPostScreen";
+import AllScheduledPostsScreen from "./Chat/AllScheduledPostsScreen";
 
 const HomeDrawer = createDrawerNavigator();
 
@@ -417,6 +418,18 @@ function HomeDrawerNavigator() {
         name="CreatePost"
         component={CreatePostScreen}
         options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <HomeDrawer.Screen
+        name="CreateWeeklyTakeawayPost"
+        component={CreateWeeklyTakeawayPostScreen}
+        options={{ drawerItemStyle: { display: "none" },
+        title: "Create Weekly Takeaway Post", }}
+      />
+      <HomeDrawer.Screen
+        name="AllScheduledPosts"
+        component={AllScheduledPostsScreen}
+        options={{ drawerItemStyle: { display: "none" },
+        title: "All Scheduled Posts", }}
       />
       <HomeDrawer.Screen
         name="EditPost"
@@ -773,6 +786,16 @@ function CanvasDrawerNavigator() {
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <CanvasDrawer.Screen
+        name="CreateWeeklyTakeawayPost"
+        component={CreateWeeklyTakeawayPostScreen}
+        options={{ drawerItemStyle: { display: "none" }, title: "Create Weekly Takeaway Post", }}
+      />
+      <CanvasDrawer.Screen
+        name="AllScheduledPosts"
+        component={AllScheduledPostsScreen}
+        options={{ drawerItemStyle: { display: "none" }, title: "All Scheduled Posts", }}
+      />
+      <CanvasDrawer.Screen
         name="EditPost"
         component={EditPostScreen}
         options={{ drawerItemStyle: { display: "none" } }}
@@ -1109,6 +1132,8 @@ function HomeStack() {
         options={{ animation: "none" }}
       />
       <StackHome.Screen name="CreatePost" component={CreatePostScreen} />
+      <StackHome.Screen name="CreateWeeklyTakeawayPost" component={CreateWeeklyTakeawayPostScreen}/>
+      <StackHome.Screen name="AllScheduledPosts" component={AllScheduledPostsScreen}/>
       <StackHome.Screen name="CreateTask" component={CreateTask} />
       <StackHome.Screen name="MyGroupTasks" component={MyGroupTasks} />
       <StackHome.Screen name="EditPost" component={EditPostScreen} />
@@ -1157,6 +1182,8 @@ function SearchStack() {
       <StackSearch.Screen name="Group Chat" component={ChatScreen} />
       <StackSearch.Screen name="PostScreen" component={PostScreen} />
       <StackSearch.Screen name="CreatePost" component={CreatePostScreen} />
+      <StackSearch.Screen name="CreateWeeklyTakeawayPost" component={CreateWeeklyTakeawayPostScreen}/>
+      <StackSearch.Screen name="AllScheduledPosts" component={AllScheduledPostsScreen}/>
       <StackSearch.Screen name="CreateTask" component={CreateTask} />
       <StackSearch.Screen name="MyGroupTasks" component={MyGroupTasks} />
       <StackSearch.Screen name="EditPost" component={EditPostScreen} />
@@ -1302,6 +1329,8 @@ function MyGroupsStack() {
         options={{ animation: "none" }}
       />
       <StackMyGroups.Screen name="CreatePost" component={CreatePostScreen} />
+      <StackMyGroups.Screen name="CreateWeeklyTakeawayPost" component={CreateWeeklyTakeawayPostScreen}/>
+      <StackMyGroups.Screen name="AllScheduledPosts" component={AllScheduledPostsScreen}/>
       <StackMyGroups.Screen name="CreateTask" component={CreateTask} />
       <StackMyGroups.Screen name="MyGroupTasks" component={MyGroupTasks} />
       <StackMyGroups.Screen name="EditPost" component={EditPostScreen} />
@@ -1522,6 +1551,16 @@ function HandleInviteNavigator() {
       <StackHandleInvite.Screen
         name="CreatePost"
         component={CreatePostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="CreateWeeklyTakeawayPost"
+        component={CreateWeeklyTakeawayPostScreen}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <StackHandleInvite.Screen
+        name="AllScheduledPosts"
+        component={AllScheduledPostsScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
       <StackHandleInvite.Screen
